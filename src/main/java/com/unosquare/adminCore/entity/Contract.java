@@ -10,14 +10,16 @@ public class Contract{
     @EmbeddedId
     private ContractPK contractId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_employeeId")
-    @MapsId("Employee")
+    @ManyToOne
+    @MapsId("employeeId")
     private Employee employee;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_clientId")
-    @MapsId("Client")
+    public ContractPK getContractId() {
+        return contractId;
+    }
+
+    @ManyToOne()
+    @MapsId("clientId")
     private Client client;
 
     private String status;
@@ -27,7 +29,7 @@ public class Contract{
 
     }
 
-    public Contract(ContractPK id, Employee employee, Client client, String status) {
+    public Contract(ContractPK id, String status) {
         this.contractId = id;
         this.status = status;
     }

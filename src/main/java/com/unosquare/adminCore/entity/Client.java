@@ -20,9 +20,6 @@ public class Client {
     private String contactEmail;
     private String status;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
-    private Set<Contract> contracts = new HashSet<Contract>();
-
     public Client()
     {
 
@@ -82,13 +79,5 @@ public class Client {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Set<Contract> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(Set<Contract> contracts) {
-        this.contracts = contracts;
     }
 }

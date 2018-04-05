@@ -22,12 +22,6 @@ public class Employee {
     private LocalDate startDate;
     private String country;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "employee")
-    private Set<Contract> contracts = new HashSet<Contract>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "employee")
-    private Set<Holiday> holidays;
-
     public Employee()
     {
 
@@ -107,27 +101,12 @@ public class Employee {
         this.startDate = startDate;
     }
 
-    public Set<Contract> getContracts() {
-        return contracts;
-    }
-
-    public Set<Holiday> getHolidays() {
-        return holidays;
-    }
-
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
+
         this.country = country;
-    }
-
-    public void setContracts(Set<Contract> contracts) {
-        this.contracts = contracts;
-    }
-
-    public void setHolidays(Set<Holiday> holidays) {
-        this.holidays = holidays;
     }
 }

@@ -7,10 +7,7 @@ import java.io.Serializable;
 @Embeddable
 public class ContractPK implements Serializable {
 
-    @Column(name = "EmployeeId")
     private int employeeId;
-
-    @Column(name = "ClientId")
     private int clientId;
 
     public ContractPK()

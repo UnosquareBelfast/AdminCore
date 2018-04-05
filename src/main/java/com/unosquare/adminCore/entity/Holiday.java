@@ -18,8 +18,8 @@ public class Holiday {
 
     private short holidayLength;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="fk_employeeId")
+    @ManyToOne
+    @JoinColumn(name="employeeId")
     private Employee employee;
 
     private String status;

@@ -18,39 +18,32 @@ import java.util.Optional;
 public class EmployeeController {
 
     @Autowired
-    EmployeeRepository employeeRepository;
-
-    @Autowired
     EmployeeService employeeService;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Employee> getAllEmployees() {
-        List<Employee> allEmployees = employeeRepository.findAll();
-        return allEmployees;
+    public List<Employee> findAllEmployees() {
+        return employeeService.findAll();
     }
 
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Employee findEmployeeById(@PathVariable("employeeId") int id) {
-        Optional<Employee> searchResult = employeeRepository.findById(id);
-        return searchResult.isPresent() ? searchResult.get() : null;
+        return employeeService.findById(id);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public void createEmployee(@RequestBody Employee employee) {
-        Preconditions.checkNotNull(employee);
-        Employee createdEmployee = employeeRepository.save(employee);
-
-        employeeService.updateTotalHolidayForNewEmployee(createdEmployee);
+        employee = employeeService.save(employee);
+        employeeService.updateTotalHolidayForNewEmployee(employee);
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateEmployee(@RequestBody Employee employee) {
         Preconditions.checkNotNull(employee);
-        employeeRepository.save(employee);
+        employeeService.save(employee);
     }
 }

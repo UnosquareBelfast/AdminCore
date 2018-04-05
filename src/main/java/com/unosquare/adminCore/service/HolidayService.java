@@ -30,6 +30,11 @@ public class HolidayService {
         return holidayRepository.findById(id).get();
     }
 
+    public List<Holiday> findByEmployee(Employee employee)
+    {
+        return holidayRepository.findByEmployee(employee);
+    }
+
     public void save(Holiday holiday)
     {
         Preconditions.checkNotNull(holiday);
