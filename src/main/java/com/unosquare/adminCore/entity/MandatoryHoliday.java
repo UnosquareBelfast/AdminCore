@@ -1,9 +1,13 @@
 package com.unosquare.adminCore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "mandatoryHolidayId")
 @Table(name = "MandatoryHoliday")
 public class MandatoryHoliday {
 

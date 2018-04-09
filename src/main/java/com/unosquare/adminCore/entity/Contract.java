@@ -1,25 +1,23 @@
 package com.unosquare.adminCore.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Contract")
-public class Contract{
+public class Contract implements Serializable {
 
     @EmbeddedId
-    private ContractPK contractId;
+    private ContractPK contractId = new ContractPK();
 
     @ManyToOne
     @MapsId("employeeId")
+    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId", insertable = false, updatable = false)
     private Employee employee;
 
-    public ContractPK getContractId() {
-        return contractId;
-    }
-
-    @ManyToOne()
+    @ManyToOne
     @MapsId("clientId")
+    @JoinColumn(name = "clientId", referencedColumnName = "clientId", insertable = false, updatable = false)
     private Client client;
 
     private String status;
@@ -30,16 +28,9 @@ public class Contract{
     }
 
     public Contract(ContractPK id, String status) {
+
         this.contractId = id;
         this.status = status;
-    }
-
-    public ContractPK getId() {
-        return contractId;
-    }
-
-    public void setId(ContractPK id) {
-        this.contractId = id;
     }
 
     public Employee getEmployee() {
@@ -64,10 +55,6 @@ public class Contract{
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setContractId(ContractPK contractId) {
-        this.contractId = contractId;
     }
 }
 

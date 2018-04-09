@@ -2,12 +2,15 @@ package com.unosquare.adminCore.service;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.adminCore.entity.Client;
+import com.unosquare.adminCore.entity.Contract;
 import com.unosquare.adminCore.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ClientService {

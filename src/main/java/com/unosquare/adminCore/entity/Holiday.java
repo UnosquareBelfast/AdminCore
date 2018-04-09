@@ -1,11 +1,14 @@
 package com.unosquare.adminCore.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "holidayId")
+
 @Table(name = "Holiday")
 public class Holiday {
 

@@ -1,10 +1,8 @@
 package com.unosquare.adminCore.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
+import java.util.Objects;
 
-@Embeddable
 public class ContractPK implements Serializable {
 
     private int employeeId;
@@ -34,5 +32,19 @@ public class ContractPK implements Serializable {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContractPK taskId1 = (ContractPK) o;
+        if (employeeId != taskId1.employeeId) return false;
+        return clientId == taskId1.clientId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(employeeId, clientId);
     }
 }

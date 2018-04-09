@@ -1,14 +1,15 @@
 package com.unosquare.adminCore.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "clientId", scope = Client.class)
 @Table(name = "Client")
-public class Client {
+public class Client implements java.io.Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,10 @@ public class Client {
     private String contactName;
     private String contactEmail;
     private String status;
+
+    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    private Set<Contract> contracts = new HashSet<Contract>();
 
     public Client()
     {
@@ -31,6 +36,14 @@ public class Client {
         this.contactName = contactName;
         this.contactEmail = contactEmail;
         this.status = status;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 
     public int getClientId() {
