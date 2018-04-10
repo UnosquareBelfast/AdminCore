@@ -92,10 +92,6 @@ public class TestEmployeeService {
         Assert.assertTrue(testingObject.findById(1).isAdmin()==Boolean.valueOf(TestEmployeeEnum.isActive.toString()));
     }
 
-
-
-
-
     @Test
     public void TestSaveMethod() {
        Mockito.doReturn(employee).when(employeeRepository).save(employee);
@@ -104,14 +100,22 @@ public class TestEmployeeService {
 
     @Test
     public void TestUpdateTotalHolidays() {
-        Holiday holiday= new Holiday();
-        List holidays= new ArrayList<>();
-        holidays.add(holiday);
-        holidays.add(holiday);
+        List holidays= getMockHolidays();
         Mockito.doReturn(employee).when(holidayService).addMandatoryHolidaysForNewEmployee((employee));
         Mockito.doReturn(holidays).when(holidayRepository).findByEmployee((employee));
-        Mockito.doReturn(holidays).when(e).findByEmployee((employee));
+        Mockito.doReturn(employee).when(employeeRepository).save(employee);
         testingObject.updateTotalHolidayForNewEmployee(employee);
+        Assert.assertTrue(employee.getTotalHolidays()==31);
+    }
+    @Test
+    public void TestUpdateTotalHolidaysSameYear() {
+        List holidays= getMockHolidays();
+        employee.setStartDate(LocalDate.of(LocalDate.now().getYear(), 3,10));
+        Mockito.doReturn(employee).when(holidayService).addMandatoryHolidaysForNewEmployee((employee));
+        Mockito.doReturn(holidays).when(holidayRepository).findByEmployee((employee));
+        Mockito.doReturn(employee).when(employeeRepository).save(employee);
+        testingObject.updateTotalHolidayForNewEmployee(employee);
+        Assert.assertTrue(employee.getTotalHolidays()<32);
     }
 
     @Test
@@ -119,8 +123,14 @@ public class TestEmployeeService {
        List<Employee> listOfAllClients= new ArrayList<>();
        listOfAllClients.add(employee);
         listOfAllClients.add(employee);
-
         Mockito.doReturn(listOfAllClients).when(employeeRepository).findAll();
         Assert.assertTrue(testingObject.findAll().size()==2);
+    }
+    private List<Holiday> getMockHolidays(){
+        Holiday holiday= new Holiday();
+        List holidays= new ArrayList<>();
+        holidays.add(holiday);
+        holidays.add(holiday);
+        return  holidays;
     }
 }

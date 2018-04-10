@@ -21,8 +21,7 @@ public class EmployeeService {
     @Autowired
     HolidayRepository holidayRepository;
 
-    @Autowired
-    EmployeeController employeeController;
+
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -50,7 +49,7 @@ public class EmployeeService {
         int mandatoryHolidaysCount = holidayRepository.findByEmployee(employee).size();
         int maxHolidays = 33 - mandatoryHolidaysCount;
         employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
-        employeeController.updateEmployee(employee);
+        employeeRepository.save(employee);
     }
 
     private short calculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays) {
