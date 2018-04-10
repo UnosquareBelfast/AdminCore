@@ -1,4 +1,4 @@
-package com.unosquare.adminCore.service;
+package com.unosquare.adminCore.service.enums;
 
 public enum TestClientEnum {
     name("test"),
