@@ -22,9 +22,6 @@ public class EmployeeService {
     HolidayRepository holidayRepository;
 
     @Autowired
-    EmployeeController employeeController;
-
-    @Autowired
     EmployeeRepository employeeRepository;
 
     public List<Employee> findAll()
@@ -50,7 +47,7 @@ public class EmployeeService {
         int mandatoryHolidaysCount = holidayRepository.findByEmployee(employee).size();
         int maxHolidays = 33 - mandatoryHolidaysCount;
         employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
-        employeeController.updateEmployee(employee);
+        save(employee);
     }
 
     private short calculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays) {
@@ -66,4 +63,7 @@ public class EmployeeService {
         return totalHolidays;
     }
 
+    public Employee findByEmail(String email) {
+        return employeeRepository.findByEmailIgnoreCase(email);
+    }
 }
