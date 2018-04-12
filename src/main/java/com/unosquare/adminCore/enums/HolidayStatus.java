@@ -2,11 +2,11 @@ package com.unosquare.adminCore.enums;
 
 public enum HolidayStatus {
 
-    awaitingApproval ("Awaiting approval"), //default status for new holiday requests
-    approved ("Approved"),
-    denied ("Denied"),
-    mandatory ("Mandatory"), // public holiday, can't cancel
-    taken ("Taken");
+    awaitingApproval("Awaiting approval"), //default status for new holiday requests
+    approved("Approved"),
+    denied("Denied"),
+    mandatory("Mandatory"), // public holiday, can't cancel
+    taken("Taken");
 
     private final String description;
 

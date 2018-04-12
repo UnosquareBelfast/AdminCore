@@ -2,8 +2,8 @@ package com.unosquare.adminCore.enums;
 
 public enum ContractStatus {
 
-    active ("Active"),
-    inactive ("Inactive");
+    active("Active"),
+    inactive("Inactive");
 
     private final String description;
 

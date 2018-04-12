@@ -2,11 +2,13 @@ package com.unosquare.adminCore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "holidayId")
 
 @Table(name = "Holiday")
@@ -22,7 +24,7 @@ public class Holiday {
     private short holidayLength;
 
     @ManyToOne
-    @JoinColumn(name="employeeId")
+    @JoinColumn(name = "employeeId")
     private Employee employee;
 
     private String status;
@@ -30,8 +32,7 @@ public class Holiday {
     private LocalDate lastModified;
     private LocalDate dateCreated;
 
-    public Holiday()
-    {
+    public Holiday() {
 
     }
 
@@ -54,69 +55,5 @@ public class Holiday {
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
         this.status = status;
-    }
-
-    public int getHolidayId() {
-        return holidayId;
-    }
-
-    public void setHolidayId(int holidayId) {
-        this.holidayId = holidayId;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public short getHolidayLength() {
-        return holidayLength;
-    }
-
-    public void setHolidayLength(short holidayLength) {
-        this.holidayLength = holidayLength;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDate getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDate lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public LocalDate getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(LocalDate dateCreated) {
-        this.dateCreated = dateCreated;
     }
 }

@@ -5,6 +5,7 @@ import com.unosquare.adminCore.entity.MandatoryHoliday;
 import com.unosquare.adminCore.repository.MandatoryHolidayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class MandatoryHolidayService {
     @Autowired
     MandatoryHolidayRepository mandatoryHolidayRepository;
 
-    public List<MandatoryHoliday> findAll(){
+    public List<MandatoryHoliday> findAll() {
         return mandatoryHolidayRepository.findAll();
     }
 
@@ -35,12 +36,10 @@ public class MandatoryHolidayService {
         return mandatoryHolidays;
     }
 
-    public void save(MandatoryHoliday mandatoryHoliday)
-    {
+    public void save(MandatoryHoliday mandatoryHoliday) {
         Preconditions.checkNotNull(mandatoryHoliday);
         mandatoryHolidayRepository.save(mandatoryHoliday);
     }
-
 
 
 }

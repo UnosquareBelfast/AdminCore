@@ -34,7 +34,7 @@ public class ClientController {
     @ResponseBody
     public void createClient(@RequestBody Client client) {
         clientService.save(client);
-}
+    }
 
     @PutMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

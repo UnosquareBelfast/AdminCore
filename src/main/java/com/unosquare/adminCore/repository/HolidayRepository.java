@@ -2,7 +2,6 @@ package com.unosquare.adminCore.repository;
 
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.entity.Holiday;
-import com.unosquare.adminCore.entity.MandatoryHoliday;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -20,35 +20,29 @@ public class HolidayService {
     @Autowired
     HolidayRepository holidayRepository;
 
-    public List<Holiday> findAll()
-    {
+    public List<Holiday> findAll() {
         return holidayRepository.findAll();
     }
 
-    public Holiday findById(int id)
-    {
+    public Holiday findById(int id) {
         return holidayRepository.findById(id).get();
     }
 
-    public List<Holiday> findByEmployee(Employee employee)
-    {
+    public List<Holiday> findByEmployee(Employee employee) {
         return holidayRepository.findByEmployee(employee);
     }
 
-    public void save(Holiday holiday)
-    {
+    public void save(Holiday holiday) {
         Preconditions.checkNotNull(holiday);
         holidayRepository.save(holiday);
     }
 
 
-    public Employee addMandatoryHolidaysForNewEmployee(Employee employee)
-    {
+    public Employee addMandatoryHolidaysForNewEmployee(Employee employee) {
         List<MandatoryHoliday> mandatoryHolidaysByCountryAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryAfterStartDate(employee.getCountry(), employee.getStartDate());
 
-        for(MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryAfterStartDate)
-        {
-            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), (short)1, employee, HolidayStatus.mandatory.toString());
+        for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryAfterStartDate) {
+            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), (short) 1, employee, HolidayStatus.mandatory.toString());
             holidayRepository.save(holiday);
         }
 

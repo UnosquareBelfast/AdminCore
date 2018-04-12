@@ -1,6 +1,7 @@
 package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.entity.Contract;
+import com.unosquare.adminCore.enums.SecurityRoles;
 import com.unosquare.adminCore.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Controller

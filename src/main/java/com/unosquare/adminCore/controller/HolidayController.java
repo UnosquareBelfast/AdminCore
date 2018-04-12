@@ -32,7 +32,7 @@ public class HolidayController {
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Holiday>  findHolidayByEmployeeId(@PathVariable("employeeId") int employeeId) {
+    public List<Holiday> findHolidayByEmployeeId(@PathVariable("employeeId") int employeeId) {
         Employee employee = new Employee();
         employee.setEmployeeId(employeeId);
         return holidayService.findByEmployee(employee);

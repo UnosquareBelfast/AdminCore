@@ -1,36 +1,22 @@
 package com.unosquare.adminCore.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Data
 public class ContractPK implements Serializable {
 
     private int employeeId;
     private int clientId;
 
-    public ContractPK()
-    {
+    public ContractPK() {
 
     }
 
     public ContractPK(int employeeId, int clientId) {
         this.employeeId = employeeId;
-        this.clientId = clientId;
-    }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 

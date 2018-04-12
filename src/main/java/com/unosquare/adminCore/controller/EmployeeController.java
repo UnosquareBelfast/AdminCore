@@ -2,7 +2,6 @@ package com.unosquare.adminCore.controller;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.adminCore.entity.Employee;
-import com.unosquare.adminCore.repository.EmployeeRepository;
 import com.unosquare.adminCore.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/employees")
