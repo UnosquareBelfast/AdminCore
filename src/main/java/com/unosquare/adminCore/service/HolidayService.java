@@ -9,6 +9,7 @@ import com.unosquare.adminCore.repository.HolidayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,8 +29,8 @@ public class HolidayService {
         return holidayRepository.findById(id).get();
     }
 
-    public List<Holiday> findByEmployee(Employee employee) {
-        return holidayRepository.findByEmployee(employee);
+    public List<Holiday> findByEmployee(int employeeId) {
+        return holidayRepository.findByEmployee_EmployeeId(employeeId);
     }
 
     public void save(Holiday holiday) {
@@ -37,16 +38,33 @@ public class HolidayService {
         holidayRepository.save(holiday);
     }
 
-
-    public Employee addMandatoryHolidaysForNewEmployee(Employee employee) {
+    public void addMandatoryHolidaysForNewEmployee(Employee employee) {
         List<MandatoryHoliday> mandatoryHolidaysByCountryAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryAfterStartDate(employee.getCountry(), employee.getStartDate());
 
         for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryAfterStartDate) {
             Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), (short) 1, employee, HolidayStatus.mandatory.toString());
             holidayRepository.save(holiday);
         }
+    }
 
-        return employee;
+    public List<Holiday> findByStartDateAfter(LocalDate date) {
+        return holidayRepository.findByStartDateAfter(date);
+    }
+
+    public List<Holiday> findByEndDateBefore(LocalDate date) {
+        return holidayRepository.findByEndDateBefore(date.plusDays(1));
+    }
+
+    public List<Holiday> findByStartDateBetween(LocalDate rangeStart, LocalDate rangeEnd) {
+        return holidayRepository.findByStartDateBetween(rangeStart, rangeEnd);
+    }
+
+    public List<Holiday> findByStatus(String status) {
+        return holidayRepository.findByStatusIgnoreCase(status);
+    }
+
+    public List<Holiday> findByStatusAndStartDateAfter(String status, LocalDate date) {
+        return holidayRepository.findByStatusIgnoreCaseAndStartDateAfter(status, date);
     }
 }
 

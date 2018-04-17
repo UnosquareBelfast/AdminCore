@@ -1,7 +1,6 @@
 package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.entity.Contract;
-import com.unosquare.adminCore.enums.SecurityRoles;
 import com.unosquare.adminCore.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,10 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/contracts")
 public class ContractController {
 
@@ -28,7 +26,7 @@ public class ContractController {
     @GetMapping(value = "/{employeeId}/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Contract findContractById(@PathVariable("employeeId") int employeeId, @PathVariable("clientId") int clientId) {
-        return contractService.findbyId(employeeId, clientId);
+        return contractService.findById(employeeId, clientId);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,4 +41,25 @@ public class ContractController {
     public void updateContract(@RequestBody Contract contract) {
         contractService.save(contract);
     }
+
+
+    @GetMapping(value = "/findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Contract> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
+        return contractService.findByEmployeeId(employeeId);
+    }
+
+    @GetMapping(value = "/findByClientId/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Contract> findByClientId(@PathVariable("clientId") int clientId) {
+        return contractService.findByClientId(clientId);
+    }
+
+    @GetMapping(value = "/findByStatus/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Contract> findByStatus(@PathVariable("status") String status) {
+        return contractService.findByStatus(status);
+    }
+
+
 }

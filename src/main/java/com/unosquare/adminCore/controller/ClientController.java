@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/clients")
 public class ClientController {
 
@@ -41,4 +41,29 @@ public class ClientController {
     public void updateClient(@RequestBody Client client) {
         clientService.save(client);
     }
+
+    @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> findByClientNameContaining(@PathVariable("clientName") String name) {
+        return clientService.findByClientNameContaining(name);
+    }
+
+    @GetMapping(value = "/findByTeamNameContaining/{teamName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> findByTeamNameContaining(@PathVariable("teamName") String name) {
+        return clientService.findByTeamNameContaining(name);
+    }
+
+    @GetMapping(value = "/findByContactNameContaining/{contactName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> findByContactNameContaining(@PathVariable("contactName") String name) {
+        return clientService.findByContactNameContaining(name);
+    }
+
+    @GetMapping(value = "/findByStatus/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> findByStatus(@PathVariable("status") String status) {
+        return clientService.findByStatus(status);
+    }
+
 }

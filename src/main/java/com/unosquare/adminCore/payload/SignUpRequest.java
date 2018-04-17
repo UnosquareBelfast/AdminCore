@@ -40,14 +40,12 @@ public class SignUpRequest {
     @Size(min = 6, max = 20)
     private String password;
 
-    public SignUpRequest()
-    {
+    public SignUpRequest() {
 
     }
 
-    public SignUpRequest( String forename, String surname, String email, String password,
-                          String county, boolean isActive, boolean isAdmin, LocalDate startDate)
-    {
+    public SignUpRequest(String forename, String surname, String email, String password,
+                         String county, boolean isActive, boolean isAdmin, LocalDate startDate) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;

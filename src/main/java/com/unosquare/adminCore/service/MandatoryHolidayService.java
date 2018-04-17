@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MandatoryHolidayService {
@@ -19,10 +20,15 @@ public class MandatoryHolidayService {
         return mandatoryHolidayRepository.findAll();
     }
 
+    public MandatoryHoliday findById(int id) {
+        Optional<MandatoryHoliday> result = mandatoryHolidayRepository.findById(id);
+        return result.get();
+    }
+
     public List<MandatoryHoliday> findMandatoryHolidaysByCountryAfterStartDate(String country, LocalDate startDate) {
 
         LocalDate endDate = LocalDate.of(startDate.getYear(), 12, 31);
-        List<MandatoryHoliday> mandatoryHolidays = mandatoryHolidayRepository.findByCountryAndDateBetween(country, startDate, endDate);
+        List<MandatoryHoliday> mandatoryHolidays = mandatoryHolidayRepository.findByCountryIgnoreCaseAndDateBetween(country, startDate, endDate);
 
         return mandatoryHolidays;
     }
@@ -31,7 +37,7 @@ public class MandatoryHolidayService {
 
         LocalDate startDate = LocalDate.of(year, 01, 01);
         LocalDate endDate = LocalDate.of(year, 12, 31);
-        List<MandatoryHoliday> mandatoryHolidays = mandatoryHolidayRepository.findByCountryAndDateBetween(country, startDate, endDate);
+        List<MandatoryHoliday> mandatoryHolidays = mandatoryHolidayRepository.findByCountryIgnoreCaseAndDateBetween(country, startDate, endDate);
 
         return mandatoryHolidays;
     }
@@ -41,5 +47,11 @@ public class MandatoryHolidayService {
         mandatoryHolidayRepository.save(mandatoryHoliday);
     }
 
+    public List<MandatoryHoliday> findByCountryAndDateBetween(String country, LocalDate rangeStart, LocalDate rangeEnd) {
+        return mandatoryHolidayRepository.findByCountryIgnoreCaseAndDateBetween(country, rangeStart, rangeEnd);
+    }
 
+    public List<MandatoryHoliday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd) {
+        return mandatoryHolidayRepository.findByDateBetween(rangeStart, rangeEnd);
+    }
 }

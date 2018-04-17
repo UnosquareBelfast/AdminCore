@@ -24,6 +24,22 @@ public class ClientService {
         return searchResult.get();
     }
 
+    public List<Client> findByClientNameContaining(String clientName) {
+        return clientRepository.findByClientNameContainingIgnoreCase(clientName);
+    }
+
+    public List<Client> findByTeamNameContaining(String teamname) {
+        return clientRepository.findByTeamNameContainingIgnoreCase(teamname);
+    }
+
+    public List<Client> findByContactNameContaining(String contactName) {
+        return clientRepository.findByContactNameContainingIgnoreCase(contactName);
+    }
+
+    public List<Client> findByStatus(String status) {
+        return clientRepository.findByStatusIgnoreCase(status);
+    }
+
     public void save(Client client) {
         Preconditions.checkNotNull(client);
         clientRepository.save(client);

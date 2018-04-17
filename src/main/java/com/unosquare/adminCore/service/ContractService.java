@@ -24,7 +24,19 @@ public class ContractService {
         contractRepository.save(contract);
     }
 
-    public Contract findbyId(int employeeId, int clientId) {
+    public List<Contract> findByEmployeeId(int employeeId) {
+        return contractRepository.findByEmployee_EmployeeId(employeeId);
+    }
+
+    public List<Contract> findByClientId(int clientId) {
+        return contractRepository.findByClient_ClientId(clientId);
+    }
+
+    public List<Contract> findByStatus(String status) {
+        return contractRepository.findByStatusIgnoreCase(status);
+    }
+
+    public Contract findById(int employeeId, int clientId) {
         return contractRepository.findById(new ContractPK(employeeId, clientId)).get();
     }
 }

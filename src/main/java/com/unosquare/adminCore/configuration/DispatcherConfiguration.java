@@ -1,23 +1,21 @@
 package com.unosquare.adminCore.configuration;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-@Configuration
-@EnableWebMvc
-@ComponentScan("com.unosquare.adminCore")
-public class DispatcherConfiguration implements WebMvcConfigurer {
+public class DispatcherConfiguration extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{CustomWebMvcConfiguration.class};
     }
 
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class[0];
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/*"};
+    }
 }

@@ -14,9 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -53,12 +51,13 @@ public class EmployeeService {
 
     public Employee save(Employee employee) {
         Preconditions.checkNotNull(employee);
-        return employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.save(employee);
+        return savedEmployee;
     }
 
     public void updateTotalHolidayForNewEmployee(Employee employee) {
-        employee = holidayService.addMandatoryHolidaysForNewEmployee(employee);
-        int mandatoryHolidaysCount = holidayRepository.findByEmployee(employee).size();
+        holidayService.addMandatoryHolidaysForNewEmployee(employee);
+        int mandatoryHolidaysCount = holidayRepository.findByEmployee_EmployeeId(employee.getEmployeeId()).size();
         int maxHolidays = 33 - mandatoryHolidaysCount;
         employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
         save(employee);
@@ -74,23 +73,42 @@ public class EmployeeService {
         return totalHolidays;
     }
 
+    public List<Employee> findByForenameAndSurname(String forename, String surname) {
+        return employeeRepository.findByForenameIgnoreCaseAndSurnameIgnoreCase(forename, surname);
+    }
+
+    public List<Employee> findByStartDateAfter(LocalDate date) {
+        return employeeRepository.findByStartDateAfter(date);
+    }
+
+    public List<Employee> findByStartDateBefore(LocalDate date) {
+        return employeeRepository.findByStartDateBefore(date);
+    }
+
+    public List<Employee> findByCountry(String country) {
+        return employeeRepository.findByCountryIgnoreCase(country);
+    }
+
     public Employee findByEmail(String email) {
         return employeeRepository.findByEmailIgnoreCase(email);
     }
 
-    public Employee createNewEmployeeUser(@RequestBody SignUpRequest signUpRequest) {
+    public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
         // Creating user's account
-        Employee user = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
+        Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
                 signUpRequest.getEmail(), signUpRequest.isAdmin(), signUpRequest.isActive(),
                 signUpRequest.getStartDate(), signUpRequest.getCounty(), signUpRequest.getPassword());
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
 
-        user = save(user);
-        return user;
+        employee = save(employee);
+
+        updateTotalHolidayForNewEmployee(employee);
+
+        return employee;
     }
 
-    public String jwtSignIn(@Valid @RequestBody LoginRequest loginRequest) {
+    public String jwtSignIn(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),

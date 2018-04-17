@@ -1,6 +1,5 @@
 package com.unosquare.adminCore.configuration;
 
-import com.unosquare.adminCore.enums.SecurityRoles;
 import com.unosquare.adminCore.security.CustomUserDetailsService;
 import com.unosquare.adminCore.security.JwtAuthenticationEntryPoint;
 import com.unosquare.adminCore.security.JwtAuthenticationFilter;
@@ -85,15 +84,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/auth/**", "/swaggerLogin/**")
                 .permitAll()
-                .antMatchers("/clients/**", "/employees/**","/contracts/**", "/holidays/**","/mandatoryHolidays/**")
+                .antMatchers("/clients/**", "/employees/**", "/contracts/**", "/holidays/**", "/mandatoryHolidays/**")
                 .hasRole("ADMIN")
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/swaggerLogin")
-                .loginPage("/swaggerLogin.html")
-                .defaultSuccessUrl("/swagger-ui.html", true);
+                .authenticated();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

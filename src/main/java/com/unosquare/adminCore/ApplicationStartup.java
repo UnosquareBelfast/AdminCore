@@ -22,8 +22,7 @@ public class ApplicationStartup
      */
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
-        if(employeeService.findByEmail("swaggerDev@unosquare.com") == null)
-        {
+        if (employeeService.findByEmail("swaggerDev@unosquare.com") == null) {
             SignUpRequest signUpRequest = new SignUpRequest("swagger", "dev",
                     "swaggerDev@unosquare.com",
                     "un0squ@r35w@993r",

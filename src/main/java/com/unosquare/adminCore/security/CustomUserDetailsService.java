@@ -17,9 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     EmployeeService employeeService;
 
-    @Autowired
-    private Environment environment;
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String email)
