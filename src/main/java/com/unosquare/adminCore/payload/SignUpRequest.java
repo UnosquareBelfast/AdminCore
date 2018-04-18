@@ -1,5 +1,6 @@
 package com.unosquare.adminCore.payload;
 
+import com.unosquare.adminCore.entity.EmployeeUserRole;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -23,7 +24,7 @@ public class SignUpRequest {
     private String county;
 
     @NotNull
-    private boolean isAdmin;
+    private EmployeeUserRole employeeUserRole;
 
     @NotNull
     private boolean isActive;
@@ -45,14 +46,14 @@ public class SignUpRequest {
     }
 
     public SignUpRequest(String forename, String surname, String email, String password,
-                         String county, boolean isActive, boolean isAdmin, LocalDate startDate) {
+                         String county, boolean isActive, EmployeeUserRole employeeUserRole, LocalDate startDate) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.county = county;
         this.isActive = isActive;
-        this.isAdmin = isAdmin;
+        this.employeeUserRole = employeeUserRole;
         this.startDate = startDate;
     }
 

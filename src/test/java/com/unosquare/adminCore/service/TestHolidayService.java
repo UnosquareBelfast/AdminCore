@@ -3,6 +3,7 @@ package com.unosquare.adminCore.service;
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.entity.Holiday;
 import com.unosquare.adminCore.entity.MandatoryHoliday;
+import com.unosquare.adminCore.enums.EmployeeUserRoles;
 import com.unosquare.adminCore.repository.HolidayRepository;
 import com.unosquare.adminCore.service.enums.TestEmployeeEnum;
 import com.unosquare.adminCore.service.enums.TestHolidayEnum;
@@ -87,7 +88,7 @@ public class TestHolidayService {
         employee.setForename(TestEmployeeEnum.forename.toString());
         employee.setSurname(TestEmployeeEnum.surname.toString());
         employee.setActive(Boolean.valueOf(TestEmployeeEnum.isActive.toString()));
-        employee.setAdmin(Boolean.valueOf(TestEmployeeEnum.isAdmin.toString()));
+        employee.setEmployeeUserRole(EmployeeUserRoles.SystemAdmin.getRole());
         employee.setCountry(TestEmployeeEnum.country.toString());
         employee.setEmail(TestEmployeeEnum.email.toString());
         employee.setTotalHolidays(Short.valueOf(TestEmployeeEnum.totalHolidays.toString()));

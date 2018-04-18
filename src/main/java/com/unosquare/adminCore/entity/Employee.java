@@ -27,32 +27,37 @@ public class Employee {
     private String email;
     private short totalHolidays;
 
-    private boolean isAdmin;
     private boolean isActive;
 
     private LocalDate startDate;
     private String country;
     private String password;
 
-    @OneToMany(mappedBy = "employee")
-    @JsonIgnore
-    private Set<Contract> contracts = new HashSet<Contract>();
+    @ManyToOne
+    @MapsId("employeeUserRoleId")
+    @JoinColumn(name = "employeeUserRoleId")
+    private EmployeeUserRole employeeUserRole;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Set<Holiday> holidays = new HashSet<Holiday>();
+    private Set<Contract> contracts = new HashSet<>();
+
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Set<Holiday> holidays = new HashSet<>();
 
     public Employee() {
 
     }
 
     public Employee(String forename, String surname, String email,
-                    boolean isAdmin, boolean isActive, LocalDate startDate,
+                    EmployeeUserRole employeeUserRole,
+                    boolean isActive, LocalDate startDate,
                     String country, String password) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.isAdmin = isAdmin;
+        this.employeeUserRole = employeeUserRole;
         this.isActive = isActive;
         this.startDate = startDate;
         this.country = country;

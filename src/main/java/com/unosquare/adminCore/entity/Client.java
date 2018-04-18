@@ -27,7 +27,7 @@ public class Client implements java.io.Serializable {
 
     @OneToMany(mappedBy = "client")
     @JsonIgnore
-    private Set<Contract> contracts = new HashSet<Contract>();
+    private Set<Contract> contracts = new HashSet<>();
 
     public Client() {
 

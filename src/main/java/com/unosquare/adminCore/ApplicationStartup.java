@@ -1,7 +1,11 @@
 package com.unosquare.adminCore;
 
+import com.unosquare.adminCore.entity.EmployeeUserRole;
+import com.unosquare.adminCore.enums.EmployeeUserRoles;
 import com.unosquare.adminCore.payload.SignUpRequest;
+import com.unosquare.adminCore.repository.EmployeeUserRoleRepository;
 import com.unosquare.adminCore.service.EmployeeService;
+import com.unosquare.adminCore.service.EmployeeUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -16,19 +20,26 @@ public class ApplicationStartup
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    EmployeeUserRoleService employeeUserRoleService;
+
     /**
      * This event is executed as late as conceivably possible to indicate that
      * the application is ready to service requests.
      */
     @Override
     public void onApplicationEvent(final ApplicationReadyEvent event) {
-        if (employeeService.findByEmail("swaggerDev@unosquare.com") == null) {
-            SignUpRequest signUpRequest = new SignUpRequest("swagger", "dev",
-                    "swaggerDev@unosquare.com",
-                    "un0squ@r35w@993r",
-                    "Northern Ireland", true, true, LocalDate.of(2018, 01, 01));
+
+        employeeUserRoleService.save(EmployeeUserRoles.TeamLeader.getRole());
+        employeeUserRoleService.save(EmployeeUserRoles.SystemAdmin.getRole());
+        employeeUserRoleService.save(EmployeeUserRoles.User.getRole());
+
+        if (employeeService.findByEmail("superuser@unosquare.com") == null) {
+            SignUpRequest signUpRequest = new SignUpRequest("super", "user",
+                    "superuser@unosquare.com",
+                    "un05qu@r3_@dm1n",
+                    "Northern Ireland", true, EmployeeUserRoles.SystemAdmin.getRole(), LocalDate.of(2018, 01, 01));
             employeeService.createNewEmployeeUser(signUpRequest);
         }
     }
-
 }

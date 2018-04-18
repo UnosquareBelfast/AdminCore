@@ -3,7 +3,6 @@ package com.unosquare.adminCore.security;
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

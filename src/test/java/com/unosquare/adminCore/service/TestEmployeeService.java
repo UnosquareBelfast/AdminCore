@@ -2,6 +2,7 @@ package com.unosquare.adminCore.service;
 
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.entity.Holiday;
+import com.unosquare.adminCore.enums.EmployeeUserRoles;
 import com.unosquare.adminCore.payload.LoginRequest;
 import com.unosquare.adminCore.payload.SignUpRequest;
 import com.unosquare.adminCore.repository.EmployeeRepository;
@@ -73,7 +74,7 @@ public class TestEmployeeService {
         employeeStartDateBeforeToday.setForename(TestEmployeeEnum.forename.toString());
         employeeStartDateBeforeToday.setSurname(TestEmployeeEnum.surname.toString());
         employeeStartDateBeforeToday.setActive(Boolean.valueOf(TestEmployeeEnum.isActive.toString()));
-        employeeStartDateBeforeToday.setAdmin(Boolean.valueOf(TestEmployeeEnum.isAdmin.toString()));
+        employeeStartDateBeforeToday.setEmployeeUserRole(EmployeeUserRoles.SystemAdmin.getRole());
         employeeStartDateBeforeToday.setCountry(TestEmployeeEnum.country.toString());
         employeeStartDateBeforeToday.setEmail(TestEmployeeEnum.email.toString());
         employeeStartDateBeforeToday.setTotalHolidays(Short.valueOf(TestEmployeeEnum.totalHolidays.toString()));
@@ -85,14 +86,13 @@ public class TestEmployeeService {
         employeeStartDateAfterToday.setForename(TestEmployeeEnum.forename2.toString());
         employeeStartDateAfterToday.setSurname(TestEmployeeEnum.surname2.toString());
         employeeStartDateAfterToday.setActive(Boolean.valueOf(TestEmployeeEnum.isActive2.toString()));
-        employeeStartDateAfterToday.setAdmin(Boolean.valueOf(TestEmployeeEnum.isAdmin2.toString()));
+        employeeStartDateAfterToday.setEmployeeUserRole(EmployeeUserRoles.User.getRole());
         employeeStartDateAfterToday.setCountry(TestEmployeeEnum.country2.toString());
         employeeStartDateAfterToday.setEmail(TestEmployeeEnum.email2.toString());
         employeeStartDateAfterToday.setTotalHolidays(Short.valueOf(TestEmployeeEnum.totalHolidays2.toString()));
         employeeStartDateAfterToday.setEmployeeId(Integer.valueOf(TestEmployeeEnum.employeeId2.toString()));
         employeeStartDateAfterToday.setStartDate(futureDate);
         employeeStartDateAfterToday.setPassword(TestEmployeeEnum.passwordEncrypted.toString());
-
 
         employees = Arrays.asList(employeeStartDateBeforeToday, employeeStartDateAfterToday);
         employeesAfterStart = Arrays.asList(employeeStartDateAfterToday);
@@ -140,7 +140,7 @@ public class TestEmployeeService {
     @Test
     public void testFindByIdEmployeeActiveSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).isAdmin() == Boolean.valueOf(TestEmployeeEnum.isActive.toString()));
+        Assert.assertTrue(testingObject.findById(1).getEmployeeUserRole().getEmployeeUserRoleId() == EmployeeUserRoles.SystemAdmin.getRole().getEmployeeUserRoleId());
     }
     //endregion
 
@@ -238,7 +238,7 @@ public class TestEmployeeService {
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
         Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).isAdmin() == Boolean.parseBoolean(TestEmployeeEnum.isAdmin.toString()));
+                get(0).getEmployeeUserRole().getEmployeeUserRoleId() == EmployeeUserRoles.SystemAdmin.getRole().getEmployeeUserRoleId());
     }
 
     @Test
@@ -303,7 +303,7 @@ public class TestEmployeeService {
                 findByStartDateAfter(currentDateTest);
 
         Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).isAdmin() == Boolean.parseBoolean(TestEmployeeEnum.isAdmin2.toString()));
+                get(0).getEmployeeUserRole().getEmployeeUserRoleId() == EmployeeUserRoles.User.getRole().getEmployeeUserRoleId());
     }
 
     @Test
@@ -368,7 +368,7 @@ public class TestEmployeeService {
                 findByStartDateBefore(any(LocalDate.class));
 
         Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).isAdmin() == Boolean.parseBoolean(TestEmployeeEnum.isAdmin.toString()));
+                get(0).getEmployeeUserRole().getEmployeeUserRoleId() == EmployeeUserRoles.SystemAdmin.getRole().getEmployeeUserRoleId());
     }
 
     @Test
@@ -433,7 +433,7 @@ public class TestEmployeeService {
                 findByCountryIgnoreCase(TestEmployeeEnum.country.toString());
 
         Assert.assertTrue(testingObject.findByCountry(TestEmployeeEnum.country.toString()).
-                get(0).isAdmin() == Boolean.parseBoolean(TestEmployeeEnum.isAdmin.toString()));
+                get(0).getEmployeeUserRole().getEmployeeUserRoleId() == EmployeeUserRoles.SystemAdmin.getRole().getEmployeeUserRoleId());
     }
 
     @Test
@@ -498,7 +498,7 @@ public class TestEmployeeService {
                 findByCountryIgnoreCase(TestEmployeeEnum.country.toString());
 
         Assert.assertTrue(testingObject.findByCountry(TestEmployeeEnum.country.toString()).
-                get(0).isAdmin() == Boolean.parseBoolean(TestEmployeeEnum.isAdmin.toString()));
+                get(0).getEmployeeUserRole().getEmployeeUserRoleId() == EmployeeUserRoles.SystemAdmin.getRole().getEmployeeUserRoleId());
     }
 
     @Test
@@ -521,7 +521,7 @@ public class TestEmployeeService {
                 employeeStartDateBeforeToday.getForename(), employeeStartDateBeforeToday.getSurname(),
                 TestEmployeeEnum.signupEmail.toString(), TestEmployeeEnum.passwordDecrypted.toString(),
                 employeeStartDateBeforeToday.getCountry(), employeeStartDateBeforeToday.isActive(),
-                employeeStartDateBeforeToday.isAdmin(), employeeStartDateBeforeToday.getStartDate());
+                employeeStartDateBeforeToday.getEmployeeUserRole(), employeeStartDateBeforeToday.getStartDate());
 
         Employee createdUser = testingObject.createNewEmployeeUser(request);
         Assert.assertTrue(createdUser.getPassword() == TestEmployeeEnum.passwordEncrypted.toString());

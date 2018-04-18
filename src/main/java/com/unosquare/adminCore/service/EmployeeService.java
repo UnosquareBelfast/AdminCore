@@ -96,7 +96,7 @@ public class EmployeeService {
     public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
         // Creating user's account
         Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-                signUpRequest.getEmail(), signUpRequest.isAdmin(), signUpRequest.isActive(),
+                signUpRequest.getEmail(), signUpRequest.getEmployeeUserRole(), signUpRequest.isActive(),
                 signUpRequest.getStartDate(), signUpRequest.getCounty(), signUpRequest.getPassword());
 
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
