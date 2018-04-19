@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.unosquare</groupId>
-    <artifactId>hr-manager-service</artifactId>
+    <artifactId>admin-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>hr-manager-service</name>
-    <description>Demo project for Spring Boot</description>
+    <name>admin-core</name>
+    <description>Administration tool for booking and approving holidays</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
