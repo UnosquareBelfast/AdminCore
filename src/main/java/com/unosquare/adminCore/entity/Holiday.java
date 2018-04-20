@@ -9,8 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "holidayId")
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="@id", scope = Holiday.class)
 @Table(name = "Holiday")
 public class Holiday {
 
@@ -18,16 +17,14 @@ public class Holiday {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int holidayId;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    private short holidayLength;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "employeeId")
     private Employee employee;
 
     private String status;
+    private boolean isHalfDay;
 
     private LocalDate lastModified;
     private LocalDate dateCreated;
@@ -36,24 +33,22 @@ public class Holiday {
 
     }
 
-    public Holiday(LocalDate startDate, LocalDate endDate, short holidayLength, Employee employee) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.holidayLength = holidayLength;
+    public Holiday(LocalDate date, Employee employee, boolean isHalfDay) {
         this.employee = employee;
         this.status = "new";
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
+        this.isHalfDay = isHalfDay;
+        this.date = date;
     }
 
-    public Holiday(LocalDate startDate, LocalDate endDate, short holidayLength, Employee employee, String status) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.holidayLength = holidayLength;
+    public Holiday(LocalDate date, Employee employee, String status, boolean isHalfDay) {
+        this.date = date;
         this.employee = employee;
         this.status = "new";
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
         this.status = status;
+        this.isHalfDay = isHalfDay;
     }
 }

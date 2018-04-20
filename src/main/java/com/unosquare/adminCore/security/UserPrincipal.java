@@ -41,6 +41,19 @@ public class UserPrincipal implements UserDetails {
 
         List<String> roles = new ArrayList<String>();
 
+        getUserRoles(employee, roles);
+
+        List<GrantedAuthority> authorities = roles.stream().map(role ->
+                new SimpleGrantedAuthority(role)
+        ).collect(Collectors.toList());
+
+        return new UserPrincipal(
+                employee.getEmployeeId(), String.format("%s %s", employee.getForename(), employee.getSurname()),
+                employee.getEmail(), employee.getPassword(), authorities
+        );
+    }
+
+    private static void getUserRoles(Employee employee, List<String> roles) {
         if (employee.getEmployeeUserRole().getRoleDescription() == EmployeeUserRoles.TeamLeader.toString()) {
             roles.add(SecurityRoles.TeamLeader.toString());
         }
@@ -49,18 +62,6 @@ public class UserPrincipal implements UserDetails {
         }
 
         roles.add(SecurityRoles.User.toString());
-
-        List<GrantedAuthority> authorities = roles.stream().map(role ->
-                new SimpleGrantedAuthority(role)
-        ).collect(Collectors.toList());
-
-        return new UserPrincipal(
-                employee.getEmployeeId(),
-                String.format("%s %s", employee.getForename(), employee.getSurname()),
-                employee.getEmail(),
-                employee.getPassword(),
-                authorities
-        );
     }
 
     @Override

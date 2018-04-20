@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Data
 @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeUserRoleId", scope = EmployeeUserRole.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="@id", scope = EmployeeUserRole.class)
 @Table(name = "EmployeeUserRole")
 public class EmployeeUserRole {
 

@@ -39,7 +39,6 @@ public class AuthenticationController {
         }
         Employee user = employeeService.createNewEmployeeUser(signUpRequest);
 
-
         return ResponseEntity.ok(new JwtAuthenticationResponse(String.format("user added:%s", user.toString())));
     }
 

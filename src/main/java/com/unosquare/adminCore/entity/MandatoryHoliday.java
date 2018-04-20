@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "mandatoryHolidayId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="@id", scope = MandatoryHoliday.class)
 @Table(name = "MandatoryHoliday")
 public class MandatoryHoliday {
 

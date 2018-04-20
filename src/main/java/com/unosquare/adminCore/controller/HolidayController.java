@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -38,9 +39,15 @@ public class HolidayController {
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
     public void createHoliday(@RequestBody Holiday holiday) {
         holidayService.save(holiday);
+    }
+
+    @PostMapping(value = "/createMultiple", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void createMultipleHolidays(@RequestBody Holiday [] holidays) {
+        holidayService.saveMultiple(Arrays.asList(holidays));
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,23 +56,31 @@ public class HolidayController {
         holidayService.save(holiday);
     }
 
-    @GetMapping(value = "/findByStartDateAfter/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateMultiple", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Holiday> findByStartDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
-        return holidayService.findByStartDateAfter(date);
+    public void updateMultipleHolidays(@RequestBody List<Holiday> holidays) {
+        holidayService.saveMultiple(holidays);
     }
 
-    @GetMapping(value = "/findByEndDateBeforeOrSameDay/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/findByDateAfter/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Holiday> findByEndDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
-        return holidayService.findByEndDateBefore(date.plusDays(1));
+    public List<Holiday> findByDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        return holidayService.findByDateAfter(date);
     }
 
-    @GetMapping(value = "/findByStartDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByDateBeforeOrSameDay/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Holiday> findByStartDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate rangeStart,
+    public List<Holiday> findByDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        return holidayService.findByDateBefore(date.plusDays(1));
+    }
+
+    @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Holiday> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate rangeStart,
                                                 @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate rangeEnd) {
-        return holidayService.findByStartDateBetween(rangeStart, rangeEnd);
+        return holidayService.findByDateBetween(rangeStart, rangeEnd);
     }
 
     @GetMapping(value = "/findByStatus/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,9 +89,9 @@ public class HolidayController {
         return holidayService.findByStatus(status);
     }
 
-    @GetMapping(value = "/findByStatusAndStartDateAfter/{status}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByStatusAndDateAfter/{status}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Holiday> findByStatusAndStartDateAfter(@PathVariable("status") String status, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
-        return holidayService.findByStatusAndStartDateAfter(status, date);
+    public List<Holiday> findByStatusAndDateAfter(@PathVariable("status") String status, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        return holidayService.findByStatusAndDateAfter(status, date);
     }
 }

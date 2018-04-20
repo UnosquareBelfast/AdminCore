@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @Data
 @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId", scope = Employee.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="@id", scope = Employee.class)
 @Table(name = "Employee")
 public class Employee {
 
@@ -34,7 +34,6 @@ public class Employee {
     private String password;
 
     @ManyToOne
-    @MapsId("employeeUserRoleId")
     @JoinColumn(name = "employeeUserRoleId")
     private EmployeeUserRole employeeUserRole;
 

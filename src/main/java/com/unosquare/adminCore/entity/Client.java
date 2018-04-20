@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "clientId", scope = Client.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="@id", scope = Client.class)
 @Table(name = "Client")
 public class Client implements java.io.Serializable {
 
@@ -24,6 +24,8 @@ public class Client implements java.io.Serializable {
     private String contactName;
     private String contactEmail;
     private String status;
+
+    private short minimumEmployeesForTeam = 0;
 
     @OneToMany(mappedBy = "client")
     @JsonIgnore
