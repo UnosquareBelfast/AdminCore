@@ -49,10 +49,7 @@ class NavBar extends Component {
           <Nav>
             <NavItem eventKey={1}  onClick={this.onHomeClick}>
               Home
-            </NavItem>
-            <NavItem eventKey={2}  onClick={this.onProfileClick}>
-              Profile
-            </NavItem>            
+            </NavItem>       
           </Nav>
           <Nav pullRight>
             <NavItem eventKey={1}  onClick={this.onSettingsClick}

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Calendar from 'react-big-calendar';
+import Calendar from 'react-calendar';
 import moment from 'moment';
 import 'moment/locale/nb';
 import MyLeaveTrackerList from '../common/MyLeaveTrackerList';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
 import TakenLeaveList from '../common/TakenLeaveList';
+import BookHolidayModal from '../modals/BookHolidayModal';
 
 const holidays = [
     {
@@ -36,15 +36,20 @@ class HomePage extends Component {
 
     this.state = {
         date: moment(),
-        holidays: JSON.parse(localStorage.getItem('holidays'))
+        holidays: JSON.parse(localStorage.getItem('holidays')),
+        bookingModalOpen: false,
+        bookedHolidays: []
     }
 
     this.getHolidays = this.getHolidays.bind(this);
+    this.onDeleteHoliday = this.onDeleteHoliday.bind(this);
   }
 
   componentWillMount(){
     const holidays = this.getHolidays();
-    this.setState({holidays});
+    const bookedHolidays = this.getFutureHolidays();
+    this.setState({holidays : holidays});
+    this.setState({bookedHolidays : bookedHolidays});
   }
 
   getHolidays(){
@@ -67,6 +72,23 @@ class HomePage extends Component {
     return this.state.holidays.filter(holiday => { return this.isDateInTheFuture(holiday.date)})
   }
 
+  onDeleteHoliday(holiday){
+    // api call delete holiday
+    // if successful, delete holiday from list, otherwise display error
+    const holidays = this.state.bookedHolidays;
+    const filteredHolidays = holidays.filter(hol => {
+      return hol.id !== holiday.id;
+    });
+
+    this.setState({bookedHolidays: filteredHolidays});
+  }
+
+  toggleHolidayModal = () => {
+      this.setState({
+        bookingModalOpen: !this.state.bookingModalOpen
+      });
+  }
+
   render() {
 
     return (
@@ -78,7 +100,9 @@ class HomePage extends Component {
                     <br/>
                 <span>Days Booked:</span>
                 <MyLeaveTrackerList
-                    holidays={this.getFutureHolidays()}/>
+                    holidays={this.state.bookedHolidays}
+                    onDeleteHoliday={this.onDeleteHoliday}
+                />
             </div>
             <div className='CalendarDiv'>
                 <span>Days Remaining: 23</span>
@@ -88,6 +112,13 @@ class HomePage extends Component {
                     date={this.state.date}
                     onPickDate={(date => console.log(date))}
                 />
+                <br/>
+                <button onClick={this.toggleHolidayModal}>Book Holiday</button>
+                <BookHolidayModal
+                    show={this.state.bookingModalOpen}
+                    onClose={this.toggleHolidayModal}>
+                    blah blah blah
+                </BookHolidayModal>
             </div>
         </div>
     );

@@ -14,8 +14,8 @@ class HolidayTrackerListItem extends Component {
   }
 
   onDeleteHoliday(){
-    const { onDeleteHoliday, holiday } = this.props;
-
+    const { onDeleteHoliday, id, date } = this.props;
+    const holiday = { id: id, date: date };
     onDeleteHoliday(holiday);
   }
 
@@ -39,7 +39,7 @@ class HolidayTrackerListItem extends Component {
 
     return (
       <div>
-          <button className='BookedLeaveListItemStyling'>{formatted}</button>
+          <button className='BookedLeaveListItemStyling' onClick={ this.onDeleteHoliday }>{formatted}</button>
       </div>
     );
   }

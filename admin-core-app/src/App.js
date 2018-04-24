@@ -20,7 +20,7 @@ class App extends Component {
         isManager={false} 
         isSuper={false}
         />
-        {/* <HomePage/> */}
+        <HomePage/>
       </div>
     );
   }
