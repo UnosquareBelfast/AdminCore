@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'react-bootstrap';
-import PropTypes from 'prop-types';
 
 class LoginPage extends Component {
 
@@ -16,10 +15,19 @@ class LoginPage extends Component {
   onSignIn(event){
     event.preventDefault();
 
-    this.props.onAdd(this.emailInput.value, this.passwordInput.value);
+    const email = this.emailInput.value;
+    const password = this.passwordInput.value;
 
-    this.nameInput.value = '';
-    this.priceInput.value = '';
+    if(email && password){
+      this.signInUser(email, password);
+    }
+  }
+
+  signInUser(email, password){
+    this.props.attemptLogin(email, password);
+
+    this.emailInput.value = '';
+    this.passwordInput.value = '';
   }
 
   render() {
@@ -28,12 +36,12 @@ class LoginPage extends Component {
         <div>
             <form onSubmit={this.onSignIn}>
                 <h3>Sign in to AdminCore</h3>
-                <input placeholder="Email" ref={emailInput => this.emailInput = emailInput}/>
+                <input placeholder="Email" type="email" ref={emailInput => this.emailInput = emailInput}/>
                 <br/>
-                <input placeholder="Password" ref={passwordInput => this.passwordInput = passwordInput}/>
+                <input placeholder="Password" type="password" ref={passwordInput => this.passwordInput = passwordInput}/>
                 <br/>
                 <button className="btn btn-primary">Sign In</button>
-                <hr/>
+                <br/>
             </form>
             <br/>
         </div>

@@ -30,7 +30,7 @@ class NavBar extends Component {
   }
 
   onSignOutClick(){
-    console.log('Sign out clicked');
+    this.props.signUserOut();
   }
 
   render() {
@@ -69,7 +69,8 @@ class NavBar extends Component {
 NavBar.propTypes = {
     isAdmin: PropTypes.bool.isRequired,
     isManager: PropTypes.bool.isRequired,
-    isSuper: PropTypes.bool.isRequired
+    isSuper: PropTypes.bool.isRequired,
+    signUserOut: PropTypes.func.isRequired
 }
 
 export default NavBar;

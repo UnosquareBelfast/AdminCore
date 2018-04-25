@@ -71,8 +71,8 @@ class BookHolidayModal extends React.Component {
     };
 
     return (
-      <div className="ModalBackdropStyle">        
-        <div className="ModalContentAreaStyle">
+      <div style={backdropStyle}>        
+        <div style={modalStyle}>
         <h3>Book Holiday?</h3>
         <button className="btn btn-danger" onClick={this.props.onClose}>
             Confirm

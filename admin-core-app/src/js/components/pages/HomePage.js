@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'react-bootstrap';
-import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 import 'moment/locale/nb';
