@@ -2,7 +2,7 @@ package com.unosquare.adminCore.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.entity.Employee;
-import com.unosquare.adminCore.enums.EmployeeUserRoles;
+import com.unosquare.adminCore.enums.EmployeeRole;
 import com.unosquare.adminCore.enums.SecurityRoles;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,14 +54,14 @@ public class UserPrincipal implements UserDetails {
     }
 
     private static void getUserRoles(Employee employee, List<String> roles) {
-        if (employee.getEmployeeUserRole().getRoleDescription() == EmployeeUserRoles.TeamLeader.toString()) {
-            roles.add(SecurityRoles.TeamLeader.toString());
+        if (employee.getEmployeeRole() == EmployeeRole.teamLeader) {
+            roles.add(SecurityRoles.teamLeader.toString());
         }
-        else if(employee.getEmployeeUserRole().getRoleDescription() == EmployeeUserRoles.SystemAdmin.toString()) {
-            roles.add(SecurityRoles.SystemAdmin.toString());
+        else if(employee.getEmployeeRole() == EmployeeRole.systemAdministrator) {
+            roles.add(SecurityRoles.systemAdmin.toString());
         }
 
-        roles.add(SecurityRoles.User.toString());
+        roles.add(SecurityRoles.user.toString());
     }
 
     @Override

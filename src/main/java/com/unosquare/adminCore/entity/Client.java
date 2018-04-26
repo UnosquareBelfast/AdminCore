@@ -3,6 +3,8 @@ package com.unosquare.adminCore.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.unosquare.adminCore.enums.ClientStatus;
+import com.unosquare.adminCore.enums.enumConverter.ClientStatusConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +25,11 @@ public class Client implements java.io.Serializable {
     private String teamName;
     private String contactName;
     private String contactEmail;
-    private String status;
+
+    @Basic
+    @Column(name = "clientStatusId")
+    @Convert( converter=ClientStatusConverter.class )
+    private ClientStatus clientStatus;
 
     private short minimumEmployeesForTeam = 0;
 
@@ -35,11 +41,12 @@ public class Client implements java.io.Serializable {
 
     }
 
-    public Client(String clientName, String teamName, String contactName, String contactEmail, String status) {
+    public Client(String clientName, String teamName, String contactName, String contactEmail, ClientStatus clientStatus) {
         this.clientName = clientName;
         this.teamName = teamName;
         this.contactName = contactName;
         this.contactEmail = contactEmail;
-        this.status = status;
+        this.clientStatus = clientStatus;
     }
+
 }

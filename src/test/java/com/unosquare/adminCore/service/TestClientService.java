@@ -1,6 +1,7 @@
 package com.unosquare.adminCore.service;
 
 import com.unosquare.adminCore.entity.Client;
+import com.unosquare.adminCore.enums.ClientStatus;
 import com.unosquare.adminCore.repository.ClientRepository;
 import com.unosquare.adminCore.service.enums.TestClientEnum;
 import org.junit.Assert;
@@ -34,7 +35,7 @@ public class TestClientService {
         client = new Client();
         client.setClientName(TestClientEnum.name.toString());
         client.setContactEmail(TestClientEnum.email.toString());
-        client.setStatus(TestClientEnum.status.toString());
+        client.setClientStatus(ClientStatus.active);
         client.setTeamName(TestClientEnum.teamName.toString());
         client.setContactName(TestClientEnum.contactName.toString());
 
@@ -57,7 +58,7 @@ public class TestClientService {
     @Test
     public void testFindByIdStatusSet() {
         Mockito.doReturn(Optional.of(client)).when(clientRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getStatus().equals(TestClientEnum.status.toString()));
+        Assert.assertTrue(testingObject.findById(1).getClientStatus().equals(ClientStatus.active));
     }
 
     @Test
@@ -114,7 +115,7 @@ public class TestClientService {
                 findByClientNameContainingIgnoreCase(TestClientEnum.name.toString());
 
         Assert.assertTrue(testingObject.findByClientNameContaining(TestClientEnum.name.toString()).
-                get(0).getStatus().equals(TestClientEnum.status.toString()));
+                get(0).getClientStatus().equals(ClientStatus.active));
     }
 
     @Test
@@ -161,7 +162,7 @@ public class TestClientService {
                 findByTeamNameContainingIgnoreCase(TestClientEnum.teamName.toString());
 
         Assert.assertTrue(testingObject.findByTeamNameContaining(TestClientEnum.teamName.toString()).
-                get(0).getStatus().equals(TestClientEnum.status.toString()));
+                get(0).getClientStatus().equals(ClientStatus.active));
     }
 
     @Test
@@ -208,7 +209,7 @@ public class TestClientService {
                 findByContactNameContainingIgnoreCase(TestClientEnum.contactName.toString());
 
         Assert.assertTrue(testingObject.findByContactNameContaining(TestClientEnum.contactName.toString()).
-                get(0).getStatus().equals(TestClientEnum.status.toString()));
+                get(0).getClientStatus().equals(ClientStatus.active));
     }
 
     @Test
@@ -230,49 +231,49 @@ public class TestClientService {
     }
     //endregion
 
-    //region findByStatus tests
+    //region findByClientStatus tests
     @Test
     public void testFindByStatusClientNameSet() {
         Mockito.doReturn(clients).when(clientRepository).
-                findByStatusIgnoreCase(TestClientEnum.status.toString());
+                findByClientStatus(ClientStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(TestClientEnum.status.toString()).
+        Assert.assertTrue(testingObject.findByClientStatus(ClientStatus.active).
                 get(0).getClientName().equals(TestClientEnum.name.toString()));
     }
 
     @Test
     public void testFindByStatusContactEmailSet() {
         Mockito.doReturn(clients).when(clientRepository).
-                findByStatusIgnoreCase(TestClientEnum.status.toString());
+                findByClientStatus(ClientStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(TestClientEnum.status.toString()).
+        Assert.assertTrue(testingObject.findByClientStatus(ClientStatus.active).
                 get(0).getContactEmail().equals(TestClientEnum.email.toString()));
     }
 
     @Test
     public void testFindByStatusStatusSet() {
         Mockito.doReturn(clients).when(clientRepository).
-                findByStatusIgnoreCase(TestClientEnum.status.toString());
+                findByClientStatus(ClientStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(TestClientEnum.status.toString()).
-                get(0).getStatus().equals(TestClientEnum.status.toString()));
+        Assert.assertTrue(testingObject.findByClientStatus(ClientStatus.active).
+                get(0).getClientStatus().equals(ClientStatus.active));
     }
 
     @Test
     public void testFindByStatusTeamNameSet() {
         Mockito.doReturn(clients).when(clientRepository).
-                findByStatusIgnoreCase(TestClientEnum.status.toString());
+                findByClientStatus(ClientStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(TestClientEnum.status.toString()).
+        Assert.assertTrue(testingObject.findByClientStatus(ClientStatus.active).
                 get(0).getTeamName().equals(TestClientEnum.teamName.toString()));
     }
 
     @Test
     public void testFindByStatusContactNameSet() {
         Mockito.doReturn(clients).when(clientRepository).
-                findByStatusIgnoreCase(TestClientEnum.status.toString());
+                findByClientStatus(ClientStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(TestClientEnum.status.toString()).
+        Assert.assertTrue(testingObject.findByClientStatus(ClientStatus.active).
                 get(0).getContactName().equals(TestClientEnum.contactName.toString()));
     }
     //endregion

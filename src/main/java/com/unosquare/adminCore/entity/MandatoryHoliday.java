@@ -2,6 +2,8 @@ package com.unosquare.adminCore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.unosquare.adminCore.enums.Country;
+import com.unosquare.adminCore.enums.enumConverter.CountryConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,13 +20,17 @@ public class MandatoryHoliday {
     private int mandatoryHolidayId;
 
     private LocalDate date;
-    private String country;
+
+    @Basic
+    @Convert( converter=CountryConverter.class )
+    @Column(name = "countryId")
+    private Country country;
 
     public MandatoryHoliday() {
 
     }
 
-    public MandatoryHoliday(LocalDate date, String country) {
+    public MandatoryHoliday(LocalDate date, Country country) {
         this.date = date;
         this.country = country;
     }

@@ -1,6 +1,8 @@
 package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.entity.Employee;
+import com.unosquare.adminCore.enums.Country;
+import com.unosquare.adminCore.enums.EmployeeStatus;
 import com.unosquare.adminCore.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employees")
@@ -56,7 +60,7 @@ public class EmployeeController {
 
     @GetMapping(value = "/findByCountry/{country}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByCountry(@PathVariable("country") String country) {
+    public List<Employee> findByCountry(@PathVariable("country") Country country) {
         return employeeService.findByCountry(country);
     }
 }

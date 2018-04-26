@@ -84,7 +84,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/authentication/**", "/swaggerLogin/**")
                 .permitAll()
-                .antMatchers("/clients/**", "/employees/**", "/contracts/**", "/holidays/**", "/mandatoryHolidays/**", "/employeeUserRoles/**" )
+                .antMatchers("/clients/**", "/employees/**", "/contracts/**",
+                        "/holidays/**", "/mandatoryHolidays/**", "/employeeUserRoles/**",
+                        "/clientStatuses/**", "/employeeStatuses/**", "/contractStatuses/**",
+                        "/holidayStatuses/**", "/employeeRoles/**", "/countries/**")
                 .hasRole("USER")
                 .anyRequest()
                 .authenticated();

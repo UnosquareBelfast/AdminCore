@@ -2,6 +2,7 @@ package com.unosquare.adminCore.service;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.adminCore.entity.Client;
+import com.unosquare.adminCore.enums.ClientStatus;
 import com.unosquare.adminCore.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,8 @@ public class ClientService {
         return clientRepository.findByContactNameContainingIgnoreCase(contactName);
     }
 
-    public List<Client> findByStatus(String status) {
-        return clientRepository.findByStatusIgnoreCase(status);
+    public List<Client> findByClientStatus(ClientStatus status) {
+        return clientRepository.findByClientStatus(status);
     }
 
     public void save(Client client) {

@@ -3,6 +3,10 @@ package com.unosquare.adminCore.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.unosquare.adminCore.enums.*;
+import com.unosquare.adminCore.enums.enumConverter.CountryConverter;
+import com.unosquare.adminCore.enums.enumConverter.EmployeeRoleConverter;
+import com.unosquare.adminCore.enums.enumConverter.EmployeeStatusConverter;
 import lombok.Data;
 import lombok.ToString;
 
@@ -27,15 +31,24 @@ public class Employee {
     private String email;
     private short totalHolidays;
 
-    private boolean isActive;
-
     private LocalDate startDate;
-    private String country;
+
+    @Basic
+    @Column(name = "countryId")
+    @Convert( converter=CountryConverter.class )
+    private Country country;
+
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "employeeUserRoleId")
-    private EmployeeUserRole employeeUserRole;
+    @Basic
+    @Column(name = "employeeRoleId")
+    @Convert( converter=EmployeeRoleConverter.class )
+    private EmployeeRole employeeRole;
+
+    @Basic
+    @Column(name = "employeeStatusId")
+    @Convert( converter=EmployeeStatusConverter.class )
+    private EmployeeStatus employeeStatus;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
@@ -50,14 +63,14 @@ public class Employee {
     }
 
     public Employee(String forename, String surname, String email,
-                    EmployeeUserRole employeeUserRole,
-                    boolean isActive, LocalDate startDate,
-                    String country, String password) {
+                    EmployeeRole employeeRole,
+                    EmployeeStatus status, LocalDate startDate,
+                    Country country, String password) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeUserRole = employeeUserRole;
-        this.isActive = isActive;
+        this.employeeRole = employeeRole;
+        this.employeeStatus = status;
         this.startDate = startDate;
         this.country = country;
         this.password = password;

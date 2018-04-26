@@ -1,6 +1,7 @@
 package com.unosquare.adminCore.repository;
 
 import com.unosquare.adminCore.entity.Holiday;
+import com.unosquare.adminCore.enums.HolidayStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -19,7 +20,7 @@ public interface HolidayRepository extends JpaRepository<Holiday, Integer> {
 
     List<Holiday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd);
 
-    List<Holiday> findByStatusIgnoreCase(String status);
+    List<Holiday> findByHolidayStatus(HolidayStatus status);
 
-    List<Holiday> findByStatusIgnoreCaseAndDateAfter(String status, LocalDate date);
+    List<Holiday> findByHolidayStatusAndDateAfter(HolidayStatus status, LocalDate date);
 }

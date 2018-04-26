@@ -1,6 +1,7 @@
 package com.unosquare.adminCore.service;
 
 import com.unosquare.adminCore.entity.MandatoryHoliday;
+import com.unosquare.adminCore.enums.Country;
 import com.unosquare.adminCore.repository.MandatoryHolidayRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,12 +45,12 @@ public class TestMandatoryHolidayService {
         MockitoAnnotations.initMocks(this);
 
         pastHoliday = new MandatoryHoliday();
-        pastHoliday.setCountry("GB");
+        pastHoliday.setCountry(Country.northernIreland);
         pastHoliday.setDate(pastDate);
         pastHoliday.setMandatoryHolidayId(1);
 
         futureHoliday = new MandatoryHoliday();
-        futureHoliday.setCountry("GB");
+        futureHoliday.setCountry(Country.northernIreland);
         futureHoliday.setDate(futureDate);
         futureHoliday.setMandatoryHolidayId(2);
 
@@ -62,7 +63,7 @@ public class TestMandatoryHolidayService {
     @Test
     public void testFindByIdCountySet() {
         Mockito.doReturn(Optional.of(pastHoliday)).when(mandatoryHolidayRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getCountry().equals("GB"));
+        Assert.assertTrue(testingObject.findById(1).getCountry().equals(Country.northernIreland));
     }
 
     @Test
@@ -87,9 +88,9 @@ public class TestMandatoryHolidayService {
     public void testFindMandatoryHolidaysByCountryAfterStartDate() {
 
         Mockito.doReturn(mandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryIgnoreCaseAndDateBetween(any(String.class), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryAndDateBetween(any(Country.class), any(LocalDate.class), any(LocalDate.class));
 
-        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryAfterStartDate("GB", LocalDate.now()).toArray(),
+        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryAfterStartDate(Country.northernIreland, LocalDate.now()).toArray(),
                 mandatoryHolidays.toArray());
     }
 
@@ -97,19 +98,19 @@ public class TestMandatoryHolidayService {
     public void testFindMandatoryHolidaysByCountryAndYear() {
 
         Mockito.doReturn(mandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryIgnoreCaseAndDateBetween(any(String.class), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryAndDateBetween(any(Country.class), any(LocalDate.class), any(LocalDate.class));
 
 
-        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryAndYear("GB", year).toArray(),
+        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryAndYear(Country.northernIreland, year).toArray(),
                 mandatoryHolidays.toArray());
     }
 
     @Test
     public void testFindByCountryAndDateBetween() {
         Mockito.doReturn(futureMandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryIgnoreCaseAndDateBetween(any(String.class), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryAndDateBetween(any(Country.class), any(LocalDate.class), any(LocalDate.class));
 
-        Assert.assertArrayEquals(testingObject.findByCountryAndDateBetween("GB", currentDateTest, futureDate).toArray(),
+        Assert.assertArrayEquals(testingObject.findByCountryAndDateBetween(Country.northernIreland, currentDateTest, futureDate).toArray(),
                 futureMandatoryHolidays.toArray());
     }
 

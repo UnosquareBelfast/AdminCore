@@ -2,6 +2,7 @@ package com.unosquare.adminCore.service;
 
 import com.unosquare.adminCore.entity.Contract;
 import com.unosquare.adminCore.entity.ContractPK;
+import com.unosquare.adminCore.enums.ContractStatus;
 import com.unosquare.adminCore.repository.ContractRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +26,6 @@ public class TestContractService {
     private ContractPK primaryKey;
     @Mock
     private ContractRepository contractRepository;
-    private String status = "Active";
     private List<Contract> contracts;
 
 
@@ -33,7 +33,7 @@ public class TestContractService {
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
         primaryKey = new ContractPK(1, 1);
-        contract = new Contract(primaryKey, status);
+        contract = new Contract(primaryKey, ContractStatus.active);
         contracts = Arrays.asList(contract);
     }
 
@@ -47,7 +47,7 @@ public class TestContractService {
     @Test
     public void testFindByIdStatusSet() {
         Mockito.doReturn(Optional.of(contract)).when(contractRepository).findById(Mockito.any(ContractPK.class));
-        Assert.assertTrue(testingObject.findById(1, 1).getStatus().equals(status));
+        Assert.assertTrue(testingObject.findById(1, 1).getContractStatus().equals(ContractStatus.active));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class TestContractService {
         Mockito.doReturn(contracts).when(contractRepository).findByEmployee_EmployeeId(1);
 
         Assert.assertTrue(testingObject.findByEmployeeId(1).
-                get(0).getStatus().equals(status));
+                get(0).getContractStatus().equals(ContractStatus.active));
     }
 
     @Test
@@ -79,23 +79,23 @@ public class TestContractService {
         Mockito.doReturn(contracts).when(contractRepository).findByClient_ClientId(1);
 
         Assert.assertTrue(testingObject.findByClientId(1).
-                get(0).getStatus().equals(status));
+                get(0).getContractStatus().equals(ContractStatus.active));
     }
 
     @Test
     public void testFindByStatusContractIdSet() {
-        Mockito.doReturn(contracts).when(contractRepository).findByStatusIgnoreCase(status);
+        Mockito.doReturn(contracts).when(contractRepository).findByContractStatus(ContractStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(status).
+        Assert.assertTrue(testingObject.findByStatus(ContractStatus.active).
                 get(0).getContractId().equals(primaryKey));
     }
 
     @Test
     public void testFindByStatusStatusSet() {
-        Mockito.doReturn(contracts).when(contractRepository).findByStatusIgnoreCase(status);
+        Mockito.doReturn(contracts).when(contractRepository).findByContractStatus(ContractStatus.active);
 
-        Assert.assertTrue(testingObject.findByStatus(status).
-                get(0).getStatus().equals(status));
+        Assert.assertTrue(testingObject.findByStatus(ContractStatus.active).
+                get(0).getContractStatus().equals(ContractStatus.active));
     }
 
     @Test

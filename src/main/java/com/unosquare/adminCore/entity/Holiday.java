@@ -2,6 +2,8 @@ package com.unosquare.adminCore.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.unosquare.adminCore.enums.HolidayStatus;
+import com.unosquare.adminCore.enums.enumConverter.HolidayStatusConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +25,11 @@ public class Holiday {
     @JoinColumn(name = "employeeId")
     private Employee employee;
 
-    private String status;
+    @Basic
+    @Column(name = "holidayStatusId")
+    @Convert( converter=HolidayStatusConverter.class )
+    private HolidayStatus holidayStatus;
+
     private boolean isHalfDay;
 
     private LocalDate lastModified;
@@ -33,22 +39,13 @@ public class Holiday {
 
     }
 
-    public Holiday(LocalDate date, Employee employee, boolean isHalfDay) {
-        this.employee = employee;
-        this.status = "new";
-        this.lastModified = LocalDate.now();
-        this.dateCreated = LocalDate.now();
-        this.isHalfDay = isHalfDay;
-        this.date = date;
-    }
-
-    public Holiday(LocalDate date, Employee employee, String status, boolean isHalfDay) {
+    public Holiday(LocalDate date, Employee employee, HolidayStatus status, boolean isHalfDay) {
         this.date = date;
         this.employee = employee;
-        this.status = "new";
+        this.holidayStatus = status;
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
-        this.status = status;
+        this.holidayStatus = status;
         this.isHalfDay = isHalfDay;
     }
 }

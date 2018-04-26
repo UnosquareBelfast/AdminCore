@@ -1,9 +1,16 @@
 package com.unosquare.adminCore.entity;
 
+import com.unosquare.adminCore.enums.ContractStatus;
+import com.unosquare.adminCore.enums.enumConverter.ContractStatusConverter;
 import lombok.Data;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Data
@@ -23,15 +30,18 @@ public class Contract implements Serializable {
     @JoinColumn(name = "clientId", referencedColumnName = "clientId", insertable = false, updatable = false)
     private Client client;
 
-    private String status;
+    @Basic
+    @Column(name = "contractStatusId")
+    @Convert( converter=ContractStatusConverter.class )
+    private ContractStatus contractStatus;
 
     public Contract() {
 
     }
 
-    public Contract(ContractPK id, String status) {
+    public Contract(ContractPK id, ContractStatus status) {
         this.contractId = id;
-        this.status = status;
+        this.contractStatus = status;
     }
 }
 

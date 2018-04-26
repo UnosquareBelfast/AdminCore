@@ -8,16 +8,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-public class HrManagerServiceApplication extends SpringBootServletInitializer {
+public class AdminCoreApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(HrManagerServiceApplication.class);
+        return builder.sources(AdminCoreApplication.class);
     }
 
     public static void main(String[] args) {
 
-        SpringApplication app = new SpringApplication(HrManagerServiceApplication.class);
+        SpringApplication app = new SpringApplication(AdminCoreApplication.class);
         app.run(args);
     }
 }

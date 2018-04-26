@@ -3,7 +3,10 @@ package com.unosquare.adminCore.service;
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.entity.Holiday;
 import com.unosquare.adminCore.entity.MandatoryHoliday;
-import com.unosquare.adminCore.enums.EmployeeUserRoles;
+import com.unosquare.adminCore.enums.Country;
+import com.unosquare.adminCore.enums.EmployeeRole;
+import com.unosquare.adminCore.enums.EmployeeStatus;
+import com.unosquare.adminCore.enums.HolidayStatus;
 import com.unosquare.adminCore.repository.HolidayRepository;
 import com.unosquare.adminCore.service.enums.TestEmployeeEnum;
 import com.unosquare.adminCore.service.enums.TestHolidayEnum;
@@ -64,7 +67,7 @@ public class TestHolidayService {
         holidayBeforeToday.setDate(pastDate);
         holidayBeforeToday.setHalfDay(false);
         holidayBeforeToday.setLastModified(pastDate);
-        holidayBeforeToday.setStatus(TestHolidayEnum.status1.toString());
+        holidayBeforeToday.setHolidayStatus(HolidayStatus.awaitingApproval);
         holidayBeforeToday.setEmployee(employee);
 
         holidayAfterToday = new Holiday();
@@ -72,7 +75,7 @@ public class TestHolidayService {
         holidayAfterToday.setDateCreated(futureDate);
         holidayAfterToday.setDate(futureDate);
         holidayAfterToday.setLastModified(futureDate);
-        holidayAfterToday.setStatus(TestHolidayEnum.status1.toString());
+        holidayAfterToday.setHolidayStatus(HolidayStatus.awaitingApproval);
         holidayAfterToday.setEmployee(employee);
         holidayBeforeToday.setHalfDay(false);
         allHolidays = Arrays.asList(holidayBeforeToday, holidayAfterToday);
@@ -84,9 +87,9 @@ public class TestHolidayService {
         employee = new Employee();
         employee.setForename(TestEmployeeEnum.forename.toString());
         employee.setSurname(TestEmployeeEnum.surname.toString());
-        employee.setActive(Boolean.valueOf(TestEmployeeEnum.isActive.toString()));
-        employee.setEmployeeUserRole(EmployeeUserRoles.SystemAdmin.getRole());
-        employee.setCountry(TestEmployeeEnum.country.toString());
+        employee.setEmployeeStatus(EmployeeStatus.active);
+        employee.setEmployeeRole(EmployeeRole.systemAdministrator);
+        employee.setCountry(Country.northernIreland);
         employee.setEmail(TestEmployeeEnum.email.toString());
         employee.setTotalHolidays(Short.valueOf(TestEmployeeEnum.totalHolidays.toString()));
         employee.setEmployeeId(Integer.valueOf(TestEmployeeEnum.employeeId.toString()));
@@ -98,7 +101,7 @@ public class TestHolidayService {
     @Test
     public void testFindByIdStatusSet() {
         Mockito.doReturn(Optional.of(holidayBeforeToday)).when(holidayRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getStatus().equals(TestHolidayEnum.status1.toString()));
+        Assert.assertTrue(testingObject.findById(1).getHolidayStatus().equals(HolidayStatus.awaitingApproval));
     }
 
     @Test
@@ -142,7 +145,7 @@ public class TestHolidayService {
         LocalDate endOfYear = LocalDate.of(year, 12, 31);
 
         Mockito.doReturn(Arrays.asList(new MandatoryHoliday(currentDateTest, employee.getCountry()))).
-                when(mandatoryHolidayService).findMandatoryHolidaysByCountryAfterStartDate(any(String.class), any(LocalDate.class));
+                when(mandatoryHolidayService).findMandatoryHolidaysByCountryAfterStartDate(any(Country.class), any(LocalDate.class));
 
         testingObject.addMandatoryHolidaysForNewEmployee(employee);
     }
@@ -181,9 +184,9 @@ public class TestHolidayService {
     public void testFindByStatus() {
 
         Mockito.doReturn(holidaysBeforeToday).
-                when(holidayRepository).findByStatusIgnoreCase(TestHolidayEnum.status1.toString());
+                when(holidayRepository).findByHolidayStatus(HolidayStatus.awaitingApproval);
 
-        Assert.assertArrayEquals(testingObject.findByStatus(TestHolidayEnum.status1.toString()).toArray(),
+        Assert.assertArrayEquals(testingObject.findByStatus(HolidayStatus.awaitingApproval).toArray(),
                 holidaysBeforeToday.toArray());
     }
 
@@ -191,9 +194,9 @@ public class TestHolidayService {
     public void testFindByStatusAndStartDateAfter() {
 
         Mockito.doReturn(holidaysAfterToday).
-                when(holidayRepository).findByStatusIgnoreCaseAndDateAfter(TestHolidayEnum.status2.toString(), currentDateTest);
+                when(holidayRepository).findByHolidayStatusAndDateAfter(HolidayStatus.awaitingApproval, currentDateTest);
 
-        Assert.assertArrayEquals(testingObject.findByStatusAndDateAfter(TestHolidayEnum.status2.toString(), currentDateTest).toArray(),
+        Assert.assertArrayEquals(testingObject.findByStatusAndDateAfter(HolidayStatus.awaitingApproval, currentDateTest).toArray(),
                 holidaysAfterToday.toArray());
     }
 }

@@ -1,6 +1,7 @@
 package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.entity.Holiday;
+import com.unosquare.adminCore.enums.HolidayStatus;
 import com.unosquare.adminCore.service.HolidayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -83,15 +84,15 @@ public class HolidayController {
         return holidayService.findByDateBetween(rangeStart, rangeEnd);
     }
 
-    @GetMapping(value = "/findByStatus/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByHolidayStatus/{holidayStatus}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Holiday> findByStatus(@PathVariable("status") String status) {
-        return holidayService.findByStatus(status);
+    public List<Holiday> findByClientStatus(@PathVariable("holidayStatus") HolidayStatus holidayStatus) {
+        return holidayService.findByStatus(holidayStatus);
     }
 
-    @GetMapping(value = "/findByStatusAndDateAfter/{status}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatus}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Holiday> findByStatusAndDateAfter(@PathVariable("status") String status, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
-        return holidayService.findByStatusAndDateAfter(status, date);
+    public List<Holiday> findByStatusAndDateAfter(@PathVariable("holidayStatus") HolidayStatus holidayStatus, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        return holidayService.findByStatusAndDateAfter(holidayStatus, date);
     }
 }

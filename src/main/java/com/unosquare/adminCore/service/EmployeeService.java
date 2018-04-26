@@ -2,6 +2,7 @@ package com.unosquare.adminCore.service;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.adminCore.entity.Employee;
+import com.unosquare.adminCore.enums.Country;
 import com.unosquare.adminCore.payload.LoginRequest;
 import com.unosquare.adminCore.payload.SignUpRequest;
 import com.unosquare.adminCore.repository.EmployeeRepository;
@@ -85,8 +86,8 @@ public class EmployeeService {
         return employeeRepository.findByStartDateBefore(date);
     }
 
-    public List<Employee> findByCountry(String country) {
-        return employeeRepository.findByCountryIgnoreCase(country);
+    public List<Employee> findByCountry(Country country) {
+        return employeeRepository.findByCountry(country);
     }
 
     public Employee findByEmail(String email) {
@@ -96,7 +97,7 @@ public class EmployeeService {
     public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
         // Creating user's account
         Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-                signUpRequest.getEmail(), signUpRequest.getEmployeeUserRole(), signUpRequest.isActive(),
+                signUpRequest.getEmail(), signUpRequest.getEmployeeRole(), signUpRequest.getStatus(),
                 signUpRequest.getStartDate(), signUpRequest.getCounty(), signUpRequest.getPassword());
 
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));

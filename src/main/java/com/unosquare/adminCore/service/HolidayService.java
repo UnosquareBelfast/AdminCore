@@ -66,7 +66,7 @@ public class HolidayService {
         List<MandatoryHoliday> mandatoryHolidaysByCountryAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryAfterStartDate(employee.getCountry(), employee.getStartDate());
 
         for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryAfterStartDate) {
-            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), employee, HolidayStatus.mandatory.toString(), false);
+            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), employee, HolidayStatus.mandatory, false);
             holidayRepository.save(holiday);
         }
     }
@@ -83,12 +83,12 @@ public class HolidayService {
         return holidayRepository.findByDateBetween(rangeStart, rangeEnd);
     }
 
-    public List<Holiday> findByStatus(String status) {
-        return holidayRepository.findByStatusIgnoreCase(status);
+    public List<Holiday> findByStatus(HolidayStatus status) {
+        return holidayRepository.findByHolidayStatus(status);
     }
 
-    public List<Holiday> findByStatusAndDateAfter(String status, LocalDate date) {
-        return holidayRepository.findByStatusIgnoreCaseAndDateAfter(status, date);
+    public List<Holiday> findByStatusAndDateAfter(HolidayStatus status, LocalDate date) {
+        return holidayRepository.findByHolidayStatusAndDateAfter(status, date);
     }
 }
 

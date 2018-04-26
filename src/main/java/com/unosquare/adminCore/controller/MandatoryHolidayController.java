@@ -2,6 +2,7 @@ package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.entity.MandatoryHoliday;
+import com.unosquare.adminCore.enums.Country;
 import com.unosquare.adminCore.service.MandatoryHolidayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,7 +28,7 @@ public class MandatoryHolidayController {
 
     @GetMapping(value = "findMandatoryHolidaysByCountryAndYear/{country}/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<MandatoryHoliday> findMandatoryHolidaysByCountryAndYear(@PathVariable("country") String country, @PathVariable("year") int year) {
+    public List<MandatoryHoliday> findMandatoryHolidaysByCountryAndYear(@PathVariable("country") Country country, @PathVariable("year") int year) {
         return mandatoryHolidayService.findMandatoryHolidaysByCountryAndYear(country, year);
     }
 
@@ -52,7 +53,7 @@ public class MandatoryHolidayController {
 
     @GetMapping(value = "findByCountryAndDateBetween/{country}/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<MandatoryHoliday> findByCountryAndDateBetween(@PathVariable("country") String country,
+    public List<MandatoryHoliday> findByCountryAndDateBetween(@PathVariable("country") Country country,
                                                               @PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
                                                               @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate rangeEnd) {
         return mandatoryHolidayService.findByCountryAndDateBetween(country, rangeStart, rangeEnd);

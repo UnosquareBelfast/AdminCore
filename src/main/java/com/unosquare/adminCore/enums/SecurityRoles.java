@@ -2,9 +2,9 @@ package com.unosquare.adminCore.enums;
 
 public enum SecurityRoles {
 
-    TeamLeader("ROLE_TEAM LEADER"),
-    SystemAdmin("ROLE_SYSTEM_ADMINISTRATOR"),
-    User("ROLE_USER");
+    teamLeader("ROLE_TEAM LEADER"),
+    systemAdmin("ROLE_SYSTEM_ADMINISTRATOR"),
+    user("ROLE_USER");
 
     private final String description;
 
