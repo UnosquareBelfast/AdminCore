@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import NavBar from './js/components/NavBar';
-import HomePage from './js/components/pages/HomePage';
-import LoginPage from './js/components/pages/LoginPage';
-
+import NavBar from './js/components/navigation/NavBar';
+import HomePage from './js/components/home/HomePage';
+import LoginPage from './js/components/login/LoginPage';
 
 class App extends Component {
   constructor(props){
@@ -22,9 +21,29 @@ class App extends Component {
     this.setState({jwt});
   }
 
-  signUserOut(){
-    const jwt = null;
+  authenticateUser(email, password){
+    var that = this;
+    if(email && password){
 
+      const loginRequest = {
+        email: email,
+        password: password
+      };
+
+      fetch('/login', { method: 'POST', body: JSON.stringify(loginRequest) }).then(function (response){
+        return response;
+      }).then(function (result){
+        const jwt = result.accessToken;
+        that.setState({jwt});
+      }).catch(function (err){
+        // error handling
+      });
+    }
+  }
+
+  signUserOut(){
+    console.log('signUserOut - App.js');
+    const jwt = null;
     this.setState({jwt});
   }
 

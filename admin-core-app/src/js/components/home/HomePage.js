@@ -5,7 +5,7 @@ import moment from 'moment';
 import 'moment/locale/nb';
 import MyLeaveTrackerList from '../common/MyLeaveTrackerList';
 import TakenLeaveList from '../common/TakenLeaveList';
-import BookHolidayModal from '../modals/BookHolidayModal';
+import BookHolidayModal from '../bookHoliday/BookHolidayModal';
 
 const holidays = [
     {
@@ -51,6 +51,10 @@ class HomePage extends Component {
     this.setState({bookedHolidays : bookedHolidays});
   }
 
+  componentDidMount(){
+      // this is the recommended place for performing fetch calls
+  }
+
   getHolidays(){
     return this.state.holidays;
   }
@@ -71,13 +75,31 @@ class HomePage extends Component {
     return this.state.holidays.filter(holiday => { return this.isDateInTheFuture(holiday.date)})
   }
 
-  onDeleteHoliday(holiday){
+  getUserHolidays(employeeId){
+    var that = this;
+
+    fetch('findByEmployeeId/' + employeeId, { method: 'GET' }).then(function (response){
+        return response;
+    }).then(function (result){
+        const bookedHolidays = result;
+        that.setState({bookedHolidays});
+    }).catch(function (err){
+        // error handling
+    });    
+  }
+
+  onDeleteHoliday(holidayId){
     // api call delete holiday
     // if successful, delete holiday from list, otherwise display error
-    const holidays = this.state.bookedHolidays;
+    const holidays = this.state.bookedHolidays;    
+    console.log(holidays);
+
+    console.log('Holiday to delete ID: ', holidayId);
+
     const filteredHolidays = holidays.filter(hol => {
-      return hol.id !== holiday.id;
+      return hol.id !== holidayId;
     });
+    console.log(filteredHolidays);
 
     this.setState({bookedHolidays: filteredHolidays});
   }
@@ -116,7 +138,6 @@ class HomePage extends Component {
                 <BookHolidayModal
                     show={this.state.bookingModalOpen}
                     onClose={this.toggleHolidayModal}>
-                    blah blah blah
                 </BookHolidayModal>
             </div>
         </div>

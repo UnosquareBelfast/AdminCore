@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'react-bootstrap';
 import HolidayTrackerListItem from './HolidayTrackerListItem';
+import CancelHolidayModal from '../cancelHoliday/CancelHolidayModal';
 
 const bookedHolidays = [
     {
@@ -47,8 +48,7 @@ class MyLeaveTrackerList extends Component {
     //   });
 
     //   this.setState({bookedHolidays: filteredHolidays});
-    const { onDeleteHoliday } = this.props;
-    onDeleteHoliday(holiday);
+    this.props.onDeleteHoliday(holiday.id);
   }
 
   onUpdateHoliday(holiday){
@@ -56,9 +56,6 @@ class MyLeaveTrackerList extends Component {
   }
 
   render() {
-
-    let holidays = this.props.holidays;
-
     return (
         <div>
             {
@@ -70,7 +67,8 @@ class MyLeaveTrackerList extends Component {
                         onUpdateHoliday={this.onUpdateHoliday}
                     />                
                 })
-            }
+                
+            }            
         </div>
     );
   }

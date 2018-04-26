@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { format } from 'util';
+import CancelHolidayModal from '../cancelHoliday/CancelHolidayModal';
 
 class HolidayTrackerListItem extends Component {
   
@@ -7,6 +8,7 @@ class HolidayTrackerListItem extends Component {
     super(props);
 
     this.state = {
+      cancellationModalOpen: false
     }
 
     this.onDeleteHoliday = this.onDeleteHoliday.bind(this);
@@ -14,15 +16,23 @@ class HolidayTrackerListItem extends Component {
   }
 
   onDeleteHoliday(){
-    const { onDeleteHoliday, id, date } = this.props;
+    this.toggleCancellationModal();
+
+    const { id, date } = this.props;
     const holiday = { id: id, date: date };
-    onDeleteHoliday(holiday);
+    this.props.onDeleteHoliday(holiday);
   }
 
   onUpdateHoliday(){
     const{ onUpdateHoliday, holiday } = this.props;
 
     onUpdateHoliday(holiday);
+  }
+  
+  toggleCancellationModal = () => {
+    this.setState({
+        cancellationModalOpen: !this.state.cancellationModalOpen
+    });
   }
 
   render() {
@@ -40,6 +50,11 @@ class HolidayTrackerListItem extends Component {
     return (
       <div>
           <button className='BookedLeaveListItemStyling' onClick={ this.onDeleteHoliday }>{formatted}</button>
+          <CancelHolidayModal
+                    show={this.state.cancellationModalOpen}
+                    onCancelHoliday={this.onDeleteHoliday}
+                    onClose={this.toggleCancellationModal}>
+            </CancelHolidayModal>
       </div>
     );
   }

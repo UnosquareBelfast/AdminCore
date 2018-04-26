@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import 'react-bootstrap';
 import PropTypes from 'prop-types';
+import UserSignOutModal from '../userSignOut/UserSignOutModal';
 
 class NavBar extends Component {
 
@@ -9,12 +10,13 @@ class NavBar extends Component {
     super(props);
 
     this.state = {
+      signOutModalOpen: false
     }
 
     this.onHomeClick = this.onHomeClick.bind(this);
     this.onSettingsClick = this.onSettingsClick.bind(this);
     this.onProfileClick = this.onProfileClick.bind(this);
-    this.onSignOutClick = this.onSignOutClick.bind(this);
+    this.signUserOutDisposeJWT = this.signUserOutDisposeJWT.bind(this);
   }
 
   onHomeClick(){
@@ -29,15 +31,24 @@ class NavBar extends Component {
     console.log('Profile clicked');  
   }
 
-  onSignOutClick(){
+  signUserOutDisposeJWT(){
+    console.log('signUserOutDisposeJWT');
+    this.toggleUserSignOutModal();
     this.props.signUserOut();
   }
+
+  toggleUserSignOutModal = () => {
+    this.setState({
+      signOutModalOpen: !this.state.signOutModalOpen
+    });
+}
 
   render() {
 
     const { isAdmin, isManager, isSuper } = this.props;
 
     return (
+      <div>
         <Navbar inverse collapseOnSelect className='NavBarStyling'>
         <Navbar.Header>
           <Navbar.Brand>
@@ -56,12 +67,18 @@ class NavBar extends Component {
                 style={{visibility: isAdmin || isManager || isSuper ? 'visible' : 'hidden' }}>
               Settings
             </NavItem>
-            <NavItem eventKey={2} onClick={this.onSignOutClick}>
+            <NavItem eventKey={2} onClick={this.toggleUserSignOutModal}>
               Sign Out
             </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <UserSignOutModal
+        show={this.state.signOutModalOpen}
+        onClose={this.toggleUserSignOutModal}
+        onSignOut={this.signUserOutDisposeJWT}>
+      </UserSignOutModal>
+      </div>
     );
   }
 }

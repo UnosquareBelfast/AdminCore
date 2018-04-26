@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/fp/isNil';
+import BackdropStyle from './BackdropStyle.css.js';
+import ModalStyle from './ModalStyle.css.js';
 
-class BookHolidayModal extends React.Component {
+class UserSignOutModal extends React.Component {
 
   constructor(props){
       super(props);
@@ -44,37 +46,16 @@ class BookHolidayModal extends React.Component {
 
   render() {
     console.log(this.props);
-    // Render nothing if the "show" prop is false
+    
     if(!this.props.show) {
       return null;
     }
 
-    // The gray background
-    const backdropStyle = {
-      position: 'fixed',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      padding: 50
-    };
-
-    // The modal "window"
-    const modalStyle = {
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      maxWidth: 500,
-      minHeight: 300,
-      margin: '0 auto',
-      padding: 30
-    };
-
     return (
-      <div style={backdropStyle}>        
-        <div style={modalStyle}>
-        <h3>Book Holiday?</h3>
-        <button className="btn btn-danger" onClick={this.props.onClose}>
+      <div style={BackdropStyle}>        
+        <div style={ModalStyle}>
+        <h3>Are you sure you want to sign out?</h3>
+        <button className="btn btn-danger" onClick={this.props.onSignOut}>
             Confirm
         </button>
         <button className="btn btn-info" onClick={this.props.onClose}>
@@ -86,9 +67,10 @@ class BookHolidayModal extends React.Component {
   }
 }
 
-BookHolidayModal.propTypes = {
+UserSignOutModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onSignOut: PropTypes.func.isRequired,
   show: PropTypes.bool
 };
 
-export default BookHolidayModal;
+export default UserSignOutModal;
