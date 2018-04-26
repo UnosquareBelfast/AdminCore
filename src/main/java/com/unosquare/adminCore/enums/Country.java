@@ -1,5 +1,8 @@
 package com.unosquare.adminCore.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Country {
 
     northernIreland((short) 1, "Northern Ireland"),

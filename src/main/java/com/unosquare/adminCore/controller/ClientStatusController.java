@@ -1,28 +1,26 @@
 package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.enums.ClientStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/clientStatuses")
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 public class ClientStatusController {
+
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
+    @ResponseBody
+    public ResponseEntity handleOptions() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Map<ClientStatus, String> getClientStatuses() {
-        Map<ClientStatus, String> statuses = new HashMap<>();
-
-        for (ClientStatus status: ClientStatus.values()) {
-            statuses.put(status, status.toString());
-        }
-        return statuses;
+    public ClientStatus[] getClientStatuses() {
+        return ClientStatus.values();
     }
 
 }

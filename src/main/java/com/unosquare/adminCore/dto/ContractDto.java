@@ -1,5 +1,6 @@
 package com.unosquare.adminCore.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.entity.ContractPK;
 import com.unosquare.adminCore.enums.ContractStatus;
 import com.unosquare.adminCore.service.ClientService;
@@ -11,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Data
 public class ContractDto {
 
+    @JsonIgnore
     @Autowired
     ClientService clientService;
 
+    @JsonIgnore
     @Autowired
     EmployeeService employeeService;
 
@@ -33,11 +36,13 @@ public class ContractDto {
         this.contractStatusDescription = getContractStatus().getDescription();
     }
 
+    @JsonIgnore
     public ContractPK getContractId()
     {
         return new ContractPK(employee.getEmployeeId(), client.getClientId());
     }
 
+    @JsonIgnore
     public ContractStatus getContractStatus()
     {
         return ContractStatus.fromId(contractStatusId);

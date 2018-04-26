@@ -9,12 +9,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/contracts")
 public class ContractController {
 
@@ -27,6 +29,12 @@ public class ContractController {
     @ResponseBody
     public List<ContractDto> findAllContracts() {
         return mapContractsToDtos(contractService.findAll());
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
+    @ResponseBody
+    public ResponseEntity handleOptions() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{employeeId}/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,7 +55,6 @@ public class ContractController {
     public void updateContract(@RequestBody ContractDto contract) {
         contractService.save(modelMapper.map(contract, Contract.class));
     }
-
 
     @GetMapping(value = "/findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

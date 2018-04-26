@@ -1,5 +1,6 @@
 package com.unosquare.adminCore.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.enums.HolidayStatus;
 import lombok.Data;
 import java.time.LocalDate;
@@ -46,6 +47,7 @@ public class HolidayDto {
         this.isHalfDay = isHalfDay;
     }
 
+    @JsonIgnore
     public HolidayStatus getHolidayStatus()
     {
         return HolidayStatus.fromId(holidayStatusId);

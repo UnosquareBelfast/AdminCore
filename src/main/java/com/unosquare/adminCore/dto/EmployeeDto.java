@@ -1,5 +1,6 @@
 package com.unosquare.adminCore.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.enums.Country;
 import com.unosquare.adminCore.enums.EmployeeRole;
 import com.unosquare.adminCore.enums.EmployeeStatus;
@@ -66,14 +67,17 @@ public class EmployeeDto {
         this.countryDescription = getCountry().getDescription();
     }
 
+    @JsonIgnore
     public EmployeeRole getEmployeeRole(){
         return EmployeeRole.fromId(employeeRoleId);
     }
 
+    @JsonIgnore
     public EmployeeStatus getEmployeeStatus(){
         return EmployeeStatus.fromId(employeeStatusId);
     }
 
+    @JsonIgnore
     public Country getCountry(){
         return Country.fromId(countryId);
     }

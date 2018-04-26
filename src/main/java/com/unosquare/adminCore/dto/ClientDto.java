@@ -1,5 +1,6 @@
 package com.unosquare.adminCore.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.enums.ClientStatus;
 import lombok.Data;
 
@@ -40,6 +41,7 @@ public class ClientDto implements java.io.Serializable {
         this.clientStatusDescription = getClientStatus().getDescription();
     }
 
+    @JsonIgnore
     public ClientStatus getClientStatus()
     {
         return ClientStatus.fromId(clientStatusId);

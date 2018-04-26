@@ -8,10 +8,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
@@ -25,6 +27,12 @@ public class ClientController {
     @ResponseBody
     public List<ClientDto> findAllClients() {
         return mapClientsToDtos(clientService.findAll());
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
+    @ResponseBody
+    public ResponseEntity handleOptions() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,20 +66,20 @@ public class ClientController {
         return mapClientsToDtos(clientService.findByTeamNameContaining(name));
     }
 
+    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByContactNameContaining/{contactName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<ClientDto> findByContactNameContaining(@PathVariable("contactName") String name) {
         return mapClientsToDtos(clientService.findByContactNameContaining(name));
     }
 
-   @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") short clientStatusId) {
        return mapClientsToDtos(clientService.findByClientStatus(ClientStatus.fromId(clientStatusId)));
     }
 
     private List<ClientDto> mapClientsToDtos(List<Client> clients){
-
         return clients.stream().map(client -> modelMapper.map(client, ClientDto.class)).collect(Collectors.toList());
     }
 }

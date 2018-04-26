@@ -1,5 +1,6 @@
 package com.unosquare.adminCore.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.enums.Country;
 import lombok.Data;
 
@@ -31,6 +32,7 @@ public class MandatoryHolidayDto {
         this.countryDescription = getCountry().getDescription();
     }
 
+    @JsonIgnore
     public Country getCountry(){
         return Country.fromId(countryId);
     }

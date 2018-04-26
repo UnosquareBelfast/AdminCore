@@ -1,66 +1,85 @@
 package com.unosquare.adminCore.controller;
 
+import com.unosquare.adminCore.dto.ClientDto;
+import com.unosquare.adminCore.dto.EmployeeDto;
+import com.unosquare.adminCore.entity.Client;
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.enums.Country;
 import com.unosquare.adminCore.enums.EmployeeStatus;
 import com.unosquare.adminCore.service.EmployeeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/employees")
 public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
 
+    private ModelMapper modelMapper = new ModelMapper();
+
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Employee> findAllEmployees() {
-        return employeeService.findAll();
+    public List<EmployeeDto> findAllEmployees() {
+        return mapEployeessToDtos(employeeService.findAll());
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
+    @ResponseBody
+    public ResponseEntity handleOptions() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Employee findEmployeeById(@PathVariable("employeeId") int id) {
-        return employeeService.findById(id);
+    public EmployeeDto findEmployeeById(@PathVariable("employeeId") int id) {
+        return modelMapper.map(employeeService.findById(id), EmployeeDto.class);
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateEmployee(@RequestBody Employee employee) {
-        employeeService.save(employee);
+    public void updateEmployee(@RequestBody EmployeeDto employee) {
+        employeeService.save(modelMapper.map(employee, Employee.class));
     }
 
     @GetMapping(value = "/findByStartDateAfter/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByStartDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return employeeService.findByStartDateAfter(date);
+    public List<EmployeeDto> findByStartDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return mapEployeessToDtos(employeeService.findByStartDateAfter(date));
     }
 
     @GetMapping(value = "/findByForenameAndSurname/{forename}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByForenameAndSurname(@PathVariable("forename") String forename, @PathVariable("surname") String surname) {
-        return employeeService.findByForenameAndSurname(forename, surname);
+    public List<EmployeeDto> findByForenameAndSurname(@PathVariable("forename") String forename, @PathVariable("surname") String surname) {
+        return mapEployeessToDtos(employeeService.findByForenameAndSurname(forename, surname));
     }
 
     @GetMapping(value = "/findByStartDateBeforeOrSameDay/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByStartDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return employeeService.findByStartDateBefore(date.plusDays(1));
+    public List<EmployeeDto> findByStartDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return mapEployeessToDtos(employeeService.findByStartDateBefore(date.plusDays(1)));
     }
 
-    @GetMapping(value = "/findByCountry/{country}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByCountry(@PathVariable("country") Country country) {
-        return employeeService.findByCountry(country);
+    public List<EmployeeDto> findByCountry(@PathVariable("countryId") short countryId) {
+        return mapEployeessToDtos(employeeService.findByCountry(Country.fromId(countryId)));
+    }
+
+    private List<EmployeeDto> mapEployeessToDtos(List<Employee> employees){
+        return employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
     }
 }

@@ -1,5 +1,8 @@
 package com.unosquare.adminCore.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HolidayStatus {
 
     awaitingApproval((short)1, "Awaiting approval"), //default clientStatus for new holiday requests
