@@ -1,0 +1,16 @@
+# TODO 
+
+version: '3'
+
+db:
+  image: postgres
+  restart: always
+  environment:
+    POSTGRES_DB: example
+    POSTGRES_USER: user
+    POSTGRES_PASSWORD: password
+adminer:
+  image: adminer
+  restart: always
+  ports:
+    - 8080:8080
