@@ -1,9 +1,16 @@
-DOCKER_IMAGE_VERSION=0.0.1
-DOCKER_IMAGE_NAME=unosquare/admincore
-DOCKER_IMAGE_TAGNAME=$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_VERSION)
+default: build_admin_core
 
-default: build
+IMAGE_VERSION=0.0.1
+IMAGE_NAME=admincore
+IMAGE_TAG_NAME=unosquare/$(IMAGE_NAME):$(IMAGE_VERSION)
+build_admin_core:
+	docker build --rm -f docker/admin.core.Dockerfile -t $(IMAGE_TAG_NAME) .
+	docker tag $(IMAGE_TAG_NAME) unosquare/$(IMAGE_NAME):latest
 
-build:
-	docker build --rm -f Dockerfile -t $(DOCKER_IMAGE_TAGNAME) .
-	docker tag -f $(DOCKER_IMAGE_TAGNAME) $(DOCKER_IMAGE_NAME):latest
+
+IMAGE_VERSION=0.0.1
+IMAGE_NAME=cors-proxy
+IMAGE_TAG_NAME=unosquare/$(IMAGE_NAME):$(IMAGE_VERSION)
+build_cors_proxy:
+	docker build --rm -f docker/express.cors.proxy.Dockerfile -t $(IMAGE_TAG_NAME) .
+	docker tag $(IMAGE_TAG_NAME) unosquare/$(IMAGE_NAME):latest
