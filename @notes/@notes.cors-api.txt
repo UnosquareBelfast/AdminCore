@@ -1,0 +1,49 @@
+var _apiProxy = 'http://ec2-34-244-166-189.eu-west-1.compute.amazonaws.com:8585';
+var _int = 4;
+// register :
+var _opts = {
+      "county": 1,
+      "email": "user"+_int+"@email.com",
+      "employeeRole": 1,
+      "forename": "init-"+_int+"-forname",
+      "password": "init-"+_int+"-password",
+      "startDate": "2018-01-11",
+      "status": 1,
+      "surname": "init-"+_int+"-surename",
+      "username": "init-"+_int+"-username"
+    };
+
+fetch(_apiProxy+'/authentication/register', {
+    method: 'post',
+  	headers : {'content-type' : 'application/json'},
+    body: JSON.stringify(_opts)
+}).then(function(res) {
+    return res.json();
+}).then(function(data) {
+    console.log(data);
+}).catch(function(err) {
+    console.log('err ' + err);
+})
+
+// login
+var _opts = {
+  "email": "init-"+_int+"-username",
+  "password": "init-"+_int+"-password"
+}
+fetch(_apiProxy+'/authentication/login', {
+    method: 'post',
+  	headers : {'content-type' : 'application/json'},
+    body: JSON.stringify(_opts)
+}).then(function(res) {
+    return res.json();
+}).then(function(data) {
+    console.log(data);
+}).catch(function(err) {
+    console.log('err ' + err);
+})
+
+// Data Request 
+
+var _jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNTI0ODI1NzQ0LCJleHAiOjE1MjU0MzA1NDR9.vmSsf82yNz2Z-npL9HrLJamnVrctO4RzQ4-px6C5VsHRWcbG55ezCE4lvmq9LyzFn9Uub4EelYb1VvqwdmnGLg";
+
+fetch(_apiProxy+'/employees/',{ headers : { 'content-type' : 'application/json' , 'Authorization' : 'Bearer '+_jwtToken } }).then(function(res){ return res.json() }).then(function(d){ console.log(d); })
