@@ -14,8 +14,9 @@
 -- Table: public.employee
 
 -- DROP TABLE public.employee;
+CREATE SEQUENCE IF NOT EXISTS employee_employee_id_seq1;
 
-CREATE TABLE public.employee
+CREATE TABLE IF NOT EXISTS public.employee
 (
     employee_id integer NOT NULL DEFAULT nextval('employee_employee_id_seq1'::regclass),
     country_id smallint,
@@ -40,15 +41,16 @@ ALTER TABLE public.employee
 --decrypted password un05qu@r3_@dm1n
 INSERT INTO public.employee(
     employee_id, country_id, email, employee_role_id, employee_status_id, forename, password, start_date, surname, total_holidays)
-VALUES (1, 1, 'superuser@unosquare.com', 1, 1 , '$2a$10$v3qpm5f2Y45AeUbV2Wjiz.hMrUNVpmKcYuXJrRXHouOTNkTB26B9q', '2018-01-01', 'user', 28, 2);
+VALUES (1, 1, 'superuser@unosquare.com', 1, 1 , 'super', '$2a$10$v3qpm5f2Y45AeUbV2Wjiz.hMrUNVpmKcYuXJrRXHouOTNkTB26B9q', '2018-01-01', 'user', 28)
+ON CONFLICT (employee_id) DO NOTHING;
 
 ----------------------------------------------------------------------------------------
 
 -- Table: public.client
 
 -- DROP TABLE public.client;
-
-CREATE TABLE public.client
+CREATE SEQUENCE IF NOT EXISTS client_client_id_seq1;
+CREATE TABLE IF NOT EXISTS public.client
 (
     client_id integer NOT NULL DEFAULT nextval('client_client_id_seq1'::regclass),
     client_name character varying(255) COLLATE pg_catalog."default",
@@ -73,7 +75,7 @@ ALTER TABLE public.client
 
 -- DROP TABLE public.contract;
 
-CREATE TABLE public.contract
+CREATE TABLE IF NOT EXISTS public.contract
 (
     client_id integer NOT NULL,
     employee_id integer NOT NULL,
@@ -101,8 +103,8 @@ ALTER TABLE public.contract
 -- Table: public.holiday
 
 -- DROP TABLE public.holiday;
-
-CREATE TABLE public.holiday
+CREATE SEQUENCE IF NOT EXISTS holiday_holiday_id_seq1;
+CREATE TABLE IF NOT EXISTS public.holiday
 (
     holiday_id integer NOT NULL DEFAULT nextval('holiday_holiday_id_seq1'::regclass),
     date date,
@@ -130,8 +132,8 @@ ALTER TABLE public.holiday
 -- Table: public.mandatory_holiday
 
 -- DROP TABLE public.mandatory_holiday;
-
-CREATE TABLE public.mandatory_holiday
+CREATE SEQUENCE IF NOT EXISTS mandatory_holiday_mandatory_holiday_id_seq1;
+CREATE TABLE IF NOT EXISTS public.mandatory_holiday
 (
     mandatory_holiday_id integer NOT NULL DEFAULT nextval('mandatory_holiday_mandatory_holiday_id_seq1'::regclass),
     country_id smallint,

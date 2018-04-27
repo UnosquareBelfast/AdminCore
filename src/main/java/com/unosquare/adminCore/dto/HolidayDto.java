@@ -3,6 +3,7 @@ package com.unosquare.adminCore.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.adminCore.enums.HolidayStatus;
 import lombok.Data;
+
 import java.time.LocalDate;
 
 @Data
