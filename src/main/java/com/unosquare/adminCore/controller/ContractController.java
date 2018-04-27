@@ -2,7 +2,6 @@ package com.unosquare.adminCore.controller;
 
 import com.unosquare.adminCore.dto.ContractDto;
 import com.unosquare.adminCore.entity.Contract;
-import com.unosquare.adminCore.enums.ClientStatus;
 import com.unosquare.adminCore.enums.ContractStatus;
 import com.unosquare.adminCore.service.ContractService;
 import org.modelmapper.ModelMapper;

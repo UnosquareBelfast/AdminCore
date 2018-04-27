@@ -1,11 +1,8 @@
 package com.unosquare.adminCore.controller;
 
-import com.unosquare.adminCore.dto.ClientDto;
 import com.unosquare.adminCore.dto.EmployeeDto;
-import com.unosquare.adminCore.entity.Client;
 import com.unosquare.adminCore.entity.Employee;
 import com.unosquare.adminCore.enums.Country;
-import com.unosquare.adminCore.enums.EmployeeStatus;
 import com.unosquare.adminCore.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
