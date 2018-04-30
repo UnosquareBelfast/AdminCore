@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6e5f088a-8e47-42f2-906a-110e09132649" name="Default" comment="implement multi-stage docker file,&#10;&#10;update holidays so that you can have half days,&#10;new unit ,&#10;write script to generate db schema,&#10;add logic to update create">
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/hr_manager_service_war.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/hr_manager_service_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/@notes/@notes.cors-api.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/@notes/@notes.docker.build.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/@notes/@notes.init.sql.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdminCore.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DockerREADME.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/.gitindex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/admin.core.Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/express.cors.proxy.Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/node-cors-proxy/_index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/node-cors-proxy/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/node-cors-proxy/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/node-cors-proxy/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/enunciate.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr-manager-service.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/enunciate.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/AdminCoreApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/configuration/CustomWebMvcConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/configuration/DispatcherConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/configuration/SecurityConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/AuthenticationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/ClientController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/ClientStatusController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/ContractController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/ContractStatusController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/CountryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/EmployeeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/EmployeeStatusController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/HolidayController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/HolidayStatusController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/MandatoryHolidayController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/ClientDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/ContractDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/EmployeeDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/HolidayDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/MandatoryHolidayDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Contract.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/ContractPK.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Employee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Holiday.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/MandatoryHoliday.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/ClientStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/ContractStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/Country.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/EmployeeRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/EmployeeStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/HolidayStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/SecurityRoles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/ClientStatusConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/ContractStatusConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/CountryConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/EmployeeRoleConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/EmployeeStatusConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/HolidayStatusConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/payload/ApiResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/payload/JwtAuthenticationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/payload/LoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/payload/SignUpRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/ClientRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/ContractRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/EmployeeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/HolidayRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/MandatoryHolidayRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/CurrentUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/CustomUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/JwtAuthenticationEntryPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/JwtAuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/JwtTokenProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/UserPrincipal.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/ClientService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/ContractService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/EmployeeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/HolidayService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/MandatoryHolidayService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties.docker" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db/migration/V1.0__original_schema.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/AdminCoreApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/TestClientService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/TestContractService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/TestEmployeeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/TestHolidayService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/TestMandatoryHolidayService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/enums/TestClientEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/enums/TestEmployeeEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/unosquare/admin_core/back_end/service/enums/TestHolidayEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+    <option name="SCHEME" value="Project" />
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>PasswordEncoder</find>
+      <find>web</find>
+      <find>Role_Admin</find>
+      <find>Role_User</find>
+      <find>login.html</find>
+      <find>swagger</find>
+      <find>swaggerL</find>
+      <find>header</find>
+      <find>getMockHolidays</find>
+      <find>LocalDate.now().minusMonths(1)</find>
+      <find>LocalDate.now</find>
+      <find>LocalDate.now()</find>
+      <find>start</find>
+      <find>end</find>
+      <find>sql</find>
+      <find>contr</find>
+      <find>{holidayStatus}</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>ROLE_ADMIN</replace>
+      <replace>ROLE_USER</replace>
+      <replace>TeamNameContaining</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/enums/Country.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/enums/EmployeeRole.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/enums/EmployeeStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/enums/HolidayStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/dto/ClientDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/dto/EmployeeDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/dto/HolidayDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/dto/MandatoryHolidayDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/dto/ContractDto.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/configuration/SecurityConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/ContractController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/EmployeeController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/HolidayController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/HolidayStatusController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/MandatoryHolidayController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/EmployeeStatusController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/CountryController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/ClientStatusController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/AuthenticationController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/db/migration/V1_original_schema.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/SwaggerConfig.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/db/migration/V1.0__original_schema.sql" />
+        <option value="$PROJECT_DIR$/Dockerfile" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/ClientController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/adminCore/controller/ContractStatusController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/AdminCoreApplication.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/controller/AuthenticationController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/service/ClientService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/ClientStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/Country.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/EmployeeStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/ContractStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/HolidayStatus.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/SecurityRoles.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/converter/ClientStatusConverter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/entity/Employee.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/entity/MandatoryHoliday.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/service/ContractService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/security/CustomUserDetailsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/enums/EmployeeRole.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/entity/Holiday.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/service/MandatoryHolidayService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/exception/ResourceNotFoundException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/payload/SignUpRequest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/security/UserPrincipal.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/service/HolidayService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/service/EmployeeService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/configuration/SecurityConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/enunciate.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/BackEnd/docker/node-cors-proxy/package.json" />
+    </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1942" />
+    <option name="y" value="4" />
+    <option name="width" value="1918" />
+    <option name="height" value="1020" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="admin-core" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AdminCore" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/BackEnd" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\resources\db\migration" />
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\resources" />
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\webapp\WEB-INF\views" />
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\webapp\WEB-INF" />
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\webapp" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.unosquare.admin_core" />
+      <recent name="com.unosquare.adminCore" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.unosquare.adminCore.controller" />
+      <recent name="com.unosquare.adminCore.enums" />
+      <recent name="com.unosquare.adminCore.service" />
+      <recent name="com.unosquare.adminCore.repository" />
+      <recent name="com.unosquare.adminCore.entity" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\java\com\unosquare\adminCore\dto" />
+      <recent name="C:\Users\Linda\git\AdminCore\src\main\java\com\unosquare\adminCore\webapp\WEB-INF" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.All in hr-manager-service">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration name="All in hr-manager-service" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="hr-manager-service" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="TestEmployeeService.testFindByStartDateAfterActiveSet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="hr-manager-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.unosquare.admin_core.back_end.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.unosquare.admin_core.back_end.service" />
+      <option name="MAIN_CLASS_NAME" value="com.unosquare.admin_core.back_end.service.TestEmployeeService" />
+      <option name="METHOD_NAME" value="testFindByStartDateAfterActiveSet" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="TestEmployeeService.testFindByStartDateBeforeOrStartDateCountrySet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="hr-manager-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.unosquare.admin_core.back_end.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.unosquare.admin_core.back_end.service" />
+      <option name="MAIN_CLASS_NAME" value="com.unosquare.admin_core.back_end.service.TestEmployeeService" />
+      <option name="METHOD_NAME" value="testFindByStartDateBeforeOrStartDateCountrySet" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="TestHolidayService" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="hr-manager-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.unosquare.admin_core.back_end.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.unosquare.admin_core.back_end.service" />
+      <option name="MAIN_CLASS_NAME" value="com.unosquare.admin_core.back_end.service.TestHolidayService" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="admin-core [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="spring-boot:run" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+    </configuration>
+    <configuration name="AdminCoreApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="hr-manager-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.unosquare.admin_core.AdminCoreApplication" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.AdminCoreApplication" />
+      <item itemvalue="JUnit.All in hr-manager-service" />
+      <item itemvalue="JUnit.TestEmployeeService.testFindByStartDateAfterActiveSet" />
+      <item itemvalue="JUnit.TestEmployeeService.testFindByStartDateBeforeOrStartDateCountrySet" />
+      <item itemvalue="JUnit.TestHolidayService" />
+      <item itemvalue="Maven.admin-core [spring-boot:run]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in hr-manager-service" />
+        <item itemvalue="Maven.admin-core [spring-boot:run]" />
+        <item itemvalue="JUnit.TestHolidayService" />
+        <item itemvalue="JUnit.TestEmployeeService.testFindByStartDateBeforeOrStartDateCountrySet" />
+        <item itemvalue="JUnit.TestEmployeeService.testFindByStartDateAfterActiveSet" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e5f088a-8e47-42f2-906a-110e09132649" name="Default" comment="" />
+      <created>1522859757851</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1522859757851</updated>
+      <workItem from="1522859763163" duration="11000" />
+      <workItem from="1523524948046" duration="216993000" />
+      <workItem from="1524759140476" duration="8345000" />
+      <workItem from="1524835101251" duration="1196000" />
+      <workItem from="1524836376054" duration="4512000" />
+      <workItem from="1524842796807" duration="165000" />
+      <workItem from="1524843044570" duration="9577000" />
+    </task>
+    <task id="LOCAL-00001" summary="implement multi-stage docker file">
+      <created>1524147892041</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1524147892041</updated>
+    </task>
+    <task id="LOCAL-00002" summary="implement multi-stage docker file,&#10;&#10;update holidays so that you can have half days,&#10;new unit ,&#10;write script to generate db schema,&#10;add logic to update create">
+      <created>1524248920355</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1524248920355</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implement multi-stage docker file,&#10;update holidays so that you can have half days,&#10;new unit tests,&#10;write script to generate db schema,&#10;update statuses etc to use Ids,&#10;map clients and contracts to DTOs in rest controllers">
+      <created>1524736961904</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1524736961904</updated>
+    </task>
+    <task id="LOCAL-00004" summary="DTO mapping in git requests, add cross origin mappings, add http option mappings">
+      <created>1524755748468</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1524755748468</updated>
+    </task>
+    <task id="LOCAL-00005" summary="implement flyway db migration,&#10;update schema database script,&#10;remove unused imports in project">
+      <created>1524827695197</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1524827695197</updated>
+    </task>
+    <task id="LOCAL-00006" summary="code cleanup">
+      <created>1524850552560</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1524850552560</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="All_in_hr-manager-service - 2018.04.23 at 17h 06m 48s.xml">
+      <configuration name="All in hr-manager-service" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_hr-manager-service - 2018.04.25 at 11h 04m 12s.xml">
+      <configuration name="All in hr-manager-service" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_hr-manager-service - 2018.04.26 at 11h 03m 00s.xml">
+      <configuration name="All in hr-manager-service" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_hr-manager-service - 2018.04.26 at 16h 13m 13s.xml">
+      <configuration name="All in hr-manager-service" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestEmployeeService_testFindByStartDateAfterActiveSet - 2018.04.23 at 16h 37m 17s.xml">
+      <configuration name="TestEmployeeService.testFindByStartDateAfterActiveSet" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestEmployeeService_testFindByStartDateAfterActiveSet - 2018.04.23 at 16h 40m 28s.xml">
+      <configuration name="TestEmployeeService.testFindByStartDateAfterActiveSet" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestEmployeeService_testFindByStartDateBeforeOrStartDateCountrySet - 2018.04.23 at 16h 37m 32s.xml">
+      <configuration name="TestEmployeeService.testFindByStartDateBeforeOrStartDateCountrySet" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestHolidayService - 2018.04.23 at 16h 39m 15s.xml">
+      <configuration name="TestHolidayService" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_hr-manager-service - 2018.04.30 at 12h 21m 02s.xml">
+      <configuration name="All in hr-manager-service" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_hr-manager-service - 2018.04.30 at 12h 30m 44s.xml">
+      <configuration name="All in hr-manager-service" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="282083000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info anchor="right" id="Palette" order="5" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5015625" side_tool="true" weight="0.33793837" />
+      <window_info anchor="right" id="Maven Projects" order="5" visible="true" weight="0.10364583" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="Designer" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.6067708" weight="0.32624868" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
+      <window_info id="Image Layers" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32837406" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.496875" weight="0.33368757" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.7330211" weight="0.3281787" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18072917" />
+      <window_info id="Web" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="SonarLint" order="11" sideWeight="0.4984375" weight="0.32943678" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" sideWeight="0.49895832" visible="true" weight="0.36238045" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Spring" order="8" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" id="Bean Validation" order="4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Java Enterprise" order="8" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Designer" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.496875" visible="true" weight="0.33368757" />
+      <window_info anchor="bottom" id="Spring" order="7" />
+      <window_info id="Image Layers" order="4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.7330211" weight="0.3281787" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5015625" side_tool="true" weight="0.33793837" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.6067708" weight="0.32624868" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="SonarLint" order="15" sideWeight="0.4984375" weight="0.32943678" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Java Enterprise" order="9" />
+      <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" weight="0.32837406" />
+      <window_info anchor="right" id="Maven Projects" order="6" visible="true" weight="0.10364583" />
+      <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49895832" weight="0.36238045" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18072917" />
+      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Web" order="2" side_tool="true" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="9" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
+      <window_info anchor="right" id="Bean Validation" order="3" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="implement multi-stage docker file" />
+    <MESSAGE value="implement multi-stage docker file,&#10;&#10;update holidays so that you can have half days,&#10;new unit ,&#10;write script to generate db schema,&#10;add logic to update create" />
+    <MESSAGE value="implement multi-stage docker file,&#10;update holidays so that you can have half days,&#10;new unit tests,&#10;write script to generate db schema,&#10;update statuses etc to use Ids,&#10;map clients and contracts to DTOs in rest controllers" />
+    <MESSAGE value="DTO mapping in git requests, add cross origin mappings, add http option mappings" />
+    <MESSAGE value="implement flyway db migration,&#10;update schema database script,&#10;remove unused imports in project" />
+    <MESSAGE value="code cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="97" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/EmployeeStatusController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="16" selection-start-line="16" selection-end-line="20" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/HolidayStatusController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/JwtAuthenticationFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/JwtTokenProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/ClientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="1" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/ContractStatusController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="22" column="29" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/ClientDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Docker read me.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/AdminCoreApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="17" column="44" lean-forward="true" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/SwaggerConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="33" column="73" selection-start-line="33" selection-start-column="73" selection-end-line="33" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/ContractStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/Country.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/ClientStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="27" column="30" lean-forward="true" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/EmployeeStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/HolidayStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/SecurityRoles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="13" lean-forward="true" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/controller/AuthenticationController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="41" column="43" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/ClientStatusConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="17" column="20" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Contract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="25" column="15" lean-forward="true" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/ContractPK.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/MandatoryHoliday.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="15" column="61" selection-start-line="15" selection-start-column="61" selection-end-line="15" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/ContractStatusConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/CustomUserDetailsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="28" column="18" lean-forward="true" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/EmployeeRole.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/enums/converter/EmployeeRoleConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Holiday.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/ContractService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="45" column="20" selection-start-line="45" selection-start-column="20" selection-end-line="45" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/ClientService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/MandatoryHolidayService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="50" column="41" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/exception/BadRequestException.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/exception/AppException.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/exception/ResourceNotFoundException.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/security/UserPrincipal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/HolidayService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="41" column="44" selection-start-line="41" selection-start-column="44" selection-end-line="41" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/service/EmployeeService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="65" column="48" selection-start-line="65" selection-start-column="48" selection-end-line="65" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/HolidayRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/dto/EmployeeDto.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="36" column="11" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/payload/SignUpRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="45" column="11" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/entity/Employee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="66" column="11" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/repository/ContractRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/unosquare/admin_core/back_end/configuration/SecurityConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="99" column="1" selection-start-line="96" selection-start-column="45" selection-end-line="99" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/db/migration/V1.0__original_schema.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="109" column="1" lean-forward="true" selection-start-line="109" selection-start-column="1" selection-end-line="109" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/enunciate.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/enunciate.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/apidocs/resource_AuthenticationController.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="97" column="9" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/apidocs/resource_ApiResourceController.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="139" column="2" lean-forward="true" selection-start-line="139" selection-start-column="2" selection-end-line="139" selection-end-column="2" />
+          <folding>
+            <element signature="e#4458#4463#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArquillianSettingsConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>hr-manager-service:war</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>hr-manager-service</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
