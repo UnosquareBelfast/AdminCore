@@ -1,5 +1,5 @@
 import React from 'react';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import styles from './Login.css';
 import LoginService from './LoginService';
 
