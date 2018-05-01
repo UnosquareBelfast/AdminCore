@@ -1,0 +1,18 @@
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url=jdbc:postgresql://postgres:5432/HrManager?user=user&amp;password=password
+spring.datasource.username=user
+spring.datasource.password=password
+spring.jpa.database-platform=postgres
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+spring.jpa.hibernate.ddl-auto=update
+server.port=8081
+## App Properties
+app.jwtSecret=JWTSuperSecretKey
+app.jwtExpirationInMs=604800000
+
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+
+

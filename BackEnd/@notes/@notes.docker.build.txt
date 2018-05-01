@@ -1,0 +1,19 @@
+
+# docker build --rm -t unosquare/admincore:0.0.1 .
+# docker run --rm -ti -e POSTGRES_DB=HrManager -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password --name admincore-postgres postgres
+# docker run -d -e POSTGRES_DB=HrManager -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password --name admincore-postgres postgres
+
+# docker run --rm --name admincore-0-0-1 --link admincore-postgres:postgres --rm -ti -p 8081:8081 unosquare/admincore:latest
+# docker run -d --name admincore-0-0-1 --link admincore-postgres:postgres -p 8081:8081 unosquare/admincore:latest
+
+# docker build --rm -f express.cors.proxy.Dockerfile -t unosquare/cors-proxy:0.0.0 .
+# docker run --link admincore-0-0-1:admincore --rm -ti -p 8585:8585 unosquare/cors-proxy:latest
+# docker run --link admincore-0-0-1:admincore -d -p 8585:8585 unosquare/cors-proxy:latest
+
+# check database -
+# docker run --rm -ti --name my-app --link admincore-postgres:postgres -p 8282:8080 adminer
+# docker run --link admincore-0-0-1:admincore --rm -ti -p 80:80 express-cors-proxy
+
+# aws_access_key_id = AKI*******
+# aws_secret_access_key = Ji8mtr*******
+# docker-machine create --driver amazonec2 --amazonec2-instance-type t2.medium --amazonec2-region eu-west-1 --amazonec2-security-group unosquare-admin-core-docker-machine --amazonec2-access-key AKIA******* --amazonec2-secret-key Ji8m*******  admincore

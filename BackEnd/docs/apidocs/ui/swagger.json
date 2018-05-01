@@ -1,0 +1,1507 @@
+{
+  "swagger": "2.0",
+  "info" : {
+    "description" : "<h1>admin-core<\/h1><p>Administration tool for booking and approving holidays<\/p>",
+    "license" : {
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0",
+      "name" : "Apache License, Version 2.0"
+    },
+    "version" : "0.0.1-SNAPSHOT",
+    "title" : "admin-core"
+  },
+  "schemes" : [],
+  "tags" : [
+    {
+      "name" : "ApiResourceController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "AuthenticationController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "BasicErrorController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "ClientController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "ClientStatusController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "ContractController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "ContractStatusController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "CountryController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "EmployeeController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "EmployeeStatusController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "HolidayController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "HolidayStatusController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "MandatoryHolidayController",
+      "description" : ""
+    }
+    ,
+    {
+      "name" : "Swagger2Controller",
+      "description" : ""
+    }
+  ],
+  "definitions" : {
+    "json_Json" : {
+      "type" : "object",
+      "title" : "Json",
+      "description" : ""
+    }
+    ,
+    "json_SecurityConfiguration" : {
+      "type" : "object",
+      "title" : "SecurityConfiguration",
+          "properties" : {
+            "apiKeyName" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientSecret" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientId" : {
+"description" : "",
+"type" : "string"
+            },
+            "appName" : {
+"description" : "",
+"type" : "string"
+            },
+            "realm" : {
+"description" : "",
+"type" : "string"
+            },
+            "apiKeyVehicle" : {
+"description" : "",
+"type" : "string"
+            },
+            "apiKey" : {
+"description" : "",
+"type" : "string"
+            }
+          },
+      "description" : ""
+    }
+    ,
+    "json_SwaggerResource" : {
+      "type" : "object",
+      "title" : "SwaggerResource",
+          "properties" : {
+            "swaggerVersion" : {
+"description" : "",
+"type" : "string"
+            },
+            "location" : {
+"description" : "",
+"type" : "string"
+            },
+            "name" : {
+"description" : "",
+"type" : "string"
+            }
+          },
+      "description" : ""
+    }
+    ,
+    "json_UiConfiguration" : {
+      "type" : "object",
+      "title" : "UiConfiguration",
+          "properties" : {
+            "defaultModelRendering" : {
+"description" : "",
+"type" : "string"
+            },
+            "docExpansion" : {
+"description" : "",
+"type" : "string"
+            },
+            "showRequestHeaders" : {
+"description" : "",
+"type" : "boolean"
+            },
+            "apisSorter" : {
+"description" : "",
+"type" : "string"
+            },
+            "validatorUrl" : {
+"description" : "",
+"type" : "string"
+            },
+            "jsonEditor" : {
+"description" : "",
+"type" : "boolean"
+            }
+          },
+      "description" : ""
+    }
+    ,
+    "xml_ns0_securityConfiguration" : {
+      "type" : "object",
+      "title" : "securityConfiguration",
+      "allOf" : [
+        {
+        }
+      ],
+      "description" : ""
+    }
+    ,
+    "xml_ns0_swaggerResource" : {
+      "type" : "object",
+      "title" : "swaggerResource",
+      "allOf" : [
+        {
+          "properties" : {
+            "location" : {
+              "xml" : {
+                "namespace" : ""
+              },
+"description" : "",
+"type" : "string"
+            },
+            "name" : {
+              "xml" : {
+                "namespace" : ""
+              },
+"description" : "",
+"type" : "string"
+            },
+            "swaggerVersion" : {
+              "xml" : {
+                "namespace" : ""
+              },
+"description" : "",
+"type" : "string"
+            }
+          }
+        }
+      ],
+      "description" : ""
+    }
+    ,
+    "xml_ns0_uiConfiguration" : {
+      "type" : "object",
+      "title" : "uiConfiguration",
+      "allOf" : [
+        {
+        }
+      ],
+      "description" : ""
+    }
+  },
+  "paths": {
+    "\/swagger-resources" : {
+      "delete" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_DELETE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "get" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_GET",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "head" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_HEAD",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "options" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "patch" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_PATCH",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "post" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_POST",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "put" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_PUT",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "trace" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_swaggerResources_TRACE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "array",
+"items" : {
+  "$ref" : "#/definitions/json_SwaggerResource"
+}
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/configuration/security" : {
+      "delete" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_DELETE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "get" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_GET",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "head" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_HEAD",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "options" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "patch" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_PATCH",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "post" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_POST",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "put" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_PUT",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "trace" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_securityConfiguration_TRACE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_SecurityConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/configuration/ui" : {
+      "delete" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_DELETE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "get" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_GET",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "head" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_HEAD",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "options" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "patch" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_PATCH",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "post" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_POST",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "put" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_PUT",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "trace" : {
+        "tags" : [ "ApiResourceController" ],
+        "description" : "",
+        "operationId" : "resource_ApiResourceController_uiConfiguration_TRACE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_UiConfiguration"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/authentication/*" : {
+      "options" : {
+        "tags" : [ "AuthenticationController" ],
+        "description" : "",
+        "operationId" : "resource_AuthenticationController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/${server.error.path}" : {
+      "delete" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_DELETE",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "201" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "get" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_GET",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "head" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_HEAD",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "options" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_OPTIONS",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "patch" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_PATCH",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "post" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_POST",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "201" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "put" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_PUT",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "201" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "trace" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_errorHtml_TRACE",
+        "produces" : [ "text/html" ],
+        "parameters" : [
+          {
+            "name" : "status",
+            "in" : "formData",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "delete" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_DELETE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "get" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_GET",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "head" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_HEAD",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "options" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "patch" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_PATCH",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "post" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_POST",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "put" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_PUT",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "201" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+      ,
+      "trace" : {
+        "tags" : [ "BasicErrorController" ],
+        "description" : "",
+        "operationId" : "resource_BasicErrorController_error_TRACE",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/clients/*" : {
+      "options" : {
+        "tags" : [ "ClientController" ],
+        "description" : "",
+        "operationId" : "resource_ClientController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/clientStatuses/*" : {
+      "options" : {
+        "tags" : [ "ClientStatusController" ],
+        "description" : "",
+        "operationId" : "resource_ClientStatusController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/contracts/*" : {
+      "options" : {
+        "tags" : [ "ContractController" ],
+        "description" : "",
+        "operationId" : "resource_ContractController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/contractStatuses/*" : {
+      "options" : {
+        "tags" : [ "ContractStatusController" ],
+        "description" : "",
+        "operationId" : "resource_ContractStatusController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/countries/*" : {
+      "options" : {
+        "tags" : [ "CountryController" ],
+        "description" : "",
+        "operationId" : "resource_CountryController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/employees/*" : {
+      "options" : {
+        "tags" : [ "EmployeeController" ],
+        "description" : "",
+        "operationId" : "resource_EmployeeController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/employeeStatuses/*" : {
+      "options" : {
+        "tags" : [ "EmployeeStatusController" ],
+        "description" : "",
+        "operationId" : "resource_EmployeeStatusController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/holidays/*" : {
+      "options" : {
+        "tags" : [ "HolidayController" ],
+        "description" : "",
+        "operationId" : "resource_HolidayController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/holidayStatuses/*" : {
+      "options" : {
+        "tags" : [ "HolidayStatusController" ],
+        "description" : "",
+        "operationId" : "resource_HolidayStatusController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/mandatoryHolidays/*" : {
+      "options" : {
+        "tags" : [ "MandatoryHolidayController" ],
+        "description" : "",
+        "operationId" : "resource_MandatoryHolidayController_handleOptions_OPTIONS",
+        "produces" : [ "application/json", "application/xml" ],
+        "parameters" : [
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"type" : "object"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+    ,
+    "\/${springfox.documentation.swagger.v2.path}" : {
+      "get" : {
+        "tags" : [ "Swagger2Controller" ],
+        "description" : "",
+        "operationId" : "resource_Swagger2Controller_getDocumentation_GET",
+        "produces" : [ "application/hal+json", "application/json" ],
+        "parameters" : [
+          {
+            "name" : "group",
+            "in" : "query",
+            "type" : "string",
+            "description" : ""
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "schema" : {
+"description" : "",
+"$ref" : "#/definitions/json_Json"
+            },
+            "headers" : {
+            },
+            "description" : "Success"
+          },
+          "default" : {
+            "description" : "Unexpected error."
+          }
+        }
+      }
+    }
+  }
+}
