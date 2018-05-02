@@ -1,5 +1,6 @@
 import React from 'react';
 import Swal from 'sweetalert2';
+import styles from './TakenLeave.css';
 import Moment from 'moment';
 import TakenLeaveService from './TakenLeaveService';
 
@@ -16,7 +17,7 @@ class TakenLeave extends React.Component {
     }
 
     componentDidMount(){
-        this.TakenLeaveService.getHolidays(this.props.employeeId)
+        this.TakenLeaveService.getHolidays(this.props.user.id)
         .then(response =>{
             const pastHolidays = response.filter(hol => {return this.isDateInThePast(hol.date)});
             this.setState({takenHolidays: pastHolidays});
@@ -25,6 +26,15 @@ class TakenLeave extends React.Component {
             Swal('Could not get taken holidays', error.message, 'error');
         })
     }    
+
+    formatDate(date){
+        const definedDate = new Date(date);
+        const year = definedDate.getFullYear();
+        const month = definedDate.toLocaleString("en-us", { month: "long"});
+        const day = definedDate.getDate();
+            
+        return year + '-' + month + '-' + day;
+    }
 
     isDateInThePast(date){
         return Moment(date).isBefore(new Date());
@@ -35,8 +45,8 @@ class TakenLeave extends React.Component {
         <div>
             {
                 this.state.takenHolidays.map(holiday => {                    
-                    return <span>
-                        holiday.date
+                    return <span className={styles.TextStyle}>
+                        {this.formatDate(holiday.date)}
                     </span>                
                 })
             }

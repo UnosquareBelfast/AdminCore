@@ -8,7 +8,7 @@ class App extends React.Component {
     return (
       <div>
         <Header user={this.props.user} history={this.props.history}/>
-        <Dashboard />
+        <Dashboard user={this.props.user}/>
       </div>
     );
   }

@@ -110,7 +110,7 @@ class RequestHoliday extends React.Component {
   buildHoliday(date){
       return {
         date : date,
-        employee : this.props.employee,
+        employee : this.props.user,
         holidayStatusId : 1,
         isHalfDay : this.state.halfDayChecked
       }

@@ -16,14 +16,13 @@ class Dashboard extends React.Component {
     this.state = {
       date: Moment(),
       daysRemaining: 0,
-      bookingModalOpen: false
     }
 
     this.DashboardService = new DashboardService();
   }
 
   componentDidMount(){
-    this.DashboardService.getHolidays(this.state.employee.id)
+    this.DashboardService.getHolidays(this.props.user.id)
             .then(response =>{
               const remains = 23 - response.length;
               this.setState({ daysRemaining: remains});
@@ -33,21 +32,15 @@ class Dashboard extends React.Component {
             })
   }
 
-  toggleHolidayModal = () => {
-    this.setState({
-      bookingModalOpen: !this.state.bookingModalOpen
-    });
-  }
-
   render() {
     return (
       <div className={styles.RowC}>
             <div className={styles.LeaveTrackerList}>
                 <span>Days Taken:</span>
-                <TakenLeave />
+                <TakenLeave user={this.props.user} />
                 <br/>
                 <span>Days Booked:</span>
-                <BookedLeave />
+                <BookedLeave user={this.props.user} />
             </div>
             <div className={styles.CalendarDiv}>
                 <span>Days Remaining: {this.state.daysRemaining}</span>
@@ -60,6 +53,7 @@ class Dashboard extends React.Component {
                 <br/>
                 <button onClick={this.toggleHolidayModal}>Book Holiday</button>
                 <RequestHoliday
+                    user={this.props.user}
                     show={this.state.bookingModalOpen}
                     onClose={this.toggleHolidayModal}>
                 </RequestHoliday>

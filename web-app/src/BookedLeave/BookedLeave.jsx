@@ -1,5 +1,6 @@
 import React from 'react';
 import Swal from 'sweetalert2';
+import styles from './BookedLeave.css';
 import Moment from 'moment';
 import BookedLeaveService from './BookedLeaveService';
 
@@ -16,7 +17,7 @@ class BookedLeave extends React.Component {
     }
 
     componentDidMount(){
-        this.BookedLeaveService.getHolidays(this.props.employeeId)
+        this.BookedLeaveService.getHolidays(this.props.user.id)
         .then(response =>{
             const bookedHolidays = response.filter(hol => { return this.isDateInTheFuture(hol.date)});
             this.setState({bookedLeave: bookedHolidays});
@@ -24,6 +25,15 @@ class BookedLeave extends React.Component {
         .catch(error =>{
             Swal('Could not get booked holidays', error.message, 'error');
         })
+    }
+
+    formatDate(date){
+        const definedDate = new Date(date);
+        const year = definedDate.getFullYear();
+        const month = definedDate.toLocaleString("en-us", { month: "long"});
+        const day = definedDate.getDate();
+            
+        return year + '-' + month + '-' + day;
     }
 
     isDateInTheFuture(date){
@@ -35,7 +45,7 @@ class BookedLeave extends React.Component {
         <div>
             {
                 this.state.bookedHolidays.map(holiday => {                    
-                    return <span>holiday.date</span>                
+                    return <span className={styles.LeaveTrackerList}>{this.formatDate(holiday.date)}</span>                
                 })
             }
         </div>
