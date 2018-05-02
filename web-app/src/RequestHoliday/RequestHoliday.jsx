@@ -189,7 +189,7 @@ class RequestHoliday extends React.Component {
   }
 }
 
-BookHolidayModal.propTypes = {
+RequestHoliday.propTypes = {
   onClose: PropTypes.func.isRequired,
   show: PropTypes.bool
 };
