@@ -21,6 +21,7 @@ export default class LoginService {
         .then(this._checkStatus)
         .then(response => response.json())
         .then(res => {
+            this.setUserEmail(email);
             this.setToken(res.accessToken)
             return Promise.resolve(res);
         })
@@ -39,6 +40,10 @@ export default class LoginService {
         catch (err) {
             return false;
         }
+    }
+
+    setUserEmail(email){
+        localStorage.setItem('user_email', email);   
     }
 
     setToken(idToken) {

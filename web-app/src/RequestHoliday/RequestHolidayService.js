@@ -8,7 +8,7 @@ export default class RequestHolidayService {
 
     // TODO: We need to wrap our requests to check if the token is expired
     requestHoliday(holiday){
-        return fetch(`${this.domain}/`, { 
+        return fetch(`${this.domain}/holidays/`, { 
             method: 'POST',
             headers: { "content-type": "Application/json"},
             body: JSON.stringify({ holiday }),
@@ -21,7 +21,7 @@ export default class RequestHolidayService {
     }
 
     requestHolidays(holidays){
-        return fetch(`${this.domain}/createMultiple`, { 
+        return fetch(`${this.domain}/holidays/createMultiple`, { 
             method: 'POST',
             headers: { "content-type": "Application/json"},
             body: JSON.stringify({ holidays }),

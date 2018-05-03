@@ -24,6 +24,7 @@ class RequestHoliday extends React.Component {
       this.handleOutsideClick = this.handleOutsideClick.bind(this);
       this.handleStartChange = this.handleStartChange.bind(this);
       this.handleEndChange = this.handleEndChange.bind(this);
+      this.handleChangeChk = this.handleChangeChk.bind(this);
       this.confirmHolidayBooking = this.confirmHolidayBooking.bind(this);
   }
 
@@ -144,8 +145,8 @@ class RequestHoliday extends React.Component {
     }
 
     return (
-      <div style={style.BackdropStyle}>        
-        <div style={style.ModalStyle}>
+      <div className={styles.BackdropStyle}>        
+        <div className={styles.ModalStyle}>
         <h3>Book Holiday?</h3>
         <br/>
         <h5>From:</h5>
@@ -153,10 +154,6 @@ class RequestHoliday extends React.Component {
           <DatePicker
               selected={this.state.startDate}
               onChange={this.handleStartChange}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={60}
-              timeCaption="time"
           />
         </div>
         <br/>
@@ -164,11 +161,7 @@ class RequestHoliday extends React.Component {
         <div>
           <DatePicker
               selected={this.state.endDate}
-              onChange={this.handleEndChange}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={60}
-              timeCaption="time"              
+              onChange={this.handleEndChange} 
           />
         </div>
         <br/>

@@ -16,21 +16,55 @@ class Dashboard extends React.Component {
     this.state = {
       date: Moment(),
       daysRemaining: 0,
+      requestModalOpen: false
     }
+
+    this.toggleHolidayModal = this.toggleHolidayModal.bind(this);
 
     this.DashboardService = new DashboardService();
   }
 
   componentDidMount(){
-    this.DashboardService.getHolidays(this.props.user.id)
+    //this.getUserProfile();
+    // this.DashboardService.getHolidays(this.props.user.id)
+    //         .then(response =>{
+    //           const remains = 23 - response.length;
+    //           this.setState({ daysRemaining: remains});
+    //         })
+    //         .catch(error =>{
+    //             Swal('Could not log in', error.message, 'error');
+    //         })
+  }
+
+  getUserProfile(){
+    const email = this.DashboardService.getUserEmail();
+    console.log(email);
+
+    var splitOne = email.split(".");
+    var splitTwo = splitOne[1].split("@");
+    
+    const firstName = splitOne[0];
+    const lastName = splitTwo[0];
+
+    this.DashboardService.getUserProfile(firstName, lastName)
             .then(response =>{
-              const remains = 23 - response.length;
-              this.setState({ daysRemaining: remains});
+              this.DashboardService.setUser(response);
             })
             .catch(error =>{
-                Swal('Could not log in', error.message, 'error');
+                Swal('Could not get user profile', error.message, 'error');
             })
   }
+
+  getHolidays(){
+
+  }
+
+  toggleHolidayModal(){
+    this.setState({
+      requestModalOpen: !this.state.requestModalOpen
+    });
+  }
+
 
   render() {
     return (
@@ -54,7 +88,7 @@ class Dashboard extends React.Component {
                 <button onClick={this.toggleHolidayModal}>Book Holiday</button>
                 <RequestHoliday
                     user={this.props.user}
-                    show={this.state.bookingModalOpen}
+                    show={this.state.requestModalOpen}
                     onClose={this.toggleHolidayModal}>
                 </RequestHoliday>
             </div>

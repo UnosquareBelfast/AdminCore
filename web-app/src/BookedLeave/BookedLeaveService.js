@@ -9,7 +9,7 @@ export default class BookedLeaveService {
 
     // TODO: We need to wrap our requests to check if the token is expired
     getHolidays(employeeId){
-        return fetch(`${this.domain}/findByEmployeeId/` + employeeId, { 
+        return fetch(`${this.domain}/holidays/findByEmployeeId/` + employeeId, { 
             method: 'GET',
             headers: { "content-type": "Application/json"}
         })
@@ -21,7 +21,7 @@ export default class BookedLeaveService {
     }
 
     updateHoliday(holiday){
-        return fetch(`${this.domain}/`, { 
+        return fetch(`${this.domain}/holidays/`, { 
             method: 'PUT',
             headers: { "content-type": "Application/json"},
             body: JSON.stringify({ holiday }),
@@ -34,7 +34,7 @@ export default class BookedLeaveService {
     }
 
     updateHolidays(holidays){
-        return fetch(`${this.domain}/updateMultiple`, { 
+        return fetch(`${this.domain}/holidays/updateMultiple`, { 
             method: 'PUT',
             headers: { "content-type": "Application/json"},
             body: JSON.stringify({ holidays }),

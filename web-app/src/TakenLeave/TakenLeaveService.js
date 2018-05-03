@@ -7,7 +7,7 @@ export default class TakenLeaveService {
 
     // TODO: We need to wrap our requests to check if the token is expired
     getHolidays(employeeId){
-        return fetch(`${this.domain}/findByEmployeeId/` + employeeId, { 
+        return fetch(`${this.domain}/holidays/findByEmployeeId/` + employeeId, { 
             method: 'GET',
             headers: { "content-type": "Application/json"}
         })
