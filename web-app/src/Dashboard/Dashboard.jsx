@@ -16,7 +16,8 @@ class Dashboard extends React.Component {
     this.state = {
       date: Moment(),
       daysRemaining: 0,
-      requestModalOpen: false
+      requestModalOpen: false,
+      user: null
     }
 
     this.toggleHolidayModal = this.toggleHolidayModal.bind(this);
@@ -34,21 +35,21 @@ class Dashboard extends React.Component {
     //         .catch(error =>{
     //             Swal('Could not log in', error.message, 'error');
     //         })
+    this.getUserProfile();
   }
 
   getUserProfile(){
     const email = this.DashboardService.getUserEmail();
-    console.log(email);
-
-    var splitOne = email.split(".");
-    var splitTwo = splitOne[1].split("@");
     
+    const splitOne = email.split(".");
+    const splitTwo = splitOne[1].split("@");    
     const firstName = splitOne[0];
     const lastName = splitTwo[0];
 
     this.DashboardService.getUserProfile(firstName, lastName)
             .then(response =>{
-              this.DashboardService.setUser(response);
+              console.log(response);
+              this.setState({user : response});
             })
             .catch(error =>{
                 Swal('Could not get user profile', error.message, 'error');

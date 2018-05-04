@@ -4,7 +4,6 @@ export default class DashboardService {
     constructor(domain) {
         this.domain = domain || 'http://localhost' 
         this.getUserProfile = this.getUserProfile.bind(this)
-        this.getUser = this.getUser.bind(this)
         this.getUserEmail = this.getUserEmail.bind(this)
     }
 
@@ -12,31 +11,32 @@ export default class DashboardService {
 
     getUserProfile(firstname, lastname) {
 
-        if(!firstname){
-            let names = this.getNamesFromEmail();
+        const token = this.getToken();
+        console.log('DashboardService - Get User Profile: ', firstname, lastname, ' Token: ', token);
 
-            firstname = names[0];
-            lastname = names[1];
-        }
-
-        return fetch(`${this.domain}/employees/findByForenameAndSurname/` + firstname, + '/' + lastname, {
+        return fetch(`${this.domain}/employees/findByForenameAndSurname/` + firstname + '/' + lastname, {
             method: "GET",
-            headers: { "content-type": "Application/json"},
+            headers: { 
+                "Content-Type": "Application/json",
+                "Authorization": "Bearer " + token
+            },
         })
-        .then(this._checkStatus)
-        .then(response => response.json())
+        .then(_checkStatus =>{
+            console.log('_checkStatus portion of fetch block: ', response);
+        })
+        .then(response => { 
+            console.log('Response before .json: ', response);
+            response.json()
+            console.log('Response: ', response);
+        })
         .then(res => {
-            this.setUser(res)
+            console.log('Res: ', res);
             return Promise.resolve(res);
         })
     }
 
-    setUser(user) {
-        localStorage.setItem('user_object', user)
-    }
-
-    getUser() {
-        return localStorage.getItem('user_object')
+    getToken(){
+        return localStorage.getItem('id_token')
     }
 
     getUserEmail() {
@@ -56,11 +56,14 @@ export default class DashboardService {
     }
 
     _checkStatus(response) {
+        console.log('_checkStatus call')
         if (response.status >= 200 && response.status < 300) {
+            console.log('200 Response')
             return response
         } else {
             var error = new Error(response.statusText)
             error.response = response
+            console.log('Error Response')
             throw error
         }
     }

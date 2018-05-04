@@ -9,9 +9,13 @@ export default class BookedLeaveService {
 
     // TODO: We need to wrap our requests to check if the token is expired
     getHolidays(employeeId){
+        const token = this.getToken();
         return fetch(`${this.domain}/holidays/findByEmployeeId/` + employeeId, { 
             method: 'GET',
-            headers: { "content-type": "Application/json"}
+            headers: { 
+                "content-type": "Application/json",
+                "authorization": "Bearer " + token
+            }
         })
         .then(this._checkStatus)
         .then(response => response.json())
@@ -21,9 +25,13 @@ export default class BookedLeaveService {
     }
 
     updateHoliday(holiday){
+        const token = this.getToken();
         return fetch(`${this.domain}/holidays/`, { 
             method: 'PUT',
-            headers: { "content-type": "Application/json"},
+            headers: { 
+                "content-type": "Application/json",
+                "authorization": "Bearer " + token
+            },
             body: JSON.stringify({ holiday }),
         })
         .then(this._checkStatus)
@@ -34,9 +42,13 @@ export default class BookedLeaveService {
     }
 
     updateHolidays(holidays){
+        const token = this.getToken();
         return fetch(`${this.domain}/holidays/updateMultiple`, { 
             method: 'PUT',
-            headers: { "content-type": "Application/json"},
+            headers: { 
+                "content-type": "Application/json",
+                "authorization": "Bearer " + token
+            },
             body: JSON.stringify({ holidays }),
         })
         .then(this._checkStatus)
@@ -46,6 +58,10 @@ export default class BookedLeaveService {
         });
     }
 
+    getToken(){
+        return localStorage.getItem('id_token')
+    }
+    
     _checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
             return response

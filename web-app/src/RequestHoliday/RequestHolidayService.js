@@ -8,9 +8,13 @@ export default class RequestHolidayService {
 
     // TODO: We need to wrap our requests to check if the token is expired
     requestHoliday(holiday){
+        const token = this.getToken();
         return fetch(`${this.domain}/holidays/`, { 
             method: 'POST',
-            headers: { "content-type": "Application/json"},
+            headers: { 
+                "content-type": "Application/json",
+                "authorization": "Bearer " + token
+            },
             body: JSON.stringify({ holiday }),
         })
         .then(this._checkStatus)
@@ -21,9 +25,13 @@ export default class RequestHolidayService {
     }
 
     requestHolidays(holidays){
+        const token = this.getToken();
         return fetch(`${this.domain}/holidays/createMultiple`, { 
             method: 'POST',
-            headers: { "content-type": "Application/json"},
+            headers: { 
+                "content-type": "Application/json",
+                "authorization": "Bearer " + token
+            },
             body: JSON.stringify({ holidays }),
         })
         .then(this._checkStatus)
@@ -33,6 +41,10 @@ export default class RequestHolidayService {
         });
     }
 
+    getToken(){
+        return localStorage.getItem('id_token')
+    }
+    
     _checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
             return response

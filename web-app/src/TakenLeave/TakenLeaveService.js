@@ -7,9 +7,13 @@ export default class TakenLeaveService {
 
     // TODO: We need to wrap our requests to check if the token is expired
     getHolidays(employeeId){
+        const token = this.getToken();
         return fetch(`${this.domain}/holidays/findByEmployeeId/` + employeeId, { 
             method: 'GET',
-            headers: { "content-type": "Application/json"}
+            headers: { 
+                "content-type": "Application/json",
+                "authorization": "Bearer " + token
+            }
         })
         .then(this._checkStatus)
         .then(response => response.json())
@@ -18,6 +22,10 @@ export default class TakenLeaveService {
         });
     }
 
+    getToken(){
+        return localStorage.getItem('id_token')
+    }
+    
     _checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
             return response
