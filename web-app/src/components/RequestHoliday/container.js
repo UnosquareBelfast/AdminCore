@@ -1,13 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import isNil from 'lodash/fp/isNil';
-import styles from './RequestHoliday.css';
-import DatePicker from 'react-datepicker';
 import Moment from 'moment';
-import RequestHolidayService from './RequestHolidayService.js';
-import 'react-datepicker/dist/react-datepicker.css';
+import HolidayService from '../../services/holidayService';
 
-class RequestHoliday extends React.Component {
+export default (Wrapped) => (
+    class extends React.Component {
 
   constructor(props){
       super(props);
@@ -18,7 +15,7 @@ class RequestHoliday extends React.Component {
         halfDayChecked: false
       }
 
-      this.RequestHolidayService = new RequestHolidayService();
+      this.HolidayService = new HolidayService();
 
       this.handleKeyUp = this.handleKeyUp.bind(this);
       this.handleOutsideClick = this.handleOutsideClick.bind(this);
@@ -49,7 +46,7 @@ class RequestHoliday extends React.Component {
 
     if (keys[e.keyCode]) { keys[e.keyCode](); }
   }
-  
+
   handleOutsideClick(e) {
     if (!isNil(this.modal)) {
       if (!this.modal.contains(e.target)) {
@@ -65,7 +62,7 @@ class RequestHoliday extends React.Component {
   }
 
   handleEndChange(value){
-    const endDate = value;    
+    const endDate = value;
     this.setState({endDate:endDate});
   }
 
@@ -86,7 +83,7 @@ class RequestHoliday extends React.Component {
             }
 
             requestHolidays(holidays);
-
+import Swal from 'sweetalert2';
         } else {
             const holiday = buildHoliday(startDate);
             requestHoliday(holiday);
@@ -96,6 +93,8 @@ class RequestHoliday extends React.Component {
       alert('cannot book a holiday that ends before it begins');
     }
   }
+
+
 
   differenceBetweenDates(start, end){
       const oneDay =  24*60*60*1000;
@@ -108,6 +107,7 @@ class RequestHoliday extends React.Component {
       });
   }
 
+
   buildHoliday(date){
       return {
         date : date,
@@ -118,7 +118,7 @@ class RequestHoliday extends React.Component {
   }
 
   requestHoliday(holiday){
-    this.RequestHolidayService.requestHoliday(holiday)
+    this.HolidayService.requestHoliday(holiday)
     .then(response =>{
        Swal('Holiday booked', error.message, 'error');
        this.props.onClose;
@@ -128,8 +128,8 @@ class RequestHoliday extends React.Component {
     })
   }
 
-  requestHoliday(holidays){
-    this.RequestHolidayService.requestHolidays(holidays)
+  requestHolidays(holidays){
+    this.HolidayService.requestHolidays(holidays)
     .then(response =>{
        Swal('Holiday booked', error.message, 'error');
        this.props.onClose;
@@ -144,47 +144,16 @@ class RequestHoliday extends React.Component {
       return null;
     }
 
-    return (
-      <div className={styles.BackdropStyle}>        
-        <div className={styles.ModalStyle}>
-        <h3>Book Holiday?</h3>
-        <br/>
-        <h5>From:</h5>
-        <div>
-          <DatePicker
-              selected={this.state.startDate}
-              onChange={this.handleStartChange}
-          />
-        </div>
-        <br/>
-        <h5>To:</h5>
-        <div>
-          <DatePicker
-              selected={this.state.endDate}
-              onChange={this.handleEndChange} 
-          />
-        </div>
-        <br/>
-        <label>
-            <input type="checkbox" defaultChecked={this.state.halfDayChecked} onChange={this.handleChangeChk} />
-            Half-Day
-        </label>
-        <br/>
-        <button className="btn btn-danger" onClick={this.confirmHolidayBooking}>
-            Confirm
-        </button>
-        <button className="btn btn-info" onClick={this.props.onClose}>
-            Cancel
-        </button>
-        </div>
-      </div>
-    );
+      return (
+        <Wrapped { ...this.state} {...props}
+          requestHoliday={ this.requestHoliday }
+          requestHolidays={ this.requestHolidays }
+          handleChangeChk={ this.handleChangeChk }
+          buildHoliday={ this.buildHoliday }
+          differenceBetweenDates={ this.differenceBetweenDates }
+          confirmHolidayBooking={ this.confirmHolidayBooking }
+          handleStartChange={ this.handleStartChange }/>
+      );
+    }
   }
-}
-
-RequestHoliday.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  show: PropTypes.bool
-};
-
-export default RequestHoliday;
+)

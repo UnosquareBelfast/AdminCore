@@ -1,12 +1,14 @@
 import React from 'react';
 import Swal from 'sweetalert2';
-import styles from './Dashboard.css';
+import styles from './style.css';
 import Calendar from 'react-calendar';
 import Moment from 'moment';
-import TakenLeave from '../TakenLeave/TakenLeave.jsx';
-import BookedLeave from '../BookedLeave/BookedLeave.jsx';
-import RequestHoliday from '../RequestHoliday/RequestHoliday.jsx';
 import DashboardService from './DashboardService.js';
+import {
+  TakenLeave,
+  BookedLeave,
+  RequestHoliday
+} from '../../components';
 
 class Dashboard extends React.Component {
 
@@ -40,9 +42,9 @@ class Dashboard extends React.Component {
 
   getUserProfile(){
     const email = this.DashboardService.getUserEmail();
-    
+
     const splitOne = email.split(".");
-    const splitTwo = splitOne[1].split("@");    
+    const splitTwo = splitOne[1].split("@");
     const firstName = splitOne[0];
     const lastName = splitTwo[0];
 
@@ -79,8 +81,8 @@ class Dashboard extends React.Component {
             </div>
             <div className={styles.CalendarDiv}>
                 <span>Days Remaining: {this.state.daysRemaining}</span>
-                
-                <Calendar className={styles.CalendarStyling}              
+
+                <Calendar className={styles.CalendarStyling}
                     onChangeMonth={(date) => this.setState({ date })}
                     date={this.state.date}
                     onPickDate={(date => console.log(date))}

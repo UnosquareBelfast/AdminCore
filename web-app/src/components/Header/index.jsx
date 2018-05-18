@@ -2,8 +2,8 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import 'react-bootstrap';
-import LoginService from '../Login/LoginService';
-import styles from './Header.css';
+import LoginService from '../../pages/Login/LoginService';
+import styles from './style.css';
 
 class Header extends React.Component {
     constructor(props){
@@ -25,7 +25,7 @@ class Header extends React.Component {
     onHomeClick(){
         console.log("Home clicked");
       }
-    
+
     onSettingsClick(){
         console.log('Settings clicked');
     }
@@ -45,7 +45,7 @@ class Header extends React.Component {
                         <Nav>
                             <NavItem eventKey={1}  onClick={this.onHomeClick}>
                             Home
-                            </NavItem>       
+                            </NavItem>
                         </Nav>
                         <Nav pullRight>
                             <NavItem eventKey={1}  onClick={this.onSettingsClick}
@@ -66,7 +66,7 @@ class Header extends React.Component {
                     <button type="button" className="form-submit" onClick={this.handleLogout}>Logout</button>
                 </p> */}
             </div>
-        );  
+        );
     }
 }
 
