@@ -2,10 +2,12 @@
 **With Docker**
 ```
 # to build the admin core
-docker build -f docker/admin.core.Dockerfile -t admincore .
+docker build -f docker/admin.core.Dockerfile -t unosquare/admincore:0.0.1 .
+docker tag docker/admin.core:0.0.1 docker/admin.core:latest
 
 # to build the cors proxy
-docker build -f docker/express.cors.proxy.Dockerfile -t cors-proxy .
+docker build -f docker/express.cors.proxy.Dockerfile -t unosquare/cors-proxy:0.0.1 .
+docker tag unosquare/cors-proxy:0.0.1 unosquare/cors-proxy:latest
 ```
 
 **With Make**
@@ -15,6 +17,9 @@ docker build -f docker/express.cors.proxy.Dockerfile -t cors-proxy .
 
 # to build the cors proxy
 (make | nmake) build_cors_proxy
+
+# to build both docker images
+(make | nmake)
 ```
 
 ### Database Config
