@@ -30,7 +30,7 @@ export default (Wrapped) => (
 
     render() {
       return (
-        <Wrapped bookedHolidays={this.state.bookedHolidays} {...props} />
+        <Wrapped bookedHolidays={this.state.bookedHolidays} {...this.props} />
       );
     }
   }

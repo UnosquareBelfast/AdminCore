@@ -83,7 +83,6 @@ export default (Wrapped) => (
             }
 
             requestHolidays(holidays);
-import Swal from 'sweetalert2';
         } else {
             const holiday = buildHoliday(startDate);
             requestHoliday(holiday);
@@ -145,7 +144,7 @@ import Swal from 'sweetalert2';
     }
 
       return (
-        <Wrapped { ...this.state} {...props}
+        <Wrapped { ...this.state} {...this.props}
           requestHoliday={ this.requestHoliday }
           requestHolidays={ this.requestHolidays }
           handleChangeChk={ this.handleChangeChk }
