@@ -1,21 +1,29 @@
-//run this to build
-`docker build -f Dockerfile -t admincore .`
+### Building Images
+**With Docker**
+```
+# to build the admin core
+docker build -f docker/admin.core.Dockerfile -t admincore .
 
-//run this to run change port number where applicable
-`docker run -p 8081:8081 admincore`
-
-
-//add this to the pg_hba.conf located in the C:\Program Files\PostgreSQL\10\data
-`host    all             all             10.10.114.82    255.255.255.128     trust`
-
-
-##### Use the Makefile to create the docker containers
-```sh
-$ (make | nmake) build_admin_core # to build the admin core
-$ (make | nmake) build_cors_proxy # to build the cors proxy server
+# to build the cors proxy
+docker build -f docker/express.cors.proxy.Dockerfile -t cors-proxy .
 ```
 
-##### Use docker compose to serve the created container
-```sh
-$ docker-compose up
+**With Make**
+```
+# to build the admin core
+(make | nmake) build_admin_core
+
+# to build the cors proxy
+(make | nmake) build_cors_proxy
+```
+
+### Database Config
+Add the following to the `pg_hba.conf` file associated with your PostgreSQL DB
+
+`host    all             all             10.10.114.82    255.255.255.128     trust`
+
+### Serving Containers
+Finally, run the following to serve the two containers created above
+```
+docker-compose up
 ```
