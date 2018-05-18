@@ -1,6 +1,7 @@
 import React from 'react';
 import isNil from 'lodash/fp/isNil';
 import Moment from 'moment';
+import Swal from 'sweetalert2';
 import HolidayService from '../../services/holidayService';
 
 export default (Wrapped) => (
