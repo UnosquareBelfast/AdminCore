@@ -1,6 +1,6 @@
 import React from 'react';
 import Swal from 'sweetalert2';
-import styles from './Login.css';
+import styles from './style.css';
 import LoginService from './LoginService';
 
 class Login extends React.Component  {
@@ -41,7 +41,7 @@ class Login extends React.Component  {
 
     handleSubmit(e){
         e.preventDefault();
-      
+
         this.Auth.login(this.state.email,this.state.password)
             .then(response =>{
                this.props.history.replace('/');

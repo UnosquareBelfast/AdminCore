@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginService from '../Login/LoginService';
+import LoginService from '../pages/Login/LoginService';
 
 export default function withAuth(AuthComponent) {
     // pull API url in future.
@@ -14,13 +14,13 @@ export default function withAuth(AuthComponent) {
         }
 
         render() {
-            if (this.state.user) {
-                return (
-                    <AuthComponent history={this.props.history} user={this.state.user} />
-                )
-            }
+          if(this.state.user) {
+            return (
+                <AuthComponent history={this.props.history} user={this.state.user} />
+            )
+          }
 
-            return null
+          return null;
         }
 
         componentWillMount() {
