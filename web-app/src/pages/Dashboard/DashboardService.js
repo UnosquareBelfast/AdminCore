@@ -2,7 +2,7 @@ import decode from 'jwt-decode';
 
 export default class DashboardService {
     constructor(domain) {
-        this.domain = domain || 'http://localhost' 
+        this.domain = domain || process.env.DOMAIN 
         this.getUserProfile = this.getUserProfile.bind(this)
         this.getUserEmail = this.getUserEmail.bind(this)
     }

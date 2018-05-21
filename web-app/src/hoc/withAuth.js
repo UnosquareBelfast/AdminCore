@@ -3,7 +3,7 @@ import LoginService from '../pages/Login/LoginService';
 
 export default function withAuth(AuthComponent) {
     // pull API url in future.
-    const Auth = new LoginService('http://localhost');
+    const Auth = new LoginService(process.env.DOMAIN);
 
     return class AuthWrapped extends React.Component {
         constructor() {

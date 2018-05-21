@@ -1,6 +1,6 @@
 export default class HolidayService {
   constructor(domain) {
-    this.domain = domain || 'http://localhost';
+    this.domain = domain || process.env.DOMAIN;
     this.getHolidays = this.getHolidays.bind(this);
     this.requestHoliday = this.requestHoliday.bind(this);
     this.requestHolidays = this.requestHolidays.bind(this);
