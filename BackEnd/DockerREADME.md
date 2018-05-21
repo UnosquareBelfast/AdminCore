@@ -3,7 +3,7 @@
 ```
 # to build the admin core
 docker build -f docker/admin.core.Dockerfile -t unosquare/admincore:<version> .
-docker tag docker/admincore:<version> docker/admincore:latest
+docker tag unosquare/admincore:<version> unosquare/admincore:latest
 
 # to build the cors proxy
 docker build -f docker/express.cors.proxy.Dockerfile -t unosquare/cors-proxy:<version> .
