@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
-  background-color: #0eb5d1;
+  background-color: ${props => props.theme.colours.unoBlue};
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 25px;
-  color: white;
+  color: ${props => props.theme.colours.white};
 `;
 
 export const HeaderItem = styled.div`
