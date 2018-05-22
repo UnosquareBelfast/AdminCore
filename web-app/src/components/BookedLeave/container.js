@@ -25,8 +25,8 @@ export default (Wrapped) => (
           this.setState({bookedLeave: bookedHolidays});
         })
         .catch(error =>{
-          Swal('Could not get booked holidays', error.message, 'error');
-        });
+            Swal({title: 'Could not get booked holidays', text: error.message, type: 'error'});
+        })
     }
 
     isDateInTheFuture(date) {

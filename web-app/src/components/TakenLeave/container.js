@@ -25,8 +25,8 @@ export default (Wrapped) => (
           this.setState({takenHolidays: pastHolidays});
         })
         .catch(error =>{
-          Swal('Could not get taken holidays', error.message, 'error');
-        });
+            Swal({title: 'Could not get taken holidays', text: error.message, type: 'error'});
+        })
     }
 
     isDateInThePast(date) {

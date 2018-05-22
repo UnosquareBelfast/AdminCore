@@ -4,6 +4,7 @@ import isNil from 'lodash/fp/isNil';
 import Moment from 'moment';
 import Swal from 'sweetalert2';
 import HolidayService from '../../services/holidayService';
+import holidayStatus from '../../utilities/holidayStatus';
 
 export default (Wrapped) => (
   class extends React.Component {
@@ -118,31 +119,31 @@ export default (Wrapped) => (
       return {
         date : date,
         employee : this.props.user,
-        holidayStatusId : 1,
+        holidayStatusId : holidayStatus.PENDING,
         isHalfDay : this.state.halfDayChecked,
-      };
+      }
     }
 
-    requestHoliday(holiday) {
+    requestHoliday(holiday){
       this.HolidayService.requestHoliday(holiday)
-        .then(({error}) => {
-          Swal('Holiday booked', error.message, 'error');
-          this.props.onClose;
-        })
-        .catch(error =>{
-          Swal('Could not complete holiday request', error.message, 'error');
-        });
+      .then(response =>{
+         Swal({title: 'Holiday booked', type: 'success'});
+         this.props.onClose;
+      })
+      .catch(error =>{
+          Swal({title: 'Could not complete holiday request', text: error.message, type: 'error'});
+      })
     }
 
-    requestHolidays(holidays) {
+    requestHolidays(holidays){
       this.HolidayService.requestHolidays(holidays)
-        .then(({error}) => {
-          Swal('Holiday booked', error.message, 'error');
-          this.props.onClose;
-        })
-        .catch(error =>{
-          Swal('Could not complete holiday request', error.message, 'error');
-        });
+      .then(response =>{
+         Swal({title: 'Holiday booked', type: 'success'});
+         this.props.onClose;
+      })
+      .catch(error =>{
+          Swal({title: 'Could not complete holiday request', text: error.message, type: 'error'});
+      })
     }
 
     render() {
