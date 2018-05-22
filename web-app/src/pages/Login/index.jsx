@@ -47,7 +47,7 @@ class Login extends React.Component  {
                this.props.history.replace('/');
             })
             .catch(error =>{
-                Swal('Could not log in', error.message, 'error');
+                Swal({title: 'Could not log in', text: error.message, type: 'error'});
             })
     }
 }

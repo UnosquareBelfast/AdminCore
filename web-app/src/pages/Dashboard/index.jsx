@@ -54,7 +54,7 @@ class Dashboard extends React.Component {
               this.setState({user : response});
             })
             .catch(error =>{
-                Swal('Could not get user profile', error.message, 'error');
+                Swal({title: 'Could not get user profile', text: error.message, type: 'error'});
             })
   }
 

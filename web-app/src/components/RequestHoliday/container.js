@@ -3,6 +3,7 @@ import isNil from 'lodash/fp/isNil';
 import Moment from 'moment';
 import Swal from 'sweetalert2';
 import HolidayService from '../../services/holidayService';
+import holidayStatus from '../../utilities/holidayStatus';
 
 export default (Wrapped) => (
     class extends React.Component {
@@ -112,7 +113,7 @@ export default (Wrapped) => (
       return {
         date : date,
         employee : this.props.user,
-        holidayStatusId : 1,
+        holidayStatusId : holidayStatus.PENDING,
         isHalfDay : this.state.halfDayChecked
       }
   }
@@ -120,22 +121,22 @@ export default (Wrapped) => (
   requestHoliday(holiday){
     this.HolidayService.requestHoliday(holiday)
     .then(response =>{
-       Swal('Holiday booked', error.message, 'error');
+       Swal({title: 'Holiday booked', type: 'success'});
        this.props.onClose;
     })
     .catch(error =>{
-        Swal('Could not complete holiday request', error.message, 'error');
+        Swal({title: 'Could not complete holiday request', text: error.message, type: 'error'});
     })
   }
 
   requestHolidays(holidays){
     this.HolidayService.requestHolidays(holidays)
     .then(response =>{
-       Swal('Holiday booked', error.message, 'error');
+       Swal({title: 'Holiday booked', type: 'success'});
        this.props.onClose;
     })
     .catch(error =>{
-        Swal('Could not complete holiday request', error.message, 'error');
+        Swal({title: 'Could not complete holiday request', text: error.message, type: 'error'});
     })
   }
 
