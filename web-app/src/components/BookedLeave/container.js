@@ -23,7 +23,7 @@ export default Wrapped =>
           const bookedHolidays = response.data.filter(hol => {
             return this.isDateInTheFuture(hol.date);
           });
-          this.setState({ bookedLeave: bookedHolidays });
+          this.setState({ bookedHolidays });
         })
         .catch(error => {
           Swal({
