@@ -23,3 +23,6 @@ hs_err_pid*
 
 node_modules/
 web-app/.env
+dist/
+/BackEnd/target
+.idea/

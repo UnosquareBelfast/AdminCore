@@ -4,6 +4,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import 'react-bootstrap';
 import LoginService from '../../pages/Login/LoginService';
 import styles from './style.css';
+import roles from '../../utilities/roles';
 
 class Header extends React.Component {
     constructor(props){
@@ -48,10 +49,12 @@ class Header extends React.Component {
                             </NavItem>
                         </Nav>
                         <Nav pullRight>
-                            <NavItem eventKey={1}  onClick={this.onSettingsClick}
-                                style={{visibility: this.props.user.employeeRoleId < 3 ? 'visible' : 'hidden' }}>
-                            Settings
-                            </NavItem>
+                            {
+                              this.props.user.employeeRoleId < roles.STANDARD &&
+                                <NavItem eventKey={1}  onClick={this.onSettingsClick} >
+                                  Settings
+                                </NavItem>
+                            }
                             <NavItem eventKey={2} onClick={this.handleLogout}>
                             Sign Out
                             </NavItem>
