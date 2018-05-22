@@ -2,10 +2,11 @@ import decode from 'jwt-decode';
 
 export default class LoginService {
   constructor(domain) {
-    this.domain = domain || 'http://localhost'; 
-    this.login = this.login.bind(this);
-    this.getProfile = this.getProfile.bind(this);
+      this.domain = domain || process.env.DOMAIN 
+      this.login = this.login.bind(this)
+      this.getProfile = this.getProfile.bind(this)
   }
+
 
   // TODO: We need to wrap our requests to check if the token is expired
 
