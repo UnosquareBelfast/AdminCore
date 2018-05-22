@@ -1,55 +1,61 @@
 import React from 'react';
+import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import styles from './style.css';
 import LoginService from './LoginService';
 
 class Login extends React.Component  {
-    constructor(){
-        super();
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+  static propTypes = {
+    history: PT.object,
+  }
 
-        this.Auth = new LoginService();
-    }
-    render() {
-        return (
-            <div className={styles.center}>
-                <div className={styles.card}>
-                    <h1>Login</h1>
-                    <form onSubmit={this.handleSubmit}>
-                        <input className={styles.item} placeholder="Email goes here..." name="email" type="text" onChange={this.handleChange} />
-                        <input className={styles.item} placeholder="Password goes here..." name="password" type="password" onChange={this.handleChange} />
-                        <input className={styles.submit} value="SUBMIT" type="submit" />
-                    </form>
-                </div>
-            </div>
-        );
-    }
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
-    componentWillMount(){
-        if(this.Auth.loggedIn())
-            this.props.history.replace('/');
-    }
+    this.Auth = new LoginService();
+  }
 
-    handleChange(e){
-        this.setState(
-            {
-                [e.target.name]: e.target.value
-            }
-        )
-    }
+  componentWillMount() {
+    if (this.Auth.loggedIn())
+      this.props.history.replace('/');
+  }
 
-    handleSubmit(e){
-        e.preventDefault();
+  handleChange(e) {
+    this.setState(
+      {
+        [e.target.name]: e.target.value,
+      }
+    );
+  }
 
-        this.Auth.login(this.state.email,this.state.password)
-            .then(response =>{
-               this.props.history.replace('/');
-            })
-            .catch(error =>{
-                Swal({title: 'Could not log in', text: error.message, type: 'error'});
-            })
-    }
+  handleSubmit(e) {
+    e.preventDefault();
+
+    this.Auth.login(this.state.email,this.state.password)
+      .then(() =>{
+        this.props.history.replace('/');
+      })
+      .catch(error =>{
+        Swal({title: 'Could not log in', text: error.message, type: 'error'});
+      });
+  }
+
+  render() {
+    return (
+      <div className={styles.center}>
+        <div className={styles.card}>
+          <h1>Login</h1>
+          <form onSubmit={this.handleSubmit}>
+            <input className={styles.item} placeholder="Email goes here..." name="email" type="text" onChange={this.handleChange} />
+            <input className={styles.item} placeholder="Password goes here..." name="password" type="password" onChange={this.handleChange} />
+            <input className={styles.submit} value="SUBMIT" type="submit" />
+          </form>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Login;
