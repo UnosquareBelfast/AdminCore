@@ -1,0 +1,23 @@
+.RowC {
+    display:flex;
+    flex-direction:row;
+    width:100;
+}
+
+.LeaveTrackerList {
+    width:30%;
+    margin-top: 20px;
+    align-items: flex-start;
+  }
+
+.CalendarDiv {
+    width:70%;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.CalendarStyling {
+    width:100%;
+}
+  
