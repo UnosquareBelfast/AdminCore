@@ -6,7 +6,7 @@ import HolidayService from '../../services/holidayService';
 
 export default (Wrapped) => (
   class extends React.Component {
-    propTypes = {
+    static propTypes = {
       user: PT.object,
     }
 
@@ -25,8 +25,8 @@ export default (Wrapped) => (
           this.setState({takenHolidays: pastHolidays});
         })
         .catch(error =>{
-            Swal({title: 'Could not get taken holidays', text: error.message, type: 'error'});
-        })
+          Swal({title: 'Could not get taken holidays', text: error.message, type: 'error'});
+        });
     }
 
     isDateInThePast(date) {

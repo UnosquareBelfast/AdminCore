@@ -8,7 +8,7 @@ import holidayStatus from '../../utilities/holidayStatus';
 
 export default (Wrapped) => (
   class extends React.Component {
-    propTypes = {
+    static propTypes = {
       onClose: PT.func,
       user: PT.object,
       show: PT.bool,
@@ -121,29 +121,29 @@ export default (Wrapped) => (
         employee : this.props.user,
         holidayStatusId : holidayStatus.PENDING,
         isHalfDay : this.state.halfDayChecked,
-      }
+      };
     }
 
-    requestHoliday(holiday){
+    requestHoliday(holiday) {
       this.HolidayService.requestHoliday(holiday)
-      .then(response =>{
-         Swal({title: 'Holiday booked', type: 'success'});
-         this.props.onClose;
-      })
-      .catch(error =>{
+        .then(() =>{
+          Swal({title: 'Holiday booked', type: 'success'});
+          this.props.onClose;
+        })
+        .catch(error =>{
           Swal({title: 'Could not complete holiday request', text: error.message, type: 'error'});
-      })
+        });
     }
 
-    requestHolidays(holidays){
+    requestHolidays(holidays) {
       this.HolidayService.requestHolidays(holidays)
-      .then(response =>{
-         Swal({title: 'Holiday booked', type: 'success'});
-         this.props.onClose;
-      })
-      .catch(error =>{
+        .then(() =>{
+          Swal({title: 'Holiday booked', type: 'success'});
+          this.props.onClose;
+        })
+        .catch(error =>{
           Swal({title: 'Could not complete holiday request', text: error.message, type: 'error'});
-      })
+        });
     }
 
     render() {
