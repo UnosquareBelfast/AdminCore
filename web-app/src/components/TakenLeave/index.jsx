@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import styles from './style.css';
 import container from './container';
 
-const TakenLeave = (props) => {
+const TakenLeave = ({takenHolidays}) => {
 
   const formatDate = (date) => {
     const definedDate = new Date(date);
@@ -17,7 +17,7 @@ const TakenLeave = (props) => {
   return (
     <div>
       {
-        props.takenHolidays.map(holiday => {
+        takenHolidays.map(holiday => {
           return <span className={styles.TextStyle}>
             {formatDate(holiday.date)}
           </span>;
