@@ -128,9 +128,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.0.7</version>
                 <configuration>
-                    <url>jdbc:postgresql://172.20.7.209:5432/HrManager?user=postgres&amp;password=Pass.word1</url>
-                    <user>postgres</user>
-                    <password>Pass.word1</password>
+                    <url>jdbc:postgresql://localhost:5432/HrManager?user=user&amp;password=password</url>
+                    <user>user</user>
+                    <password>password</password>
                 </configuration>
                 <dependencies>
                     <dependency>

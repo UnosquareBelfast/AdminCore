@@ -1,4 +1,4 @@
-package com.unosquare.admin_core.back_end.payload;
+package com.unosquare.admin_core.back_end.dto;
 
 import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.enums.EmployeeRole;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
-public class SignUpRequest {
+public class SignUpRequestDto {
     @NotBlank
     @Size(min = 4, max = 40)
     private String forename;
@@ -38,28 +38,4 @@ public class SignUpRequest {
     @NotBlank
     @Size(min = 6, max = 20)
     private String password;
-
-    public SignUpRequest() {
-
-    }
-
-    public SignUpRequest(String forename, String surname, String email, String password,
-                         Country country, EmployeeStatus status, EmployeeRole employeeRole, LocalDate startDate) {
-        this.forename = forename;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.country = country;
-        this.status = status;
-        this.employeeRole = employeeRole;
-        this.startDate = startDate;
-    }
-
-    public String getUsername() {
-        return email;
-    }
-
-    public void setUsername(String username) {
-        this.email = username;
-    }
 }

@@ -24,7 +24,8 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    ModelMapper modelMapper;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

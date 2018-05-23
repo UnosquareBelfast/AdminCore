@@ -23,7 +23,8 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @RolesAllowed("ROLE_TEAM LEADER")
