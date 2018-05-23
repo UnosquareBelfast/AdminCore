@@ -6,12 +6,11 @@ import Calendar from 'react-calendar';
 import Moment from 'moment';
 import DashboardService from './DashboardService.js';
 import {
-  Layout,
   TakenLeave,
   BookedLeave,
   RequestHoliday,
 } from '../../components';
-import withAuth from '../../hoc/withAuth';
+import { Layout, withAuth } from '../../hoc';
 
 class Dashboard extends React.Component {
   static propTypes = {
