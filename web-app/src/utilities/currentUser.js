@@ -17,13 +17,12 @@ const UserInfo = {
   ..._getNamesFromEmail(),
 };
 
-export const userLogout = () => {
-  localStorage.removeItem('id_token');
-  localStorage.removeItem('user_email');
-};
-
 export const getProfile = () => {
   return decode(UserInfo.token);
+};
+
+export const isLoggedIn = () => {
+  return !!UserInfo.token && !isTokenExpired();
 };
 
 export const isTokenExpired = () => {
@@ -35,8 +34,20 @@ export const isTokenExpired = () => {
   }
 };
 
-export const isLoggedIn = () => {
-  return !!UserInfo.token && !isTokenExpired();
+export const setUserEmail = (email) => {
+  localStorage.setItem('user_email', email);   
+}
+
+export const setToken = (idToken) => {
+  localStorage.setItem('id_token', idToken);
+}
+
+export const userLogout = () => {
+  localStorage.removeItem('id_token');
+  localStorage.removeItem('user_email');
 };
+
+
+
 
 export default UserInfo;

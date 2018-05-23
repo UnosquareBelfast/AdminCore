@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import 'react-bootstrap';
-import LoginService from '../../pages/Login/LoginService';
 import { userLogout } from '../../utilities/currentUser';
 import styles from './style.css';
 import roles from '../../utilities/roles';
@@ -13,7 +12,6 @@ class Header extends React.Component {
     this.onHomeClick = this.onHomeClick.bind(this);
     this.onSettingsClick = this.onSettingsClick.bind(this);
 
-    this.Auth = new LoginService();
   }
 
   // TODO: Get email from JWT.
