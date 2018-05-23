@@ -32,13 +32,13 @@ class Header extends React.Component {
     return (
       <HeaderContainer>
         <HeaderItem bold onClick={() => this.navigate('/')}>AdminCore</HeaderItem>
-        {user && <div>
+        <div>
           <HeaderItem onClick={() => this.navigate('/')}>Home</HeaderItem>
           {user.employeeRoleId < roles.STANDARD &&
             <HeaderItem onClick={() => this.navigate('/settings')}>Settings</HeaderItem>
           }
           <HeaderItem onClick={this.handleLogout}>Log Out</HeaderItem>
-        </div>}
+        </div>
       </HeaderContainer>
     );
   }

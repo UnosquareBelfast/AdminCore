@@ -6,6 +6,7 @@ import Calendar from 'react-calendar';
 import Moment from 'moment';
 import DashboardService from './DashboardService.js';
 import {
+  Layout,
   TakenLeave,
   BookedLeave,
   RequestHoliday,
@@ -76,31 +77,33 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className={styles.RowC}>
-        <div className={styles.LeaveTrackerList}>
-          <span>Days Taken:</span>
-          <TakenLeave user={this.props.user} />
-          <br/>
-          <span>Days Booked:</span>
-          <BookedLeave user={this.props.user} />
-        </div>
-        <div className={styles.CalendarDiv}>
-          <span>Days Remaining: {this.state.daysRemaining}</span>
+      <Layout {...this.props}>
+        <div className={styles.RowC}>
+          <div className={styles.LeaveTrackerList}>
+            <span>Days Taken:</span>
+            <TakenLeave user={this.props.user} />
+            <br/>
+            <span>Days Booked:</span>
+            <BookedLeave user={this.props.user} />
+          </div>
+          <div className={styles.CalendarDiv}>
+            <span>Days Remaining: {this.state.daysRemaining}</span>
 
-          <Calendar className={styles.CalendarStyling}
-            onChangeMonth={(date) => this.setState({ date })}
-            date={this.state.date}
-            // eslint-disable-next-line
+            <Calendar className={styles.CalendarStyling}
+              onChangeMonth={(date) => this.setState({ date })}
+              date={this.state.date}
+              // eslint-disable-next-line
             onPickDate={(date => console.log(date))}
-          />
-          <br/>
-          <button onClick={this.toggleHolidayModal}>Book Holiday</button>
-          <RequestHoliday
-            user={this.props.user}
-            show={this.state.requestModalOpen}
-            onClose={this.toggleHolidayModal} />
+            />
+            <br/>
+            <button onClick={this.toggleHolidayModal}>Book Holiday</button>
+            <RequestHoliday
+              user={this.props.user}
+              show={this.state.requestModalOpen}
+              onClose={this.toggleHolidayModal} />
+          </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 }

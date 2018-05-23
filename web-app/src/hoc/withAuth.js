@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Redirect } from 'react-router';
-import { Header } from '../components';
 import LoginService from '../pages/Login/LoginService';
 
 export default function withAuth(AuthComponent) {
@@ -35,10 +34,7 @@ export default function withAuth(AuthComponent) {
       if (!Auth.loggedIn()) { return <Redirect to="/login"/>; }
       if (this.state.user) {
         return (
-          <Fragment>
-            <Header history={this.props.history} user={this.state.user} />
-            <AuthComponent history={this.props.history} user={this.state.user} />
-          </Fragment>
+          <AuthComponent history={this.props.history} user={this.state.user} />
         );
       }
     }
