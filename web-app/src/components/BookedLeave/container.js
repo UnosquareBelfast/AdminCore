@@ -6,7 +6,7 @@ import { getHolidays } from '../../services/holidayService';
 
 export default Wrapped =>
   class extends React.Component {
-    propTypes = {
+    static propTypes = {
       user: PT.object,
     };
 

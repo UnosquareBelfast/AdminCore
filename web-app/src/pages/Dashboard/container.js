@@ -3,8 +3,9 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import Moment from 'moment';
 import { getUserProfile } from '../../services/userService';
+import { withAuth } from '../../hoc';
 
-export default Wrapped =>
+const DashboardContainer = Wrapped =>
   class extends React.Component {
     propTypes = {
       user: PT.object,
@@ -61,3 +62,5 @@ export default Wrapped =>
       );
     }
   };
+
+export default withAuth(DashboardContainer);

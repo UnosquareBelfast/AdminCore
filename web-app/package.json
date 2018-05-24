@@ -6,9 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
-    "lint": "./node_modules/.bin/eslint src; exit 0",
-    "lint-fix": "./node_modules/.bin/eslint src --fix; exit 0",
-    "test": "jest"
+    "lint": "./node_modules/.bin/eslint src --ext .js,.jsx; exit 0",
+    "lint-fix": "./node_modules/.bin/eslint src --ext .js,.jsx --fix; exit 0",
+    "test": "jest; exit 0"
   },
   "author": "Mark Brown",
   "license": "MIT",

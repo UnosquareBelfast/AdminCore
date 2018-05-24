@@ -1,21 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Dashboard, Login } from './pages';
 import { ThemeProvider } from 'styled-components';
-import Header from './components/Header';
-import withAuth from './hoc/withAuth';
-import { Dashboard } from './pages';
 import { theme } from './styled';
 
 class App extends React.Component {
   render() {
     return (
       <ThemeProvider theme={theme} >
-        <Fragment>
-          <Header user={this.props.user} history={this.props.history}/>
-          <Dashboard user={this.props.user}/>
-        </Fragment>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/login" component={Login} />
+          </Switch>
+        </Router>
       </ThemeProvider>
     );
   }
 }
 
-export default withAuth(App);
+export default App;

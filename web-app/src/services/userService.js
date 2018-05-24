@@ -14,7 +14,8 @@ export const userLogin = (email, password) => {
 };
 
 export const getUserProfile = () => {
-  const { firstName, lastName } = UserInfo;
+  const firstName = UserInfo.firstName();
+  const lastName = UserInfo.lastName();
 
   //eslint-disable-next-line
   console.log(
