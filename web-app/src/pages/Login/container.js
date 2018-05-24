@@ -7,7 +7,7 @@ import { isLoggedIn } from '../../utilities/currentUser';
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      history: PT.func,
+      history: PT.object,
     }
 
     constructor() {
