@@ -1,15 +1,13 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Redirect } from 'react-router';
-import LoginService from '../pages/Login/LoginService';
+import { userLogout, getProfile, isLoggedIn } from '../utilities/currentUser';
 
 export default function withAuth(AuthComponent) {
-  const Auth = new LoginService(process.env.DOMAIN);
-
   return class AuthWrapped extends React.Component {
     static propTypes = {
       history: PT.object,
-    }
+    };
 
     constructor() {
       super();
@@ -20,18 +18,18 @@ export default function withAuth(AuthComponent) {
 
     componentWillMount() {
       try {
-        const profile = Auth.getProfile();
+        const profile = getProfile();
         this.setState({
           user: profile,
         });
       }
       catch (err) {
-        Auth.logout();
+        userLogout();
       }
     }
 
     render() {
-      if (!Auth.loggedIn()) { return <Redirect to="/login"/>; }
+      if (!isLoggedIn()) { return <Redirect to="/login"/>; }
       if (this.state.user) {
         return (
           <AuthComponent history={this.props.history} user={this.state.user} />

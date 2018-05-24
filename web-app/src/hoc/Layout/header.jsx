@@ -1,47 +1,36 @@
 import React from 'react';
-import { PropTypes as PT } from 'prop-types';
-import LoginService from '../../pages/Login/LoginService';
+import { userLogout } from '../../utilities/currentUser';
 import roles from '../../utilities/roles';
 import { HeaderContainer, HeaderItem } from './styled';
 
 class Header extends React.Component {
-  static propTypes = {
-    history: PT.object,
-    user: PT.object,
-  }
+    // TODO: Get email from JWT.
 
-  constructor(props) {
-    super(props);
-    this.Auth = new LoginService();
-  }
+    handleLogout = () => {
+      userLogout();
+      this.props.history.push('/login');
+    }
 
-  // TODO: Get email from JWT.
+    navigate = (route) => {
+      this.props.history.push(route)
+    }
 
-  handleLogout = () => {
-    this.Auth.logout();
-    this.props.history.push('/login');
-  }
+    render() {
+      const { user } = this.props;
 
-  navigate = (route) => {
-    this.props.history.push(route);
-  }
-
-  render() {
-    const { user } = this.props;
-
-    return (
-      <HeaderContainer>
-        <HeaderItem bold onClick={() => this.navigate('/')}>AdminCore</HeaderItem>
-        <div>
-          <HeaderItem onClick={() => this.navigate('/')}>Home</HeaderItem>
-          {user.employeeRoleId < roles.STANDARD &&
-            <HeaderItem onClick={() => this.navigate('/settings')}>Settings</HeaderItem>
-          }
-          <HeaderItem onClick={this.handleLogout}>Log Out</HeaderItem>
-        </div>
-      </HeaderContainer>
-    );
-  }
+      return(
+        <HeaderContainer>
+          <HeaderItem bold onClick={() => this.navigate('/')}>AdminCore</HeaderItem>
+          {user && <div>
+            <HeaderItem onClick={() => this.navigate('/')}>Home</HeaderItem>
+            {user.employeeRoleId < roles.STANDARD &&
+              <HeaderItem onClick={() => this.navigate('/settings')}>Settings</HeaderItem>
+            }
+            <HeaderItem onClick={this.handleLogout}>Log Out</HeaderItem>
+          </div>}
+        </HeaderContainer>
+      );
+    }
 }
 
 export default Header;

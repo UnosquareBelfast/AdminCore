@@ -6,24 +6,38 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
-    "lint": "./node_modules/.bin/eslint src --ext .js,.jsx; exit 0",
-    "lint-fix": "./node_modules/.bin/eslint src  --ext .js,.jsx --fix; exit 0"
+    "lint": "./node_modules/.bin/eslint src; exit 0",
+    "lint-fix": "./node_modules/.bin/eslint src --fix; exit 0",
+    "test": "jest; exit 0"
   },
   "author": "Mark Brown",
   "license": "MIT",
+  "jest": {
+    "setupTestFrameworkScriptFile": "./setupTests.js",
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
+    "babel-jest": "^22.4.4",
     "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.11",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-react": "^7.8.2",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.4.4",
+    "jest-enzyme": "^6.0.0",
+    "react-test-renderer": "^16.3.2",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.6.0",

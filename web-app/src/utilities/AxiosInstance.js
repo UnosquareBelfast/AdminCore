@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost'; //Change to come from env later
+const baseURL = process.env.DOMAIN;
 const token = localStorage.getItem('id_token');
 
 const instance = axios.create({
