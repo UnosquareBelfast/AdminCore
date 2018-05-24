@@ -2,31 +2,36 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import Moment from 'moment';
-import HolidayService from '../../services/holidayService';
+import { getHolidays } from '../../services/holidayService';
 
-export default (Wrapped) => (
+export default Wrapped =>
   class extends React.Component {
     propTypes = {
       user: PT.object,
-    }
+    };
 
     constructor(props) {
       super(props);
       this.state = {
         takenHolidays: [],
       };
-      this.HolidayService = new HolidayService();
     }
 
     componentDidMount() {
-      this.HolidayService.getHolidays(this.props.user.id)
-        .then(response =>{
-          const pastHolidays = response.filter(hol => { return this.isDateInThePast(hol.date); });
-          this.setState({takenHolidays: pastHolidays});
+      getHolidays(this.props.user.id)
+        .then(response => {
+          const pastHolidays = response.data.filter(hol => {
+            return this.isDateInThePast(hol.date);
+          });
+          this.setState({ takenHolidays: pastHolidays });
         })
-        .catch(error =>{
-            Swal({title: 'Could not get taken holidays', text: error.message, type: 'error'});
-        })
+        .catch(error => {
+          Swal({
+            title: 'Could not get taken holidays',
+            text: error.message,
+            type: 'error',
+          });
+        });
     }
 
     isDateInThePast(date) {
@@ -38,5 +43,4 @@ export default (Wrapped) => (
         <Wrapped takenHolidays={this.state.takenHolidays} {...this.props} />
       );
     }
-  }
-);
+  };

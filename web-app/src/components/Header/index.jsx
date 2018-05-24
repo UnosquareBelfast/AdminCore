@@ -1,4 +1,5 @@
 import React from 'react';
+import { userLogout } from '../../utilities/currentUser';
 import LoginService from '../../pages/Login/LoginService';
 import roles from '../../utilities/roles';
 import { HeaderContainer, HeaderItem } from './styled';
@@ -12,7 +13,7 @@ class Header extends React.Component {
     // TODO: Get email from JWT.
 
     handleLogout = () => {
-      this.Auth.logout()
+      userLogout();
       this.props.history.push('/login');
     }
 
