@@ -139,6 +139,16 @@
                         <version>42.1.4</version>
                     </dependency>
                 </dependencies>
+                <executions>
+                    <execution>
+                        <id>dbSetup</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>migrate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -11,46 +11,88 @@
 -- CONNECTION LIMIT = -1;
 
 ----------------------------------------------------------------------------------------
--- Table: public.employee
 
+-- Table: public.country
+-- DROP TABLE public.country;
+
+CREATE SEQUENCE IF NOT EXISTS country_country_id_seq;
+CREATE TABLE IF NOT EXISTS public.country
+(
+    country_id smallint NOT NULL DEFAULT nextval('country_country_id_seq'::regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT country_pkey PRIMARY KEY (country_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.country
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+-- Table: public.employee_role
+-- DROP TABLE public.employee_role;
+
+CREATE SEQUENCE IF NOT EXISTS employee_role_employee_role_id_seq;
+CREATE TABLE IF NOT EXISTS public.employee_role
+(
+    employee_role_id smallint NOT NULL DEFAULT nextval('employee_role_employee_role_id_seq'::regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT employee_role_pkey PRIMARY KEY (employee_role_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.employee_role
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+-- Table: public.employee
 -- DROP TABLE public.employee;
 CREATE SEQUENCE IF NOT EXISTS employee_employee_id_seq1;
 
+-- Table: public.employee
+-- DROP TABLE public.employee CASCADE;
+
 CREATE TABLE IF NOT EXISTS public.employee
 (
-  employee_id        integer  NOT NULL DEFAULT nextval('employee_employee_id_seq1' :: regclass),
-  country_id         smallint,
-  email              character varying(255) COLLATE pg_catalog."default",
-  employee_role_id   smallint,
-  employee_status_id smallint,
-  forename           character varying(255) COLLATE pg_catalog."default",
-  password           character varying(255) COLLATE pg_catalog."default",
-  start_date         date,
-  surname            character varying(255) COLLATE pg_catalog."default",
-  total_holidays     smallint NOT NULL,
-  CONSTRAINT employee_pkey PRIMARY KEY (employee_id)
+    employee_id integer NOT NULL DEFAULT nextval('employee_employee_id_seq1'::regclass),
+    country_id smallint,
+    email character varying(255) COLLATE pg_catalog."default",
+    employee_role_id smallint,
+    employee_status_id smallint,
+    forename character varying(255) COLLATE pg_catalog."default",
+    password character varying(255) COLLATE pg_catalog."default",
+    start_date date,
+    surname character varying(255) COLLATE pg_catalog."default",
+    total_holidays smallint NOT NULL,
+    CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
+    CONSTRAINT employee_country_id_fkey FOREIGN KEY (country_id)
+        REFERENCES public.country (country_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT employee_employee_role_id_fkey FOREIGN KEY (employee_role_id)
+        REFERENCES public.employee_role (employee_role_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
 WITH (
-OIDS = FALSE
+    OIDS = FALSE
 )
 TABLESPACE pg_default;
 
 ALTER TABLE public.employee
-  OWNER to postgres;
-
---decrypted password un05qu@r3_@dm1n
-INSERT INTO public.employee (
-  employee_id, country_id, email, employee_role_id, employee_status_id, forename, password, start_date, surname, total_holidays)
-VALUES (1, 1, 'superuser@unosquare.com', 1, 1, 'super', '$2a$10$v3qpm5f2Y45AeUbV2Wjiz.hMrUNVpmKcYuXJrRXHouOTNkTB26B9q',
-        '2018-01-01', 'USER', 28)
-ON CONFLICT (employee_id)
-  DO NOTHING;
+    OWNER to postgres;
 
 ----------------------------------------------------------------------------------------
 
 -- Table: public.client
-
 -- DROP TABLE public.client;
+
 CREATE SEQUENCE IF NOT EXISTS client_client_id_seq1;
 CREATE TABLE IF NOT EXISTS public.client
 (
@@ -74,7 +116,6 @@ ALTER TABLE public.client
 ----------------------------------------------------------------------------------------
 
 -- Table: public.contract
-
 -- DROP TABLE public.contract;
 
 CREATE TABLE IF NOT EXISTS public.contract
@@ -103,8 +144,8 @@ ALTER TABLE public.contract
 ----------------------------------------------------------------------------------------
 
 -- Table: public.holiday
-
 -- DROP TABLE public.holiday;
+
 CREATE SEQUENCE IF NOT EXISTS holiday_holiday_id_seq1;
 CREATE TABLE IF NOT EXISTS public.holiday
 (
@@ -132,8 +173,8 @@ ALTER TABLE public.holiday
 ----------------------------------------------------------------------------------------
 
 -- Table: public.mandatory_holiday
-
 -- DROP TABLE public.mandatory_holiday;
+
 CREATE SEQUENCE IF NOT EXISTS mandatory_holiday_mandatory_holiday_id_seq1;
 CREATE TABLE IF NOT EXISTS public.mandatory_holiday
 (
@@ -149,6 +190,3 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.mandatory_holiday
   OWNER to postgres;
-
-
-
