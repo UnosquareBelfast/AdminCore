@@ -1,72 +1,36 @@
 import React from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import 'react-bootstrap';
 import { userLogout } from '../../utilities/currentUser';
-import styles from './style.css';
 import roles from '../../utilities/roles';
+import { HeaderContainer, HeaderItem } from './styled';
 
 class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.onHomeClick = this.onHomeClick.bind(this);
-    this.onSettingsClick = this.onSettingsClick.bind(this);
+    // TODO: Get email from JWT.
 
-  }
+    handleLogout = () => {
+      userLogout();
+      this.props.history.push('/login');
+    }
 
-  // TODO: Get email from JWT.
+    navigate = (route) => {
+      this.props.history.push(route)
+    }
 
-  handleLogout() {
-    userLogout();
-    this.props.history.replace('/login');
-  }
+    render() {
+      const { user } = this.props;
 
-  onHomeClick() {
-    console.log('Home clicked');
-  }
-
-  onSettingsClick() {
-    console.log('Settings clicked');
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Navbar inverse collapseOnSelect className={styles.NavBarStyling}>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href="#brand">AdminCore</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <NavItem eventKey={1} onClick={this.onHomeClick}>
-                Home
-              </NavItem>
-            </Nav>
-            <Nav pullRight>
-              {this.props.user.employeeRoleId < roles.STANDARD && (
-                <NavItem eventKey={1} onClick={this.onSettingsClick}>
-                  Settings
-                </NavItem>
-              )}
-              <NavItem eventKey={2} onClick={this.handleLogout}>
-                Sign Out
-              </NavItem>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-
-        {/* <div className="App-header">
-                    <h2>Welcome {this.props.user.email}</h2>
-                </div>
-                <p className="App-intro">
-                    <button type="button" className="form-submit" onClick={this.handleLogout}>Logout</button>
-                </p> */}
-      </div>
-    );
-  }
+      return(
+        <HeaderContainer>
+          <HeaderItem bold onClick={() => this.navigate('/')}>AdminCore</HeaderItem>
+          {user && <div>
+            <HeaderItem onClick={() => this.navigate('/')}>Home</HeaderItem>
+            {user.employeeRoleId < roles.STANDARD &&
+              <HeaderItem onClick={() => this.navigate('/settings')}>Settings</HeaderItem>
+            }
+            <HeaderItem onClick={this.handleLogout}>Log Out</HeaderItem>
+          </div>}
+        </HeaderContainer>
+      );
+    }
 }
 
 export default Header;
