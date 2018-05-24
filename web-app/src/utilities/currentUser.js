@@ -1,7 +1,7 @@
 //This is ugly and temporary, needs major reworking because it's so brittle
 import decode from 'jwt-decode';
 
-const _getNamesFromEmail = () => {
+const getNamesFromEmail = () => {
   if (localStorage.getItem('user_email')) {
     let email = localStorage.getItem('user_email');
     const splitOne = email.split('.');
@@ -12,22 +12,23 @@ const _getNamesFromEmail = () => {
 };
 
 const UserInfo = {
-  token: localStorage.getItem('id_token'),
-  email: localStorage.getItem('user_email'),
-  ..._getNamesFromEmail(),
+  token: () => localStorage.getItem('id_token'),
+  email: () => localStorage.getItem('user_email'),
+  firstName: () => getNamesFromEmail().firstName,
+  lastName: () => getNamesFromEmail().lastName,
 };
 
 export const getProfile = () => {
-  return decode(UserInfo.token);
+  return decode(UserInfo.token());
 };
 
 export const isLoggedIn = () => {
-  return !!UserInfo.token && !isTokenExpired();
+  return !!UserInfo.token() && !isTokenExpired();
 };
 
 export const isTokenExpired = () => {
   try {
-    const decoded = decode(UserInfo.token);
+    const decoded = decode(UserInfo.token());
     return decoded.exp < Date.now() / 1000;
   } catch (err) {
     return false;
@@ -35,19 +36,16 @@ export const isTokenExpired = () => {
 };
 
 export const setUserEmail = (email) => {
-  localStorage.setItem('user_email', email);   
-}
+  localStorage.setItem('user_email', email);
+};
 
 export const setToken = (idToken) => {
   localStorage.setItem('id_token', idToken);
-}
+};
 
 export const userLogout = () => {
   localStorage.removeItem('id_token');
   localStorage.removeItem('user_email');
 };
-
-
-
 
 export default UserInfo;

@@ -11,7 +11,7 @@ export default Wrapped =>
     static propTypes = {
       onClose: PT.func,
       user: PT.object,
-      show: PT.bool,
+      show: PT.func,
     };
 
     constructor(props) {
@@ -120,7 +120,7 @@ export default Wrapped =>
 
     requestHoliday(holiday) {
       requestHoliday(holiday)
-        .then(response => {
+        .then(() => {
           Swal({ title: 'Holiday booked', type: 'success' });
           this.props.onClose;
         })
@@ -135,7 +135,7 @@ export default Wrapped =>
 
     requestHolidays(holidays) {
       requestHolidays(holidays)
-        .then(response => {
+        .then(() => {
           Swal({ title: 'Holiday booked', type: 'success' });
           this.props.onClose;
         })

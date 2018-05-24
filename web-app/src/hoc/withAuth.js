@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { Redirect } from 'react-router';
 import { userLogout, getProfile, isLoggedIn } from '../utilities/currentUser';
 
-export default function withAuth(AuthComponent) {
+const withAuth = () => (AuthComponent) => {
   return class AuthWrapped extends React.Component {
     static propTypes = {
       history: PT.object,
@@ -37,4 +37,6 @@ export default function withAuth(AuthComponent) {
       }
     }
   };
-}
+};
+
+export default withAuth;

@@ -51,9 +51,16 @@ const RequestHoliday = props => {
   );
 };
 
-export default container(RequestHoliday);
-
 RequestHoliday.propTypes = {
+  startDate: PT.object,
+  handleStartChange: PT.func,
+  endDate: PT.object,
+  handleEndChange: PT.func,
+  halfDayChecked: PT.bool,
+  handleChangeChk: PT.func,
+  confirmHolidayBooking: PT.func,
   onClose: PT.func.isRequired,
   show: PT.func,
 };
+
+export default container(RequestHoliday);

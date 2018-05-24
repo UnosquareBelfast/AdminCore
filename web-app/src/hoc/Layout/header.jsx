@@ -1,36 +1,38 @@
 import React from 'react';
+import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
 import roles from '../../utilities/roles';
 import { HeaderContainer, HeaderItem } from './styled';
 
-class Header extends React.Component {
-    // TODO: Get email from JWT.
+const Header = ({user, history}) => {
+  // TODO: Get email from JWT.
 
-    handleLogout = () => {
-      userLogout();
-      this.props.history.push('/login');
-    }
+  const handleLogout = () => {
+    userLogout();
+    history.push('/login');
+  };
 
-    navigate = (route) => {
-      this.props.history.push(route)
-    }
+  const navigate = (route) => {
+    history.push(route);
+  };
 
-    render() {
-      const { user } = this.props;
+  return (
+    <HeaderContainer>
+      <HeaderItem bold onClick={() => navigate('/')}>AdminCore</HeaderItem>
+      {user && <div>
+        <HeaderItem onClick={() => navigate('/')}>Home</HeaderItem>
+        {user.employeeRoleId < roles.STANDARD &&
+              <HeaderItem onClick={() => navigate('/settings')}>Settings</HeaderItem>
+        }
+        <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
+      </div>}
+    </HeaderContainer>
+  );
+};
 
-      return(
-        <HeaderContainer>
-          <HeaderItem bold onClick={() => this.navigate('/')}>AdminCore</HeaderItem>
-          {user && <div>
-            <HeaderItem onClick={() => this.navigate('/')}>Home</HeaderItem>
-            {user.employeeRoleId < roles.STANDARD &&
-              <HeaderItem onClick={() => this.navigate('/settings')}>Settings</HeaderItem>
-            }
-            <HeaderItem onClick={this.handleLogout}>Log Out</HeaderItem>
-          </div>}
-        </HeaderContainer>
-      );
-    }
-}
+Header.propTypes = {
+  history: PT.object,
+  user: PT.object,
+};
 
 export default Header;
