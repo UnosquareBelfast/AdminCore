@@ -5,7 +5,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { TakenLeave, BookedLeave, RequestHoliday } from '../../components';
 
-const Dashboard = (props) => {
+const Dashboard = props => {
   return (
     <div className={styles.RowC}>
       <div className={styles.LeaveTrackerList}>
@@ -20,26 +20,22 @@ const Dashboard = (props) => {
 
         <Calendar
           className={styles.CalendarStyling}
-          onChangeMonth={date => this.setState({ date })}
-          date={this.state.date}
+          onChangeMonth={date => {}}
+          date={props.date}
           onPickDate={date => console.log(date)}
         />
         <br />
-        <button onClick={this.toggleHolidayModal}>Book Holiday</button>
-        <RequestHoliday
-          user={props.user}
-          show={this.state.requestModalOpen}
-          onClose={props.toggleHolidayModal}
-        />
+        <button onClick={props.toggleHolidayModal}>Book Holiday</button>
+        <RequestHoliday user={props.user} show={() => {}} onClose={() => {}} />
       </div>
     </div>
   );
-}
+};
 
 Dashboard.propTypes = {
-  user: PT.user,
-  daysRemaining: PT.object,
-  toggleHolidayModal: PT.function
+  user: PT.object,
+  daysRemaining: PT.number,
+  toggleHolidayModal: PT.func,
 };
 
 export default container(Dashboard);

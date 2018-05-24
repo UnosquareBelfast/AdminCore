@@ -4,7 +4,7 @@ import { userLogout, getProfile, isLoggedIn } from '../utilities/currentUser';
 
 export default function withAuth(AuthComponent) {
   return class AuthWrapped extends React.Component {
-    propTypes = {
+    static propTypes = {
       history: PT.object,
     };
 

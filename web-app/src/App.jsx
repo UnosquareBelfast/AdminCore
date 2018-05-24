@@ -7,8 +7,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} history={this.props.history}/>
-        <Dashboard user={this.props.user}/>
+        <Header user={this.props.user} history={this.props.history} />
+        <Dashboard user={this.props.user} />
       </div>
     );
   }
