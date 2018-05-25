@@ -18,17 +18,11 @@ export default Wrapped =>
     }
 
     componentDidMount() {
-      console.log("****ID: ", this.props.user.userId());
-
       getHolidays(this.props.user.userId())
         .then(response => {
           const pastHolidays = response.data.filter(hol => {
             return this.isDateInThePast(hol.date);
           });
-
-          console.log("HOLIDAYS: ", pastHolidays);
-
-
           this.setState({ takenHolidays: pastHolidays });
         })
         .catch(error => {
