@@ -3,11 +3,10 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import Moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import { withAuth } from '../../hoc';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
-    propTypes = {
+    static propTypes = {
       user: PT.object,
     };
 
@@ -33,7 +32,7 @@ const DashboardContainer = Wrapped =>
         .then(response => {
           this.setState({ user: response.data });
           //eslint-disable-next-line
-          console.log('Profile retrieved', response);
+          console.log('Profile retrieved', response.data[0]);
         })
         .catch(error => {
           Swal({
@@ -63,4 +62,4 @@ const DashboardContainer = Wrapped =>
     }
   };
 
-export default withAuth(DashboardContainer);
+export default DashboardContainer;
