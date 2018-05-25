@@ -13,6 +13,7 @@ const getNamesFromEmail = () => {
 
 const UserInfo = {
   token: () => localStorage.getItem('id_token'),
+  userId: () => decode(localStorage.getItem('id_token')).sub,
   email: () => localStorage.getItem('user_email'),
   firstName: () => getNamesFromEmail().firstName,
   lastName: () => getNamesFromEmail().lastName,
@@ -35,11 +36,11 @@ export const isTokenExpired = () => {
   }
 };
 
-export const setUserEmail = (email) => {
+export const setUserEmail = email => {
   localStorage.setItem('user_email', email);
 };
 
-export const setToken = (idToken) => {
+export const setToken = idToken => {
   localStorage.setItem('id_token', idToken);
 };
 
