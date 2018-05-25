@@ -30,7 +30,7 @@ const DashboardContainer = Wrapped =>
     getUserProfile() {
       getUserProfile()
         .then(response => {
-          this.setState({ user: response.data });
+          this.setState({ user: response.data[0], daysRemaining: response.data[0].totalHolidays });
           //eslint-disable-next-line
           console.log('Profile retrieved', response.data[0]);
         })
@@ -52,7 +52,7 @@ const DashboardContainer = Wrapped =>
     render() {
       return (
         <Wrapped
-          user={this.props.user}
+          user={this.state.user}
           daysRemaining={this.state.daysRemaining}
           toggleHolidayModal={this.state.toggleHolidayModal}
           date={this.state.date}
