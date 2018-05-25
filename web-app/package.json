@@ -14,7 +14,9 @@
   "license": "MIT",
   "jest": {
     "setupTestFrameworkScriptFile": "./setupTests.js",
-    "setupFiles": ["jest-localstorage-mock"],
+    "setupFiles": [
+      "jest-localstorage-mock"
+    ],
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
     }
@@ -50,6 +52,7 @@
     "axios": "^0.18.0",
     "dotenv-webpack": "^1.5.5",
     "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "react": "^16.3.2",
     "react-bootstrap": "0.32.1",

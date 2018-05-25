@@ -4,9 +4,10 @@ import Calendar from 'react-calendar';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { TakenLeave, BookedLeave, RequestHoliday } from '../../components';
-import { Layout } from '../../hoc';
+import { Layout, withAuth } from '../../hoc';
+import { flowRight } from 'lodash';
 
-const Dashboard = (props) => {
+const Dashboard = props => {
   return (
     <Layout {...props}>
       <div className={styles.RowC}>
@@ -28,7 +29,11 @@ const Dashboard = (props) => {
           />
           <br />
           <button onClick={props.toggleHolidayModal}>Book Holiday</button>
-          <RequestHoliday user={props.user} show={() => {}} onClose={() => {}} />
+          <RequestHoliday
+            user={props.user}
+            show={() => {}}
+            onClose={() => {}}
+          />
         </div>
       </div>
     </Layout>
@@ -42,4 +47,5 @@ Dashboard.propTypes = {
   date: PT.object,
 };
 
-export default container(Dashboard);
+const enhance = flowRight(withAuth, container);
+export default enhance(Dashboard);
