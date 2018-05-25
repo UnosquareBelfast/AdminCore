@@ -5,19 +5,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EmployeeRole {
 
-    TEAM_LEADER((short) 1, "Team leader"),
-    SYSTEM_ADMINISTRATOR((short) 2, "System administrator"),
-    USER((short) 3, "User");
+    TEAM_LEADER(1, "Team leader"),
+    SYSTEM_ADMINISTRATOR(2, "System administrator"),
+    USER(3, "User");
 
     private final String description;
-    private final short employeeRoleId;
+    private final int employeeRoleId;
 
-    EmployeeRole(short employeeRoleId, String description) {
+    EmployeeRole(int employeeRoleId, String description) {
         this.employeeRoleId = employeeRoleId;
         this.description = description;
     }
 
-    public short getEmployeeRoleId() {
+    public int getEmployeeRoleId() {
         return employeeRoleId;
     }
 
@@ -32,7 +32,7 @@ public enum EmployeeRole {
                 employeeRoleId, description);
     }
 
-    public static EmployeeRole fromId(short employeeRoleId) {
+    public static EmployeeRole fromId(int employeeRoleId) {
         for (EmployeeRole status : EmployeeRole.values()) {
             if (status.employeeRoleId == employeeRoleId) {
                 return status;

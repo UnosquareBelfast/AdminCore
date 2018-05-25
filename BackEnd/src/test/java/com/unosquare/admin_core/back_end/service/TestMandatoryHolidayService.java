@@ -6,17 +6,15 @@ import com.unosquare.admin_core.back_end.repository.MandatoryHolidayRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
 
 @ComponentScan("com.unosquare.admin_core")
@@ -26,9 +24,7 @@ public class TestMandatoryHolidayService {
     private MandatoryHolidayService testingObject;
 
     private MandatoryHoliday pastHoliday;
-    private MandatoryHoliday futureHoliday;
     private List<MandatoryHoliday> mandatoryHolidays;
-    private List<MandatoryHoliday> pastMandatoryHolidays;
     private List<MandatoryHoliday> futureMandatoryHolidays;
 
     private int year = LocalDate.now().getYear();
@@ -45,31 +41,30 @@ public class TestMandatoryHolidayService {
         MockitoAnnotations.initMocks(this);
 
         pastHoliday = new MandatoryHoliday();
-        pastHoliday.setCountry(Country.NORTHERN_IRELAND);
+        pastHoliday.setCountryId(Country.NORTHERN_IRELAND.getCountryId());
         pastHoliday.setDate(pastDate);
         pastHoliday.setMandatoryHolidayId(1);
 
-        futureHoliday = new MandatoryHoliday();
-        futureHoliday.setCountry(Country.NORTHERN_IRELAND);
+        MandatoryHoliday futureHoliday = new MandatoryHoliday();
+        futureHoliday.setCountryId(Country.NORTHERN_IRELAND.getCountryId());
         futureHoliday.setDate(futureDate);
         futureHoliday.setMandatoryHolidayId(2);
 
-        mandatoryHolidays = Arrays.asList(pastHoliday, futureHoliday);
-        pastMandatoryHolidays = Arrays.asList(pastHoliday);
-        futureMandatoryHolidays = Arrays.asList(futureHoliday);
+        mandatoryHolidays = asList(pastHoliday, futureHoliday);
+        futureMandatoryHolidays = Collections.singletonList(futureHoliday);
     }
 
 
     @Test
     public void testFindByIdCountySet() {
         Mockito.doReturn(Optional.of(pastHoliday)).when(mandatoryHolidayRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getCountry().equals(Country.NORTHERN_IRELAND));
+        Assert.assertEquals(testingObject.findById(1).getCountryId(), Country.NORTHERN_IRELAND.getCountryId());
     }
 
     @Test
     public void testFindByIdDateSet() {
         Mockito.doReturn(Optional.of(pastHoliday)).when(mandatoryHolidayRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getDate().equals(pastDate));
+        Assert.assertEquals(testingObject.findById(1).getDate(), pastDate);
     }
 
 
@@ -81,16 +76,16 @@ public class TestMandatoryHolidayService {
     @Test
     public void testFindAll() {
         Mockito.doReturn(mandatoryHolidays).when(mandatoryHolidayRepository).findAll();
-        Assert.assertTrue(testingObject.findAll().size() == 2);
+        Assert.assertEquals(2, testingObject.findAll().size());
     }
 
     @Test
     public void testFindMandatoryHolidaysByCountryAfterStartDate() {
 
         Mockito.doReturn(mandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryAndDateBetween(any(Country.class), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(ArgumentMatchers.anyShort(), any(LocalDate.class), any(LocalDate.class));
 
-        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryAfterStartDate(Country.NORTHERN_IRELAND, LocalDate.now()).toArray(),
+        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryIdAfterStartDate(Country.NORTHERN_IRELAND.getCountryId(), LocalDate.now()).toArray(),
                 mandatoryHolidays.toArray());
     }
 
@@ -98,19 +93,19 @@ public class TestMandatoryHolidayService {
     public void testFindMandatoryHolidaysByCountryAndYear() {
 
         Mockito.doReturn(mandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryAndDateBetween(any(Country.class), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(ArgumentMatchers.anyShort(), any(LocalDate.class), any(LocalDate.class));
 
 
-        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryAndYear(Country.NORTHERN_IRELAND, year).toArray(),
+        Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryIdAndYear(Country.NORTHERN_IRELAND.getCountryId(), year).toArray(),
                 mandatoryHolidays.toArray());
     }
 
     @Test
     public void testFindByCountryAndDateBetween() {
         Mockito.doReturn(futureMandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryAndDateBetween(any(Country.class), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(ArgumentMatchers.anyShort(), any(LocalDate.class), any(LocalDate.class));
 
-        Assert.assertArrayEquals(testingObject.findByCountryAndDateBetween(Country.NORTHERN_IRELAND, currentDateTest, futureDate).toArray(),
+        Assert.assertArrayEquals(testingObject.findByCountryIdAndDateBetween(Country.NORTHERN_IRELAND.getCountryId(), currentDateTest, futureDate).toArray(),
                 futureMandatoryHolidays.toArray());
     }
 

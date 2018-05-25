@@ -102,14 +102,14 @@ public class HolidayController {
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByClientStatus(@PathVariable("holidayStatusId") short holidayStatusId) {
+    public List<HolidayDto> findByClientStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
         return mapHolidaysToDtos(holidayService.findByStatus(HolidayStatus.fromId(holidayStatusId)));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatusId}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") short holidayStatusId, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") int holidayStatusId, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(HolidayStatus.fromId(holidayStatusId), date));
     }
 

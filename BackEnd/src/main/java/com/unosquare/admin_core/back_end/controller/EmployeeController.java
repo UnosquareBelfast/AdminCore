@@ -71,7 +71,7 @@ public class EmployeeController {
 
     @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeDto> findByCountry(@PathVariable("countryId") short countryId) {
+    public List<EmployeeDto> findByCountry(@PathVariable("countryId") int countryId) {
         return mapEployeessToDtos(employeeService.findByCountry(Country.fromId(countryId)));
     }
 

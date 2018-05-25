@@ -18,7 +18,7 @@
 CREATE SEQUENCE IF NOT EXISTS country_country_id_seq;
 CREATE TABLE IF NOT EXISTS public.country
 (
-    country_id smallint NOT NULL DEFAULT nextval('country_country_id_seq'::regclass),
+    country_id integer NOT NULL DEFAULT nextval('country_country_id_seq'::regclass),
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT country_pkey PRIMARY KEY (country_id)
 )
@@ -38,7 +38,7 @@ ALTER TABLE public.country
 CREATE SEQUENCE IF NOT EXISTS client_status_client_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.client_status
 (
-    client_status_id smallint NOT NULL DEFAULT nextval('client_status_client_status_id_seq'::regclass),
+    client_status_id integer NOT NULL DEFAULT nextval('client_status_client_status_id_seq'::regclass),
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT client_status_pkey PRIMARY KEY (client_status_id)
 )
@@ -58,7 +58,7 @@ ALTER TABLE public.client_status
 CREATE SEQUENCE IF NOT EXISTS contract_status_contract_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.contract_status
 (
-    contract_status_id smallint NOT NULL DEFAULT nextval('contract_status_contract_status_id_seq'::regclass),
+    contract_status_id integer NOT NULL DEFAULT nextval('contract_status_contract_status_id_seq'::regclass),
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT contract_status_pkey PRIMARY KEY (contract_status_id)
 )
@@ -72,13 +72,33 @@ ALTER TABLE public.contract_status
 
 ----------------------------------------------------------------------------------------
 
+-- Table: public.employee_status
+-- DROP TABLE public.employee_status;
+
+CREATE SEQUENCE IF NOT EXISTS employee_status_employee_status_id_seq;
+CREATE TABLE IF NOT EXISTS public.employee_status
+(
+    employee_status_id integer NOT NULL DEFAULT nextval('employee_status_employee_status_id_seq'::regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT employee_status_pkey PRIMARY KEY (employee_status_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.employee_status
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
 -- Table: public.employee_role
 -- DROP TABLE public.employee_role;
 
 CREATE SEQUENCE IF NOT EXISTS employee_role_employee_role_id_seq;
 CREATE TABLE IF NOT EXISTS public.employee_role
 (
-    employee_role_id smallint NOT NULL DEFAULT nextval('employee_role_employee_role_id_seq'::regclass),
+    employee_role_id integer NOT NULL DEFAULT nextval('employee_role_employee_role_id_seq'::regclass),
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT employee_role_pkey PRIMARY KEY (employee_role_id)
 )
@@ -98,7 +118,7 @@ ALTER TABLE public.employee_role
 CREATE SEQUENCE IF NOT EXISTS holiday_status_holiday_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.holiday_status
 (
-    holiday_status_id smallint NOT NULL DEFAULT nextval('holiday_status_holiday_status_id_seq'::regclass),
+    holiday_status_id integer NOT NULL DEFAULT nextval('holiday_status_holiday_status_id_seq'::regclass),
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT holiday_status_pkey PRIMARY KEY (holiday_status_id)
 )
@@ -121,15 +141,15 @@ CREATE SEQUENCE IF NOT EXISTS employee_employee_id_seq1;
 CREATE TABLE IF NOT EXISTS public.employee
 (
     employee_id integer NOT NULL DEFAULT nextval('employee_employee_id_seq1'::regclass),
-    country_id smallint,
+    country_id integer,
     email character varying(255) COLLATE pg_catalog."default",
-    employee_role_id smallint,
-    employee_status_id smallint,
+    employee_role_id integer,
+    employee_status_id integer,
     forename character varying(255) COLLATE pg_catalog."default",
     password character varying(255) COLLATE pg_catalog."default",
     start_date date,
     surname character varying(255) COLLATE pg_catalog."default",
-    total_holidays smallint NOT NULL,
+    total_holidays integer NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
     CONSTRAINT employee_country_id_fkey FOREIGN KEY (country_id)
         REFERENCES public.country (country_id) MATCH SIMPLE
@@ -137,6 +157,10 @@ CREATE TABLE IF NOT EXISTS public.employee
         ON DELETE NO ACTION,
     CONSTRAINT employee_employee_role_id_fkey FOREIGN KEY (employee_role_id)
         REFERENCES public.employee_role (employee_role_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT employee_status_id_fkey FOREIGN KEY (employee_status_id)
+        REFERENCES public.employee_status (employee_status_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -158,10 +182,10 @@ CREATE TABLE IF NOT EXISTS public.client
 (
   client_id                  integer  NOT NULL DEFAULT nextval('client_client_id_seq1' :: regclass),
   client_name                character varying(255) COLLATE pg_catalog."default",
-  client_status_id           smallint,
+  client_status_id           integer,
   contact_email              character varying(255) COLLATE pg_catalog."default",
   contact_name               character varying(255) COLLATE pg_catalog."default",
-  minimum_employees_for_team smallint NOT NULL,
+  minimum_employees_for_team integer NOT NULL,
   team_name                  character varying(255) COLLATE pg_catalog."default",
   CONSTRAINT client_pkey PRIMARY KEY (client_id),
   CONSTRAINT client_client_status_id_fkey FOREIGN KEY (client_status_id)
@@ -186,7 +210,7 @@ CREATE TABLE IF NOT EXISTS public.contract
 (
   client_id          integer NOT NULL,
   employee_id        integer NOT NULL,
-  contract_status_id smallint,
+  contract_status_id integer,
   CONSTRAINT contract_pkey PRIMARY KEY (client_id, employee_id),
   CONSTRAINT fklhq3p3xl25vvnfvyfc51ica0j FOREIGN KEY (client_id)
         REFERENCES public.client (client_id) MATCH SIMPLE
@@ -220,7 +244,7 @@ CREATE TABLE IF NOT EXISTS public.holiday
   holiday_id        integer NOT NULL DEFAULT nextval('holiday_holiday_id_seq1' :: regclass),
   date              date,
   date_created      date,
-  holiday_status_id smallint,
+  holiday_status_id integer,
   is_half_day       boolean NOT NULL,
   last_modified     date,
   employee_id       integer,
@@ -251,7 +275,7 @@ CREATE SEQUENCE IF NOT EXISTS mandatory_holiday_mandatory_holiday_id_seq1;
 CREATE TABLE IF NOT EXISTS public.mandatory_holiday
 (
   mandatory_holiday_id integer NOT NULL DEFAULT nextval('mandatory_holiday_mandatory_holiday_id_seq1' :: regclass),
-  country_id           smallint,
+  country_id           integer,
   date                 date,
   CONSTRAINT mandatory_holiday_pkey PRIMARY KEY (mandatory_holiday_id),
   CONSTRAINT mandatory_holiday_country_id_fkey FOREIGN KEY (country_id)

@@ -70,7 +70,7 @@ public class ContractController {
 
     @GetMapping(value = "/findByContractStatus/{contractStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ContractDto> findByClientStatus(@PathVariable("contractStatusId") short contractStatusId) {
+    public List<ContractDto> findByClientStatus(@PathVariable("contractStatusId") int contractStatusId) {
         return mapContractsToDtos(contractService.findByStatus(ContractStatus.fromId(contractStatusId)));
     }
 

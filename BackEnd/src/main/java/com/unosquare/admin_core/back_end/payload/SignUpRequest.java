@@ -1,8 +1,6 @@
 package com.unosquare.admin_core.back_end.payload;
 
-import com.unosquare.admin_core.back_end.enums.Country;
-import com.unosquare.admin_core.back_end.enums.EmployeeRole;
-import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -21,12 +19,14 @@ public class SignUpRequest {
     private String surname;
 
     @NotBlank
-    @Size(min = 4, max = 40)
-    private Country country;
+    @JsonProperty("country")
+    private int countryId;
 
-    private EmployeeRole employeeRole;
+    @JsonProperty("employeeRole")
+    private int employeeRoleId;
 
-    private EmployeeStatus status;
+    @JsonProperty("status")
+    private int statusId;
 
     private LocalDate startDate;
 
@@ -44,14 +44,14 @@ public class SignUpRequest {
     }
 
     public SignUpRequest(String forename, String surname, String email, String password,
-                         Country country, EmployeeStatus status, EmployeeRole employeeRole, LocalDate startDate) {
+                         int countryId, int statusId, int employeeRoleId, LocalDate startDate) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.country = country;
-        this.status = status;
-        this.employeeRole = employeeRole;
+        this.countryId = countryId;
+        this.statusId = statusId;
+        this.employeeRoleId = employeeRoleId;
         this.startDate = startDate;
     }
 

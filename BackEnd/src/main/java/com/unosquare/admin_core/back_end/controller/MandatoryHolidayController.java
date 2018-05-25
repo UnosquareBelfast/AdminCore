@@ -2,7 +2,6 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.MandatoryHolidayDto;
 import com.unosquare.admin_core.back_end.entity.MandatoryHoliday;
-import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.service.MandatoryHolidayService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,8 @@ public class MandatoryHolidayController {
 
     @GetMapping(value = "findMandatoryHolidaysByCountryAndYear/{countryId}/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<MandatoryHolidayDto> findMandatoryHolidaysByCountryAndYear(@PathVariable("countryId") short countryId, @PathVariable("year") int year) {
-        return mapMandatoryHolidaysToDtos(mandatoryHolidayService.findMandatoryHolidaysByCountryAndYear(Country.fromId(countryId), year));
+    public List<MandatoryHolidayDto> findMandatoryHolidaysByCountryAndYear(@PathVariable("countryId") int countryId, @PathVariable("year") int year) {
+        return mapMandatoryHolidaysToDtos(mandatoryHolidayService.findMandatoryHolidaysByCountryIdAndYear(countryId, year));
     }
 
     @GetMapping(value = "/{mandatoryHolidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -66,10 +65,10 @@ public class MandatoryHolidayController {
 
     @GetMapping(value = "findByCountryAndDateBetween/{countryId}/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<MandatoryHolidayDto> findByCountryAndDateBetween(@PathVariable("countryId") short countryId,
+    public List<MandatoryHolidayDto> findByCountryAndDateBetween(@PathVariable("countryId") int countryId,
                                                                  @PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
                                                                  @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
-        return mapMandatoryHolidaysToDtos(mandatoryHolidayService.findByCountryAndDateBetween(Country.fromId(countryId), rangeStart, rangeEnd));
+        return mapMandatoryHolidaysToDtos(mandatoryHolidayService.findByCountryIdAndDateBetween(countryId, rangeStart, rangeEnd));
     }
 
     @GetMapping(value = "findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)

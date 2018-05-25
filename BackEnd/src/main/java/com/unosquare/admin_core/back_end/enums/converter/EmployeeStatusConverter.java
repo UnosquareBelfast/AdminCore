@@ -7,9 +7,9 @@ import javax.persistence.Converter;
 
 @Converter
 public class EmployeeStatusConverter
-        implements AttributeConverter<EmployeeStatus, Short> {
+        implements AttributeConverter<EmployeeStatus, Integer> {
 
-    public Short convertToDatabaseColumn(EmployeeStatus status) {
+    public Integer convertToDatabaseColumn(EmployeeStatus status) {
         if (status == null) {
             return null;
         }
@@ -17,7 +17,7 @@ public class EmployeeStatusConverter
         return status.getEmployeeStatusId();
     }
 
-    public EmployeeStatus convertToEntityAttribute(Short id) {
+    public EmployeeStatus convertToEntityAttribute(Integer id) {
         if (id == null) {
             return null;
         }

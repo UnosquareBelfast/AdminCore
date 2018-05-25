@@ -17,17 +17,17 @@ public class EmployeeDto {
     private String forename;
     private String surname;
     private String email;
-    private short totalHolidays;
+    private int totalHolidays;
 
     private LocalDate startDate;
 
-    private short countryId;
+    private int countryId;
     private String countryDescription;
 
-    private short employeeRoleId;
+    private int employeeRoleId;
     private String employeeRoleDescription;
 
-    private short employeeStatusId;
+    private int employeeStatusId;
     private String statusDescription;
 
     public EmployeeDto() {
@@ -42,12 +42,12 @@ public class EmployeeDto {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeRoleId = (short) employeeRoleId;
+        this.employeeRoleId = employeeRoleId;
         this.employeeRoleDescription = getEmployeeRole().getDescription();
-        this.employeeStatusId = (short) employeeStatusId;
+        this.employeeStatusId = employeeStatusId;
         this.statusDescription = getEmployeeStatus().getDescription();
         this.startDate = startDate;
-        this.countryId = (short) countryId;
+        this.countryId = countryId;
         this.countryDescription = getCountry().getDescription();
     }
 
@@ -58,12 +58,12 @@ public class EmployeeDto {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeRoleId = (short) employeeRoleId;
+        this.employeeRoleId = employeeRoleId;
         this.employeeRoleDescription = getEmployeeRole().getDescription();
-        this.employeeStatusId = (short) employeeStatusId;
+        this.employeeStatusId = employeeStatusId;
         this.statusDescription = getEmployeeStatus().getDescription();
         this.startDate = startDate;
-        this.countryId = (short) countryId;
+        this.countryId = countryId;
         this.countryDescription = getCountry().getDescription();
     }
 

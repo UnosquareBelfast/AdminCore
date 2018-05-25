@@ -15,7 +15,7 @@ public class HolidayDto {
 
     private EmployeeDto employee;
 
-    private short holidayStatusId;
+    private int holidayStatusId;
     private String holidayStatusDescription;
 
     private boolean isHalfDay;

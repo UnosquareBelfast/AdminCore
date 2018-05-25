@@ -79,7 +79,7 @@ public class ClientController {
 
     @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") short clientStatusId) {
+    public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") int clientStatusId) {
         return mapClientsToDtos(clientService.findByClientStatus(ClientStatus.fromId(clientStatusId)));
     }
 

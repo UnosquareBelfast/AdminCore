@@ -7,9 +7,9 @@ import javax.persistence.Converter;
 
 @Converter
 public class CountryConverter
-        implements AttributeConverter<Country, Short> {
+        implements AttributeConverter<Country, Integer> {
 
-    public Short convertToDatabaseColumn(Country country) {
+    public Integer convertToDatabaseColumn(Country country) {
         if (country == null) {
             return null;
         }
@@ -17,7 +17,7 @@ public class CountryConverter
         return country.getCountryId();
     }
 
-    public Country convertToEntityAttribute(Short id) {
+    public Country convertToEntityAttribute(Integer id) {
         if (id == null) {
             return null;
         }

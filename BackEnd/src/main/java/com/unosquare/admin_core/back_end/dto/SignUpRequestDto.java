@@ -1,8 +1,6 @@
 package com.unosquare.admin_core.back_end.dto;
 
-import com.unosquare.admin_core.back_end.enums.Country;
-import com.unosquare.admin_core.back_end.enums.EmployeeRole;
-import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -21,12 +19,14 @@ public class SignUpRequestDto {
     private String surname;
 
     @NotBlank
-    @Size(min = 4, max = 40)
-    private Country country;
+    @JsonProperty("country")
+    private int countryId;
 
-    private EmployeeRole employeeRole;
+    @JsonProperty("employeeRole")
+    private int employeeRoleId;
 
-    private EmployeeStatus status;
+    @JsonProperty("status")
+    private int statusId;
 
     private LocalDate startDate;
 

@@ -63,9 +63,9 @@ public class HolidayService {
     }
 
     public void addMandatoryHolidaysForNewEmployee(Employee employee) {
-        List<MandatoryHoliday> mandatoryHolidaysByCountryAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryAfterStartDate(employee.getCountry(), employee.getStartDate());
+        List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountryId(), employee.getStartDate());
 
-        for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryAfterStartDate) {
+        for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
             Holiday holiday = new Holiday(mandatoryHoliday.getDate(), employee, HolidayStatus.MANDATORY, false);
             holidayRepository.save(holiday);
         }
