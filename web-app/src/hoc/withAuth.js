@@ -1,15 +1,13 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import LoginService from '../pages/Login/LoginService';
+import { Redirect } from 'react-router';
+import { userLogout, getProfile, isLoggedIn } from '../utilities/currentUser';
 
-export default function withAuth(AuthComponent) {
-  const Auth = new LoginService(process.env.DOMAIN);
-
-
+const withAuth = () => (AuthComponent) => {
   return class AuthWrapped extends React.Component {
-    propTypes = {
+    static propTypes = {
       history: PT.object,
-    }
+    };
 
     constructor() {
       super();
@@ -19,31 +17,26 @@ export default function withAuth(AuthComponent) {
     }
 
     componentWillMount() {
-      if (!Auth.loggedIn()) {
-        this.props.history.replace('/login');
+      try {
+        const profile = getProfile();
+        this.setState({
+          user: profile,
+        });
       }
-      else {
-        try {
-          const profile = Auth.getProfile();
-          this.setState({
-            user: profile,
-          });
-        }
-        catch (err) {
-          Auth.logout();
-          this.props.history.replace('/login');
-        }
+      catch (err) {
+        userLogout();
       }
     }
 
     render() {
+      if (!isLoggedIn()) { return <Redirect to="/login"/>; }
       if (this.state.user) {
         return (
           <AuthComponent history={this.props.history} user={this.state.user} />
         );
       }
-
-      return null;
     }
   };
-}
+};
+
+export default withAuth;

@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import styles from './style.css';
 import container from './container';
 
-const BookedLeave = (props) => {
+export const BookedLeave = (props) => {
   const formatDate = (date) => {
     const definedDate = new Date(date);
     const year = definedDate.getFullYear();
