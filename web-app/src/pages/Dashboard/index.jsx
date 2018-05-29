@@ -3,7 +3,7 @@ import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Leave } from '../../components';
+import { BookingModal, Leave } from '../../components';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Sidebar } from './styled';
@@ -29,11 +29,34 @@ const dummyEvents = [
     start: new Date(new Date().setHours(new Date().getHours() - 3)),
     end: new Date(new Date().setHours(new Date().getHours() + 3)),
   },
+  {
+    id: 141,
+    title: 'BG',
+    start: new Date(new Date().setHours(new Date().getHours() - 3)),
+    end: new Date(new Date().setHours(new Date().getHours() + 3)),
+  },
+  {
+    id: 4321,
+    title: 'BG',
+    start: new Date(new Date().setHours(new Date().getHours() - 3)),
+    end: new Date(new Date().setHours(new Date().getHours() + 3)),
+  },
+  {
+    id: 1321321,
+    title: 'BG',
+    start: new Date(new Date().setHours(new Date().getHours() - 3)),
+    end: new Date(new Date().setHours(new Date().getHours() + 3)),
+  },
 ];
 
 const Dashboard = props => {
   return (
     <Layout {...props}>
+      <BookingModal
+        booking={props.booking}
+        closeModal={props.closeModal}
+        show={props.showBookingModal}
+      />
       <Sidebar>
         <Leave user={ props.user } totalHolidays={  props.totalHolidays }/>
       </Sidebar>
@@ -42,12 +65,8 @@ const Dashboard = props => {
         onSelectSlot={props.onSelectSlot}
         onSelectEvent={props.onSelectEvent}
         selectable
+        popup
       />
-      {/* <RequestHoliday
-        user={props.user}
-        show={() => {}}
-        onClose={() => {}}
-      /> */}
     </Layout>
   );
 };
@@ -59,6 +78,9 @@ Dashboard.propTypes = {
   date: PT.object,
   onSelectSlot: PT.func,
   onSelectEvent: PT.func,
+  booking: PT.object,
+  showBookingModal: PT.bool,
+  closeModal: PT.func,
 };
 
 const enhance = flowRight(withAuth, container);

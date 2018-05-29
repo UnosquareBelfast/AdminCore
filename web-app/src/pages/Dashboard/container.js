@@ -17,10 +17,11 @@ const DashboardContainer = Wrapped =>
         totalHolidays: 0,
         requestModalOpen: false,
         user: null,
+        showBookingModal: false,
+        booking: {},
       };
 
       this.getUserProfile = this.getUserProfile.bind(this);
-      this.toggleHolidayModal = this.toggleHolidayModal.bind(this);
     }
 
     componentDidMount() {
@@ -43,20 +44,30 @@ const DashboardContainer = Wrapped =>
         });
     }
 
-    toggleHolidayModal() {
+    closeModal = () => {
+      this.setState({showBookingModal: false});
+    }
+
+    onSelectSlot = ({start, end}) => {
       this.setState({
-        requestModalOpen: !this.state.requestModalOpen,
+        showBookingModal: true,
+        booking: {
+          start: start,
+          end: end,
+        },
       });
     }
 
-    onSelectSlot(slotInfo) {
-      //eslint-disable-next-line
-      console.log(slotInfo);
-    }
-
-    onSelectEvent(eventInfo) {
-      //eslint-disable-next-line
-      console.log(eventInfo)
+    onSelectEvent = ({start, end, id, title}) => {
+      this.setState({
+        showBookingModal: true,
+        booking: {
+          start: start,
+          end: end,
+          id: id,
+          title: title,
+        },
+      });
     }
 
     render() {
@@ -68,6 +79,9 @@ const DashboardContainer = Wrapped =>
           date={this.state.date}
           onSelectSlot={this.onSelectSlot}
           onSelectEvent={this.onSelectEvent}
+          showBookingModal={this.state.showBookingModal}
+          booking={this.state.booking}
+          closeModal={this.closeModal}
           {...this.props}
         />
       );
