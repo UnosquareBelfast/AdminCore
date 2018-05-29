@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 @ComponentScan("com.unosquare.admin_core")
 public class TestMandatoryHolidayService {
@@ -83,7 +84,7 @@ public class TestMandatoryHolidayService {
     public void testFindMandatoryHolidaysByCountryAfterStartDate() {
 
         Mockito.doReturn(mandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(ArgumentMatchers.anyShort(), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(anyInt(), any(LocalDate.class), any(LocalDate.class));
 
         Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryIdAfterStartDate(Country.NORTHERN_IRELAND.getCountryId(), LocalDate.now()).toArray(),
                 mandatoryHolidays.toArray());
@@ -93,7 +94,7 @@ public class TestMandatoryHolidayService {
     public void testFindMandatoryHolidaysByCountryAndYear() {
 
         Mockito.doReturn(mandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(ArgumentMatchers.anyShort(), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(anyInt(), any(LocalDate.class), any(LocalDate.class));
 
 
         Assert.assertArrayEquals(testingObject.findMandatoryHolidaysByCountryIdAndYear(Country.NORTHERN_IRELAND.getCountryId(), year).toArray(),
@@ -103,7 +104,7 @@ public class TestMandatoryHolidayService {
     @Test
     public void testFindByCountryAndDateBetween() {
         Mockito.doReturn(futureMandatoryHolidays).
-                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(ArgumentMatchers.anyShort(), any(LocalDate.class), any(LocalDate.class));
+                when(mandatoryHolidayRepository).findByCountryIdAndDateBetween(anyInt(), any(LocalDate.class), any(LocalDate.class));
 
         Assert.assertArrayEquals(testingObject.findByCountryIdAndDateBetween(Country.NORTHERN_IRELAND.getCountryId(), currentDateTest, futureDate).toArray(),
                 futureMandatoryHolidays.toArray());

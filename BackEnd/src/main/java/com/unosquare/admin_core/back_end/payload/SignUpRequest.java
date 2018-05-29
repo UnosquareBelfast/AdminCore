@@ -1,6 +1,5 @@
 package com.unosquare.admin_core.back_end.payload;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -19,13 +18,10 @@ public class SignUpRequest {
     private String surname;
 
     @NotBlank
-    @JsonProperty("country")
     private int countryId;
 
-    @JsonProperty("employeeRole")
     private int employeeRoleId;
 
-    @JsonProperty("status")
     private int statusId;
 
     private LocalDate startDate;

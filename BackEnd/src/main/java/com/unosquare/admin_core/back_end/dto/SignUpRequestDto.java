@@ -22,9 +22,11 @@ public class SignUpRequestDto {
     @JsonProperty("country")
     private int countryId;
 
+    @NotBlank
     @JsonProperty("employeeRole")
     private int employeeRoleId;
 
+    @NotBlank
     @JsonProperty("status")
     private int statusId;
 

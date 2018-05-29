@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,8 +28,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDate;
 import java.util.*;
 
+import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
 
+@ComponentScan("com.unosquare.admin_core")
 public class TestEmployeeService {
 
     @InjectMocks
@@ -46,6 +51,9 @@ public class TestEmployeeService {
     private LocalDate pastDate = currentDateTest.minusMonths(1);
     private LocalDate futureDate = currentDateTest.plusMonths(1);
 
+
+    @Mock
+    private HolidayService holidayService;
 
     @Mock
     private EmployeeRepository employeeRepository;
@@ -92,9 +100,9 @@ public class TestEmployeeService {
         employeeStartDateAfterToday.setStartDate(futureDate);
         employeeStartDateAfterToday.setPassword(TestEmployeeEnum.passwordEncrypted.toString());
 
-        employees = Arrays.asList(employeeStartDateBeforeToday, employeeStartDateAfterToday);
-        employeesAfterStart = Arrays.asList(employeeStartDateAfterToday);
-        employeesBeforeStart = Arrays.asList(employeeStartDateBeforeToday);
+        employees = asList(employeeStartDateBeforeToday, employeeStartDateAfterToday);
+        employeesAfterStart = Collections.singletonList(employeeStartDateAfterToday);
+        employeesBeforeStart = Collections.singletonList(employeeStartDateBeforeToday);
 
     }
 
@@ -102,43 +110,43 @@ public class TestEmployeeService {
     @Test
     public void testFindByIdEmployeeFornameSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getForename().equals(TestEmployeeEnum.forename.toString()));
+        Assert.assertEquals(testingObject.findById(1).getForename(), TestEmployeeEnum.forename.toString());
     }
 
     @Test
     public void testFindByIdEmployeeSurnameSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getSurname().equals(TestEmployeeEnum.surname.toString()));
+        Assert.assertEquals(testingObject.findById(1).getSurname(), TestEmployeeEnum.surname.toString());
     }
 
     @Test
     public void testFindByIdEmployeeCountrySet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getCountryId() == Country.NORTHERN_IRELAND.getCountryId());
+        Assert.assertEquals(testingObject.findById(1).getCountryId(), Country.NORTHERN_IRELAND.getCountryId());
     }
 
     @Test
     public void testFindByIdEmployeeTotalHolidaysSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getTotalHolidays() == (Integer.valueOf(TestEmployeeEnum.totalHolidays.toString())));
+        Assert.assertEquals(testingObject.findById(1).getTotalHolidays(), (int) (Integer.valueOf(TestEmployeeEnum.totalHolidays.toString())));
     }
 
     @Test
     public void testFindByIdEmployeeEmailSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getEmail().equals(TestEmployeeEnum.email.toString()));
+        Assert.assertEquals(testingObject.findById(1).getEmail(), TestEmployeeEnum.email.toString());
     }
 
     @Test
     public void testFindByIdEmployeeAdminSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getEmployeeStatusId() == (EmployeeStatus.ACTIVE.getEmployeeStatusId()));
+        Assert.assertEquals(testingObject.findById(1).getEmployeeStatusId(), (EmployeeStatus.ACTIVE.getEmployeeStatusId()));
     }
 
     @Test
     public void testFindByIdEmployeeActiveSet() {
         Mockito.doReturn(Optional.of(employeeStartDateBeforeToday)).when(employeeRepository).findById(1);
-        Assert.assertTrue(testingObject.findById(1).getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
+        Assert.assertEquals(testingObject.findById(1).getEmployeeRoleId(), EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
     }
     //endregion
 
@@ -150,7 +158,7 @@ public class TestEmployeeService {
 
     @Test
     public void TestUpdateTotalHolidays() {
-        List holidays = getMockHolidays();
+        List<Holiday> holidays = getMockHolidays();
         Mockito.doReturn(holidays).when(holidayRepository).findByEmployee_EmployeeId(employeeStartDateBeforeToday.getEmployeeId());
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(employeeStartDateBeforeToday);
         testingObject.updateTotalHolidayForNewEmployee(employeeStartDateBeforeToday);
@@ -159,7 +167,7 @@ public class TestEmployeeService {
 
     @Test
     public void TestUpdateTotalHolidaysSameYear() {
-        List holidays = getMockHolidays();
+        List<Holiday> holidays = getMockHolidays();
         employeeStartDateBeforeToday.setStartDate(currentDateTest);
         Mockito.doReturn(holidays).when(holidayRepository).findByEmployee_EmployeeId(employeeStartDateBeforeToday.getEmployeeId());
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(employeeStartDateBeforeToday);
@@ -173,7 +181,7 @@ public class TestEmployeeService {
         listOfAllClients.add(employeeStartDateBeforeToday);
         listOfAllClients.add(employeeStartDateBeforeToday);
         Mockito.doReturn(listOfAllClients).when(employeeRepository).findAll();
-        Assert.assertTrue(testingObject.findAll().size() == 2);
+        Assert.assertEquals(2, testingObject.findAll().size());
     }
 
     private List<Holiday> getMockHolidays() {
@@ -190,8 +198,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getForename().equals(TestEmployeeEnum.forename.toString()));
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getForename(), TestEmployeeEnum.forename.toString());
     }
 
     @Test
@@ -199,8 +207,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getSurname().equals(TestEmployeeEnum.surname.toString()));
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getSurname(), TestEmployeeEnum.surname.toString());
     }
 
     @Test
@@ -208,8 +216,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getCountryId() == Country.NORTHERN_IRELAND.getCountryId());
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getCountryId(), Country.NORTHERN_IRELAND.getCountryId());
     }
 
     @Test
@@ -217,8 +225,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getTotalHolidays() == Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getTotalHolidays(), Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
     }
 
     @Test
@@ -226,8 +234,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getEmail().equals(TestEmployeeEnum.email.toString()));
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getEmail(), TestEmployeeEnum.email.toString());
     }
 
     @Test
@@ -235,8 +243,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getEmployeeRoleId(), EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
     }
 
     @Test
@@ -244,8 +252,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByForenameIgnoreCaseAndSurnameIgnoreCase(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString());
 
-        Assert.assertTrue(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
-                get(0).getEmployeeStatusId() == EmployeeStatus.ACTIVE.getEmployeeStatusId());
+        Assert.assertEquals(testingObject.findByForenameAndSurname(TestEmployeeEnum.forename.toString(), TestEmployeeEnum.surname.toString()).
+                get(0).getEmployeeStatusId(), EmployeeStatus.ACTIVE.getEmployeeStatusId());
     }
     //endregion
 
@@ -255,8 +263,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getForename().equals(TestEmployeeEnum.forename2.toString()));
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getForename(), TestEmployeeEnum.forename2.toString());
     }
 
     @Test
@@ -264,8 +272,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getSurname().equals(TestEmployeeEnum.surname2.toString()));
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getSurname(), TestEmployeeEnum.surname2.toString());
     }
 
     @Test
@@ -273,8 +281,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getCountryId() == Country.MEXICO.getCountryId());
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getCountryId(), Country.MEXICO.getCountryId());
     }
 
     @Test
@@ -282,8 +290,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getTotalHolidays() == Integer.parseInt(TestEmployeeEnum.totalHolidays2.toString()));
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getTotalHolidays(), Integer.parseInt(TestEmployeeEnum.totalHolidays2.toString()));
     }
 
     @Test
@@ -291,8 +299,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getEmail().equals(TestEmployeeEnum.email2.toString()));
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getEmail(), TestEmployeeEnum.email2.toString());
     }
 
     @Test
@@ -300,8 +308,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getEmployeeRoleId(), EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
     }
 
     @Test
@@ -309,8 +317,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesAfterStart).when(employeeRepository).
                 findByStartDateAfter(currentDateTest);
 
-        Assert.assertTrue(testingObject.findByStartDateAfter(currentDateTest).
-                get(0).getEmployeeStatusId() == EmployeeStatus.ACTIVE.getEmployeeStatusId());
+        Assert.assertEquals(testingObject.findByStartDateAfter(currentDateTest).
+                get(0).getEmployeeStatusId(), EmployeeStatus.ACTIVE.getEmployeeStatusId());
     }
     //endregion
 
@@ -320,8 +328,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getForename().equals(TestEmployeeEnum.forename.toString()));
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getForename(), TestEmployeeEnum.forename.toString());
     }
 
     @Test
@@ -329,8 +337,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getSurname().equals(TestEmployeeEnum.surname.toString()));
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getSurname(), TestEmployeeEnum.surname.toString());
     }
 
     @Test
@@ -338,8 +346,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getCountryId() == Country.NORTHERN_IRELAND.getCountryId());
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getCountryId(), Country.NORTHERN_IRELAND.getCountryId());
     }
 
     @Test
@@ -347,8 +355,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getTotalHolidays() == Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getTotalHolidays(), Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
     }
 
     @Test
@@ -356,8 +364,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getEmail().equals(TestEmployeeEnum.email.toString()));
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getEmail(), TestEmployeeEnum.email.toString());
     }
 
     @Test
@@ -365,8 +373,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getEmployeeRoleId(), EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
     }
 
     @Test
@@ -374,8 +382,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeesBeforeStart).when(employeeRepository).
                 findByStartDateBefore(any(LocalDate.class));
 
-        Assert.assertTrue(testingObject.findByStartDateBefore(currentDateTest).
-                get(0).getEmployeeStatusId() == EmployeeStatus.ACTIVE.getEmployeeStatusId());
+        Assert.assertEquals(testingObject.findByStartDateBefore(currentDateTest).
+                get(0).getEmployeeStatusId(), EmployeeStatus.ACTIVE.getEmployeeStatusId());
     }
     //endregion
 
@@ -385,8 +393,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getForename().equals(TestEmployeeEnum.forename.toString()));
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getForename(), TestEmployeeEnum.forename.toString());
     }
 
     @Test
@@ -394,8 +402,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getSurname().equals(TestEmployeeEnum.surname.toString()));
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getSurname(), TestEmployeeEnum.surname.toString());
     }
 
     @Test
@@ -403,8 +411,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getCountryId() == Country.NORTHERN_IRELAND.getCountryId());
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getCountryId(), Country.NORTHERN_IRELAND.getCountryId());
     }
 
     @Test
@@ -412,8 +420,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getTotalHolidays() == Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getTotalHolidays(), Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
     }
 
     @Test
@@ -421,8 +429,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getEmail().equals(TestEmployeeEnum.email.toString()));
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getEmail(), TestEmployeeEnum.email.toString());
     }
 
     @Test
@@ -430,8 +438,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getEmployeeRoleId(), EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
     }
 
     @Test
@@ -439,8 +447,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employees).when(employeeRepository).
                 findByCountryId(Country.NORTHERN_IRELAND.getCountryId());
 
-        Assert.assertTrue(testingObject.findByCountry(Country.NORTHERN_IRELAND).
-                get(0).getEmployeeStatusId() == EmployeeStatus.ACTIVE.getEmployeeStatusId());
+        Assert.assertEquals(testingObject.findByCountry(Country.NORTHERN_IRELAND).
+                get(0).getEmployeeStatusId(), EmployeeStatus.ACTIVE.getEmployeeStatusId());
     }
     //endregion
 
@@ -450,8 +458,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).
                 findByEmailIgnoreCase(TestEmployeeEnum.email.toString());
 
-        Assert.assertTrue(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
-                getForename().equals(TestEmployeeEnum.forename.toString()));
+        Assert.assertEquals(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
+                getForename(), TestEmployeeEnum.forename.toString());
     }
 
     @Test
@@ -459,8 +467,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).
                 findByEmailIgnoreCase(TestEmployeeEnum.email.toString());
 
-        Assert.assertTrue(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
-                getSurname().equals(TestEmployeeEnum.surname.toString()));
+        Assert.assertEquals(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
+                getSurname(), TestEmployeeEnum.surname.toString());
     }
 
     @Test
@@ -468,8 +476,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).
                 findByEmailIgnoreCase(TestEmployeeEnum.email.toString());
 
-        Assert.assertTrue(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
-                getCountryId() == Country.NORTHERN_IRELAND.getCountryId());
+        Assert.assertEquals(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
+                getCountryId(), Country.NORTHERN_IRELAND.getCountryId());
     }
 
     @Test
@@ -477,8 +485,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).
                 findByEmailIgnoreCase(TestEmployeeEnum.email.toString());
 
-        Assert.assertTrue(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
-                getTotalHolidays() == Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
+        Assert.assertEquals(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
+                getTotalHolidays(), Integer.parseInt(TestEmployeeEnum.totalHolidays.toString()));
     }
 
     @Test
@@ -486,8 +494,8 @@ public class TestEmployeeService {
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).
                 findByEmailIgnoreCase(TestEmployeeEnum.email.toString());
 
-        Assert.assertTrue(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
-                getEmail().equals(TestEmployeeEnum.email.toString()));
+        Assert.assertEquals(testingObject.findByEmail(TestEmployeeEnum.email.toString()).
+                getEmail(), TestEmployeeEnum.email.toString());
     }
 
     @Test
@@ -511,6 +519,7 @@ public class TestEmployeeService {
 
     @Test
     public void TestCreateNewEmployeeUserMethodSuccess() {
+        doNothing().when(holidayService).addMandatoryHolidaysForNewEmployee(isA(Employee.class));
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(any(Employee.class));
         Mockito.doReturn(TestEmployeeEnum.passwordEncrypted.toString()).when(passwordEncoder).encode(any(String.class));
         Mockito.doReturn(getMockHolidays()).when(holidayRepository).findByEmployee_EmployeeId(any(Integer.class));
@@ -522,6 +531,7 @@ public class TestEmployeeService {
                 employeeStartDateBeforeToday.getEmployeeRoleId(), employeeStartDateBeforeToday.getStartDate());
 
         Employee createdUser = testingObject.createNewEmployeeUser(request);
+
         Assert.assertSame(createdUser.getPassword(), TestEmployeeEnum.passwordEncrypted.toString());
     }
 
@@ -567,7 +577,7 @@ public class TestEmployeeService {
         Mockito.doReturn(auth).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         Mockito.doReturn("authcode").when(tokenProvider).generateToken(any(Authentication.class));
 
-        Assert.assertTrue(testingObject.jwtSignIn(
-                new LoginRequest("email@email.com", "password")).equals("authcode"));
+        Assert.assertEquals("authcode", testingObject.jwtSignIn(
+                new LoginRequest("email@email.com", "password")));
     }
 }
