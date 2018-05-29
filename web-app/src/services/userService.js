@@ -18,10 +18,10 @@ export const getUserProfile = () => {
   const lastName = UserInfo.lastName();
 
   //eslint-disable-next-line
-  console.log(
-    `Getting ${firstName} ${lastName}'s profile`,
-    localStorage.getItem('id_token'),
-  );
+  // console.log(
+  //   `Getting ${firstName} ${lastName}'s profile`,
+  //   localStorage.getItem('id_token'),
+  // );
 
   return axios.get(
     `/employees/findByForenameAndSurname/${firstName}/${lastName}/`,
