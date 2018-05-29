@@ -3,12 +3,6 @@ package com.unosquare.admin_core.back_end.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.unosquare.admin_core.back_end.enums.Country;
-import com.unosquare.admin_core.back_end.enums.EmployeeRole;
-import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
-import com.unosquare.admin_core.back_end.enums.converter.CountryConverter;
-import com.unosquare.admin_core.back_end.enums.converter.EmployeeRoleConverter;
-import com.unosquare.admin_core.back_end.enums.converter.EmployeeStatusConverter;
 import lombok.Data;
 import lombok.ToString;
 
@@ -31,26 +25,26 @@ public class Employee implements java.io.Serializable {
     private String forename;
     private String surname;
     private String email;
-    private short totalHolidays;
 
+    @Column(name = "total_holidays")
+    private int totalHolidays;
+
+    @Column(name = "start_date")
     private LocalDate startDate;
 
     @Basic
-    @Column(name = "countryId")
-    @Convert(converter = CountryConverter.class)
-    private Country country;
+    @Column(name = "country_id")
+    private int countryId;
 
     private String password;
 
     @Basic
-    @Column(name = "employeeRoleId")
-    @Convert(converter = EmployeeRoleConverter.class)
-    private EmployeeRole employeeRole;
+    @Column(name = "employee_role_id")
+    private int employeeRoleId;
 
     @Basic
-    @Column(name = "employeeStatusId")
-    @Convert(converter = EmployeeStatusConverter.class)
-    private EmployeeStatus employeeStatus;
+    @Column(name = "employee_status_id")
+    private int employeeStatusId;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
@@ -65,16 +59,16 @@ public class Employee implements java.io.Serializable {
     }
 
     public Employee(String forename, String surname, String email,
-                    EmployeeRole employeeRole,
-                    EmployeeStatus status, LocalDate startDate,
-                    Country country, String password) {
+                    int employeeRoleId,
+                    int statusId, LocalDate startDate,
+                    int countryId, String password) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeRole = employeeRole;
-        this.employeeStatus = status;
+        this.employeeRoleId = employeeRoleId;
+        this.employeeStatusId = statusId;
         this.startDate = startDate;
-        this.country = country;
+        this.countryId = countryId;
         this.password = password;
     }
 }

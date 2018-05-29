@@ -14,9 +14,9 @@ public class ClientDto implements java.io.Serializable {
     private String contactName;
     private String contactEmail;
     private String clientStatusDescription;
-    private short clientStatusId;
+    private int clientStatusId;
 
-    private short minimumEmployeesForTeam = 0;
+    private int minimumEmployeesForTeam = 0;
 
     public ClientDto() {
 

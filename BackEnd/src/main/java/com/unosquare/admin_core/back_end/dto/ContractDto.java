@@ -22,7 +22,7 @@ public class ContractDto {
 
     private EmployeeDto employee;
     private ClientDto client;
-    private short contractStatusId;
+    private int contractStatusId;
     private String contractStatusDescription;
 
     public ContractDto() {
@@ -32,7 +32,7 @@ public class ContractDto {
     public ContractDto(int clientId, int employeeId, int contractStatusId) {
         this.client = new ModelMapper().map(clientService.findById(clientId), ClientDto.class);
         this.employee = new ModelMapper().map(employeeService.findById(employeeId), EmployeeDto.class);
-        this.contractStatusId = (short) contractStatusId;
+        this.contractStatusId = contractStatusId;
         this.contractStatusDescription = getContractStatus().getDescription();
     }
 

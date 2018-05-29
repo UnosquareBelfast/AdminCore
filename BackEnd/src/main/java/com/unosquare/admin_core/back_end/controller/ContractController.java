@@ -22,7 +22,8 @@ public class ContractController {
     @Autowired
     ContractService contractService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    ModelMapper modelMapper;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -69,7 +70,7 @@ public class ContractController {
 
     @GetMapping(value = "/findByContractStatus/{contractStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ContractDto> findByClientStatus(@PathVariable("contractStatusId") short contractStatusId) {
+    public List<ContractDto> findByClientStatus(@PathVariable("contractStatusId") int contractStatusId) {
         return mapContractsToDtos(contractService.findByStatus(ContractStatus.fromId(contractStatusId)));
     }
 

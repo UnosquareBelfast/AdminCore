@@ -5,18 +5,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ClientStatus {
 
-    ACTIVE((short) 1, "Active"),
-    INACTIVE((short) 2, "Inactive");
+    ACTIVE(1, "Active"),
+    INACTIVE(2, "Inactive");
 
     private final String description;
-    private final short clientStatusId;
+    private final int clientStatusId;
 
-    ClientStatus(short clientStatusId, String description) {
+    ClientStatus(int clientStatusId, String description) {
         this.clientStatusId = clientStatusId;
         this.description = description;
     }
 
-    public short getClientStatusId() {
+    public int getClientStatusId() {
         return clientStatusId;
     }
 
@@ -31,7 +31,7 @@ public enum ClientStatus {
                 clientStatusId, description);
     }
 
-    public static ClientStatus fromId(short clientStatusId) {
+    public static ClientStatus fromId(int clientStatusId) {
         for (ClientStatus status : ClientStatus.values()) {
             if (status.clientStatusId == clientStatusId) {
                 return status;

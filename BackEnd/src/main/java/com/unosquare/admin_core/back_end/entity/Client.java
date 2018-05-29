@@ -31,7 +31,7 @@ public class Client implements java.io.Serializable {
     @Convert(converter = ClientStatusConverter.class)
     private ClientStatus clientStatus;
 
-    private short minimumEmployeesForTeam = 0;
+    private int minimumEmployeesForTeam = 0;
 
     @OneToMany(mappedBy = "client")
     @JsonIgnore

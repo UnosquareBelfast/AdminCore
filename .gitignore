@@ -27,3 +27,4 @@ dist/
 /BackEnd/target
 .idea/
 .vscode/
+/BackEnd/*.iml
