@@ -25,8 +25,6 @@ export default Wrapped =>
             return this.isDateInThePast(hol.date);
           });
 
-          console.log("Holidays: " , response.data);
-
           this.setState({ takenHolidays: pastHolidays });
         })
         .catch(error => {
