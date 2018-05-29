@@ -1,66 +1,64 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import styles from './style.css';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import { RangeDayPicker } from '../';
+import { RequestHolidayContainer, FormLayout } from './styled';
+
+const selectionText = (from, to, datesMatch) => {
+  if (from && to) {
+    const fromLocale = from.toLocaleDateString();
+    const toLocale = to.toLocaleDateString();
+
+    return datesMatch
+      ? `You've selected ${fromLocale}.`
+      : `You've selected from ${fromLocale} to ${toLocale}.`;
+  }
+
+  if (from) {
+    return 'Select a second date. Select the same date to request a single day.';
+  }
+
+  return 'Select a date, or a range of dates.';
+};
 
 const RequestHoliday = props => {
+  const { from, to } = props.selectedDateRange;
+  const buttonDisabled = !(from && to);
+
   return (
-    <div className={styles.BackdropStyle}>
-      <div className={styles.ModalStyle}>
-        <h3>Book Holiday?</h3>
-        <br />
-        <h5>From:</h5>
-        <div>
-          <DatePicker
-            selected={props.startDate}
-            onChange={props.handleStartChange}
-          />
-        </div>
-        <br />
-        <h5>To:</h5>
-        <div>
-          <DatePicker
-            selected={props.endDate}
-            onChange={props.handleEndChange}
-          />
-        </div>
-        <br />
+    <RequestHolidayContainer>
+      <h2>Request a Holiday</h2>
+
+      <p>{selectionText(from, to, props.datesMatch)}</p>
+
+      <div>
+        <RangeDayPicker datesChanged={dates => props.datesChanged(dates)} />
+      </div>
+      <FormLayout>
         <label>
           <input
             type="checkbox"
-            defaultChecked={props.halfDayChecked}
-            onChange={props.handleChangeChk}
+            checked={props.halfDayChecked}
+            onChange={props.halfDayChanged}
+            disabled={!props.datesMatch}
           />
           Half-Day
         </label>
-        <br />
-        <button
-          className="btn btn-danger"
-          onClick={props.confirmHolidayBooking}
-        >
-          Confirm
+        <button disabled={buttonDisabled} onClick={props.requestHoliday}>
+          Request Holiday
         </button>
-        <button className="btn btn-info" onClick={props.onClose}>
-          Cancel
-        </button>
-      </div>
-    </div>
+      </FormLayout>
+    </RequestHolidayContainer>
   );
 };
 
 RequestHoliday.propTypes = {
-  startDate: PT.object,
-  handleStartChange: PT.func,
-  endDate: PT.object,
-  handleEndChange: PT.func,
+  datesChanged: PT.func,
+  halfDayChanged: PT.func,
+  requestHoliday: PT.func,
+  selectedDateRange: PT.object,
+  datesMatch: PT.bool,
   halfDayChecked: PT.bool,
-  handleChangeChk: PT.func,
-  confirmHolidayBooking: PT.func,
-  onClose: PT.func.isRequired,
-  show: PT.func,
 };
 
 export default container(RequestHoliday);

@@ -1,169 +1,115 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import isNil from 'lodash/fp/isNil';
-import Moment from 'moment';
-import Swal from 'sweetalert2';
-import { requestHoliday, requestHolidays } from '../../services/holidayService';
+import { requestHoliday } from '../../services/holidayService';
 import holidayStatus from '../../utilities/holidayStatus';
 
 export default Wrapped =>
-  class extends React.Component {
+  class extends Component {
     static propTypes = {
-      onClose: PT.func,
-      user: PT.object,
-      show: PT.func,
+      user: PT.object.isRequired,
     };
 
     constructor(props) {
       super(props);
-
       this.state = {
-        startDate: Moment(),
-        endDate: Moment(),
+        selectedDateRange: {},
+        datesMatch: false,
         halfDayChecked: false,
       };
-
-      this.handleKeyUp = this.handleKeyUp.bind(this);
-      this.handleOutsideClick = this.handleOutsideClick.bind(this);
-      this.handleStartChange = this.handleStartChange.bind(this);
-      this.handleEndChange = this.handleEndChange.bind(this);
-      this.handleChangeChk = this.handleChangeChk.bind(this);
-      this.confirmHolidayBooking = this.confirmHolidayBooking.bind(this);
     }
 
-    componentDidMount() {
-      window.addEventListener('keyup', this.handleKeyUp, false);
-      document.addEventListener('click', this.handleOutsideClick, false);
-    }
+    handleDateChange = dates => {
+      const datesMatch = this.areDatesMatching(dates);
 
-    componentWillUnmount() {
-      window.removeEventListener('keyup', this.handleKeyUp, false);
-      document.removeEventListener('click', this.handleOutsideClick, false);
-    }
-
-    handleKeyUp(e) {
-      const keys = {
-        27: () => {
-          e.preventDefault();
-          this.props.onClose();
-          window.removeEventListener('keyup', this.handleKeyUp, false);
-        },
-      };
-
-      if (keys[e.keyCode]) {
-        keys[e.keyCode]();
-      }
-    }
-
-    handleOutsideClick(e) {
-      if (!isNil(this.modal)) {
-        if (!this.modal.contains(e.target)) {
-          this.props.onClose();
-          document.removeEventListener('click', this.handleOutsideClick, false);
-        }
-      }
-    }
-
-    handleStartChange(value) {
-      const startDate = value;
-      this.setState({ startDate: startDate });
-    }
-
-    handleEndChange(value) {
-      const endDate = value;
-      this.setState({ endDate: endDate });
-    }
-
-    confirmHolidayBooking = () => {
-      const startDate = this.state.startDate._d;
-      const endDate = this.state.endDate._d;
-
-      if (endDate > startDate) {
-        const totalDays = this.differenceBetweenDates(startDate, endDate);
-
-        if (totalDays > 1) {
-          let holidays = [];
-
-          for (let i = 0; i < totalDays; i++) {
-            holidays.push(this.buildHoliday(Moment(startDate).add(i, 'days')));
-          }
-
-          this.requestHolidays(holidays);
-        } else {
-          const holiday = this.buildHoliday(startDate);
-          this.requestHoliday(holiday);
-        }
-      } else if (startDate > endDate) {
-        alert('cannot book a holiday that ends before it begins');
+      this.setState({ selectedDateRange: dates });
+      this.setState({ datesMatch });
+      if (!datesMatch) {
+        this.setState({ halfDayChecked: false });
       }
     };
 
-    differenceBetweenDates(start, end) {
-      const oneDay = 24 * 60 * 60 * 1000;
-      return Math.round(Math.abs((start.getTime() - end.getTime()) / oneDay));
-    }
+    handleHalfDayChange = event => {
+      this.setState({ halfDayChecked: event.target.checked });
+    };
 
-    handleChangeChk() {
-      this.setState({
-        halfDayChecked: !this.state.halfDayChecked,
-      });
-    }
+    areDatesMatching = dates => {
+      const { from, to } = dates;
+      if (from && to) {
+        return from.toLocaleDateString() == to.toLocaleDateString();
+      }
+      return false;
+    };
 
-    buildHoliday(date) {
-      return {
-        date: date,
-        employee: this.props.user,
+    handleHolidayRequest = () => {
+      if (this.state.datesMatch) {
+        this.requestSingleDay();
+      } else {
+        this.requestMultipleDays();
+      }
+    };
+
+    formatDate = (year, month, day) => {
+      return `${year}-${month}-${day}`;
+    };
+
+    requestSingleDay = () => {
+      console.log('Requesting Single Day');
+      const date = this.state.selectedDateRange.from;
+      const today = new Date();
+
+      const formattedHolidayDate = this.formatDate(
+        date.getFullYear(),
+        ('0' + (date.getMonth() + 1)).slice(-2),
+        ('0' + date.getUTCDate()).slice(-2),
+      );
+
+      const formattedTodayDate = this.formatDate(
+        today.getFullYear(),
+        ('0' + (today.getMonth() + 1)).slice(-2),
+        ('0' + today.getUTCDate()).slice(-2),
+      );
+
+      const request = {
+        date: formattedHolidayDate,
+        dateCreated: formattedTodayDate,
+        halfDay: this.state.halfDayChecked,
+        holidayId: 0,
+        holidayStatusDescription: 'string',
         holidayStatusId: holidayStatus.PENDING,
-        isHalfDay: this.state.halfDayChecked,
+        lastModified: formattedTodayDate,
+        employee: {
+          employeeId: this.props.user.userId(),
+          forename: 'Name',
+          surname: 'Name',
+          email: 'Email',
+          totalHolidays: 33,
+          startDate: [2014, 1, 1],
+          countryId: 1,
+          countryDescription: 'Northern Ireland',
+          employeeRoleId: 2,
+          employeeRoleDescription: 'System administrator',
+          employeeStatusId: 2,
+          statusDescription: 'Inactive',
+        },
       };
-    }
 
-    requestHoliday(holiday) {
-      requestHoliday(holiday)
-        .then(() => {
-          Swal({ title: 'Holiday booked', type: 'success' });
-          this.props.onClose;
-        })
-        .catch(error => {
-          Swal({
-            title: 'Could not complete holiday request',
-            text: error.message,
-            type: 'error',
-          });
-        });
-    }
+      requestHoliday(request);
+    };
 
-    requestHolidays(holidays) {
-      requestHolidays(holidays)
-        .then(() => {
-          Swal({ title: 'Holiday booked', type: 'success' });
-          this.props.onClose;
-        })
-        .catch(error => {
-          Swal({
-            title: 'Could not complete holiday request',
-            text: error.message,
-            type: 'error',
-          });
-        });
-    }
+    requestMultipleDays = () => {
+      //eslint-disable-next-line
+      console.log('Requesting Multiple Days');
+    };
 
     render() {
-      if (!this.props.show) {
-        return null;
-      }
-
       return (
         <Wrapped
-          {...this.state}
-          {...this.props}
-          requestHoliday={this.requestHoliday}
-          requestHolidays={this.requestHolidays}
-          handleChangeChk={this.handleChangeChk}
-          buildHoliday={this.buildHoliday}
-          differenceBetweenDates={this.differenceBetweenDates}
-          confirmHolidayBooking={this.confirmHolidayBooking}
-          handleStartChange={this.handleStartChange}
+          datesChanged={this.handleDateChange}
+          halfDayChanged={this.handleHalfDayChange}
+          selectedDateRange={this.state.selectedDateRange}
+          datesMatch={this.state.datesMatch}
+          halfDayChecked={this.state.halfDayChecked}
+          requestHoliday={this.handleHolidayRequest}
         />
       );
     }
