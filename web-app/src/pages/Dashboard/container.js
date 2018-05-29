@@ -7,7 +7,7 @@ import { getUserProfile } from '../../services/userService';
 const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      user: PT.object
+      user: PT.object,
     };
 
     constructor(props) {
@@ -49,6 +49,16 @@ const DashboardContainer = Wrapped =>
       });
     }
 
+    onSelectSlot(slotInfo) {
+      //eslint-disable-next-line
+      console.log(slotInfo);
+    }
+
+    onSelectEvent(eventInfo) {
+      //eslint-disable-next-line
+      console.log(eventInfo)
+    }
+
     render() {
       return (
         <Wrapped
@@ -56,6 +66,8 @@ const DashboardContainer = Wrapped =>
           totalHolidays={this.state.totalHolidays}
           toggleHolidayModal={this.state.toggleHolidayModal}
           date={this.state.date}
+          onSelectSlot={this.onSelectSlot}
+          onSelectEvent={this.onSelectEvent}
           {...this.props}
         />
       );
