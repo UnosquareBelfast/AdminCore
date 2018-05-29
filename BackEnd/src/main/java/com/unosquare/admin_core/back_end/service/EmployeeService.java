@@ -61,7 +61,7 @@ public class EmployeeService {
 
     public void updateTotalHolidayForNewEmployee(Employee employee) {
         holidayService.addMandatoryHolidaysForNewEmployee(employee);
-        int mandatoryHolidaysCount = holidayRepository.findByEmployee_EmployeeId(employee.getEmployeeId()).size();
+        int mandatoryHolidaysCount = holidayRepository.findByEmployeeId(employee.getEmployeeId()).size();
         int maxHolidays = 33 - mandatoryHolidaysCount;
         employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
         save(employee);

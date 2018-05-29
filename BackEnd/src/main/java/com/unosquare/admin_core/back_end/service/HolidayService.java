@@ -35,7 +35,7 @@ public class HolidayService {
     }
 
     public List<Holiday> findByEmployee(int employeeId) {
-        return holidayRepository.findByEmployee_EmployeeId(employeeId);
+        return holidayRepository.findByEmployeeId(employeeId);
     }
 
     public void save(Holiday holiday) {
@@ -44,7 +44,7 @@ public class HolidayService {
     }
 
     private Holiday checkForHolidayWithSameDate(Holiday holiday) {
-        Holiday holidayWithSameDate = holidayRepository.findByDateAndEmployeeEmployeeId(holiday.getDate(), holiday.getEmployee().getEmployeeId());
+        Holiday holidayWithSameDate = holidayRepository.findByDateAndEmployeeId(holiday.getDate(), holiday.getEmployeeId());
         if (holidayWithSameDate != null) {
             holiday.setHolidayId(holidayWithSameDate.getHolidayId());
         }
@@ -66,7 +66,7 @@ public class HolidayService {
         List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountryId(), employee.getStartDate());
 
         for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
-            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), employee, HolidayStatus.MANDATORY, false);
+            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);
             holidayRepository.save(holiday);
         }
     }
@@ -84,11 +84,11 @@ public class HolidayService {
     }
 
     public List<Holiday> findByStatus(HolidayStatus status) {
-        return holidayRepository.findByHolidayStatus(status);
+        return holidayRepository.findByHolidayStatusId(status.getHolidayStatusId());
     }
 
     public List<Holiday> findByStatusAndDateAfter(HolidayStatus status, LocalDate date) {
-        return holidayRepository.findByHolidayStatusAndDateAfter(status, date);
+        return holidayRepository.findByHolidayStatusIdAndDateAfter(status.getHolidayStatusId(), date);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.Holiday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
@@ -54,8 +55,8 @@ public class HolidayController {
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createHoliday(@RequestBody HolidayDto holiday) {
-        holidayService.save(modelMapper.map(holiday, Holiday.class));
+    public void createHoliday(@RequestBody CreateHolidayDto createHolidayDto) {
+        holidayService.save(modelMapper.map(createHolidayDto, Holiday.class));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")

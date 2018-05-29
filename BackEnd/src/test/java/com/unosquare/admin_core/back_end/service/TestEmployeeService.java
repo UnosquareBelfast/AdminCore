@@ -159,7 +159,7 @@ public class TestEmployeeService {
     @Test
     public void TestUpdateTotalHolidays() {
         List<Holiday> holidays = getMockHolidays();
-        Mockito.doReturn(holidays).when(holidayRepository).findByEmployee_EmployeeId(employeeStartDateBeforeToday.getEmployeeId());
+        Mockito.doReturn(holidays).when(holidayRepository).findByEmployeeId(employeeStartDateBeforeToday.getEmployeeId());
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(employeeStartDateBeforeToday);
         testingObject.updateTotalHolidayForNewEmployee(employeeStartDateBeforeToday);
         Assert.assertTrue(employeeStartDateBeforeToday.getTotalHolidays() < 33);
@@ -169,7 +169,7 @@ public class TestEmployeeService {
     public void TestUpdateTotalHolidaysSameYear() {
         List<Holiday> holidays = getMockHolidays();
         employeeStartDateBeforeToday.setStartDate(currentDateTest);
-        Mockito.doReturn(holidays).when(holidayRepository).findByEmployee_EmployeeId(employeeStartDateBeforeToday.getEmployeeId());
+        Mockito.doReturn(holidays).when(holidayRepository).findByEmployeeId(employeeStartDateBeforeToday.getEmployeeId());
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(employeeStartDateBeforeToday);
         testingObject.updateTotalHolidayForNewEmployee(employeeStartDateBeforeToday);
         Assert.assertTrue(employeeStartDateBeforeToday.getTotalHolidays() < 32);
@@ -522,7 +522,7 @@ public class TestEmployeeService {
         doNothing().when(holidayService).addMandatoryHolidaysForNewEmployee(isA(Employee.class));
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(any(Employee.class));
         Mockito.doReturn(TestEmployeeEnum.passwordEncrypted.toString()).when(passwordEncoder).encode(any(String.class));
-        Mockito.doReturn(getMockHolidays()).when(holidayRepository).findByEmployee_EmployeeId(any(Integer.class));
+        Mockito.doReturn(getMockHolidays()).when(holidayRepository).findByEmployeeId(any(Integer.class));
 
         SignUpRequest request = new SignUpRequest(
                 employeeStartDateBeforeToday.getForename(), employeeStartDateBeforeToday.getSurname(),
