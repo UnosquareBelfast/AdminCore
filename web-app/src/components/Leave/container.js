@@ -14,7 +14,7 @@ export default Wrapped =>
       super(props);
       this.state = {
         takenHolidays: [],
-        daysRemaining: this.props.user.totalHolidays
+        totalHolidays: this.props.user.totalHolidays
       };
     }
 
@@ -24,6 +24,8 @@ export default Wrapped =>
           const pastHolidays = response.data.filter(hol => {
             return this.isDateInThePast(hol.date);
           });
+
+          console.log("Holidays: " , response.data);
 
           this.setState({ takenHolidays: pastHolidays });
         })
@@ -46,7 +48,7 @@ export default Wrapped =>
       return (
         <Wrapped 
             takenHolidays={ this.state.takenHolidays } 
-            daysRemaining={ this.state.daysRemaining } 
+            totalHolidays={ this.state.totalHolidays } 
             {...this.props} />
       );
     }

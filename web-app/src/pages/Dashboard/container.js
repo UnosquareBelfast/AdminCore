@@ -7,14 +7,14 @@ import { getUserProfile } from '../../services/userService';
 const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      user: PT.object,
+      user: PT.object
     };
 
     constructor(props) {
       super(props);
       this.state = {
         date: Moment(),
-        daysRemaining: 0,
+        totalHolidays: 0,
         requestModalOpen: false,
         user: null,
       };
@@ -30,7 +30,7 @@ const DashboardContainer = Wrapped =>
     getUserProfile() {
       getUserProfile()
         .then(response => {
-          this.setState({ user: response.data[0], daysRemaining: response.data[0].totalHolidays });
+          this.setState({ user: response.data[0], totalHolidays: response.data[0].totalHolidays });
           //eslint-disable-next-line
           console.log('Profile retrieved', response.data[0]);
         })
@@ -53,7 +53,7 @@ const DashboardContainer = Wrapped =>
       return (
         <Wrapped
           user={this.state.user}
-          daysRemaining={this.state.daysRemaining}
+          totalHolidays={this.state.totalHolidays}
           toggleHolidayModal={this.state.toggleHolidayModal}
           date={this.state.date}
           {...this.props}

@@ -13,7 +13,7 @@ const Dashboard = props => {
       <div className={styles.RowC}>
         <div className={styles.LeaveTrackerList}>
 
-          <Leave user={ props.user } daysRemaining={  props.daysRemaining }/>
+          <Leave user={ props.user } totalHolidays={  props.totalHolidays }/>
 
         </div>
         <div className={styles.CalendarDiv}>
@@ -39,7 +39,7 @@ const Dashboard = props => {
 
 Dashboard.propTypes = {
   user: PT.object,
-  daysRemaining: PT.number,
+  totalHolidays: PT.number,
   toggleHolidayModal: PT.func,
   date: PT.object,
 };

@@ -9,7 +9,7 @@ export const Leave = (props) => {
     <div className={ styles.Leave } >
       <strong>Leave Card</strong>
 
-      <div>Days remaining: { props.daysRemaining - props.takenHolidays.length}</div>
+      <div>Days remaining: { props.totalHolidays - props.takenHolidays.length}</div>
       <div>Days Taken: { props.takenHolidays.length }</div>
 
     </div>
@@ -17,7 +17,7 @@ export const Leave = (props) => {
 };
 
 Leave.propTypes = {
-  daysRemaining: PT.number,
+  totalHolidays: PT.number,
   takenHolidays: PT.array
 };
 
