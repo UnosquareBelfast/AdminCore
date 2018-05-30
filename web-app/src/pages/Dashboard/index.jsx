@@ -26,11 +26,7 @@ const Dashboard = props => {
           />
           <br />
           <button onClick={props.toggleHolidayModal}>Book Holiday</button>
-          <RequestHoliday
-            user={props.user}
-            show={() => {}}
-            onClose={() => {}}
-          />
+          <RequestHoliday user={props.user} />
         </div>
       </div>
     </Layout>
