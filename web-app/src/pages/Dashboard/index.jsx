@@ -8,60 +8,18 @@ import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Sidebar } from './styled';
 
+moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
-
-const dummyEvents = [
-  {
-    id: 14,
-    title: 'BG',
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-  {
-    id: 4,
-    title: 'BG',
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-  {
-    id: 1,
-    title: 'BG',
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-  {
-    id: 141,
-    title: 'BG',
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-  {
-    id: 4321,
-    title: 'BG',
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-  {
-    id: 1321321,
-    title: 'BG',
-    start: new Date(new Date().setHours(new Date().getHours() - 3)),
-    end: new Date(new Date().setHours(new Date().getHours() + 3)),
-  },
-];
 
 const Dashboard = props => {
   return (
     <Layout {...props}>
-      <BookingModal
-        booking={props.booking}
-        closeModal={props.closeModal}
-        show={props.showBookingModal}
-      />
+      <BookingModal {...props} />
       <Sidebar>
         <Leave user={ props.user } totalHolidays={  props.totalHolidays }/>
       </Sidebar>
       <Calendar
-        events={dummyEvents}
+        events={[]}
         onSelectSlot={props.onSelectSlot}
         onSelectEvent={props.onSelectEvent}
         selectable

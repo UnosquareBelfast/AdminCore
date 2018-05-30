@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
-import Moment from 'moment';
+import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
 
 const DashboardContainer = Wrapped =>
@@ -13,22 +13,17 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        date: Moment(),
+        date: moment(),
         totalHolidays: 0,
-        requestModalOpen: false,
         user: null,
-        showBookingModal: false,
-        booking: {},
+        showModal: false,
+        booking: {
+          isHalfday: false,
+        },
       };
-
-      this.getUserProfile = this.getUserProfile.bind(this);
     }
 
     componentDidMount() {
-      this.getUserProfile();
-    }
-
-    getUserProfile() {
       getUserProfile()
         .then(response => {
           this.setState({ user: response.data[0], totalHolidays: response.data[0].totalHolidays });
@@ -44,44 +39,72 @@ const DashboardContainer = Wrapped =>
         });
     }
 
-    closeModal = () => {
-      this.setState({showBookingModal: false});
+    closeModal = () => { this.setState({showModal: false}); }
+
+    getDuration(start, end) {
+      return moment.duration(end.diff(start)).asDays() + 1;
     }
 
     onSelectSlot = ({start, end}) => {
       this.setState({
-        showBookingModal: true,
+        showModal: true,
         booking: {
-          start: start,
-          end: end,
+          isHalfday: false,
+          start: moment(start),
+          end: moment(end),
+          duration: this.getDuration(moment(start), moment(end)),
         },
       });
     }
 
     onSelectEvent = ({start, end, id, title}) => {
       this.setState({
-        showBookingModal: true,
+        showModal: true,
         booking: {
-          start: start,
-          end: end,
+          isHalfday: false,
+          start: moment(start),
+          end: moment(end),
+          duration: this.getDuration(moment(start), moment(end)),
           id: id,
           title: title,
         },
       });
     }
 
+    changeStart = (value) => {
+      const booking = {...this.state.booking};
+      booking.start = value;
+      if (value.isAfter(booking.end)) { booking.end = value; }
+      booking.duration = this.getDuration(booking.start, booking.end);
+      if (booking.duration > 1) { booking.isHalfday = false; }
+      this.setState({booking});
+    }
+
+    changeEnd = (value) => {
+      const booking = {...this.state.booking};
+      booking.end = value;
+      if (value.isBefore(booking.start)) { booking.start = value; }
+      booking.duration = this.getDuration(booking.start, value);
+      if (booking.duration > 1) { booking.isHalfday = false; }
+      this.setState({booking});
+    }
+
+    changeHalfday = (e) => {
+      const booking = {...this.state.booking};
+      booking.isHalfday = e.target.checked;
+      this.setState({booking});
+    }
+
     render() {
       return (
         <Wrapped
-          user={this.state.user}
-          totalHolidays={this.state.totalHolidays}
-          toggleHolidayModal={this.state.toggleHolidayModal}
-          date={this.state.date}
           onSelectSlot={this.onSelectSlot}
           onSelectEvent={this.onSelectEvent}
-          showBookingModal={this.state.showBookingModal}
-          booking={this.state.booking}
           closeModal={this.closeModal}
+          changeStart={this.changeStart}
+          changeEnd={this.changeEnd}
+          changeHalfday={this.changeHalfday}
+          {...this.state}
           {...this.props}
         />
       );

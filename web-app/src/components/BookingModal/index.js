@@ -1,25 +1,49 @@
 import React from 'react';
-import moment from 'moment';
+import DatePicker from 'react-datepicker';
 import { PropTypes as PT } from 'prop-types';
 import { Container, Content } from './styled';
 
-const BookingModal = ({closeModal, show, booking}) => (
-  show &&
-  <Container>
-    <Content>
-      <span onClick={closeModal}>Close</span>
-      <h1>Booking</h1>
-      {booking.title && <h3>Employee: {booking.title}</h3>}
-      <p>Starting: {moment(booking.start).format('dddd Do MMMM YYYY')}</p>
-      <p>Ending: {moment(booking.end).format('dddd Do MMMM YYYY')}</p>
-      <p>Total days: {moment.duration(moment(booking.end).diff(moment(booking.start))).asDays() + 1}</p>
-    </Content>
-  </Container>
-);
+const BookingModal = (props) => {
+  const {
+    closeModal,
+    showModal,
+    booking,
+    changeStart,
+    changeEnd,
+    changeHalfday,
+  } = props;
+
+  return (showModal &&
+    <Container>
+      <Content>
+        <span onClick={closeModal}>Close</span>
+        <h1>Booking</h1>
+        {booking.title && <h3>Employee: {booking.title}</h3>}
+        <p>Starting:</p>
+        <DatePicker selected={booking.start} onChange={changeStart} />
+        <p>Ending:</p>
+        <DatePicker selected={booking.end} onChange={changeEnd} />
+        <label>
+          <input
+            type="checkbox"
+            checked={booking.isHalfday}
+            onChange={changeHalfday}
+            disabled={booking.duration > 1}/>
+          Half-Day
+        </label>
+        <p>Total days: {booking.duration / (booking.isHalfday ? 2 : 1)}</p>
+      </Content>
+    </Container>
+  );
+};
 
 BookingModal.propTypes = {
+  showModal: PT.bool,
+  booking: PT.object,
   closeModal: PT.func,
-  show: PT.bool,
+  changeStart: PT.func,
+  changeEnd: PT.func,
+  changeHalfday: PT.func,
 };
 
 export default BookingModal;
