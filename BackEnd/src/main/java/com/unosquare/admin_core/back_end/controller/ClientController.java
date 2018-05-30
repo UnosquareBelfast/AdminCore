@@ -23,7 +23,8 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @RolesAllowed("ROLE_TEAM LEADER")
@@ -78,7 +79,7 @@ public class ClientController {
 
     @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") short clientStatusId) {
+    public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") int clientStatusId) {
         return mapClientsToDtos(clientService.findByClientStatus(ClientStatus.fromId(clientStatusId)));
     }
 

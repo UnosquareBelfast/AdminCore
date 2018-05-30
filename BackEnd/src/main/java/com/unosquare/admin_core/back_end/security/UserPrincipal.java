@@ -56,9 +56,9 @@ public class UserPrincipal implements UserDetails {
     }
 
     private static void getUserRoles(Employee employee, List<String> roles) {
-        if (employee.getEmployeeRole() == EmployeeRole.TEAM_LEADER) {
+        if (employee.getEmployeeRoleId() == EmployeeRole.TEAM_LEADER.getEmployeeRoleId()) {
             roles.add(SecurityRoles.TEAM_LEADER.toString());
-        } else if (employee.getEmployeeRole() == EmployeeRole.SYSTEM_ADMINISTRATOR) {
+        } else if (employee.getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId()) {
             roles.add(SecurityRoles.SYSTEM_ADMIN.toString());
         }
 

@@ -90,7 +90,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findByCountry(Country country) {
-        return employeeRepository.findByCountry(country);
+        return employeeRepository.findByCountryId(country.getCountryId());
     }
 
     public Employee findByEmail(String email) {
@@ -100,8 +100,8 @@ public class EmployeeService {
     public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
         // Creating USER's account
         Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-                signUpRequest.getEmail(), signUpRequest.getEmployeeRole(), signUpRequest.getStatus(),
-                signUpRequest.getStartDate(), signUpRequest.getCounty(), signUpRequest.getPassword());
+                signUpRequest.getEmail(), signUpRequest.getEmployeeRoleId(), signUpRequest.getStatusId(),
+                signUpRequest.getStartDate(), signUpRequest.getCountryId(), signUpRequest.getPassword());
 
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
 

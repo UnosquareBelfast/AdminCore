@@ -2,8 +2,6 @@ package com.unosquare.admin_core.back_end.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.unosquare.admin_core.back_end.enums.Country;
-import com.unosquare.admin_core.back_end.enums.converter.CountryConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,16 +20,15 @@ public class MandatoryHoliday implements java.io.Serializable {
     private LocalDate date;
 
     @Basic
-    @Convert(converter = CountryConverter.class)
-    @Column(name = "countryId")
-    private Country country;
+    @Column(name = "country_id")
+    private int countryId;
 
     public MandatoryHoliday() {
 
     }
 
-    public MandatoryHoliday(LocalDate date, Country country) {
+    public MandatoryHoliday(LocalDate date, int countryId) {
         this.date = date;
-        this.country = country;
+        this.countryId = countryId;
     }
 }

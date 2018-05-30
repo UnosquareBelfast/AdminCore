@@ -2,7 +2,6 @@ package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.MandatoryHoliday;
-import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.repository.MandatoryHolidayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,17 +29,17 @@ public class MandatoryHolidayService {
         return null;
     }
 
-    public List<MandatoryHoliday> findMandatoryHolidaysByCountryAfterStartDate(Country country, LocalDate startDate) {
+    public List<MandatoryHoliday> findMandatoryHolidaysByCountryIdAfterStartDate(int countryId, LocalDate startDate) {
 
         LocalDate endDate = LocalDate.of(startDate.getYear(), 12, 31);
-        return mandatoryHolidayRepository.findByCountryAndDateBetween(country, startDate, endDate);
+        return mandatoryHolidayRepository.findByCountryIdAndDateBetween(countryId, startDate, endDate);
     }
 
-    public List<MandatoryHoliday> findMandatoryHolidaysByCountryAndYear(Country country, int year) {
+    public List<MandatoryHoliday> findMandatoryHolidaysByCountryIdAndYear(int countryId, int year) {
 
         LocalDate startDate = LocalDate.of(year, 01, 01);
         LocalDate endDate = LocalDate.of(year, 12, 31);
-        return mandatoryHolidayRepository.findByCountryAndDateBetween(country, startDate, endDate);
+        return mandatoryHolidayRepository.findByCountryIdAndDateBetween(countryId, startDate, endDate);
     }
 
     public void save(MandatoryHoliday mandatoryHoliday) {
@@ -48,8 +47,8 @@ public class MandatoryHolidayService {
         mandatoryHolidayRepository.save(mandatoryHoliday);
     }
 
-    public List<MandatoryHoliday> findByCountryAndDateBetween(Country country, LocalDate rangeStart, LocalDate rangeEnd) {
-        return mandatoryHolidayRepository.findByCountryAndDateBetween(country, rangeStart, rangeEnd);
+    public List<MandatoryHoliday> findByCountryIdAndDateBetween(int countryId, LocalDate rangeStart, LocalDate rangeEnd) {
+        return mandatoryHolidayRepository.findByCountryIdAndDateBetween(countryId, rangeStart, rangeEnd);
     }
 
     public List<MandatoryHoliday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd) {

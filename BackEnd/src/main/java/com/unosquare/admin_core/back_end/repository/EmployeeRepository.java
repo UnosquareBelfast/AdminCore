@@ -1,7 +1,6 @@
 package com.unosquare.admin_core.back_end.repository;
 
 import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.enums.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -17,5 +16,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     List<Employee> findByStartDateBefore(LocalDate date);
 
-    List<Employee> findByCountry(Country country);
+    List<Employee> findByCountryId(int countryId);
 }

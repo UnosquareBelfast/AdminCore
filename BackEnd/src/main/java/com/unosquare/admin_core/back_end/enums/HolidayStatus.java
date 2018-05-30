@@ -5,21 +5,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum HolidayStatus {
 
-    AWAITING_APPROVAL((short) 1, "Awaiting approval"), //default clientStatus for new holiday requests
-    APPROVED((short) 2, "Approved"),
-    DENIED((short) 3, "Denied"),
-    MANDATORY((short) 4, "Mandatory"), // public holiday, can't cancel
-    TAKEN((short) 5, "Taken");
+    AWAITING_APPROVAL(1, "Awaiting approval"), //default clientStatus for new holiday requests
+    APPROVED(2, "Approved"),
+    DENIED(3, "Denied"),
+    MANDATORY(4, "Mandatory"), // public holiday, can't cancel
+    TAKEN(5, "Taken");
 
     private final String description;
-    private final short holidayStatusId;
+    private final int holidayStatusId;
 
-    HolidayStatus(short holidayStatusId, String description) {
+    HolidayStatus(int holidayStatusId, String description) {
         this.holidayStatusId = holidayStatusId;
         this.description = description;
     }
 
-    public short getHolidayStatusId() {
+    public int getHolidayStatusId() {
         return holidayStatusId;
     }
 
@@ -34,7 +34,7 @@ public enum HolidayStatus {
                 holidayStatusId, description);
     }
 
-    public static HolidayStatus fromId(short holidayStatusId) {
+    public static HolidayStatus fromId(int holidayStatusId) {
         for (HolidayStatus status : HolidayStatus.values()) {
             if (status.holidayStatusId == holidayStatusId) {
                 return status;

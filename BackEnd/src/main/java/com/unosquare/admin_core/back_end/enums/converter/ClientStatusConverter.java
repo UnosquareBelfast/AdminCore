@@ -7,9 +7,9 @@ import javax.persistence.Converter;
 
 @Converter
 public class ClientStatusConverter
-        implements AttributeConverter<ClientStatus, Short> {
+        implements AttributeConverter<ClientStatus, Integer> {
 
-    public Short convertToDatabaseColumn(ClientStatus status) {
+    public Integer convertToDatabaseColumn(ClientStatus status) {
         if (status == null) {
             return null;
         }
@@ -18,7 +18,7 @@ public class ClientStatusConverter
     }
 
     @Override
-    public ClientStatus convertToEntityAttribute(Short id) {
+    public ClientStatus convertToEntityAttribute(Integer id) {
         if (id == null) {
             return null;
         }

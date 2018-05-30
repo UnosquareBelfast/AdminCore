@@ -20,13 +20,15 @@ const DashboardContainer = Wrapped =>
         booking: {
           isHalfday: false,
         },
+        requestModalOpen: false,
+        userDetails: null,
       };
     }
 
     componentDidMount() {
       getUserProfile()
         .then(response => {
-          this.setState({ user: response.data[0], totalHolidays: response.data[0].totalHolidays });
+          this.setState({ userDetails: response.data[0], totalHolidays: response.data[0].totalHolidays });
           //eslint-disable-next-line
           console.log('Profile retrieved', response.data[0]);
         })
@@ -97,6 +99,7 @@ const DashboardContainer = Wrapped =>
 
     render() {
       return (
+        this.state.userDetails &&
         <Wrapped
           onSelectSlot={this.onSelectSlot}
           onSelectEvent={this.onSelectEvent}
@@ -104,6 +107,7 @@ const DashboardContainer = Wrapped =>
           changeStart={this.changeStart}
           changeEnd={this.changeEnd}
           changeHalfday={this.changeHalfday}
+          userDetails={this.state.userDetails}
           {...this.state}
           {...this.props}
         />

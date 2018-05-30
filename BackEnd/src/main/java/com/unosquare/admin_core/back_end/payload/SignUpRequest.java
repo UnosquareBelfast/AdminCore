@@ -1,8 +1,5 @@
 package com.unosquare.admin_core.back_end.payload;
 
-import com.unosquare.admin_core.back_end.enums.Country;
-import com.unosquare.admin_core.back_end.enums.EmployeeRole;
-import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -21,12 +18,11 @@ public class SignUpRequest {
     private String surname;
 
     @NotBlank
-    @Size(min = 4, max = 40)
-    private Country county;
+    private int countryId;
 
-    private EmployeeRole employeeRole;
+    private int employeeRoleId;
 
-    private EmployeeStatus status;
+    private int statusId;
 
     private LocalDate startDate;
 
@@ -44,14 +40,14 @@ public class SignUpRequest {
     }
 
     public SignUpRequest(String forename, String surname, String email, String password,
-                         Country county, EmployeeStatus status, EmployeeRole employeeRole, LocalDate startDate) {
+                         int countryId, int statusId, int employeeRoleId, LocalDate startDate) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.county = county;
-        this.status = status;
-        this.employeeRole = employeeRole;
+        this.countryId = countryId;
+        this.statusId = statusId;
+        this.employeeRoleId = employeeRoleId;
         this.startDate = startDate;
     }
 
