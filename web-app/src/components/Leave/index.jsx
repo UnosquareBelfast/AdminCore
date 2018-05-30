@@ -1,18 +1,19 @@
 import React from 'react';
-import styles from './style.css'
 import { PropTypes as PT } from 'prop-types';
 import container from './container'
+
+import { Card } from '../styled'
 
 export const Leave = (props) => {
 
   return (
-    <div className={ styles.Leave } >
+    <Card>
       <strong>Leave Card</strong>
 
       <div>Days remaining: { props.totalHolidays - props.takenHolidays.length}</div>
       <div>Days Taken: { props.takenHolidays.length }</div>
 
-    </div>
+    </Card>
   );
 };
 

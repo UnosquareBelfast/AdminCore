@@ -24,7 +24,7 @@ export default Wrapped =>
           const pastHolidays = response.data.filter(hol => {
             return this.isDateInThePast(hol.date);
           });
-
+          
           this.setState({ takenHolidays: pastHolidays });
         })
         .catch(error => {
