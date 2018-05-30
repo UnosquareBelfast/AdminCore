@@ -16,7 +16,7 @@ const DashboardContainer = Wrapped =>
         date: Moment(),
         totalHolidays: 0,
         requestModalOpen: false,
-        user: null,
+        userDetails: null
       };
 
       this.getUserProfile = this.getUserProfile.bind(this);
@@ -30,7 +30,7 @@ const DashboardContainer = Wrapped =>
     getUserProfile() {
       getUserProfile()
         .then(response => {
-          this.setState({ user: response.data[0], totalHolidays: response.data[0].totalHolidays });
+          this.setState({ userDetails: response.data[0], totalHolidays: response.data[0].totalHolidays });
           //eslint-disable-next-line
           console.log('Profile retrieved', response.data[0]);
         })
@@ -50,16 +50,17 @@ const DashboardContainer = Wrapped =>
     }
 
     render() {
-      return (
-        <Wrapped
-          user={this.state.user}
-          totalHolidays={this.state.totalHolidays}
-          toggleHolidayModal={this.state.toggleHolidayModal}
-          date={this.state.date}
-          {...this.props}
-        />
-      );
-    }
+        return (
+          this.state.userDetails ? 
+          <Wrapped
+            userDetails={this.state.userDetails}
+            totalHolidays={this.state.totalHolidays}
+            toggleHolidayModal={this.state.toggleHolidayModal}
+            date={this.state.date}
+            {...this.props}
+          /> : null
+        ) 
+      }
   };
 
 export default DashboardContainer;
