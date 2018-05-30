@@ -242,7 +242,8 @@ CREATE SEQUENCE IF NOT EXISTS holiday_holiday_id_seq1;
 CREATE TABLE IF NOT EXISTS public.holiday
 (
   holiday_id        integer NOT NULL DEFAULT nextval('holiday_holiday_id_seq1' :: regclass),
-  date              date,
+  start_date         date,
+  end_date           date,
   date_created      date,
   holiday_status_id integer,
   is_half_day       boolean NOT NULL,

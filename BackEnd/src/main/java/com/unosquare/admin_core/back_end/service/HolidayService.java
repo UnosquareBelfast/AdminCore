@@ -38,13 +38,22 @@ public class HolidayService {
         return holidayRepository.findByEmployeeId(employeeId);
     }
 
+    public Holiday findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate){
+        return holidayRepository.findByEmployeeIdAndStartDateAndEndDate(employeeId, startDate, endDate);
+    }
+
     public void save(Holiday holiday) {
         Preconditions.checkNotNull(holiday);
+
+        holiday.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
+        holiday.setDateCreated(LocalDate.now());
+        holiday.setLastModified(LocalDate.now());
+
         holidayRepository.save(checkForHolidayWithSameDate(holiday));
     }
 
     private Holiday checkForHolidayWithSameDate(Holiday holiday) {
-        Holiday holidayWithSameDate = holidayRepository.findByDateAndEmployeeId(holiday.getDate(), holiday.getEmployeeId());
+        Holiday holidayWithSameDate = holidayRepository.findByStartDateAndEmployeeId(holiday.getStartDate(), holiday.getEmployeeId());
         if (holidayWithSameDate != null) {
             holiday.setHolidayId(holidayWithSameDate.getHolidayId());
         }
@@ -66,21 +75,21 @@ public class HolidayService {
         List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountryId(), employee.getStartDate());
 
         for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
-            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);
+            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);
             holidayRepository.save(holiday);
         }
     }
 
     public List<Holiday> findByDateAfter(LocalDate date) {
-        return holidayRepository.findByDateAfter(date);
+        return holidayRepository.findByStartDateAfter(date);
     }
 
     public List<Holiday> findByDateBefore(LocalDate date) {
-        return holidayRepository.findByDateBefore(date.plusDays(1));
+        return holidayRepository.findByStartDateBefore(date.plusDays(1));
     }
 
     public List<Holiday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd) {
-        return holidayRepository.findByDateBetween(rangeStart, rangeEnd);
+        return holidayRepository.findByStartDateBetween(rangeStart, rangeEnd);
     }
 
     public List<Holiday> findByStatus(HolidayStatus status) {
@@ -88,7 +97,7 @@ public class HolidayService {
     }
 
     public List<Holiday> findByStatusAndDateAfter(HolidayStatus status, LocalDate date) {
-        return holidayRepository.findByHolidayStatusIdAndDateAfter(status.getHolidayStatusId(), date);
+        return holidayRepository.findByHolidayStatusIdAndStartDateAfter(status.getHolidayStatusId(), date);
     }
 }
 

@@ -66,7 +66,8 @@ public class TestHolidayService {
         holidayBeforeToday = new Holiday();
         holidayBeforeToday.setHolidayId(Integer.parseInt(TestHolidayEnum.holidayId1.toString()));
         holidayBeforeToday.setDateCreated(pastDate);
-        holidayBeforeToday.setDate(pastDate);
+        holidayBeforeToday.setStartDate(pastDate);
+        holidayBeforeToday.setEndDate(pastDate);
         holidayBeforeToday.setHalfDay(false);
         holidayBeforeToday.setLastModified(pastDate);
         holidayBeforeToday.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
@@ -75,7 +76,8 @@ public class TestHolidayService {
         Holiday holidayAfterToday = new Holiday();
         holidayAfterToday.setHolidayId(Integer.parseInt(TestHolidayEnum.holidayId1.toString()));
         holidayAfterToday.setDateCreated(futureDate);
-        holidayAfterToday.setDate(futureDate);
+        holidayAfterToday.setStartDate(futureDate);
+        holidayAfterToday.setEndDate(futureDate);
         holidayAfterToday.setLastModified(futureDate);
         holidayAfterToday.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
         holidayAfterToday.setEmployeeId(employee.getEmployeeId());
@@ -115,7 +117,7 @@ public class TestHolidayService {
     @Test
     public void testFindByIdStartDateSet() {
         Mockito.doReturn(Optional.of(holidayBeforeToday)).when(holidayRepository).findById(1);
-        assertEquals(testingObject.findById(1).getDate(), pastDate);
+        assertEquals(testingObject.findById(1).getStartDate(), pastDate);
     }
 
     @Test
@@ -153,7 +155,7 @@ public class TestHolidayService {
     public void testFindByStartDateAfter() {
 
         Mockito.doReturn(holidaysAfterToday).
-                when(holidayRepository).findByDateAfter(currentDateTest);
+                when(holidayRepository).findByStartDateAfter(currentDateTest);
 
         Assert.assertArrayEquals(testingObject.findByDateAfter(currentDateTest).toArray(),
                 holidaysAfterToday.toArray());
@@ -163,7 +165,7 @@ public class TestHolidayService {
     public void testFindByEndDateBeforeOrToday() {
 
         Mockito.doReturn(holidaysBeforeToday).
-                when(holidayRepository).findByDateBefore(any(LocalDate.class));
+                when(holidayRepository).findByStartDateBefore(any(LocalDate.class));
 
         Assert.assertArrayEquals(testingObject.findByDateBefore(currentDateTest).toArray(),
                 holidaysBeforeToday.toArray());
@@ -173,7 +175,7 @@ public class TestHolidayService {
     public void testFindByStartDateBetween() {
 
         Mockito.doReturn(holidaysAfterToday).
-                when(holidayRepository).findByDateBetween(currentDateTest, currentDateTest.plusMonths(2));
+                when(holidayRepository).findByStartDateBetween(currentDateTest, currentDateTest.plusMonths(2));
 
         Assert.assertArrayEquals(testingObject.findByDateBetween(currentDateTest, currentDateTest.plusMonths(2)).toArray(),
                 holidaysAfterToday.toArray());
@@ -193,7 +195,7 @@ public class TestHolidayService {
     public void testFindByStatusAndStartDateAfter() {
 
         Mockito.doReturn(holidaysAfterToday).
-                when(holidayRepository).findByHolidayStatusIdAndDateAfter(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId(), currentDateTest);
+                when(holidayRepository).findByHolidayStatusIdAndStartDateAfter(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId(), currentDateTest);
 
         Assert.assertArrayEquals(testingObject.findByStatusAndDateAfter(HolidayStatus.AWAITING_APPROVAL, currentDateTest).toArray(),
                 holidaysAfterToday.toArray());

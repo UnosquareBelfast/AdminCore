@@ -18,7 +18,13 @@ public class Holiday implements java.io.Serializable {
     @Column(name = "holiday_id")
     private int holidayId;
 
-    private LocalDate date;
+    @Basic
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Basic
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     @Basic
     @Column(name = "employee_id")
@@ -40,8 +46,9 @@ public class Holiday implements java.io.Serializable {
 
     }
 
-    public Holiday(LocalDate date, int employeeId, int statusId, boolean isHalfDay) {
-        this.date = date;
+    public Holiday(LocalDate startDate, LocalDate endDate, int employeeId, int statusId, boolean isHalfDay) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.employeeId = employeeId;
         this.holidayStatusId = statusId;
         this.lastModified = LocalDate.now();

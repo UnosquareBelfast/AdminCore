@@ -1,6 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
+import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.Holiday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,10 +55,38 @@ public class HolidayController {
         return mapHolidaysToDtos(holidayService.findByEmployee(employeeId));
     }
 
+    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createHoliday(@RequestBody CreateHolidayDto createHolidayDto) {
-        holidayService.save(modelMapper.map(createHolidayDto, Holiday.class));
+    public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createHolidayDto) {
+
+        List<String> responses = new ArrayList<>();
+        Holiday newHoliday = new Holiday();
+        newHoliday.setEmployeeId(createHolidayDto.getEmployeeId());
+
+        for (DateDTO date : createHolidayDto.getDates()) {
+            Holiday existentHoliday = holidayService.findByEmployeeIdStartDataEndDate(
+                    createHolidayDto.getEmployeeId(), date.getStartDate(), date.getEdnDate());
+
+            if (existentHoliday != null) {
+                responses.add("Holiday already exists");
+                continue;
+            }
+
+            if (date.getStartDate().isAfter(date.getEdnDate())) {
+                responses.add("Starting date cannot be after end date");
+                continue;
+            }
+
+            newHoliday.setStartDate(date.getStartDate());
+            newHoliday.setEndDate(date.getEdnDate());
+            newHoliday.setHalfDay(date.isHalfDay());
+
+            holidayService.save(newHoliday);
+            responses.add("Created");
+        }
+
+        return ResponseEntity.ok(responses);
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
