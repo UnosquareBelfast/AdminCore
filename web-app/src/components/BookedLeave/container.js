@@ -16,7 +16,6 @@ export default Wrapped =>
         bookedHolidays: [],
       };
 
-      this.canCancelHoliday = this.canCancelHoliday.bind(this);
       this.cancelHoliday = this.cancelHoliday.bind(this);
       this.handleCancelHoliday = this.handleCancelHoliday.bind(this);
     }
@@ -39,8 +38,7 @@ export default Wrapped =>
         });
     }
 
-    canCancelHoliday(holiday) {
-
+    canCancelHoliday = (holiday) => {
       const now = ( new Date() ).setHours(0,0,0,0);
 
       if (holiday.date < now) {
