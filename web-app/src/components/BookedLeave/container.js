@@ -15,11 +15,7 @@ export default Wrapped =>
       this.state = {
         bookedHolidays: [],
       };
-
-      this.cancelHoliday = this.cancelHoliday.bind(this);
-      this.handleCancelHoliday = this.handleCancelHoliday.bind(this);
     }
-
     
     componentDidMount() {
       getHolidays(this.props.user.id)
@@ -47,7 +43,7 @@ export default Wrapped =>
       return true;
     }
 
-    cancelHoliday(holiday) {
+    cancelHoliday = (holiday) => {
       Swal({
         title: 'Are you sure?',
         text: 'Once cancelled, you will need to follow the leave request process again if you change your mind. Cancel holiday?',
@@ -65,7 +61,7 @@ export default Wrapped =>
         });
     }
 
-    handleCancelHoliday(holiday) {
+    handleCancelHoliday = (holiday) => {
 
       if (!this.canCancelHoliday(holiday)) {
         Swal({
