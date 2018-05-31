@@ -27,7 +27,7 @@ const Dashboard = props => {
         selectable
         popup
       />
-      <RequestHoliday user={props.user} />
+      {/* <RequestHoliday user={props.user} /> */}
     </Layout>
   );
 };

@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
+import { requestHoliday } from '../../services/holidayService';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -97,6 +98,13 @@ const DashboardContainer = Wrapped =>
       this.setState({booking});
     }
 
+    requestHoliday = () => {
+      console.log('Holiday requested');
+      console.log('Starting', this.state.booking.start.format('Do MMMM YYYY'));
+      console.log('Finishing', this.state.booking.end.format('Do MMMM YYYY'));
+      console.log('Total', this.state.booking.duration, 'days');
+    }
+
     render() {
       return (
         this.state.userDetails &&
@@ -108,6 +116,7 @@ const DashboardContainer = Wrapped =>
           changeEnd={this.changeEnd}
           changeHalfday={this.changeHalfday}
           userDetails={this.state.userDetails}
+          requestHoliday={this.requestHoliday}
           {...this.state}
           {...this.props}
         />
