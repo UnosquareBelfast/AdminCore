@@ -6,13 +6,14 @@ import { Card } from '../styled'
 
 export const UserDetails = (props) => {
 
+  const { user: { forename, surname, employeeRoleDescription } } = props;
   
   return (
     <Card>
         <strong>User Details</strong>
 
-        <div>Name: { props.user.surname + ', ' + props.user.forename }</div>
-        <div>Role: { props.user.employeeRoleDescription } </div>
+        <div><span>Name: { surname + ', ' + forename }</span></div>
+        <div><span>Role: { employeeRoleDescription } </span></div>
 
     </Card>
   );
