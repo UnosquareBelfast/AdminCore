@@ -12,7 +12,7 @@ export const UserDetails = (props) => {
     <Card>
         <strong>User Details</strong>
 
-        <div><span>Name: { surname + ', ' + forename }</span></div>
+        <div><span>Name: { `${surname}, ${forename}` }</span></div>
         <div><span>Role: { employeeRoleDescription } </span></div>
 
     </Card>
