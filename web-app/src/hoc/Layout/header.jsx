@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
 import roles from '../../utilities/roles';
-import { HeaderContainer, HeaderItem } from './styled';
+import { HeaderContainer, HeaderContent, HeaderItem } from './styled';
 
 const Header = ({user, history}) => {
   // TODO: Get email from JWT.
@@ -32,14 +32,16 @@ const Header = ({user, history}) => {
 
   return (
     <HeaderContainer>
-      <HeaderItem bold onClick={() => navigate('/')}>AdminCore</HeaderItem>
-      {user && <div>
-        <HeaderItem onClick={() => navigate('/')}>Home</HeaderItem>
-        {user.employeeRoleId < roles.STANDARD &&
+      <HeaderContent>
+        <HeaderItem bold onClick={() => navigate('/')}>AdminCore</HeaderItem>
+        {user && <div>
+          <HeaderItem onClick={() => navigate('/')}>Home</HeaderItem>
+          {user.employeeRoleId < roles.STANDARD &&
               <HeaderItem onClick={() => navigate('/settings')}>Settings</HeaderItem>
-        }
-        <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
-      </div>}
+          }
+          <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
+        </div>}
+      </HeaderContent>
     </HeaderContainer>
   );
 };

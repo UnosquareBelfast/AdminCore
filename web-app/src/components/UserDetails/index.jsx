@@ -1,20 +1,19 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import container from './container'
+import container from './container';
 
-import { Card } from '../styled'
+import { Card } from '../common';
 
 export const UserDetails = (props) => {
 
-  const { user: { forename, surname, employeeRoleDescription } } = props;
-  
+
+const { user: { forename, surname, employeeRoleDescription } } = props;
+
   return (
     <Card>
-        <strong>User Details</strong>
-
-        <div><span>Name: { `${surname}, ${forename}` }</span></div>
-        <div><span>Role: { employeeRoleDescription } </span></div>
-
+      <strong>User Details</strong>
+      <div><span>Name: { `${surname}, ${forename}` }</span></div>
+      <div><span>Role: { employeeRoleDescription } </span></div>
     </Card>
   );
 };
