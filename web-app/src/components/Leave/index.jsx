@@ -5,11 +5,13 @@ import { Card } from '../common/';
 
 export const Leave = (props) => {
 
+  const {totalHolidays, takenHolidays} = props
+
   return (
     <Card>
       <strong>Leave Card</strong>
-      <div>Days remaining: { props.totalHolidays - props.takenHolidays.length}</div>
-      <div>Days Taken: { props.takenHolidays.length }</div>
+      <div><span>Days remaining: { totalHolidays - takenHolidays.length }</span></div>
+      <div><span>Days Taken: { takenHolidays.length }</span></div>
     </Card>
   );
 };
