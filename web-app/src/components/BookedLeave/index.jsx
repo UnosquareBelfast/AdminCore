@@ -17,7 +17,7 @@ export const BookedLeave = (props) => {
     <div>
       {
         props.bookedHolidays.map(holiday => {
-          return <span className={styles.LeaveTrackerList}>{formatDate(holiday.date)}</span>;
+          return <button className={styles.LeaveTrackerList} onClick={() => this.props.cancelHoliday(holiday)}>{formatDate(holiday.date)}</button>;
         })
       }
     </div>
