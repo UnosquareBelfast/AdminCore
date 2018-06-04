@@ -4,6 +4,7 @@ export const theme = {
   colours: {
     unoBlue: '#0eb5d1',
     white: '#ffffff',
+    grey: '#f4f4f4',
   },
   fonts: {
     text: 'sans-serif',

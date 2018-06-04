@@ -15,3 +15,7 @@ export const userLogin = (email, password) => {
 export const getUserProfile = id => {
   return axios.get(`/employees/${id}`);
 };
+
+export const createUser = data => {
+  return axios.post('authentication/register/', data);
+};

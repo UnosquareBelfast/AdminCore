@@ -3,12 +3,7 @@ import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import {
-  RequestHoliday,
-  BookingModal,
-  Leave,
-  UserDetails,
-} from '../../components';
+import { BookingModal, Leave, UserDetails } from '../../components';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Sidebar } from './styled';
@@ -22,16 +17,15 @@ const Dashboard = props => {
       <BookingModal {...props} />
       <Sidebar>
         <UserDetails user={props.userDetails} />
-        <Leave user={props.userDetails} />
+        <Leave user={props.userDetails} takenHolidays={props.takenHolidays} />
       </Sidebar>
       <Calendar
-        events={[]}
+        events={props.takenHolidays}
         onSelectSlot={props.onSelectSlot}
         onSelectEvent={props.onSelectEvent}
         selectable
         popup
       />
-      {/* <RequestHoliday user={props.user} /> */}
     </Layout>
   );
 };

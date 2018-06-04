@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
+import { requestHoliday, getHolidays } from '../../services/holidayService';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -14,6 +15,7 @@ const DashboardContainer = Wrapped =>
       super(props);
       this.state = {
         date: moment(),
+        takenHolidays: null,
         showModal: false,
         booking: {
           isHalfday: false,
@@ -30,6 +32,7 @@ const DashboardContainer = Wrapped =>
           this.setState({
             userDetails: response.data,
           });
+          this.getTakenHolidays(userId);
         })
         .catch(error =>
           Swal({
@@ -38,6 +41,36 @@ const DashboardContainer = Wrapped =>
             type: 'error',
           }),
         );
+    }
+
+    getTakenHolidays = userId => {
+      getHolidays(userId)
+        .then(response => {
+          this.setState({
+            takenHolidays: this.formatDates(response.data),
+          });
+        })
+        .catch(error => {
+          Swal({
+            title: 'Could not get taken holidays',
+            text: error.message,
+            type: 'error',
+          });
+        });
+    };
+
+    formatDates(events) {
+      var eventsForCalendar = events.map(hol => {
+        return {
+          id: hol.holidayId,
+          title: `${hol.employee.forename} - Annual Leave`,
+          allDay: !hol.halfDay,
+          start: new moment(hol.date, 'YYYY-MM-DD'),
+          end: new moment(hol.date, 'YYYY-MM-DD'),
+        };
+      });
+
+      return eventsForCalendar;
     }
 
     closeModal = () => {
@@ -115,7 +148,8 @@ const DashboardContainer = Wrapped =>
 
     render() {
       return (
-        this.state.userDetails && (
+        this.state.userDetails &&
+        this.state.takenHolidays && (
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
@@ -125,6 +159,7 @@ const DashboardContainer = Wrapped =>
             changeHalfday={this.changeHalfday}
             userDetails={this.state.userDetails}
             requestHoliday={this.requestHoliday}
+            takenHolidays={this.state.takenHolidays}
             {...this.state}
             {...this.props}
           />
