@@ -2,16 +2,36 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Card } from '../common/';
+import { Button } from '../common'
+import { Container, Content } from '../common/Modal/styled';
 
 export const Leave = (props) => {
 
-  const {totalHolidays, takenHolidays} = props
+  const {totalHolidays, takenHolidays, showHolidayListModal, showModal, closeModal } = props
+
+  const dates = props.takenHolidays.map( date => 
+    <li key={date.id}>
+       {date.start.format("YYYY-MM-DD")} <strong> - </strong> {date.end.format("YYYY-MM-DD")}
+    </li>
+  )
 
   return (
     <Card>
       <strong>Leave Card</strong>
       <div><span>Days remaining: { totalHolidays - takenHolidays.length }</span></div>
       <div><span>Days Taken: { takenHolidays.length }</span></div>
+      <Button onClick={showModal} label='Show All Holidays'/>
+
+      { showHolidayListModal &&
+        (<Container>
+          <Content>  
+            <span onClick={closeModal}>Close</span>
+            <h3>Holidays</h3>
+            <ul>
+              {takenHolidays.length > 0 ? dates : <p>You have no holidays Booked</p>}
+            </ul>
+          </Content>
+        </Container>)}
     </Card>
   );
 };

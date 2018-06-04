@@ -2,7 +2,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { PropTypes as PT } from 'prop-types';
 import { Button } from '../common';
-import { Container, Content } from './styled';
+import { Container, Content } from '../common/Modal/styled';
 
 const BookingModal = (props) => {
   const {
