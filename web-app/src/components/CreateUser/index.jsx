@@ -107,7 +107,7 @@ const CreateUser = props => {
           <Button label="Create User" onClick={submitForm} disabled={loading} />
         </form>
         <Errorbox error={error} label="Error creating user" />
-        {success ? <p>User created successfully!</p> : null}
+        {success && <p>User created successfully!</p>}
       </Container>
     </Card>
   );

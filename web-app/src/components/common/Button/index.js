@@ -3,11 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
 
 const Button = props => {
-  return (
-    <Container onClick={props.onClick} {...props}>
-      {props.label}
-    </Container>
-  );
+  return <Container {...props}>{props.label}</Container>;
 };
 
 Button.propTypes = {

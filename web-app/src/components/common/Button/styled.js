@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.button`
-  background: ${props => props.theme.colours.unoBlue};
+  background: ${props =>
+    props.disabled ? '#f4f4f4' : props.theme.colours.unoBlue};
   color: white;
   cursor: pointer;
   text-align: center;
@@ -12,9 +13,4 @@ export const Container = styled.button`
   border: none;
   font-size: 1em;
   font-weight: bold;
-  ${({ disabled }) =>
-    disabled &&
-    `
-    background: #f4f4f4;
-  `};
 `;
