@@ -18,10 +18,10 @@ const Dashboard = props => {
       <BookingModal {...props} />
       <Sidebar>
         <UserDetails user={ props.userDetails } />
-        <Leave user={ props.user } totalHolidays={  props.totalHolidays }/>
+        <Leave user={ props.user } totalHolidays={  props.totalHolidays } takenHolidays={ props.takenHolidays }/>
       </Sidebar>
       <Calendar
-        events={[]}
+        events={props.takenHolidays}
         onSelectSlot={props.onSelectSlot}
         onSelectEvent={props.onSelectEvent}
         selectable
