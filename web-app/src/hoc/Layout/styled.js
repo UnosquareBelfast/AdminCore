@@ -17,7 +17,7 @@ export const HeaderContent = styled.div`
 export const HeaderItem = styled.div`
   display: inline-block;
   padding: 0 15px;
-  font-weight: ${props => props.bold ? 'bold' : 'normal'};
+  font-weight: ${props => (props.bold ? 'bold' : 'normal')};
   cursor: pointer;
 `;
 
