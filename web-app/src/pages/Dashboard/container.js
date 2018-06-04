@@ -28,15 +28,13 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidMount() {
-      var self = this;
-
       getUserProfile()
         .then(response => {
           this.setState({ userDetails: response.data[0], totalHolidays: response.data[0].totalHolidays });
           //eslint-disable-next-line
           console.log('Profile retrieved', response.data[0]);
 
-          self.getTakenHolidays();
+          this.getTakenHolidays();
         })
         .catch(error => {
           Swal({
@@ -47,13 +45,11 @@ const DashboardContainer = Wrapped =>
         });
     }
 
-    getTakenHolidays() {
-      var self = this;
-
+    getTakenHolidays = () => {
       getHolidays(this.props.user.userId())
         .then(response => {
             this.setState({
-               takenHolidays : self.formatDates(response.data) 
+               takenHolidays : this.formatDates(response.data) 
             });
         })
         .catch(error => {
@@ -70,7 +66,7 @@ const DashboardContainer = Wrapped =>
           return {
            id: hol.holidayId,
            title: `${hol.employee.forename} - Annual Leave`,
-           allDay: hol.halfDay ? false : true,
+           allDay: !hol.halfDay,
            start: new moment(hol.date, "YYYY-MM-DD"),
            end: new moment(hol.date, "YYYY-MM-DD")
          }
