@@ -4,7 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 import { Button, Modal } from '../common';
 import { Container, Content } from '../common/Modal/styled';
 
-const BookingModal = (props) => {
+const BookingModal = props => {
   const {
     closeModal,
     showModal,
