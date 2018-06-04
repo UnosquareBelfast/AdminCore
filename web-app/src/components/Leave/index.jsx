@@ -23,7 +23,7 @@ export const Leave = (props) => {
       <Button onClick={showModal} label='Show All Holidays'/>
 
       { showHolidayListModal &&
-        (<Container>
+        <Container>
           <Content>  
             <span onClick={closeModal}>Close</span>
             <h3>Holidays</h3>
@@ -31,7 +31,7 @@ export const Leave = (props) => {
               {takenHolidays.length > 0 ? dates : <p>You have no holidays Booked</p>}
             </ul>
           </Content>
-        </Container>)}
+        </Container>}
     </Card>
   );
 };

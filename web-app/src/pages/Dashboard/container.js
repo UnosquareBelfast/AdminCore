@@ -52,11 +52,9 @@ const DashboardContainer = Wrapped =>
 
       getHolidays(this.props.user.userId())
         .then(response => {
-          console.log("Dates: ", response.data);
         
           self.formatDates(response.data)
             .then((res) => {
-              console.log("RES ", res);
               this.setState({ takenHolidays : res });
             })
           
