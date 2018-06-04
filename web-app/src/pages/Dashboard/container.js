@@ -52,12 +52,9 @@ const DashboardContainer = Wrapped =>
 
       getHolidays(this.props.user.userId())
         .then(response => {
-        
-          self.formatDates(response.data)
-            .then((res) => {
-              this.setState({ takenHolidays : res });
-            })
-          
+            this.setState({
+               takenHolidays : self.formatDates(response.data) 
+            });
         })
         .catch(error => {
           Swal({
@@ -69,7 +66,6 @@ const DashboardContainer = Wrapped =>
     }
 
     formatDates(events){
-      return new Promise(( resolve, reject) => {
         var eventsForCalendar = events.map(hol => {
           return {
            id: hol.holidayId,
@@ -78,10 +74,9 @@ const DashboardContainer = Wrapped =>
            start: new moment(hol.date, "YYYY-MM-DD"),
            end: new moment(hol.date, "YYYY-MM-DD")
          }
-       });
+      });
 
-       resolve(eventsForCalendar)
-      })
+      return eventsForCalendar
     }
 
 
