@@ -1,8 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Card } from '../common/';
-import { Button } from '../common'
+import { Card, Button, Modal } from '../common';
 import { Container, Content } from '../common/Modal/styled';
 
 export const Leave = (props) => {
@@ -23,15 +22,13 @@ export const Leave = (props) => {
       <Button onClick={showModal} label='Show All Holidays'/>
 
       { showHolidayListModal &&
-        <Container>
-          <Content>  
+          <Modal>  
             <span onClick={closeModal}>Close</span>
             <h3>Holidays</h3>
             <ul>
               {takenHolidays.length > 0 ? dates : <p>You have no holidays Booked</p>}
             </ul>
-          </Content>
-        </Container>}
+          </Modal>}
     </Card>
   );
 };
