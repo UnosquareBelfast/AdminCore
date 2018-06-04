@@ -8,40 +8,39 @@ export default Wrapped =>
   class extends React.Component {
     static propTypes = {
       history: PT.object,
-    }
-
-    constructor() {
-      super();
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    };
 
     componentWillMount() {
       if (isLoggedIn()) this.props.history.replace('/');
     }
 
-    handleChange(e) {
+    handleChange = e => {
       this.setState({
         [e.target.name]: e.target.value,
       });
-    }
+    };
 
-    handleSubmit(e) {
+    handleSubmit = e => {
       e.preventDefault();
       userLogin(this.state.email, this.state.password)
         .then(() => {
           this.props.history.push('/');
         })
         .catch(error => {
-          Swal({ title: 'Could not log in', text: error.message, type: 'error' });
+          Swal({
+            title: 'Could not log in',
+            text: error.message,
+            type: 'error',
+          });
         });
-    }
+    };
 
     render() {
       return (
         <Wrapped
           handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit} />
+          handleSubmit={this.handleSubmit}
+        />
       );
     }
   };

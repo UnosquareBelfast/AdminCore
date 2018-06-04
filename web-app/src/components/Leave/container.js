@@ -7,23 +7,23 @@ import { getHolidays } from '../../services/holidayService';
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      totalHolidays: PT.number
+      user: PT.object,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidays: []
+        takenHolidays: [],
       };
     }
 
     componentDidMount() {
-      getHolidays(this.props.user.userId())
+      getHolidays(this.props.user.employeeId)
         .then(response => {
           const pastHolidays = response.data.filter(hol => {
             return this.isDateInThePast(hol.date);
           });
-          
+
           this.setState({ takenHolidays: pastHolidays });
         })
         .catch(error => {
@@ -36,17 +36,18 @@ export default Wrapped =>
     }
 
     isDateInThePast(date) {
-      date = date.join("/")
-      date = new Date(date)
+      date = date.join('/');
+      date = new Date(date);
       return Moment(date).isBefore(new Date());
     }
 
     render() {
       return (
-        <Wrapped 
-            takenHolidays={ this.state.takenHolidays } 
-            totalHolidays={ this.props.totalHolidays } 
-            {...this.props} />
+        <Wrapped
+          takenHolidays={this.state.takenHolidays}
+          totalHolidays={this.props.user.totalHolidays}
+          {...this.props}
+        />
       );
     }
   };

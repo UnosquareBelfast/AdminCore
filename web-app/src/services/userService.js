@@ -1,29 +1,17 @@
+import decode from 'jwt-decode';
 import axios from '../utilities/AxiosInstance';
-import UserInfo from '../utilities/currentUser';
 
 export const userLogin = (email, password) => {
   return axios
-    .post('authentication/login/', { email, password })
+    .post('authentication/login', { email, password })
     .then(response => {
-      localStorage.setItem('id_token', response.data.accessToken);
-      localStorage.setItem('user_email', email);
-    })
-    .catch(error => {
-      return Promise.reject(error);
+      const token = response.data.accessToken;
+      let userData = decode(token);
+      localStorage.setItem('id_token', token);
+      localStorage.setItem('user_id', userData.sub);
     });
 };
 
-export const getUserProfile = () => {
-  const firstName = UserInfo.firstName();
-  const lastName = UserInfo.lastName();
-
-  //eslint-disable-next-line
-  // console.log(
-  //   `Getting ${firstName} ${lastName}'s profile`,
-  //   localStorage.getItem('id_token'),
-  // );
-
-  return axios.get(
-    `/employees/findByForenameAndSurname/${firstName}/${lastName}/`,
-  );
+export const getUserProfile = id => {
+  return axios.get(`/employees/${id}`);
 };
