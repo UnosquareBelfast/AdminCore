@@ -149,9 +149,10 @@ const DashboardContainer = Wrapped =>
       const { booking, userDetails } = this.state;
       const request = [];
 
-      while (booking.start.diff(booking.end) <= 0) {
+      for (let i = 0; i <= booking.end.diff(booking.start, 'days'); i++) {
+        const start = booking.start.clone();
         request.push({
-          date: booking.start.format('YYYY-MM-DD'),
+          date: start.add(i, 'days').format('YYYY-MM-DD'),
           dateCreated: moment().format('YYYY-MM-DD'),
           halfDay: booking.isHalfday,
           holidayId: 0,
@@ -173,7 +174,6 @@ const DashboardContainer = Wrapped =>
             statusDescription: 'Inactive',
           },
         });
-        booking.start.add(1, 'days');
       }
 
       requestHoliday(request).then(() => {
