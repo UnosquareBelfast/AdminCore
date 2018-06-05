@@ -1,11 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Redirect } from 'react-router';
-import UserInfo, {
-  userLogout,
-  getProfile,
-  isLoggedIn,
-} from '../utilities/currentUser';
+import { userLogout, getProfile, isLoggedIn } from '../utilities/currentUser';
 
 const withAuth = AuthComponent => {
   return class AuthWrapped extends React.Component {
@@ -36,12 +32,7 @@ const withAuth = AuthComponent => {
         return <Redirect to="/login" />;
       }
       if (this.state.user) {
-        return (
-          <AuthComponent
-            user={{ ...this.state.user, ...UserInfo }}
-            {...this.props}
-          />
-        );
+        return <AuthComponent user={this.state.user} {...this.props} />;
       }
     }
   };

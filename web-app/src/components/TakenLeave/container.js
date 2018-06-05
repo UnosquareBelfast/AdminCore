@@ -18,7 +18,8 @@ export default Wrapped =>
     }
 
     componentDidMount() {
-      getHolidays(this.props.user.userId())
+      console.log(this.props.user);
+      getHolidays(this.props.user.user.sub)
         .then(response => {
           const pastHolidays = response.data.filter(hol => {
             return this.isDateInThePast(hol.date);

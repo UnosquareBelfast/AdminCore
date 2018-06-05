@@ -3,7 +3,7 @@ import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { RequestHoliday, BookingModal, Leave, UserDetails } from '../../components';
+import { BookingModal, Leave, UserDetails } from '../../components';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Sidebar } from './styled';
@@ -12,13 +12,12 @@ moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
 const Dashboard = props => {
-
   return (
     <Layout {...props}>
       <BookingModal {...props} />
       <Sidebar>
-        <UserDetails user={ props.userDetails } />
-        <Leave user={ props.user } totalHolidays={  props.totalHolidays } takenHolidays={ props.takenHolidays }/>
+        <UserDetails user={props.userDetails} />
+        <Leave user={props.userDetails} takenHolidays={props.takenHolidays} />
       </Sidebar>
       <Calendar
         events={props.takenHolidays}
@@ -27,7 +26,6 @@ const Dashboard = props => {
         selectable
         popup
       />
-      {/* <RequestHoliday user={props.user} /> */}
     </Layout>
   );
 };

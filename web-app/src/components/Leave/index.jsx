@@ -2,33 +2,47 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Card, Button, Modal } from '../common';
-import { Container, Content } from '../common/Modal/styled';
 
-export const Leave = (props) => {
+export const Leave = props => {
+  const {
+    totalHolidays,
+    takenHolidays,
+    showHolidayListModal,
+    showModal,
+    closeModal,
+  } = props;
 
-  const {totalHolidays, takenHolidays, showHolidayListModal, showModal, closeModal } = props
-
-  const dates = props.takenHolidays.map( date => 
+  const dates = props.takenHolidays.map(date => (
     <li key={date.id}>
-       {date.start.format("YYYY-MM-DD")} <strong> - </strong> {date.end.format("YYYY-MM-DD")}
+      {date.start.format('YYYY-MM-DD')} <strong> - </strong>{' '}
+      {date.end.format('YYYY-MM-DD')}
     </li>
-  )
+  ));
 
   return (
     <Card>
       <strong>Leave Card</strong>
-      <div><span>Days remaining: { totalHolidays - takenHolidays.length }</span></div>
-      <div><span>Days Taken: { takenHolidays.length }</span></div>
-      <Button onClick={showModal} label='Show All Holidays'/>
+      <div>
+        <span>Days remaining: {totalHolidays - takenHolidays.length}</span>
+      </div>
+      <div>
+        <span>Days Taken: {takenHolidays.length}</span>
+      </div>
+      <Button onClick={showModal} label="Show All Holidays" />
 
-      { showHolidayListModal &&
-          <Modal>  
-            <span onClick={closeModal}>Close</span>
-            <h3>Holidays</h3>
-            <ul>
-              {takenHolidays.length > 0 ? dates : <p>You have no holidays Booked</p>}
-            </ul>
-          </Modal>}
+      {showHolidayListModal && (
+        <Modal>
+          <span onClick={closeModal}>Close</span>
+          <h3>Holidays</h3>
+          <ul>
+            {takenHolidays.length > 0 ? (
+              dates
+            ) : (
+              <p>You have no holidays Booked</p>
+            )}
+          </ul>
+        </Modal>
+      )}
     </Card>
   );
 };
@@ -36,6 +50,9 @@ export const Leave = (props) => {
 Leave.propTypes = {
   totalHolidays: PT.number,
   takenHolidays: PT.array,
+  showHolidayListModal: PT.bool,
+  showModal: PT.func,
+  closeModal: PT.func,
 };
 
 export default container(Leave);

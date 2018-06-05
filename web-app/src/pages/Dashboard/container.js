@@ -15,9 +15,7 @@ const DashboardContainer = Wrapped =>
       super(props);
       this.state = {
         date: moment(),
-        totalHolidays: 0,
         takenHolidays: null,
-        user: null,
         showModal: false,
         booking: {
           isHalfday: false,
@@ -28,29 +26,29 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidMount() {
-      getUserProfile()
+      const userId = localStorage.getItem('user_id');
+      getUserProfile(userId)
         .then(response => {
-          this.setState({ userDetails: response.data[0], totalHolidays: response.data[0].totalHolidays });
-          //eslint-disable-next-line
-          console.log('Profile retrieved', response.data[0]);
-
-          this.getTakenHolidays();
+          this.setState({
+            userDetails: response.data,
+          });
+          this.getTakenHolidays(userId);
         })
-        .catch(error => {
+        .catch(error =>
           Swal({
             title: 'Could not get user profile',
             text: error.message,
             type: 'error',
-          });
-        });
+          }),
+        );
     }
 
-    getTakenHolidays = () => {
-      getHolidays(this.props.user.userId())
+    getTakenHolidays = userId => {
+      getHolidays(userId)
         .then(response => {
-            this.setState({
-               takenHolidays : this.formatDates(response.data) 
-            });
+          this.setState({
+            takenHolidays: this.formatDates(response.data),
+          });
         })
         .catch(error => {
           Swal({
@@ -59,30 +57,31 @@ const DashboardContainer = Wrapped =>
             type: 'error',
           });
         });
-    }
+    };
 
-    formatDates(events){
-        var eventsForCalendar = events.map(hol => {
-          return {
-           id: hol.holidayId,
-           title: `${hol.employee.forename} - Annual Leave`,
-           allDay: !hol.halfDay,
-           start: new moment(hol.date, "YYYY-MM-DD"),
-           end: new moment(hol.date, "YYYY-MM-DD")
-         }
+    formatDates(events) {
+      var eventsForCalendar = events.map(hol => {
+        return {
+          id: hol.holidayId,
+          title: `${hol.employee.forename} - Annual Leave`,
+          allDay: !hol.halfDay,
+          start: new moment(hol.date, 'YYYY-MM-DD'),
+          end: new moment(hol.date, 'YYYY-MM-DD'),
+        };
       });
 
-      return eventsForCalendar
+      return eventsForCalendar;
     }
 
-
-    closeModal = () => { this.setState({showModal: false}); }
+    closeModal = () => {
+      this.setState({ showModal: false });
+    };
 
     getDuration(start, end) {
       return moment.duration(end.diff(start)).asDays() + 1;
     }
 
-    onSelectSlot = ({start, end}) => {
+    onSelectSlot = ({ start, end }) => {
       this.setState({
         showModal: true,
         booking: {
@@ -92,9 +91,9 @@ const DashboardContainer = Wrapped =>
           duration: this.getDuration(moment(start), moment(end)),
         },
       });
-    }
+    };
 
-    onSelectEvent = ({start, end, id, title}) => {
+    onSelectEvent = ({ start, end, id, title }) => {
       this.setState({
         showModal: true,
         booking: {
@@ -106,55 +105,65 @@ const DashboardContainer = Wrapped =>
           title: title,
         },
       });
-    }
+    };
 
-    changeStart = (value) => {
-      const booking = {...this.state.booking};
+    changeStart = value => {
+      const booking = { ...this.state.booking };
       booking.start = value;
-      if (value.isAfter(booking.end)) { booking.end = value; }
+      if (value.isAfter(booking.end)) {
+        booking.end = value;
+      }
       booking.duration = this.getDuration(booking.start, booking.end);
-      if (booking.duration > 1) { booking.isHalfday = false; }
-      this.setState({booking});
-    }
+      if (booking.duration > 1) {
+        booking.isHalfday = false;
+      }
+      this.setState({ booking });
+    };
 
-    changeEnd = (value) => {
-      const booking = {...this.state.booking};
+    changeEnd = value => {
+      const booking = { ...this.state.booking };
       booking.end = value;
-      if (value.isBefore(booking.start)) { booking.start = value; }
+      if (value.isBefore(booking.start)) {
+        booking.start = value;
+      }
       booking.duration = this.getDuration(booking.start, value);
-      if (booking.duration > 1) { booking.isHalfday = false; }
-      this.setState({booking});
-    }
+      if (booking.duration > 1) {
+        booking.isHalfday = false;
+      }
+      this.setState({ booking });
+    };
 
-    changeHalfday = (e) => {
-      const booking = {...this.state.booking};
+    changeHalfday = e => {
+      const booking = { ...this.state.booking };
       booking.isHalfday = e.target.checked;
-      this.setState({booking});
-    }
+      this.setState({ booking });
+    };
 
     requestHoliday = () => {
       console.log('Holiday requested');
       console.log('Starting', this.state.booking.start.format('Do MMMM YYYY'));
       console.log('Finishing', this.state.booking.end.format('Do MMMM YYYY'));
       console.log('Total', this.state.booking.duration, 'days');
-    }
+    };
 
     render() {
       return (
-        (this.state.userDetails && this.state.takenHolidays) &&
-        <Wrapped
-          onSelectSlot={this.onSelectSlot}
-          onSelectEvent={this.onSelectEvent}
-          closeModal={this.closeModal}
-          changeStart={this.changeStart}
-          changeEnd={this.changeEnd}
-          changeHalfday={this.changeHalfday}
-          userDetails={this.state.userDetails}
-          requestHoliday={this.requestHoliday}
-          takenHolidays={this.state.takenHolidays}
-          {...this.state}
-          {...this.props}
-        />
+        this.state.userDetails &&
+        this.state.takenHolidays && (
+          <Wrapped
+            onSelectSlot={this.onSelectSlot}
+            onSelectEvent={this.onSelectEvent}
+            closeModal={this.closeModal}
+            changeStart={this.changeStart}
+            changeEnd={this.changeEnd}
+            changeHalfday={this.changeHalfday}
+            userDetails={this.state.userDetails}
+            requestHoliday={this.requestHoliday}
+            takenHolidays={this.state.takenHolidays}
+            {...this.state}
+            {...this.props}
+          />
+        )
       );
     }
   };
