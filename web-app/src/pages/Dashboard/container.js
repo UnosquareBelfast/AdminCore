@@ -71,6 +71,7 @@ const DashboardContainer = Wrapped =>
           allDay: !hol.halfDay,
           start: new moment(hol.date, 'YYYY-MM-DD'),
           end: new moment(hol.date, 'YYYY-MM-DD'),
+          isHalfday: hol.halfDay,
           ...hol,
         };
       });
@@ -98,11 +99,11 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    onSelectEvent = ({ start, end, id, title }) => {
+    onSelectEvent = ({ start, end, id, title, halfDay }) => {
       this.setState({
         showModal: true,
         booking: {
-          isHalfday: false,
+          isHalfday: halfDay,
           start: moment(start),
           end: moment(end),
           duration: this.getDuration(moment(start), moment(end)),
@@ -152,7 +153,7 @@ const DashboardContainer = Wrapped =>
         request.push({
           date: booking.start.format('YYYY-MM-DD'),
           dateCreated: moment().format('YYYY-MM-DD'),
-          halfday: booking.isHalfday,
+          halfDay: booking.isHalfday,
           holidayId: 0,
           holidayStatusDescription: 'Booked',
           holidayStatusId: 1,
@@ -181,12 +182,12 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    updateHoliday = (cancel = false) => {
+    updateHoliday = (cancel) => {
       const { booking, userDetails } = this.state;
       const request = {
         date: booking.start.format('YYYY-MM-DD'),
         dateCreated: moment().format('YYYY-MM-DD'),
-        halfday: booking.isHalfday,
+        halfDay: booking.isHalfday,
         holidayId: booking.id,
         holidayStatusDescription: 'Booked',
         holidayStatusId: cancel ? 3 : 1,
@@ -226,7 +227,7 @@ const DashboardContainer = Wrapped =>
             userDetails={this.state.userDetails}
             requestHoliday={this.submitHolidayRequest}
             takenHolidays={this.state.takenHolidays}
-            updateHoliday={this.updateHoliday}
+            updateHoliday={() => this.updateHoliday(false)}
             cancelHoliday={() => this.updateHoliday(true)}
             {...this.state}
             {...this.props}
