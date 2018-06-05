@@ -32,7 +32,7 @@ const withAuth = AuthComponent => {
         return <Redirect to="/login" />;
       }
       if (this.state.user) {
-        return <AuthComponent user={{ ...this.state.user }} {...this.props} />;
+        return <AuthComponent user={this.state.user} {...this.props} />;
       }
     }
   };
