@@ -8,7 +8,7 @@
     "build": "webpack --mode production",
     "lint": "./node_modules/.bin/eslint src --ext .js,.jsx; exit 0",
     "lint-fix": "./node_modules/.bin/eslint src --ext .js,.jsx --fix; exit 0",
-    "test": "jest; exit 0"
+    "test": "jest"
   },
   "author": "Mark Brown",
   "license": "MIT",

@@ -7,7 +7,7 @@ import { Card } from '../common';
 export const UserDetails = (props) => {
 
 
-const { user: { forename, surname, employeeRoleDescription } } = props;
+  const { user: { forename, surname, employeeRoleDescription } } = props;
 
   return (
     <Card>

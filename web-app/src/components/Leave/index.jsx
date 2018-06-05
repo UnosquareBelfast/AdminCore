@@ -28,7 +28,7 @@ export const Leave = props => {
       <div>
         <span>Days Taken: {takenHolidays.length}</span>
       </div>
-      <Button onClick={showModal} label="Show All Holidays" />
+      <Button id="showHolidaysBtn" onClick={showModal} label="Show All Holidays" />
 
       {showHolidayListModal && (
         <Modal>

@@ -23,7 +23,7 @@ const Header = ({user, history}) => {
           userLogout();
           history.push('/login');
         }
-   });
+      });
   };
 
   const navigate = (route) => {
