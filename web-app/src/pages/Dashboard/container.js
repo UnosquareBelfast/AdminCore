@@ -3,7 +3,11 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import { requestHoliday, getHolidays } from '../../services/holidayService';
+import {
+  updateHoliday,
+  requestHoliday,
+  getHolidays,
+} from '../../services/holidayService';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -67,10 +71,11 @@ const DashboardContainer = Wrapped =>
           allDay: !hol.halfDay,
           start: new moment(hol.date, 'YYYY-MM-DD'),
           end: new moment(hol.date, 'YYYY-MM-DD'),
+          ...hol,
         };
       });
 
-      return eventsForCalendar;
+      return eventsForCalendar.filter(x => x.holidayStatusId !== 3);
     }
 
     closeModal = () => {
@@ -176,6 +181,37 @@ const DashboardContainer = Wrapped =>
       });
     };
 
+    updateHoliday = (cancel = false) => {
+      const { booking, userDetails } = this.state;
+      const request = {
+        date: booking.start.format('YYYY-MM-DD'),
+        dateCreated: moment().format('YYYY-MM-DD'),
+        halfday: booking.isHalfday,
+        holidayId: booking.id,
+        holidayStatusDescription: 'Booked',
+        holidayStatusId: cancel ? 3 : 1,
+        lastModified: moment().format('YYYY-MM-DD'),
+        employee: {
+          employeeId: userDetails.employeeId,
+          forename: userDetails.forename,
+          surname: userDetails.surname,
+          email: userDetails.email,
+          totalHolidays: 33,
+          startDate: [2014, 1, 1],
+          countryId: 1,
+          countryDescription: 'Northern Ireland',
+          employeeRoleId: 2,
+          employeeRoleDescription: 'System administrator',
+          employeeStatusId: 2,
+          statusDescription: 'Inactive',
+        },
+      };
+      updateHoliday(request).then(() => {
+        this.getTakenHolidays(userDetails.employeeId);
+        this.closeModal();
+      });
+    }
+
     render() {
       return (
         this.state.userDetails &&
@@ -190,6 +226,8 @@ const DashboardContainer = Wrapped =>
             userDetails={this.state.userDetails}
             requestHoliday={this.submitHolidayRequest}
             takenHolidays={this.state.takenHolidays}
+            updateHoliday={this.updateHoliday}
+            cancelHoliday={() => this.updateHoliday(true)}
             {...this.state}
             {...this.props}
           />

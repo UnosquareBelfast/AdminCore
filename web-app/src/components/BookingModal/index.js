@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import DatePicker from 'react-datepicker';
 import { PropTypes as PT } from 'prop-types';
 import { Button, Modal } from '../common';
@@ -12,7 +12,19 @@ const BookingModal = props => {
     changeEnd,
     changeHalfday,
     requestHoliday,
+    cancelHoliday,
+    updateHoliday,
   } = props;
+
+  const getActions = () => (
+    booking.title ?
+      <Fragment>
+        <Button onClick={updateHoliday} label={'Update'}/>
+        <Button onClick={cancelHoliday} label={'Cancel'}/>
+      </Fragment>
+      :
+      <Button onClick={requestHoliday} label={'Request'}/>
+  );
 
   return (showModal &&
     <Modal>
@@ -32,7 +44,7 @@ const BookingModal = props => {
           Half-Day
       </label>
       <p>Total days: {booking.duration / (booking.isHalfday ? 2 : 1)}</p>
-      <Button onClick={requestHoliday} label="Request"/>
+      {getActions()}
     </Modal>
   );
 };
@@ -46,6 +58,7 @@ BookingModal.propTypes = {
   changeHalfday: PT.func,
   requestHoliday: PT.func,
   takenHolidays: PT.array,
+  cancelHoliday: PT.func,
 };
 
 export default BookingModal;

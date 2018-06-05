@@ -42,6 +42,7 @@ Dashboard.propTypes = {
   booking: PT.object,
   showBookingModal: PT.bool,
   closeModal: PT.func,
+  takenHolidays: PT.array,
 };
 
 const enhance = flowRight(withAuth, container);
