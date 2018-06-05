@@ -139,11 +139,41 @@ const DashboardContainer = Wrapped =>
       this.setState({ booking });
     };
 
-    requestHoliday = () => {
-      console.log('Holiday requested');
-      console.log('Starting', this.state.booking.start.format('Do MMMM YYYY'));
-      console.log('Finishing', this.state.booking.end.format('Do MMMM YYYY'));
-      console.log('Total', this.state.booking.duration, 'days');
+    submitHolidayRequest = () => {
+      const { booking, userDetails } = this.state;
+      const request = [];
+
+      while (booking.start.diff(booking.end) <= 0) {
+        request.push({
+          date: booking.start.format('YYYY-MM-DD'),
+          dateCreated: moment().format('YYYY-MM-DD'),
+          halfday: booking.isHalfday,
+          holidayId: 0,
+          holidayStatusDescription: 'Booked',
+          holidayStatusId: 1,
+          lastModified: moment().format('YYYY-MM-DD'),
+          employee: {
+            employeeId: userDetails.employeeId,
+            forename: userDetails.forename,
+            surname: userDetails.surname,
+            email: userDetails.email,
+            totalHolidays: 33,
+            startDate: [2014, 1, 1],
+            countryId: 1,
+            countryDescription: 'Northern Ireland',
+            employeeRoleId: 2,
+            employeeRoleDescription: 'System administrator',
+            employeeStatusId: 2,
+            statusDescription: 'Inactive',
+          },
+        });
+        booking.start.add(1, 'days');
+      }
+
+      requestHoliday(request).then(() => {
+        this.getTakenHolidays(userDetails.employeeId);
+        this.closeModal();
+      });
     };
 
     render() {
@@ -158,7 +188,7 @@ const DashboardContainer = Wrapped =>
             changeEnd={this.changeEnd}
             changeHalfday={this.changeHalfday}
             userDetails={this.state.userDetails}
-            requestHoliday={this.requestHoliday}
+            requestHoliday={this.submitHolidayRequest}
             takenHolidays={this.state.takenHolidays}
             {...this.state}
             {...this.props}
