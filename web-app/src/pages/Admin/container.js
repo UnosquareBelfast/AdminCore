@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import roles from '../../utilities/roles';
-import { getUserProfile } from '../../services/userService';
+import { getUserProfile, getAllUsers } from '../../services/userService';
 
 const AdminContainer = Wrapped =>
   class extends React.Component {
@@ -15,6 +15,7 @@ const AdminContainer = Wrapped =>
       super(props);
       this.state = {
         userDetails: null,
+        users: [],
       };
     }
 
@@ -28,6 +29,7 @@ const AdminContainer = Wrapped =>
           if (response.data.employeeRoleId !== roles.ADMIN) {
             this.props.history.replace('/');
           }
+          this.getAllUsers();
         })
         .catch(error =>
           Swal({
@@ -38,9 +40,15 @@ const AdminContainer = Wrapped =>
         );
     }
 
+    getAllUsers = () => {
+      getAllUsers().then(({ data }) => this.setState({ users: data }));
+    };
+
     render() {
       return (
-        this.state.userDetails && <Wrapped {...this.state} {...this.props} />
+        this.state.userDetails && (
+          <Wrapped {...this.state} {...this.props} refresh={this.getAllUsers} />
+        )
       );
     }
   };
