@@ -78,7 +78,7 @@ export default Wrapped =>
         holidayStatusId: holidayStatus.PENDING,
         lastModified: formattedTodayDate,
         employee: {
-          employeeId: this.props.user.userId(),
+          employeeId: this.props.user.userId,
           forename: 'Name',
           surname: 'Name',
           email: 'Email',
