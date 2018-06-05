@@ -23,6 +23,7 @@ const Dashboard = props => {
         events={props.takenHolidays}
         onSelectSlot={props.onSelectSlot}
         onSelectEvent={props.onSelectEvent}
+        defaultDate={new Date()}
         selectable
         popup
       />
