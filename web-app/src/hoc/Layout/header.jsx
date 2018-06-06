@@ -5,9 +5,7 @@ import { userLogout } from '../../utilities/currentUser';
 import roles from '../../utilities/roles';
 import { HeaderContainer, HeaderContent, HeaderItem } from './styled';
 
-const Header = ({user, history}) => {
-  // TODO: Get email from JWT.
-
+const Header = ({ userDetails, history }) => {
   const handleLogout = () => {
     Swal({
       title: 'Are you sure?',
@@ -15,32 +13,33 @@ const Header = ({user, history}) => {
       buttons: true,
       dangerMode: true,
       showCancelButton: true,
-    })
-      .then((signOut) => {
-        console.log('value of signOut:', signOut);
-        if (signOut.value === true) {    
-          console.log('in userLogout block');
-          userLogout();
-          history.push('/login');
-        }
-      });
+    }).then(signOut => {
+      if (signOut.value === true) {
+        userLogout();
+        history.push('/login');
+      }
+    });
   };
 
-  const navigate = (route) => {
+  const navigate = route => {
     history.push(route);
   };
 
   return (
     <HeaderContainer>
       <HeaderContent>
-        <HeaderItem bold onClick={() => navigate('/')}>AdminCore</HeaderItem>
-        {user && <div>
-          <HeaderItem onClick={() => navigate('/')}>Home</HeaderItem>
-          {user.employeeRoleId < roles.STANDARD &&
-              <HeaderItem onClick={() => navigate('/settings')}>Settings</HeaderItem>
-          }
-          <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
-        </div>}
+        <HeaderItem bold onClick={() => navigate('/')}>
+          AdminCore
+        </HeaderItem>
+        {userDetails && (
+          <div>
+            <HeaderItem onClick={() => navigate('/')}>Home</HeaderItem>
+            {userDetails.employeeRoleId === roles.ADMIN && (
+              <HeaderItem onClick={() => navigate('/admin')}>Admin</HeaderItem>
+            )}
+            <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
+          </div>
+        )}
       </HeaderContent>
     </HeaderContainer>
   );
@@ -48,7 +47,7 @@ const Header = ({user, history}) => {
 
 Header.propTypes = {
   history: PT.object,
-  user: PT.object,
+  userDetails: PT.object,
 };
 
 export default Header;

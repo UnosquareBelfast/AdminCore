@@ -37,7 +37,7 @@ export default Wrapped =>
       this.setState({ form: { ...this.state.form, startDate: date } });
     };
 
-    handleFormSubmit = () => {
+    handleFormSubmit = () => {  
       const data = { ...this.state.form };
       data.startDate = data.startDate.toISOString();
       this.setState({ loading: true });
