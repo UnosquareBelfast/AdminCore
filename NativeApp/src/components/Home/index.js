@@ -1,3 +1,4 @@
-import HomeView from './View';
+import container from './Containers/container';
+import HomeView from './View/';
 
-export default HomeView;
+export default container(HomeView);
