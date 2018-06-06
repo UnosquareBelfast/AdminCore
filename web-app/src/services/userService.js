@@ -12,10 +12,18 @@ export const userLogin = (email, password) => {
     });
 };
 
+export const getAllUsers = () => {
+  return axios.get('/employees/');
+};
+
 export const getUserProfile = id => {
   return axios.get(`/employees/${id}`);
 };
 
 export const createUser = data => {
   return axios.post('authentication/register/', data);
+};
+
+export const updateUser = data => {
+  return axios.put('employees/', data);
 };

@@ -4,8 +4,13 @@ import holidayStatus from './utilities/holidayStatus';
 export const theme = {
   colours: {
     unoBlue: '#0eb5d1',
+    darkBlue: '#0a98af',
     white: '#ffffff',
     grey: '#f4f4f4',
+    lightgrey: '#f7f7f7',
+    red: '#f45c42',
+    darkRed: '#c4412b',
+    green: '#28cc49',
   },
   fonts: {
     text: 'sans-serif',
