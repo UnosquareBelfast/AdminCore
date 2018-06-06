@@ -1,4 +1,5 @@
 import { injectGlobal } from 'styled-components';
+import holidayStatus from './utilities/holidayStatus';
 
 export const theme = {
   colours: {
@@ -8,6 +9,11 @@ export const theme = {
   },
   fonts: {
     text: 'sans-serif',
+  },
+  holidayStatus: {
+    [holidayStatus.PENDING]: '#ff9b34',
+    [holidayStatus.REJECTED]: '#ff3434',
+    [holidayStatus.APPROVED]: '#35c375',
   },
 };
 

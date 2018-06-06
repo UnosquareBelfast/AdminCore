@@ -3,7 +3,6 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import holidayStatus from '../../utilities/holidayStatus';
 import {
   updateHoliday,
   requestHoliday,
@@ -76,10 +75,7 @@ const DashboardContainer = Wrapped =>
           ...hol,
         };
       });
-
-      return eventsForCalendar.filter(x =>
-        x.holidayStatusId !== holidayStatus.REJECTED
-      );
+      return eventsForCalendar;
     }
 
     closeModal = () => {
@@ -102,16 +98,17 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    onSelectEvent = ({ start, end, id, title, halfDay }) => {
+    onSelectEvent = (booking) => {
       this.setState({
         showModal: true,
         booking: {
-          isHalfday: halfDay,
-          start: moment(start),
-          end: moment(end),
-          duration: this.getDuration(moment(start), moment(end)),
-          id: id,
-          title: title,
+          isHalfday: booking.halfDay,
+          start: moment(booking.start),
+          end: moment(booking.end),
+          duration: this.getDuration(moment(booking.start), moment(booking.end)),
+          id: booking.id,
+          title: booking.title,
+          ...booking,
         },
       });
     };
