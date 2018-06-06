@@ -3,7 +3,12 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import { requestHoliday, getHolidays } from '../../services/holidayService';
+import holidayStatus from '../../utilities/holidayStatus';
+import {
+  updateHoliday,
+  requestHoliday,
+  getHolidays,
+} from '../../services/holidayService';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -67,10 +72,14 @@ const DashboardContainer = Wrapped =>
           allDay: !hol.halfDay,
           start: new moment(hol.date, 'YYYY-MM-DD'),
           end: new moment(hol.date, 'YYYY-MM-DD'),
+          isHalfday: hol.halfDay,
+          ...hol,
         };
       });
 
-      return eventsForCalendar;
+      return eventsForCalendar.filter(x =>
+        x.holidayStatusId !== holidayStatus.REJECTED
+      );
     }
 
     closeModal = () => {
@@ -93,11 +102,11 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    onSelectEvent = ({ start, end, id, title }) => {
+    onSelectEvent = ({ start, end, id, title, halfDay }) => {
       this.setState({
         showModal: true,
         booking: {
-          isHalfday: false,
+          isHalfday: halfDay,
           start: moment(start),
           end: moment(end),
           duration: this.getDuration(moment(start), moment(end)),
@@ -139,12 +148,73 @@ const DashboardContainer = Wrapped =>
       this.setState({ booking });
     };
 
-    requestHoliday = () => {
-      console.log('Holiday requested');
-      console.log('Starting', this.state.booking.start.format('Do MMMM YYYY'));
-      console.log('Finishing', this.state.booking.end.format('Do MMMM YYYY'));
-      console.log('Total', this.state.booking.duration, 'days');
+    submitHolidayRequest = () => {
+      const { booking, userDetails } = this.state;
+      const request = [];
+
+      for (let i = 0; i <= booking.end.diff(booking.start, 'days'); i++) {
+        const start = booking.start.clone();
+        request.push({
+          date: start.add(i, 'days').format('YYYY-MM-DD'),
+          dateCreated: moment().format('YYYY-MM-DD'),
+          halfDay: booking.isHalfday,
+          holidayId: 0,
+          holidayStatusDescription: 'Booked',
+          holidayStatusId: 1,
+          lastModified: moment().format('YYYY-MM-DD'),
+          employee: {
+            employeeId: userDetails.employeeId,
+            forename: userDetails.forename,
+            surname: userDetails.surname,
+            email: userDetails.email,
+            totalHolidays: 33,
+            startDate: [2014, 1, 1],
+            countryId: 1,
+            countryDescription: 'Northern Ireland',
+            employeeRoleId: 2,
+            employeeRoleDescription: 'System administrator',
+            employeeStatusId: 2,
+            statusDescription: 'Inactive',
+          },
+        });
+      }
+
+      requestHoliday(request).then(() => {
+        this.getTakenHolidays(userDetails.employeeId);
+        this.closeModal();
+      });
     };
+
+    updateHoliday = (cancel) => {
+      const { booking, userDetails } = this.state;
+      const request = {
+        date: booking.start.format('YYYY-MM-DD'),
+        dateCreated: moment().format('YYYY-MM-DD'),
+        halfDay: booking.isHalfday,
+        holidayId: booking.id,
+        holidayStatusDescription: 'Booked',
+        holidayStatusId: cancel ? 3 : 1,
+        lastModified: moment().format('YYYY-MM-DD'),
+        employee: {
+          employeeId: userDetails.employeeId,
+          forename: userDetails.forename,
+          surname: userDetails.surname,
+          email: userDetails.email,
+          totalHolidays: 33,
+          startDate: [2014, 1, 1],
+          countryId: 1,
+          countryDescription: 'Northern Ireland',
+          employeeRoleId: 2,
+          employeeRoleDescription: 'System administrator',
+          employeeStatusId: 2,
+          statusDescription: 'Inactive',
+        },
+      };
+      updateHoliday(request).then(() => {
+        this.getTakenHolidays(userDetails.employeeId);
+        this.closeModal();
+      });
+    }
 
     render() {
       return (
@@ -158,8 +228,10 @@ const DashboardContainer = Wrapped =>
             changeEnd={this.changeEnd}
             changeHalfday={this.changeHalfday}
             userDetails={this.state.userDetails}
-            requestHoliday={this.requestHoliday}
+            requestHoliday={this.submitHolidayRequest}
             takenHolidays={this.state.takenHolidays}
+            updateHoliday={() => this.updateHoliday(false)}
+            cancelHoliday={() => this.updateHoliday(true)}
             {...this.state}
             {...this.props}
           />
