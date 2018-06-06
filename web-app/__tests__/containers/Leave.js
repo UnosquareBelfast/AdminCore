@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import moment from 'moment';
 import { Leave } from '../../src/components/Leave';
 import leaveContainer from '../../src/components/Leave/Container';
 

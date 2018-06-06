@@ -18,5 +18,8 @@ export const UserDetails = (props) => {
   );
 };
 
+UserDetails.propTypes = {
+  user: PT.object,
+};
 
 export default container(UserDetails);
