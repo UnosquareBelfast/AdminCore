@@ -13,4 +13,17 @@ export const Sidebar = styled.div`
 export const MainContentContainer = styled.div`
   margin-left: 1rem;
   flex: 3;
+  h3 {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 20px;
+  }
+`;
+
+export const Refresh = styled.p`
+  display: inline;
+  text-decoration: underline;
+  font-size: 0.8em;
+  cursor: pointer;
+  color: grey;
 `;
