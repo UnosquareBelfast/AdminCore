@@ -4,7 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      userDetails: PT.object,
+      user: PT.object,
     };
 
     constructor(props) {

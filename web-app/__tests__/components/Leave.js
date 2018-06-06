@@ -8,15 +8,15 @@ const dummyHolidays = [
     id: 1,
     title: 'Annual Leave',
     allDay: true,
-    start: new moment(new Date(), 'YYYY-MM-DD'),
-    end: new moment(new Date(), 'YYYY-MM-DD'),
+    start: new moment('2018-06-05', 'YYYY-MM-DD'),
+    end: new moment('2018-06-05', 'YYYY-MM-DD'),
   }, 
   {
     id: 2,
     title: 'Annual Leave',
     allDay: true,
-    start: new moment(new Date(), 'YYYY-MM-DD'),
-    end: new moment(new Date(), 'YYYY-MM-DD'),
+    start: new moment('2018-06-05', 'YYYY-MM-DD'),
+    end: new moment('2018-06-05', 'YYYY-MM-DD'),
   },
 ];
 
