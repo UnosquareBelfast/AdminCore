@@ -19,8 +19,8 @@ const BookingModal = props => {
   const getActions = () => (
     booking.title ?
       <Fragment>
-        <Button onClick={updateHoliday} label={'Update'}/>
-        <Button onClick={cancelHoliday} label={'Cancel'}/>
+        <Button onClick={updateHoliday} label={'Update'} style={{marginBottom: 5}}/>
+        <Button onClick={cancelHoliday} label={'Cancel Request'}/>
       </Fragment>
       :
       <Button onClick={requestHoliday} label={'Request'}/>

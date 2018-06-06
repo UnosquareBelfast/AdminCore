@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
+import holidayStatus from '../../utilities/holidayStatus';
 import {
   updateHoliday,
   requestHoliday,
@@ -76,7 +77,9 @@ const DashboardContainer = Wrapped =>
         };
       });
 
-      return eventsForCalendar.filter(x => x.holidayStatusId !== 3);
+      return eventsForCalendar.filter(x =>
+        x.holidayStatusId !== holidayStatus.REJECTED
+      );
     }
 
     closeModal = () => {
