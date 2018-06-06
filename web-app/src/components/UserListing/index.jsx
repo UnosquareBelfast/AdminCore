@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { UserTable, ActiveDot } from './styled';
 
-const UserListing = ({ users, edit, archive, amendHolidays }) => {
+const UserListing = ({ users, edit, archive, ViewHolidays }) => {
   return (
     <UserTable>
       <tbody>
@@ -22,10 +22,8 @@ const UserListing = ({ users, edit, archive, amendHolidays }) => {
             </td>
 
             <td>
-              <button onClick={() => edit(user)}>Edit</button>
-              <button onClick={() => amendHolidays(user)}>
-                Amend Holidays
-              </button>
+              <button onClick={() => edit(user)}>Edit User</button>
+              <button onClick={() => ViewHolidays(user)}>View Holidays</button>
               {user.employeeStatusId === 1 ? (
                 <button onClick={() => archive(user)}>Archive</button>
               ) : (
@@ -43,7 +41,7 @@ UserListing.propTypes = {
   users: PT.array,
   archive: PT.func.isRequired,
   edit: PT.func.isRequired,
-  amendHolidays: PT.func.isRequired,
+  ViewHolidays: PT.func.isRequired,
 };
 
 export default container(UserListing);

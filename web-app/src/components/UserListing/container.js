@@ -44,8 +44,9 @@ export default Wrapped =>
       console.log('EDIT', user);
     };
 
-    amendHolidays = user => {
-      console.log('AMEND HOLIDAYS', user);
+    viewHolidays = user => {
+      console.log('VIEW HOLIDAYS', user);
+      // Navigate to page with holiday listings for this user
     };
 
     render() {
@@ -53,7 +54,7 @@ export default Wrapped =>
         <Wrapped
           archive={this.archiveUser}
           edit={this.editUser}
-          amendHolidays={this.amendHolidays}
+          ViewHolidays={this.viewHolidays}
           {...this.props}
           users={this.state.users}
         />
