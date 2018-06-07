@@ -26,13 +26,23 @@ public class Holiday implements java.io.Serializable {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Basic
-    @Column(name = "employee_id")
-    private int employeeId;
+//    @Basic
+//    @Column(name = "employee_id")
+//    private int employeeId;
+//
+//    @Basic
+//    @Column(name = "holiday_status_id")
+//    private int holidayStatusId;
 
-    @Basic
-    @Column(name = "holiday_status_id")
-    private int holidayStatusId;
+    @OneToOne
+    @MapsId("employeeId")
+    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId", insertable = false, updatable = false)
+    private Employee employee;
+
+    @OneToOne
+    @MapsId("holidayStatusId")
+    @JoinColumn(name = "holidayStatusId", referencedColumnName = "holidayStatusId", insertable = false, updatable = false)
+    private HolidayStatus holidayStatus;
 
     private boolean isHalfDay;
 
@@ -46,11 +56,12 @@ public class Holiday implements java.io.Serializable {
 
     }
 
-    public Holiday(LocalDate startDate, LocalDate endDate, int employeeId, int statusId, boolean isHalfDay) {
+    public Holiday(LocalDate startDate, LocalDate endDate, int employeeId, int statusId,
+                   boolean isHalfDay) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.employeeId = employeeId;
-        this.holidayStatusId = statusId;
+        this.employee = new Employee(employeeId);
+        this.holidayStatus = new HolidayStatus(statusId);
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
         this.isHalfDay = isHalfDay;

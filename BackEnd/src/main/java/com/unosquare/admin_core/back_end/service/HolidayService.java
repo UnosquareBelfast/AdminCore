@@ -45,7 +45,7 @@ public class HolidayService {
     public void save(Holiday holiday) {
         Preconditions.checkNotNull(holiday);
 
-        holiday.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
+        holiday.getHolidayStatus().setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
         holiday.setDateCreated(LocalDate.now());
         holiday.setLastModified(LocalDate.now());
 
@@ -53,7 +53,7 @@ public class HolidayService {
     }
 
     private Holiday checkForHolidayWithSameDate(Holiday holiday) {
-        Holiday holidayWithSameDate = holidayRepository.findByStartDateAndEmployeeId(holiday.getStartDate(), holiday.getEmployeeId());
+        Holiday holidayWithSameDate = holidayRepository.findByStartDateAndEmployeeId(holiday.getStartDate(), holiday.getEmployee().getEmployeeId());
         if (holidayWithSameDate != null) {
             holiday.setHolidayId(holidayWithSameDate.getHolidayId());
         }
@@ -72,7 +72,7 @@ public class HolidayService {
     }
 
     public void addMandatoryHolidaysForNewEmployee(Employee employee) {
-        List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountryId(), employee.getStartDate());
+        List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountry().getCountryId(), employee.getStartDate());
 
         for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
             Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);

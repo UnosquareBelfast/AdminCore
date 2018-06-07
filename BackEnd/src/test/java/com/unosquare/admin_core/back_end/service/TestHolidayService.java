@@ -39,6 +39,14 @@ public class TestHolidayService {
 
     private Employee employee;
 
+    private com.unosquare.admin_core.back_end.entity.HolidayStatus holidayStatusEntity;
+
+    private com.unosquare.admin_core.back_end.entity.EmployeeRole employeeRoleEntity;
+
+    private com.unosquare.admin_core.back_end.entity.EmployeeStatus employeeStatusEntity;
+
+    private com.unosquare.admin_core.back_end.entity.Country countryEntity;
+
     private List<Holiday> allHolidays;
     private List<Holiday> holidaysBeforeToday;
     private List<Holiday> holidaysAfterToday;
@@ -58,8 +66,36 @@ public class TestHolidayService {
     @Before
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
+        initCountryEntity();
+        initHolidayStatusEntity();
+        initEmployeeRoleEntity();
+        initEmployeeStatusEntity();
         initEmployee();
         initHolidays();
+    }
+
+    private void initCountryEntity(){
+        countryEntity = new com.unosquare.admin_core.back_end.entity.Country();
+        countryEntity.setCountryId(Country.NORTHERN_IRELAND.getCountryId());
+        countryEntity.setDescription(Country.NORTHERN_IRELAND.getDescription());
+    }
+
+    private void initHolidayStatusEntity(){
+        holidayStatusEntity = new com.unosquare.admin_core.back_end.entity.HolidayStatus();
+        holidayStatusEntity.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
+        holidayStatusEntity.setDescription(HolidayStatus.AWAITING_APPROVAL.getDescription());
+    }
+
+    private void initEmployeeRoleEntity(){
+        employeeRoleEntity = new com.unosquare.admin_core.back_end.entity.EmployeeRole();
+        employeeRoleEntity.setEmployeeRoleId(EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
+        employeeRoleEntity.setDescription(EmployeeRole.SYSTEM_ADMINISTRATOR.getDescription());
+    }
+
+    private void initEmployeeStatusEntity(){
+        employeeStatusEntity = new com.unosquare.admin_core.back_end.entity.EmployeeStatus();
+        employeeStatusEntity.setEmployeeStatusId(EmployeeStatus.ACTIVE.getEmployeeStatusId());
+        employeeStatusEntity.setDescription(EmployeeStatus.ACTIVE.getDescription());
     }
 
     private void initHolidays() {
@@ -70,8 +106,8 @@ public class TestHolidayService {
         holidayBeforeToday.setEndDate(pastDate);
         holidayBeforeToday.setHalfDay(false);
         holidayBeforeToday.setLastModified(pastDate);
-        holidayBeforeToday.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
-        holidayBeforeToday.setEmployeeId(employee.getEmployeeId());
+        holidayBeforeToday.setHolidayStatus(holidayStatusEntity);
+        holidayBeforeToday.setEmployee(employee);
 
         Holiday holidayAfterToday = new Holiday();
         holidayAfterToday.setHolidayId(Integer.parseInt(TestHolidayEnum.holidayId1.toString()));
@@ -79,8 +115,8 @@ public class TestHolidayService {
         holidayAfterToday.setStartDate(futureDate);
         holidayAfterToday.setEndDate(futureDate);
         holidayAfterToday.setLastModified(futureDate);
-        holidayAfterToday.setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
-        holidayAfterToday.setEmployeeId(employee.getEmployeeId());
+        holidayAfterToday.setHolidayStatus(holidayStatusEntity);
+        holidayAfterToday.setEmployee(employee);
         holidayBeforeToday.setHalfDay(false);
         allHolidays = asList(holidayBeforeToday, holidayAfterToday);
         holidaysAfterToday = Collections.singletonList(holidayAfterToday);
@@ -91,9 +127,9 @@ public class TestHolidayService {
         employee = new Employee();
         employee.setForename(TestEmployeeEnum.forename.toString());
         employee.setSurname(TestEmployeeEnum.surname.toString());
-        employee.setEmployeeStatusId(EmployeeStatus.ACTIVE.getEmployeeStatusId());
-        employee.setEmployeeRoleId(EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId());
-        employee.setCountryId(Country.NORTHERN_IRELAND.getCountryId());
+        employee.setEmployeeStatus(employeeStatusEntity);
+        employee.setEmployeeRole(employeeRoleEntity);
+        employee.setCountry(countryEntity);
         employee.setEmail(TestEmployeeEnum.email.toString());
         employee.setTotalHolidays(Short.valueOf(TestEmployeeEnum.totalHolidays.toString()));
         employee.setEmployeeId(Integer.valueOf(TestEmployeeEnum.employeeId.toString()));
@@ -105,7 +141,7 @@ public class TestHolidayService {
     @Test
     public void testFindByIdStatusSet() {
         Mockito.doReturn(Optional.of(holidayBeforeToday)).when(holidayRepository).findById(1);
-        assertEquals(testingObject.findById(1).getHolidayStatusId(), HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
+        assertEquals(testingObject.findById(1).getHolidayStatus().getHolidayStatusId(), HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
     }
 
     @Test
@@ -123,7 +159,7 @@ public class TestHolidayService {
     @Test
     public void testFindByIdEmployeeSet() {
         Mockito.doReturn(Optional.of(holidayBeforeToday)).when(holidayRepository).findById(1);
-        assertEquals(testingObject.findById(1).getEmployeeId(), employee.getEmployeeId());
+        assertEquals(testingObject.findById(1).getEmployee().getEmployeeId(), employee.getEmployeeId());
     }
     //endregion
 
@@ -145,7 +181,7 @@ public class TestHolidayService {
 
     @Test
     public void testAddMandatoryHolidaysForNewEmployee() {
-        Mockito.doReturn(Collections.singletonList(new MandatoryHoliday(currentDateTest, employee.getCountryId()))).
+        Mockito.doReturn(Collections.singletonList(new MandatoryHoliday(currentDateTest, employee.getCountry().getCountryId()))).
                 when(mandatoryHolidayService).findMandatoryHolidaysByCountryIdAfterStartDate(anyShort(), any(LocalDate.class));
 
         testingObject.addMandatoryHolidaysForNewEmployee(employee);

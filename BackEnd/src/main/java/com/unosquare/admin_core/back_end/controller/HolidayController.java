@@ -62,24 +62,24 @@ public class HolidayController {
 
         List<String> responses = new ArrayList<>();
         Holiday newHoliday = new Holiday();
-        newHoliday.setEmployeeId(createHolidayDto.getEmployeeId());
+        newHoliday.getEmployee().setEmployeeId(createHolidayDto.getEmployeeId());
 
         for (DateDTO date : createHolidayDto.getDates()) {
             Holiday existentHoliday = holidayService.findByEmployeeIdStartDataEndDate(
-                    createHolidayDto.getEmployeeId(), date.getStartDate(), date.getEdnDate());
+                    createHolidayDto.getEmployeeId(), date.getStartDate(), date.getEndDate());
 
             if (existentHoliday != null) {
                 responses.add("Holiday already exists");
                 continue;
             }
 
-            if (date.getStartDate().isAfter(date.getEdnDate())) {
+            if (date.getStartDate().isAfter(date.getEndDate())) {
                 responses.add("Starting date cannot be after end date");
                 continue;
             }
 
             newHoliday.setStartDate(date.getStartDate());
-            newHoliday.setEndDate(date.getEdnDate());
+            newHoliday.setEndDate(date.getEndDate());
             newHoliday.setHalfDay(date.isHalfDay());
 
             holidayService.save(newHoliday);

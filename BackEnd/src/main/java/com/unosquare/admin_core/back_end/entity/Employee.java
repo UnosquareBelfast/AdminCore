@@ -32,19 +32,34 @@ public class Employee implements java.io.Serializable {
     @Column(name = "start_date")
     private LocalDate startDate;
 
-    @Basic
-    @Column(name = "country_id")
-    private int countryId;
+//    @Basic
+//    @Column(name = "country_id")
+//    private int countryId;
+
+    @OneToOne
+    @MapsId("countryId")
+    @JoinColumn(name = "countryId", referencedColumnName = "countryId", insertable = false, updatable = false)
+    private Country country;
 
     private String password;
 
-    @Basic
-    @Column(name = "employee_role_id")
-    private int employeeRoleId;
+//    @Basic
+//    @Column(name = "employee_role_id")
+//    private int employeeRoleId;
+//
+//    @Basic
+//    @Column(name = "employee_status_id")
+//    private int employeeStatusId;
 
-    @Basic
-    @Column(name = "employee_status_id")
-    private int employeeStatusId;
+    @OneToOne
+    @MapsId("employeeRoleId")
+    @JoinColumn(name = "employeeRoleId", referencedColumnName = "employeeRoleId", insertable = false, updatable = false)
+    private EmployeeRole employeeRole;
+
+    @OneToOne
+    @MapsId("employeeStatusId")
+    @JoinColumn(name = "employeeStatusId", referencedColumnName = "employeeStatusId", insertable = false, updatable = false)
+    private EmployeeStatus employeeStatus;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
@@ -58,17 +73,23 @@ public class Employee implements java.io.Serializable {
 
     }
 
+    public Employee(int employeeId){
+        this.employeeId = employeeId;
+    }
+
     public Employee(String forename, String surname, String email,
                     int employeeRoleId,
-                    int statusId, LocalDate startDate,
-                    int countryId, String password) {
+                    int statusId,
+                    LocalDate startDate,
+                    int countryId,
+                    String password) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeRoleId = employeeRoleId;
-        this.employeeStatusId = statusId;
+        this.employeeRole = new EmployeeRole(employeeRoleId);
+        this.employeeStatus = new EmployeeStatus(statusId);
         this.startDate = startDate;
-        this.countryId = countryId;
+        this.country = new Country(countryId);
         this.password = password;
     }
 }

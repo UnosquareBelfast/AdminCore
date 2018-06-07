@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class DateDTO {
     private LocalDate startDate;
 
-    private LocalDate ednDate;
+    private LocalDate endDate;
 
     @Builder.Default
     private boolean halfDay = false;
