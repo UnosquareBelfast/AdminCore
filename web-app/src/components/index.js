@@ -7,3 +7,4 @@ export { default as BookingModal } from './BookingModal';
 export { default as UserDetails } from './UserDetails';
 export { default as CreateUser } from './CreateUser';
 export { default as UserListing } from './UserListing';
+export { default as PendingHolidays } from './PendingHolidays';

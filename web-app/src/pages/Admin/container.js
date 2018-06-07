@@ -47,7 +47,11 @@ const AdminContainer = Wrapped =>
     render() {
       return (
         this.state.userDetails && (
-          <Wrapped {...this.state} {...this.props} refresh={this.getAllUsers} />
+          <Wrapped
+            {...this.state}
+            {...this.props}
+            refreshUsers={this.getAllUsers}
+          />
         )
       );
     }

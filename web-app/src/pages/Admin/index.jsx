@@ -1,24 +1,40 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
 import container from './container';
-import { CreateUser, UserListing } from '../../components';
+import { CreateUser, UserListing, PendingHolidays } from '../../components';
 import { Card } from '../../components/common';
+import Sidebar from './Sidebar';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
-import { Sidebar, Container, MainContentContainer, Refresh } from './styled';
+import {
+  SidebarContainer,
+  Container,
+  MainContentContainer,
+  Refresh,
+} from './styled';
 
 const Admin = props => (
   <Layout {...props}>
     <Container>
-      <Sidebar>
-        <CreateUser />
-      </Sidebar>
+      <SidebarContainer>
+        <Sidebar />
+      </SidebarContainer>
       <MainContentContainer>
-        <Card>
-          <h3>Employees</h3>
-          <Refresh onClick={props.refresh}>Refresh</Refresh>
-          <UserListing users={props.users} />
-        </Card>
+        <Switch>
+          <Route path="/admin/createEmployee" component={CreateUser} />
+          <Route
+            path="/admin/employees"
+            render={() => (
+              <Card>
+                <h3>Employees</h3>
+                <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
+                <UserListing users={props.users} />
+              </Card>
+            )}
+          />
+          <Route path="/admin/pendingHolidays" component={PendingHolidays} />
+        </Switch>
       </MainContentContainer>
     </Container>
   </Layout>
@@ -27,7 +43,8 @@ const Admin = props => (
 Admin.propTypes = {
   userDetails: PT.object,
   users: PT.array,
-  refresh: PT.func,
+  refreshUsers: PT.func,
+  history: PT.object,
 };
 
 const enhance = flowRight(
