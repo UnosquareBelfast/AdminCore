@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {PropTypes as PT} from 'prop-types';
-import { userLogout } from '../../../utilities/currentUser';
+import { userLogout } from '../../utilities/currentUser';
 
 export default Container =>
   class extends Component {
