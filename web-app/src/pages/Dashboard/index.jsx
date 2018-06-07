@@ -3,7 +3,8 @@ import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { BookingModal, Leave, UserDetails } from '../../components';
+import { BookingModal, Leave, UserDetails, Legend } from '../../components';
+import { Event } from '../../components/common';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Sidebar } from './styled';
@@ -18,12 +19,14 @@ const Dashboard = props => {
       <Sidebar>
         <UserDetails user={props.userDetails} />
         <Leave user={props.userDetails} takenHolidays={props.takenHolidays} />
+        <Legend />
       </Sidebar>
       <Calendar
         events={props.takenHolidays}
         onSelectSlot={props.onSelectSlot}
         onSelectEvent={props.onSelectEvent}
         defaultDate={new Date()}
+        components={{ eventWrapper: Event }}
         selectable
         popup
       />

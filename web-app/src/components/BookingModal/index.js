@@ -25,12 +25,13 @@ const BookingModal = props => {
       :
       <Button onClick={requestHoliday} label={'Request'}/>
   );
-
+  
   return (showModal &&
     <Modal>
       <span onClick={closeModal}>Close</span>
       <h1>Booking</h1>
       {booking.title && <h3>Employee: {booking.title}</h3>}
+      {booking.title && <h3>Status: {booking.holidayStatusDescription}</h3>}
       <p>Starting:</p>
       <DatePicker selected={booking.start} onChange={changeStart} />
       <p>Ending:</p>
