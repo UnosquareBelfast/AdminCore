@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import {PropTypes as PT} from 'prop-types';
 import { userLogin } from '../../services/userService';
 
@@ -19,7 +20,10 @@ export default Container =>
           this.props.navigation.navigate('App');
         })
         .catch((e) => {
-          console.log('Login error:', e.message);
+          Alert.alert(
+            'Could not login',
+            e.message,
+          );
         });
     };
     
