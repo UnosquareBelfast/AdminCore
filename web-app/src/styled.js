@@ -19,6 +19,7 @@ export const theme = {
     [holidayStatus.PENDING]: '#ff9b34',
     [holidayStatus.REJECTED]: '#ff3434',
     [holidayStatus.APPROVED]: '#35c375',
+    [holidayStatus.WFH]: '#3469ff',
   },
 };
 
