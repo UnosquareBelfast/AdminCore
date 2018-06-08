@@ -29,13 +29,13 @@ export default Wrapped =>
     };
 
     approveHoliday = holiday => {
-      const holidayIndex = this.state.pendingHolidays.indexOf(holiday);
-      const pendingHolidays = [...this.state.pendingHolidays];
       const approvedHoliday = { ...holiday };
       approvedHoliday.holidayStatusId = holidayStatus.APPROVED;
 
       updateHoliday(approvedHoliday)
         .then(() => {
+          const holidayIndex = this.state.pendingHolidays.indexOf(holiday);
+          const pendingHolidays = [...this.state.pendingHolidays];
           pendingHolidays.splice(holidayIndex, 1);
           this.setState({ pendingHolidays });
         })
@@ -49,23 +49,23 @@ export default Wrapped =>
     };
 
     rejectHoliday = holiday => {
-      const holidayIndex = this.state.pendingHolidays.indexOf(holiday);
-      const pendingHolidays = [...this.state.pendingHolidays];
       const rejectedHoliday = { ...holiday };
       rejectedHoliday.holidayStatusId = holidayStatus.REJECTED;
 
       updateHoliday(rejectedHoliday)
         .then(() => {
+          const holidayIndex = this.state.pendingHolidays.indexOf(holiday);
+          const pendingHolidays = [...this.state.pendingHolidays];
           pendingHolidays.splice(holidayIndex, 1);
           this.setState({ pendingHolidays });
         })
-        .catch(error =>
+        .catch(error => {
           Swal({
             title: 'Could not reject holiday',
             text: error.message,
             type: 'error',
-          }),
-        );
+          });
+        });
     };
 
     render() {
