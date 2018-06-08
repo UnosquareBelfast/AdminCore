@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native'; 
+import { View, TextInput, Button, StyleSheet } from 'react-native'; 
+import { PropTypes as PT } from 'prop-types';
 
 class LoginForm extends Component {
+  static propTypes = {
+    handleLogin: PT.func,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -26,6 +31,12 @@ class LoginForm extends Component {
           onChangeText={(text) => this.setState({password: text})}
           value={this.state.password}
           secureTextEntry
+        />
+        <Button 
+          onPress={() => 
+            this.props.handleLogin(this.state.email, this.state.password)
+          }
+          title="Login"
         />
       </View>
     );

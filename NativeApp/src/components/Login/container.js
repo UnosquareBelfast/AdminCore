@@ -13,8 +13,8 @@ export default Container =>
       super(props);
     }
     
-    handleLogin = () => {
-      userLogin(this.state.email, this.state.password)
+    handleLogin = (email, password) => {
+      userLogin(email, password)
         .then(() => {
           this.props.navigation.navigate('App');
         })
