@@ -20,9 +20,8 @@ export default Wrapped =>
       });
     };
 
-    handleSubmit = e => {
-      e.preventDefault();
-      userLogin(this.state.email, this.state.password)
+    logIn = () => {
+      return userLogin(this.state.email, this.state.password)
         .then(() => {
           this.props.history.push('/');
         })
@@ -33,6 +32,11 @@ export default Wrapped =>
             type: 'error',
           });
         });
+    }
+
+    handleSubmit = e => {
+      e.preventDefault();
+      this.logIn();
     };
 
     render() {

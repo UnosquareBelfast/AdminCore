@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { UserDetails } from '../../src/components/UserDetails';
-import userDetailsContainer from '../../src/components/UserDetails/Container';
+import userDetailsContainer from '../../src/components/UserDetails/container';
 
 const user = { forename: 'First', surname: 'Last', employeeRoleDescription: 'Team Lead'};
 
