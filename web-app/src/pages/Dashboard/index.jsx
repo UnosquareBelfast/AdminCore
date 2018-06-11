@@ -3,7 +3,7 @@ import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { BookingModal, Leave, UserDetails, Legend } from '../../components';
+import { BookingModal, Leave, UserDetails, Legend, TeamView } from '../../components';
 import { Event } from '../../components/common';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
@@ -27,6 +27,11 @@ const Dashboard = props => {
         onSelectEvent={props.onSelectEvent}
         defaultDate={new Date()}
         components={{ eventWrapper: Event }}
+        views={{
+          month: true,
+          agenda: TeamView,
+        }}
+        messages={{agenda: 'team'}}
         selectable
         popup
       />

@@ -9,6 +9,6 @@ export default () => (
     <Key status={holidayStatus.REJECTED}>Rejected</Key>
     <Key status={holidayStatus.PENDING}>Pending</Key>
     <Key status={holidayStatus.APPROVED}>Approved</Key>
-    <Key status={holidayStatus.WFH}>Working from home</Key>
+    <Key status={holidayStatus.WFH}>Working remotely</Key>
   </Card>
 );
