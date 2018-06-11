@@ -16,6 +16,7 @@ public class EmployeeStatus implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_status_id")
     private int employeeStatusId;
 
     @Column(name = "description")

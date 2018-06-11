@@ -16,6 +16,7 @@ public class HolidayStatus implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "holiday_status_id")
     private int holidayStatusId;
 
     @Column(name = "description")

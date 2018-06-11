@@ -20,6 +20,7 @@ public class Employee implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id")
     private int employeeId;
 
     private String forename;
@@ -38,7 +39,7 @@ public class Employee implements java.io.Serializable {
 
     @OneToOne
     @MapsId("countryId")
-    @JoinColumn(name = "countryId", referencedColumnName = "countryId", insertable = false, updatable = false)
+    @JoinColumn(name = "country", referencedColumnName = "country_id", insertable = false, updatable = false)
     private Country country;
 
     private String password;
@@ -53,12 +54,12 @@ public class Employee implements java.io.Serializable {
 
     @OneToOne
     @MapsId("employeeRoleId")
-    @JoinColumn(name = "employeeRoleId", referencedColumnName = "employeeRoleId", insertable = false, updatable = false)
+    @JoinColumn(name = "employeeRole", referencedColumnName = "employee_role_id", insertable = false, updatable = false)
     private EmployeeRole employeeRole;
 
     @OneToOne
     @MapsId("employeeStatusId")
-    @JoinColumn(name = "employeeStatusId", referencedColumnName = "employeeStatusId", insertable = false, updatable = false)
+    @JoinColumn(name = "employeeStatus", referencedColumnName = "employee_status_id", insertable = false, updatable = false)
     private EmployeeStatus employeeStatus;
 
     @OneToMany(mappedBy = "employee")

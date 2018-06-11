@@ -36,12 +36,12 @@ public class Holiday implements java.io.Serializable {
 
     @OneToOne
     @MapsId("employeeId")
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId", insertable = false, updatable = false)
+    @JoinColumn(name = "employee", referencedColumnName = "employee_id", insertable = false, updatable = false)
     private Employee employee;
 
     @OneToOne
     @MapsId("holidayStatusId")
-    @JoinColumn(name = "holidayStatusId", referencedColumnName = "holidayStatusId", insertable = false, updatable = false)
+    @JoinColumn(name = "holidayStatus", referencedColumnName = "holiday_status_id", insertable = false, updatable = false)
     private HolidayStatus holidayStatus;
 
     private boolean isHalfDay;

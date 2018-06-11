@@ -16,6 +16,7 @@ public class ClientStatus implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "client_status_id")
     private int clientStatusId;
 
     @Column(name = "description")

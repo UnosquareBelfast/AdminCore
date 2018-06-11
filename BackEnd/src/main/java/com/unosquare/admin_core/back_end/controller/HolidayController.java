@@ -3,6 +3,7 @@ package com.unosquare.admin_core.back_end.controller;
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
+import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Holiday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
 import com.unosquare.admin_core.back_end.service.HolidayService;
@@ -62,7 +63,7 @@ public class HolidayController {
 
         List<String> responses = new ArrayList<>();
         Holiday newHoliday = new Holiday();
-        newHoliday.getEmployee().setEmployeeId(createHolidayDto.getEmployeeId());
+        newHoliday.setEmployee(new Employee(createHolidayDto.getEmployeeId()));
 
         for (DateDTO date : createHolidayDto.getDates()) {
             Holiday existentHoliday = holidayService.findByEmployeeIdStartDataEndDate(

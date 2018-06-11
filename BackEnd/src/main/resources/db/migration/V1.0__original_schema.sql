@@ -203,6 +203,46 @@ ALTER TABLE public.client
 
 ----------------------------------------------------------------------------------------
 
+-- Table: public.country
+-- DROP TABLE public.country;
+
+CREATE SEQUENCE IF NOT EXISTS country_country_id_seq;
+CREATE TABLE IF NOT EXISTS public.country
+(
+    country_id integer NOT NULL DEFAULT nextval('country_country_id_seq'::regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT country_pkey PRIMARY KEY (country_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.country
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+-- Table: public.employee_status
+-- DROP TABLE public.employee_status;
+
+CREATE SEQUENCE IF NOT EXISTS employee_status_employee_status_id_seq;
+CREATE TABLE IF NOT EXISTS public.employee_status
+(
+    employee_status_id integer NOT NULL DEFAULT nextval('employee_status_employee_status_id_seq'::regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT employee_status_pkey PRIMARY KEY (employee_status_id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.employee_status
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
 -- Table: public.contract
 -- DROP TABLE public.contract;
 

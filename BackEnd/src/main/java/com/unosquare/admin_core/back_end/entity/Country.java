@@ -16,6 +16,7 @@ public class Country implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "country_id")
     private int countryId;
 
     @Column(name = "description")

@@ -16,7 +16,8 @@ public class ContractStatus implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int employeeStatusId;
+    @Column(name = "contract_status_id")
+    private int contractStatusId;
 
     @Column(name = "description")
     private String description;

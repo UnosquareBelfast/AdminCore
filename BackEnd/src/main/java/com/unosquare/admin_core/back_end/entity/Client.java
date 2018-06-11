@@ -19,6 +19,7 @@ public class Client implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "client_id")
     private int clientId;
 
     private String clientName;

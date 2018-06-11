@@ -17,12 +17,12 @@ public class Contract implements Serializable {
 
     @ManyToOne
     @MapsId("employeeId")
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId", insertable = false, updatable = false)
+    @JoinColumn(name = "employee", referencedColumnName = "employee_id", insertable = false, updatable = false)
     private Employee employee;
 
     @ManyToOne
     @MapsId("clientId")
-    @JoinColumn(name = "clientId", referencedColumnName = "clientId", insertable = false, updatable = false)
+    @JoinColumn(name = "client", referencedColumnName = "client_id", insertable = false, updatable = false)
     private Client client;
 
     @Basic
