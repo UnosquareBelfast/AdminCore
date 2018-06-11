@@ -1,4 +1,13 @@
-const myMock = jest.fn();
-myMock.mockReturnValueOnce({ sub : 1} );
+const myMock = function(item) {
+  if (item === '123') {
+    return '123';
+  }
+  if (item < Date.now() / 1000) {
+    return { exp: item };
+  }
+  else {
+    throw new Error('error');
+  }
+};
 
-module.exports = myMock;
+export default myMock;

@@ -19,17 +19,13 @@ afterEach(() => {
 
 describe('Requests', () => {
   xit('userLogin returns 200 if successful', () => {
-
     mock
-      .onPost(`${process.env.DOMAIN}/authentication/login`).reply(200, 
+      .onPost(`${process.env.DOMAIN}authentication/login`).reply(200, 
         { accessToken: 1234 });
 
     userLogin('email@email.com', 'password').then((res) => {
-       console.log("status; ", res);
       expect(res.status).toEqual(200);
-    }).catch((err) => {
-      console.log("status; ", err);
-    }); 
+    });
   });
 
   it('getAllUsers returns 200 and all employees', () => {

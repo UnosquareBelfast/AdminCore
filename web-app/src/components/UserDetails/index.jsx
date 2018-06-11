@@ -4,8 +4,7 @@ import container from './container';
 
 import { Card } from '../common';
 
-export const UserDetails = (props) => {
-
+const UserDetails = (props) => {
 
   const { user: { forename, surname, employeeRoleDescription } } = props;
 

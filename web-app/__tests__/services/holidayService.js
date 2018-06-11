@@ -65,7 +65,7 @@ describe('Requests', () => {
     
     var holidays = [{ id: 1, halfDay: false }];
 
-    updateHoliday(holidays).then((res) => {
+    updateHolidays(holidays).then((res) => {
       expect(res.status).toEqual(200);
     });
   });  
