@@ -5,8 +5,14 @@ import _ from 'lodash';
 
 class TeamView extends Component {
   getEventsByEmployee = () => {
-    const events = _.sortBy(this.props.events, (e) => e.start.toDate());
-    const eventsByEmployee = events.filter(x => x.holidayStatusId !== 3).reduce((acc, event) => {
+    const events =
+      _.sortBy(this.props.events, (e) => e.start.toDate())
+        .filter(x =>
+          x.holidayStatusId !== 3
+          && moment(x.start).isSame(moment(this.props.date), 'month')
+        );
+
+    const eventsByEmployee = events.reduce((acc, event) => {
       const employee = acc[event.employee.employeeId] ? acc[event.employee.employeeId] : {
         ...event.employee,
         events: [],
@@ -27,7 +33,9 @@ class TeamView extends Component {
         <div key={id}>
           <h3>{`${e.forename} ${e.surname}`}</h3>
           <div>
-            {e.events.map(event => <div key={event.id}>{moment(event.start).format('Do MMMM')}</div>)}
+            {e.events.map(event =>
+              <div key={event.id}>{moment(event.start).format('Do MMMM')}</div>
+            )}
           </div>
         </div>
       );
@@ -61,6 +69,7 @@ TeamView.navigate = (date, action) => {
 
 TeamView.propTypes = {
   events: PT.array,
+  date: PT.object,
 };
 
 export default TeamView;
