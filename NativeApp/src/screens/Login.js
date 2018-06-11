@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {PropTypes as PT} from 'prop-types';
-import Home from '../components/Home';
+import Login from '../components/Login';
 
-export default class HomeScreen extends Component {
+export default class LoginScreen extends Component {
   static propTypes = {
     navigation: PT.object,
   }
 
   render() {
     return (
-      <Home navigation={this.props.navigation}/>
+      <Login navigation={this.props.navigation} />
     );
   }
 }
