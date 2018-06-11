@@ -34,7 +34,9 @@ class TeamView extends Component {
           <h3>{`${e.forename} ${e.surname}`}</h3>
           <div>
             {e.events.map(event =>
-              <div key={event.id}>{moment(event.start).format('Do MMMM')}</div>
+              <div key={event.id}>
+                {`${moment(event.start).format('Do MMMM')} - ${event.holidayStatusDescription}`}
+              </div>
             )}
           </div>
         </div>
