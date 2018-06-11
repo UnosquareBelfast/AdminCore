@@ -5,7 +5,7 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const Sidebar = styled.div`
+export const SidebarContainer = styled.div`
   flex: 1;
   min-width: 300px;
 `;

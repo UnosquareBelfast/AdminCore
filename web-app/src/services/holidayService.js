@@ -4,14 +4,18 @@ export const cancelHoliday = holidayId => {
   return axios.post(`/holidays/cancel/${holidayId}`);
 };
 
+export const getAllHolidays = () => {
+  return axios.get('/holidays/');
+};
+
 export const getHolidays = employeeId => {
   return axios.get(`/holidays/findByEmployeeId/${employeeId}`);
 };
 
 export const requestHoliday = holidays => {
-  return holidays.length === 1 ?
-    axios.post('/holidays/', holidays[0]) :
-    axios.post('/holidays/createMultiple/', holidays);
+  return holidays.length === 1
+    ? axios.post('/holidays/', holidays[0])
+    : axios.post('/holidays/createMultiple/', holidays);
 };
 
 export const updateHoliday = holiday => {
