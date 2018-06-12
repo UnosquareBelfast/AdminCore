@@ -53,7 +53,7 @@ describe('CreateUser', () => {
 
     const newDate = moment();
     wrapper.instance().handleStartDateChange(newDate);
-    // expect(wrapper.state('form').startDate).toEqual(newDate); --> sometimes a millisecond out
+    expect(wrapper.state('form').startDate).toEqual(newDate);
     expect(wrapper.state('form').startDate).toBeInstanceOf(moment);
   });
 
@@ -63,18 +63,17 @@ describe('CreateUser', () => {
     const wrapper = shallow(<Container />);
 
     userService.createUser = jest.fn(() => Promise.resolve({}));
-
     await wrapper.instance().handleFormSubmit();
     
     expect(wrapper.state('loading')).toBe(false);
     expect(wrapper.state('success')).toBe(true);
     checkIfFormEqualsInitialState(wrapper);
-    
   });
 });
 
 function checkIfFormEqualsInitialState(wrapper) {
   const form = wrapper.instance().initialFormState();
+  const date = form.startDate;
 
   expect(form).toHaveProperty('forename', '');
   expect(form).toHaveProperty('surname', '');
