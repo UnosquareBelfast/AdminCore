@@ -8,9 +8,10 @@ export const theme = {
     white: '#ffffff',
     grey: '#f4f4f4',
     lightgrey: '#f7f7f7',
-    red: '#f45c42',
+    red: '#ff3434',
     darkRed: '#c4412b',
-    green: '#28cc49',
+    green: '#35c375',
+    yellow: '#ff9b34',
   },
   fonts: {
     text: 'sans-serif',
