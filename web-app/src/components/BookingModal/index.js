@@ -14,6 +14,7 @@ const BookingModal = props => {
     requestHoliday,
     cancelHoliday,
     updateHoliday,
+    changeWFH,
   } = props;
 
   const getActions = () => (
@@ -23,9 +24,14 @@ const BookingModal = props => {
         <Button onClick={cancelHoliday} label={'Cancel Request'}/>
       </Fragment>
       :
-      <Button onClick={requestHoliday} label={'Request'}/>
+      <Button onClick={requestHoliday} label={booking.isWFH ? 'Add' : 'Request'}/>
   );
-  
+
+  const getTotalDays = () => {
+    if (booking.isWFH) { return '0'; }
+    return booking.duration / (booking.isHalfday ? 2 : 1);
+  };
+
   return (showModal &&
     <Modal>
       <span onClick={closeModal}>Close</span>
@@ -44,7 +50,14 @@ const BookingModal = props => {
           disabled={booking.duration > 1}/>
           Half-Day
       </label>
-      <p>Total days: {booking.duration / (booking.isHalfday ? 2 : 1)}</p>
+      <label>
+        <input
+          type="checkbox"
+          checked={booking.isWFH}
+          onChange={changeWFH} />
+          WFH
+      </label>
+      <p>Total days: {getTotalDays()}</p>
       {getActions()}
     </Modal>
   );
@@ -60,6 +73,7 @@ BookingModal.propTypes = {
   requestHoliday: PT.func,
   takenHolidays: PT.array,
   cancelHoliday: PT.func,
+  changeWFH: PT.func,
 };
 
 export default BookingModal;
