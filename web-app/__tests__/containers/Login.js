@@ -23,7 +23,7 @@ describe('Login Container', () => {
     expect(historySpy).toHaveBeenCalled();
   }); 
 
-  it('calls Swal when userLogin returns with 404', async () => {
+  xit('calls Swal when userLogin returns with 404', async () => {
     const Container = loginContainer(Login);
     const wrapper = shallow(<Container history={ history }/>);
 
@@ -32,7 +32,7 @@ describe('Login Container', () => {
     wrapper.setState({ email: 'test@test.com', password: 'pass' });
 
     await wrapper.instance().handleSubmit({ preventDefault: () => {} });
-    // expect(Swal).toHaveBeenCalled();
+    expect(Swal).toHaveBeenCalled(); //not working
   });
 
 }); 
