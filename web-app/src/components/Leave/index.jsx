@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Card, Button, Modal } from '../common';
 
-export const Leave = props => {
+const Leave = props => {
   const {
     totalHolidays,
     takenHolidays,
