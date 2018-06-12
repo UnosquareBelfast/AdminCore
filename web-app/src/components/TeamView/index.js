@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
+import holidayStatus from '../../utilities/holidayStatus';
 
 class TeamView extends Component {
   getEventsByEmployee = () => {
     const events =
       _.sortBy(this.props.events, (e) => e.start.toDate())
         .filter(x =>
-          x.holidayStatusId !== 3
+          x.holidayStatusId !== holidayStatus.REJECTED
           && moment(x.start).isSame(moment(this.props.date), 'month')
         );
 
