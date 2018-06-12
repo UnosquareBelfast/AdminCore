@@ -1,8 +1,17 @@
 import styled from 'styled-components';
 
+export const StyleContainer = styled.div`
+  strong {
+    display: block;
+    margin-bottom: 10px;
+  }
+`;
+
 export const Key = styled.div`
-  border-left: 8px solid ${props => props.theme.holidayStatus[props.status]};
-  margin: 2px 0;
+  background-color: ${props => props.theme.holidayStatus[props.status]};
+  color: white;
+  margin: 4px 0;
   padding-left: 5px;
-  font-size: 12px;
+  border-radius: 3px;
+  padding: 3px 5px;
 `;
