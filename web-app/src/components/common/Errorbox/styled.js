@@ -8,7 +8,6 @@ export const ErrorContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   color: white;
-
   p {
     padding: 0;
     margin: 0;
