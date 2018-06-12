@@ -1,14 +1,25 @@
-import { createBottomTabNavigator } from 'react-navigation';
+import { 
+  createStackNavigator,
+  createSwitchNavigator,
+} from 'react-navigation';
 
-import { Home, Booking } from '../screens';
+import { Home, Login, Boot } from '../screens';
 
-const RootNavigator = createBottomTabNavigator(
+const AppStack = createStackNavigator(
   {
-    home: { screen: Home },
-    book: { screen: Booking },
+    Home: { screen: Home },
+  },
+);
+const AuthStack = createStackNavigator({ Login: Login });
+
+const RootNavigator = createSwitchNavigator(
+  {
+    Boot: Boot,
+    App: AppStack, 
+    Auth: AuthStack,
   },
   {
-    initialRouteName: 'home',
+    initialRouteName: 'Boot',
   }
 );
 

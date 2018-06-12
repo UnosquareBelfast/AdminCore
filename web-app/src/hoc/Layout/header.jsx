@@ -35,7 +35,9 @@ const Header = ({ userDetails, history }) => {
           <div>
             <HeaderItem onClick={() => navigate('/')}>Home</HeaderItem>
             {userDetails.employeeRoleId === roles.ADMIN && (
-              <HeaderItem onClick={() => navigate('/admin')}>Admin</HeaderItem>
+              <HeaderItem onClick={() => navigate('/admin/dashboard')}>
+                Admin
+              </HeaderItem>
             )}
             <HeaderItem onClick={handleLogout}>Log Out</HeaderItem>
           </div>

@@ -28,7 +28,7 @@ const CreateUser = props => {
   return (
     <Card>
       <Container>
-        <h3>Create User</h3>
+        <h3>Create Employee</h3>
         <form autoComplete="off">
           <label>
             Forename:
