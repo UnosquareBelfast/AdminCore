@@ -11,13 +11,13 @@ const PendingHolidays = ({
 }) => {
   return (
     <Card>
-      <h3>Pending Holidays</h3>
+      <h3>Manage Pending Holidays</h3>
       <HolidayTable>
         <tbody>
           <tr>
             <th>Employee</th>
             <th>Date</th>
-            <th>Requested</th>
+            <th>Created</th>
           </tr>
           {pendingHolidays.map(holiday => {
             const { forename, surname } = holiday.employee;

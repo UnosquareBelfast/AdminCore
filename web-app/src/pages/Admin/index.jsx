@@ -2,7 +2,12 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import container from './container';
-import { CreateUser, UserListing, PendingHolidays } from '../../components';
+import {
+  CreateUser,
+  UserListing,
+  PendingHolidays,
+  AllHolidays,
+} from '../../components';
 import { Card } from '../../components/common';
 import Sidebar from './Sidebar';
 import { Layout, withAuth } from '../../hoc';
@@ -34,6 +39,7 @@ const Admin = props => (
             )}
           />
           <Route path="/admin/pendingHolidays" component={PendingHolidays} />
+          <Route path="/admin/holidays" component={AllHolidays} />
         </Switch>
       </MainContentContainer>
     </Container>

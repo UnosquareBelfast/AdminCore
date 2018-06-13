@@ -8,4 +8,6 @@ export { default as UserDetails } from './UserDetails';
 export { default as CreateUser } from './CreateUser';
 export { default as Legend } from './Legend';
 export { default as UserListing } from './UserListing';
+export { default as TeamView } from './TeamView';
 export { default as PendingHolidays } from './PendingHolidays';
+export { default as AllHolidays } from './AllHolidays';
