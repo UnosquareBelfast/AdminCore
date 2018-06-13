@@ -4,3 +4,5 @@ export default {
   REJECTED: 3,
   WFH: 4,
 };
+
+export const statusText = [null, 'Pending', 'Approved', 'Rejected', 'WFH'];
