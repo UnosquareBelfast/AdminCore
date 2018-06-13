@@ -1,7 +1,8 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 
-const baseURL = 'http://localhost:8081/';
+//Use http://10.0.2.2:8081/ on android emulator
+const baseURL = 'http://10.0.2.2:8081/';
 
 const instance = axios.create({
   baseURL,
