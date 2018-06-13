@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Card, Button, Modal } from '../common';
+import { StyleContainer } from './styled';
 
 const Leave = props => {
   const {
@@ -21,14 +22,12 @@ const Leave = props => {
 
   return (
     <Card>
-      <strong>Leave Card</strong>
-      <div>
-        <span>Days remaining: {totalHolidays - takenHolidays.length}</span>
-      </div>
-      <div>
-        <span>Days Taken: {takenHolidays.length}</span>
-      </div>
-      <Button id="showHolidaysBtn" onClick={showModal} label="Show All Holidays" />
+      <StyleContainer>
+        <strong>Your Leave</strong>
+        <p>Days remaining: {totalHolidays - takenHolidays.length}</p>
+        <p>Days used: {takenHolidays.length}</p>
+        <Button onClick={showModal} label="Your Holidays" />
+      </StyleContainer>
 
       {showHolidayListModal && (
         <Modal>

@@ -18,7 +18,7 @@ const Sidebar = () => {
       <SidebarHeader>Holidays</SidebarHeader>
       <SidebarList>
         <li>
-          <Link to="./pendingHolidays">View Pending Holidays</Link>
+          <Link to="./pendingHolidays">Manage Pending Holidays</Link>
         </li>
         <li>
           <Link to="./holidays">View All Holidays</Link>
@@ -36,7 +36,7 @@ const Sidebar = () => {
           <Link to="./clients">View All Clients</Link>
         </li>
         <li>
-          <Link to="./createClients">Create Clients</Link>
+          <Link to="./createClients">Create Client</Link>
         </li>
       </SidebarList>
       <SidebarHeader>Contracts</SidebarHeader>

@@ -23,6 +23,7 @@ const DashboardContainer = Wrapped =>
         showModal: false,
         booking: {
           isHalfday: false,
+          isWFH: false,
         },
         requestModalOpen: false,
         userDetails: null,
@@ -72,7 +73,9 @@ const DashboardContainer = Wrapped =>
           start: new moment(hol.date, 'YYYY-MM-DD'),
           end: new moment(hol.date, 'YYYY-MM-DD'),
           isHalfday: hol.halfDay,
+          isWFH: false,
           ...hol,
+          holidayStatusId: Math.random() < 0.3 ? 4 : hol.holidayStatusId,
         };
       });
       return eventsForCalendar;
@@ -91,6 +94,7 @@ const DashboardContainer = Wrapped =>
         showModal: true,
         booking: {
           isHalfday: false,
+          isWFH: false,
           start: moment(start),
           end: moment(end),
           duration: this.getDuration(moment(start), moment(end)),
@@ -144,6 +148,12 @@ const DashboardContainer = Wrapped =>
       booking.isHalfday = e.target.checked;
       this.setState({ booking });
     };
+
+    changeWFH = e => {
+      const booking = { ...this.state.booking };
+      booking.isWFH = e.target.checked;
+      this.setState({ booking });
+    }
 
     submitHolidayRequest = () => {
       const { booking, userDetails } = this.state;
@@ -229,6 +239,7 @@ const DashboardContainer = Wrapped =>
             takenHolidays={this.state.takenHolidays}
             updateHoliday={() => this.updateHoliday(false)}
             cancelHoliday={() => this.updateHoliday(true)}
+            changeWFH={this.changeWFH}
             {...this.state}
             {...this.props}
           />

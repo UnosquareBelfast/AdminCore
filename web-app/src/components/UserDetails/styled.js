@@ -9,8 +9,4 @@ export const StyleContainer = styled.div`
   p {
     margin: 5px 0;
   }
-
-  p:last-of-type {
-    margin-bottom: 10px;
-  }
 `;

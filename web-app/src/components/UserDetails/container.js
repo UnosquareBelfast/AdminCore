@@ -7,15 +7,7 @@ export default Wrapped =>
       user: PT.object,
     };
 
-    constructor(props) {
-      super(props);
-    }
-
     render() {
-      return (
-        <Wrapped 
-          user={ this.props.user }
-          {...this.props} />
-      );
+      return <Wrapped user={this.props.user} {...this.props} />;
     }
   };
