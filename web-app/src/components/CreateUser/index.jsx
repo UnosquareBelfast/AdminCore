@@ -5,7 +5,7 @@ import container from './container';
 import { Card, Button, Errorbox } from '../common';
 import DatePicker from 'react-datepicker';
 
-const CreateUser = props => {
+export const CreateUser = props => {
   const {
     formData,
     submitForm,

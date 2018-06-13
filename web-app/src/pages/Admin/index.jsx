@@ -19,7 +19,7 @@ import {
   Refresh,
 } from './styled';
 
-const Admin = props => (
+export const Admin = props => (
   <Layout {...props}>
     <Container>
       <SidebarContainer>
