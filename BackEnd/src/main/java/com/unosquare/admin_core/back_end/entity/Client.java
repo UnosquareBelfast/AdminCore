@@ -13,9 +13,8 @@ import java.util.Set;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Client.class)
 @Table(name = "Client")
-public class Client implements java.io.Serializable {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

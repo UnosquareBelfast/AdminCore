@@ -9,9 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Holiday.class)
 @Table(name = "Holiday")
-public class Holiday implements java.io.Serializable {
+public class Holiday {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +34,11 @@ public class Holiday implements java.io.Serializable {
 //    private int holidayStatusId;
 
     @OneToOne
-    @MapsId("employeeId")
-    @JoinColumn(name = "employee", referencedColumnName = "employee_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
     private Employee employee;
 
     @OneToOne
-    @MapsId("holidayStatusId")
-    @JoinColumn(name = "holidayStatus", referencedColumnName = "holiday_status_id", insertable = false, updatable = false)
+    @JoinColumn(name = "holiday_status_id", insertable = false, updatable = false)
     private HolidayStatus holidayStatus;
 
     private boolean isHalfDay;

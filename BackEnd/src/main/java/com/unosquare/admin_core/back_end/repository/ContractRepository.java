@@ -13,5 +13,5 @@ public interface ContractRepository extends JpaRepository<Contract, ContractPK> 
 
     List<Contract> findByClient_ClientId(int clientId);
 
-    List<Contract> findByContractStatus(ContractStatus status);
+    List<Contract> findByContractStatus(ContractStatus contractStatus);
 }

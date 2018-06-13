@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MandatoryHolidayRepository extends JpaRepository<MandatoryHoliday, Integer> {
 
-    List<MandatoryHoliday> findByCountryIdAndDateBetween(int countryId, LocalDate startDate, LocalDate endDate);
+    List<MandatoryHoliday> findByCountryIdAndDateBetween(int countryId, LocalDate rangeStart, LocalDate rangeEnd);
 
-    List<MandatoryHoliday> findByDateBetween(LocalDate startDate, LocalDate endDate);
+    List<MandatoryHoliday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd);
 }

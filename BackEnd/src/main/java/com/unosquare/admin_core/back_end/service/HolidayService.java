@@ -80,24 +80,24 @@ public class HolidayService {
         }
     }
 
-    public List<Holiday> findByDateAfter(LocalDate date) {
-        return holidayRepository.findByStartDateAfter(date);
+    public List<Holiday> findByDateAfter(LocalDate startDate) {
+        return holidayRepository.findByStartDateAfter(startDate);
     }
 
-    public List<Holiday> findByDateBefore(LocalDate date) {
-        return holidayRepository.findByStartDateBefore(date.plusDays(1));
+    public List<Holiday> findByDateBefore(LocalDate startDate) {
+        return holidayRepository.findByStartDateBefore(startDate.plusDays(1));
     }
 
     public List<Holiday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd) {
         return holidayRepository.findByStartDateBetween(rangeStart, rangeEnd);
     }
 
-    public List<Holiday> findByStatus(HolidayStatus status) {
-        return holidayRepository.findByHolidayStatusId(status.getHolidayStatusId());
+    public List<Holiday> findByStatus(HolidayStatus holidayStatus) {
+        return holidayRepository.findByHolidayStatusId(holidayStatus.getHolidayStatusId());
     }
 
-    public List<Holiday> findByStatusAndDateAfter(HolidayStatus status, LocalDate date) {
-        return holidayRepository.findByHolidayStatusIdAndStartDateAfter(status.getHolidayStatusId(), date);
+    public List<Holiday> findByStatusAndDateAfter(HolidayStatus holidayStatus, LocalDate startDate) {
+        return holidayRepository.findByHolidayStatusIdAndStartDateAfter(holidayStatus.getHolidayStatusId(), startDate);
     }
 }
 

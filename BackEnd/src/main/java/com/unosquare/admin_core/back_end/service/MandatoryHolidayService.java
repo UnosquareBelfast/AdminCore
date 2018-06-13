@@ -37,9 +37,9 @@ public class MandatoryHolidayService {
 
     public List<MandatoryHoliday> findMandatoryHolidaysByCountryIdAndYear(int countryId, int year) {
 
-        LocalDate startDate = LocalDate.of(year, 01, 01);
-        LocalDate endDate = LocalDate.of(year, 12, 31);
-        return mandatoryHolidayRepository.findByCountryIdAndDateBetween(countryId, startDate, endDate);
+        LocalDate rangeStart = LocalDate.of(year, 01, 01);
+        LocalDate rangeEnd = LocalDate.of(year, 12, 31);
+        return mandatoryHolidayRepository.findByCountryIdAndDateBetween(countryId, rangeStart, rangeEnd);
     }
 
     public void save(MandatoryHoliday mandatoryHoliday) {

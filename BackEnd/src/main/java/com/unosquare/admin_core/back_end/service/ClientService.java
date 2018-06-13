@@ -33,16 +33,16 @@ public class ClientService {
         return clientRepository.findByClientNameContainingIgnoreCase(clientName);
     }
 
-    public List<Client> findByTeamNameContaining(String teamname) {
-        return clientRepository.findByTeamNameContainingIgnoreCase(teamname);
+    public List<Client> findByTeamNameContaining(String teamName) {
+        return clientRepository.findByTeamNameContainingIgnoreCase(teamName);
     }
 
     public List<Client> findByContactNameContaining(String contactName) {
         return clientRepository.findByContactNameContainingIgnoreCase(contactName);
     }
 
-    public List<Client> findByClientStatus(ClientStatus status) {
-        return clientRepository.findByClientStatus(status);
+    public List<Client> findByClientStatus(ClientStatus clientStatus) {
+        return clientRepository.findByClientStatus(clientStatus);
     }
 
     public void save(Client client) {

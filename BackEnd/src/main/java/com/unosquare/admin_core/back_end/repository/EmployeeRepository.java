@@ -12,9 +12,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     List<Employee> findByForenameIgnoreCaseAndSurnameIgnoreCase(String forename, String surname);
 
-    List<Employee> findByStartDateAfter(LocalDate date);
+    List<Employee> findByStartDateAfter(LocalDate startDate);
 
-    List<Employee> findByStartDateBefore(LocalDate date);
+    List<Employee> findByStartDateBefore(LocalDate startDate);
 
     List<Employee> findByCountryId(int countryId);
 }

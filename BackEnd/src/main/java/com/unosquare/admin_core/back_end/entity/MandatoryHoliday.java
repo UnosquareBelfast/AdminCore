@@ -9,9 +9,8 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = MandatoryHoliday.class)
 @Table(name = "MandatoryHoliday")
-public class MandatoryHoliday implements java.io.Serializable {
+public class MandatoryHoliday {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,19 +10,19 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "Contract")
-public class Contract implements Serializable {
+public class Contract {
 
     @EmbeddedId
     private ContractPK contractId = new ContractPK();
 
     @ManyToOne
     @MapsId("employeeId")
-    @JoinColumn(name = "employee", referencedColumnName = "employee_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
     private Employee employee;
 
     @ManyToOne
     @MapsId("clientId")
-    @JoinColumn(name = "client", referencedColumnName = "client_id", insertable = false, updatable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "client_id", insertable = false, updatable = false)
     private Client client;
 
     @Basic

@@ -12,15 +12,15 @@ public interface HolidayRepository extends JpaRepository<Holiday, Integer> {
 
     Holiday findByEmployeeIdAndStartDateAndEndDate(int employeeId, LocalDate startDate, LocalDate endDate);
 
-    List<Holiday> findByStartDateAfter(LocalDate date);
+    List<Holiday> findByStartDateAfter(LocalDate startDate);
 
-    List<Holiday> findByStartDateBefore(LocalDate date);
+    List<Holiday> findByStartDateBefore(LocalDate startDate);
 
-    Holiday findByStartDateAndEmployeeId(LocalDate date, int employeeId);
+    Holiday findByStartDateAndEmployeeId(LocalDate startDate, int employeeId);
 
     List<Holiday> findByStartDateBetween(LocalDate rangeStart, LocalDate rangeEnd);
 
-    List<Holiday> findByHolidayStatusId(int statusId);
+    List<Holiday> findByHolidayStatusId(int holidayStatusId);
 
-    List<Holiday> findByHolidayStatusIdAndStartDateAfter(int status, LocalDate date);
+    List<Holiday> findByHolidayStatusIdAndStartDateAfter(int holidayStatusId, LocalDate startDate);
 }

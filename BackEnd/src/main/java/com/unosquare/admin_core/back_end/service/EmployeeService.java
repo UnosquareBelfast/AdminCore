@@ -81,12 +81,12 @@ public class EmployeeService {
         return employeeRepository.findByForenameIgnoreCaseAndSurnameIgnoreCase(forename, surname);
     }
 
-    public List<Employee> findByStartDateAfter(LocalDate date) {
-        return employeeRepository.findByStartDateAfter(date);
+    public List<Employee> findByStartDateAfter(LocalDate startDate) {
+        return employeeRepository.findByStartDateAfter(startDate);
     }
 
-    public List<Employee> findByStartDateBefore(LocalDate date) {
-        return employeeRepository.findByStartDateBefore(date);
+    public List<Employee> findByStartDateBefore(LocalDate startDate) {
+        return employeeRepository.findByStartDateBefore(startDate);
     }
 
     public List<Employee> findByCountry(Country country) {

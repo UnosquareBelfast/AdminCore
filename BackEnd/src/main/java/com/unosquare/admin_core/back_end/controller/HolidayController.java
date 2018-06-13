@@ -46,8 +46,8 @@ public class HolidayController {
 
     @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HolidayDto findHolidayById(@PathVariable("holidayId") int id) {
-        return modelMapper.map(holidayService.findById(id), HolidayDto.class);
+    public HolidayDto findHolidayById(@PathVariable("holidayId") int holidayId) {
+        return modelMapper.map(holidayService.findById(holidayId), HolidayDto.class);
     }
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -111,16 +111,16 @@ public class HolidayController {
         holidayService.saveMultiple(mapDtosToHolidays(Arrays.asList(holidays)));
     }
 
-    @GetMapping(value = "/findByDateAfter/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByDateAfter/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapHolidaysToDtos(holidayService.findByDateAfter(date));
+    public List<HolidayDto> findByDateAfter(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapHolidaysToDtos(holidayService.findByDateAfter(startDate));
     }
 
-    @GetMapping(value = "/findByDateBeforeOrSameDay/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByDateBeforeOrSameDay/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapHolidaysToDtos(holidayService.findByDateBefore(date.plusDays(1)));
+    public List<HolidayDto> findByDateBeforeOrSameDay(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapHolidaysToDtos(holidayService.findByDateBefore(startDate.plusDays(1)));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
@@ -139,10 +139,10 @@ public class HolidayController {
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
-    @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatusId}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatusId}/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") int holidayStatusId, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(HolidayStatus.fromId(holidayStatusId), date));
+    public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") int holidayStatusId, @PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(HolidayStatus.fromId(holidayStatusId), startDate));
     }
 
     private List<HolidayDto> mapHolidaysToDtos(List<Holiday> holidays) {

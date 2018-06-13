@@ -14,9 +14,8 @@ import java.util.Set;
 @Entity
 @Data
 @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Employee.class)
 @Table(name = "Employee")
-public class Employee implements java.io.Serializable {
+public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +38,7 @@ public class Employee implements java.io.Serializable {
 
     @OneToOne
     @MapsId("countryId")
-    @JoinColumn(name = "country", referencedColumnName = "country_id", insertable = false, updatable = false)
+    @JoinColumn(name = "country_id", referencedColumnName = "country_id", insertable = false, updatable = false)
     private Country country;
 
     private String password;
@@ -54,12 +53,12 @@ public class Employee implements java.io.Serializable {
 
     @OneToOne
     @MapsId("employeeRoleId")
-    @JoinColumn(name = "employeeRole", referencedColumnName = "employee_role_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_role_id", referencedColumnName = "employee_role_id", insertable = false, updatable = false)
     private EmployeeRole employeeRole;
 
     @OneToOne
     @MapsId("employeeStatusId")
-    @JoinColumn(name = "employeeStatus", referencedColumnName = "employee_status_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_status_id", referencedColumnName = "employee_status_id", insertable = false, updatable = false)
     private EmployeeStatus employeeStatus;
 
     @OneToMany(mappedBy = "employee")

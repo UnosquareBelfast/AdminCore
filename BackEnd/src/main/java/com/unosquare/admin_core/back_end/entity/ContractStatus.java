@@ -10,9 +10,8 @@ import javax.persistence.*;
 @Entity
 @Data
 @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = ContractStatus.class)
 @Table(name = "ContractStatus")
-public class ContractStatus implements java.io.Serializable {
+public class ContractStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
