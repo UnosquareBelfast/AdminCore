@@ -6,6 +6,8 @@ import * as createMemoryHistory from 'history/createMemoryHistory';
 import Swal from 'sweetalert2';
 import * as userService from '../../src/services/userService';
 
+const spy = jest.spyOn(Swal);
+
 const history = createMemoryHistory.default('/');
 
 describe('Login Container', () => {
@@ -32,7 +34,7 @@ describe('Login Container', () => {
     wrapper.setState({ email: 'test@test.com', password: 'pass' });
 
     await wrapper.instance().handleSubmit({ preventDefault: () => {} });
-    expect(Swal).toHaveBeenCalled(); //not working
+    expect(spy).toHaveBeenCalled(); //not working
   });
 
 }); 

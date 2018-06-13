@@ -41,7 +41,7 @@ export default Wrapped =>
       const data = { ...this.state.form };
       data.startDate = data.startDate.toISOString();
       this.setState({ loading: true });
-      createUser(data)
+      return createUser(data)
         .then(() => {
           this.setState({
             loading: false,

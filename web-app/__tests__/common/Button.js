@@ -4,7 +4,14 @@ import { Button } from '../../src/components/common';
 
 describe('Button', () => {
   it('renders correctly', () => { 
+    const wrapper = shallow(<Button label="Button" onClick={() => {}}/>);    
 
+    expect(wrapper.exists());
+    expect(wrapper.children().length).toEqual(1);
+    expect(wrapper.children().text()).toEqual('Button');
+  });
+
+  it('recieves onClick', () => { 
     const obj = { onButtonClick : () => {} };
     const spy = jest.spyOn(obj, 'onButtonClick');
 
@@ -12,12 +19,5 @@ describe('Button', () => {
     
     wrapper.find('#button').simulate('click');
     expect(spy).toHaveBeenCalled();
-
-    expect(wrapper.exists());
-    expect(wrapper.children().length).toEqual(1);
-    expect(wrapper.children().text()).toEqual('Button');
   });
-
-
-
 });

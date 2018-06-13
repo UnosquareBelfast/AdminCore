@@ -3,7 +3,11 @@ import { shallow } from 'enzyme';
 import moment from 'moment';
 import { CreateUser } from '../../src/components';
 import createUserContainer from '../../src/components/CreateUser/container';
+import { createUser } from '../../src/services/userService';
+
+jest.mock('../../src/services/userService');
 import * as userService from '../../src/services/userService';
+
 
 describe('CreateUser', () => {
   it('renders correctly', () => {
@@ -57,23 +61,56 @@ describe('CreateUser', () => {
     expect(wrapper.state('form').startDate).toBeInstanceOf(moment);
   });
 
-  it('handleFormSubmit sets state back to initial State', async () => {
+  it('handleFormSubmit sets state of loading to true', () => {
     
     const Container = createUserContainer(CreateUser);
     const wrapper = shallow(<Container />);
 
-    userService.createUser = jest.fn(() => Promise.resolve({}));
+    wrapper.instance().handleFormSubmit();
+    
+    expect(wrapper.state('loading')).toBe(true);
+  });
+
+  it('when handleFormSubmit submits successfully it sets state of loading to false and success to true', async () => {
+    
+    const Container = createUserContainer(CreateUser);
+    const wrapper = shallow(<Container />);
+    const spy = jest.spyOn(userService, 'createUser');
+
     await wrapper.instance().handleFormSubmit();
     
     expect(wrapper.state('loading')).toBe(false);
     expect(wrapper.state('success')).toBe(true);
+
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('when handleFormSubmit submits successfully it sets state of the form back to initial state on submission', async () => {  
+    const Container = createUserContainer(CreateUser);
+    const wrapper = shallow(<Container />);
+
+    await wrapper.instance().handleFormSubmit();
+    
     checkIfFormEqualsInitialState(wrapper);
+  });
+
+  it('when handleFormSubmit does not submits successfully it sets state of loading to false and error to the error returned from createUser', async () => {
+    const Container = createUserContainer(CreateUser);
+    const wrapper = shallow(<Container />);
+
+    //cause test to fail with null value
+    wrapper.setState({
+      form: { ...wrapper.state('form'), forename: null },
+    });
+
+    await wrapper.instance().handleFormSubmit();
+    expect(wrapper.state('loading')).toBe(false);
+    expect(wrapper.state('error')).toEqual('error');
   });
 });
 
 function checkIfFormEqualsInitialState(wrapper) {
   const form = wrapper.instance().initialFormState();
-  const date = form.startDate;
 
   expect(form).toHaveProperty('forename', '');
   expect(form).toHaveProperty('surname', '');
