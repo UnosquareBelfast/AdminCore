@@ -6,7 +6,7 @@ import * as createMemoryHistory from 'history/createMemoryHistory';
 import Swal from 'sweetalert2';
 import * as userService from '../../src/services/userService';
 
-const spy = jest.spyOn(Swal);
+jest.mock('../../src/services/userService');
 
 const history = createMemoryHistory.default('/');
 
@@ -16,8 +16,6 @@ describe('Login Container', () => {
     
     const Container = loginContainer(Login);
     const wrapper = shallow(<Container history={ history }/>);
-
-    userService.userLogin = jest.fn(() => Promise.resolve({}));
 
     wrapper.setState({ email: 'test@test.com', password: 'pass' });
 
@@ -29,9 +27,7 @@ describe('Login Container', () => {
     const Container = loginContainer(Login);
     const wrapper = shallow(<Container history={ history }/>);
 
-    userService.userLogin = jest.fn(() => Promise.reject( { message: 'error' }));
-
-    wrapper.setState({ email: 'test@test.com', password: 'pass' });
+    wrapper.setState({ email: null, password: null });
 
     await wrapper.instance().handleSubmit({ preventDefault: () => {} });
     expect(spy).toHaveBeenCalled(); //not working
