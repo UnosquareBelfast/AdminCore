@@ -12,7 +12,7 @@ import { Sidebar } from './styled';
 moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
-const Dashboard = props => {
+export const Dashboard = props => {
   return (
     <Layout {...props}>
       <BookingModal {...props} />

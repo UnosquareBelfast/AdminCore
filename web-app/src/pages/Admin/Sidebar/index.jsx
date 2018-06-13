@@ -3,7 +3,7 @@ import { Card } from '../../../components/common';
 import { SidebarHeader, SidebarList } from './styled';
 import { Link } from 'react-router-dom';
 
-const Sidebar = () => {
+export const Sidebar = () => {
   return (
     <Card>
       <SidebarHeader>Employees</SidebarHeader>

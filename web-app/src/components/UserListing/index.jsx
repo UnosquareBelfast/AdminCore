@@ -4,7 +4,7 @@ import container from './container';
 import { UserTable, ActiveDot } from './styled';
 import employeeStatus from '../../utilities/employeeStatus';
 
-const UserListing = ({ users, edit, archive, ViewHolidays }) => {
+export const UserListing = ({ users, edit, archive, ViewHolidays }) => {
   return (
     <UserTable>
       <tbody>

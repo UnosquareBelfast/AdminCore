@@ -14,7 +14,8 @@ export const theme = {
     yellow: '#ff9b34',
   },
   fonts: {
-    text: 'sans-serif',
+    main: 'Open Sans',
+    fallback: 'sans-serif',
   },
   holidayStatus: {
     [holidayStatus.PENDING]: '#ff9b34',
@@ -28,8 +29,9 @@ injectGlobal`
   body {
     margin: 0;
     padding: 0;
-    font-family: ${theme.fonts.text};
+    font-family: ${theme.fonts.main}, ${theme.fonts.fallback};
     background: #f1f5f8;
+    color: #303335;
   }
 
   .rbc-calendar {

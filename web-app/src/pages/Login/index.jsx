@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import styles from './style.css';
 import container from './container';
 
-const Login = (props) => {
+export const Login = (props) => {
 
   return (
     <div className={styles.center}>
