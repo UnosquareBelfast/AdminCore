@@ -10,6 +10,7 @@ export default () => (
       <Key status={holidayStatus.PENDING}>Pending</Key>
       <Key status={holidayStatus.APPROVED}>Approved</Key>
       <Key status={holidayStatus.REJECTED}>Rejected</Key>
+      <Key status={holidayStatus.WFH}>WFH</Key>
     </StyleContainer>
   </Card>
 );
