@@ -4,7 +4,7 @@ import container from './container';
 import { HolidayTable } from './styled';
 import { Card } from '../common';
 
-const PendingHolidays = ({
+export const PendingHolidays = ({
   pendingHolidays,
   approveHoliday,
   rejectHoliday,

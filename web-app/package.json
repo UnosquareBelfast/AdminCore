@@ -8,7 +8,7 @@
     "build": "webpack --mode production",
     "lint": "./node_modules/.bin/eslint src --ext .js,.jsx; exit 0",
     "lint-fix": "./node_modules/.bin/eslint src --ext .js,.jsx --fix; exit 0",
-    "test": "jest; exit 0"
+    "test": "jest"
   },
   "author": "Mark Brown",
   "license": "MIT",
@@ -22,6 +22,7 @@
     }
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^22.4.4",
@@ -36,6 +37,7 @@
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-react": "^7.8.2",
     "file-loader": "^1.1.11",
+    "history": "^4.7.2",
     "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.4",
