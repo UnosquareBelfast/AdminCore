@@ -4,7 +4,7 @@ import container from './container';
 import { Card, Button, Modal } from '../common';
 import { StyleContainer } from './styled';
 
-const Leave = props => {
+export const Leave = props => {
   const {
     totalHolidays,
     takenHolidays,

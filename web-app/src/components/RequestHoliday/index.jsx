@@ -21,7 +21,7 @@ const selectionText = (from, to, datesMatch) => {
   return 'Select a date, or a range of dates.';
 };
 
-const RequestHoliday = props => {
+export const RequestHoliday = props => {
   const { from, to } = props.selectedDateRange;
   const buttonDisabled = !(from && to);
 

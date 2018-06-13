@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import styles from './style.css';
 import container from './container';
 
-const TakenLeave = ({takenHolidays}) => {
+export const TakenLeave = ({takenHolidays}) => {
 
   const formatDate = (date) => {
     const definedDate = new Date(date);
