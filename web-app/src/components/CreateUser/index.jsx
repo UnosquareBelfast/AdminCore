@@ -30,7 +30,7 @@ export const CreateUser = props => {
       <Container>
         <h3>Create Employee</h3>
         <form autoComplete="off">
-          <label>
+          <label id="forenameLbl">
             Forename:
             <input
               type="text"
@@ -40,7 +40,7 @@ export const CreateUser = props => {
               disabled={loading}
             />
           </label>
-          <label>
+          <label id="surnameLbl">
             Surname:
             <input
               type="text"
@@ -50,7 +50,7 @@ export const CreateUser = props => {
               disabled={loading}
             />
           </label>
-          <label>
+          <label id="emailLbl">
             Email:
             <input
               type="text"
@@ -60,7 +60,7 @@ export const CreateUser = props => {
               disabled={loading}
             />
           </label>
-          <label>
+          <label id="passwordLbl">
             Password:
             <input
               type="password"
@@ -71,7 +71,7 @@ export const CreateUser = props => {
               disabled={loading}
             />
           </label>
-          <label>
+          <label id="countryLbl">
             Country:
             <select
               name="country"
@@ -83,7 +83,7 @@ export const CreateUser = props => {
               <option value={2}>Mexico</option>
             </select>
           </label>
-          <label>
+          <label id="roleLbl">
             Role:
             <select
               name="employeeRole"
@@ -96,7 +96,7 @@ export const CreateUser = props => {
               <option value={2}>System Admin</option>
             </select>
           </label>
-          <label>
+          <label id="startDateLbl">
             Start Date:
             <DatePicker
               selected={startDate}
@@ -104,10 +104,10 @@ export const CreateUser = props => {
               disabled={loading}
             />
           </label>
-          <Button label="Create User" onClick={submitForm} disabled={loading} />
+          <Button id="createUserBtn" label="Create User" onClick={submitForm} disabled={loading} />
         </form>
-        <Errorbox error={error} label="Error creating user" />
-        {success && <p>User created successfully!</p>}
+        <Errorbox id="errorCreateUser" error={error} label="Error creating user" />
+        {success && <p id="userCreatedSuccess">User created successfully!</p>}
       </Container>
     </Card>
   );

@@ -20,11 +20,11 @@ const BookingModal = props => {
   const getActions = () => (
     booking.title ?
       <Fragment>
-        <Button onClick={updateHoliday} label={'Update'} style={{marginBottom: 5}}/>
-        <Button onClick={cancelHoliday} label={'Cancel Request'}/>
+        <Button id="updateHolidayBtn" onClick={updateHoliday} label={'Update'} style={{marginBottom: 5}}/>
+        <Button id="cancelHolidayBtn" onClick={cancelHoliday} label={'Cancel Request'}/>
       </Fragment>
       :
-      <Button onClick={requestHoliday} label={booking.isWFH ? 'Add' : 'Request'}/>
+      <Button id="requestHolidayBtn" onClick={requestHoliday} label={booking.isWFH ? 'Add' : 'Request'}/>
   );
 
   const getTotalDays = () => {
@@ -34,7 +34,7 @@ const BookingModal = props => {
 
   return (showModal &&
     <Modal>
-      <span onClick={closeModal}>Close</span>
+      <span id="closeBookingModal" onClick={closeModal}>Close</span>
       <h1>Booking</h1>
       {booking.title && <h3>Employee: {booking.title}</h3>}
       {booking.title && <h3>Status: {booking.holidayStatusDescription}</h3>}
