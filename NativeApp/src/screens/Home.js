@@ -7,6 +7,10 @@ export default class HomeScreen extends Component {
     navigation: PT.object,
   }
 
+  static navigationOptions = {
+    title: 'Home'
+  }
+
   render() {
     return (
       <Home navigation={this.props.navigation}/>
