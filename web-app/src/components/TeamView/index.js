@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
-import holidayStatus from '../../utilities/holidayStatus';
+import holidayStatus, { statusText } from '../../utilities/holidayStatus';
 import { EmployeeStyleContainer, EventTable, StatusDot } from './styled';
 
 class TeamView extends Component {
@@ -30,21 +30,6 @@ class TeamView extends Component {
     return eventsByEmployee;
   };
 
-  statusToText = status => {
-    switch (status) {
-      case 1:
-        return 'Pending';
-      case 2:
-        return 'Approved';
-      case 3:
-        return 'Rejected';
-      case 4:
-        return 'WFH';
-      default:
-        return '';
-    }
-  };
-
   renderEventsByEmployee = () => {
     const employees = this.getEventsByEmployee();
     return Object.keys(employees).map(id => {
@@ -63,7 +48,7 @@ class TeamView extends Component {
                 <tr key={event.id}>
                   <td>
                     <StatusDot status={event.holidayStatusId} />
-                    {this.statusToText(event.holidayStatusId)}
+                    {statusText[event.holidayStatusId]}
                   </td>
                   <td>{moment(event.start).format('DD/MM/YYYY')}</td>
                   <td>{moment(event.end).format('DD/MM/YYYY')}</td>
