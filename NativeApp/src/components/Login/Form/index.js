@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native'; 
+import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 
 class LoginForm extends Component {
@@ -24,6 +24,7 @@ class LoginForm extends Component {
           onChangeText={(text) => this.setState({email: text})}
           value={this.state.email}
           autoCapitalize={'none'}
+          underlineColorAndroid={'transparent'}
         />
         <TextInput
           style={styles.input}
@@ -31,9 +32,10 @@ class LoginForm extends Component {
           onChangeText={(text) => this.setState({password: text})}
           value={this.state.password}
           secureTextEntry
+          underlineColorAndroid={'transparent'}
         />
-        <Button 
-          onPress={() => 
+        <Button
+          onPress={() =>
             this.props.handleLogin(this.state.email, this.state.password)
           }
           title="Login"
@@ -52,6 +54,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     marginBottom: 10,
+    paddingHorizontal: 10, 
   },
 });
 
