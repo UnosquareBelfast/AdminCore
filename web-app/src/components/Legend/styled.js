@@ -5,11 +5,15 @@ export const StyleContainer = styled.div`
     display: block;
     margin-bottom: 10px;
   }
+  svg {
+    margin-right: 10px;
+  }
 `;
 
 export const Key = styled.div`
   background-color: ${props => props.theme.holidayStatus[props.status]};
   color: white;
+  font-size: 14px;
   margin: 4px 0;
   padding-left: 5px;
   border-radius: 3px;
