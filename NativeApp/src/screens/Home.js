@@ -8,7 +8,7 @@ export default class HomeScreen extends Component {
   }
 
   static navigationOptions = {
-    title: 'Home'
+    title: 'Home',
   }
 
   render() {

@@ -4,7 +4,7 @@ import LoginForm from '../Form/index';
 
 
 const LoginView = (props) =>
-  <ScrollView 
+  <ScrollView
     contentContainerStyle={styles.container}
   >
     <View style={styles.card}>
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1abc9c'
+    backgroundColor: '#1abc9c',
   },
   card: {
     borderWidth: 1,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
     borderRadius: 15,
-  }
-})
+  },
+});
 
 export default LoginView;

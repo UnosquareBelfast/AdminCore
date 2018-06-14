@@ -1,14 +1,14 @@
 import React from 'react';
 import {PropTypes as PT} from 'prop-types';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { View, Button, StyleSheet } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
 const HomeView = (props) =>
   <View style={styles.container}>
     <Calendar
       style={styles.calendar}
-      horizontal={true}
-      pagingEnabled={true}
+      horizontal
+      pagingEnabled
     />
     <Button
       onPress={props.handleLogout}
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   calendar: {
     paddingHorizontal: 10,
-  }
-})
+  },
+});
 
 export default HomeView;

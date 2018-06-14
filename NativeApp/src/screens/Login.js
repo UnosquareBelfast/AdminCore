@@ -7,9 +7,9 @@ export default class LoginScreen extends Component {
     navigation: PT.object,
   }
 
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = {
     headerTitle: 'Login',
-  });
+  };
 
   render() {
     return (
