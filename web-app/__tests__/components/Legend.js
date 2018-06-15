@@ -1,20 +1,21 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Legend } from '../../src/components';
-import holidayStatus from '../../src/utilities/holidayStatus';
+import holidayStatus, { statusText } from '../../src/utilities/holidayStatus';
 
 describe('Legend', () => {
   it('renders correctly', () => {
+    const { PENDING, APPROVED, REJECTED, WFH } = holidayStatus;
     const wrapper = shallow(<Legend />);
+    const keyWrap = wrapper.childAt(0);
 
-    expect(wrapper.exists());
-    expect(wrapper.children().length).toEqual(1);
-    expect(wrapper.childAt(0).childAt(0).text()).toEqual('Legend');
-    expect(wrapper.children().childAt(1).prop('status')).toEqual(holidayStatus.PENDING);
-    expect(wrapper.children().childAt(2).prop('status')).toEqual(holidayStatus.APPROVED);
-    expect(wrapper.children().childAt(3).prop('status')).toEqual(holidayStatus.REJECTED);
-    expect(wrapper.children().childAt(1).children().text()).toEqual('Pending');
-    expect(wrapper.children().childAt(2).children().text()).toEqual('Approved');
-    expect(wrapper.children().childAt(3).children().text()).toEqual('Rejected');
+    // Title
+    expect(keyWrap.childAt(0).text()).toEqual('Legend');
+
+    // Legend Key Text
+    expect(keyWrap.childAt(1).childAt(1).text()).toEqual(statusText[PENDING]);
+    expect(keyWrap.childAt(2).childAt(1).text()).toEqual(statusText[APPROVED]);
+    expect(keyWrap.childAt(3).childAt(1).text()).toEqual(statusText[REJECTED]);
+    expect(keyWrap.childAt(4).childAt(1).text()).toEqual(statusText[WFH]);
   });
 });

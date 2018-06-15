@@ -1,16 +1,34 @@
 import React from 'react';
 import { Card } from '../common';
 import { StyleContainer, Key } from './styled';
-import holidayStatus from '../../utilities/holidayStatus';
+import holidayStatus, {
+  statusText,
+  statusIcons,
+} from '../../utilities/holidayStatus';
 
-export default () => (
-  <Card>
-    <StyleContainer>
-      <strong>Legend</strong>
-      <Key status={holidayStatus.PENDING}>Pending</Key>
-      <Key status={holidayStatus.APPROVED}>Approved</Key>
-      <Key status={holidayStatus.REJECTED}>Rejected</Key>
-      <Key status={holidayStatus.WFH}>WFH</Key>
-    </StyleContainer>
-  </Card>
-);
+export default () => {
+  const { PENDING, APPROVED, REJECTED, WFH } = holidayStatus;
+  return (
+    <Card>
+      <StyleContainer>
+        <strong>Legend</strong>
+        <Key status={PENDING}>
+          <span>{statusIcons[PENDING]}</span>
+          <span>{statusText[PENDING]}</span>
+        </Key>
+        <Key status={APPROVED}>
+          <span>{statusIcons[APPROVED]}</span>
+          <span>{statusText[APPROVED]}</span>
+        </Key>
+        <Key status={REJECTED}>
+          <span>{statusIcons[REJECTED]}</span>
+          <span>{statusText[REJECTED]}</span>
+        </Key>
+        <Key status={WFH}>
+          <span>{statusIcons[WFH]}</span>
+          <span>{statusText[WFH]}</span>
+        </Key>
+      </StyleContainer>
+    </Card>
+  );
+};
