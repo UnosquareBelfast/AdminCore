@@ -1,21 +1,30 @@
-import { 
+import {
   createStackNavigator,
   createSwitchNavigator,
 } from 'react-navigation';
+import {
+  createMaterialBottomTabNavigator
+} from 'react-navigation-material-bottom-tabs';
 
-import { Home, Login, Boot } from '../screens';
+import { Home, Login, Boot, Team } from '../screens';
 
-const AppStack = createStackNavigator(
+const AppStack = createMaterialBottomTabNavigator(
   {
     Home: { screen: Home },
-  },
+    Team: { screen: Team },
+  }, {
+    initialRouteName: 'Home',
+    activeTintColor: '#f0edf6',
+    inactiveTintColor: '#3e2465',
+    barStyle: { backgroundColor: '#1abc9c'}
+  }
 );
 const AuthStack = createStackNavigator({ Login: Login });
 
 const RootNavigator = createSwitchNavigator(
   {
     Boot: Boot,
-    App: AppStack, 
+    App: AppStack,
     Auth: AuthStack,
   },
   {
