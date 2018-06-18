@@ -9,7 +9,7 @@ export const Login = (props) => {
     <div className={styles.center}>
       <div className={styles.card}>
         <h1>Login</h1>
-        <form onSubmit={props.handleSubmit}>
+        <form id="loginForm" onSubmit={props.handleSubmit}>
           <input
             className={styles.item}
             placeholder="Email goes here..."
