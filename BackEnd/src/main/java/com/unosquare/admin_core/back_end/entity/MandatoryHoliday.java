@@ -19,15 +19,20 @@ public class MandatoryHoliday {
     private LocalDate date;
 
     @Basic
-    @Column(name = "country_id")
-    private int countryId;
+    @ManyToOne
+    @JoinColumn(name = "country_id", insertable = false, updatable = false)
+    private Country country;
 
     public MandatoryHoliday() {
 
     }
 
-    public MandatoryHoliday(LocalDate date, int countryId) {
+    public MandatoryHoliday(int mandatoryHolidayId){
+        this.mandatoryHolidayId = mandatoryHolidayId;
+    }
+
+    public MandatoryHoliday(LocalDate date, Country country) {
         this.date = date;
-        this.countryId = countryId;
+        this.country = country;
     }
 }

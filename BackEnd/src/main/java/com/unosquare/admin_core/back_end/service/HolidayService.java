@@ -35,11 +35,11 @@ public class HolidayService {
     }
 
     public List<Holiday> findByEmployee(int employeeId) {
-        return holidayRepository.findByEmployeeId(employeeId);
+        return holidayRepository.findByEmployee(new Employee(employeeId));
     }
 
     public Holiday findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate){
-        return holidayRepository.findByEmployeeIdAndStartDateAndEndDate(employeeId, startDate, endDate);
+        return holidayRepository.findByEmployeeAndStartDateAndEndDate(new Employee(employeeId), startDate, endDate);
     }
 
     public void save(Holiday holiday) {
@@ -53,7 +53,7 @@ public class HolidayService {
     }
 
     private Holiday checkForHolidayWithSameDate(Holiday holiday) {
-        Holiday holidayWithSameDate = holidayRepository.findByStartDateAndEmployeeId(holiday.getStartDate(), holiday.getEmployee().getEmployeeId());
+        Holiday holidayWithSameDate = holidayRepository.findByStartDateAndEmployee(holiday.getStartDate(), holiday.getEmployee());
         if (holidayWithSameDate != null) {
             holiday.setHolidayId(holidayWithSameDate.getHolidayId());
         }
@@ -93,11 +93,11 @@ public class HolidayService {
     }
 
     public List<Holiday> findByStatus(HolidayStatus holidayStatus) {
-        return holidayRepository.findByHolidayStatusId(holidayStatus.getHolidayStatusId());
+        return holidayRepository.findByHolidayStatus(new com.unosquare.admin_core.back_end.entity.HolidayStatus(holidayStatus.getHolidayStatusId()));
     }
 
     public List<Holiday> findByStatusAndDateAfter(HolidayStatus holidayStatus, LocalDate startDate) {
-        return holidayRepository.findByHolidayStatusIdAndStartDateAfter(holidayStatus.getHolidayStatusId(), startDate);
+        return holidayRepository.findByHolidayStatusAndStartDate(new com.unosquare.admin_core.back_end.entity.HolidayStatus(holidayStatus.getHolidayStatusId()), startDate);
     }
 }
 

@@ -25,6 +25,10 @@ public class ClientStatus {
 
     }
 
+    public ClientStatus(int clientStatusId){
+        this.clientStatusId = clientStatusId;
+    }
+
     public ClientStatus(String description){
         this.description = description;
     }

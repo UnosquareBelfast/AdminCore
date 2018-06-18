@@ -3,8 +3,6 @@ package com.unosquare.admin_core.back_end.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.unosquare.admin_core.back_end.enums.ClientStatus;
-import com.unosquare.admin_core.back_end.enums.converter.ClientStatusConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -27,8 +25,8 @@ public class Client {
     private String contactEmail;
 
     @Basic
-    @Column(name = "clientStatusId")
-    @Convert(converter = ClientStatusConverter.class)
+    @OneToOne
+    @JoinColumn(name = "client_status_id", insertable = false, updatable = false)
     private ClientStatus clientStatus;
 
     private int minimumEmployeesForTeam = 0;
@@ -39,6 +37,10 @@ public class Client {
 
     public Client() {
 
+    }
+
+    public Client(int clientId){
+        this.clientId = clientId;
     }
 
     public Client(String clientName, String teamName, String contactName, String contactEmail, ClientStatus clientStatus) {

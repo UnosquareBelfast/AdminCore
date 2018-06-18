@@ -25,14 +25,6 @@ public class Holiday {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-//    @Basic
-//    @Column(name = "employee_id")
-//    private int employeeId;
-//
-//    @Basic
-//    @Column(name = "holiday_status_id")
-//    private int holidayStatusId;
-
     @OneToOne
     @JoinColumn(name = "employee_id", insertable = false, updatable = false)
     private Employee employee;

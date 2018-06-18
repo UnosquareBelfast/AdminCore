@@ -32,24 +32,12 @@ public class Employee {
     @Column(name = "start_date")
     private LocalDate startDate;
 
-//    @Basic
-//    @Column(name = "country_id")
-//    private int countryId;
-
     @OneToOne
     @MapsId("countryId")
     @JoinColumn(name = "country_id", referencedColumnName = "country_id", insertable = false, updatable = false)
     private Country country;
 
     private String password;
-
-//    @Basic
-//    @Column(name = "employee_role_id")
-//    private int employeeRoleId;
-//
-//    @Basic
-//    @Column(name = "employee_status_id")
-//    private int employeeStatusId;
 
     @OneToOne
     @MapsId("employeeRoleId")

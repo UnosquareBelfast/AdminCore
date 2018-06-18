@@ -1,7 +1,5 @@
 package com.unosquare.admin_core.back_end.entity;
 
-import com.unosquare.admin_core.back_end.enums.ContractStatus;
-import com.unosquare.admin_core.back_end.enums.converter.ContractStatusConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,9 +23,9 @@ public class Contract {
     @JoinColumn(name = "client_id", referencedColumnName = "client_id", insertable = false, updatable = false)
     private Client client;
 
-    @Basic
-    @Column(name = "contractStatusId")
-    @Convert(converter = ContractStatusConverter.class)
+    @OneToOne
+    @MapsId("contract_status_id")
+    @JoinColumn(name = "contract_status_id", referencedColumnName = "contract_status_id", insertable = false, updatable = false)
     private ContractStatus contractStatus;
 
     public Contract() {

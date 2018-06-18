@@ -61,7 +61,8 @@ public class EmployeeService {
 
     public void updateTotalHolidayForNewEmployee(Employee employee) {
         holidayService.addMandatoryHolidaysForNewEmployee(employee);
-        int mandatoryHolidaysCount = holidayRepository.findByEmployeeId(employee.getEmployeeId()).size();
+//        int mandatoryHolidaysCount = holidayRepository.findByEmployeeId(employee.getEmployeeId()).size();
+        int mandatoryHolidaysCount = 10;
         int maxHolidays = 33 - mandatoryHolidaysCount;
         employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
         save(employee);
@@ -90,7 +91,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findByCountry(Country country) {
-        return employeeRepository.findByCountryId(country.getCountryId());
+        return employeeRepository.findByCountry(new com.unosquare.admin_core.back_end.entity.Country(country.getCountryId()));
     }
 
     public Employee findByEmail(String email) {

@@ -25,6 +25,10 @@ public class ContractStatus {
 
     }
 
+    public ContractStatus(int contractStatusId){
+        this.contractStatusId = contractStatusId;
+    }
+
     public ContractStatus(String description){
         this.description = description;
     }
