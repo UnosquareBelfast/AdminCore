@@ -27,7 +27,7 @@ export const User = (props) => {
           <h2>Holidays</h2>
           <HolidayList
             holidays={profileHolidays}
-            columns={['status','date', 'created']}
+            columns={['status', 'start', 'end', 'requested']}
             actions={['approve', 'reject']}
           />
         </div>

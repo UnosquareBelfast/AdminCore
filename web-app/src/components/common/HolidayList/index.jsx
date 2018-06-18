@@ -12,13 +12,14 @@ const buildTableHeaders = (columns) => {
 
 const buildTableValues = (columns, holiday) => {
   const { forename, surname } = holiday.employee;
-  const { holidayId, date, dateCreated, holidayStatusId } = holiday;
+  const { holidayId, start, end, requested, holidayStatusId } = holiday;
 
   const values = {
     status: <td key={`${holidayId}status`}><StatusDot status={holidayStatusId} />{statusText[holidayStatusId]}</td>,
     employee: <td key={`${holidayId}employee`}>{`${forename} ${surname}`}</td>,
-    date: <td key={`${holidayId}date}`}>{`${date[2]}/${date[1]}/${date[0]}`}</td>,
-    created: <td key={`${holidayId}created`}>{`${dateCreated[2]}/${dateCreated[1]}/${dateCreated[0]}`}</td>,
+    start: <td key={`${holidayId}start}`}>{start.format('Do MMM YYYY')}</td>,
+    end: <td key={`${holidayId}end}`}>{end.format('Do MMM YYYY')}</td>,
+    requested: <td key={`${holidayId}requested`}>{requested.format('Do MMM YYYY')}</td>,
   };
 
   return columns.reduce((acc, column) => {
