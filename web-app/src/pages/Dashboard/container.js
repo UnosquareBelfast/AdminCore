@@ -70,8 +70,6 @@ const DashboardContainer = Wrapped =>
           id: hol.holidayId,
           title: `${hol.employee.forename} - Annual Leave`,
           allDay: !hol.halfDay,
-          start: new moment(hol.date, 'YYYY-MM-DD'),
-          end: new moment(hol.date, 'YYYY-MM-DD'),
           isHalfday: hol.halfDay,
           isWFH: false,
           ...hol,
