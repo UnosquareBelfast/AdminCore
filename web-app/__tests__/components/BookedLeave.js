@@ -4,6 +4,7 @@ import { BookedLeave } from '../../src/components/BookedLeave';
 
 describe('Booked Leave', () => {
   it('renders correctly', () => {
-    expect(shallow(<BookedLeave bookedHolidays={[]} user={{id: 0}}/>).exists());
+    const wrapper = shallow(<BookedLeave bookedHolidays={[]} user={{id: 0}}/>); 
+    expect(wrapper).toMatchSnapshot();
   });
 });

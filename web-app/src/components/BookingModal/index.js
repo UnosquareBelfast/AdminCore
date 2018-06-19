@@ -57,7 +57,7 @@ const BookingModal = props => {
           onChange={changeWFH} />
           WFH
       </label>
-      <p>Total days: {getTotalDays()}</p>
+      <p id="totalDaysToBook">Total days: {getTotalDays()}</p>
       {getActions()}
     </Modal>
   );
