@@ -3,9 +3,22 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   .card {
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
   }
+
+  .return {
+    display: inline-block;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+
+  .return:hover {
+    color: ${props => props.theme.colours.unoBlue};
+    border-bottom-color: ${props => props.theme.colours.unoBlue};
+  }
+
   h1{
+    margin-top: 1rem;
     margin-bottom: 5px;
   }
   h2 {

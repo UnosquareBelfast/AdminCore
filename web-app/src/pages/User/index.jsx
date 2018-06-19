@@ -6,7 +6,7 @@ import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Container, Splitter} from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faEnvelope, faIdCard } from '@fortawesome/fontawesome-free-solid';
+import { faEnvelope, faIdCard, faArrowLeft } from '@fortawesome/fontawesome-free-solid';
 import { roleText } from '../../utilities/roles';
 
 export const User = (props) => {
@@ -17,6 +17,9 @@ export const User = (props) => {
   return <Layout {...props}>
     <Container>
       <Card>
+        <div>
+          <p className="return" onClick={props.history.goBack}><FontAwesomeIcon icon={faArrowLeft}/>Return</p>
+        </div>
         <div>
           <h1>{forename} {surname}</h1>
           <p><FontAwesomeIcon icon={faEnvelope}/>{email}</p>
@@ -40,6 +43,7 @@ User.propTypes = {
   localUser: PT.object,
   profileUser: PT.object,
   profileHolidays: PT.array,
+  history: PT.object,
 };
 
 const enhance = flowRight(
