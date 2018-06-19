@@ -4,7 +4,7 @@ import container from './container';
 import { UserTable, ActiveDot } from './styled';
 import employeeStatus from '../../utilities/employeeStatus';
 
-export const UserListing = ({ users, edit, archive, ViewHolidays }) => {
+export const UserListing = ({ users, viewUser, archive }) => {
   return (
     <UserTable>
       <tbody>
@@ -27,8 +27,7 @@ export const UserListing = ({ users, edit, archive, ViewHolidays }) => {
             </td>
 
             <td>
-              <button onClick={() => edit(user)}>Edit User</button>
-              <button onClick={() => ViewHolidays(user)}>View Holidays</button>
+              <button onClick={() => viewUser(user.employeeId)}>View Employee</button>
               {user.employeeStatusId === employeeStatus.ACTIVE ? (
                 <button onClick={() => archive(user)}>Archive</button>
               ) : (
@@ -45,8 +44,7 @@ export const UserListing = ({ users, edit, archive, ViewHolidays }) => {
 UserListing.propTypes = {
   users: PT.array,
   archive: PT.func.isRequired,
-  edit: PT.func.isRequired,
-  ViewHolidays: PT.func.isRequired,
+  viewUser: PT.func.isRequired,
 };
 
 export default container(UserListing);

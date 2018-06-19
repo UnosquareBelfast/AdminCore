@@ -34,7 +34,7 @@ export const Admin = props => (
               <Card>
                 <h3>Employees</h3>
                 <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
-                <UserListing users={props.users} />
+                <UserListing history={props.history} users={props.users} />
               </Card>
             )}
           />
