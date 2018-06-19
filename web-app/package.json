@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "lint": "./node_modules/.bin/eslint src --ext .js,.jsx; exit 0",
     "lint-fix": "./node_modules/.bin/eslint src --ext .js,.jsx --fix; exit 0",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "author": "Mark Brown",
   "license": "MIT",
@@ -23,9 +24,8 @@
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
     },
-    "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/*.{js,jsx}",
+      "**/src/**.{js,jsx}",
       "!**/styled.js",
       "!/node_modules/**",
       "!/dist/**"
