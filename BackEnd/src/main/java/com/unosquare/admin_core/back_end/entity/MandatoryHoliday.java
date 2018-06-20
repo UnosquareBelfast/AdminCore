@@ -10,10 +10,12 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "MandatoryHoliday")
-public class MandatoryHoliday {
+public class MandatoryHoliday implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="mandatoryHolidaySeq",sequenceName="mandatory_holiday_mandatory_holiday_id_seq1")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="mandatoryHolidaySeq")
+    @Column(name = "mandatory_holiday_id", unique = true, nullable = false)
     private int mandatoryHolidayId;
 
     private LocalDate date;

@@ -11,11 +11,12 @@ import javax.persistence.*;
 @Data
 @ToString
 @Table(name = "ClientStatus")
-public class ClientStatus {
+public class ClientStatus implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_status_id")
+    @SequenceGenerator(name="seq",sequenceName="client_status_client_status_id_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @Column(name = "client_status_id", unique = true, nullable = false)
     private int clientStatusId;
 
     @Column(name = "description")

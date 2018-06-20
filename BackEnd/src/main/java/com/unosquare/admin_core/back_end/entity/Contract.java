@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "Contract")
-public class Contract {
+public class Contract implements java.io.Serializable{
 
     @EmbeddedId
     private ContractPK contractId = new ContractPK();

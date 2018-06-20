@@ -12,11 +12,12 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "Client")
-public class Client {
+public class Client implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
+    @SequenceGenerator(name="seq",sequenceName="client_client_id_seq1")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @Column(name = "client_id", unique = true, nullable = false)
     private int clientId;
 
     private String clientName;
@@ -33,7 +34,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     @JsonIgnore
-    private Set<Contract> contracts = new HashSet<>();
+    private Set<Contract> contracts = new HashSet();
 
     public Client() {
 

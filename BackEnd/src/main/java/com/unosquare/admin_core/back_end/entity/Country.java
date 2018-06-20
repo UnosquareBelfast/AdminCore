@@ -11,11 +11,12 @@ import javax.persistence.*;
 @Data
 @ToString
 @Table(name = "Country")
-public class Country {
+public class Country implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "country_id")
+    @SequenceGenerator(name="countrySeq",sequenceName="country_country_id_seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="countrySeq")
+    @Column(name = "country_id", unique = true, nullable = false)
     private int countryId;
 
     @Column(name = "description")

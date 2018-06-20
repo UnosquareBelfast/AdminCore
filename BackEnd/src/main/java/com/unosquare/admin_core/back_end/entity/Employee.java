@@ -15,11 +15,12 @@ import java.util.Set;
 @Data
 @ToString
 @Table(name = "Employee")
-public class Employee {
+public class Employee implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
+    @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq1")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employeeSeq")
+    @Column(name = "employee_id", unique = true, nullable = false)
     private int employeeId;
 
     private String forename;
@@ -51,11 +52,11 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Set<Contract> contracts = new HashSet<>();
+    private Set<Contract> contracts = new HashSet();
 
-//    @OneToMany(mappedBy = "employee")
-//    @JsonIgnore
-//    private Set<Holiday> holidays = new HashSet<>();
+    @OneToMany(mappedBy = "employee")
+    @JsonIgnore
+    private Set<Holiday> holidays = new HashSet<>();
 
     public Employee() {
 

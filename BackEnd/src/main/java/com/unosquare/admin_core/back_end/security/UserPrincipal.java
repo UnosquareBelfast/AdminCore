@@ -38,11 +38,11 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(Employee employee) {
 
-        List<String> roles = new ArrayList<>();
+        List<String> roles = new ArrayList();
 
         getUserRoles(employee, roles);
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList();
 
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
