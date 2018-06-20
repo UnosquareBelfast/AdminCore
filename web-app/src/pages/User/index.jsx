@@ -1,7 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Card, HolidayList } from '../../components/common';
+import { Card } from '../../components/common';
+import { HolidayList } from '../../components';
 import { Layout, withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Container, Splitter} from './styled';

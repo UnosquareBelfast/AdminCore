@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { HolidayList } from '../../src/components/common/HolidayList/index';
+import { HolidayList } from '../../src/components/HolidayList/index';
 import moment from 'moment';
 import { statusText } from '../../src/utilities/holidayStatus';
 

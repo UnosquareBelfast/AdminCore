@@ -11,3 +11,4 @@ export { default as TeamView } from './TeamView';
 export { default as PersonalView } from './PersonalView';
 export { default as PendingHolidays } from './PendingHolidays';
 export { default as AllHolidays } from './AllHolidays';
+export { default as HolidayList } from './HolidayList';
