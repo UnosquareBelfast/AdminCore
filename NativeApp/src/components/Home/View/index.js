@@ -1,18 +1,17 @@
 import React from 'react';
 import {PropTypes as PT} from 'prop-types';
 import { View, Button, StyleSheet } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { CalendarList } from 'react-native-calendars';
 
 const HomeView = (props) =>
   <View style={styles.container}>
-    <Calendar
-      style={styles.calendar}
-      horizontal
-      pagingEnabled
-    />
     <Button
       onPress={props.handleLogout}
       title="Logout"
+    />
+    <CalendarList
+      style={styles.calendar}
+      pagingEnabled
     />
   </View>;
 

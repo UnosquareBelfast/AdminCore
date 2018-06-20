@@ -10,6 +10,15 @@ const deviceStorage = {
     }
   },
 
+  async getItem(key) {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      return value;
+    } catch (error) {
+      console.log('AsyncStorage Error: ' + error.message);
+    }
+  }
+
 };
 
 export default deviceStorage;
