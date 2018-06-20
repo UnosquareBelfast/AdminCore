@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { updateHoliday } from '../../../services/holidayService';
-import holidayStatus from '../../../utilities/holidayStatus';
+import { updateHoliday } from '../../services/holidayService';
+import holidayStatus from '../../utilities/holidayStatus';
 import Swal from 'sweetalert2';
 
 export default Wrapped =>

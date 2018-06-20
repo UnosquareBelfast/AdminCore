@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { HolidayTable, StatusDot } from './styled';
-import { statusText } from '../../../utilities/holidayStatus';
+import { statusText } from '../../utilities/holidayStatus';
 
 const buildTableHeaders = (columns) => {
   return columns.reduce((acc, column) => {
