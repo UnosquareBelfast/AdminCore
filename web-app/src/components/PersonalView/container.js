@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import holidayStatus from '../../utilities/holidayStatus';
+import { monthToMonth, dateFormat } from '../../utilities/calendarConfig';
 
 export default Wrapped => {
   class Comp extends React.Component {
@@ -61,23 +62,8 @@ export default Wrapped => {
   }
 
   // Calendar stuff
-  Comp.title = date => moment(date).format('MMMM YYYY');
-  Comp.navigate = (date, action) => {
-    switch (action) {
-      case 'PREV':
-        return moment(date)
-          .subtract(1, 'month')
-          .toDate();
-
-      case 'NEXT':
-        return moment(date)
-          .add(1, 'month')
-          .toDate();
-
-      default:
-        return date;
-    }
-  };
+  Comp.title = dateFormat;
+  Comp.navigate = monthToMonth;
 
   return Comp;
 };

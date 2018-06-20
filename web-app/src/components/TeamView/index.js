@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
 import holidayStatus, { statusText } from '../../utilities/holidayStatus';
+import { monthToMonth, dateFormat } from '../../utilities/calendarConfig';
 import { EmployeeStyleContainer, EventTable, StatusDot } from './styled';
 
 class TeamView extends Component {
@@ -66,24 +67,8 @@ class TeamView extends Component {
   }
 }
 
-TeamView.title = date => moment(date).format('MMMM YYYY');
-
-TeamView.navigate = (date, action) => {
-  switch (action) {
-    case 'PREV':
-      return moment(date)
-        .subtract(1, 'month')
-        .toDate();
-
-    case 'NEXT':
-      return moment(date)
-        .add(1, 'month')
-        .toDate();
-
-    default:
-      return date;
-  }
-};
+TeamView.title = dateFormat;
+TeamView.navigate = monthToMonth;
 
 TeamView.propTypes = {
   events: PT.array,

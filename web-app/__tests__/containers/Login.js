@@ -11,6 +11,17 @@ jest.mock('../../src/services/userService');
 const history = createMemoryHistory.default('/');
 
 describe('Login Container', () => {
+
+  it('handleChange sets state to correct target', async () => {
+    const Container = loginContainer(Login);
+    const wrapper = shallow(<Container history={ history }/>);
+
+    let event = { target: { name: 'fakeState', value: 'abcd' } };
+    wrapper.instance().handleChange(event);
+
+    expect(wrapper.state('fakeState')).toEqual('abcd');
+  }); 
+
   it('pushes \'/\' to props.history', async () => {
     var historySpy = jest.spyOn(history, 'push');
     
@@ -30,7 +41,7 @@ describe('Login Container', () => {
     wrapper.setState({ email: null, password: null });
 
     await wrapper.instance().handleSubmit({ preventDefault: () => {} });
-    expect(spy).toHaveBeenCalled(); //not working
+    expect(Swal).toHaveBeenCalled(); //not working
   });
 
 }); 

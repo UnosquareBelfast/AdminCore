@@ -3,20 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { HolidayTable, StatusDot } from './styled';
 import { Card } from '../common';
-import holidayStatus from '../../utilities/holidayStatus';
-
-const statusToText = status => {
-  switch (status) {
-    case holidayStatus.PENDING:
-      return 'Pending';
-    case holidayStatus.APPROVED:
-      return 'Approved';
-    case holidayStatus.REJECTED:
-      return 'Rejected';
-    default:
-      break;
-  }
-};
+import  { statusText } from '../../utilities/holidayStatus';
 
 export const AllHolidays = ({ holidays }) => {
   return (
@@ -37,7 +24,7 @@ export const AllHolidays = ({ holidays }) => {
               <tr key={holidayId}>
                 <td>
                   <StatusDot status={holidayStatusId} />
-                  {statusToText(holidayStatusId)}
+                  {statusText[holidayStatusId]}
                 </td>
                 <td>{`${forename} ${surname}`}</td>
                 <td>{`${date[2]}/${date[1]}/${date[0]}`}</td>

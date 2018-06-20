@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import moment from 'moment';
 import { CreateUser } from '../../src/components';
 import createUserContainer from '../../src/components/CreateUser/container';
-import { createUser } from '../../src/services/userService';
 
 jest.mock('../../src/services/userService');
 import * as userService from '../../src/services/userService';
