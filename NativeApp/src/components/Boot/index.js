@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   View,
   ActivityIndicator,
   StyleSheet,
@@ -7,7 +7,9 @@ import {
 
 const BootView = () =>
   <View style={styles.container}>
-    <ActivityIndicator size="small" />
+    <ActivityIndicator
+      size="small"
+    />
   </View>;
 
 const styles = StyleSheet.create({
@@ -17,6 +19,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-    
+
 
 export default BootView;
