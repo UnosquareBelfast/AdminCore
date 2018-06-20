@@ -64,27 +64,27 @@ describe('HolidayList', () => {
   });
 
   it('employee cell should contain employee name', () => {
-    expect(rows.at(1).children().at(1).text()).toEqual('Bob Newton');
-    expect(rows.at(2).children().at(1).text()).toEqual('Jim Bob');
+    expect(rows.at(1).children().at(1).html()).toContain('Bob Newton');
+    expect(rows.at(2).children().at(1).html()).toContain('Jim Bob');
   });
 
   it('status cell should contain appropriate status text', () => {
-    expect(rows.at(1).children().at(0).text()).toContain(statusText[mockHolidays[0].holidayStatusId]);
-    expect(rows.at(2).children().at(0).text()).toContain(statusText[mockHolidays[1].holidayStatusId]);
+    expect(rows.at(1).children().at(0).text()).toContain('<Status />');
+    expect(rows.at(2).children().at(0).text()).toContain('<Status />');
   });
 
   it('start cell should contain formatted date', () => {
-    expect(rows.at(1).children().at(2).text()).toContain(mockHolidays[0].start.format('Do MMM YYYY'));
-    expect(rows.at(2).children().at(2).text()).toContain(mockHolidays[1].start.format('Do MMM YYYY'));
+    expect(rows.at(1).children().at(2).html()).toContain(mockHolidays[0].start.format('Do MMM YYYY'));
+    expect(rows.at(2).children().at(2).html()).toContain(mockHolidays[1].start.format('Do MMM YYYY'));
   });
 
   it('end cell should contain formatted date', () => {
-    expect(rows.at(1).children().at(3).text()).toContain(mockHolidays[0].end.format('Do MMM YYYY'));
-    expect(rows.at(2).children().at(3).text()).toContain(mockHolidays[1].end.format('Do MMM YYYY'));
+    expect(rows.at(1).children().at(3).html()).toContain(mockHolidays[0].end.format('Do MMM YYYY'));
+    expect(rows.at(2).children().at(3).html()).toContain(mockHolidays[1].end.format('Do MMM YYYY'));
   });
 
   it('requested cell should contain formatted date', () => {
-    expect(rows.at(1).children().at(4).text()).toContain(mockHolidays[0].requested.format('Do MMM YYYY'));
-    expect(rows.at(2).children().at(4).text()).toContain(mockHolidays[1].requested.format('Do MMM YYYY'));
+    expect(rows.at(1).children().at(4).html()).toContain(mockHolidays[0].requested.format('Do MMM YYYY'));
+    expect(rows.at(2).children().at(4).html()).toContain(mockHolidays[1].requested.format('Do MMM YYYY'));
   });
 });

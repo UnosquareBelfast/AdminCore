@@ -15,23 +15,6 @@ export const HolidayTable = styled.table`
     text-align: left;
     text-transform:capitalize;
   }
-
-  button {
-    border: none;
-    background: ${props => props.theme.colours.unoBlue};
-    color: white;
-    padding: 3px 10px;
-    margin: 2px 5px 2px 0;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: ${props => props.theme.colours.darkBlue};;
-  }
-
-  }}
-  }
 `;
 
 export const StatusDot = styled.div`
@@ -43,4 +26,22 @@ export const StatusDot = styled.div`
   width: 7px;
   border-radius: 7px;
   background: ${({ theme, status }) => theme.holidayStatus[status]};
+`;
+
+export const ButtonStyle = styled.div`
+  display: inline-block;
+
+  button {
+    border: none;
+    padding: 3px 10px;
+    margin: 2px 5px 2px 0;
+    background: ${props => props.color || props.theme.colours.unoBlue};
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: ${props => props.hoverColor || props.theme.colours.darkBlue};;
+  }
 `;

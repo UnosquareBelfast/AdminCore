@@ -1,8 +1,10 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { HolidayTable, StatusDot } from './styled';
-import { statusText } from '../../utilities/holidayStatus';
+import { HolidayTable } from './styled';
+import generateAction from './ActionButton';
+import generateValue from './TableValues';
+import { theme } from '../../styled';
 
 const buildTableHeaders = (columns) => {
   return columns.reduce((acc, column) => {
@@ -11,29 +13,17 @@ const buildTableHeaders = (columns) => {
 };
 
 const buildTableValues = (columns, holiday) => {
-  const { forename, surname } = holiday.employee;
-  const { holidayId, start, end, requested, holidayStatusId } = holiday;
-
-  const values = {
-    status: <td key={`${holidayId}status`}><StatusDot status={holidayStatusId} />{statusText[holidayStatusId]}</td>,
-    employee: <td key={`${holidayId}employee`}>{`${forename} ${surname}`}</td>,
-    start: <td key={`${holidayId}start}`}>{start.format('Do MMM YYYY')}</td>,
-    end: <td key={`${holidayId}end}`}>{end.format('Do MMM YYYY')}</td>,
-    requested: <td key={`${holidayId}requested`}>{requested.format('Do MMM YYYY')}</td>,
-  };
-
   return columns.reduce((acc, column) => {
-    return acc.concat(values[column]);
+    return acc.concat(generateValue(holiday, column));
   }, []);
 };
 
 const buildTableActions = (props, holiday) => {
   const {actions, approveHoliday, rejectHoliday } = props;
-  const { holidayId } = holiday;
 
   const values = {
-    approve: <button key={`${holidayId}approve`} onClick={() => approveHoliday(holiday)}>Approve</button>,
-    reject: <button key={`${holidayId}reject`} onClick={() => rejectHoliday(holiday)}>Reject</button>,
+    approve: generateAction(holiday, approveHoliday, 'Approve'),
+    reject: generateAction(holiday, rejectHoliday, 'Reject', theme.colours.red, theme.colours.darkRed),
   };
 
   return actions.reduce((acc, action) => {
