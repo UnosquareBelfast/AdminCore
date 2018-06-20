@@ -1,5 +1,6 @@
-import { AsyncStorage } from 'react-native';
 import axios from 'axios';
+import deviceStorage from '../services/deviceStorage';
+
 
 //Use http://10.0.2.2:8081/ on android emulator
 const baseURL = process.env.DOMAIN;
@@ -10,9 +11,12 @@ const instance = axios.create({
 });
 
 
-instance.interceptors.request.use(function(config) {
-  config.headers.Authorization = `Bearer ${AsyncStorage.getItem('id_token')}`;
-  return config;
-});
+instance.interceptors.request.use(
+  async (config) => {
+    config.headers.Authorization = `Bearer ${await deviceStorage.getItem('id_token')}`;
+    return config;
+  },
+  error => Promise.reject(error)
+);
 
 export default instance;
