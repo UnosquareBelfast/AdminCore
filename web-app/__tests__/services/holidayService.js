@@ -11,7 +11,7 @@ import {
 } from '../../src/services/holidayService';
 
 afterAll(() => {
-  mock.restore();
+  mock.reset();
 });
 
 describe('Requests', () => {

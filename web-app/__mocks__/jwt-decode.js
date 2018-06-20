@@ -1,6 +1,6 @@
 const myMock = function(item) {
-  if (item === '123') {
-    return '123';
+  if (item == 987654321) {
+    return { sub: 1234 };
   }
   if (item < Date.now() / 1000) {
     return { exp: item };

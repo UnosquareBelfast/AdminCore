@@ -1,14 +1,15 @@
 import * as currentUser from '../../src/utilities/currentUser';
 
 beforeAll(() => {
-  localStorage.setItem('id_token', 123);
+  localStorage.setItem('id_token', 987654321);
   localStorage.setItem('user_id', 1);
 });
 
 describe('Current User', () => {
-  it('getProfile returns id_token from localStorage', () => {
+  it('getProfile returns decoded id_token from localStorage', () => {
     const value = currentUser.getProfile();
-    expect(value).toEqual('123');
+    expect(value).toHaveProperty('sub');
+    expect(value.sub).toEqual(1234);
   });
 
   it('isLoggedIn returns true if token is not expired and id_token is set', () => {

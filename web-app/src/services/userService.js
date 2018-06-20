@@ -8,7 +8,7 @@ export const userLogin = (email, password) => {
       const token = response.data.accessToken;
       let userData = decode(token);
       localStorage.setItem('id_token', token);
-      localStorage.setItem('user_id', userData.sub);
+      localStorage.setItem('user_igit d', userData.sub);
     });
 };
 
