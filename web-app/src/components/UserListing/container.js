@@ -8,6 +8,7 @@ export default Wrapped =>
   class extends Component {
     static propTypes = {
       users: PT.array,
+      history: PT.object,
     };
 
     constructor(props) {
@@ -40,21 +41,15 @@ export default Wrapped =>
         );
     };
 
-    editUser = user => {
-      console.log('EDIT', user);
-    };
-
-    viewHolidays = user => {
-      console.log('VIEW HOLIDAYS', user);
-      // Navigate to page with holiday listings for this user
+    viewUser = userId => {
+      this.props.history.push(`/user/${userId}`);
     };
 
     render() {
       return (
         <Wrapped
           archive={this.archiveUser}
-          edit={this.editUser}
-          ViewHolidays={this.viewHolidays}
+          viewUser={this.viewUser}
           {...this.props}
           users={this.state.users}
         />
