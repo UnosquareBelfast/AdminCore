@@ -9,15 +9,21 @@ const HomeView = (props) =>
       onPress={props.handleLogout}
       title="Logout"
     />
+
     <CalendarList
       style={styles.calendar}
-      pagingEnabled
+      markedDates={props.takenHolidays}
+      markingType={'period'}
+      theme={{
+        todayTextColor: '#00adf5',
+      }}
     />
   </View>;
 
 
 HomeView.propTypes = {
   handleLogout: PT.func,
+  takenHolidays: PT.object,
 };
 
 const styles = StyleSheet.create({
