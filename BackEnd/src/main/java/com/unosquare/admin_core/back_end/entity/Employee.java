@@ -20,7 +20,7 @@ public class Employee implements java.io.Serializable {
     @Id
     @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq1")
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employeeSeq")
-    @Column(name = "employee_id", unique = true, nullable = false)
+    @Column(name = "employee_id", unique = true, insertable = false, nullable = false)
     private int employeeId;
 
     private String forename;
@@ -67,18 +67,18 @@ public class Employee implements java.io.Serializable {
     }
 
     public Employee(String forename, String surname, String email,
-                    int employeeRoleId,
-                    int statusId,
+                    EmployeeRole employeeRole,
+                    EmployeeStatus status,
                     LocalDate startDate,
-                    int countryId,
+                    Country country,
                     String password) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeRole = new EmployeeRole(employeeRoleId);
-        this.employeeStatus = new EmployeeStatus(statusId);
+        this.employeeRole = employeeRole;
+        this.employeeStatus = status;
         this.startDate = startDate;
-        this.country = new Country(countryId);
+        this.country = country;
         this.password = password;
     }
 }

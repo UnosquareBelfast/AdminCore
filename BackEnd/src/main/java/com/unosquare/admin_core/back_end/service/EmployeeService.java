@@ -1,8 +1,10 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
+import com.unosquare.admin_core.back_end.entity.Country;
 import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.enums.Country;
+import com.unosquare.admin_core.back_end.entity.EmployeeRole;
+import com.unosquare.admin_core.back_end.entity.EmployeeStatus;
 import com.unosquare.admin_core.back_end.payload.LoginRequest;
 import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
@@ -16,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +32,9 @@ public class EmployeeService {
 
     @Autowired
     HolidayRepository holidayRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -90,7 +97,7 @@ public class EmployeeService {
         return employeeRepository.findByStartDateBefore(startDate);
     }
 
-    public List<Employee> findByCountry(Country country) {
+    public List<Employee> findByCountry(com.unosquare.admin_core.back_end.enums.Country country) {
         return employeeRepository.findByCountry(new com.unosquare.admin_core.back_end.entity.Country(country.getCountryId()));
     }
 
@@ -100,9 +107,12 @@ public class EmployeeService {
 
     public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
         // Creating USER's account
+
+
+
         Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-                signUpRequest.getEmail(), signUpRequest.getEmployeeRoleId(), signUpRequest.getStatusId(),
-                signUpRequest.getStartDate(), signUpRequest.getCountryId(), signUpRequest.getPassword());
+                signUpRequest.getEmail(), entityManager.getReference(EmployeeRole.class, signUpRequest.getEmployeeRoleId()), entityManager.getReference(EmployeeStatus.class, signUpRequest.getStatusId()),
+                signUpRequest.getStartDate(), entityManager.getReference(Country.class, signUpRequest.getCountryId()), signUpRequest.getPassword());
 
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
 
