@@ -68,7 +68,7 @@ const DashboardContainer = Wrapped =>
       var eventsForCalendar = events.map(hol => {
         return {
           id: hol.holidayId,
-          title: `${hol.employee.forename} - Annual Leave`,
+          title: `${hol.employee.forename} ${hol.employee.surname}`,
           allDay: !hol.halfDay,
           isHalfday: hol.halfDay,
           isWFH: false,

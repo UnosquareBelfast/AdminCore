@@ -1,7 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import { PropTypes as PT } from 'prop-types';
 import { Button, Modal } from '../common';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/fontawesome-free-solid';
+import { StyleContainer, BookingStatus, BookingInputs, StatusDot, ButtonWrap } from './styled';
+import { statusText } from '../../utilities/holidayStatus';
 
 const BookingModal = props => {
   const {
@@ -19,12 +23,12 @@ const BookingModal = props => {
 
   const getActions = () => (
     booking.title ?
-      <Fragment>
-        <Button id="updateHolidayBtn" onClick={updateHoliday} label={'Update'} style={{marginBottom: 5}}/>
-        <Button id="cancelHolidayBtn" onClick={cancelHoliday} label={'Cancel Request'}/>
-      </Fragment>
+      <ButtonWrap>
+        <Button id="updateHolidayBtn" onClick={updateHoliday} label={'Update'} />
+        <Button id="cancelHolidayBtn" onClick={cancelHoliday} label={'Cancel Booking'} />
+      </ButtonWrap>
       :
-      <Button id="requestHolidayBtn" onClick={requestHoliday} label={booking.isWFH ? 'Add' : 'Request'}/>
+      <Button id="requestHolidayBtn" onClick={requestHoliday} label={booking.isWFH ? 'Add' : 'Request'} />
   );
 
   const getTotalDays = () => {
@@ -32,33 +36,53 @@ const BookingModal = props => {
     return booking.duration / (booking.isHalfday ? 2 : 1);
   };
 
+  console.log(booking);
+
   return (showModal &&
     <Modal>
-      <span id="closeBookingModal" onClick={closeModal}>Close</span>
-      <h1>Booking</h1>
-      {booking.title && <h3>Employee: {booking.title}</h3>}
-      {booking.title && <h3>Status: {booking.holidayStatusDescription}</h3>}
-      <p>Starting:</p>
-      <DatePicker selected={booking.start} onChange={changeStart} />
-      <p>Ending:</p>
-      <DatePicker selected={booking.end} onChange={changeEnd} />
-      <label>
-        <input
-          type="checkbox"
-          checked={booking.isHalfday}
-          onChange={changeHalfday}
-          disabled={booking.duration > 1}/>
-          Half-Day
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          checked={booking.isWFH}
-          onChange={changeWFH} />
-          WFH
-      </label>
-      <p>Total days: {getTotalDays()}</p>
-      {getActions()}
+      <StyleContainer>
+        <span id="closeBookingModal" onClick={closeModal}>
+          <FontAwesomeIcon icon={faTimes}/> Close
+        </span>
+        <h1>Booking</h1>
+        {booking.title && <BookingStatus>
+          <h4>{booking.title}</h4>
+          <span>
+            <StatusDot status={booking.holidayStatusId}/>
+            {statusText[booking.holidayStatusId]}
+          </span>
+        </BookingStatus>}
+        <BookingInputs>
+          <div>
+            <label>Starting:</label>
+            <DatePicker selected={booking.start} onChange={changeStart} />
+          </div>
+          <div>
+            <label>Ending:</label>
+            <DatePicker selected={booking.end} onChange={changeEnd} />
+          </div>
+        </BookingInputs>
+        <form>
+          <label>
+            <input
+              type="checkbox"
+              checked={booking.isHalfday}
+              onChange={changeHalfday}
+              disabled={booking.duration > 1 || booking.isWFH}/>
+              Half-Day
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              disabled={booking.isHalfday}
+              checked={booking.isWFH && !booking.isHalfDay}
+              onChange={changeWFH} />
+              WFH
+          </label>
+        </form>
+        <p>Total days: {getTotalDays()}</p>
+        {getActions()}
+      </StyleContainer>
     </Modal>
   );
 };
