@@ -12,8 +12,7 @@ const deviceStorage = {
 
   async getItem(key) {
     try {
-      const value = await AsyncStorage.getItem(key);
-      return value;
+      return await AsyncStorage.getItem(key);
     } catch (error) {
       console.log('AsyncStorage Error: ' + error.message);
     }

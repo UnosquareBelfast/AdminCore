@@ -48,15 +48,13 @@ export default Container =>
     }
 
     formateDate = (data) => {
-      const arrayToObject =
-        data.reduce((obj, item) => {
-          const date = new moment(item.date, 'YYYY-MM-DD');
-          const formatDate = date.format('YYYY-MM-DD');
-          const holidayStatus = this.holidayStatus(item.holidayStatusId);
-          obj[formatDate] = {textColor: 'white', color: holidayStatus};
-          return obj;
-        }, {});
-      return arrayToObject;
+      return data.reduce((obj, item) => {
+        const date = new moment(item.date, 'YYYY-MM-DD');
+        const formatDate = date.format('YYYY-MM-DD');
+        const holidayStatus = this.holidayStatus(item.holidayStatusId);
+        obj[formatDate] = {textColor: 'white', color: holidayStatus};
+        return obj;
+      }, {});
     }
 
     holidayStatus = (status) => {
