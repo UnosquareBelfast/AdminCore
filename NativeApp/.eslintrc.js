@@ -13,7 +13,7 @@ module.exports = {
       "mount":true,
     },
     "parser": "babel-eslint",
-    "extends": "eslint:recommended",
+    "extends": "airbnb",
     "parserOptions": {
       "ecmaFeatures": {
         "experimentalObjectRestSpread": true,
@@ -49,6 +49,9 @@ module.exports = {
         "error",
         "always"
       ],
+      "no-use-before-define": ["error", { "variables": false }],
+      "eol-last": 2,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "keyword-spacing": 1,
       "block-spacing": 1,
       "no-console": 2,
@@ -73,4 +76,3 @@ module.exports = {
       "react/sort-comp": 2,
     }
   };
-  

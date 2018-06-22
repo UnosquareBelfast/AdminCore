@@ -5,12 +5,13 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const BootView = () =>
+const BootView = () => (
   <View style={styles.container}>
     <ActivityIndicator
       size="small"
     />
-  </View>;
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
