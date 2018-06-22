@@ -1,29 +1,36 @@
 import React from 'react';
-import {PropTypes as PT} from 'prop-types';
+import { PropTypes as PT } from 'prop-types';
 import { View, Button, StyleSheet } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
 
-const HomeView = (props) =>
-  <View style={styles.container}>
-    <Button
-      onPress={props.handleLogout}
-      title="Logout"
-    />
+const HomeView = (props) => {
+  const { handleLogout, takenHolidays } = props;
 
-    <CalendarList
-      style={styles.calendar}
-      markedDates={props.takenHolidays}
-      markingType={'period'}
-      theme={{
-        todayTextColor: '#00adf5',
-      }}
-    />
-  </View>;
+  return (
+    <View style={styles.container}>
+      <Button
+        onPress={handleLogout}
+        title="Logout"
+      />
 
+      <CalendarList
+        style={styles.calendar}
+        markedDates={takenHolidays}
+        markingType="period"
+        theme={{
+          todayTextColor: '#00adf5',
+        }}
+      />
+    </View>
+  );
+};
 
 HomeView.propTypes = {
-  handleLogout: PT.func,
-  takenHolidays: PT.object,
+  handleLogout: PT.func.isRequired,
+  takenHolidays: PT.shape({
+    text: PT.string,
+    color: PT.string,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({

@@ -4,7 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userLogout } from '../../utilities/currentUser';
 import { getHolidays } from '../../services/holidayService';
-import deviceStorage  from '../../services/deviceStorage';
+import deviceStorage from '../../services/deviceStorage';
 
 export default Container =>
   class extends Component {
@@ -15,7 +15,7 @@ export default Container =>
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidays: null,
+        takenHolidays: {},
       };
     }
 
