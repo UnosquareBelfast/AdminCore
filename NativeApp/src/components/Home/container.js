@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
-import { getHolidays } from '../../services/holidayService';
-import deviceStorage from '../../services/deviceStorage';
+import { getUserHolidays } from '../../services/userService';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -24,32 +22,8 @@ export default Container => class extends Component {
     }
 
     componentDidMount() {
-      try {
-        deviceStorage.getItem('user_id')
-          .then((id) => {
-            this.setState({ id });
-            this.getTakenHolidays();
-          });
-      } catch (e) {
-        Alert.alert(
-          'Could not user id',
-          e.message,
-        );
-      }
-    }
-
-    getTakenHolidays = () => {
-      const { id } = this.state;
-      getHolidays(id)
-        .then((res) => {
-          this.setState({ takenHolidays: this.formatDate(res.data) });
-        })
-        .catch((e) => {
-          Alert.alert(
-            'Could not taken holidays',
-            e.message,
-          );
-        });
+      getUserHolidays()
+        .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
     }
 
     formatDate = data => data.reduce((obj, item) => {

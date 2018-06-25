@@ -50,7 +50,6 @@ module.exports = {
         "always"
       ],
       "no-use-before-define": ["error", { "variables": false }],
-      //"no-multiple-empty-lines": [2, {'max': 2, 'maxEOF': 1}],
       "eol-last": 2,
       "no-param-reassign": [2, { "props": false }],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
