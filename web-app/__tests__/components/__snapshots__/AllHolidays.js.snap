@@ -5,49 +5,35 @@ exports[`AllHolidays renders correctly 1`] = `
   <h3>
     All Holidays
   </h3>
-  <styled.table>
-    <tbody>
-      <tr>
-        <th>
-          Status
-        </th>
-        <th>
-          Employee
-        </th>
-        <th>
-          Date
-        </th>
-        <th>
-          Created
-        </th>
-      </tr>
-      <tr
-        key="123"
-      >
-        <td>
-          <styled.div
-            status={1}
-          />
-          Pending
-        </td>
-        <td>
-          Joe Bloggs
-        </td>
-        <td>
-          2018/1/1
-        </td>
-        <td>
-          undefined/undefined/undefined
-        </td>
-        <td>
-          <button
-            onClick={[Function]}
-          >
-            Edit
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </styled.table>
+  <_class
+    actions={Array []}
+    columns={
+      Array [
+        "status",
+        "employee",
+        "startDate",
+        "endDate",
+        "requestedDate",
+      ]
+    }
+    holidays={
+      Array [
+        Object {
+          "date": Array [
+            1,
+            1,
+            2018,
+          ],
+          "dateCreated": 2018-06-25T15:21:08.823Z,
+          "employee": Object {
+            "forename": "Joe",
+            "surname": "Bloggs",
+          },
+          "holidayId": 123,
+          "holidayStatusId": 1,
+        },
+      ]
+    }
+  />
 </Card>
 `;

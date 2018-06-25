@@ -79,7 +79,7 @@ const BookingModal = props => {
               WFH
           </label>
         </form>
-        <p>Total days: {getTotalDays()}</p>
+        <p id="totalDaysToBook">Total days: {getTotalDays()}</p>
         {getActions()}
       </StyleContainer>
     </Modal>

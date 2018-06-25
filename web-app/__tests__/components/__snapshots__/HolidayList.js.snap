@@ -1,0 +1,385 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HolidayList Should match snapshot with actions and columns supplied 1`] = `
+<ReactTable
+  AggregatedComponent={[Function]}
+  ExpanderComponent={[Function]}
+  FilterComponent={[Function]}
+  LoadingComponent={[Function]}
+  NoDataComponent={[Function]}
+  PadRowComponent={[Function]}
+  PaginationComponent={[Function]}
+  PivotValueComponent={[Function]}
+  ResizerComponent={[Function]}
+  TableComponent={[Function]}
+  TbodyComponent={[Function]}
+  TdComponent={[Function]}
+  TfootComponent={[Function]}
+  ThComponent={[Function]}
+  TheadComponent={[Function]}
+  TrComponent={[Function]}
+  TrGroupComponent={[Function]}
+  aggregatedKey="_aggregated"
+  className=""
+  collapseOnDataChange={true}
+  collapseOnPageChange={true}
+  collapseOnSortingChange={true}
+  column={
+    Object {
+      "Aggregated": undefined,
+      "Cell": undefined,
+      "Expander": undefined,
+      "Filter": undefined,
+      "Footer": undefined,
+      "Header": undefined,
+      "Pivot": undefined,
+      "PivotValue": undefined,
+      "aggregate": undefined,
+      "className": "",
+      "filterAll": false,
+      "filterMethod": undefined,
+      "filterable": undefined,
+      "footerClassName": "",
+      "footerStyle": Object {},
+      "getFooterProps": [Function],
+      "getHeaderProps": [Function],
+      "getProps": [Function],
+      "headerClassName": "",
+      "headerStyle": Object {},
+      "minWidth": 100,
+      "resizable": undefined,
+      "show": true,
+      "sortMethod": undefined,
+      "sortable": undefined,
+      "style": Object {},
+    }
+  }
+  columns={
+    Array [
+      Object {
+        "Header": "Status",
+        "accessor": [Function],
+        "filterable": false,
+        "id": "status",
+        "sortable": false,
+      },
+      Object {
+        "Header": "Employee",
+        "accessor": [Function],
+        "id": "employee",
+        "sortMethod": [Function],
+      },
+      Object {
+        "Header": "Start Date",
+        "accessor": [Function],
+        "id": "startDate",
+      },
+      Object {
+        "Header": "End Date",
+        "accessor": [Function],
+        "id": "endDate",
+      },
+      Object {
+        "Header": "Requested Date",
+        "accessor": [Function],
+        "id": "requestedDate",
+      },
+    ]
+  }
+  data={
+    Array [
+      Object {
+        "employee": Object {
+          "forename": "Bob",
+          "surname": "Newton",
+        },
+        "end": "2018-04-03T23:00:00.000Z",
+        "holidayId": 0,
+        "holidayStatusId": 1,
+        "requested": "2018-06-23T23:00:00.000Z",
+        "start": "2018-02-02T00:00:00.000Z",
+      },
+      Object {
+        "employee": Object {
+          "forename": "Jim",
+          "surname": "Bob",
+        },
+        "end": "2018-12-11T00:00:00.000Z",
+        "holidayId": 1,
+        "holidayStatusId": 2,
+        "requested": "2018-06-23T23:00:00.000Z",
+        "start": null,
+      },
+    ]
+  }
+  defaultExpanded={Object {}}
+  defaultFilterMethod={[Function]}
+  defaultFiltered={Array []}
+  defaultPageSize={10}
+  defaultResized={Array []}
+  defaultSortDesc={false}
+  defaultSortMethod={[Function]}
+  defaultSorted={Array []}
+  expanderDefaults={
+    Object {
+      "filterable": false,
+      "resizable": false,
+      "sortable": false,
+      "width": 35,
+    }
+  }
+  filterable={true}
+  freezeWhenExpanded={false}
+  getLoadingProps={[Function]}
+  getNoDataProps={[Function]}
+  getPaginationProps={[Function]}
+  getProps={[Function]}
+  getResizerProps={[Function]}
+  getTableProps={[Function]}
+  getTbodyProps={[Function]}
+  getTdProps={[Function]}
+  getTfootProps={[Function]}
+  getTfootTdProps={[Function]}
+  getTfootTrProps={[Function]}
+  getTheadFilterProps={[Function]}
+  getTheadFilterThProps={[Function]}
+  getTheadFilterTrProps={[Function]}
+  getTheadGroupProps={[Function]}
+  getTheadGroupThProps={[Function]}
+  getTheadGroupTrProps={[Function]}
+  getTheadProps={[Function]}
+  getTheadThProps={[Function]}
+  getTheadTrProps={[Function]}
+  getTrGroupProps={[Function]}
+  getTrProps={[Function]}
+  groupedByPivotKey="_groupedByPivot"
+  indexKey="_index"
+  loading={false}
+  loadingText="Loading..."
+  multiSort={true}
+  nestingLevelKey="_nestingLevel"
+  nextText="Next"
+  noDataText="No rows found"
+  ofText="of"
+  onFetchData={[Function]}
+  originalKey="_original"
+  pageSizeOptions={
+    Array [
+      5,
+      10,
+      20,
+      25,
+      50,
+      100,
+    ]
+  }
+  pageText="Page"
+  pivotDefaults={Object {}}
+  pivotIDKey="_pivotID"
+  pivotValKey="_pivotVal"
+  previousText="Previous"
+  resizable={true}
+  resolveData={[Function]}
+  rowsText="rows"
+  showPageJump={true}
+  showPageSizeOptions={true}
+  showPagination={true}
+  showPaginationBottom={true}
+  showPaginationTop={false}
+  sortable={true}
+  style={Object {}}
+  subRowsKey="_subRows"
+/>
+`;
+
+exports[`HolidayList Should match snapshot with no actions supplied 1`] = `
+<ReactTable
+  AggregatedComponent={[Function]}
+  ExpanderComponent={[Function]}
+  FilterComponent={[Function]}
+  LoadingComponent={[Function]}
+  NoDataComponent={[Function]}
+  PadRowComponent={[Function]}
+  PaginationComponent={[Function]}
+  PivotValueComponent={[Function]}
+  ResizerComponent={[Function]}
+  TableComponent={[Function]}
+  TbodyComponent={[Function]}
+  TdComponent={[Function]}
+  TfootComponent={[Function]}
+  ThComponent={[Function]}
+  TheadComponent={[Function]}
+  TrComponent={[Function]}
+  TrGroupComponent={[Function]}
+  aggregatedKey="_aggregated"
+  className=""
+  collapseOnDataChange={true}
+  collapseOnPageChange={true}
+  collapseOnSortingChange={true}
+  column={
+    Object {
+      "Aggregated": undefined,
+      "Cell": undefined,
+      "Expander": undefined,
+      "Filter": undefined,
+      "Footer": undefined,
+      "Header": undefined,
+      "Pivot": undefined,
+      "PivotValue": undefined,
+      "aggregate": undefined,
+      "className": "",
+      "filterAll": false,
+      "filterMethod": undefined,
+      "filterable": undefined,
+      "footerClassName": "",
+      "footerStyle": Object {},
+      "getFooterProps": [Function],
+      "getHeaderProps": [Function],
+      "getProps": [Function],
+      "headerClassName": "",
+      "headerStyle": Object {},
+      "minWidth": 100,
+      "resizable": undefined,
+      "show": true,
+      "sortMethod": undefined,
+      "sortable": undefined,
+      "style": Object {},
+    }
+  }
+  columns={
+    Array [
+      Object {
+        "Header": "Status",
+        "accessor": [Function],
+        "filterable": false,
+        "id": "status",
+        "sortable": false,
+      },
+      Object {
+        "Header": "Employee",
+        "accessor": [Function],
+        "id": "employee",
+        "sortMethod": [Function],
+      },
+      Object {
+        "Header": "Start Date",
+        "accessor": [Function],
+        "id": "startDate",
+      },
+      Object {
+        "Header": "End Date",
+        "accessor": [Function],
+        "id": "endDate",
+      },
+      Object {
+        "Header": "Requested Date",
+        "accessor": [Function],
+        "id": "requestedDate",
+      },
+    ]
+  }
+  data={
+    Array [
+      Object {
+        "employee": Object {
+          "forename": "Bob",
+          "surname": "Newton",
+        },
+        "end": "2018-04-03T23:00:00.000Z",
+        "holidayId": 0,
+        "holidayStatusId": 1,
+        "requested": "2018-06-23T23:00:00.000Z",
+        "start": "2018-02-02T00:00:00.000Z",
+      },
+      Object {
+        "employee": Object {
+          "forename": "Jim",
+          "surname": "Bob",
+        },
+        "end": "2018-12-11T00:00:00.000Z",
+        "holidayId": 1,
+        "holidayStatusId": 2,
+        "requested": "2018-06-23T23:00:00.000Z",
+        "start": null,
+      },
+    ]
+  }
+  defaultExpanded={Object {}}
+  defaultFilterMethod={[Function]}
+  defaultFiltered={Array []}
+  defaultPageSize={10}
+  defaultResized={Array []}
+  defaultSortDesc={false}
+  defaultSortMethod={[Function]}
+  defaultSorted={Array []}
+  expanderDefaults={
+    Object {
+      "filterable": false,
+      "resizable": false,
+      "sortable": false,
+      "width": 35,
+    }
+  }
+  filterable={true}
+  freezeWhenExpanded={false}
+  getLoadingProps={[Function]}
+  getNoDataProps={[Function]}
+  getPaginationProps={[Function]}
+  getProps={[Function]}
+  getResizerProps={[Function]}
+  getTableProps={[Function]}
+  getTbodyProps={[Function]}
+  getTdProps={[Function]}
+  getTfootProps={[Function]}
+  getTfootTdProps={[Function]}
+  getTfootTrProps={[Function]}
+  getTheadFilterProps={[Function]}
+  getTheadFilterThProps={[Function]}
+  getTheadFilterTrProps={[Function]}
+  getTheadGroupProps={[Function]}
+  getTheadGroupThProps={[Function]}
+  getTheadGroupTrProps={[Function]}
+  getTheadProps={[Function]}
+  getTheadThProps={[Function]}
+  getTheadTrProps={[Function]}
+  getTrGroupProps={[Function]}
+  getTrProps={[Function]}
+  groupedByPivotKey="_groupedByPivot"
+  indexKey="_index"
+  loading={false}
+  loadingText="Loading..."
+  multiSort={true}
+  nestingLevelKey="_nestingLevel"
+  nextText="Next"
+  noDataText="No rows found"
+  ofText="of"
+  onFetchData={[Function]}
+  originalKey="_original"
+  pageSizeOptions={
+    Array [
+      5,
+      10,
+      20,
+      25,
+      50,
+      100,
+    ]
+  }
+  pageText="Page"
+  pivotDefaults={Object {}}
+  pivotIDKey="_pivotID"
+  pivotValKey="_pivotVal"
+  previousText="Previous"
+  resizable={true}
+  resolveData={[Function]}
+  rowsText="rows"
+  showPageJump={true}
+  showPageSizeOptions={true}
+  showPagination={true}
+  showPaginationBottom={true}
+  showPaginationTop={false}
+  sortable={true}
+  style={Object {}}
+  subRowsKey="_subRows"
+/>
+`;
