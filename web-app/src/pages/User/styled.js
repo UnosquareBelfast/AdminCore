@@ -22,7 +22,7 @@ export const Container = styled.div`
     margin-bottom: 5px;
   }
   h2 {
-    margin: 0;
+    margin: 0 0 1rem 0;
   }
   p {
     margin-top: 0;

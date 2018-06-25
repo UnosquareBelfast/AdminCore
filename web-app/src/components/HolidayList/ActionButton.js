@@ -21,14 +21,4 @@ ActionButton.propTypes = {
   hoverColor: PT.string,
 };
 
-const generateAction = (holiday, action, label, color, hoverColor) => 
-  <ActionButton
-    key={`${holiday.holidayId}${label}`}
-    holiday={holiday}
-    action={action}
-    label={label}
-    color={color}
-    hoverColor={hoverColor}
-  />;
-
-export default generateAction;
+export default ActionButton;

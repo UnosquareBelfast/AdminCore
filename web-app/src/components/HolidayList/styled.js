@@ -33,12 +33,13 @@ export const ButtonStyle = styled.div`
 
   button {
     border: none;
-    padding: 3px 10px;
+    padding: 5px 10px;
     margin: 2px 5px 2px 0;
     background: ${props => props.color || props.theme.colours.unoBlue};
     color: white;
     border-radius: 3px;
     cursor: pointer;
+    text-transform: capitalize;
   }
 
   button:hover {
