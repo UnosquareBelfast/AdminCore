@@ -1,11 +1,13 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import ReactTable from 'react-table';
 import TableValues  from './TableValues';
 import ActionButton from './ActionButton';
 import { theme } from '../../styled';
+import { ActionWrap } from './styled';
 import moment from 'moment';
+import { isEmpty } from 'lodash';
 
 const buildActions = (holiday, actions) => {
   const actionComponents = [];
@@ -23,7 +25,7 @@ const buildActions = (holiday, actions) => {
     );
   }
 
-  return <Fragment>{actionComponents}</Fragment>;
+  return <ActionWrap>{actionComponents}</ActionWrap>;
 };
 
 
@@ -31,6 +33,8 @@ const buildColumns = (columns, actions) => {
   const formattedColumns =  columns.reduce((acc, column) => {
     return acc.concat(TableValues[column]);
   }, []);
+
+  if (isEmpty(actions)) return formattedColumns;
 
   formattedColumns.push({
     id: 'actions',
@@ -64,7 +68,6 @@ const renderTable = (holidays, columns, actions) => {
 
 
 export const HolidayList = (props) => {
-  console.log(props);
   const {holidays, columns, actions} = props;
   return (
     !holidays || holidays.length === 0
@@ -76,7 +79,7 @@ export const HolidayList = (props) => {
 HolidayList.propTypes = {
   holidays: PT.array,
   columns: PT.array.isRequired,
-  actions: PT.object.isRequired,
+  actions: PT.object,
 };
 
 export default container(HolidayList);

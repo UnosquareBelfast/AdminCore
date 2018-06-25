@@ -26,7 +26,7 @@ const employee = {
     const aReverse = a.split('').reverse().join('');
     const bReverse = b.split('').reverse().join('');
     return aReverse > bReverse ? 1 : -1;
-  }
+  },
 };
 
 const startDate = {

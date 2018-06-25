@@ -1,21 +1,5 @@
 import styled from 'styled-components';
 
-export const HolidayTable = styled.table`
-  width: 100%;
-
-  tr:nth-child(even) {
-    background-color: ${props => props.theme.colours.lightgrey};
-  }
-
-  tr td:last-of-type {
-    text-align: right;
-  }
-
-  th {
-    text-align: left;
-    text-transform:capitalize;
-  }
-`;
 
 export const StatusDot = styled.div`
   display: inline-block;
@@ -26,6 +10,10 @@ export const StatusDot = styled.div`
   width: 7px;
   border-radius: 7px;
   background: ${({ theme, status }) => theme.holidayStatus[status]};
+`;
+
+export const ActionWrap = styled.div`
+  text-align: right;
 `;
 
 export const ButtonStyle = styled.div`

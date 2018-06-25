@@ -73,7 +73,7 @@ const DashboardContainer = Wrapped =>
           isHalfday: hol.halfDay,
           isWFH: false,
           ...hol,
-          holidayStatusId: Math.random() < 0.3 ? 4 : hol.holidayStatusId,
+          holidayStatusId: hol.holidayStatusId,
         };
       });
       return eventsForCalendar;

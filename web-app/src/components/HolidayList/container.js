@@ -12,9 +12,14 @@ export default Wrapped =>
       actions: PT.array,
     }
 
+    static defaultProps = {
+      holidays: [],
+      actions: [],
+    }
+
     constructor(props) {
       super(props);
-      this.state = { holidays: [] };
+      this.state = { holidays: props.holidays };
     }
 
     componentWillUpdate(nextProps) {

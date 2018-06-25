@@ -41,10 +41,10 @@ export default Wrapped => {
     };
 
     sortToHolidays = events => {
-      const sortedEvents = [[], [], []];
+      const sortedEvents = [];
       events.map(event => {
         if (event.holidayStatusId !== holidayStatus.WFH) {
-          sortedEvents[event.holidayStatusId - 1].push(event);
+          sortedEvents.push(event);
         }
       });
       return sortedEvents;

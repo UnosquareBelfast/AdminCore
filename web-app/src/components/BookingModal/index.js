@@ -36,7 +36,6 @@ const BookingModal = props => {
     return booking.duration / (booking.isHalfday ? 2 : 1);
   };
 
-  console.log(booking);
 
   return (showModal &&
     <Modal>
