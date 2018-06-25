@@ -52,6 +52,7 @@ module.exports = {
       "no-use-before-define": ["error", { "variables": false }],
       //"no-multiple-empty-lines": [2, {'max': 2, 'maxEOF': 1}],
       "eol-last": 2,
+      "no-param-reassign": [2, { "props": false }],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "keyword-spacing": 1,
       "block-spacing": 1,

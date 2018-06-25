@@ -1,29 +1,23 @@
-import React, { Component } from 'react';
-import {PropTypes as PT} from 'prop-types';
+import React from 'react';
+import { PropTypes as PT } from 'prop-types';
 import BootView from '../components/Boot';
 import { AuthConsumer } from '../utilities/AuthContext';
 
-export default class BootScreen extends Component {
-  static propTypes = {
-    navigation: PT.object,
-  }
+const BootScreen = props => (
+  <AuthConsumer>
+    {
+      ({ token, isLoading }) => (
+        isLoading
+          ? <BootView /> : props.navigation.navigate(token ? 'App' : 'Auth')
+      )
+    }
+  </AuthConsumer>
+);
 
-  constructor(props) {
-    super(props);
-  }
+BootScreen.propTypes = {
+  navigation: PT.shape({
+    navigate: PT.func,
+  }).isRequired,
+};
 
-  render() {
-    return (
-      <AuthConsumer>
-        {
-          ({token, isLoading}) => (
-            isLoading ?
-              <BootView />
-              :
-              this.props.navigation.navigate(token ? 'App' : 'Auth')
-          )
-        }
-      </AuthConsumer>
-    );
-  }
-}
+export default BootScreen;

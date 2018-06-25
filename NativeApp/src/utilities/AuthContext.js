@@ -6,7 +6,7 @@ const AuthContext = React.createContext();
 
 class AuthProvider extends Component {
   static propTypes = {
-    children: PT.object,
+    children: PT.element.isRequired,
   }
 
   constructor(props) {
@@ -20,15 +20,18 @@ class AuthProvider extends Component {
 
   appSession = async () => {
     await deviceStorage.getItem('id_token')
-      .then(token => this.setState({isLoading: false, token: token}));
+      .then(token => this.setState({ isLoading: false, token }));
   }
 
   render() {
+    const { isLoading, token } = this.state;
+    const { children } = this.props;
+
     return (
       <AuthContext.Provider
-        value={{ isLoading: this.state.isLoading, token: this.state.token }}
+        value={{ isLoading, token }}
       >
-        {this.props.children}
+        {children}
       </AuthContext.Provider>
     );
   }

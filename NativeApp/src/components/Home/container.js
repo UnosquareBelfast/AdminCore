@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import moment from 'moment';
 import { userLogout } from '../../utilities/currentUser';
 import { getHolidays } from '../../services/holidayService';
 import deviceStorage from '../../services/deviceStorage';
 
-export default Container =>
-  class extends Component {
+export default Container => class extends Component {
     static propTypes = {
-      navigation: PT.object,
+      navigation: PT.shape({
+        navigate: PT.func,
+      }),
+    }
+
+    static defaultProps = {
+      navigation: {},
     }
 
     constructor(props) {
@@ -22,8 +26,8 @@ export default Container =>
     componentDidMount() {
       try {
         deviceStorage.getItem('user_id')
-          .then(id => {
-            this.setState({id: id});
+          .then((id) => {
+            this.setState({ id });
             this.getTakenHolidays();
           });
       } catch (e) {
@@ -35,11 +39,12 @@ export default Container =>
     }
 
     getTakenHolidays = () => {
-      getHolidays(this.state.id)
-        .then(res => {
-          this.setState({takenHolidays: this.formateDate(res.data)});
+      const { id } = this.state;
+      getHolidays(id)
+        .then((res) => {
+          this.setState({ takenHolidays: this.formatDate(res.data) });
         })
-        .catch(e => {
+        .catch((e) => {
           Alert.alert(
             'Could not taken holidays',
             e.message,
@@ -47,40 +52,40 @@ export default Container =>
         });
     }
 
-    formateDate = (data) => {
-      return data.reduce((obj, item) => {
-        const date = new moment(item.date, 'YYYY-MM-DD');
-        const formatDate = date.format('YYYY-MM-DD');
-        const holidayStatus = this.holidayStatus(item.holidayStatusId);
-        obj[formatDate] = {textColor: 'white', color: holidayStatus};
-        return obj;
-      }, {});
-    }
+    formatDate = data => data.reduce((obj, item) => {
+      const holidayStatus = this.holidayStatus(item.holidayStatusId);
+      obj[item.start] = { textColor: 'white', color: holidayStatus };
+      return obj;
+    }, {});
 
     holidayStatus = (status) => {
       switch (status) {
-        case 1 :
+        case 1:
           return '#ff9b34';
-        case 2 :
+        case 2:
           return '#35c375';
-        case 3 :
+        case 3:
           return '#ff3434';
         case 4:
           return '#3469ff';
+        default:
+          return '#35c375';
       }
     }
 
     handleLogout = () => {
+      const { navigation } = this.props;
       userLogout()
-        .then(this.props.navigation.navigate('Auth'));
+        .then(navigation.navigate('Auth'));
     }
 
     render() {
+      const { takenHolidays } = this.state;
       return (
         <Container
           handleLogout={this.handleLogout}
-          takenHolidays={this.state.takenHolidays}
+          takenHolidays={takenHolidays}
         />
       );
     }
-  };
+};

@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import {PropTypes as PT} from 'prop-types';
+import { PropTypes as PT } from 'prop-types';
 import Login from '../components/Login';
 
 export default class LoginScreen extends Component {
-  static propTypes = {
-    navigation: PT.object,
-  }
-
   static navigationOptions = {
     headerTitle: 'Login',
   };
 
+  static propTypes = {
+    navigation: PT.shape({
+      navigate: PT.func,
+    }).isRequired,
+  }
+
   render() {
+    const { navigation } = this.props;
     return (
-      <Login navigation={this.props.navigation} />
+      <Login navigation={navigation} />
     );
   }
 }

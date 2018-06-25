@@ -1,4 +1,4 @@
 import container from './container';
-import HomeView from './View/';
+import HomeView from './View';
 
 export default container(HomeView);
