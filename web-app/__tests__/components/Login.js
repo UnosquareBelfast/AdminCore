@@ -9,27 +9,9 @@ afterEach(() => {
 
 describe('Login Component', () => {
   it('renders correctly', () => {
-
     const wrapper = shallow(<Login handleChange={mockHandleEvent} />);
     expect(wrapper.exists()).toBe(true);
-
-    let emailInput = wrapper.find('[name="email"]');
-    let passwordInput = wrapper.find('[name="password"]');
-    let submitInput = wrapper.find('[type="submit"]');
-    
-    expect(emailInput.prop('type')).toEqual('text');
-    expect(emailInput.prop('name')).toEqual('email');
-    expect(emailInput.prop('placeholder')).toEqual('Email goes here...');
-    expect(emailInput.prop('onChange')).toEqual(mockHandleEvent);
-
-    expect(passwordInput.prop('type')).toEqual('password');
-    expect(passwordInput.prop('name')).toEqual('password');
-    expect(passwordInput.prop('placeholder')).toEqual('Password goes here...');
-    expect(passwordInput.prop('onChange')).toEqual(mockHandleEvent);
-
-    expect(submitInput.prop('value')).toEqual('SUBMIT');
-    expect(submitInput.prop('type')).toEqual('submit');
-    
+    expect(wrapper).toMatchSnapshot();
   });
   it('onChange of email input calls handleChange', () => {
     const wrapper = shallow(<Login handleChange={mockHandleEvent} />);

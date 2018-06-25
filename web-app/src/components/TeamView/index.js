@@ -21,9 +21,9 @@ class TeamView extends Component {
       const employee = acc[event.employee.employeeId]
         ? acc[event.employee.employeeId]
         : {
-            ...event.employee,
-            events: [],
-          };
+          ...event.employee,
+          events: [],
+        };
       employee.events.push(event);
       acc[event.employee.employeeId] = employee;
       return acc;
