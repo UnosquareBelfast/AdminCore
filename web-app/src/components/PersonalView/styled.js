@@ -2,9 +2,15 @@ import styled from 'styled-components';
 
 export const Header = styled.div`
   display: flex;
-  margin-bottom: 20px;
   div {
     flex: 1;
+    margin: 1rem 0;
+  }
+  p {
+    margin: 0;
+  }
+  h1 {
+    margin: 0;
   }
 `;
 

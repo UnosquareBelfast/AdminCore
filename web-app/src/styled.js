@@ -6,7 +6,7 @@ export const theme = {
     unoBlue: '#0eb5d1',
     darkBlue: '#0a98af',
     white: '#ffffff',
-    grey: '#f4f4f4',
+    grey: '#d6d6d6',
     lightgrey: '#f7f7f7',
     darkGrey: '#3a3939',
     red: '#ff3434',
