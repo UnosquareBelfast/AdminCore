@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Event renders correctly 1`] = `
+.c0 {
+  background: #ff9b34;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 3px;
+  color: white;
+  font-size: 12px;
+  border-radius: 2px;
+}
+
+<div
+  className="c0"
+/>
+`;

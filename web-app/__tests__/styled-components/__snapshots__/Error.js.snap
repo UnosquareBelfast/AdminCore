@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Errorbox renders correctly 1`] = `
+.c0 {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: #ff1a1a;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  color: white;
+}
+
+.c0 p {
+  padding: 0;
+  margin: 0;
+}
+
+.c0 p:first-of-type {
+  margin-bottom: 0.3rem;
+}
+
+<div
+  className="c0"
+/>
+`;

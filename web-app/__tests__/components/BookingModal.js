@@ -6,8 +6,8 @@ import { BookingModal } from '../../src/components';
 const booking = {
   title: 'Fake Booking',
   holidayStatusDescription: 'Pending',
-  start: moment(),
-  end: moment(),
+  start: moment('2018-01-01 09:00:00'),
+  end: moment('2018-01-01 09:00:00'),
   isHalfday: false,
   isWFH: false,
   duration: 1,
@@ -36,37 +36,7 @@ describe('BookingModal', () => {
       changeWFH={mockChangeWFH} />);
 
     expect(wrapper.exists());
-    expect(wrapper.find('h1').at(0).text()).toEqual('Booking');
-    expect(wrapper.find('h3').at(0).text()).toEqual(`Employee: ${booking.title}`);
-    expect(wrapper.find('h3').at(1).text()).toEqual(`Status: ${booking.holidayStatusDescription}`);
-    expect(wrapper.find('p').at(0).text()).toEqual('Starting:');
-    expect(wrapper.find('p').at(1).text()).toEqual('Ending:');
-    expect(wrapper.find('DatePicker').at(0).prop('selected')).toEqual(booking.start);
-    expect(wrapper.find('DatePicker').at(0).prop('onChange')).toEqual(mockChangeStart);
-    expect(wrapper.find('DatePicker').at(1).prop('selected')).toEqual(booking.end);
-    expect(wrapper.find('DatePicker').at(1).prop('onChange')).toEqual(mockChangeEnd);
-
-    expect(wrapper.find('label').at(0).text()).toEqual('Half-Day');
-    expect(wrapper.find('label').at(0).childAt(0).prop('type')).toEqual('checkbox');
-    expect(wrapper.find('label').at(0).childAt(0).prop('checked')).toEqual(booking.isHalfday);
-    expect(wrapper.find('label').at(0).childAt(0).prop('onChange')).toEqual(mockChangeHalfDay);
-    expect(wrapper.find('label').at(0).childAt(0).prop('disabled')).toBe(false);
-
-    expect(wrapper.find('label').at(1).text()).toEqual('WFH');
-    expect(wrapper.find('label').at(1).childAt(0).prop('type')).toEqual('checkbox');
-    expect(wrapper.find('label').at(1).childAt(0).prop('checked')).toEqual(booking.isWFH);
-    expect(wrapper.find('label').at(1).childAt(0).prop('onChange')).toEqual(mockChangeWFH);
-
-    expect(wrapper.find('p').at(2).text()).toEqual('Total days: 1');
-
-    expect(wrapper.find('#updateHolidayBtn').exists()).toBe(true);
-    expect(wrapper.find('#updateHolidayBtn').prop('onClick')).toEqual(mockUpdateHoliday);
-    expect(wrapper.find('#updateHolidayBtn').prop('label')).toEqual('Update');
-
-    expect(wrapper.find('#cancelHolidayBtn').exists()).toBe(true);
-    expect(wrapper.find('#cancelHolidayBtn').prop('onClick')).toEqual(mockCancelHoliday);
-    expect(wrapper.find('#cancelHolidayBtn').prop('label')).toEqual('Cancel Request');
-
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('closeModal calls closeModal prop', () => {
@@ -84,6 +54,7 @@ describe('BookingModal', () => {
       updateHoliday={() => {}}
       changeWFH={() => {}}  />);
 
+    expect(mockOnClick.mock.calls.length).toEqual(0);
     wrapper.find('#closeBookingModal').simulate('click');
     expect(mockOnClick.mock.calls.length).toEqual(1);
 
@@ -105,7 +76,7 @@ describe('BookingModal', () => {
         changeWFH={() => {}} />);
   
       expect(wrapper.exists());
-      expect(wrapper.find('p').at(2).text()).toEqual('Total days: 1');   
+      expect(wrapper.find('#totalDaysToBook').text()).toEqual('Total days: 1');   
     });
     it('getTotalDays returns the correct amount of days leave when duration is 2 and halfDay is false', () => {
       const wrapper = shallow(<BookingModal 
@@ -121,7 +92,7 @@ describe('BookingModal', () => {
         changeWFH={() => {}} />);
   
       expect(wrapper.exists());
-      expect(wrapper.find('p').at(2).text()).toEqual('Total days: 2');   
+      expect(wrapper.find('#totalDaysToBook').text()).toEqual('Total days: 2');   
     });
     it('getTotalDays returns the correct amount of days leave when duration is 3 and halfDay is false', () => {
       const wrapper = shallow(<BookingModal 
@@ -137,7 +108,7 @@ describe('BookingModal', () => {
         changeWFH={() => {}} />);
   
       expect(wrapper.exists());
-      expect(wrapper.find('p').at(2).text()).toEqual('Total days: 3');   
+      expect(wrapper.find('#totalDaysToBook').text()).toEqual('Total days: 3');   
     });
     it('getTotalDays returns the correct amount of days leave when duration is 3 and halfDay is true', () => {
       const wrapper = shallow(<BookingModal 
@@ -153,7 +124,7 @@ describe('BookingModal', () => {
         changeWFH={() => {}} />);
   
       expect(wrapper.exists());
-      expect(wrapper.find('p').at(2).text()).toEqual('Total days: 0.5');   
+      expect(wrapper.find('#totalDaysToBook').text()).toEqual('Total days: 0.5');   
     });
     it('getTotalDays returns 0 when isWFH is true', () => {
       
@@ -170,7 +141,7 @@ describe('BookingModal', () => {
         changeWFH={() => {}} />);
 
       expect(wrapper.exists());
-      expect(wrapper.find('p').at(2).text()).toEqual('Total days: 0');   
+      expect(wrapper.find('#totalDaysToBook').text()).toEqual('Total days: 0');   
     });
   });
 

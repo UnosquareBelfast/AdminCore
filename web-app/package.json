@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "lint": "./node_modules/.bin/eslint src --ext .js,.jsx; exit 0",
     "lint-fix": "./node_modules/.bin/eslint src --ext .js,.jsx --fix; exit 0",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "author": "Mark Brown",
   "license": "MIT",
@@ -17,9 +18,18 @@
     "setupFiles": [
       "jest-localstorage-mock"
     ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
-    }
+    },
+    "collectCoverageFrom": [
+      "**/src/**.{js,jsx}",
+      "!**/styled.js",
+      "!/node_modules/**",
+      "!/dist/**"
+    ]
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
@@ -33,6 +43,7 @@
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.4",
     "eslint": "^4.19.1",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-react": "^7.8.2",
@@ -43,6 +54,7 @@
     "jest": "^22.4.4",
     "jest-enzyme": "^6.0.0",
     "jest-localstorage-mock": "^2.2.0",
+    "jest-styled-components": "^5.0.1",
     "react-test-renderer": "^16.3.2",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Component renders correctly 1`] = `
+<div
+  className="center"
+>
+  <div
+    className="card"
+  >
+    <h1>
+      Login
+    </h1>
+    <form
+      id="loginForm"
+    >
+      <input
+        className="item"
+        name="email"
+        onChange={[MockFunction]}
+        placeholder="Email goes here..."
+        type="text"
+      />
+      <input
+        className="item"
+        name="password"
+        onChange={[MockFunction]}
+        placeholder="Password goes here..."
+        type="password"
+      />
+      <input
+        className="submit"
+        type="submit"
+        value="SUBMIT"
+      />
+    </form>
+  </div>
+</div>
+`;
