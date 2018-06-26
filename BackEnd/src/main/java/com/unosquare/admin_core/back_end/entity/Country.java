@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Data
 @ToString
 @Table(name = "Country")
+@Embeddable
 public class Country implements java.io.Serializable {
 
     @Id

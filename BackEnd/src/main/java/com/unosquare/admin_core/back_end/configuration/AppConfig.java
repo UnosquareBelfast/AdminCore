@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableTransactionManagement
 public class AppConfig {
 
     @Bean
@@ -13,10 +15,10 @@ public class AppConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
-        LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
-        factory.setPersistenceUnitName("entityManagerFactoryUnit");
-        return factory;
-    }
+//    @Bean
+//    public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
+//        LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
+//        factory.setPersistenceUnitName("entityManagerFactoryUnit");
+//        return factory;
+//    }
 }
