@@ -1,16 +1,17 @@
-import React  from 'react';
+import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import LoginForm from '../Form/index';
 
 
-const LoginView = (props) =>
+const LoginView = props => (
   <ScrollView
     contentContainerStyle={styles.container}
   >
     <View style={styles.card}>
       <LoginForm {...props} />
     </View>
-  </ScrollView>;
+  </ScrollView>
+);
 
 
 const styles = StyleSheet.create({

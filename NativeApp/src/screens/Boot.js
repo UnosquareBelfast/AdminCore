@@ -1,26 +1,23 @@
-import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import {PropTypes as PT} from 'prop-types';
+import React from 'react';
+import { PropTypes as PT } from 'prop-types';
 import BootView from '../components/Boot';
+import { AuthConsumer } from '../utilities/AuthContext';
 
-export default class BootScreen extends Component {
-  static propTypes = {
-    navigation: PT.object,
-  }
-  constructor(props) {
-    super(props);
-    this._bootstrapAsync();
-  }
+const BootScreen = props => (
+  <AuthConsumer>
+    {
+      ({ token, isLoading }) => (
+        isLoading
+          ? <BootView /> : props.navigation.navigate(token ? 'App' : 'Auth')
+      )
+    }
+  </AuthConsumer>
+);
 
-  _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('id_token');
+BootScreen.propTypes = {
+  navigation: PT.shape({
+    navigate: PT.func,
+  }).isRequired,
+};
 
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
-  }
-
-  render() {
-    return (
-      <BootView />
-    );
-  }
-}
+export default BootScreen;

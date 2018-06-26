@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import Login from '../components/Login';
+import User from '../components/User';
 
-export default class LoginScreen extends Component {
+export default class UserScreen extends Component {
   static navigationOptions = {
-    headerTitle: 'Login',
-  };
+    title: 'User Info',
+  }
 
   static propTypes = {
     navigation: PT.shape({
@@ -16,7 +16,7 @@ export default class LoginScreen extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <Login navigation={navigation} />
+      <User navigation={navigation} />
     );
   }
 }
