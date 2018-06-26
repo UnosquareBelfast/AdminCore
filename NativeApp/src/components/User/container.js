@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getUserHolidays } from '../../services/userService';
+import { getTakenHolidays, getRemainingHolidays } from '../../utilities/holidays';
 
 export default Container => class extends Component {
   constructor(props) {
@@ -7,21 +7,24 @@ export default Container => class extends Component {
     this.state = {
       id: '',
       takenHolidays: [],
-      remainingHolidays: [],
+      remainingHolidays: 0,
     };
   }
 
   componentDidMount() {
-    getUserHolidays()
+    getTakenHolidays()
       .then(data => this.setState({ takenHolidays: data }));
+
+    getRemainingHolidays()
+      .then(data => this.setState({ remainingHolidays: data }));
   }
 
   render() {
-    const { takenHolidays, remaining } = this.state;
+    const { takenHolidays, remainingHolidays } = this.state;
     return (
       <Container
         takenHolidays={takenHolidays.length}
-        remainingHolidays={remaining}
+        remainingHolidays={remainingHolidays - takenHolidays.length}
       />
     );
   }
