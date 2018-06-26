@@ -4,7 +4,7 @@ export const Header = styled.div`
   display: flex;
   div {
     flex: 1;
-    margin: 1rem 0;
+    margin: 10px 0;
   }
   p {
     margin: 0;

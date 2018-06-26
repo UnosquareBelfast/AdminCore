@@ -15,8 +15,8 @@ export const StyleContainer = styled.div`
 
 export const BookingStatus = styled.div`
   background: ${props => props.theme.colours.lightgrey};
-  padding: 1rem 1rem;
-  margin: 1rem 0 0 0;
+  padding: 10px 1px;
+  margin: 10px 0 0 0;
   border-radius: 4px;
 
   h4, span {
@@ -32,8 +32,8 @@ export const BookingStatus = styled.div`
 export const BookingInputs = styled.div`
   width: 100%;
   display: flex;
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
+  margin-top: 10px;
+  margin-bottom: 15px;
 
   label {
     margin: 0;
@@ -44,7 +44,7 @@ export const BookingInputs = styled.div`
   input {
     height: 40px;
     margin: 5px 50px 0 0;
-    padding: 0.25rem 0.5rem;
+    padding: 2.5px 5px;
     width: 80%;
     font-size: 1.05rem;
     border-radius: 4px;

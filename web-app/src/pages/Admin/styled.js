@@ -11,7 +11,7 @@ export const SidebarContainer = styled.div`
 `;
 
 export const MainContentContainer = styled.div`
-  margin-left: 1rem;
+  margin-left: 10px;
   flex: 3.5;
   h3 {
     display: inline-block;
