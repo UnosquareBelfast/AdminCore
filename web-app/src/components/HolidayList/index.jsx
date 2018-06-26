@@ -55,6 +55,7 @@ const renderTable = (holidays, columns, actions) => {
       columns={formattedColumns}
       defaultPageSize={10}
       filterable
+      className="-striped -highlight"
       defaultFilterMethod={(filter, row) =>
         String(row[filter.id]).includes(filter.value)}
       defaultSortMethod={(a, b) => {
