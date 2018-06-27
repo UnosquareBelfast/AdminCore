@@ -1,7 +1,8 @@
 import { Alert } from 'react-native';
-import { getHolidays } from '../services/holidayService';
+import { getUserHolidays } from '../services/holidayService';
+import { getUserProfile } from '../services/userService';
 
-const getTakenHolidays = id => getHolidays(id)
+export const getTakenHolidays = () => getUserHolidays()
   .then(res => res.data)
   .catch((e) => {
     Alert.alert(
@@ -10,4 +11,11 @@ const getTakenHolidays = id => getHolidays(id)
     );
   });
 
-export default getTakenHolidays;
+export const getRemainingHolidays = () => getUserProfile()
+  .then(res => res.data.totalHolidays)
+  .catch((e) => {
+    Alert.alert(
+      'Could not get total holidays',
+      e.message,
+    );
+  });
