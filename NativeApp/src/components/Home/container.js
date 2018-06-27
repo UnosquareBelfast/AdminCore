@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
-import { getUserHolidays } from '../../services/userService';
+import { getTakenHolidays } from '../../utilities/holidays';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -23,7 +23,7 @@ export default Container => class extends Component {
     }
 
     componentDidMount() {
-      getUserHolidays()
+      getTakenHolidays()
         .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
     }
 

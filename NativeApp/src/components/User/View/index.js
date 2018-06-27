@@ -9,7 +9,7 @@ import {
 
 
 const UserView = (props) => {
-  const { takenHolidays } = props;
+  const { takenHolidays, remainingHolidays } = props;
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -25,7 +25,7 @@ const UserView = (props) => {
           Holidays remaining
         </Text>
         <Text>
-          0
+          {remainingHolidays}
         </Text>
       </View>
     </ScrollView>
@@ -34,6 +34,7 @@ const UserView = (props) => {
 
 UserView.propTypes = {
   takenHolidays: PT.number.isRequired,
+  remainingHolidays: PT.number.isRequired,
 };
 
 const styles = StyleSheet.create({
