@@ -13,10 +13,10 @@ export default Container => class extends Component {
 
   componentDidMount() {
     getTakenHolidays()
-      .then(data => this.setState({ takenHolidays: data }));
+      .then(takenHolidays => this.setState({ takenHolidays }));
 
     getRemainingHolidays()
-      .then(data => this.setState({ remainingHolidays: data }));
+      .then(remainingHolidays => this.setState({ remainingHolidays }));
   }
 
   render() {
