@@ -1,16 +1,24 @@
 import styled from 'styled-components';
 
 export const StyleContainer = styled.div`
-  strong {
-    display: block;
-    margin-bottom: 10px;
-  }
+  display: flex;
+  margin-top: 10px;
+
   svg {
     margin-right: 10px;
+  }
+
+  div {
+    margin-right: 10px;
+
+    :last-of-type {
+      margin-right: 0;
+    }
   }
 `;
 
 export const Key = styled.div`
+  flex: 1;
   background-color: ${props => props.theme.holidayStatus[props.status]};
   color: white;
   font-size: 14px;
