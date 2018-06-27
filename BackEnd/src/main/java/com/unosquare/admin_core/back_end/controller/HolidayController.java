@@ -3,7 +3,6 @@ package com.unosquare.admin_core.back_end.controller;
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
-import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Holiday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
 import com.unosquare.admin_core.back_end.service.HolidayService;
@@ -62,8 +61,6 @@ public class HolidayController {
     public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createHolidayDto) {
 
         List<String> responses = new ArrayList<>();
-        Holiday newHoliday = new Holiday();
-        newHoliday.setEmployee(new Employee(createHolidayDto.getEmployeeId()));
 
         for (DateDTO date : createHolidayDto.getDates()) {
             Holiday existentHoliday = holidayService.findByEmployeeIdStartDataEndDate(
@@ -78,12 +75,12 @@ public class HolidayController {
                 responses.add("Starting date cannot be after end date");
                 continue;
             }
+        }
 
-            newHoliday.setStartDate(date.getStartDate());
-            newHoliday.setEndDate(date.getEndDate());
-            newHoliday.setHalfDay(date.isHalfDay());
+        if (responses.isEmpty()) {
+            Holiday newHoliday = modelMapper.map(createHolidayDto, Holiday.class);
 
-            holidayService.save(newHoliday);
+            holidayService.save(createHolidayDto.getEmployeeId(), newHoliday);
             responses.add("Created");
         }
 
@@ -101,7 +98,7 @@ public class HolidayController {
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody HolidayDto holiday) {
-        holidayService.save(modelMapper.map(holiday, Holiday.class));
+        holidayService.save(holiday.getEmployee().getEmployeeId(), modelMapper.map(holiday, Holiday.class));
     }
 
     @PutMapping(value = "/updateMultiple", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -142,7 +139,7 @@ public class HolidayController {
     @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatusId}/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") int holidayStatusId, @PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
-        return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(HolidayStatus.fromId(holidayStatusId), startDate));
+        return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(com.unosquare.admin_core.back_end.enums.HolidayStatus.fromId(holidayStatusId), startDate));
     }
 
     private List<HolidayDto> mapHolidaysToDtos(List<Holiday> holidays) {

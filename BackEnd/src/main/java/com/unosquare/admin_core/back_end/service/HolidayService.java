@@ -8,12 +8,16 @@ import com.unosquare.admin_core.back_end.enums.HolidayStatus;
 import com.unosquare.admin_core.back_end.repository.HolidayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class HolidayService {
 
     @Autowired
@@ -21,6 +25,9 @@ public class HolidayService {
 
     @Autowired
     HolidayRepository holidayRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<Holiday> findAll() {
         return holidayRepository.findAll();
@@ -42,12 +49,14 @@ public class HolidayService {
         return holidayRepository.findByEmployeeAndStartDateAndEndDate(new Employee(employeeId), startDate, endDate);
     }
 
-    public void save(Holiday holiday) {
+    public void save(int employeeId, Holiday holiday) {
         Preconditions.checkNotNull(holiday);
 
-        holiday.getHolidayStatus().setHolidayStatusId(HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId());
+        holiday.setHolidayStatus(entityManager.find(com.unosquare.admin_core.back_end.entity.HolidayStatus.class, HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId()));
         holiday.setDateCreated(LocalDate.now());
         holiday.setLastModified(LocalDate.now());
+
+        holiday.setEmployee(entityManager.find(Employee.class, employeeId));
 
         holidayRepository.save(checkForHolidayWithSameDate(holiday));
     }
