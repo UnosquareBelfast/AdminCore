@@ -27,8 +27,8 @@
 {
   @private
     NSString *_swaggerVersion;
-    NSString *_location;
     NSString *_name;
+    NSString *_location;
 }
 
 /**
@@ -44,22 +44,22 @@
 /**
  * (no documentation provided)
  */
-- (NSString *) location;
-
-/**
- * (no documentation provided)
- */
-- (void) setLocation: (NSString *) newLocation;
-
-/**
- * (no documentation provided)
- */
 - (NSString *) name;
 
 /**
  * (no documentation provided)
  */
 - (void) setName: (NSString *) newName;
+
+/**
+ * (no documentation provided)
+ */
+- (NSString *) location;
+
+/**
+ * (no documentation provided)
+ */
+- (void) setLocation: (NSString *) newLocation;
 @end /* interface ADMIN_CORENS0SwaggerResource */
 
 #endif /* DEF_ADMIN_CORENS0SwaggerResource_H */

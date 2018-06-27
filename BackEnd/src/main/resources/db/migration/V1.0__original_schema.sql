@@ -159,13 +159,13 @@ CREATE SEQUENCE IF NOT EXISTS public.employee_employee_id_seq1;
 CREATE TABLE IF NOT EXISTS public.employee
 (
     employee_id integer NOT NULL DEFAULT nextval('employee_employee_id_seq1'::regclass),
-    country_id integer,
+    country_id integer NOT NULL,
     email character varying(255) COLLATE pg_catalog."default",
-    employee_role_id integer,
-    employee_status_id integer,
+    employee_role_id integer NOT NULL,
+    employee_status_id integer NOT NULL,
     forename character varying(255) COLLATE pg_catalog."default",
     password character varying(255) COLLATE pg_catalog."default",
-    start_date date,
+    start_date date NOT NULL,
     surname character varying(255) COLLATE pg_catalog."default",
     total_holidays integer NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (employee_id),

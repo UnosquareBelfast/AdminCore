@@ -109,64 +109,15 @@ public class EmployeeService {
 
     public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
 
-        // Creating USER's account
-//        Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-//                signUpRequest.getEmail(), entityManager.getReference(EmployeeRole.class, signUpRequest.getEmployeeRoleId()), entityManager.getReference(EmployeeStatus.class, signUpRequest.getStatusId()),
-//                signUpRequest.getStartDate(), entityManager.getReference(Country.class, signUpRequest.getCountryId()), signUpRequest.getPassword());
-
-//        Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-//                signUpRequest.getEmail(),
-//                entityManager.merge(new EmployeeRole(signUpRequest.getEmployeeRoleId())),
-//                entityManager.merge(new EmployeeStatus(signUpRequest.getStatusId())),
-//                signUpRequest.getStartDate(),
-//                entityManager.merge(new Country(signUpRequest.getCountryId())), signUpRequest.getPassword());
-
-//        Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-//                signUpRequest.getEmail(), entityManager.merge(entityManager.getReference(EmployeeRole.class, signUpRequest.getEmployeeRoleId())),
-//                entityManager.merge(entityManager.getReference(EmployeeStatus.class, signUpRequest.getStatusId())),
-//                signUpRequest.getStartDate(), entityManager.merge(entityManager.getReference(Country.class, signUpRequest.getCountryId())), signUpRequest.getPassword());
-
-        // got id and desc but stored id only, saved nothing
-//        Country country = entityManager.merge(new Country(signUpRequest.getCountryId()));
-//        EmployeeRole employeeRole = entityManager.merge(new EmployeeRole(signUpRequest.getEmployeeRoleId()));
-//        EmployeeStatus employeeStatus = entityManager.merge(new EmployeeStatus(signUpRequest.getStatusId()));
-
-        // got id and desc but stored nothing, saved nothing
-//        Country country = entityManager.getReference(Country.class, signUpRequest.getCountryId());
-//        EmployeeRole employeeRole = entityManager.getReference(EmployeeRole.class, signUpRequest.getEmployeeRoleId());
-//        EmployeeStatus employeeStatus = entityManager.getReference(EmployeeStatus.class, signUpRequest.getStatusId());
-
-        // got id and desc but stored nothing, saved nothing
-        Country country = entityManager.merge(entityManager.getReference(Country.class, signUpRequest.getCountryId()));
-        EmployeeRole employeeRole = entityManager.merge(entityManager.getReference(EmployeeRole.class, signUpRequest.getEmployeeRoleId()));
-        EmployeeStatus employeeStatus = entityManager.merge(entityManager.getReference(EmployeeStatus.class, signUpRequest.getStatusId()));
-
-        entityManager.persist(country);
-        entityManager.persist(employeeRole);
-        entityManager.persist(employeeStatus);
+        Country country = entityManager.find(Country.class, signUpRequest.getCountryId());
+        EmployeeRole employeeRole = entityManager.find(EmployeeRole.class, signUpRequest.getEmployeeRoleId());
+        EmployeeStatus employeeStatus = entityManager.find(EmployeeStatus.class, signUpRequest.getStatusId());
 
         Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
                 signUpRequest.getEmail(), employeeRole, employeeStatus,
                 signUpRequest.getStartDate(), country, signUpRequest.getPassword());
 
-        employee.setEmployeeRole(employeeRole);
-        employee.setEmployeeStatus(employeeStatus);
-        employee.setCountry(country);
-
-        entityManager.persist(employee);
-
-
-
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-
-//        employee.getEmployeeStatus().setEmployeeStatusId(signUpRequest.getStatusId());
-//        employee.getEmployeeRole().setEmployeeRoleId(signUpRequest.getEmployeeRoleId());
-//        employee.getCountry().setCountryId(signUpRequest.getCountryId());
-
-//        employee.setCountry(entityManager.merge(employee.getCountry()));
-//        employee.setEmployeeStatus(entityManager.merge(employee.getEmployeeStatus()));
-//        employee.setEmployeeRole(entityManager.merge(employee.getEmployeeRole()));
-
         employee = save(employee);
 
         updateTotalHolidayForNewEmployee(employee);

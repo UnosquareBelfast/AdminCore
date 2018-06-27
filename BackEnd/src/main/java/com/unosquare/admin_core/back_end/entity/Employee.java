@@ -34,20 +34,17 @@ public class Employee implements java.io.Serializable {
     private LocalDate startDate;
 
     @OneToOne
-    @MapsId("countryId")
-    @JoinColumn(name = "country_id", referencedColumnName = "country_id", insertable = false, updatable = false)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     private String password;
 
     @OneToOne
-    @MapsId("employeeRoleId")
-    @JoinColumn(name = "employee_role_id", referencedColumnName = "employee_role_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_role_id")
     private EmployeeRole employeeRole;
 
     @OneToOne
-    @MapsId("employeeStatusId")
-    @JoinColumn(name = "employee_status_id", referencedColumnName = "employee_status_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_status_id")
     private EmployeeStatus employeeStatus;
 
     @OneToMany(mappedBy = "employee")

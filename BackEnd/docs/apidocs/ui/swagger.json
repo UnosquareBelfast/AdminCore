@@ -92,15 +92,11 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
-            "apiKeyName" : {
+            "realm" : {
 "description" : "",
 "type" : "string"
             },
-            "clientSecret" : {
-"description" : "",
-"type" : "string"
-            },
-            "clientId" : {
+            "apiKey" : {
 "description" : "",
 "type" : "string"
             },
@@ -108,15 +104,19 @@
 "description" : "",
 "type" : "string"
             },
-            "realm" : {
+            "clientId" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientSecret" : {
+"description" : "",
+"type" : "string"
+            },
+            "apiKeyName" : {
 "description" : "",
 "type" : "string"
             },
             "apiKeyVehicle" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKey" : {
 "description" : "",
 "type" : "string"
             }
@@ -128,15 +128,15 @@
       "type" : "object",
       "title" : "SwaggerResource",
           "properties" : {
-            "swaggerVersion" : {
-"description" : "",
-"type" : "string"
-            },
             "location" : {
 "description" : "",
 "type" : "string"
             },
             "name" : {
+"description" : "",
+"type" : "string"
+            },
+            "swaggerVersion" : {
 "description" : "",
 "type" : "string"
             }
@@ -148,19 +148,19 @@
       "type" : "object",
       "title" : "UiConfiguration",
           "properties" : {
-            "defaultModelRendering" : {
-"description" : "",
-"type" : "string"
-            },
             "docExpansion" : {
 "description" : "",
 "type" : "string"
             },
-            "showRequestHeaders" : {
+            "apisSorter" : {
+"description" : "",
+"type" : "string"
+            },
+            "jsonEditor" : {
 "description" : "",
 "type" : "boolean"
             },
-            "apisSorter" : {
+            "defaultModelRendering" : {
 "description" : "",
 "type" : "string"
             },
@@ -168,7 +168,7 @@
 "description" : "",
 "type" : "string"
             },
-            "jsonEditor" : {
+            "showRequestHeaders" : {
 "description" : "",
 "type" : "boolean"
             }
