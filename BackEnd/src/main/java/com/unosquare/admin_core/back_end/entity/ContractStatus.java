@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ContractStatus implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="contractStatusSeq",sequenceName="contract_status_contract_status_id_seq")
+    @SequenceGenerator(name="contractStatusSeq",sequenceName="contract_status_contract_status_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="contractStatusSeq")
     @Column(name = "contract_status_id", unique = true, nullable = false)
     private int contractStatusId;

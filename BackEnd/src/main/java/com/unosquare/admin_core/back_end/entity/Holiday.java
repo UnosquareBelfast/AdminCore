@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class Holiday implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="holidaySeq",sequenceName="holiday_holiday_id_seq1")
+    @SequenceGenerator(name="holidaySeq",sequenceName="holiday_holiday_id_seq1", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="holidaySeq")
     @Column(name = "holiday_id", unique = true, nullable = false)
     private int holidayId;

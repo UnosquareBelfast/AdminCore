@@ -18,7 +18,7 @@ import java.util.Set;
 public class Employee implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq1")
+    @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq1", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employeeSeq")
     @Column(name = "employee_id", unique = true, insertable = false, nullable = false)
     private int employeeId;

@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Country implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="countrySeq",sequenceName="country_country_id_seq")
+    @SequenceGenerator(name="countrySeq",sequenceName="country_country_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="countrySeq")
     @Column(name = "country_id", unique = true, nullable = false)
     private int countryId;

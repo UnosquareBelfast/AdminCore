@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class EmployeeRole implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="employeeRoleSeq",sequenceName="employee_role_employee_role_id_seq")
+    @SequenceGenerator(name="employeeRoleSeq",sequenceName="employee_role_employee_role_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employeeRoleSeq")
     @Column(name = "employee_role_id", unique = true, nullable = false)
     private int employeeRoleId;

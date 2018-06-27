@@ -15,7 +15,7 @@ import java.util.Set;
 public class Client implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="seq",sequenceName="client_client_id_seq1")
+    @SequenceGenerator(name="seq",sequenceName="client_client_id_seq1", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     @Column(name = "client_id", unique = true, nullable = false)
     private int clientId;
