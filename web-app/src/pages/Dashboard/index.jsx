@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
@@ -8,10 +8,10 @@ import {
   UserDetails,
   Legend,
   TeamView,
-  PersonalView,
+  PersonalView
 } from '../../components';
 import { Event } from '../../components/common';
-import { Layout, withAuth } from '../../hoc';
+import { withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Sidebar } from './styled';
 
@@ -19,8 +19,9 @@ moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
 export const Dashboard = props => {
+  console.log('props :', props);
   return (
-    <Layout {...props}>
+    <Fragment>
       <BookingModal {...props} />
       <Sidebar>
         <UserDetails user={props.userDetails} />
@@ -35,7 +36,7 @@ export const Dashboard = props => {
         views={{
           month: true,
           personal: PersonalView,
-          agenda: TeamView,
+          agenda: TeamView
         }}
         messages={{ agenda: 'team', personal: 'personal' }}
         selectable
@@ -43,7 +44,7 @@ export const Dashboard = props => {
         user={props.userDetails}
         takenHolidays={props.takenHolidays}
       />
-    </Layout>
+    </Fragment>
   );
 };
 
@@ -58,11 +59,11 @@ Dashboard.propTypes = {
   booking: PT.object,
   showBookingModal: PT.bool,
   closeModal: PT.func,
-  takenHolidays: PT.array,
+  takenHolidays: PT.array
 };
 
 const enhance = flowRight(
   withAuth,
-  container,
+  container
 );
 export default enhance(Dashboard);

@@ -3,8 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import styles from './style.css';
 import container from './container';
 
-export const Login = (props) => {
-
+export const Login = props => {
   return (
     <div className={styles.center}>
       <div className={styles.card}>
@@ -33,7 +32,7 @@ export const Login = (props) => {
 
 Login.propTypes = {
   handleChange: PT.func,
-  handleSubmit: PT.func,
+  handleSubmit: PT.func
 };
 
 export default container(Login);

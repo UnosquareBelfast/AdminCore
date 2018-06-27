@@ -19,11 +19,21 @@ export const HeaderItem = styled.div`
   padding: 0 15px;
   font-weight: ${props => (props.bold ? 'bold' : 'normal')};
   cursor: pointer;
+
+  a {
+    text-decoration: none;
+    color: #ffffff;
+    border-bottom: 1px solid transparent;
+
+    &.active {
+      border-bottom: 1px solid #ffffff;
+    }
+  }
 `;
 
 export const LayoutContainer = styled.div`
   max-width: 960px;
-  margin: 50px auto;
+  margin: ${props => (props.history == '/login' ? '0' : '50px auto')};
   height: 75vh;
   display: flex;
   flex-direction: row;
