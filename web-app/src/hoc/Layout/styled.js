@@ -21,10 +21,10 @@ export const HeaderItem = styled.div`
   cursor: pointer;
 `;
 
+// The calc in min-height below just subtracts the padding to avoid
+// unrequired scroll bars.
 export const LayoutContainer = styled.div`
-  max-width: 960px;
-  margin: 50px auto;
-  height: 75vh;
-  display: flex;
-  flex-direction: row;
+  min-height: calc(100vh - 40px);
+  background-color: white;
+  padding: 20px;
 `;
