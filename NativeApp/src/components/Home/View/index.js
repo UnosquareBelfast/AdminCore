@@ -2,14 +2,23 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { View, Button, StyleSheet } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
-import { BookingModal } from '../../Common';
+import BookingModal from '../BookingModal';
 
 const HomeView = (props) => {
-  const { handleLogout, takenHolidays, onDayPress } = props;
+  const {
+    handleLogout,
+    takenHolidays,
+    onDayPress,
+    showModal,
+    closeModal,
+  } = props;
 
   return (
     <View style={styles.container}>
-      <BookingModal />
+      <BookingModal
+        showModal={showModal}
+        closeModal={closeModal}
+      />
       <Button
         onPress={handleLogout}
         title="Logout"
@@ -34,6 +43,9 @@ HomeView.propTypes = {
     text: PT.string,
     color: PT.string,
   }).isRequired,
+  onDayPress: PT.func.isRequired,
+  showModal: PT.bool.isRequired,
+  closeModal: PT.func.isRequired,
 };
 
 const styles = StyleSheet.create({

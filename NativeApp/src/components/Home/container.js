@@ -18,6 +18,7 @@ export default Container => class extends Component {
       super(props);
       this.state = {
         takenHolidays: {},
+        showModal: false,
       };
     }
 
@@ -27,7 +28,14 @@ export default Container => class extends Component {
     }
 
     onDayPress = (day) => {
-      console.log('day', day);
+      if (day) {
+        this.setState({ showModal: true });
+      }
+    }
+
+    closeModal = () => {
+      const { showModal } = this.state;
+      this.setState({ showModal: !showModal });
     }
 
     formatDate = data => data.reduce((obj, item) => {
@@ -58,12 +66,14 @@ export default Container => class extends Component {
     }
 
     render() {
-      const { takenHolidays } = this.state;
+      const { takenHolidays, showModal } = this.state;
       return (
         <Container
           handleLogout={this.handleLogout}
           takenHolidays={takenHolidays}
           onDayPress={this.onDayPress}
+          showModal={showModal}
+          closeModal={this.closeModal}
         />
       );
     }
