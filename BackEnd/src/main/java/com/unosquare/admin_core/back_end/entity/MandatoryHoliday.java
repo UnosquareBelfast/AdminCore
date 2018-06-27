@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class MandatoryHoliday implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="mandatoryHolidaySeq",sequenceName="mandatory_holiday_mandatory_holiday_id_seq1")
+    @SequenceGenerator(name="mandatoryHolidaySeq",sequenceName="mandatory_holiday_mandatory_holiday_id_seq1", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="mandatoryHolidaySeq")
     @Column(name = "mandatory_holiday_id", unique = true, nullable = false)
     private int mandatoryHolidayId;

@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class ClientStatus implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="seq",sequenceName="client_status_client_status_id_seq")
+    @SequenceGenerator(name="seq",sequenceName="client_status_client_status_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     @Column(name = "client_status_id", unique = true, nullable = false)
     private int clientStatusId;

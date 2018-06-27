@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class HolidayStatus implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="holidayStatusSeq",sequenceName="holiday_status_holiday_status_id_seq")
+    @SequenceGenerator(name="holidayStatusSeq",sequenceName="holiday_status_holiday_status_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="holidayStatusSeq")
     @Column(name = "holiday_status_id", unique = true, nullable = false)
     private int holidayStatusId;
