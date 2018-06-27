@@ -27,11 +27,11 @@ public class Holiday implements java.io.Serializable {
     private LocalDate endDate;
 
     @OneToOne
-    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @OneToOne
-    @JoinColumn(name = "holiday_status_id", insertable = false, updatable = false)
+    @JoinColumn(name = "holiday_status_id")
     private HolidayStatus holidayStatus;
 
     private boolean isHalfDay;

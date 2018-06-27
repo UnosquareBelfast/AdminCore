@@ -25,9 +25,8 @@ public class Client implements java.io.Serializable {
     private String contactName;
     private String contactEmail;
 
-    @Basic
     @OneToOne
-    @JoinColumn(name = "client_status_id", insertable = false, updatable = false)
+    @JoinColumn(name = "client_status_id")
     private ClientStatus clientStatus;
 
     private int minimumEmployeesForTeam = 0;

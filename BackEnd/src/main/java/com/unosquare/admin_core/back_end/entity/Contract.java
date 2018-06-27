@@ -15,17 +15,17 @@ public class Contract implements java.io.Serializable{
 
     @ManyToOne
     @MapsId("employeeId")
-    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne
     @MapsId("clientId")
-    @JoinColumn(name = "client_id", referencedColumnName = "client_id", insertable = false, updatable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @OneToOne
     @MapsId("contract_status_id")
-    @JoinColumn(name = "contract_status_id", referencedColumnName = "contract_status_id", insertable = false, updatable = false)
+    @JoinColumn(name = "contract_status_id")
     private ContractStatus contractStatus;
 
     public Contract() {

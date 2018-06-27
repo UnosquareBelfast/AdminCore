@@ -22,7 +22,7 @@ public class MandatoryHoliday implements java.io.Serializable {
 
     @Basic
     @ManyToOne
-    @JoinColumn(name = "country_id", insertable = false, updatable = false)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     public MandatoryHoliday() {
