@@ -2,116 +2,151 @@
 
 exports[`BookingModal renders correctly 1`] = `
 <Modal>
-  <span
-    id="closeBookingModal"
-    onClick={[MockFunction]}
-  >
-    Close
-  </span>
-  <h1>
-    Booking
-  </h1>
-  <h3>
-    Employee: 
-    Fake Booking
-  </h3>
-  <h3>
-    Status: 
-    Pending
-  </h3>
-  <p>
-    Starting:
-  </p>
-  <DatePicker
-    allowSameDay={false}
-    dateFormat="L"
-    dateFormatCalendar="MMMM YYYY"
-    disabled={false}
-    disabledKeyboardNavigation={false}
-    dropdownMode="scroll"
-    monthsShown={1}
-    onBlur={[Function]}
-    onChange={[MockFunction]}
-    onClickOutside={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onMonthChange={[Function]}
-    onSelect={[Function]}
-    onYearChange={[Function]}
-    preventOpenOnFocus={false}
-    selected={"2018-01-01T09:00:00.000Z"}
-    shouldCloseOnSelect={true}
-    showTimeSelect={false}
-    timeCaption="Time"
-    timeIntervals={30}
-    withPortal={false}
-  />
-  <p>
-    Ending:
-  </p>
-  <DatePicker
-    allowSameDay={false}
-    dateFormat="L"
-    dateFormatCalendar="MMMM YYYY"
-    disabled={false}
-    disabledKeyboardNavigation={false}
-    dropdownMode="scroll"
-    monthsShown={1}
-    onBlur={[Function]}
-    onChange={[MockFunction]}
-    onClickOutside={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onMonthChange={[Function]}
-    onSelect={[Function]}
-    onYearChange={[Function]}
-    preventOpenOnFocus={false}
-    selected={"2018-01-01T09:00:00.000Z"}
-    shouldCloseOnSelect={true}
-    showTimeSelect={false}
-    timeCaption="Time"
-    timeIntervals={30}
-    withPortal={false}
-  />
-  <label>
-    <input
-      checked={false}
-      disabled={false}
-      onChange={[MockFunction]}
-      type="checkbox"
-    />
-    Half-Day
-  </label>
-  <label>
-    <input
-      checked={false}
-      onChange={[MockFunction]}
-      type="checkbox"
-    />
-    WFH
-  </label>
-  <p
-    id="totalDaysToBook"
-  >
-    Total days: 
-    1
-  </p>
-  <React.Fragment>
-    <Button
-      id="updateHolidayBtn"
-      label="Update"
+  <styled.div>
+    <span
+      id="closeBookingModal"
       onClick={[MockFunction]}
-      style={
-        Object {
-          "marginBottom": 5,
+    >
+      <FontAwesomeIcon
+        border={false}
+        className=""
+        fixedWidth={false}
+        flip={null}
+        icon={
+          Object {
+            "icon": Array [
+              352,
+              512,
+              Array [],
+              "f00d",
+              "M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z",
+            ],
+            "iconName": "times",
+            "prefix": "fas",
+          }
         }
-      }
-    />
-    <Button
-      id="cancelHolidayBtn"
-      label="Cancel Request"
-      onClick={[MockFunction]}
-    />
-  </React.Fragment>
+        listItem={false}
+        mask={null}
+        name=""
+        pull={null}
+        pulse={false}
+        rotation={null}
+        size={null}
+        spin={false}
+        symbol={false}
+        transform={null}
+      />
+       Close
+    </span>
+    <h1>
+      Booking
+    </h1>
+    <styled.div>
+      <h4>
+        Fake Booking
+      </h4>
+      <span>
+        <styled.div />
+      </span>
+    </styled.div>
+    <styled.div>
+      <div>
+        <label>
+          Starting:
+        </label>
+        <DatePicker
+          allowSameDay={false}
+          dateFormat="L"
+          dateFormatCalendar="MMMM YYYY"
+          disabled={false}
+          disabledKeyboardNavigation={false}
+          dropdownMode="scroll"
+          monthsShown={1}
+          onBlur={[Function]}
+          onChange={[MockFunction]}
+          onClickOutside={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMonthChange={[Function]}
+          onSelect={[Function]}
+          onYearChange={[Function]}
+          preventOpenOnFocus={false}
+          selected={"2018-01-01T09:00:00.000Z"}
+          shouldCloseOnSelect={true}
+          showTimeSelect={false}
+          timeCaption="Time"
+          timeIntervals={30}
+          withPortal={false}
+        />
+      </div>
+      <div>
+        <label>
+          Ending:
+        </label>
+        <DatePicker
+          allowSameDay={false}
+          dateFormat="L"
+          dateFormatCalendar="MMMM YYYY"
+          disabled={false}
+          disabledKeyboardNavigation={false}
+          dropdownMode="scroll"
+          monthsShown={1}
+          onBlur={[Function]}
+          onChange={[MockFunction]}
+          onClickOutside={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMonthChange={[Function]}
+          onSelect={[Function]}
+          onYearChange={[Function]}
+          preventOpenOnFocus={false}
+          selected={"2018-01-01T09:00:00.000Z"}
+          shouldCloseOnSelect={true}
+          showTimeSelect={false}
+          timeCaption="Time"
+          timeIntervals={30}
+          withPortal={false}
+        />
+      </div>
+    </styled.div>
+    <form>
+      <label>
+        <input
+          checked={false}
+          disabled={false}
+          onChange={[MockFunction]}
+          type="checkbox"
+        />
+        Half-Day
+      </label>
+      <label>
+        <input
+          checked={false}
+          disabled={false}
+          onChange={[MockFunction]}
+          type="checkbox"
+        />
+        WFH
+      </label>
+    </form>
+    <p
+      id="totalDaysToBook"
+    >
+      Total days: 
+      1
+    </p>
+    <styled.div>
+      <Button
+        id="updateHolidayBtn"
+        label="Update"
+        onClick={[MockFunction]}
+      />
+      <Button
+        id="cancelHolidayBtn"
+        label="Cancel Booking"
+        onClick={[MockFunction]}
+      />
+    </styled.div>
+  </styled.div>
 </Modal>
 `;

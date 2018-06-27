@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { getAllHolidays, updateHoliday } from '../../services/holidayService';
+import { getAllHolidays } from '../../services/holidayService';
 import holidayStatus from '../../utilities/holidayStatus';
-import Swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
@@ -28,53 +27,11 @@ export default Wrapped =>
       );
     };
 
-    approveHoliday = holiday => {
-      const approvedHoliday = { ...holiday };
-      approvedHoliday.holidayStatusId = holidayStatus.APPROVED;
-
-      updateHoliday(approvedHoliday)
-        .then(() => {
-          const holidayIndex = this.state.pendingHolidays.indexOf(holiday);
-          const pendingHolidays = [...this.state.pendingHolidays];
-          pendingHolidays.splice(holidayIndex, 1);
-          this.setState({ pendingHolidays });
-        })
-        .catch(error =>
-          Swal({
-            title: 'Could not approve holiday',
-            text: error.message,
-            type: 'error',
-          }),
-        );
-    };
-
-    rejectHoliday = holiday => {
-      const rejectedHoliday = { ...holiday };
-      rejectedHoliday.holidayStatusId = holidayStatus.REJECTED;
-
-      updateHoliday(rejectedHoliday)
-        .then(() => {
-          const holidayIndex = this.state.pendingHolidays.indexOf(holiday);
-          const pendingHolidays = [...this.state.pendingHolidays];
-          pendingHolidays.splice(holidayIndex, 1);
-          this.setState({ pendingHolidays });
-        })
-        .catch(error => {
-          Swal({
-            title: 'Could not reject holiday',
-            text: error.message,
-            type: 'error',
-          });
-        });
-    };
-
     render() {
       return (
         <Wrapped
           {...this.props}
           pendingHolidays={this.state.pendingHolidays}
-          approveHoliday={this.approveHoliday}
-          rejectHoliday={this.rejectHoliday}
         />
       );
     }

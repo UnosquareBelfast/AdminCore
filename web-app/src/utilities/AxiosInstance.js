@@ -14,7 +14,7 @@ instance.interceptors.request.use(function(config) {
 
 instance.interceptors.response.use(function (response) {
   // Adds start, end & requested to response which are in moment format
-  if (response.config.url.includes(`${baseURL}/holidays/findByEmployeeId`)) {
+  if (response.config.url.includes(`${baseURL}/holidays`)) {
     const holidays = [...response.data];
     for (const index in holidays) {
       holidays[index].start = new moment(holidays[index].date, 'YYYY-MM-DD');
