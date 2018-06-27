@@ -26,6 +26,10 @@ export default Container => class extends Component {
         .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
     }
 
+    onDayPress = (day) => {
+      console.log('day', day);
+    }
+
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = this.holidayStatus(item.holidayStatusId);
       obj[item.start] = { textColor: 'white', color: holidayStatus };
@@ -59,6 +63,7 @@ export default Container => class extends Component {
         <Container
           handleLogout={this.handleLogout}
           takenHolidays={takenHolidays}
+          onDayPress={this.onDayPress}
         />
       );
     }

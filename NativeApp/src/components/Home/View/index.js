@@ -2,12 +2,14 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { View, Button, StyleSheet } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
+import { BookingModal } from '../../Common';
 
 const HomeView = (props) => {
-  const { handleLogout, takenHolidays } = props;
+  const { handleLogout, takenHolidays, onDayPress } = props;
 
   return (
     <View style={styles.container}>
+      <BookingModal />
       <Button
         onPress={handleLogout}
         title="Logout"
@@ -20,6 +22,7 @@ const HomeView = (props) => {
         theme={{
           todayTextColor: '#00adf5',
         }}
+        onDayPress={(day) => { onDayPress(day); }}
       />
     </View>
   );
