@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Destination;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,6 +79,17 @@ public class HolidayController {
         }
 
         if (responses.isEmpty()) {
+
+            modelMapper.createTypeMap(CreateHolidayDto.class, Holiday.class).
+                    addMappings(mapper ->{
+                mapper.map(src -> src.getDates().get(0).getStartDate(),
+                        Holiday::setStartDate);
+                mapper.map(src -> src.getDates().get(src.getDates().size()-1).getEndDate(),
+                        Holiday::setEndDate);
+                mapper.map(src -> src.getDates().get(0).isHalfDay(),
+                        Holiday::setHalfDay);
+            });
+
             Holiday newHoliday = modelMapper.map(createHolidayDto, Holiday.class);
 
             holidayService.save(createHolidayDto.getEmployeeId(), newHoliday);
