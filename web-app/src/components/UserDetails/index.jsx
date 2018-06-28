@@ -4,6 +4,8 @@ import container from './container';
 import { Card } from '../common';
 import { StyleContainer } from './styled';
 import employeeRoles from '../../utilities/roles';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faKey } from '@fortawesome/fontawesome-free-solid';
 
 const roleIdToText = role => {
   switch (role) {
@@ -26,9 +28,9 @@ export const UserDetails = props => {
   return (
     <Card>
       <StyleContainer>
-        <strong>Logged in as</strong>
-        <p>Name: {`${surname}, ${forename}`}</p>
-        <p>Role: {roleIdToText(employeeRoleId)} </p>
+        <strong>Welcome,</strong>
+        <strong>{`${forename} ${surname}`}</strong>
+        <p><FontAwesomeIcon icon={faKey}/>{roleIdToText(employeeRoleId)} </p>
       </StyleContainer>
     </Card>
   );

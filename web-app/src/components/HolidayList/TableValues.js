@@ -1,49 +1,62 @@
-import React from 'react';
-import { PropTypes as PT } from 'prop-types';
+import React, { Fragment } from 'react';
 import { StatusDot } from './styled';
 import { statusText } from '../../utilities/holidayStatus';
 
-const Status = ({holiday}) =>
-  <td>
-    <StatusDot status={holiday.holidayStatusId}/>
-    {statusText[holiday.holidayStatusId]}
-  </td>;
-
-const Employee = ({holiday}) => 
-  <td>{`${holiday.employee.forename} ${holiday.employee.surname}`}</td>;
-
-const StartDate = ({holiday}) => 
-  <td>{holiday.start.format('Do MMM YYYY')}</td>;
-
-const EndDate = ({holiday}) => 
-  <td>{holiday.end.format('Do MMM YYYY')}</td>;
-
-const RequestedDate = ({holiday}) => 
-  <td>{holiday.requested.format('Do MMM YYYY')}</td>;
-
-
-Status.propTypes = { holiday: PT.object };
-Employee.propTypes = { holiday: PT.object };
-StartDate.propTypes = { holiday: PT.object };
-EndDate.propTypes = { holiday: PT.object };
-RequestedDate.propTypes = { holiday: PT.object };
-
-const generateValue = (holiday, value) => {
-  const { holidayId } = holiday;
-  switch (value) {
-    case 'status':
-      return <Status key={`${holidayId}status`} holiday={holiday} />;
-    case 'employee':
-      return <Employee key={`${holidayId}employee`} holiday={holiday} />;
-    case 'start':
-      return <StartDate key={`${holidayId}start`} holiday={holiday} />;
-    case 'end':
-      return <EndDate key={`${holidayId}end`} holiday={holiday} />;
-    case 'requested':
-      return <RequestedDate key={`${holidayId}requested`} holiday={holiday} />;
-    default:
-      break;
-  }
+const status = {
+  id: 'status',
+  Header: 'Status',
+  sortable: false,
+  filterable: false,
+  accessor: holiday => (
+    <Fragment>
+      <StatusDot status={holiday.holidayStatusId} />
+      {statusText[holiday.holidayStatusId]}
+    </Fragment>
+  ),
 };
 
-export default generateValue;
+const employee = {
+  id: 'employee',
+  Header: 'Employee',
+  accessor: ({ employee }) => `${employee.forename} ${employee.surname}`,
+  sortMethod: (a, b) => {
+    if (a === b) {
+      return 0;
+    }
+    const aReverse = a
+      .split('')
+      .reverse()
+      .join('');
+    const bReverse = b
+      .split('')
+      .reverse()
+      .join('');
+    return aReverse > bReverse ? 1 : -1;
+  },
+};
+
+const startDate = {
+  id: 'startDate',
+  Header: 'Start Date',
+  accessor: holiday => holiday.start.format('D MMM YYYY'),
+};
+
+const endDate = {
+  id: 'endDate',
+  Header: 'End Date',
+  accessor: holiday => holiday.end.format('D MMM YYYY'),
+};
+
+const requestedDate = {
+  id: 'requestedDate',
+  Header: 'Requested Date',
+  accessor: holiday => holiday.requested.format('D MMM YYYY'),
+};
+
+export default {
+  status,
+  startDate,
+  endDate,
+  requestedDate,
+  employee,
+};

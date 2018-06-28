@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   .card {
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    padding: 15px 15px 15px 15px;
   }
 
   .return {
@@ -18,11 +18,11 @@ export const Container = styled.div`
   }
 
   h1{
-    margin-top: 1rem;
+    margin-top: 10px;
     margin-bottom: 5px;
   }
   h2 {
-    margin: 0;
+    margin: 0 0 10px 0;
   }
   p {
     margin-top: 0;
@@ -36,6 +36,6 @@ export const Container = styled.div`
 export const Splitter = styled.div`
   width: 100%;
   height: 2px;
-  background-color: ${props => props.theme.colours.grey}
-  margin: 1rem 0;
+  background-color: ${props => props.theme.colours.grey};
+  margin: 10px 0;
 `;

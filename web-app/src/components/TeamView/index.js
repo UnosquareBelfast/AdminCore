@@ -5,6 +5,7 @@ import _ from 'lodash';
 import holidayStatus, { statusText } from '../../utilities/holidayStatus';
 import { monthToMonth, dateFormat } from '../../utilities/calendarConfig';
 import { EmployeeStyleContainer, EventTable, StatusDot } from './styled';
+import { HolidayList } from '../';
 
 class TeamView extends Component {
   getEventsByEmployee = () => {
@@ -35,28 +36,14 @@ class TeamView extends Component {
     const employees = this.getEventsByEmployee();
     return Object.keys(employees).map(id => {
       const e = employees[id];
+      
       return (
         <EmployeeStyleContainer key={id}>
           <h3>{`${e.forename} ${e.surname}`}</h3>
-          <EventTable>
-            <tbody>
-              <tr>
-                <th>Status</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-              </tr>
-              {e.events.map(event => (
-                <tr key={event.id}>
-                  <td>
-                    <StatusDot status={event.holidayStatusId} />
-                    {statusText[event.holidayStatusId]}
-                  </td>
-                  <td>{moment(event.start).format('DD/MM/YYYY')}</td>
-                  <td>{moment(event.end).format('DD/MM/YYYY')}</td>
-                </tr>
-              ))}
-            </tbody>
-          </EventTable>
+          <HolidayList 
+            holidays={e.events}
+            columns={['status', 'startDate', 'endDate']}
+          />
         </EmployeeStyleContainer>
       );
     });

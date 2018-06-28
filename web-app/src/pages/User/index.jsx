@@ -45,7 +45,7 @@ export const User = props => {
           <h2>Holidays</h2>
           <HolidayList
             holidays={profileHolidays}
-            columns={['status', 'start', 'end', 'requested']}
+            columns={['status', 'startDate', 'endDate', 'requestedDate']}
             actions={['approve', 'reject']}
           />
         </div>

@@ -9,43 +9,43 @@ export const Sidebar = () => {
       <SidebarHeader>Employees</SidebarHeader>
       <SidebarList>
         <li>
-          <Link to="./employees">View All Employees</Link>
+          <Link to="./employees">View All</Link>
         </li>
         <li>
-          <Link to="./createEmployee">Create Employee</Link>
+          <Link to="./createEmployee">Create</Link>
         </li>
       </SidebarList>
       <SidebarHeader>Holidays</SidebarHeader>
       <SidebarList>
         <li>
-          <Link to="./pendingHolidays">Manage Pending Holidays</Link>
+          <Link to="./pendingHolidays">Manage Pending</Link>
         </li>
         <li>
-          <Link to="./holidays">View All Holidays</Link>
+          <Link to="./holidays">View All</Link>
         </li>
         <li>
-          <Link to="./createHoliday">Create Mandatory Holiday</Link>
+          <Link to="./createHoliday">Create Mandatory</Link>
         </li>
         <li>
-          <Link to="./removeHoliday">Remove Mandatory Holiday</Link>
+          <Link to="./removeHoliday">Remove Mandatory</Link>
         </li>
       </SidebarList>
       <SidebarHeader>Clients</SidebarHeader>
       <SidebarList>
         <li>
-          <Link to="./clients">View All Clients</Link>
+          <Link to="./clients">View All</Link>
         </li>
         <li>
-          <Link to="./createClients">Create Client</Link>
+          <Link to="./createClients">Create</Link>
         </li>
       </SidebarList>
       <SidebarHeader>Contracts</SidebarHeader>
       <SidebarList>
         <li>
-          <Link to="./contracts">View All Contracts</Link>
+          <Link to="./contracts">View All</Link>
         </li>
         <li>
-          <Link to="./createContracts">Create Contract</Link>
+          <Link to="./createContracts">Create</Link>
         </li>
       </SidebarList>
     </Card>
