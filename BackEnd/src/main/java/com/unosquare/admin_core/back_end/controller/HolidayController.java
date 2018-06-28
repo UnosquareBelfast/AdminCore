@@ -80,16 +80,6 @@ public class HolidayController {
 
         if (responses.isEmpty()) {
 
-            modelMapper.createTypeMap(CreateHolidayDto.class, Holiday.class).
-                    addMappings(mapper ->{
-                mapper.map(src -> src.getDates().get(0).getStartDate(),
-                        Holiday::setStartDate);
-                mapper.map(src -> src.getDates().get(src.getDates().size()-1).getEndDate(),
-                        Holiday::setEndDate);
-                mapper.map(src -> src.getDates().get(0).isHalfDay(),
-                        Holiday::setHalfDay);
-            });
-
             Holiday newHoliday = modelMapper.map(createHolidayDto, Holiday.class);
 
             holidayService.save(createHolidayDto.getEmployeeId(), newHoliday);

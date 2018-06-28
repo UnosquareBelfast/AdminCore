@@ -48,7 +48,7 @@ public class EmployeeController {
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateEmployee(@RequestBody EmployeeDto employee) {
-        employeeService.save(modelMapper.map(employee, Employee.class));
+        employeeService.updateEmployee(employee);
     }
 
     @GetMapping(value = "/findByStartDateAfter/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)

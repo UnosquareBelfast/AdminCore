@@ -1,6 +1,7 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
+import com.unosquare.admin_core.back_end.dto.EmployeeDto;
 import com.unosquare.admin_core.back_end.entity.Country;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.EmployeeRole;
@@ -10,6 +11,7 @@ import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.repository.HolidayRepository;
 import com.unosquare.admin_core.back_end.security.JwtTokenProvider;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,6 +52,9 @@ public class EmployeeService {
     @Autowired
     JwtTokenProvider tokenProvider;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
@@ -67,6 +72,13 @@ public class EmployeeService {
         Preconditions.checkNotNull(employee);
         return employeeRepository.save(employee);
     }
+
+    public Employee updateEmployee(EmployeeDto employeeDto){
+        Employee employee = entityManager.find(Employee.class, employeeDto.getEmployeeId());
+        modelMapper.map(employeeDto, employee);
+        return save(employee);
+    }
+
 
     public void updateTotalHolidayForNewEmployee(Employee employee) {
         holidayService.addMandatoryHolidaysForNewEmployee(employee);
