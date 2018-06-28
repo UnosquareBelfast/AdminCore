@@ -10,7 +10,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
   faEnvelope,
   faIdCard,
-  faArrowLeft
+  faArrowLeft,
 } from '@fortawesome/fontawesome-free-solid';
 import { roleText } from '../../utilities/roles';
 
@@ -58,11 +58,11 @@ User.propTypes = {
   localUser: PT.object,
   profileUser: PT.object,
   profileHolidays: PT.array,
-  history: PT.object
+  history: PT.object,
 };
 
 const enhance = flowRight(
   withAuth,
-  container
+  container,
 );
 export default enhance(User);

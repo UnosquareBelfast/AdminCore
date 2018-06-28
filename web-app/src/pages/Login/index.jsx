@@ -32,7 +32,7 @@ export const Login = props => {
 
 Login.propTypes = {
   handleChange: PT.func,
-  handleSubmit: PT.func
+  handleSubmit: PT.func,
 };
 
 export default container(Login);

@@ -8,7 +8,7 @@ import {
   UserDetails,
   Legend,
   TeamView,
-  PersonalView
+  PersonalView,
 } from '../../components';
 import { Event } from '../../components/common';
 import { withAuth } from '../../hoc';
@@ -36,7 +36,7 @@ export const Dashboard = props => {
         views={{
           month: true,
           personal: PersonalView,
-          agenda: TeamView
+          agenda: TeamView,
         }}
         messages={{ agenda: 'team', personal: 'personal' }}
         selectable
@@ -59,11 +59,11 @@ Dashboard.propTypes = {
   booking: PT.object,
   showBookingModal: PT.bool,
   closeModal: PT.func,
-  takenHolidays: PT.array
+  takenHolidays: PT.array,
 };
 
 const enhance = flowRight(
   withAuth,
-  container
+  container,
 );
 export default enhance(Dashboard);

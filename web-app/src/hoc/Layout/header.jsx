@@ -2,9 +2,6 @@ import React, { Fragment } from 'react';
 import Swal from 'sweetalert2';
 import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
-//import roles from '../../utilities/roles';
-//import Legend from '../../components/Legend';
-//import UserDetails from '../../components/UserDetails';
 import { NavLink } from 'react-router-dom';
 import {
   HeaderContent,
@@ -12,7 +9,7 @@ import {
   SubSection,
   ToggleDrawer,
   Icon,
-  Tooltip
+  Tooltip,
 } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -20,21 +17,21 @@ import {
   faBars,
   faTachometerAlt,
   faUnlockAlt,
-  faSignOutAlt
+  faSignOutAlt,
 } from '@fortawesome/fontawesome-free-solid';
 
-const Header = props => {
+const Header = ({ history, isAuthenticated }) => {
   const handleLogout = () => {
     Swal({
       title: 'Are you sure?',
       text: 'Do you wish to log out?',
       buttons: true,
       dangerMode: true,
-      showCancelButton: true
+      showCancelButton: true,
     }).then(signOut => {
       if (signOut.value === true) {
         userLogout();
-        props.history.push('/login');
+        history.push('/login');
       }
     });
   };
@@ -58,7 +55,7 @@ const Header = props => {
           AdminCore
         </ToggleDrawer>
       </HeaderItem>
-      {props.isAuthenticated && (
+      {isAuthenticated && (
         <Fragment>
           <HeaderItem>
             <NavLink to="/propfile" exact activeClassName="active">
@@ -93,9 +90,7 @@ const Header = props => {
           </HeaderItem>
           <SubSection
             className={
-              props.history.location.pathname.indexOf('admin') != -1
-                ? 'active'
-                : ''
+              history.location.pathname.indexOf('admin') != -1 ? 'active' : ''
             }
           >
             <HeaderItem>
@@ -145,7 +140,7 @@ const Header = props => {
 
 Header.propTypes = {
   isAuthenticated: PT.bool,
-  history: PT.object
+  history: PT.object,
 };
 
 export default Header;
