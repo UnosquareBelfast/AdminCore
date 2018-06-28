@@ -10,7 +10,7 @@ import {
 } from '../../components';
 import { Card } from '../../components/common';
 import Sidebar from './Sidebar';
-import { Layout, withAuth } from '../../hoc';
+import { withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import {
   SidebarContainer,
@@ -20,30 +20,28 @@ import {
 } from './styled';
 
 export const Admin = props => (
-  <Layout {...props}>
-    <Container>
-      <SidebarContainer>
-        <Sidebar />
-      </SidebarContainer>
-      <MainContentContainer>
-        <Switch>
-          <Route path="/admin/createEmployee" component={CreateUser} />
-          <Route
-            path="/admin/employees"
-            render={() => (
-              <Card>
-                <h3>Employees</h3>
-                <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
-                <UserListing history={props.history} users={props.users} />
-              </Card>
-            )}
-          />
-          <Route path="/admin/pendingHolidays" component={PendingHolidays} />
-          <Route path="/admin/holidays" component={AllHolidays} />
-        </Switch>
-      </MainContentContainer>
-    </Container>
-  </Layout>
+  <Container>
+    <SidebarContainer>
+      <Sidebar />
+    </SidebarContainer>
+    <MainContentContainer>
+      <Switch>
+        <Route path="/admin/createEmployee" component={CreateUser} />
+        <Route
+          path="/admin/employees"
+          render={() => (
+            <Card>
+              <h3>Employees</h3>
+              <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
+              <UserListing history={props.history} users={props.users} />
+            </Card>
+          )}
+        />
+        <Route path="/admin/pendingHolidays" component={PendingHolidays} />
+        <Route path="/admin/holidays" component={AllHolidays} />
+      </Switch>
+    </MainContentContainer>
+  </Container>
 );
 
 Admin.propTypes = {
