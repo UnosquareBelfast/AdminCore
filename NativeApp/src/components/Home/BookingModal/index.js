@@ -1,10 +1,15 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, Button } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import { ModalWrapper } from '../../Common';
 
 const BookingModal = (props) => {
-  const { showModal, closeModal } = props;
+  const {
+    showModal,
+    closeModal,
+    booking,
+    submitRequest,
+  } = props;
 
   return (
     <ModalWrapper
@@ -12,8 +17,11 @@ const BookingModal = (props) => {
       closeModal={closeModal}
     >
       <Text>
-        Booking Modal
+        Starting
+        {'\n'}
+        {booking.date}
       </Text>
+      <Button onPress={submitRequest} title="Request Holiday" />
     </ModalWrapper>
   );
 };
@@ -21,6 +29,10 @@ const BookingModal = (props) => {
 BookingModal.propTypes = {
   showModal: PT.bool.isRequired,
   closeModal: PT.func.isRequired,
+  submitRequest: PT.func.isRequired,
+  booking: PT.shape({
+    date: PT.string,
+  }).isRequired,
 };
 
 export default BookingModal;

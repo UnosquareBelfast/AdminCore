@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import { userLogout } from '../../utilities/currentUser';
+import moment from 'moment';
+import { userLogout, userProfile } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
+import { requestHolidays } from '../../services/holidayService';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -18,19 +21,60 @@ export default Container => class extends Component {
       super(props);
       this.state = {
         takenHolidays: {},
+        booking: {},
         showModal: false,
+        user: null,
       };
     }
 
     componentDidMount() {
       getTakenHolidays()
         .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+
+      userProfile()
+        .then(user => this.setState({ user }));
     }
 
     onDayPress = (day) => {
       if (day) {
-        this.setState({ showModal: true });
+        this.setState({
+          showModal: true,
+          booking: {
+            date: day.dateString,
+          },
+        });
       }
+    }
+
+    submitRequest = () => {
+      const { booking, user } = this.state;
+      const request = [];
+
+      request.push({
+        date: booking.date,
+        dateCreated: moment().format('YYYY-MM-DD'),
+        employee: {
+          ...user,
+          countryDescription: 'Northern Ireland',
+          statusDescription: 'Inactive',
+        },
+        halfDay: true,
+        holidayId: 0,
+        holidayStatusDescription: 'Booked',
+        holidayStatusId: 1,
+        lastModified: moment().format('YYYY-MM-DD'),
+      });
+
+      requestHolidays(request)
+        .then(() => {
+          getTakenHolidays()
+            .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+          this.closeModal();
+        })
+        .catch(e => Alert.alert(
+          'Could not make request',
+          e.message,
+        ));
     }
 
     closeModal = () => {
@@ -66,7 +110,8 @@ export default Container => class extends Component {
     }
 
     render() {
-      const { takenHolidays, showModal } = this.state;
+      const { takenHolidays, showModal, booking } = this.state;
+
       return (
         <Container
           handleLogout={this.handleLogout}
@@ -74,6 +119,8 @@ export default Container => class extends Component {
           onDayPress={this.onDayPress}
           showModal={showModal}
           closeModal={this.closeModal}
+          booking={booking}
+          submitRequest={this.submitRequest}
         />
       );
     }
