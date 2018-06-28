@@ -11,6 +11,10 @@ const BigCalendarToolbar = props => {
     props.onNavigate('NEXT');
   };
 
+  const goToToday = () => {
+    props.onNavigate('TODAY');
+  };
+
   return (
     <StyleContainer>
       <div>
@@ -19,6 +23,7 @@ const BigCalendarToolbar = props => {
       </div>
       <div>
         <button onClick={goToBack}>Prev Month</button>
+        <button onClick={goToToday}>This Month</button>
         <button onClick={goToNext}>Next Month</button>
       </div>
     </StyleContainer>

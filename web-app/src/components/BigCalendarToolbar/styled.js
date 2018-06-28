@@ -24,17 +24,22 @@ export const StyleContainer = styled.div`
     background-color: ${({ theme }) => theme.colours.lightgrey};
     border: 1px solid ${({ theme }) => theme.colours.grey};
     color: ${({ theme }) => theme.colours.darkGrey};
+    border-right: 0;
     :first-of-type {
       border-radius: 4px 0 0 4px;
-      border-right: 0;
     }
     :last-of-type {
       border-radius: 0 4px 4px 0;
+      border-right: 1px solid ${({ theme }) => theme.colours.grey};
     }
     :hover {
       background-color: ${({ theme }) => theme.colours.unoBlue};
       border-color: ${({ theme }) => theme.colours.unoBlue};
       color: white;
+    }
+    :active {
+      background-color: ${({ theme }) => theme.colours.darkBlue};
+      border-color: ${({ theme }) => theme.colours.darkBlue};
     }
   }
 `;
