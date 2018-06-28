@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const StatusDot = styled.div`
   display: inline-block;
   position: relative;
@@ -31,6 +30,6 @@ export const ButtonStyle = styled.div`
   }
 
   button:hover {
-    background: ${props => props.hoverColor || props.theme.colours.darkBlue};;
+    background: ${props => props.hoverColor || props.theme.colours.darkBlue};
   }
 `;

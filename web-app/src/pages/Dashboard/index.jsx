@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Calendar from 'react-big-calendar';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
@@ -11,7 +11,7 @@ import {
   BigCalendarToolbar,
 } from '../../components';
 import { Event } from '../../components/common';
-import { Layout, withAuth } from '../../hoc';
+import { withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { InnerLayout } from './styled';
 
@@ -20,7 +20,7 @@ Calendar.momentLocalizer(moment);
 
 export const Dashboard = props => {
   return (
-    <Layout {...props}>
+    <Fragment>
       <BookingModal {...props} />
       <InnerLayout>
         <Calendar
@@ -42,7 +42,7 @@ export const Dashboard = props => {
         />
         <Legend />
       </InnerLayout>
-    </Layout>
+    </Fragment>
   );
 };
 

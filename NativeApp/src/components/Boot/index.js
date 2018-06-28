@@ -1,14 +1,17 @@
 import React from 'react';
-import { 
+import {
   View,
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
 
-const BootView = () =>
+const BootView = () => (
   <View style={styles.container}>
-    <ActivityIndicator size="small" />
-  </View>;
+    <ActivityIndicator
+      size="small"
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +20,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-    
+
 
 export default BootView;

@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import {
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+} from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 
 class LoginForm extends Component {
   static propTypes = {
-    handleLogin: PT.func,
+    handleLogin: PT.func.isRequired,
   }
 
   constructor(props) {
@@ -16,28 +21,28 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { email, password } = this.state;
+    const { handleLogin } = this.props;
     return (
       <View style={styles.container}>
         <TextInput
           style={styles.input}
           placeholder="Email goes here..."
-          onChangeText={(text) => this.setState({email: text})}
-          value={this.state.email}
-          autoCapitalize={'none'}
-          underlineColorAndroid={'transparent'}
+          onChangeText={text => this.setState({ email: text })}
+          value={email}
+          autoCapitalize="none"
+          underlineColorAndroid="transparent"
         />
         <TextInput
           style={styles.input}
           placeholder="Password goes here..."
-          onChangeText={(text) => this.setState({password: text})}
-          value={this.state.password}
+          onChangeText={text => this.setState({ password: text })}
+          value={password}
           secureTextEntry
-          underlineColorAndroid={'transparent'}
+          underlineColorAndroid="transparent"
         />
         <Button
-          onPress={() =>
-            this.props.handleLogin(this.state.email, this.state.password)
-          }
+          onPress={() => handleLogin(email, password)}
           title="Login"
         />
       </View>
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     marginBottom: 10,
-    paddingHorizontal: 10, 
+    paddingHorizontal: 10,
   },
 });
 

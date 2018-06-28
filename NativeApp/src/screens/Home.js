@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import {PropTypes as PT} from 'prop-types';
+import { PropTypes as PT } from 'prop-types';
 import Home from '../components/Home';
 
 export default class HomeScreen extends Component {
-  static propTypes = {
-    navigation: PT.object,
-  }
-
   static navigationOptions = {
     title: 'Home',
   }
 
+  static propTypes = {
+    navigation: PT.shape({
+      navigate: PT.func,
+    }).isRequired,
+  }
+
   render() {
+    const { navigation } = this.props;
+
     return (
-      <Home navigation={this.props.navigation}/>
+      <Home navigation={navigation} />
     );
   }
 }

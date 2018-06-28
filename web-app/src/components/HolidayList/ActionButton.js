@@ -2,14 +2,9 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { ButtonStyle } from './styled';
 
-
-export const ActionButton = ({holiday, action, label, color, hoverColor}) => (
+export const ActionButton = ({ holiday, action, label, color, hoverColor }) => (
   <ButtonStyle color={color} hoverColor={hoverColor}>
-    <button
-      onClick={() => action(holiday)}
-    >
-      {label}
-    </button>
+    <button onClick={() => action(holiday)}>{label}</button>
   </ButtonStyle>
 );
 
