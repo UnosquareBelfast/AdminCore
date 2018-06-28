@@ -4,18 +4,25 @@ import Header from './header';
 import { Drawer, LayoutContainer, Input } from './styled';
 
 const Layout = props => {
-  console.log('props :', props);
+  let drawer = null;
+  if (props.isAuthenticated) {
+    drawer = (
+      <Fragment>
+        <Input type="checkbox" id="toggle-drawer" />
+        <Drawer>
+          <Header
+            className="header"
+            isAuthenticated={props.isAuthenticated}
+            userDetails={props.userDetails}
+            history={props.history}
+          />
+        </Drawer>
+      </Fragment>
+    );
+  }
   return (
     <Fragment>
-      <Input type="checkbox" id="toggle-drawer" />
-      <Drawer>
-        <Header
-          className="header"
-          isAuthenticated={props.isAuthenticated}
-          userDetails={props.userDetails}
-          history={props.history}
-        />
-      </Drawer>
+      {drawer}
       <LayoutContainer history={props.history.location.pathname}>
         {props.children}
       </LayoutContainer>

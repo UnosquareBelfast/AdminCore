@@ -78,11 +78,6 @@ const Header = props => {
               Dashboard
             </NavLink>
           </HeaderItem>
-          {/* <SubSection
-            className={props.history.location.pathname == '/' ? 'active' : ''}
-          >
-            <Legend />
-          </SubSection> */}
           <HeaderItem>
             <NavLink
               to="/admin/dashboard"
