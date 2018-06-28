@@ -9,19 +9,12 @@ import Layout from './hoc/Layout';
 class App extends React.Component {
   static propTypes = {
     drawerOpen: PT.bool,
-    history: PT.object
+    history: PT.object,
   };
 
   render() {
     let isAuthenticated = localStorage.getItem('id_token') ? true : false;
-    let routes = (
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/login" component={Login} />
-        <Redirect to="/login" />
-      </Switch>
-    );
-
+    let routes;
     if (isAuthenticated) {
       routes = (
         <Switch>
@@ -29,6 +22,14 @@ class App extends React.Component {
           <Route path="/admin" component={Admin} />
           <Route path="/user/:userId" component={User} />
           <Redirect to="/" />
+        </Switch>
+      );
+    } else {
+      routes = (
+        <Switch>
+          <Route exact path="/" component={Dashboard} />
+          <Route path="/login" component={Login} />
+          <Redirect to="/login" />
         </Switch>
       );
     }

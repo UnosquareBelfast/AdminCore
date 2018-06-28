@@ -6,7 +6,7 @@ import {
   CreateUser,
   UserListing,
   PendingHolidays,
-  AllHolidays
+  AllHolidays,
 } from '../../components';
 import { Card } from '../../components/common';
 import Sidebar from './Sidebar';
@@ -16,7 +16,7 @@ import {
   SidebarContainer,
   Container,
   MainContentContainer,
-  Refresh
+  Refresh,
 } from './styled';
 
 export const Admin = props => (
@@ -48,11 +48,11 @@ Admin.propTypes = {
   userDetails: PT.object,
   users: PT.array,
   refreshUsers: PT.func,
-  history: PT.object
+  history: PT.object,
 };
 
 const enhance = flowRight(
   withAuth,
-  container
+  container,
 );
 export default enhance(Admin);
