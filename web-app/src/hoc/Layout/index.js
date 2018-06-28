@@ -34,7 +34,7 @@ Layout.propTypes = {
   userDetails: PT.object,
   history: PT.object,
   isAuthenticated: PT.bool,
-  children: PT.node
+  children: PT.node,
 };
 
 export default Layout;

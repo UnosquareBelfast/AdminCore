@@ -34,13 +34,4 @@ injectGlobal`
     background: #f1f5f8;
     color: #303335;
   }
-
-  .rbc-calendar {
-    width: 100%;
-    padding: 15px;
-    border-radius: 4px;
-    box-shadow: 0px 2px 2px rgba(0,0,0,0.1);
-    background: white;
-    margin-left: 15px;
-  }
 `;
