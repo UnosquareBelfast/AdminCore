@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Swal from 'sweetalert2';
 import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
 //import roles from '../../utilities/roles';
+//import Legend from '../../components/Legend';
+//import UserDetails from '../../components/UserDetails';
 import { NavLink } from 'react-router-dom';
-import { HeaderContainer, HeaderContent, HeaderItem } from './styled';
+import {
+  HeaderContent,
+  HeaderItem,
+  SubSection,
+  ToggleDrawer,
+  Icon,
+  Tooltip
+} from './styled';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import {
+  faUser,
+  faBars,
+  faTachometerAlt,
+  faUnlockAlt,
+  faSignOutAlt
+} from '@fortawesome/fontawesome-free-solid';
 
 const Header = props => {
   const handleLogout = () => {
@@ -32,36 +49,102 @@ const Header = props => {
   };
 
   return (
-    <HeaderContainer>
-      <HeaderContent>
-        <HeaderItem bold>
-          <NavLink to="/" activeClassName="logo">
-            AdminCore
-          </NavLink>
-        </HeaderItem>
-        {props.isAuthenticated && (
-          <div>
+    <HeaderContent>
+      <HeaderItem underline>
+        <ToggleDrawer htmlFor="toggle-drawer">
+          <Icon>
+            <FontAwesomeIcon icon={faBars} />
+          </Icon>{' '}
+          AdminCore
+        </ToggleDrawer>
+      </HeaderItem>
+      {props.isAuthenticated && (
+        <Fragment>
+          <HeaderItem>
+            <NavLink to="/propfile" exact activeClassName="active">
+              <Icon>
+                <Tooltip>Go to profile</Tooltip>
+                <FontAwesomeIcon icon={faUser} />
+              </Icon>{' '}
+              Profile
+            </NavLink>
+          </HeaderItem>
+          <HeaderItem>
+            <NavLink to="/" exact activeClassName="active">
+              <Icon>
+                <Tooltip>Go to dashboard</Tooltip>
+                <FontAwesomeIcon icon={faTachometerAlt} />
+              </Icon>{' '}
+              Dashboard
+            </NavLink>
+          </HeaderItem>
+          {/* <SubSection
+            className={props.history.location.pathname == '/' ? 'active' : ''}
+          >
+            <Legend />
+          </SubSection> */}
+          <HeaderItem>
+            <NavLink
+              to="/admin/dashboard"
+              isActive={inAdminSection}
+              activeClassName="active"
+            >
+              <Icon>
+                <Tooltip>Go to admin</Tooltip>
+                <FontAwesomeIcon icon={faUnlockAlt} />
+              </Icon>{' '}
+              Admin
+            </NavLink>
+          </HeaderItem>
+          <SubSection
+            className={
+              props.history.location.pathname.indexOf('admin') != -1
+                ? 'active'
+                : ''
+            }
+          >
             <HeaderItem>
-              <NavLink to="/" exact activeClassName="active">
-                Home
+              <NavLink to="/admin/employees" exact activeClassName="active">
+                Employees
+              </NavLink>
+            </HeaderItem>
+            <HeaderItem>
+              <NavLink to="/admin/holidays" exact activeClassName="active">
+                Holidays
               </NavLink>
             </HeaderItem>
             <HeaderItem>
               <NavLink
-                to="/admin/dashboard"
-                isActive={inAdminSection}
+                to="/admin/pendingHolidays"
+                exact
                 activeClassName="active"
               >
-                Admin
+                Pending Holidays
               </NavLink>
             </HeaderItem>
             <HeaderItem>
-              <a onClick={handleLogout}>Log Out</a>
+              <NavLink to="/admin/clients" exact activeClassName="active">
+                Clients
+              </NavLink>
             </HeaderItem>
-          </div>
-        )}
-      </HeaderContent>
-    </HeaderContainer>
+            <HeaderItem>
+              <NavLink to="/admin/contracts" exact activeClassName="active">
+                Contracts
+              </NavLink>
+            </HeaderItem>
+          </SubSection>
+          <HeaderItem>
+            <a onClick={handleLogout}>
+              <Icon>
+                <Tooltip>Log out</Tooltip>
+                <FontAwesomeIcon icon={faSignOutAlt} />
+              </Icon>{' '}
+              Log Out
+            </a>
+          </HeaderItem>
+        </Fragment>
+      )}
+    </HeaderContent>
   );
 };
 

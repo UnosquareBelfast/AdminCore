@@ -1,16 +1,21 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Header from './header';
-import { LayoutContainer } from './styled';
+import { Drawer, LayoutContainer, Input } from './styled';
 
 const Layout = props => {
-  console.log(
-    'props.history.location.pathname :',
-    props.history.location.pathname
-  );
+  console.log('props :', props);
   return (
     <Fragment>
-      <Header isAuthenticated={props.isAuthenticated} history={props.history} />
+      <Input type="checkbox" id="toggle-drawer" />
+      <Drawer>
+        <Header
+          className="header"
+          isAuthenticated={props.isAuthenticated}
+          userDetails={props.userDetails}
+          history={props.history}
+        />
+      </Drawer>
       <LayoutContainer history={props.history.location.pathname}>
         {props.children}
       </LayoutContainer>
@@ -19,6 +24,7 @@ const Layout = props => {
 };
 
 Layout.propTypes = {
+  userDetails: PT.object,
   history: PT.object,
   isAuthenticated: PT.bool,
   children: PT.node

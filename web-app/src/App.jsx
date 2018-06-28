@@ -2,10 +2,16 @@ import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Dashboard, Login, Admin, User } from './pages';
 import { ThemeProvider } from 'styled-components';
+import { PropTypes as PT } from 'prop-types';
 import { theme } from './styled';
 import Layout from './hoc/Layout';
 
 class App extends React.Component {
+  static propTypes = {
+    drawerOpen: PT.bool,
+    history: PT.object
+  };
+
   render() {
     let isAuthenticated = localStorage.getItem('id_token') ? true : false;
     let routes = (
