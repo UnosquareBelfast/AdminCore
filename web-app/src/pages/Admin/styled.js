@@ -5,11 +5,6 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const SidebarContainer = styled.div`
-  flex: 0.5;
-  min-width: 220px;
-`;
-
 export const MainContentContainer = styled.div`
   margin-left: 10px;
   flex: 3.5;
