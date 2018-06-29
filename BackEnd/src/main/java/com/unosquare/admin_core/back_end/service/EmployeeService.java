@@ -75,7 +75,21 @@ public class EmployeeService {
 
     public Employee updateEmployee(EmployeeDto employeeDto){
         Employee employee = entityManager.find(Employee.class, employeeDto.getEmployeeId());
+
+        Country country = entityManager.find(Country.class, employeeDto.getCountryId());
+        EmployeeRole role = entityManager.find(EmployeeRole.class, employeeDto.getEmployeeRoleId());
+        EmployeeStatus status = entityManager.find(EmployeeStatus.class, employeeDto.getEmployeeStatusId());
+
+        employee.setCountry(country);
+        employee.setEmployeeRole(role);
+        employee.setEmployeeStatus(status);
+
+        entityManager.detach(employee.getCountry());
+        entityManager.detach(employee.getEmployeeRole());
+        entityManager.detach(employee.getEmployeeStatus());
+
         modelMapper.map(employeeDto, employee);
+
         return save(employee);
     }
 
