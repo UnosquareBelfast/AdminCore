@@ -12,15 +12,11 @@ import {
   Tooltip,
 } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import {
-  faUser,
-  faBars,
-  faTachometerAlt,
-  faUnlockAlt,
-  faSignOutAlt,
-} from '@fortawesome/fontawesome-free-solid';
+import menuIcons, { menuLinkIcons } from '../../utilities/menuIcons';
 
-const Header = ({ history, isAuthenticated }) => {
+const Header = ({ history, isAuthenticated, menuItems }) => {
+  const { BURGER, LOGOUT } = menuIcons;
+
   const handleLogout = () => {
     Swal({
       title: 'Are you sure?',
@@ -36,98 +32,75 @@ const Header = ({ history, isAuthenticated }) => {
     });
   };
 
-  const inAdminSection = (match, location) => {
-    const { pathname } = location;
-    if (pathname.indexOf('admin') != -1) {
-      return true;
-    } else {
-      return false;
-    }
+  const creatTopLevelNavLinks = headerLink => {
+    const exactCheck = headerLink.route === '/' ? true : false;
+    return (
+      <HeaderItem key={headerLink.route}>
+        <NavLink
+          exact={exactCheck}
+          to={headerLink.route}
+          activeClassName="active"
+        >
+          <Icon>
+            <Tooltip>{headerLink.tooltip}</Tooltip>
+            <FontAwesomeIcon icon={headerLink.icon} />
+          </Icon>{' '}
+          {headerLink.name}
+        </NavLink>
+      </HeaderItem>
+    );
   };
 
-  return (
-    <HeaderContent>
-      <HeaderItem underline>
-        <ToggleDrawer htmlFor="toggle-drawer">
-          <Icon>
-            <FontAwesomeIcon icon={faBars} />
-          </Icon>{' '}
-          AdminCore
-        </ToggleDrawer>
+  const createSubLevelNavLinks = sublink => {
+    return (
+      <HeaderItem key={sublink.route}>
+        <NavLink to={sublink.route} exact activeClassName="active">
+          {sublink.name}
+        </NavLink>
       </HeaderItem>
-      {isAuthenticated && (
-        <Fragment>
-          <HeaderItem>
-            <NavLink to="/propfile" exact activeClassName="active">
-              <Icon>
-                <Tooltip>Go to profile</Tooltip>
-                <FontAwesomeIcon icon={faUser} />
-              </Icon>{' '}
-              Profile
-            </NavLink>
-          </HeaderItem>
-          <HeaderItem>
-            <NavLink to="/" exact activeClassName="active">
-              <Icon>
-                <Tooltip>Go to dashboard</Tooltip>
-                <FontAwesomeIcon icon={faTachometerAlt} />
-              </Icon>{' '}
-              Dashboard
-            </NavLink>
-          </HeaderItem>
-          <HeaderItem>
-            <NavLink
-              to="/admin/dashboard"
-              isActive={inAdminSection}
-              activeClassName="active"
-            >
-              <Icon>
-                <Tooltip>Go to admin</Tooltip>
-                <FontAwesomeIcon icon={faUnlockAlt} />
-              </Icon>{' '}
-              Admin
-            </NavLink>
-          </HeaderItem>
+    );
+  };
+
+  const navlinks = menuItems.map(headerLink => {
+    const headerLinkItems = creatTopLevelNavLinks(headerLink);
+
+    if (headerLink.subnav) {
+      const subNavLinkItems = headerLink.subnav.map(sublink => {
+        return createSubLevelNavLinks(sublink);
+      });
+
+      return (
+        <Fragment key="navlinks">
+          {headerLinkItems}
           <SubSection
             className={
               history.location.pathname.indexOf('admin') != -1 ? 'active' : ''
             }
           >
-            <HeaderItem>
-              <NavLink to="/admin/employees" exact activeClassName="active">
-                Employees
-              </NavLink>
-            </HeaderItem>
-            <HeaderItem>
-              <NavLink to="/admin/holidays" exact activeClassName="active">
-                Holidays
-              </NavLink>
-            </HeaderItem>
-            <HeaderItem>
-              <NavLink
-                to="/admin/pendingHolidays"
-                exact
-                activeClassName="active"
-              >
-                Pending Holidays
-              </NavLink>
-            </HeaderItem>
-            <HeaderItem>
-              <NavLink to="/admin/clients" exact activeClassName="active">
-                Clients
-              </NavLink>
-            </HeaderItem>
-            <HeaderItem>
-              <NavLink to="/admin/contracts" exact activeClassName="active">
-                Contracts
-              </NavLink>
-            </HeaderItem>
+            {subNavLinkItems}
           </SubSection>
+        </Fragment>
+      );
+    } else {
+      return headerLinkItems;
+    }
+  });
+
+  return (
+    <HeaderContent>
+      <HeaderItem underline>
+        <ToggleDrawer htmlFor="toggle-drawer">
+          <Icon>{menuLinkIcons[BURGER]}</Icon> AdminCore
+        </ToggleDrawer>
+      </HeaderItem>
+      {isAuthenticated && (
+        <Fragment>
+          {navlinks}
           <HeaderItem>
             <a onClick={handleLogout}>
               <Icon>
                 <Tooltip>Log out</Tooltip>
-                <FontAwesomeIcon icon={faSignOutAlt} />
+                {menuLinkIcons[LOGOUT]}
               </Icon>{' '}
               Log Out
             </a>
@@ -139,6 +112,7 @@ const Header = ({ history, isAuthenticated }) => {
 };
 
 Header.propTypes = {
+  menuItems: PT.array,
   isAuthenticated: PT.bool,
   history: PT.object,
 };
