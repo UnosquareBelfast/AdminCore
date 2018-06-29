@@ -7,23 +7,15 @@ import {
   UserListing,
   PendingHolidays,
   AllHolidays,
+  AdminDashboard,
 } from '../../components';
 import { Card } from '../../components/common';
-import Sidebar from './Sidebar';
 import { withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
-import {
-  SidebarContainer,
-  Container,
-  MainContentContainer,
-  Refresh,
-} from './styled';
+import { Container, MainContentContainer, Refresh } from './styled';
 
 export const Admin = props => (
   <Container>
-    <SidebarContainer>
-      <Sidebar />
-    </SidebarContainer>
     <MainContentContainer>
       <Switch>
         <Route path="/admin/createEmployee" component={CreateUser} />
@@ -39,6 +31,7 @@ export const Admin = props => (
         />
         <Route path="/admin/pendingHolidays" component={PendingHolidays} />
         <Route path="/admin/holidays" component={AllHolidays} />
+        <Route path="/admin" component={AdminDashboard} />
       </Switch>
     </MainContentContainer>
   </Container>
@@ -51,8 +44,5 @@ Admin.propTypes = {
   history: PT.object,
 };
 
-const enhance = flowRight(
-  withAuth,
-  container,
-);
+const enhance = flowRight(withAuth, container);
 export default enhance(Admin);
