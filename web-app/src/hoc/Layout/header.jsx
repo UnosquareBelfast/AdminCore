@@ -12,11 +12,9 @@ import {
   Tooltip,
 } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import menuIcons, { menuLinkIcons } from '../../utilities/menuIcons';
+import { faBars, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
 
 const Header = ({ history, isAuthenticated, menuItems }) => {
-  const { BURGER, LOGOUT } = menuIcons;
-
   const handleLogout = () => {
     Swal({
       title: 'Are you sure?',
@@ -90,7 +88,10 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
     <HeaderContent>
       <HeaderItem underline>
         <ToggleDrawer htmlFor="toggle-drawer">
-          <Icon>{menuLinkIcons[BURGER]}</Icon> AdminCore
+          <Icon>
+            <FontAwesomeIcon icon={faBars} />
+          </Icon>{' '}
+          AdminCore
         </ToggleDrawer>
       </HeaderItem>
       {isAuthenticated && (
@@ -100,7 +101,7 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
             <a onClick={handleLogout}>
               <Icon>
                 <Tooltip>Log out</Tooltip>
-                {menuLinkIcons[LOGOUT]}
+                <FontAwesomeIcon icon={faSignOutAlt} />
               </Icon>{' '}
               Log Out
             </a>
