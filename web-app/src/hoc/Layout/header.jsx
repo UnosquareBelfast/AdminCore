@@ -32,7 +32,7 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
     });
   };
 
-  const creatTopLevelNavLinks = headerLink => {
+  const createTopLevelNavLinks = headerLink => {
     const exactCheck = headerLink.route === '/' ? true : false;
     return (
       <HeaderItem key={headerLink.route}>
@@ -62,7 +62,7 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
   };
 
   const navlinks = menuItems.map(headerLink => {
-    const headerLinkItems = creatTopLevelNavLinks(headerLink);
+    const headerLinkItems = createTopLevelNavLinks(headerLink);
 
     if (headerLink.subnav) {
       const subNavLinkItems = headerLink.subnav.map(sublink => {
