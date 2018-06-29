@@ -63,11 +63,4 @@ public class AppConfig {
 
         return modelMapper;
     }
-
-//    @Bean
-//    public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
-//        LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
-//        factory.setPersistenceUnitName("entityManagerFactoryUnit");
-//        return factory;
-//    }
 }
