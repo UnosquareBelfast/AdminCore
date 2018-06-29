@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import container from './container';
@@ -9,7 +9,6 @@ import {
   AllHolidays,
   AdminDashboard,
 } from '../../components';
-import { Card } from '../../components/common';
 import { withAuth } from '../../hoc';
 import { flowRight } from 'lodash';
 import { Container, MainContentContainer, Refresh } from './styled';
@@ -22,11 +21,11 @@ export const Admin = props => (
         <Route
           path="/admin/employees"
           render={() => (
-            <Card>
-              <h3>Employees</h3>
+            <Fragment>
+              <h2>Employees</h2>
               <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
               <UserListing history={props.history} users={props.users} />
-            </Card>
+            </Fragment>
           )}
         />
         <Route path="/admin/pendingHolidays" component={PendingHolidays} />

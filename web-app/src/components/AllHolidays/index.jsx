@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Card } from '../common';
 import { HolidayList } from '../';
 
 export const AllHolidays = ({ holidays }) => {
   return (
-    <Card>
-      <h3>All Holidays</h3>
-      <HolidayList 
+    <Fragment>
+      <h2>All Holidays</h2>
+      <HolidayList
         holidays={holidays}
-        columns={['status', 'employee', 'startDate', 'endDate', 'requestedDate']}
+        columns={[
+          'status',
+          'employee',
+          'startDate',
+          'endDate',
+          'requestedDate',
+        ]}
       />
-    </Card>
+    </Fragment>
   );
 };
 
