@@ -43,18 +43,6 @@ public class AppConfig {
             @Override
             protected void configure() {
                 skip().setPassword(null);
-                skip().getCountry().setDescription(source.getCountryDescription());
-                skip().getEmployeeStatus().setDescription(source.getStatusDescription());
-                skip().getEmployeeRole().setDescription(source.getEmployeeRoleDescription());
-                map().getCountry().setCountryId(source.getCountryId());
-                map().setEmployeeId(source.getEmployeeId());
-                map().getEmployeeStatus().setEmployeeStatusId(source.getEmployeeStatusId());
-                map().getEmployeeRole().setEmployeeRoleId(source.getEmployeeRoleId());
-                map().setEmail(source.getEmail());
-                map().setForename(source.getForename());
-                map().setSurname(source.getSurname());
-                map().setStartDate(source.getStartDate());
-                map().setTotalHolidays(source.getTotalHolidays());
             }
         };
 
