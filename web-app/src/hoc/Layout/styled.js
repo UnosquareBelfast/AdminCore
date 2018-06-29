@@ -9,6 +9,7 @@ export const Drawer = styled.div`
   bottom: 0;
   width: 200px;
   transition: left 300ms;
+  z-index: 10;
 `;
 
 export const Icon = styled.div`
@@ -104,13 +105,17 @@ export const MenuItemSubSection = styled.div`
   }
 `;
 
+// The calc in min-height below just subtracts the padding to avoid
+// unrequired scroll bars.
 export const LayoutContainer = styled.div`
-  width: calc(100% - 120px);
-  margin-left: 80px;
-  margin: ${props => (props.history == '/login' ? '0' : '50px auto')};
-  height: 75vh;
-  display: flex;
-  flex-direction: row;
+  min-height: calc(100vh - 40px);
+  background-color: white;
+  padding: ${props => (props.history == '/login' ? '0' : '20px')};
+  width: calc(100% - 80px);
+  transform: ${props =>
+    props.history == '/login' ? 'none' : 'translateX(40px)'};
+  transition: ${props =>
+    props.history == '/login' ? 'none' : 'transform 300ms, width 300ms;'};
 `;
 
 export const Input = styled.input`
@@ -138,7 +143,7 @@ export const Input = styled.input`
   }
 
   &:checked ~ ${LayoutContainer} {
-    width: calc(100% - 230px);
-    margin-left: 230px;
+    width: calc(100% - 240px);
+    transform: translateX(200px);
   }
 `;
