@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import container from './container';
 import { PropTypes as PT } from 'prop-types';
-import Header from './header';
-import { Drawer, LayoutContainer, Input } from './styled';
+import NavMenu from './nav-menu';
+import { LayoutContainer, Input } from './styled';
 
 export const Layout = props => {
   let drawer = null;
@@ -10,14 +10,12 @@ export const Layout = props => {
     drawer = (
       <Fragment>
         <Input type="checkbox" id="toggle-drawer" />
-        <Drawer>
-          <Header
-            isAuthenticated={props.isAuthenticated}
-            userDetails={props.userDetails}
-            history={props.history}
-            menuItems={props.menuItems}
-          />
-        </Drawer>
+        <NavMenu
+          isAuthenticated={props.isAuthenticated}
+          userDetails={props.userDetails}
+          history={props.history}
+          menuItems={props.menuItems}
+        />
       </Fragment>
     );
   }

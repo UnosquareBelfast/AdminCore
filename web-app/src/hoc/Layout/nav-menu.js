@@ -4,17 +4,17 @@ import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
 import { NavLink } from 'react-router-dom';
 import {
-  HeaderContent,
-  HeaderItem,
-  SubSection,
-  ToggleDrawer,
+  Drawer,
+  MenuItem,
+  MenuItemSubSection,
+  ToggleDrawerBtn,
   Icon,
   Tooltip,
 } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faBars, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
 
-const Header = ({ history, isAuthenticated, menuItems }) => {
+const NavMenu = ({ history, isAuthenticated, menuItems }) => {
   const handleLogout = () => {
     Swal({
       title: 'Are you sure?',
@@ -33,7 +33,7 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
   const createTopLevelNavLinks = headerLink => {
     const exactCheck = headerLink.route === '/' ? true : false;
     return (
-      <HeaderItem key={headerLink.route}>
+      <MenuItem key={headerLink.route}>
         <NavLink
           exact={exactCheck}
           to={headerLink.route}
@@ -45,17 +45,17 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
           </Icon>{' '}
           {headerLink.name}
         </NavLink>
-      </HeaderItem>
+      </MenuItem>
     );
   };
 
   const createSubLevelNavLinks = sublink => {
     return (
-      <HeaderItem key={sublink.route}>
+      <MenuItem key={sublink.route}>
         <NavLink to={sublink.route} exact activeClassName="active">
           {sublink.name}
         </NavLink>
-      </HeaderItem>
+      </MenuItem>
     );
   };
 
@@ -70,13 +70,13 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
       return (
         <Fragment key="navlinks">
           {headerLinkItems}
-          <SubSection
+          <MenuItemSubSection
             className={
               history.location.pathname.indexOf('admin') != -1 ? 'active' : ''
             }
           >
             {subNavLinkItems}
-          </SubSection>
+          </MenuItemSubSection>
         </Fragment>
       );
     } else {
@@ -85,19 +85,19 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
   });
 
   return (
-    <HeaderContent>
-      <HeaderItem underline>
-        <ToggleDrawer htmlFor="toggle-drawer">
+    <Drawer>
+      <MenuItem underline>
+        <ToggleDrawerBtn htmlFor="toggle-drawer">
           <Icon>
             <FontAwesomeIcon icon={faBars} />
           </Icon>{' '}
           AdminCore
-        </ToggleDrawer>
-      </HeaderItem>
+        </ToggleDrawerBtn>
+      </MenuItem>
       {isAuthenticated && (
         <Fragment>
           {navlinks}
-          <HeaderItem>
+          <MenuItem>
             <a onClick={handleLogout}>
               <Icon>
                 <Tooltip>Log out</Tooltip>
@@ -105,17 +105,17 @@ const Header = ({ history, isAuthenticated, menuItems }) => {
               </Icon>{' '}
               Log Out
             </a>
-          </HeaderItem>
+          </MenuItem>
         </Fragment>
       )}
-    </HeaderContent>
+    </Drawer>
   );
 };
 
-Header.propTypes = {
+NavMenu.propTypes = {
   menuItems: PT.array,
   isAuthenticated: PT.bool,
   history: PT.object,
 };
 
-export default Header;
+export default NavMenu;

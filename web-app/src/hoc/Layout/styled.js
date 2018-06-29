@@ -38,13 +38,7 @@ export const Tooltip = styled.div`
   transition: 300ms all;
 `;
 
-export const HeaderContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
-export const HeaderItem = styled.div`
+export const MenuItem = styled.div`
   display: block;
   margin-bottom: ${props => (props.underline ? '20px' : '0')};
   cursor: pointer;
@@ -82,7 +76,7 @@ export const HeaderItem = styled.div`
   }
 `;
 
-export const ToggleDrawer = styled.label`
+export const ToggleDrawerBtn = styled.label`
   display: block;
   font-weight: bold;
   cursor: pointer;
@@ -91,10 +85,10 @@ export const ToggleDrawer = styled.label`
   padding: 0 15px 0 40px;
 `;
 
-export const SubSection = styled.div`
+export const MenuItemSubSection = styled.div`
   display: none;
   padding: 10px 0 0 0;
-  ${HeaderItem.selector} {
+  ${MenuItem.selector} {
     background-color: #ffffff;
     a {
       color: ${props => props.theme.colours.unoBlue};
@@ -124,7 +118,7 @@ export const Input = styled.input`
 
   &:checked ~ ${Drawer} {
     left: 0px;
-    ${HeaderItem} ${Icon} {
+    ${MenuItem} ${Icon} {
       right: auto;
       left: 0px;
 
@@ -138,7 +132,7 @@ export const Input = styled.input`
       }
     }
 
-    ${SubSection}.active {
+    ${MenuItemSubSection}.active {
       display: block;
     }
   }
