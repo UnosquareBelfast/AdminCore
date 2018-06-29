@@ -16,6 +16,7 @@ export const theme = {
   },
   fonts: {
     main: 'Open Sans',
+    headers: 'Oswald',
     fallback: 'sans-serif',
   },
   holidayStatus: {
@@ -33,6 +34,11 @@ injectGlobal`
     font-family: ${theme.fonts.main}, ${theme.fonts.fallback};
     background: #f1f5f8;
     color: #303335;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: ${theme.fonts.headers}, ${theme.fonts.fallback};
+    text-transform: uppercase;
   }
 
   .rbc-calendar {
