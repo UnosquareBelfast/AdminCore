@@ -2,13 +2,17 @@ package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Data
 public class ContractPK implements Serializable {
 
+    @Column(name = "employee_id")
     private int employeeId;
+
+    @Column(name = "client_id")
     private int clientId;
 
     public ContractPK() {

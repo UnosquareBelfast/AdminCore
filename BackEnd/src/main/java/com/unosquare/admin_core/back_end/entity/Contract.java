@@ -1,7 +1,5 @@
 package com.unosquare.admin_core.back_end.entity;
 
-import com.unosquare.admin_core.back_end.enums.ContractStatus;
-import com.unosquare.admin_core.back_end.enums.converter.ContractStatusConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,24 +8,24 @@ import java.io.Serializable;
 @Entity
 @Data
 @Table(name = "Contract")
-public class Contract implements Serializable {
+public class Contract implements java.io.Serializable{
 
     @EmbeddedId
     private ContractPK contractId = new ContractPK();
 
     @ManyToOne
     @MapsId("employeeId")
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId", insertable = false, updatable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne
     @MapsId("clientId")
-    @JoinColumn(name = "clientId", referencedColumnName = "clientId", insertable = false, updatable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
 
-    @Basic
-    @Column(name = "contractStatusId")
-    @Convert(converter = ContractStatusConverter.class)
+    @OneToOne
+    @MapsId("contract_status_id")
+    @JoinColumn(name = "contract_status_id")
     private ContractStatus contractStatus;
 
     public Contract() {

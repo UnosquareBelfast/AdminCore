@@ -3,8 +3,6 @@ package com.unosquare.admin_core.back_end.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.unosquare.admin_core.back_end.enums.ClientStatus;
-import com.unosquare.admin_core.back_end.enums.converter.ClientStatusConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,12 +11,13 @@ import java.util.Set;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Client.class)
 @Table(name = "Client")
 public class Client implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="seq",sequenceName="client_client_id_seq1", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @Column(name = "client_id", unique = true, nullable = false)
     private int clientId;
 
     private String clientName;
@@ -26,19 +25,22 @@ public class Client implements java.io.Serializable {
     private String contactName;
     private String contactEmail;
 
-    @Basic
-    @Column(name = "clientStatusId")
-    @Convert(converter = ClientStatusConverter.class)
+    @OneToOne
+    @JoinColumn(name = "client_status_id")
     private ClientStatus clientStatus;
 
     private int minimumEmployeesForTeam = 0;
 
     @OneToMany(mappedBy = "client")
     @JsonIgnore
-    private Set<Contract> contracts = new HashSet<>();
+    private Set<Contract> contracts = new HashSet();
 
     public Client() {
 
+    }
+
+    public Client(int clientId){
+        this.clientId = clientId;
     }
 
     public Client(String clientName, String teamName, String contactName, String contactEmail, ClientStatus clientStatus) {

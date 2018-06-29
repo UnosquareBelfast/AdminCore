@@ -90,8 +90,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/holidays/**", "/mandatoryHolidays/**", "/employeeUserRoles/**",
                         "/clientStatuses/**", "/employeeStatuses/**", "/contractStatuses/**",
                         "/holidayStatuses/**", "/employeeRoles/**", "/countries/**")
-                .hasRole("USER")
-                .anyRequest()
+//                .hasRole("USER")
+//                .anyRequest()
                 .authenticated();
 
         // Add our custom JWT security filter

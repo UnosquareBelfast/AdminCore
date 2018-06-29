@@ -178,24 +178,6 @@
 /**
  * (no documentation provided)
  */
-- (NSString *) location
-{
-  return _location;
-}
-
-/**
- * (no documentation provided)
- */
-- (void) setLocation: (NSString *) newLocation
-{
-  [newLocation retain];
-  [_location release];
-  _location = newLocation;
-}
-
-/**
- * (no documentation provided)
- */
 - (NSString *) name
 {
   return _name;
@@ -211,11 +193,29 @@
   _name = newName;
 }
 
+/**
+ * (no documentation provided)
+ */
+- (NSString *) location
+{
+  return _location;
+}
+
+/**
+ * (no documentation provided)
+ */
+- (void) setLocation: (NSString *) newLocation
+{
+  [newLocation retain];
+  [_location release];
+  _location = newLocation;
+}
+
 - (void) dealloc
 {
   [self setSwaggerVersion: nil];
-  [self setLocation: nil];
   [self setName: nil];
+  [self setLocation: nil];
   [super dealloc];
 }
 @end /* implementation ADMIN_CORENS0SwaggerResource */
@@ -324,22 +324,6 @@
   } //end "if choice"
 
   if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
-    && xmlStrcmp(BAD_CAST "location", xmlTextReaderConstLocalName(reader)) == 0
-    && xmlTextReaderConstNamespaceUri(reader) == NULL) {
-
-#if DEBUG_ENUNCIATE > 1
-    NSLog(@"Attempting to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
-#endif
-    __child = [NSString readXMLType: reader];
-#if DEBUG_ENUNCIATE > 1
-    NSLog(@"successfully read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
-#endif
-
-    [self setLocation: __child];
-    return YES;
-  } //end "if choice"
-
-  if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
     && xmlStrcmp(BAD_CAST "name", xmlTextReaderConstLocalName(reader)) == 0
     && xmlTextReaderConstNamespaceUri(reader) == NULL) {
 
@@ -352,6 +336,22 @@
 #endif
 
     [self setName: __child];
+    return YES;
+  } //end "if choice"
+
+  if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
+    && xmlStrcmp(BAD_CAST "location", xmlTextReaderConstLocalName(reader)) == 0
+    && xmlTextReaderConstNamespaceUri(reader) == NULL) {
+
+#if DEBUG_ENUNCIATE > 1
+    NSLog(@"Attempting to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
+#endif
+    __child = [NSString readXMLType: reader];
+#if DEBUG_ENUNCIATE > 1
+    NSLog(@"successfully read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
+#endif
+
+    [self setLocation: __child];
     return YES;
   } //end "if choice"
 
@@ -421,27 +421,6 @@
                    format: @"Error writing end child element {}swaggerVersion."];
     }
   }
-  if ([self location]) {
-    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "location", NULL);
-    if (status < 0) {
-      [NSException raise: @"XMLWriteError"
-                   format: @"Error writing start child element {}location."];
-    }
-
-#if DEBUG_ENUNCIATE > 1
-    NSLog(@"writing element {}location...");
-#endif
-    [[self location] writeXMLType: writer];
-#if DEBUG_ENUNCIATE > 1
-    NSLog(@"successfully wrote element {}location...");
-#endif
-
-    status = xmlTextWriterEndElement(writer);
-    if (status < 0) {
-      [NSException raise: @"XMLWriteError"
-                   format: @"Error writing end child element {}location."];
-    }
-  }
   if ([self name]) {
     status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "name", NULL);
     if (status < 0) {
@@ -461,6 +440,27 @@
     if (status < 0) {
       [NSException raise: @"XMLWriteError"
                    format: @"Error writing end child element {}name."];
+    }
+  }
+  if ([self location]) {
+    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "location", NULL);
+    if (status < 0) {
+      [NSException raise: @"XMLWriteError"
+                   format: @"Error writing start child element {}location."];
+    }
+
+#if DEBUG_ENUNCIATE > 1
+    NSLog(@"writing element {}location...");
+#endif
+    [[self location] writeXMLType: writer];
+#if DEBUG_ENUNCIATE > 1
+    NSLog(@"successfully wrote element {}location...");
+#endif
+
+    status = xmlTextWriterEndElement(writer);
+    if (status < 0) {
+      [NSException raise: @"XMLWriteError"
+                   format: @"Error writing end child element {}location."];
     }
   }
 }

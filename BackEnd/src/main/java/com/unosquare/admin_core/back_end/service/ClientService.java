@@ -2,7 +2,7 @@ package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.Client;
-import com.unosquare.admin_core.back_end.enums.ClientStatus;
+import com.unosquare.admin_core.back_end.entity.ClientStatus;
 import com.unosquare.admin_core.back_end.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,16 +33,16 @@ public class ClientService {
         return clientRepository.findByClientNameContainingIgnoreCase(clientName);
     }
 
-    public List<Client> findByTeamNameContaining(String teamname) {
-        return clientRepository.findByTeamNameContainingIgnoreCase(teamname);
+    public List<Client> findByTeamNameContaining(String teamName) {
+        return clientRepository.findByTeamNameContainingIgnoreCase(teamName);
     }
 
     public List<Client> findByContactNameContaining(String contactName) {
         return clientRepository.findByContactNameContainingIgnoreCase(contactName);
     }
 
-    public List<Client> findByClientStatus(ClientStatus status) {
-        return clientRepository.findByClientStatus(status);
+    public List<Client> findByClientStatus(com.unosquare.admin_core.back_end.enums.ClientStatus clientStatus) {
+        return clientRepository.findByClientStatus(new com.unosquare.admin_core.back_end.entity.ClientStatus(clientStatus.getClientStatusId()));
     }
 
     public void save(Client client) {

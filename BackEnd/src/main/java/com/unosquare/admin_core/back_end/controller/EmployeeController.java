@@ -48,13 +48,13 @@ public class EmployeeController {
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateEmployee(@RequestBody EmployeeDto employee) {
-        employeeService.save(modelMapper.map(employee, Employee.class));
+        employeeService.updateEmployee(employee);
     }
 
-    @GetMapping(value = "/findByStartDateAfter/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByStartDateAfter/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeDto> findByStartDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapEployeessToDtos(employeeService.findByStartDateAfter(date));
+    public List<EmployeeDto> findByStartDateAfter(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapEployeessToDtos(employeeService.findByStartDateAfter(startDate));
     }
 
     @GetMapping(value = "/findByForenameAndSurname/{forename}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,10 +63,10 @@ public class EmployeeController {
         return mapEployeessToDtos(employeeService.findByForenameAndSurname(forename, surname));
     }
 
-    @GetMapping(value = "/findByStartDateBeforeOrSameDay/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByStartDateBeforeOrSameDay/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeDto> findByStartDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapEployeessToDtos(employeeService.findByStartDateBefore(date.plusDays(1)));
+    public List<EmployeeDto> findByStartDateBeforeOrSameDay(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapEployeessToDtos(employeeService.findByStartDateBefore(startDate.plusDays(1)));
     }
 
     @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -38,11 +38,11 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(Employee employee) {
 
-        List<String> roles = new ArrayList<>();
+        List<String> roles = new ArrayList();
 
         getUserRoles(employee, roles);
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList();
 
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
@@ -56,9 +56,9 @@ public class UserPrincipal implements UserDetails {
     }
 
     private static void getUserRoles(Employee employee, List<String> roles) {
-        if (employee.getEmployeeRoleId() == EmployeeRole.TEAM_LEADER.getEmployeeRoleId()) {
+        if (employee.getEmployeeRole().getEmployeeRoleId() == EmployeeRole.TEAM_LEADER.getEmployeeRoleId()) {
             roles.add(SecurityRoles.TEAM_LEADER.toString());
-        } else if (employee.getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId()) {
+        } else if (employee.getEmployeeRole().getEmployeeRoleId() == EmployeeRole.SYSTEM_ADMINISTRATOR.getEmployeeRoleId()) {
             roles.add(SecurityRoles.SYSTEM_ADMIN.toString());
         }
 
