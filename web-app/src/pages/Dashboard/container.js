@@ -44,7 +44,7 @@ const DashboardContainer = Wrapped =>
             title: 'Could not get user profile',
             text: error.message,
             type: 'error',
-          }),
+          })
         );
     }
 
@@ -100,14 +100,17 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    onSelectEvent = (booking) => {
+    onSelectEvent = booking => {
       this.setState({
         showModal: true,
         booking: {
           isHalfday: booking.halfDay,
           start: moment(booking.start),
           end: moment(booking.end),
-          duration: this.getDuration(moment(booking.start), moment(booking.end)),
+          duration: this.getDuration(
+            moment(booking.start),
+            moment(booking.end)
+          ),
           id: booking.id,
           title: booking.title,
           ...booking,
@@ -151,38 +154,23 @@ const DashboardContainer = Wrapped =>
       const booking = { ...this.state.booking };
       booking.isWFH = e.target.checked;
       this.setState({ booking });
-    }
+    };
 
     submitHolidayRequest = () => {
       const { booking, userDetails } = this.state;
-      const request = [];
+      const { start, end, isHalfday } = booking;
+      const dateFormat = 'YYYY-MM-DD';
 
-      for (let i = 0; i <= booking.end.diff(booking.start, 'days'); i++) {
-        const start = booking.start.clone();
-        request.push({
-          date: start.add(i, 'days').format('YYYY-MM-DD'),
-          dateCreated: moment().format('YYYY-MM-DD'),
-          halfDay: booking.isHalfday,
-          holidayId: 0,
-          holidayStatusDescription: 'Booked',
-          holidayStatusId: 1,
-          lastModified: moment().format('YYYY-MM-DD'),
-          employee: {
-            employeeId: userDetails.employeeId,
-            forename: userDetails.forename,
-            surname: userDetails.surname,
-            email: userDetails.email,
-            totalHolidays: 33,
-            startDate: [2014, 1, 1],
-            countryId: 1,
-            countryDescription: 'Northern Ireland',
-            employeeRoleId: 2,
-            employeeRoleDescription: 'System administrator',
-            employeeStatusId: 2,
-            statusDescription: 'Inactive',
+      const request = {
+        dates: [
+          {
+            startDate: start.format(dateFormat),
+            endDate: end.format(dateFormat),
+            halfDay: isHalfday,
           },
-        });
-      }
+        ],
+        employeeId: userDetails.employeeId,
+      };
 
       requestHoliday(request).then(() => {
         this.getTakenHolidays(userDetails.employeeId);
@@ -190,7 +178,7 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    updateHoliday = (cancel) => {
+    updateHoliday = cancel => {
       const { booking, userDetails } = this.state;
       const request = {
         date: booking.start.format('YYYY-MM-DD'),
@@ -219,7 +207,7 @@ const DashboardContainer = Wrapped =>
         this.getTakenHolidays(userDetails.employeeId);
         this.closeModal();
       });
-    }
+    };
 
     render() {
       return (
