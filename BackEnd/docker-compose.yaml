@@ -25,7 +25,7 @@ services:
     restart: always
     environment:
       PORT: 8585
-    ports: 
+    ports:
       - 80:8585
 # AWS FireWall already handle port restriction - network could be used for handling public/private containers
 # I can't see this being required atm for the reason that AWS's F/W will only let the cors-proxy through
