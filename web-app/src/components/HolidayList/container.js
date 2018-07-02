@@ -9,11 +9,17 @@ export default Wrapped =>
 
     static propTypes = {
       holidays: PT.array,
+      actions: PT.array,
+    }
+
+    static defaultProps = {
+      holidays: [],
+      actions: [],
     }
 
     constructor(props) {
       super(props);
-      this.state = { holidays: [] };
+      this.state = { holidays: props.holidays };
     }
 
     componentWillUpdate(nextProps) {
@@ -76,6 +82,23 @@ export default Wrapped =>
         });
     };
 
+    buildActions = () => {
+      const actionStrings = this.props.actions;
+      const actionFuncs = {};
+
+      //NOTE: This is ALL actions available, add to this list if you add more
+      const actions = {
+        approve: this.approveHoliday,
+        reject: this.rejectHoliday,
+      };
+
+      actionStrings.map(action => {
+        actionFuncs[action] = actions[action];
+      });
+
+      return actionFuncs;
+    }
+
     render() {
       return (
         <Wrapped
@@ -83,6 +106,7 @@ export default Wrapped =>
           {...this.state}
           approveHoliday={this.approveHoliday}
           rejectHoliday={this.rejectHoliday}
+          actions={this.buildActions()}
         />
       );
     }

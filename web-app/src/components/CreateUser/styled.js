@@ -7,9 +7,9 @@ export const Container = styled.div`
   input,
   select {
     display: block;
-    margin: 0.2rem 0 1rem 0;
+    margin: 2px 0 10px 0;
     width: 90%;
-    height: 1.5rem;
-    padding: 0 0.5rem;
+    height: 15px;
+    padding: 0 5px;
   }
 `;

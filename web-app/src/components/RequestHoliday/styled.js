@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const RequestHolidayContainer = styled.div`
-  padding: 0 1rem 1rem 1rem;
+  padding: 0 10px 10px 10px;
   min-width: 300px;
 `;
 
@@ -11,7 +11,7 @@ export const FormLayout = styled.div`
   font-weight: ${props => (props.bold ? 'bold' : 'normal')};
   cursor: pointer;
   button {
-    margin-top: 1rem;
+    margin-top: 10px;
     width: 120px;
     height: 40px;
   }

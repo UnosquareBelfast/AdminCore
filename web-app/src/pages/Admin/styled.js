@@ -5,14 +5,9 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const SidebarContainer = styled.div`
-  flex: 1;
-  min-width: 300px;
-`;
-
 export const MainContentContainer = styled.div`
-  margin-left: 1rem;
-  flex: 3;
+  margin-left: 10px;
+  flex: 3.5;
   h3 {
     display: inline-block;
     margin-right: 5px;

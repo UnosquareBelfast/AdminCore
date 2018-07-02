@@ -12,3 +12,5 @@ export { default as PersonalView } from './PersonalView';
 export { default as PendingHolidays } from './PendingHolidays';
 export { default as AllHolidays } from './AllHolidays';
 export { default as HolidayList } from './HolidayList';
+export { default as BigCalendarToolbar } from './BigCalendarToolbar';
+export { default as AdminDashboard } from './AdminDashboard';

@@ -1,8 +1,10 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
+import com.unosquare.admin_core.back_end.entity.Client;
 import com.unosquare.admin_core.back_end.entity.Contract;
 import com.unosquare.admin_core.back_end.entity.ContractPK;
+import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.enums.ContractStatus;
 import com.unosquare.admin_core.back_end.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +29,15 @@ public class ContractService {
     }
 
     public List<Contract> findByEmployeeId(int employeeId) {
-        return contractRepository.findByEmployee_EmployeeId(employeeId);
+        return contractRepository.findByEmployee(new Employee(employeeId));
     }
 
     public List<Contract> findByClientId(int clientId) {
-        return contractRepository.findByClient_ClientId(clientId);
+        return contractRepository.findByClient(new Client(clientId));
     }
 
     public List<Contract> findByStatus(ContractStatus status) {
-        return contractRepository.findByContractStatus(status);
+        return contractRepository.findByContractStatus(new com.unosquare.admin_core.back_end.entity.ContractStatus(status.getContractStatusId()));
     }
 
     public Contract findById(int employeeId, int clientId) {
