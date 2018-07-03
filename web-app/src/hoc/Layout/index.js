@@ -6,10 +6,16 @@ import { LayoutContainer, Input } from './styled';
 
 export const Layout = props => {
   let drawer = null;
+
   if (props.isAuthenticated) {
     drawer = (
       <Fragment>
-        <Input type="checkbox" id="toggle-drawer" />
+        <Input
+          type="checkbox"
+          id="toggle-drawer"
+          onChange={props.toggleDrawer}
+          checked={props.drawerOpen}
+        />
         <NavMenu
           isAuthenticated={props.isAuthenticated}
           userDetails={props.userDetails}
@@ -36,5 +42,7 @@ Layout.propTypes = {
   history: PT.object,
   isAuthenticated: PT.bool,
   children: PT.node,
+  drawerOpen: PT.bool,
+  toggleDrawer: PT.func,
 };
 export default container(Layout);
