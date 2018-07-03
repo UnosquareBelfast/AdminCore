@@ -36,6 +36,7 @@ const BookingModal = (props) => {
       <CustomDatePickerIOS
         chosenDate={formatDate(endDate)}
         setDate={changeEndDate}
+        minimumDate={formatDate(startDate)}
       />
       <Button onPress={submitRequest} title="Request Holiday" />
     </ModalWrapper>

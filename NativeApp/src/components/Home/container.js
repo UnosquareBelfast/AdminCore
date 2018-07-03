@@ -23,8 +23,11 @@ export default Container => class extends Component {
         takenHolidays: {},
         showModal: false,
         user: null,
-        startDate: '',
-        endDate: '',
+        booking: {
+          startDate: '',
+          endDate: '',
+          halfDay: false,
+        },
       };
     }
 
@@ -40,19 +43,22 @@ export default Container => class extends Component {
       if (day) {
         this.setState({
           showModal: true,
-          startDate: day.dateString,
+          booking: {
+            startDate: day.dateString,
+            endDate: day.dateString,
+          },
         });
       }
     }
 
     submitRequest = () => {
-      const { startDate, endDate, user } = this.state;
+      const { booking, user } = this.state;
       const request = {
         dates: [
           {
-            endDate,
+            endDate: booking.endDate,
             halfDay: false,
-            startDate,
+            startDate: booking.startDate,
           },
         ],
         employeeId: user.employeeId,
@@ -71,14 +77,24 @@ export default Container => class extends Component {
         ));
     }
 
-    changeStartDate = (startDate) => {
-      const formatStartDate = moment(startDate).format('YYYY-MM-DD');
-      this.setState({ startDate: formatStartDate });
+    changeStartDate = (date) => {
+      const formatDate = moment(date).format('YYYY-MM-DD');
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          startDate: formatDate,
+        },
+      }));
     }
 
     changeEndDate = (endDate) => {
       const formatEndDate = moment(endDate).format('YYYY-MM-DD');
-      this.setState({ endDate: formatEndDate });
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          endDate: formatEndDate,
+        },
+      }));
     }
 
     closeModal = () => {
@@ -117,8 +133,7 @@ export default Container => class extends Component {
       const {
         takenHolidays,
         showModal,
-        startDate,
-        endDate,
+        booking,
       } = this.state;
 
       return (
@@ -128,8 +143,8 @@ export default Container => class extends Component {
           onDayPress={this.onDayPress}
           showModal={showModal}
           closeModal={this.closeModal}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={booking.startDate}
+          endDate={booking.endDate}
           submitRequest={this.submitRequest}
           changeStartDate={this.changeStartDate}
           changeEndDate={this.changeEndDate}
