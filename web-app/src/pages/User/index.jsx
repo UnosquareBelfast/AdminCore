@@ -2,8 +2,6 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { HolidayList } from '../../components';
-import { withAuth } from '../../hoc';
-import { flowRight } from 'lodash';
 import { Container, Splitter } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -58,5 +56,4 @@ User.propTypes = {
   history: PT.object,
 };
 
-const enhance = flowRight(withAuth, container);
-export default enhance(User);
+export default container(User);
