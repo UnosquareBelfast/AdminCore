@@ -20,8 +20,8 @@ import java.util.Optional;
 @Transactional
 public class HolidayService {
 
-    @Autowired
-    MandatoryHolidayService mandatoryHolidayService;
+//    @Autowired
+//    MandatoryHolidayService mandatoryHolidayService;
 
     @Autowired
     HolidayRepository holidayRepository;
@@ -80,14 +80,14 @@ public class HolidayService {
         holidayRepository.saveAll(holidays);
     }
 
-    public void addMandatoryHolidaysForNewEmployee(Employee employee) {
-        List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountry().getCountryId(), employee.getStartDate());
-
-        for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
-            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);
-            holidayRepository.save(holiday);
-        }
-    }
+//    public void addMandatoryHolidaysForNewEmployee(Employee employee) {
+//        List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountry().getCountryId(), employee.getStartDate());
+//
+//        for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
+//            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);
+//            holidayRepository.save(holiday);
+//        }
+//    }
 
     public List<Holiday> findByDateAfter(LocalDate startDate) {
         return holidayRepository.findByStartDateAfter(startDate);
