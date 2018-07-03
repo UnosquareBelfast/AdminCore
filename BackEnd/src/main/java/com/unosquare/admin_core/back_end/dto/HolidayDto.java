@@ -11,7 +11,8 @@ public class HolidayDto {
 
     private int holidayId;
 
-    private LocalDate date;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     private EmployeeDto employee;
 
@@ -27,9 +28,10 @@ public class HolidayDto {
 
     }
 
-    public HolidayDto(int holidayId, LocalDate date, EmployeeDto employee, int holidayStatusId, boolean isHalfDay) {
+    public HolidayDto(int holidayId, LocalDate startDate, LocalDate endDate, EmployeeDto employee, int holidayStatusId, boolean isHalfDay) {
         this.holidayId = holidayId;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.employee = employee;
         this.holidayStatusId = (short) holidayStatusId;
         this.lastModified = LocalDate.now();
@@ -38,8 +40,9 @@ public class HolidayDto {
         this.isHalfDay = isHalfDay;
     }
 
-    public HolidayDto(LocalDate date, EmployeeDto employee, int holidayStatusId, boolean isHalfDay) {
-        this.date = date;
+    public HolidayDto(LocalDate startDate, LocalDate endDate, EmployeeDto employee, int holidayStatusId, boolean isHalfDay) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.employee = employee;
         this.holidayStatusId = (short) holidayStatusId;
         this.lastModified = LocalDate.now();
