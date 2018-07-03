@@ -21,9 +21,10 @@ export default Container => class extends Component {
       super(props);
       this.state = {
         takenHolidays: {},
-        booking: {},
         showModal: false,
         user: null,
+        startDate: '',
+        endDate: '',
       };
     }
 
@@ -39,42 +40,45 @@ export default Container => class extends Component {
       if (day) {
         this.setState({
           showModal: true,
-          booking: {
-            date: day.dateString,
-          },
+          startDate: day.dateString,
         });
       }
     }
 
     submitRequest = () => {
-      const { booking, user } = this.state;
-      const request = [];
-
-      request.push({
-        date: booking.date,
-        dateCreated: moment().format('YYYY-MM-DD'),
-        employee: {
-          ...user,
-          countryDescription: 'Northern Ireland',
-          statusDescription: 'Inactive',
-        },
-        halfDay: true,
-        holidayId: 0,
-        holidayStatusDescription: 'Booked',
-        holidayStatusId: 1,
-        lastModified: moment().format('YYYY-MM-DD'),
-      });
+      const { startDate, endDate, user } = this.state;
+      const request = {
+        dates: [
+          {
+            endDate,
+            halfDay: false,
+            startDate,
+          },
+        ],
+        employeeId: user.employeeId,
+      };
 
       requestHolidays(request)
-        .then(() => {
-          getTakenHolidays()
-            .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+        .then((res) => {
+          console.log('res', res)
+          // getTakenHolidays()
+          //   .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
           this.closeModal();
         })
         .catch(e => Alert.alert(
-          'Could not make request',
+          'Could not request holidays',
           e.message,
         ));
+    }
+
+    changeStartDate = (startDate) => {
+      const formatStartDate = moment(startDate).format('YYYY-MM-DD');
+      this.setState({ startDate: formatStartDate });
+    }
+
+    changeEndDate = (endDate) => {
+      const formatEndDate = moment(endDate).format('YYYY-MM-DD');
+      this.setState({ endDate: formatEndDate });
     }
 
     closeModal = () => {
@@ -110,7 +114,12 @@ export default Container => class extends Component {
     }
 
     render() {
-      const { takenHolidays, showModal, booking } = this.state;
+      const {
+        takenHolidays,
+        showModal,
+        startDate,
+        endDate,
+      } = this.state;
 
       return (
         <Container
@@ -119,8 +128,11 @@ export default Container => class extends Component {
           onDayPress={this.onDayPress}
           showModal={showModal}
           closeModal={this.closeModal}
-          booking={booking}
+          startDate={startDate}
+          endDate={endDate}
           submitRequest={this.submitRequest}
+          changeStartDate={this.changeStartDate}
+          changeEndDate={this.changeEndDate}
         />
       );
     }

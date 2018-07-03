@@ -16,4 +16,4 @@ export const getUserHolidays = () => {
   }
 };
 
-export const requestHolidays = holidays => axios.post('/holidays/createMultiple/', holidays);
+export const requestHolidays = holidays => axios.post('/holidays/', holidays);

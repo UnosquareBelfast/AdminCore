@@ -11,8 +11,11 @@ const HomeView = (props) => {
     onDayPress,
     showModal,
     closeModal,
-    booking,
+    startDate,
+    endDate,
     submitRequest,
+    changeStartDate,
+    changeEndDate,
   } = props;
 
   return (
@@ -20,8 +23,11 @@ const HomeView = (props) => {
       <BookingModal
         showModal={showModal}
         closeModal={closeModal}
-        booking={booking}
+        startDate={startDate}
+        endDate={endDate}
         submitRequest={submitRequest}
+        changeStartDate={changeStartDate}
+        changeEndDate={changeEndDate}
       />
       <Button
         onPress={handleLogout}
@@ -50,9 +56,10 @@ HomeView.propTypes = {
   onDayPress: PT.func.isRequired,
   showModal: PT.bool.isRequired,
   closeModal: PT.func.isRequired,
-  booking: PT.shape({
-    date: PT.string,
-  }).isRequired,
+  startDate: PT.string.isRequired,
+  endDate: PT.string.isRequired,
+  changeStartDate: PT.func.isRequired,
+  changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
 };
 

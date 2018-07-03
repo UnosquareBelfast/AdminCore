@@ -1,15 +1,21 @@
 import React from 'react';
 import { Text, Button } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import { ModalWrapper } from '../../Common';
+import moment from 'moment';
+import { ModalWrapper, CustomDatePickerIOS } from '../../Common';
 
 const BookingModal = (props) => {
   const {
     showModal,
     closeModal,
-    booking,
+    startDate,
+    endDate,
     submitRequest,
+    changeStartDate,
+    changeEndDate,
   } = props;
+
+  const formatDate = date => moment(date).toDate();
 
   return (
     <ModalWrapper
@@ -19,8 +25,18 @@ const BookingModal = (props) => {
       <Text>
         Starting
         {'\n'}
-        {booking.date}
       </Text>
+      <CustomDatePickerIOS
+        chosenDate={formatDate(startDate)}
+        setDate={changeStartDate}
+      />
+      <Text>
+        Ending
+      </Text>
+      <CustomDatePickerIOS
+        chosenDate={formatDate(endDate)}
+        setDate={changeEndDate}
+      />
       <Button onPress={submitRequest} title="Request Holiday" />
     </ModalWrapper>
   );
@@ -30,9 +46,10 @@ BookingModal.propTypes = {
   showModal: PT.bool.isRequired,
   closeModal: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
-  booking: PT.shape({
-    date: PT.string,
-  }).isRequired,
+  startDate: PT.string.isRequired,
+  endDate: PT.string.isRequired,
+  changeStartDate: PT.func.isRequired,
+  changeEndDate: PT.func.isRequired,
 };
 
 export default BookingModal;
