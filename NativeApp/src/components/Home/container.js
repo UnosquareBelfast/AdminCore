@@ -65,10 +65,9 @@ export default Container => class extends Component {
       };
 
       requestHolidays(request)
-        .then((res) => {
-          console.log('res', res)
-          // getTakenHolidays()
-          //   .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+        .then(() => {
+          getTakenHolidays()
+            .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
           this.closeModal();
         })
         .catch(e => Alert.alert(
