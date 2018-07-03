@@ -5,6 +5,8 @@ import { ThemeProvider } from 'styled-components';
 import { PropTypes as PT } from 'prop-types';
 import { theme } from './styled';
 import Layout from './hoc/Layout';
+import AuthUserAndStore from './hoc/AuthUserAndStore';
+import { isLoggedIn } from './utilities/currentUser';
 
 class App extends React.Component {
   static propTypes = {
@@ -13,21 +15,23 @@ class App extends React.Component {
   };
 
   render() {
-    let isAuthenticated = localStorage.getItem('id_token') ? true : false;
+    let isAuthenticated = isLoggedIn() ? true : false;
     let routes;
+
     if (isAuthenticated) {
       routes = (
-        <Switch>
-          <Route exact path="/" component={Dashboard} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/user/:userId" component={User} />
-          <Redirect to="/" />
-        </Switch>
+        <AuthUserAndStore history={this.props.history}>
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/admin" component={Admin} />
+            <Route path="/user/:userId" component={User} />
+            <Redirect to="/" />
+          </Switch>
+        </AuthUserAndStore>
       );
     } else {
       routes = (
         <Switch>
-          <Route exact path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
           <Redirect to="/login" />
         </Switch>
