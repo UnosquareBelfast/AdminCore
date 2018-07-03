@@ -77,17 +77,9 @@ public class AppConfig {
             }
         };
 
-//        PropertyMap<Holiday, HolidayDto> holidayMapping = new PropertyMap<Holiday, HolidayDto>() {
-//            @Override
-//            protected void configure() {
-//                map().setEmployee(modelMapper.map(source.getEmployee(), EmployeeDto.class));
-//            }
-//        };
-
         modelMapper.addConverter(holidayConverter);
         modelMapper.addMappings(employeeMapping);
         modelMapper.addMappings(employeeDtoMapping);
-        //modelMapper.addMappings(holidayMapping);
 
         return modelMapper;
     }
