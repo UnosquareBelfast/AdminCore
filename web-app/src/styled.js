@@ -40,13 +40,4 @@ injectGlobal`
     font-family: ${theme.fonts.headers}, ${theme.fonts.fallback};
     text-transform: uppercase;
   }
-
-  .rbc-calendar {
-    width: 100%;
-    padding: 15px;
-    border-radius: 4px;
-    box-shadow: 0px 2px 2px rgba(0,0,0,0.1);
-    background: white;
-    margin-left: 15px;
-  }
 `;
