@@ -5,6 +5,7 @@ import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.*;
+import javafx.beans.property.Property;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -44,10 +45,24 @@ public class AppConfig {
             @Override
             protected HolidayDto convert(Holiday source) {
                 HolidayDto ret = new HolidayDto(source.getHolidayId(), source.getStartDate(), source.getEndDate(),
-                        modelMapper.map(source.getEmployee(), EmployeeDto.class),
-                        source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
+                        source.getEmployee().getEmployeeId(), source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
 
                 return ret;
+            }
+        };
+
+        PropertyMap<HolidayDto, Holiday> holidayEntityMapping = new PropertyMap<HolidayDto, Holiday>() {
+            @Override
+            protected void configure() {
+                skip().setDateCreated(null);
+                skip().getHolidayStatus().setDescription(source.getHolidayStatusDescription());
+                map().setLastModified(LocalDate.now());
+                map().setHalfDay(source.isHalfDay());
+                map().setEndDate(source.getEndDate());
+                map().setEmployee(new Employee(source.getEmployeeId()));
+                map().setHolidayId(source.getHolidayId());
+                map().setHolidayStatus(new HolidayStatus(source.getHolidayStatusId()));
+                map().setStartDate(source.getStartDate());
             }
         };
 
@@ -75,6 +90,7 @@ public class AppConfig {
         modelMapper.addConverter(holidayConverter);
         modelMapper.addMappings(employeeMapping);
         modelMapper.addConverter(holidayDtoConvert);
+        modelMapper.addMappings(holidayEntityMapping);
 
         return modelMapper;
     }
