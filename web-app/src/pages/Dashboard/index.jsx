@@ -11,8 +11,6 @@ import {
   BigCalendarToolbar,
 } from '../../components';
 import { Event } from '../../components/common';
-import { withAuth } from '../../hoc';
-import { flowRight } from 'lodash';
 import { InnerLayout } from './styled';
 
 moment.locale('en-gb');
@@ -60,5 +58,4 @@ Dashboard.propTypes = {
   takenHolidays: PT.array,
 };
 
-const enhance = flowRight(withAuth, container);
-export default enhance(Dashboard);
+export default container(Dashboard);

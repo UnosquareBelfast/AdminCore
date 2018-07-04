@@ -9,8 +9,6 @@ import {
   AllHolidays,
   AdminDashboard,
 } from '../../components';
-import { withAuth } from '../../hoc';
-import { flowRight } from 'lodash';
 import { Container, MainContentContainer, Refresh } from './styled';
 
 export const Admin = props => (
@@ -43,5 +41,4 @@ Admin.propTypes = {
   history: PT.object,
 };
 
-const enhance = flowRight(withAuth, container);
-export default enhance(Admin);
+export default container(Admin);

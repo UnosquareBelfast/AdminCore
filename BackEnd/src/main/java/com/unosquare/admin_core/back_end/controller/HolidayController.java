@@ -100,7 +100,7 @@ public class HolidayController {
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody HolidayDto holiday) {
-        holidayService.save(holiday.getEmployee().getEmployeeId(), modelMapper.map(holiday, Holiday.class));
+        holidayService.save(holiday.getEmployeeId(), modelMapper.map(holiday, Holiday.class));
     }
 
 //    @PutMapping(value = "/updateMultiple", produces = MediaType.APPLICATION_JSON_VALUE)

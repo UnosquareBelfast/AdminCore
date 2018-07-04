@@ -1,38 +1,52 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import styles from './style.css';
+import { LoginBG, LoginPanel } from './styled';
 import container from './container';
+import { Input, Button } from '../../components/common';
 
 export const Login = props => {
+  const { formElementsArray, formIsValid, submitForm, formChanged } = props;
+
+  let form = (
+    <form id="loginForm">
+      {formElementsArray.map(({ id, config }, index) => (
+        <Input
+          key={id}
+          label={config.label}
+          elementType={config.elementType}
+          elementConfig={config.elementConfig}
+          value={config.value}
+          invalid={!config.valid}
+          shouldValidate={config.validation}
+          focus={index === 0 ? true : false}
+          touched={config.touched}
+          changed={event => formChanged(event, id)}
+        />
+      ))}
+      <Button
+        id="createUserBtn"
+        label="Login"
+        onClick={submitForm}
+        disabled={!formIsValid}
+      />
+    </form>
+  );
+
   return (
-    <div className={styles.center}>
-      <div className={styles.card}>
-        <h1>Login</h1>
-        <form id="loginForm" onSubmit={props.handleSubmit}>
-          <input
-            className={styles.item}
-            placeholder="Email goes here..."
-            name="email"
-            type="text"
-            onChange={props.handleChange}
-          />
-          <input
-            className={styles.item}
-            placeholder="Password goes here..."
-            name="password"
-            type="password"
-            onChange={props.handleChange}
-          />
-          <input className={styles.submit} value="SUBMIT" type="submit" />
-        </form>
-      </div>
-    </div>
+    <LoginBG>
+      <LoginPanel>
+        <h1>Welcome to Admin Core</h1>
+        {form}
+      </LoginPanel>
+    </LoginBG>
   );
 };
 
 Login.propTypes = {
-  handleChange: PT.func,
-  handleSubmit: PT.func,
+  formElementsArray: PT.array.isRequired,
+  formIsValid: PT.bool.isRequired,
+  submitForm: PT.func.isRequired,
+  formChanged: PT.func.isRequired,
 };
 
 export default container(Login);

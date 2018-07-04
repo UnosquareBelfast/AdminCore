@@ -2,7 +2,9 @@ package com.unosquare.admin_core.back_end.configuration;
 
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
+import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.*;
+import javafx.beans.property.Property;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -12,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.time.LocalDate;
 
 @Configuration
 @EnableTransactionManagement
@@ -32,6 +36,31 @@ public class AppConfig {
             }
         };
 
+        Converter<Holiday, HolidayDto> holidayDtoConvert = new AbstractConverter<Holiday, HolidayDto>() {
+            @Override
+            protected HolidayDto convert(Holiday source) {
+                HolidayDto ret = new HolidayDto(source.getHolidayId(), source.getStartDate(), source.getEndDate(),
+                        source.getEmployee().getEmployeeId(), source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
+
+                return ret;
+            }
+        };
+
+        PropertyMap<HolidayDto, Holiday> holidayEntityMapping = new PropertyMap<HolidayDto, Holiday>() {
+            @Override
+            protected void configure() {
+                skip().setDateCreated(null);
+                skip().getHolidayStatus().setDescription(source.getHolidayStatusDescription());
+                map().setLastModified(LocalDate.now());
+                map().setHalfDay(source.isHalfDay());
+                map().setEndDate(source.getEndDate());
+                map().setEmployee(new Employee(source.getEmployeeId()));
+                map().setHolidayId(source.getHolidayId());
+                map().setHolidayStatus(new HolidayStatus(source.getHolidayStatusId()));
+                map().setStartDate(source.getStartDate());
+            }
+        };
+
         PropertyMap<EmployeeDto, Employee> employeeMapping = new PropertyMap<EmployeeDto, Employee>() {
             @Override
             protected void configure() {
@@ -39,6 +68,8 @@ public class AppConfig {
                 skip().getCountry().setDescription(source.getCountryDescription());
                 skip().getEmployeeRole().setDescription(source.getEmployeeRoleDescription());
                 skip().getEmployeeStatus().setDescription(source.getStatusDescription());
+                skip().setHolidays(null);
+                skip().setContracts(null);
                 map().setTotalHolidays(source.getTotalHolidays());
                 map().setEmail(source.getEmail());
                 map().setCountry(new Country(source.getCountryId()));
@@ -72,6 +103,8 @@ public class AppConfig {
         modelMapper.addConverter(holidayConverter);
         modelMapper.addMappings(employeeMapping);
         modelMapper.addMappings(employeeDtoMapping);
+        modelMapper.addConverter(holidayDtoConvert);
+        modelMapper.addMappings(holidayEntityMapping);
 
         return modelMapper;
     }
