@@ -5,6 +5,7 @@ import {
   Label,
   TextBox,
   TextBoxLarge,
+  DropdownContainer,
   Dropdown,
   DatePickerContainer,
 } from './styled';
@@ -13,23 +14,34 @@ import DatePicker from 'react-datepicker';
 const Input = props => {
   let inputElement = null;
   let inputClasses = [];
-  let formGroupId = props.label;
+  const {
+    label,
+    invalid,
+    shouldValidate,
+    touched,
+    elementType,
+    elementConfig,
+    value,
+    changed,
+    focus,
+  } = props;
+  let formGroupId = label;
   let id = formGroupId.replace(' ', '').toLowerCase();
 
-  if (props.invalid && props.shouldValidate && props.touched) {
+  if (invalid && shouldValidate && touched) {
     inputClasses.push('invalid');
   }
 
-  switch (props.elementType) {
+  switch (elementType) {
     case 'input':
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
           id={id}
-          {...props.elementConfig}
-          value={props.value}
-          onChange={props.changed}
-          autoFocus={props.focus}
+          {...elementConfig}
+          value={value}
+          onChange={changed}
+          autoFocus={focus}
         />
       );
       break;
@@ -38,11 +50,11 @@ const Input = props => {
         <TextBoxLarge
           rows={6}
           className={'large' + inputClasses.join(' ')}
-          {...props.elementConfig}
-          value={props.value}
+          {...elementConfig}
+          value={value}
           id={id}
-          onChange={props.changed}
-          autoFocus={props.focus}
+          onChange={changed}
+          autoFocus={focus}
         />
       );
       break;
@@ -51,35 +63,37 @@ const Input = props => {
         <TextBox
           rows={6}
           className={inputClasses.join(' ')}
-          {...props.elementConfig}
-          checked={props.value}
+          {...elementConfig}
+          checked={value}
           id={id}
-          onChange={props.changed}
-          autoFocus={props.focus}
+          onChange={changed}
+          autoFocus={focus}
         />
       );
       break;
     case 'select':
       inputElement = (
-        <Dropdown
-          className={inputClasses.join(' ')}
-          value={props.value}
-          id={id}
-          onChange={props.changed}
-          autoFocus={props.focus}
-        >
-          {props.elementConfig.options.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.displayValue}
-            </option>
-          ))}
-        </Dropdown>
+        <DropdownContainer className={inputClasses.join(' ')}>
+          <Dropdown
+            className={inputClasses.join(' ')}
+            value={value}
+            id={id}
+            onChange={changed}
+            autoFocus={focus}
+          >
+            {elementConfig.options.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.displayValue}
+              </option>
+            ))}
+          </Dropdown>
+        </DropdownContainer>
       );
       break;
     case 'date':
       inputElement = (
-        <DatePickerContainer>
-          <DatePicker selected={props.value} onChange={props.changed} />
+        <DatePickerContainer className={inputClasses.join(' ')}>
+          <DatePicker selected={value} onChange={changed} />
         </DatePickerContainer>
       );
       break;
@@ -87,18 +101,18 @@ const Input = props => {
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
-          {...props.elementConfig}
-          value={props.value}
+          {...elementConfig}
+          value={value}
           id={id}
-          onChange={props.changed}
-          autoFocus={props.focus}
+          onChange={changed}
+          autoFocus={focus}
         />
       );
   }
 
   return (
-    <FormGroup>
-      <Label htmlFor={id}>{props.label}</Label>
+    <FormGroup className={elementType == 'checkbox' ? 'checkbox' : null}>
+      <Label htmlFor={id}>{label}</Label>
       {inputElement}
     </FormGroup>
   );
