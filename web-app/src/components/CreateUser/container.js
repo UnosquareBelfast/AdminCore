@@ -115,9 +115,9 @@ export default Wrapped =>
           elementType: 'select',
           elementConfig: {
             options: [
-              { value: 3, displayValue: 'Employee' },
               { value: 1, displayValue: 'Team Leader' },
               { value: 2, displayValue: 'System Admin' },
+              { value: 3, displayValue: 'Employee' },
             ],
           },
           value: 3,
