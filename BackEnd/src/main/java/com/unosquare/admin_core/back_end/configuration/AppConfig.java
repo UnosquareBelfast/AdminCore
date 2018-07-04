@@ -5,7 +5,7 @@ import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.*;
-//import javafx.beans.property.Property;
+import javafx.beans.property.Property;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
