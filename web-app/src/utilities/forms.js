@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
@@ -31,6 +33,11 @@ export const checkValidity = (value, rules) => {
   if (rules.isNumeric) {
     const pattern = /^\d+$/;
     isValid = pattern.test(value) && isValid;
+  }
+
+  if (rules.dateNotInPast) {
+    let today = moment().subtract(1, 'd');
+    isValid = value.isAfter(today) ? true : false;
   }
 
   return isValid;
