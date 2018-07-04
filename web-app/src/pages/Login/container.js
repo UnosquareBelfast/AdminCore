@@ -21,8 +21,6 @@ export default Wrapped =>
       this.state = {
         form: this.initialFormState(),
         formIsValid: false,
-        success: null,
-        error: null,
         loading: false,
       };
     }
@@ -102,8 +100,6 @@ export default Wrapped =>
           formIsValid={this.state.formIsValid}
           submitForm={this.handleFormSubmit}
           formChanged={(event, id) => this.handleFormChange(event, id)}
-          success={this.state.success}
-          error={this.state.error}
           loading={this.state.loading}
         />
       );

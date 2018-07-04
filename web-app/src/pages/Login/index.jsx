@@ -43,13 +43,10 @@ export const Login = props => {
 };
 
 Login.propTypes = {
-  formElementsArray: PT.array,
-  formIsValid: PT.bool,
-  submitForm: PT.func,
-  formChanged: PT.func,
-  formChecked: PT.func,
-  handleChange: PT.func,
-  handleSubmit: PT.func,
+  formElementsArray: PT.array.isRequired,
+  formIsValid: PT.bool.isRequired,
+  submitForm: PT.func.isRequired,
+  formChanged: PT.func.isRequired,
 };
 
 export default container(Login);

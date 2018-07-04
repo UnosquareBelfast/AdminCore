@@ -62,14 +62,18 @@ export const CreateUser = props => {
 };
 
 CreateUser.propTypes = {
-  formElementsArray: PT.array,
-  formIsValid: PT.bool,
-  submitForm: PT.func,
-  formChanged: PT.func,
-  startDateChanged: PT.func,
+  formElementsArray: PT.array.isRequired,
+  formIsValid: PT.bool.isRequired,
+  submitForm: PT.func.isRequired,
+  formChanged: PT.func.isRequired,
+  loading: PT.bool.isRequired,
   error: PT.object,
   success: PT.bool,
-  loading: PT.bool,
+};
+
+CreateUser.defaultProps = {
+  error: false,
+  success: false,
 };
 
 export default container(CreateUser);

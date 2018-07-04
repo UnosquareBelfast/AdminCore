@@ -79,7 +79,6 @@ const Input = props => {
             value={value}
             id={id}
             onChange={changed}
-            autoFocus={focus}
           >
             {elementConfig.options.map(option => (
               <option key={option.value} value={option.value}>
@@ -119,15 +118,20 @@ const Input = props => {
 };
 
 Input.propTypes = {
-  elementConfig: PT.object,
-  elementType: PT.string,
-  value: PT.any,
-  label: PT.string,
-  changed: PT.func,
+  elementConfig: PT.object.isRequired,
+  elementType: PT.string.isRequired,
+  value: PT.any.isRequired,
+  label: PT.string.isRequired,
+  changed: PT.func.isRequired,
+  invalid: PT.bool.isRequired,
+  shouldValidate: PT.object.isRequired,
   touched: PT.bool,
-  invalid: PT.bool,
   focus: PT.bool,
-  shouldValidate: PT.object,
+};
+
+Input.defaultProps = {
+  touched: false,
+  focus: false,
 };
 
 export default Input;
