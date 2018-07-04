@@ -31,11 +31,11 @@ import java.util.Optional;
 @Transactional
 public class EmployeeService {
 
-    @Autowired
-    HolidayService holidayService;
-
-    @Autowired
-    HolidayRepository holidayRepository;
+//    @Autowired
+//    HolidayService holidayService;
+//
+//    @Autowired
+//    HolidayRepository holidayRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -117,13 +117,13 @@ public class EmployeeService {
         return employeeRepository.findByForenameIgnoreCaseAndSurnameIgnoreCase(forename, surname);
     }
 
-    public List<Employee> findByStartDateAfter(LocalDate startDate) {
-        return employeeRepository.findByStartDateAfter(startDate);
-    }
-
-    public List<Employee> findByStartDateBefore(LocalDate startDate) {
-        return employeeRepository.findByStartDateBefore(startDate);
-    }
+//    public List<Employee> findByStartDateAfter(LocalDate startDate) {
+//        return employeeRepository.findByStartDateAfter(startDate);
+//    }
+//
+//    public List<Employee> findByStartDateBefore(LocalDate startDate) {
+//        return employeeRepository.findByStartDateBefore(startDate);
+//    }
 
     public List<Employee> findByCountry(com.unosquare.admin_core.back_end.enums.Country country) {
         return employeeRepository.findByCountry(new com.unosquare.admin_core.back_end.entity.Country(country.getCountryId()));

@@ -4,7 +4,7 @@ import com.unosquare.admin_core.back_end.entity.Country;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
@@ -13,9 +13,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     List<Employee> findByForenameIgnoreCaseAndSurnameIgnoreCase(String forename, String surname);
 
-    List<Employee> findByStartDateAfter(LocalDate startDate);
-
-    List<Employee> findByStartDateBefore(LocalDate startDate);
+//    List<Employee> findByStartDateAfter(LocalDate startDate);
+//
+//    List<Employee> findByStartDateBefore(LocalDate startDate);
 
     List<Employee> findByCountry(Country country);
 }

@@ -168,10 +168,10 @@ public class TestHolidayService {
 //        testingObject.save(holidayBeforeToday);
     }
 
-    @Test
-    public void testSaveMultipleMethod() {
-        testingObject.saveMultiple(allHolidays);
-    }
+//    @Test
+//    public void testSaveMultipleMethod() {
+//        testingObject.saveMultiple(allHolidays);
+//    }
 
     @Test
     public void testFindAll() {
@@ -187,25 +187,25 @@ public class TestHolidayService {
 //        testingObject.addMandatoryHolidaysForNewEmployee(employee);
 //    }
 
-    @Test
-    public void testFindByStartDateAfter() {
-
-        Mockito.doReturn(holidaysAfterToday).
-                when(holidayRepository).findByStartDateAfter(currentDateTest);
-
-        Assert.assertArrayEquals(testingObject.findByDateAfter(currentDateTest).toArray(),
-                holidaysAfterToday.toArray());
-    }
-
-    @Test
-    public void testFindByEndDateBeforeOrToday() {
-
-        Mockito.doReturn(holidaysBeforeToday).
-                when(holidayRepository).findByStartDateBefore(any(LocalDate.class));
-
-        Assert.assertArrayEquals(testingObject.findByDateBefore(currentDateTest).toArray(),
-                holidaysBeforeToday.toArray());
-    }
+//    @Test
+//    public void testFindByStartDateAfter() {
+//
+//        Mockito.doReturn(holidaysAfterToday).
+//                when(holidayRepository).findByStartDateAfter(currentDateTest);
+//
+//        Assert.assertArrayEquals(testingObject.findByDateAfter(currentDateTest).toArray(),
+//                holidaysAfterToday.toArray());
+//    }
+//
+//    @Test
+//    public void testFindByEndDateBeforeOrToday() {
+//
+//        Mockito.doReturn(holidaysBeforeToday).
+//                when(holidayRepository).findByStartDateBefore(any(LocalDate.class));
+//
+//        Assert.assertArrayEquals(testingObject.findByDateBefore(currentDateTest).toArray(),
+//                holidaysBeforeToday.toArray());
+//    }
 
     @Test
     public void testFindByStartDateBetween() {

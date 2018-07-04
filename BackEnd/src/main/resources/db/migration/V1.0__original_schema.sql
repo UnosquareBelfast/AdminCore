@@ -343,25 +343,25 @@ ALTER TABLE public.holiday
 -- Table: public.mandatory_holiday
 -- DROP TABLE public.mandatory_holiday;
 
-CREATE SEQUENCE IF NOT EXISTS public.mandatory_holiday_mandatory_holiday_id_seq1;
-CREATE TABLE IF NOT EXISTS public.mandatory_holiday
-(
-  mandatory_holiday_id integer NOT NULL DEFAULT nextval('mandatory_holiday_mandatory_holiday_id_seq1' :: regclass),
-  country_id           integer,
-  date                 date,
-  CONSTRAINT mandatory_holiday_pkey PRIMARY KEY (mandatory_holiday_id),
-  CONSTRAINT mandatory_holiday_country_id_fkey FOREIGN KEY (country_id)
-        REFERENCES public.country (country_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-WITH (
-OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER SEQUENCE mandatory_holiday_mandatory_holiday_id_seq1
-    OWNED BY mandatory_holiday.mandatory_holiday_id;
-
-ALTER TABLE public.mandatory_holiday
-  OWNER to postgres;
+--CREATE SEQUENCE IF NOT EXISTS public.mandatory_holiday_mandatory_holiday_id_seq1;
+--CREATE TABLE IF NOT EXISTS public.mandatory_holiday
+--(
+--  mandatory_holiday_id integer NOT NULL DEFAULT nextval('mandatory_holiday_mandatory_holiday_id_seq1' :: regclass),
+--  country_id           integer,
+--  date                 date,
+--  CONSTRAINT mandatory_holiday_pkey PRIMARY KEY (mandatory_holiday_id),
+--  CONSTRAINT mandatory_holiday_country_id_fkey FOREIGN KEY (country_id)
+--        REFERENCES public.country (country_id) MATCH SIMPLE
+--        ON UPDATE NO ACTION
+--        ON DELETE NO ACTION
+--)
+--WITH (
+--OIDS = FALSE
+--)
+--TABLESPACE pg_default;
+--
+--ALTER SEQUENCE mandatory_holiday_mandatory_holiday_id_seq1
+--    OWNED BY mandatory_holiday.mandatory_holiday_id;
+--
+--ALTER TABLE public.mandatory_holiday
+--  OWNER to postgres;
