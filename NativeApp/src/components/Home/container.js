@@ -101,11 +101,31 @@ export default Container => class extends Component {
       this.setState({ showModal: !showModal });
     }
 
+    enumerateDaysBetweenDates = (startDate, endDate) => {
+      const dates = [startDate];
+
+      const currDate = moment(startDate).startOf('day');
+      const lastDate = moment(endDate).startOf('day');
+
+
+      while (currDate.add(1, 'days').diff(lastDate) < 0) {
+        dates.push(currDate.clone().format('YYYY-MM-DD'));
+      }
+
+      dates.push(endDate);
+
+      return dates;
+    }
+
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = this.holidayStatus(item.holidayStatusId);
-      obj[item.start] = { textColor: 'white', color: holidayStatus };
+      const dates = this.enumerateDaysBetweenDates(item.start, item.end);
+      for (let i = 0; i < dates.length; i += 1) {
+        obj[dates[i]] = { textColor: 'white', color: holidayStatus };
+      }
       return obj;
     }, {});
+
 
     holidayStatus = (status) => {
       switch (status) {
