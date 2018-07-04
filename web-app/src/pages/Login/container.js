@@ -63,17 +63,6 @@ export default Wrapped =>
           valid: false,
           touched: false,
         },
-        // remember: {
-        //   label: 'Remember Credentials:',
-        //   elementType: 'checkbox',
-        //   elementConfig: {
-        //     type: 'checkbox',
-        //     placeholder: 'Remember Credentials',
-        //   },
-        //   value: true,
-        //   validation: {},
-        //   valid: true,
-        // },
       };
     }
 
