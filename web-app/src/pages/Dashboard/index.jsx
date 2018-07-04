@@ -22,9 +22,11 @@ export const Dashboard = props => {
       <BookingModal {...props} />
       <InnerLayout>
         <Calendar
+          showMultiDayTimes
           events={props.takenHolidays}
           onSelectSlot={props.onSelectSlot}
           onSelectEvent={props.onSelectEvent}
+          endAccessor={({ end }) => end.endOf('day')}
           defaultDate={new Date()}
           components={{ eventWrapper: Event, toolbar: BigCalendarToolbar }}
           views={{
