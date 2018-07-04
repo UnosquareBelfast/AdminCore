@@ -2,7 +2,6 @@ package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.Client;
-//import com.unosquare.admin_core.back_end.entity.ClientStatus;
 import com.unosquare.admin_core.back_end.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

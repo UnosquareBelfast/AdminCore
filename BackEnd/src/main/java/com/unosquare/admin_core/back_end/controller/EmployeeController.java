@@ -6,13 +6,11 @@ import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,23 +49,11 @@ public class EmployeeController {
         employeeService.updateEmployee(employee);
     }
 
-//    @GetMapping(value = "/findByStartDateAfter/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<EmployeeDto> findByStartDateAfter(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
-//        return mapEployeessToDtos(employeeService.findByStartDateAfter(startDate));
-//    }
-
     @GetMapping(value = "/findByForenameAndSurname/{forename}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeDto> findByForenameAndSurname(@PathVariable("forename") String forename, @PathVariable("surname") String surname) {
         return mapEployeessToDtos(employeeService.findByForenameAndSurname(forename, surname));
     }
-
-//    @GetMapping(value = "/findByStartDateBeforeOrSameDay/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<EmployeeDto> findByStartDateBeforeOrSameDay(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
-//        return mapEployeessToDtos(employeeService.findByStartDateBefore(startDate.plusDays(1)));
-//    }
 
     @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

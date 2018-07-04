@@ -9,7 +9,6 @@ import com.unosquare.admin_core.back_end.entity.EmployeeStatus;
 import com.unosquare.admin_core.back_end.payload.LoginRequest;
 import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
-import com.unosquare.admin_core.back_end.repository.HolidayRepository;
 import com.unosquare.admin_core.back_end.security.JwtTokenProvider;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +29,6 @@ import java.util.Optional;
 @Service
 @Transactional
 public class EmployeeService {
-
-//    @Autowired
-//    HolidayService holidayService;
-//
-//    @Autowired
-//    HolidayRepository holidayRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -116,14 +109,6 @@ public class EmployeeService {
     public List<Employee> findByForenameAndSurname(String forename, String surname) {
         return employeeRepository.findByForenameIgnoreCaseAndSurnameIgnoreCase(forename, surname);
     }
-
-//    public List<Employee> findByStartDateAfter(LocalDate startDate) {
-//        return employeeRepository.findByStartDateAfter(startDate);
-//    }
-//
-//    public List<Employee> findByStartDateBefore(LocalDate startDate) {
-//        return employeeRepository.findByStartDateBefore(startDate);
-//    }
 
     public List<Employee> findByCountry(com.unosquare.admin_core.back_end.enums.Country country) {
         return employeeRepository.findByCountry(new com.unosquare.admin_core.back_end.entity.Country(country.getCountryId()));
