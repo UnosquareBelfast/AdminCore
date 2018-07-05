@@ -19,7 +19,7 @@ public class EmployeeRoleController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EmployeeRole[] getHolidayStatuses() {
+    public EmployeeRole[] getEmployeeRoles() {
         return EmployeeRole.values();
     }
 }
