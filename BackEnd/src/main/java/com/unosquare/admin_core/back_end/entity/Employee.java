@@ -14,12 +14,13 @@ import java.util.Set;
 @Entity
 @Data
 @ToString
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Employee.class)
 @Table(name = "Employee")
 public class Employee implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq1", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employeeSeq")
+    @Column(name = "employee_id", unique = true, insertable = false, nullable = false)
     private int employeeId;
 
     private String forename;
@@ -32,23 +33,23 @@ public class Employee implements java.io.Serializable {
     @Column(name = "start_date")
     private LocalDate startDate;
 
-    @Basic
-    @Column(name = "country_id")
-    private int countryId;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     private String password;
 
-    @Basic
-    @Column(name = "employee_role_id")
-    private int employeeRoleId;
+    @ManyToOne
+    @JoinColumn(name = "employee_role_id")
+    private EmployeeRole employeeRole;
 
-    @Basic
-    @Column(name = "employee_status_id")
-    private int employeeStatusId;
+    @ManyToOne
+    @JoinColumn(name = "employee_status_id")
+    private EmployeeStatus employeeStatus;
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Set<Contract> contracts = new HashSet<>();
+    private Set<Contract> contracts = new HashSet();
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
@@ -58,17 +59,23 @@ public class Employee implements java.io.Serializable {
 
     }
 
+    public Employee(int employeeId){
+        this.employeeId = employeeId;
+    }
+
     public Employee(String forename, String surname, String email,
-                    int employeeRoleId,
-                    int statusId, LocalDate startDate,
-                    int countryId, String password) {
+                    EmployeeRole employeeRole,
+                    EmployeeStatus status,
+                    LocalDate startDate,
+                    Country country,
+                    String password) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
-        this.employeeRoleId = employeeRoleId;
-        this.employeeStatusId = statusId;
+        this.employeeRole = employeeRole;
+        this.employeeStatus = status;
         this.startDate = startDate;
-        this.countryId = countryId;
+        this.country = country;
         this.password = password;
     }
 }

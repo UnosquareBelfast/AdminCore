@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.repository;
 
+import com.unosquare.admin_core.back_end.entity.Country;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,9 +13,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     List<Employee> findByForenameIgnoreCaseAndSurnameIgnoreCase(String forename, String surname);
 
-    List<Employee> findByStartDateAfter(LocalDate date);
+    List<Employee> findByStartDateAfter(LocalDate startDate);
 
-    List<Employee> findByStartDateBefore(LocalDate date);
+    List<Employee> findByStartDateBefore(LocalDate startDate);
 
-    List<Employee> findByCountryId(int countryId);
+    List<Employee> findByCountry(Country country);
 }

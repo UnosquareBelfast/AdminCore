@@ -9,26 +9,32 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = MandatoryHoliday.class)
 @Table(name = "MandatoryHoliday")
 public class MandatoryHoliday implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="mandatoryHolidaySeq",sequenceName="mandatory_holiday_mandatory_holiday_id_seq1", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="mandatoryHolidaySeq")
+    @Column(name = "mandatory_holiday_id", unique = true, nullable = false)
     private int mandatoryHolidayId;
 
     private LocalDate date;
 
     @Basic
-    @Column(name = "country_id")
-    private int countryId;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     public MandatoryHoliday() {
 
     }
 
-    public MandatoryHoliday(LocalDate date, int countryId) {
+    public MandatoryHoliday(int mandatoryHolidayId){
+        this.mandatoryHolidayId = mandatoryHolidayId;
+    }
+
+    public MandatoryHoliday(LocalDate date, Country country) {
         this.date = date;
-        this.countryId = countryId;
+        this.country = country;
     }
 }

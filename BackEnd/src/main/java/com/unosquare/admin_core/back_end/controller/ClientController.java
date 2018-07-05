@@ -60,21 +60,21 @@ public class ClientController {
 
     @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientNameContaining(@PathVariable("clientName") String name) {
-        return mapClientsToDtos(clientService.findByClientNameContaining(name));
+    public List<ClientDto> findByClientNameContaining(@PathVariable("clientName") String clientName) {
+        return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
     }
 
     @GetMapping(value = "/findByTeamNameContaining/{teamName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByTeamNameContaining(@PathVariable("teamName") String name) {
-        return mapClientsToDtos(clientService.findByTeamNameContaining(name));
+    public List<ClientDto> findByTeamNameContaining(@PathVariable("teamName") String teamName) {
+        return mapClientsToDtos(clientService.findByTeamNameContaining(teamName));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByContactNameContaining/{contactName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByContactNameContaining(@PathVariable("contactName") String name) {
-        return mapClientsToDtos(clientService.findByContactNameContaining(name));
+    public List<ClientDto> findByContactNameContaining(@PathVariable("contactName") String contactName) {
+        return mapClientsToDtos(clientService.findByContactNameContaining(contactName));
     }
 
     @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)

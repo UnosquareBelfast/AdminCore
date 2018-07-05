@@ -1,5 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
+import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.Holiday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
@@ -12,7 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Destination;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,8 +46,8 @@ public class HolidayController {
 
     @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HolidayDto findHolidayById(@PathVariable("holidayId") int id) {
-        return modelMapper.map(holidayService.findById(id), HolidayDto.class);
+    public HolidayDto findHolidayById(@PathVariable("holidayId") int holidayId) {
+        return modelMapper.map(holidayService.findById(holidayId), HolidayDto.class);
     }
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,10 +56,37 @@ public class HolidayController {
         return mapHolidaysToDtos(holidayService.findByEmployee(employeeId));
     }
 
+    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createHoliday(@RequestBody HolidayDto holiday) {
-        holidayService.save(modelMapper.map(holiday, Holiday.class));
+    public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createHolidayDto) {
+
+        List<String> responses = new ArrayList<>();
+
+        for (DateDTO date : createHolidayDto.getDates()) {
+            Holiday existentHoliday = holidayService.findByEmployeeIdStartDataEndDate(
+                    createHolidayDto.getEmployeeId(), date.getStartDate(), date.getEndDate());
+
+            if (existentHoliday != null) {
+                responses.add("Holiday already exists");
+                continue;
+            }
+
+            if (date.getStartDate().isAfter(date.getEndDate())) {
+                responses.add("Starting date cannot be after end date");
+                continue;
+            }
+        }
+
+        if (responses.isEmpty()) {
+
+            Holiday newHoliday = modelMapper.map(createHolidayDto, Holiday.class);
+
+            holidayService.save(createHolidayDto.getEmployeeId(), newHoliday);
+            responses.add("Created");
+        }
+
+        return ResponseEntity.ok(responses);
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
@@ -69,7 +100,7 @@ public class HolidayController {
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody HolidayDto holiday) {
-        holidayService.save(modelMapper.map(holiday, Holiday.class));
+        holidayService.save(holiday.getEmployeeId(), modelMapper.map(holiday, Holiday.class));
     }
 
     @PutMapping(value = "/updateMultiple", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,16 +110,16 @@ public class HolidayController {
         holidayService.saveMultiple(mapDtosToHolidays(Arrays.asList(holidays)));
     }
 
-    @GetMapping(value = "/findByDateAfter/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByDateAfter/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByDateAfter(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapHolidaysToDtos(holidayService.findByDateAfter(date));
+    public List<HolidayDto> findByDateAfter(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapHolidaysToDtos(holidayService.findByDateAfter(startDate));
     }
 
-    @GetMapping(value = "/findByDateBeforeOrSameDay/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByDateBeforeOrSameDay/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByDateBeforeOrSameDay(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapHolidaysToDtos(holidayService.findByDateBefore(date.plusDays(1)));
+    public List<HolidayDto> findByDateBeforeOrSameDay(@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapHolidaysToDtos(holidayService.findByDateBefore(startDate.plusDays(1)));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
@@ -107,10 +138,10 @@ public class HolidayController {
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
-    @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatusId}/{date}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/findByHolidayStatusAndDateAfter/{holidayStatusId}/{startDate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") int holidayStatusId, @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(HolidayStatus.fromId(holidayStatusId), date));
+    public List<HolidayDto> findByStatusAndDateAfter(@PathVariable("holidayStatusId") int holidayStatusId, @PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate) {
+        return mapHolidaysToDtos(holidayService.findByStatusAndDateAfter(com.unosquare.admin_core.back_end.enums.HolidayStatus.fromId(holidayStatusId), startDate));
     }
 
     private List<HolidayDto> mapHolidaysToDtos(List<Holiday> holidays) {

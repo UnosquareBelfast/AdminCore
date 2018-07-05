@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import container from './container';
@@ -7,38 +7,28 @@ import {
   UserListing,
   PendingHolidays,
   AllHolidays,
+  AdminDashboard,
 } from '../../components';
-import { Card } from '../../components/common';
-import Sidebar from './Sidebar';
-import { withAuth } from '../../hoc';
-import { flowRight } from 'lodash';
-import {
-  SidebarContainer,
-  Container,
-  MainContentContainer,
-  Refresh,
-} from './styled';
+import { Container, MainContentContainer, Refresh } from './styled';
 
 export const Admin = props => (
   <Container>
-    <SidebarContainer>
-      <Sidebar />
-    </SidebarContainer>
     <MainContentContainer>
       <Switch>
         <Route path="/admin/createEmployee" component={CreateUser} />
         <Route
           path="/admin/employees"
           render={() => (
-            <Card>
-              <h3>Employees</h3>
+            <Fragment>
+              <h2>Employees</h2>
               <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
               <UserListing history={props.history} users={props.users} />
-            </Card>
+            </Fragment>
           )}
         />
         <Route path="/admin/pendingHolidays" component={PendingHolidays} />
         <Route path="/admin/holidays" component={AllHolidays} />
+        <Route path="/admin" component={AdminDashboard} />
       </Switch>
     </MainContentContainer>
   </Container>
@@ -51,8 +41,4 @@ Admin.propTypes = {
   history: PT.object,
 };
 
-const enhance = flowRight(
-  withAuth,
-  container,
-);
-export default enhance(Admin);
+export default container(Admin);
