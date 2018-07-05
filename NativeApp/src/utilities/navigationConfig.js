@@ -23,7 +23,7 @@ const AppStack = createMaterialBottomTabNavigator(
     initialRouteName: 'Home',
     activeTintColor: '#f0edf6',
     inactiveTintColor: '#3e2465',
-    barStyle: { backgroundColor: '#1abc9c' },
+    shifting: true,
   }
 );
 const AuthStack = createStackNavigator({ Login });
