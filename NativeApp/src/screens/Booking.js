@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import Home from '../components/Home';
+import Booking from '../components/Booking';
 
-export default class HomeScreen extends Component {
+export default class BookingScreen extends Component {
   static navigationOptions = {
-    header: null,
+    title: 'Request Holidays',
   }
 
   static propTypes = {
@@ -17,7 +17,7 @@ export default class HomeScreen extends Component {
     const { navigation } = this.props;
 
     return (
-      <Home navigation={navigation} />
+      <Booking navigation={navigation} />
     );
   }
 }
