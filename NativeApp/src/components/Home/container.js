@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import { userLogout } from '../../utilities/currentUser';
+import moment from 'moment';
+import { userLogout, userProfile } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
+import { requestHolidays } from '../../services/holidayService';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -18,19 +21,111 @@ export default Container => class extends Component {
       super(props);
       this.state = {
         takenHolidays: {},
+        showModal: false,
+        user: null,
+        booking: {
+          startDate: '',
+          endDate: '',
+          halfDay: false,
+        },
       };
     }
 
     componentDidMount() {
       getTakenHolidays()
         .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+
+      userProfile()
+        .then(user => this.setState({ user }));
+    }
+
+    onDayPress = (day) => {
+      if (day) {
+        this.setState({
+          showModal: true,
+          booking: {
+            startDate: day.dateString,
+            endDate: day.dateString,
+          },
+        });
+      }
+    }
+
+    submitRequest = () => {
+      const { booking, user } = this.state;
+      const request = {
+        dates: [
+          {
+            endDate: booking.endDate,
+            halfDay: false,
+            startDate: booking.startDate,
+          },
+        ],
+        employeeId: user.employeeId,
+      };
+
+      requestHolidays(request)
+        .then(() => {
+          getTakenHolidays()
+            .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+          this.closeModal();
+        })
+        .catch(e => Alert.alert(
+          'Could not request holidays',
+          e.message,
+        ));
+    }
+
+    changeStartDate = (date) => {
+      const formatDate = moment(date).format('YYYY-MM-DD');
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          startDate: formatDate,
+        },
+      }));
+    }
+
+    changeEndDate = (endDate) => {
+      const formatEndDate = moment(endDate).format('YYYY-MM-DD');
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          endDate: formatEndDate,
+        },
+      }));
+    }
+
+    closeModal = () => {
+      this.setState({ showModal: false });
+    }
+
+    enumerateDaysBetweenDates = (startDate, endDate) => {
+      const dates = [startDate];
+
+      const currDate = moment(startDate).startOf('day');
+      const lastDate = moment(endDate).startOf('day');
+
+
+      while (currDate.add(1, 'days').diff(lastDate) < 0) {
+        dates.push(currDate.clone().format('YYYY-MM-DD'));
+      }
+
+      dates.push(endDate);
+
+      return dates;
     }
 
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = this.holidayStatus(item.holidayStatusId);
-      obj[item.start] = { textColor: 'white', color: holidayStatus };
+      const dates = this.enumerateDaysBetweenDates(item.start, item.end);
+      dates.forEach((date) => {
+        obj[date] = { textColor: 'white', color: holidayStatus };
+      });
+
       return obj;
     }, {});
+
 
     holidayStatus = (status) => {
       switch (status) {
@@ -54,11 +149,24 @@ export default Container => class extends Component {
     }
 
     render() {
-      const { takenHolidays } = this.state;
+      const {
+        takenHolidays,
+        showModal,
+        booking,
+      } = this.state;
+
       return (
         <Container
           handleLogout={this.handleLogout}
           takenHolidays={takenHolidays}
+          onDayPress={this.onDayPress}
+          showModal={showModal}
+          closeModal={this.closeModal}
+          startDate={booking.startDate}
+          endDate={booking.endDate}
+          submitRequest={this.submitRequest}
+          changeStartDate={this.changeStartDate}
+          changeEndDate={this.changeEndDate}
         />
       );
     }

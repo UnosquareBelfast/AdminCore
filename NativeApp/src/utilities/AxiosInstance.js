@@ -23,8 +23,8 @@ instance.interceptors.response.use((response) => {
     const holidays = [...response.data];
     const updatedHolidays = holidays.map(hols => ({
       ...hols,
-      start: new Moment(hols.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
-      end: new Moment(hols.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+      start: new Moment(hols.startDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+      end: new Moment(hols.endDate, 'YYYY-MM-DD').format('YYYY-MM-DD'),
       requested: new Moment(hols.dateCreated, 'YYYY-MM-DD').format('YYYY-MM-DD'),
     }));
 
