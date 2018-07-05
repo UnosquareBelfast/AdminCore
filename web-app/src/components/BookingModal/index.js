@@ -49,15 +49,6 @@ const BookingModal = props => {
       />
     );
 
-  // const getTotalDays = () => {
-  //   if (booking.form.isWFH.value) {
-  //     return '0';
-  //   }
-  //   return (
-  //     Math.floor(booking.duration) / (booking.form.isHalfday.value ? 2 : 1)
-  //   );
-  // };
-
   const cssFormConfig = () => {
     let cssClass = '';
     if (booking.duration == 0) {
@@ -122,10 +113,6 @@ BookingModal.propTypes = {
   formChanged: PT.func.isRequired,
   requestHoliday: PT.func.isRequired,
   cancelHoliday: PT.func.isRequired,
-  //changeEnd: PT.func,
-  //changeHalfday: PT.func,
-  //takenHolidays: PT.array,
-  //changeWFH: PT.func,
 };
 
 export default BookingModal;
