@@ -2,7 +2,7 @@ package com.unosquare.admin_core.back_end.service;
 
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Holiday;
-import com.unosquare.admin_core.back_end.entity.MandatoryHoliday;
+//import com.unosquare.admin_core.back_end.entity.MandatoryHoliday;
 import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.enums.EmployeeRole;
 import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
@@ -59,9 +59,6 @@ public class TestHolidayService {
 
     @Mock
     private HolidayRepository holidayRepository;
-
-    @Mock
-    private MandatoryHolidayService mandatoryHolidayService;
 
     @Before
     public void initMocks() {
@@ -168,43 +165,15 @@ public class TestHolidayService {
 //        testingObject.save(holidayBeforeToday);
     }
 
-    @Test
-    public void testSaveMultipleMethod() {
-        testingObject.saveMultiple(allHolidays);
-    }
+//    @Test
+//    public void testSaveMultipleMethod() {
+//        testingObject.saveMultiple(allHolidays);
+//    }
 
     @Test
     public void testFindAll() {
         Mockito.doReturn(allHolidays).when(holidayRepository).findAll();
         Assert.assertEquals(2, testingObject.findAll().size());
-    }
-
-    @Test
-    public void testAddMandatoryHolidaysForNewEmployee() {
-        Mockito.doReturn(Collections.singletonList(new MandatoryHoliday(currentDateTest, employee.getCountry()))).
-                when(mandatoryHolidayService).findMandatoryHolidaysByCountryIdAfterStartDate(anyShort(), any(LocalDate.class));
-
-        testingObject.addMandatoryHolidaysForNewEmployee(employee);
-    }
-
-    @Test
-    public void testFindByStartDateAfter() {
-
-        Mockito.doReturn(holidaysAfterToday).
-                when(holidayRepository).findByStartDateAfter(currentDateTest);
-
-        Assert.assertArrayEquals(testingObject.findByDateAfter(currentDateTest).toArray(),
-                holidaysAfterToday.toArray());
-    }
-
-    @Test
-    public void testFindByEndDateBeforeOrToday() {
-
-        Mockito.doReturn(holidaysBeforeToday).
-                when(holidayRepository).findByStartDateBefore(any(LocalDate.class));
-
-        Assert.assertArrayEquals(testingObject.findByDateBefore(currentDateTest).toArray(),
-                holidaysBeforeToday.toArray());
     }
 
     @Test
