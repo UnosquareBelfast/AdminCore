@@ -97,8 +97,7 @@ export default Container => class extends Component {
     }
 
     closeModal = () => {
-      const { showModal } = this.state;
-      this.setState({ showModal: !showModal });
+      this.setState({ showModal: false });
     }
 
     enumerateDaysBetweenDates = (startDate, endDate) => {
@@ -120,9 +119,10 @@ export default Container => class extends Component {
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = this.holidayStatus(item.holidayStatusId);
       const dates = this.enumerateDaysBetweenDates(item.start, item.end);
-      for (let i = 0; i < dates.length; i += 1) {
-        obj[dates[i]] = { textColor: 'white', color: holidayStatus };
-      }
+      dates.forEach((date) => {
+        obj[date] = { textColor: 'white', color: holidayStatus };
+      });
+
       return obj;
     }, {});
 
