@@ -61,7 +61,6 @@ const Input = props => {
     case 'checkbox':
       inputElement = (
         <TextBox
-          rows={6}
           className={inputClasses.join(' ')}
           {...elementConfig}
           checked={value}

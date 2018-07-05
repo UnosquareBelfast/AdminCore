@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 export const StyleContainer = styled.div`
-
+  margin: 20px;
+  @media (min-width: 920px) {
+    margin: 40px;
+  }
   #closeBookingModal {
     position: absolute;
     cursor: pointer;
@@ -15,11 +18,15 @@ export const StyleContainer = styled.div`
 
 export const BookingStatus = styled.div`
   background: ${props => props.theme.colours.lightgrey};
-  padding: 10px 1px;
-  margin: 10px 0 0 0;
-  border-radius: 4px;
+  padding: 10px 35px;
+  margin: 10px -35px;
+  @media (min-width: 920px) {
+    padding: 10px 54px;
+    margin: 10px -54px;
+  }
 
-  h4, span {
+  h4,
+  span {
     position: relative;
     margin: 0;
   }
@@ -49,7 +56,7 @@ export const BookingInputs = styled.div`
     font-size: 1.05rem;
     border-radius: 4px;
     border: 2px solid ${props => props.theme.colours.grey};
-    color: ${props => props.theme.colours.darkGrey}
+    color: ${props => props.theme.colours.darkGrey};
   }
 `;
 
@@ -76,4 +83,28 @@ export const StatusDot = styled.div`
   width: 7px;
   border-radius: 7px;
   background: ${({ theme, status }) => theme.holidayStatus[status]};
+`;
+
+export const Form = styled.form`
+  margin: 15px 0;
+
+  > div:nth-child(2) {
+    transition: all 300ms;
+    visibility: visible;
+  }
+
+  &.bookingHalfDay {
+    > div:nth-child(2) {
+      visibility: hidden;
+    }
+  }
+
+  &.workingFromHome {
+    > div:nth-child(2) {
+      visibility: hidden;
+    }
+    h4#totalDaysToBook {
+      opacity: 0.4;
+    }
+  }
 `;

@@ -30,15 +30,15 @@ export const FormGroup = styled.div`
 
     input[type='checkbox'] {
       position: absolute;
-      left: -4px;
-      top: -2px;
+      left: 0px;
+      top: 3px;
       width: auto;
     }
   }
 `;
 
 export const Label = styled.label`
-  display: block;
+  display: inline-block;
   margin-bottom: 4px;
   font-size: 14px;
   font-weight: bold;
