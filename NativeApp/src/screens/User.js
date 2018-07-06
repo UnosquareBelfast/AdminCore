@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import User from '../components/User';
 
 export default class UserScreen extends Component {
   static navigationOptions = {
     title: 'User Info',
+    tabBarIcon: <Icon name="user" size={25} color="#fff" />,
+    tabBarColor: '#FF545E',
   }
 
   static propTypes = {
@@ -15,8 +18,6 @@ export default class UserScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    return (
-      <User navigation={navigation} />
-    );
+    return <User navigation={navigation} />;
   }
 }

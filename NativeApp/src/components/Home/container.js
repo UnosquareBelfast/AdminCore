@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import { userLogout, userProfile } from '../../utilities/currentUser';
+import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
-import { requestHolidays } from '../../services/holidayService';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -22,7 +20,6 @@ export default Container => class extends Component {
       this.state = {
         takenHolidays: {},
         showModal: false,
-        user: null,
         booking: {
           startDate: '',
           endDate: '',
@@ -32,68 +29,29 @@ export default Container => class extends Component {
     }
 
     componentDidMount() {
-      getTakenHolidays()
-        .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+      const { navigation } = this.props;
 
-      userProfile()
-        .then(user => this.setState({ user }));
+      this.sub = navigation.addListener('didFocus', () => {
+        getTakenHolidays()
+          .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+      });
+    }
+
+    componentWillUnmount() {
+      this.sub.remove();
     }
 
     onDayPress = (day) => {
+      const { navigation } = this.props;
       if (day) {
         this.setState({
-          showModal: true,
           booking: {
             startDate: day.dateString,
             endDate: day.dateString,
           },
         });
+        navigation.push('Booking', { date: day.dateString });
       }
-    }
-
-    submitRequest = () => {
-      const { booking, user } = this.state;
-      const request = {
-        dates: [
-          {
-            endDate: booking.endDate,
-            halfDay: false,
-            startDate: booking.startDate,
-          },
-        ],
-        employeeId: user.employeeId,
-      };
-
-      requestHolidays(request)
-        .then(() => {
-          getTakenHolidays()
-            .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
-          this.closeModal();
-        })
-        .catch(e => Alert.alert(
-          'Could not request holidays',
-          e.message,
-        ));
-    }
-
-    changeStartDate = (date) => {
-      const formatDate = moment(date).format('YYYY-MM-DD');
-      this.setState(prevState => ({
-        booking: {
-          ...prevState.booking,
-          startDate: formatDate,
-        },
-      }));
-    }
-
-    changeEndDate = (endDate) => {
-      const formatEndDate = moment(endDate).format('YYYY-MM-DD');
-      this.setState(prevState => ({
-        booking: {
-          ...prevState.booking,
-          endDate: formatEndDate,
-        },
-      }));
     }
 
     closeModal = () => {
@@ -149,24 +107,13 @@ export default Container => class extends Component {
     }
 
     render() {
-      const {
-        takenHolidays,
-        showModal,
-        booking,
-      } = this.state;
+      const { takenHolidays } = this.state;
 
       return (
         <Container
           handleLogout={this.handleLogout}
           takenHolidays={takenHolidays}
           onDayPress={this.onDayPress}
-          showModal={showModal}
-          closeModal={this.closeModal}
-          startDate={booking.startDate}
-          endDate={booking.endDate}
-          submitRequest={this.submitRequest}
-          changeStartDate={this.changeStartDate}
-          changeEndDate={this.changeEndDate}
         />
       );
     }

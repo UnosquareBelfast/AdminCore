@@ -1,30 +1,31 @@
 import React from 'react';
-import { Text, Button } from 'react-native';
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+} from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import { ModalWrapper, CustomDatePickerIOS } from '../../Common';
+import { CustomDatePickerIOS } from '../../Common';
 
-const BookingModal = (props) => {
+const BookingView = (props) => {
   const {
-    showModal,
-    closeModal,
     startDate,
-    endDate,
-    submitRequest,
     changeStartDate,
+    endDate,
     changeEndDate,
+    submitRequest,
   } = props;
 
   const formatDate = date => moment(date).toDate();
 
   return (
-    <ModalWrapper
-      showModal={showModal}
-      closeModal={closeModal}
-    >
+    <View style={styles.container}>
       <Text>
         Starting
         {'\n'}
+        {startDate}
       </Text>
       <CustomDatePickerIOS
         chosenDate={formatDate(startDate)}
@@ -39,18 +40,25 @@ const BookingModal = (props) => {
         minimumDate={formatDate(startDate)}
       />
       <Button onPress={submitRequest} title="Request Holiday" />
-    </ModalWrapper>
+    </View>
   );
 };
 
-BookingModal.propTypes = {
-  showModal: PT.bool.isRequired,
-  closeModal: PT.func.isRequired,
-  submitRequest: PT.func.isRequired,
+BookingView.propTypes = {
   startDate: PT.string.isRequired,
   endDate: PT.string.isRequired,
   changeStartDate: PT.func.isRequired,
   changeEndDate: PT.func.isRequired,
+  submitRequest: PT.func.isRequired,
 };
 
-export default BookingModal;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    paddingTop: 50,
+    backgroundColor: '#fff',
+  },
+});
+
+export default BookingView;
