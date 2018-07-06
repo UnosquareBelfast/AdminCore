@@ -10,7 +10,7 @@ export default Wrapped =>
       htmlAttr: PT.object.isRequired,
       focus: PT.bool,
       rules: PT.object.isRequired,
-      validateForm: PT.func.IsRequired,
+      validateForm: PT.func,
     };
 
     constructor(props) {
@@ -33,7 +33,7 @@ export default Wrapped =>
           value,
           touched: true,
         },
-        this.handleValidation(value),
+        this.handleValidation(value)
       );
     };
 
@@ -44,7 +44,9 @@ export default Wrapped =>
         {
           valid,
         },
-        this.props.validateForm(this.props.label, valid),
+        () => {
+          this.props.validateForm(this.props.label, valid);
+        }
       );
     };
 

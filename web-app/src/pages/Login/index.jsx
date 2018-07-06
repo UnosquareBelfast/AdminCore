@@ -2,8 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { LoginBG, LoginPanel } from './styled';
 import container from './container';
-import Form from './form';
-import { Input } from '../../components/common';
+import { Form, Input } from '../../components/common';
 
 export const Login = props => {
   const { submitForm } = props;
