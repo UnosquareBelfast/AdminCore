@@ -28,9 +28,10 @@ export const theme = {
 };
 
 injectGlobal`
+
+  @import url('https://fonts.googleapis.com/css?family=Oswald');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
   body {
-    margin: 0;
-    padding: 0;
     font-family: ${theme.fonts.main}, ${theme.fonts.fallback};
     background: #f1f5f8;
     color: #303335;
@@ -39,5 +40,6 @@ injectGlobal`
   h1, h2, h3, h4 {
     font-family: ${theme.fonts.headers}, ${theme.fonts.fallback};
     text-transform: uppercase;
+    margin: 0 0 20px 0;
   }
 `;

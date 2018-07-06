@@ -1,4 +1,5 @@
 import React from 'react';
+import container from './container';
 import { PropTypes as PT } from 'prop-types';
 import {
   FormGroup,
@@ -16,11 +17,10 @@ const Input = props => {
   let inputClasses = [];
   const {
     label,
-    invalid,
-    shouldValidate,
+    valid,
     touched,
-    elementType,
-    elementConfig,
+    type,
+    htmlAttr,
     value,
     changed,
     focus,
@@ -28,17 +28,17 @@ const Input = props => {
   let formGroupId = label;
   let id = formGroupId.replace(' ', '').toLowerCase();
 
-  if (invalid && shouldValidate && touched) {
+  if (!valid && touched) {
     inputClasses.push('invalid');
   }
 
-  switch (elementType) {
+  switch (type) {
     case 'input':
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
           id={id}
-          {...elementConfig}
+          {...htmlAttr}
           value={value}
           onChange={changed}
           autoFocus={focus}
@@ -50,7 +50,7 @@ const Input = props => {
         <TextBoxLarge
           rows={6}
           className={'large' + inputClasses.join(' ')}
-          {...elementConfig}
+          {...htmlAttr}
           value={value}
           id={id}
           onChange={changed}
@@ -62,7 +62,7 @@ const Input = props => {
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
-          {...elementConfig}
+          {...htmlAttr}
           checked={value}
           id={id}
           onChange={changed}
@@ -79,7 +79,7 @@ const Input = props => {
             id={id}
             onChange={changed}
           >
-            {elementConfig.options.map(option => (
+            {htmlAttr.options.map(option => (
               <option key={option.value} value={option.value}>
                 {option.displayValue}
               </option>
@@ -99,7 +99,7 @@ const Input = props => {
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
-          {...elementConfig}
+          {...htmlAttr}
           value={value}
           id={id}
           onChange={changed}
@@ -109,7 +109,7 @@ const Input = props => {
   }
 
   return (
-    <FormGroup className={elementType == 'checkbox' ? 'checkbox' : null}>
+    <FormGroup className={type == 'checkbox' ? 'checkbox' : null}>
       <Label htmlFor={id}>{label}</Label>
       {inputElement}
     </FormGroup>
@@ -117,13 +117,12 @@ const Input = props => {
 };
 
 Input.propTypes = {
-  elementConfig: PT.object.isRequired,
-  elementType: PT.string.isRequired,
-  value: PT.any.isRequired,
+  htmlAttr: PT.object.isRequired,
+  type: PT.string.isRequired,
+  value: PT.any,
   label: PT.string.isRequired,
   changed: PT.func.isRequired,
-  invalid: PT.bool.isRequired,
-  shouldValidate: PT.object.isRequired,
+  valid: PT.bool.isRequired,
   touched: PT.bool,
   focus: PT.bool,
 };
@@ -133,4 +132,4 @@ Input.defaultProps = {
   focus: false,
 };
 
-export default Input;
+export default container(Input);
