@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import moment from 'moment';
 import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
 
@@ -18,19 +19,71 @@ export default Container => class extends Component {
       super(props);
       this.state = {
         takenHolidays: {},
+        showModal: false,
+        booking: {
+          startDate: '',
+          endDate: '',
+          halfDay: false,
+        },
       };
     }
 
     componentDidMount() {
-      getTakenHolidays()
-        .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+      const { navigation } = this.props;
+
+      this.sub = navigation.addListener('didFocus', () => {
+        getTakenHolidays()
+          .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+      });
+    }
+
+    componentWillUnmount() {
+      this.sub.remove();
+    }
+
+    onDayPress = (day) => {
+      const { navigation } = this.props;
+      if (day) {
+        this.setState({
+          booking: {
+            startDate: day.dateString,
+            endDate: day.dateString,
+          },
+        });
+        navigation.push('Booking', { date: day.dateString });
+      }
+    }
+
+    closeModal = () => {
+      this.setState({ showModal: false });
+    }
+
+    enumerateDaysBetweenDates = (startDate, endDate) => {
+      const dates = [startDate];
+
+      const currDate = moment(startDate).startOf('day');
+      const lastDate = moment(endDate).startOf('day');
+
+
+      while (currDate.add(1, 'days').diff(lastDate) < 0) {
+        dates.push(currDate.clone().format('YYYY-MM-DD'));
+      }
+
+      dates.push(endDate);
+
+      return dates;
     }
 
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = this.holidayStatus(item.holidayStatusId);
-      obj[item.start] = { textColor: 'white', color: holidayStatus };
+      const dates = this.enumerateDaysBetweenDates(item.start, item.end);
+      dates.forEach((date) => {
+        obj[date] = { textColor: 'white', color: holidayStatus };
+      });
+
       return obj;
     }, {});
+
 
     holidayStatus = (status) => {
       switch (status) {
@@ -55,10 +108,12 @@ export default Container => class extends Component {
 
     render() {
       const { takenHolidays } = this.state;
+
       return (
         <Container
           handleLogout={this.handleLogout}
           takenHolidays={takenHolidays}
+          onDayPress={this.onDayPress}
         />
       );
     }

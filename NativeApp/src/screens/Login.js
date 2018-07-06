@@ -15,8 +15,6 @@ export default class LoginScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    return (
-      <Login navigation={navigation} />
-    );
+    return <Login navigation={navigation} />;
   }
 }

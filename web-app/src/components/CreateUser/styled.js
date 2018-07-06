@@ -1,15 +1,35 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  label {
-    display: block;
+export const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 40px;
+  button {
+    flex: 0 1 auto;
+    width: 100%;
+    max-width: 100%;
+    @media (min-width: 992px) {
+      width: 200px;
+    }
   }
-  input,
-  select {
-    display: block;
-    margin: 2px 0 10px 0;
-    width: 90%;
-    height: 15px;
-    padding: 0 5px;
+`;
+
+export const Form = styled.form`
+  @media (min-width: 992px) {
+    margin-right: -10px;
+    margin-left: -10px;
+  }
+
+  & > div:not(${ButtonWrap}) {
+    @media (min-width: 992px) {
+      margin: 0 0 20px 0;
+      display: inline-block;
+      width: 50%;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
   }
 `;
