@@ -184,41 +184,14 @@ const DashboardContainer = Wrapped =>
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
-        dates: [
-          {
-            startDate: start.format(dateFormat),
-            endDate: end.format(dateFormat),
-            halfDay: isHalfday,
-          },
-        ],
+        startDate: start.format(dateFormat),
+        endDate: end.format(dateFormat),
+        halfDay: isHalfday,
         holidayId: booking.id,
         holidayStatusId: cancel ? 3 : 1,
         employeeId: userDetails.employeeId,
       };
 
-      // const request = {
-      //   date: booking.start.format('YYYY-MM-DD'),
-      //   dateCreated: moment().format('YYYY-MM-DD'),
-      //   halfDay: booking.isHalfday,
-      //   holidayId: booking.id,
-      //   holidayStatusDescription: 'Booked',
-      //   holidayStatusId: cancel ? 3 : 1,
-      //   lastModified: moment().format('YYYY-MM-DD'),
-      //   employee: {
-      //     employeeId: userDetails.employeeId,
-      //     forename: userDetails.forename,
-      //     surname: userDetails.surname,
-      //     email: userDetails.email,
-      //     totalHolidays: 33,
-      //     startDate: [2014, 1, 1],
-      //     countryId: 1,
-      //     countryDescription: 'Northern Ireland',
-      //     employeeRoleId: 2,
-      //     employeeRoleDescription: 'System administrator',
-      //     employeeStatusId: 2,
-      //     statusDescription: 'Inactive',
-      //   },
-      // };
       updateHoliday(request).then(() => {
         this.getTakenHolidays(userDetails.employeeId);
         this.closeModal();
