@@ -11,7 +11,10 @@ export const Login = props => {
     <LoginBG>
       <LoginPanel>
         <h1>Welcome to Admin Core</h1>
-        <Form submitForm={submitForm}>
+        <Form
+          submitForm={submitForm}
+          isValid={valid => console.log('valid', valid)}
+        >
           <Input
             type="input"
             htmlAttr={{ type: 'email', placeholder: 'Enter an email' }}

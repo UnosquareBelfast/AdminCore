@@ -5,6 +5,7 @@ export class Form extends Component {
   static propTypes = {
     submitForm: PT.func.isRequired,
     children: PT.array.isRequired,
+    isValid: PT.func,
   };
 
   constructor(props) {
@@ -13,6 +14,12 @@ export class Form extends Component {
       invalidInputs: [],
       formIsValid: true,
     };
+  }
+
+  componentDidUpdate() {
+    if (this.props.isValid) {
+      this.props.isValid(this.state.formIsValid);
+    }
   }
 
   handleCheckInputValid = (label, isValid) => {
