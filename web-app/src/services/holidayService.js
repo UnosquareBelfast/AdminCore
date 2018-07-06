@@ -13,9 +13,7 @@ export const getHolidays = employeeId => {
 };
 
 export const requestHoliday = holidays => {
-  return holidays.length === 1
-    ? axios.post('/holidays/', holidays[0])
-    : axios.post('/holidays/createMultiple/', holidays);
+  return axios.post('/holidays/', holidays);
 };
 
 export const updateHoliday = holiday => {
