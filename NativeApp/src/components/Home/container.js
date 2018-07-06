@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import { userLogout, userProfile } from '../../utilities/currentUser';
+import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
 
 export default Container => class extends Component {
@@ -20,7 +20,6 @@ export default Container => class extends Component {
       this.state = {
         takenHolidays: {},
         showModal: false,
-        user: null,
         booking: {
           startDate: '',
           endDate: '',
@@ -35,9 +34,6 @@ export default Container => class extends Component {
       this.sub = navigation.addListener('didFocus', () => {
         getTakenHolidays()
           .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
-
-        userProfile()
-          .then(user => this.setState({ user }));
       });
     }
 
