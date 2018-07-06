@@ -10,6 +10,7 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
+        drawerOpen: localStorage.getItem('navDrawerOpen') == 'true',
         menuItems: [
           {
             name: 'Profile',
@@ -57,7 +58,19 @@ export default Wrapped =>
       };
     }
 
+    toggleDrawer = () => {
+      this.setState({ drawerOpen: !this.state.drawerOpen }, () => {
+        localStorage.setItem('navDrawerOpen', this.state.drawerOpen);
+      });
+    };
+
     render() {
-      return <Wrapped {...this.props} {...this.state} />;
+      return (
+        <Wrapped
+          {...this.props}
+          {...this.state}
+          toggleDrawer={this.toggleDrawer}
+        />
+      );
     }
   };
