@@ -22,8 +22,8 @@ class App extends React.Component {
       routes = (
         <AuthUserAndStore history={this.props.history}>
           <Switch>
-            <Route path="/profile" component={Profile} />
             <Route exact path="/" component={Dashboard} />
+            <Route path="/profile" component={Profile} />
             <Route path="/admin" component={Admin} />
             <Route path="/user/:userId" component={User} />
             <Redirect to="/" />
