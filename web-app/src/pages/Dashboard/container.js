@@ -9,10 +9,9 @@ import {
   getHolidays,
 } from '../../services/holidayService';
 import {
-  isFormValidOnChange,
   getFormElementsArray,
   updateFormDataOnChange,
-  checkValidity,
+  isFormValidOnChange,
   getFormDataOnSubmit,
 } from '../../utilities/forms';
 
@@ -143,34 +142,25 @@ const DashboardContainer = Wrapped =>
       this.setState({ showModal: false });
     };
 
-    getDuration(start, end) {
-      return moment.duration(end.diff(start)).asDays() + 1;
+    getDuration({ isHalfday, isWFH, startDate, endDate }) {
+      let duration = 1;
+      if (isHalfday.value) {
+        duration = 0.5;
+      } else if (isWFH.value) {
+        duration = 0;
+      } else {
+        duration =
+          moment.duration(endDate.value.diff(startDate.value)).asDays() + 1;
+      }
+      return duration;
     }
 
-    isDateInputValid = inputDate => {
-      inputDate.valid = checkValidity(inputDate.value, inputDate.validation);
-    };
-
-    setDateInputElementOnSelect = (inputDate, value) => {
-      inputDate.value = moment(value);
-      if (!this.isDateInputValid(inputDate)) {
-        inputDate.touched = true;
-      }
-      return inputDate;
-    };
-
     updateBookingFormOnSelect = (start, end, isHalfday, isWFH) => {
-      const updatedForm = {
+      let updatedForm = {
         ...this.state.booking.form,
       };
-      updatedForm.startDate = this.setDateInputElementOnSelect(
-        updatedForm.startDate,
-        start,
-      );
-      updatedForm.endDate = this.setDateInputElementOnSelect(
-        updatedForm.endDate,
-        end,
-      );
+      updatedForm = updateFormDataOnChange(updatedForm, 'startDate', start);
+      updatedForm = updateFormDataOnChange(updatedForm, 'endDate', end);
       updatedForm.isHalfday.value = isHalfday;
       updatedForm.isWFH.value = isWFH;
 
@@ -179,48 +169,36 @@ const DashboardContainer = Wrapped =>
 
     onSelectSlot = ({ start, end }) => {
       const updatedForm = this.updateBookingFormOnSelect(
-        start,
-        end,
+        moment(start),
+        moment(end),
         false,
         false,
       );
-      const formIsValid = isFormValidOnChange(updatedForm);
 
       this.setState({
         showModal: true,
         booking: {
           form: updatedForm,
-          formIsValid: formIsValid,
-          duration: this.getDuration(moment(start), moment(end)),
+          formIsValid: isFormValidOnChange(updatedForm),
+          duration: this.getDuration(updatedForm),
         },
       });
     };
 
     onSelectEvent = booking => {
       const updatedForm = this.updateBookingFormOnSelect(
-        booking.start,
-        booking.end,
+        moment(booking.start),
+        moment(booking.end),
         booking.isHalfday,
         booking.isWFH,
       );
-
-      const formIsValid = isFormValidOnChange(updatedForm);
-
-      let duration;
-      if (booking.isHalfday) {
-        duration = 0.5;
-      } else if (booking.isWFH) {
-        duration = 0;
-      } else {
-        duration = this.getDuration(moment(booking.start), moment(booking.end));
-      }
 
       this.setState({
         showModal: true,
         booking: {
           form: updatedForm,
-          formIsValid: formIsValid,
-          duration: duration,
+          formIsValid: isFormValidOnChange(updatedForm),
+          duration: this.getDuration(updatedForm),
           id: booking.id,
           title: booking.title,
           ...booking,
@@ -228,137 +206,64 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    changeStart = value => {
-      const updatedForm = updateFormDataOnChange(
+    handleFormChange = (event, inputIdentifier) => {
+      let value = event.target == undefined ? event : event.target.checked;
+      let updatedForm = updateFormDataOnChange(
         this.state.booking.form,
-        'startDate',
+        inputIdentifier,
         value,
       );
-      let { startDate } = updatedForm;
-      let { endDate } = this.state.booking.form;
-      if (startDate.value.isAfter(endDate.value)) {
-        updatedForm.endDate = this.setDateInputElementOnSelect(
-          updatedForm.endDate,
+      let { startDate, endDate, isHalfday, isWFH } = updatedForm;
+
+      if (
+        inputIdentifier == 'startDate' &&
+        startDate.value.isAfter(endDate.value)
+      ) {
+        updatedForm = updateFormDataOnChange(
+          updatedForm,
+          'endDate',
+          startDate.value,
+        );
+      } else if (
+        inputIdentifier == 'endDate' &&
+        endDate.value.isBefore(startDate.value)
+      ) {
+        updatedForm = updateFormDataOnChange(
+          updatedForm,
+          'startDate',
+          endDate.value,
+        );
+      } else if (inputIdentifier == 'isHalfday' && isHalfday.value) {
+        updatedForm.isWFH.value = false;
+        updatedForm = updateFormDataOnChange(
+          updatedForm,
+          'endDate',
+          startDate.value,
+        );
+      } else if (inputIdentifier == 'isWFH' && isWFH.value) {
+        isHalfday.value = false;
+        updatedForm = updateFormDataOnChange(
+          updatedForm,
+          'endDate',
           startDate.value,
         );
       }
-      let duration = this.getDuration(startDate.value, endDate.value);
-      if (duration > 1) {
-        updatedForm.isHalfday.value = false;
-        updatedForm.isWFH.value = false;
-      }
-      let formIsValid = isFormValidOnChange(updatedForm);
 
       this.setState({
         booking: {
           form: updatedForm,
-          formIsValid: formIsValid,
-          duration: duration,
+          formIsValid: isFormValidOnChange(updatedForm),
+          duration: this.getDuration(updatedForm),
         },
       });
-    };
-
-    changeEnd = value => {
-      const updatedForm = updateFormDataOnChange(
-        this.state.booking.form,
-        'endDate',
-        value,
-      );
-      let { startDate } = this.state.booking.form;
-      let { endDate } = updatedForm;
-      if (endDate.value.isBefore(startDate.value)) {
-        updatedForm.startDate = this.setDateInputElementOnSelect(
-          updatedForm.startDate,
-          endDate.value,
-        );
-      }
-      let duration = this.getDuration(startDate.value, endDate.value);
-      if (duration > 1) {
-        updatedForm.isHalfday.value = false;
-        updatedForm.isWFH.value = false;
-      }
-      let formIsValid = isFormValidOnChange(updatedForm);
-
-      this.setState({
-        booking: {
-          form: updatedForm,
-          formIsValid: formIsValid,
-          duration: duration,
-        },
-      });
-    };
-
-    changeHalfday = checked => {
-      const updatedForm = updateFormDataOnChange(
-        this.state.booking.form,
-        'isHalfday',
-        checked,
-      );
-
-      let duration = null;
-      if (checked) {
-        updatedForm.isWFH.value = false;
-        updatedForm.endDate.value = updatedForm.startDate.value;
-        duration = 0.5;
-      } else {
-        duration = 1;
-      }
-
-      let formIsValid = isFormValidOnChange(updatedForm);
-
-      this.setState({
-        booking: {
-          form: updatedForm,
-          formIsValid: formIsValid,
-          duration: duration,
-        },
-      });
-    };
-
-    changeWFH = checked => {
-      const updatedForm = updateFormDataOnChange(
-        this.state.booking.form,
-        'isWFH',
-        checked,
-      );
-
-      let duration;
-      if (checked) {
-        updatedForm.isHalfday.value = false;
-        duration = 0;
-        updatedForm.endDate.value = updatedForm.startDate.value;
-      } else {
-        duration = 1;
-      }
-
-      let formIsValid = isFormValidOnChange(updatedForm);
-
-      this.setState({
-        booking: {
-          form: updatedForm,
-          formIsValid: formIsValid,
-          duration: duration,
-        },
-      });
-    };
-
-    handleFormChange = (event, inputIdentifier) => {
-      if (inputIdentifier == 'startDate') {
-        this.changeStart(event, inputIdentifier);
-      } else if (inputIdentifier == 'endDate') {
-        this.changeEnd(event, inputIdentifier);
-      } else if (inputIdentifier == 'isHalfday') {
-        this.changeHalfday(event.target.checked, inputIdentifier);
-      } else if (inputIdentifier == 'isWFH') {
-        this.changeWFH(event.target.checked, inputIdentifier);
-      }
     };
 
     submitHolidayRequest = e => {
       e.preventDefault();
       const { booking, userDetails } = this.state;
-      const formData = getFormDataOnSubmit(booking.form);
-      const { startDate, endDate, isHalfday } = formData;
+      const { startDate, endDate, isHalfday } = getFormDataOnSubmit(
+        booking.form,
+      );
       const request = [];
 
       for (let i = 0; i <= endDate.diff(startDate, 'days'); i++) {
@@ -396,8 +301,7 @@ const DashboardContainer = Wrapped =>
 
     updateHoliday = cancel => {
       const { booking, userDetails } = this.state;
-      const formData = getFormDataOnSubmit(booking.form);
-      const { startDate, isHalfday } = formData;
+      const { startDate, isHalfday } = getFormDataOnSubmit(booking.form);
 
       const request = {
         date: startDate.format('YYYY-MM-DD'),

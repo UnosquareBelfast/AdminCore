@@ -30,6 +30,7 @@ export const Form = styled.form`
       width: 50%;
       padding: 0 10px;
       box-sizing: border-box;
+      vertical-align: bottom;
     }
   }
 `;

@@ -25,13 +25,13 @@ export const FormGroup = styled.div`
 
   &.checkbox {
     position: relative;
-    padding: 0 20px;
+    padding: 0 24px;
     margin-bottom: 10px;
 
     input[type='checkbox'] {
       position: absolute;
       left: 0px;
-      top: 3px;
+      top: 0px;
       width: auto;
     }
   }

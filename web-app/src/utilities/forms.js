@@ -1,13 +1,13 @@
 import moment from 'moment';
 
-export const updateObject = (oldObject, updatedProperties) => {
+const updateObject = (oldObject, updatedProperties) => {
   return {
     ...oldObject,
     ...updatedProperties,
   };
 };
 
-export const checkValidity = (value, rules) => {
+const checkValidity = (value, rules) => {
   let isValid = true;
   if (!rules) {
     return true;

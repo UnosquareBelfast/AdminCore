@@ -59,7 +59,7 @@ const BookingModal = props => {
     return cssClass;
   };
 
-  let form = (
+  const form = (
     <Form id="bookingForm" className={cssFormConfig()}>
       {formElementsArray.map(({ id, config }, index) => (
         <Input
