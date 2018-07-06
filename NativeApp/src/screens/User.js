@@ -18,8 +18,6 @@ export default class UserScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    return (
-      <User navigation={navigation} />
-    );
+    return <User navigation={navigation} />;
   }
 }

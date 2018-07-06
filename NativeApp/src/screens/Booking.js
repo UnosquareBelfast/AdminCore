@@ -16,8 +16,6 @@ export default class BookingScreen extends Component {
   render() {
     const { navigation } = this.props;
 
-    return (
-      <Booking navigation={navigation} />
-    );
+    return <Booking navigation={navigation} />;
   }
 }

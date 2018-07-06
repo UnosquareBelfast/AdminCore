@@ -16,8 +16,6 @@ export default class HomeScreen extends Component {
   render() {
     const { navigation } = this.props;
 
-    return (
-      <Home navigation={navigation} />
-    );
+    return <Home navigation={navigation} />;
   }
 }

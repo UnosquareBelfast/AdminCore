@@ -18,8 +18,6 @@ export default class TeamScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    return (
-      <Team navigation={navigation} />
-    );
+    return <Team navigation={navigation} />;
   }
 }
