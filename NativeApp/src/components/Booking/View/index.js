@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   Button,
+  Text,
   StyleSheet,
 } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
@@ -19,10 +20,16 @@ const BookingView = (props) => {
 
   return (
     <View style={styles.container}>
+      <Text>
+        Start date
+      </Text>
       <CustomDatePickerIOS
         chosenDate={startDate}
         setDate={changeStartDate}
       />
+      <Text>
+        End date
+      </Text>
       <CustomDatePickerIOS
         chosenDate={endDate}
         setDate={changeEndDate}
