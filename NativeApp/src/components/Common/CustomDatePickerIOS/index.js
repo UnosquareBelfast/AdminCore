@@ -19,7 +19,7 @@ class CustomDatePickerIOS extends Component {
   };
 
   static defaultProps = {
-    minimumDate: '',
+    minimumDate: moment().format('YYYY-MM-DD'),
   };
 
   constructor(props) {
