@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
-public class CreateHolidayDto {
+public class CreateEventDto {
 
     @NotBlank
     private List<DateDTO> dates;
@@ -14,4 +14,6 @@ public class CreateHolidayDto {
     @NotBlank
     private int employeeId;
 
+    @NotBlank
+    private int eventTypeId;
 }

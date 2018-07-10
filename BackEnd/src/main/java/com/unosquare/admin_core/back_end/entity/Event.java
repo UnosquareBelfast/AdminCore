@@ -7,14 +7,14 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@Table(name = "Holiday")
-public class Holiday implements java.io.Serializable {
+@Table(name = "Event")
+public class Event implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="holidaySeq",sequenceName="holiday_holiday_id_seq1", allocationSize = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="holidaySeq")
-    @Column(name = "holiday_id", unique = true, nullable = false)
-    private int holidayId;
+    @SequenceGenerator(name="eventSeq",sequenceName="event_event_id_seq1", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="eventSeq")
+    @Column(name = "event_id", unique = true, nullable = false)
+    private int eventId;
 
     @Basic
     @Column(name = "start_date")
@@ -32,6 +32,10 @@ public class Holiday implements java.io.Serializable {
     @JoinColumn(name = "holiday_status_id")
     private HolidayStatus holidayStatus;
 
+    @OneToOne
+    @JoinColumn(name = "event_type_id")
+    private EventType eventType;
+
     private boolean isHalfDay;
 
     @Column(name = "last_modified")
@@ -40,15 +44,16 @@ public class Holiday implements java.io.Serializable {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
-    public Holiday() {
+    public Event() {
 
     }
 
-    public Holiday(LocalDate startDate, LocalDate endDate, int employeeId, int statusId,
-                   boolean isHalfDay) {
+    public Event(LocalDate startDate, LocalDate endDate, int employeeId,
+                 int eventTypeId, int statusId, boolean isHalfDay) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.employee = new Employee(employeeId);
+        this.eventType = new EventType(eventTypeId);
         this.holidayStatus = new HolidayStatus(statusId);
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();

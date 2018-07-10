@@ -51,7 +51,7 @@ public class Employee implements java.io.Serializable {
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Set<Holiday> holidays = new HashSet<>();
+    private Set<Event> events = new HashSet<>();
 
     public Employee() {
 

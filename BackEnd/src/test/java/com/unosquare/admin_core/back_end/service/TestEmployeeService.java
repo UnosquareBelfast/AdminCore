@@ -1,7 +1,7 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.entity.Holiday;
+import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.enums.EmployeeRole;
 import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
@@ -9,7 +9,7 @@ import com.unosquare.admin_core.back_end.enums.HolidayStatus;
 import com.unosquare.admin_core.back_end.payload.LoginRequest;
 import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
-import com.unosquare.admin_core.back_end.repository.HolidayRepository;
+import com.unosquare.admin_core.back_end.repository.EventRepository;
 import com.unosquare.admin_core.back_end.security.JwtTokenProvider;
 import com.unosquare.admin_core.back_end.service.enums.TestEmployeeEnum;
 import org.junit.Assert;
@@ -61,13 +61,13 @@ public class TestEmployeeService {
     private com.unosquare.admin_core.back_end.entity.Country countryEntity;
 
     @Mock
-    private HolidayService holidayService;
+    private EventService eventService;
 
     @Mock
     private EmployeeRepository employeeRepository;
 
     @Mock
-    private HolidayRepository holidayRepository;
+    private EventRepository eventRepository;
 
     @Mock
     private
@@ -200,7 +200,7 @@ public class TestEmployeeService {
 
     @Test
     public void TestUpdateTotalHolidays() {
-        List<Holiday> holidays = getMockHolidays();
+        List<Event> events = getMockEvents();
 //        Mockito.doReturn(holidays).when(holidayRepository).findByEmployeeId(employeeStartDateBeforeToday.getEmployeeId());
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(employeeStartDateBeforeToday);
         testingObject.updateTotalHolidayForNewEmployee(employeeStartDateBeforeToday);
@@ -209,7 +209,7 @@ public class TestEmployeeService {
 
     @Test
     public void TestUpdateTotalHolidaysSameYear() {
-        List<Holiday> holidays = getMockHolidays();
+        List<Event> events = getMockEvents();
         employeeStartDateBeforeToday.setStartDate(currentDateTest);
 //        Mockito.doReturn(holidays).when(holidayRepository).findByEmployeeId(employeeStartDateBeforeToday.getEmployeeId());
         Mockito.doReturn(employeeStartDateBeforeToday).when(employeeRepository).save(employeeStartDateBeforeToday);
@@ -226,12 +226,12 @@ public class TestEmployeeService {
         Assert.assertEquals(2, testingObject.findAll().size());
     }
 
-    private List<Holiday> getMockHolidays() {
-        Holiday holiday = new Holiday();
-        List holidays = new ArrayList<>();
-        holidays.add(holiday);
-        holidays.add(holiday);
-        return holidays;
+    private List<Event> getMockEvents() {
+        Event holiday = new Event();
+        List events = new ArrayList<>();
+        events.add(holiday);
+        events.add(holiday);
+        return events;
     }
 
     //region findByForenameAndSurname tests

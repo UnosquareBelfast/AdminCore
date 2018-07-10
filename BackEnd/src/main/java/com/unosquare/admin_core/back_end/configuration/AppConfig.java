@@ -1,8 +1,8 @@
 package com.unosquare.admin_core.back_end.configuration;
 
-import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
+import com.unosquare.admin_core.back_end.dto.CreateEventDto;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
-import com.unosquare.admin_core.back_end.dto.HolidayDto;
+import com.unosquare.admin_core.back_end.dto.EventDto;
 import com.unosquare.admin_core.back_end.entity.*;
 import javafx.beans.property.Property;
 import org.modelmapper.AbstractConverter;
@@ -26,38 +26,41 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        Converter<CreateHolidayDto, Holiday> holidayConverter = new AbstractConverter<CreateHolidayDto, Holiday>() {
+        Converter<CreateEventDto, Event> holidayConverter = new AbstractConverter<CreateEventDto, Event>() {
             @Override
-            protected Holiday convert(CreateHolidayDto source) {
-                Holiday ret = new Holiday(source.getDates().get(0).getStartDate(), source.getDates().get(source.getDates().size()-1).getEndDate(),
-                        source.getEmployeeId(), 1, source.getDates().get(0).isHalfDay());
+            protected Event convert(CreateEventDto source) {
+                Event ret = new Event(source.getDates().get(0).getStartDate(), source.getDates().get(source.getDates().size()-1).getEndDate(),
+                        source.getEmployeeId(), source.getEventTypeId(), 1, source.getDates().get(0).isHalfDay());
 
                 return ret;
             }
         };
 
-        Converter<Holiday, HolidayDto> holidayDtoConvert = new AbstractConverter<Holiday, HolidayDto>() {
+        Converter<Event, EventDto> holidayDtoConvert = new AbstractConverter<Event, EventDto>() {
             @Override
-            protected HolidayDto convert(Holiday source) {
-                HolidayDto ret = new HolidayDto(source.getHolidayId(), source.getStartDate(), source.getEndDate(),
-                        source.getEmployee().getEmployeeId(), source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
+            protected EventDto convert(Event source) {
+                EventDto ret = new EventDto(source.getEventId(), source.getStartDate(), source.getEndDate(),
+                        source.getEmployee().getEmployeeId(), source.getEventType().getEventTypeId(),
+                        source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
 
                 return ret;
             }
         };
 
-        PropertyMap<HolidayDto, Holiday> holidayEntityMapping = new PropertyMap<HolidayDto, Holiday>() {
+        PropertyMap<EventDto, Event> holidayEntityMapping = new PropertyMap<EventDto, Event>() {
             @Override
             protected void configure() {
                 skip().setDateCreated(null);
                 skip().getHolidayStatus().setDescription(source.getHolidayStatusDescription());
+                skip().getEventType().setDescription(source.getEventTypeDescription());
                 map().setLastModified(LocalDate.now());
                 map().setHalfDay(source.isHalfDay());
                 map().setEndDate(source.getEndDate());
                 map().setEmployee(new Employee(source.getEmployeeId()));
-                map().setHolidayId(source.getHolidayId());
+                map().setEventId(source.getEventId());
                 map().setHolidayStatus(new HolidayStatus(source.getHolidayStatusId()));
                 map().setStartDate(source.getStartDate());
+                map().setEventType(new EventType(source.getEventTypeId()));
             }
         };
 
@@ -68,7 +71,7 @@ public class AppConfig {
                 skip().getCountry().setDescription(source.getCountryDescription());
                 skip().getEmployeeRole().setDescription(source.getEmployeeRoleDescription());
                 skip().getEmployeeStatus().setDescription(source.getStatusDescription());
-                skip().setHolidays(null);
+                skip().setEvents(null);
                 skip().setContracts(null);
                 map().setTotalHolidays(source.getTotalHolidays());
                 map().setEmail(source.getEmail());
