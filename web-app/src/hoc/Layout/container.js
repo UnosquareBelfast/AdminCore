@@ -21,7 +21,7 @@ export default Wrapped =>
           },
           {
             name: 'Dashboard',
-            tooltip: 'Go to admin',
+            tooltip: 'Go to dashboard',
             route: '/',
             icon: faTachometerAlt,
             subnav: null,
