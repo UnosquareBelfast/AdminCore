@@ -66,16 +66,14 @@ class CustomDatePickerIOS extends Component {
             >
               <View style={styles.dateContainer}>
                 <View style={styles.background}>
-                  <View>
-                    <DatePickerIOS
-                      date={formatDate(chosenDate)}
-                      onDateChange={setDate}
-                      mode="date"
-                      minimumDate={formatDate(minimumDate)}
-                    />
-                    <View style={styles.buttonContainer}>
-                      <Button onPress={() => this.setModalVisible(false)} title="Done" />
-                    </View>
+                  <DatePickerIOS
+                    date={formatDate(chosenDate)}
+                    onDateChange={setDate}
+                    mode="date"
+                    minimumDate={formatDate(minimumDate)}
+                  />
+                  <View style={styles.buttonContainer}>
+                    <Button onPress={() => this.setModalVisible(false)} title="Done" />
                   </View>
                 </View>
               </View>
