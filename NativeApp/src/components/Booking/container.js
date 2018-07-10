@@ -41,13 +41,24 @@ export default Container => class extends Component {
   }
 
   changeStartDate = (date) => {
+    const { booking } = this.state;
     const formatDate = moment(date).format('YYYY-MM-DD');
-    this.setState(prevState => ({
-      booking: {
-        ...prevState.booking,
-        startDate: formatDate,
-      },
-    }));
+
+    if (moment(date).isAfter(booking.endDate)) {
+      this.setState({
+        booking: {
+          startDate: formatDate,
+          endDate: formatDate,
+        },
+      });
+    } else {
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          startDate: formatDate,
+        },
+      }));
+    }
   }
 
   changeEndDate = (endDate) => {

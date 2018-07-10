@@ -1,12 +1,10 @@
 import React from 'react';
 import {
   View,
-  Text,
   Button,
   StyleSheet,
 } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import moment from 'moment';
 import { CustomDatePickerIOS } from '../../Common';
 
 const BookingView = (props) => {
@@ -18,26 +16,17 @@ const BookingView = (props) => {
     submitRequest,
   } = props;
 
-  const formatDate = date => moment(date).toDate();
 
   return (
     <View style={styles.container}>
-      <Text>
-        Starting
-        {'\n'}
-        {startDate}
-      </Text>
       <CustomDatePickerIOS
-        chosenDate={formatDate(startDate)}
+        chosenDate={startDate}
         setDate={changeStartDate}
       />
-      <Text>
-        Ending
-      </Text>
       <CustomDatePickerIOS
-        chosenDate={formatDate(endDate)}
+        chosenDate={endDate}
         setDate={changeEndDate}
-        minimumDate={formatDate(startDate)}
+        minimumDate={startDate}
       />
       <Button onPress={submitRequest} title="Request Holiday" />
     </View>
@@ -56,6 +45,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingTop: 50,
     backgroundColor: '#fff',
   },
