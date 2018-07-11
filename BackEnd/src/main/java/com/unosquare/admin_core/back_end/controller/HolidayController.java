@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
-@RequestMapping("/events")
-public class EventController {
+@RequestMapping("/holidays")
+public class HolidayController {
 
     @Autowired
     EventService eventService;

@@ -1,7 +1,6 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.unosquare.admin_core.back_end.entity.Employee;
-//import com.unosquare.admin_core.back_end.entity.MandatoryHoliday;
 import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.enums.Country;
 import com.unosquare.admin_core.back_end.enums.EmployeeRole;
@@ -164,11 +163,6 @@ public class TestEventService {
     public void testSaveMethod() {
 //        testingObject.save(holidayBeforeToday);
     }
-
-//    @Test
-//    public void testSaveMultipleMethod() {
-//        testingObject.saveMultiple(allHolidays);
-//    }
 
     @Test
     public void testFindAll() {
