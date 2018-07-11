@@ -1,18 +1,23 @@
-import React, { Fragment } from 'react';
-import { StatusDot } from './styled';
+import React from 'react';
 import { statusText } from '../../utilities/holidayStatus';
+import { theme } from '../../styled';
 
 const status = {
   id: 'status',
   Header: 'Status',
   sortable: false,
   filterable: false,
-  accessor: holiday => (
-    <Fragment>
-      <StatusDot status={holiday.holidayStatusId} />
-      {statusText[holiday.holidayStatusId]}
-    </Fragment>
-  ),
+  width: 110,
+  accessor: holiday => statusText[holiday.holidayStatusId],
+  getProps: (state, rowInfo) => {
+    if (!rowInfo) return {};
+    return {
+      style: {
+        backgroundColor: theme.holidayStatus[rowInfo.original.holidayStatusId],
+        color: 'white',
+      },
+    };
+  },
 };
 
 const employee = {
