@@ -1,4 +1,3 @@
-import React from 'react';
 import { statusText } from '../../utilities/holidayStatus';
 import { theme } from '../../styled';
 
@@ -54,8 +53,8 @@ const endDate = {
 
 const requestedDate = {
   id: 'requestedDate',
-  Header: 'Requested Date',
-  accessor: holiday => holiday.requested.format('D MMM YYYY'),
+  Header: 'Requested',
+  accessor: holiday => holiday.requested.fromNow(),
 };
 
 export default {
