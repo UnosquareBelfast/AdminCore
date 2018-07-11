@@ -3,15 +3,17 @@ import {
   View,
   Text,
   DatePickerIOS,
+  DatePickerAndroid,
   Modal,
   StyleSheet,
   Button,
+  Platform,
   TouchableHighlight,
 } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 
-class CustomDatePickerIOS extends Component {
+class CustomDatePicker extends Component {
   static propTypes = {
     chosenDate: PT.string.isRequired,
     setDate: PT.func.isRequired,
@@ -29,9 +31,36 @@ class CustomDatePickerIOS extends Component {
     };
   }
 
+
+  onDatePicked = ({ action, day, month, year }) => {
+    const { setDate } = this.props;
+    const newDate = new Date(year, month, day);
+
+    if (action !== DatePickerAndroid.dismissedAction) {
+      setDate(this.formatDate(newDate));
+    } else {
+      this.setModalVisible(false);
+    }
+  }
+
+  onDatePress() {
+    const { chosenDate } = this.props;
+
+    if (Platform.OS === 'ios') {
+      this.setModalVisible(true);
+    } else {
+      DatePickerAndroid.open({
+        date: this.formatDate(chosenDate),
+        mode: 'calendar',
+      }).then(this.onDatePicked);
+    }
+  }
+
   setModalVisible(visible) {
     this.setState({ modalVisable: visible });
   }
+
+  formatDate = date => moment(date).toDate();
 
   render() {
     const {
@@ -42,14 +71,12 @@ class CustomDatePickerIOS extends Component {
 
     const { modalVisable } = this.state;
 
-    const formatDate = date => moment(date).toDate();
-
     return (
       <Fragment>
         {modalVisable && <View style={styles.overlay} />}
         <TouchableHighlight
           underlayColor="transparent"
-          onPress={() => this.setModalVisible(true)}
+          onPress={() => this.onDatePress()}
           style={styles.container}
         >
           <View>
@@ -63,14 +90,15 @@ class CustomDatePickerIOS extends Component {
               animationType="slide"
               transparent
               visible={modalVisable}
+              onRequestClose={() => this.setModalVisible(false)}
             >
               <View style={styles.dateContainer}>
                 <View style={styles.background}>
                   <DatePickerIOS
-                    date={formatDate(chosenDate)}
+                    date={this.formatDate(chosenDate)}
                     onDateChange={setDate}
                     mode="date"
-                    minimumDate={formatDate(minimumDate)}
+                    minimumDate={this.formatDate(minimumDate)}
                   />
                   <View style={styles.buttonContainer}>
                     <Button onPress={() => this.setModalVisible(false)} title="Done" />
@@ -119,4 +147,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomDatePickerIOS;
+export default CustomDatePicker;

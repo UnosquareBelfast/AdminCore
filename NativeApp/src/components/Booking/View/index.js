@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import { CustomDatePickerIOS } from '../../Common';
+import { CustomDatePicker } from '../../Common';
 
 const BookingView = (props) => {
   const {
@@ -23,14 +23,14 @@ const BookingView = (props) => {
       <Text>
         Start date
       </Text>
-      <CustomDatePickerIOS
+      <CustomDatePicker
         chosenDate={startDate}
         setDate={changeStartDate}
       />
       <Text>
         End date
       </Text>
-      <CustomDatePickerIOS
+      <CustomDatePicker
         chosenDate={endDate}
         setDate={changeEndDate}
         minimumDate={startDate}
