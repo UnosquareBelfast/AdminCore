@@ -8,12 +8,6 @@ import {
   requestHoliday,
   getHolidays,
 } from '../../services/holidayService';
-import {
-  getFormElementsArray,
-  updateFormDataOnChange,
-  isFormValidOnChange,
-  getFormDataOnSubmit,
-} from '../../utilities/forms';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -28,7 +22,13 @@ const DashboardContainer = Wrapped =>
         takenHolidays: null,
         showModal: false,
         booking: {
-          form: this.initialFormState(),
+          buttonLabel: 'Request',
+          formData: {
+            startDate: moment(),
+            endDate: moment(),
+            isHalfday: false,
+            isWFH: false,
+          },
           formIsValid: false,
           duration: 0,
         },
@@ -53,58 +53,6 @@ const DashboardContainer = Wrapped =>
             type: 'error',
           }),
         );
-    }
-
-    initialFormState() {
-      return {
-        startDate: {
-          label: 'Start Date:',
-          elementType: 'date',
-          elementConfig: {
-            type: 'text',
-            placeholder: 'Enter a start date',
-          },
-          value: moment(),
-          validation: {
-            dateNotInPast: true,
-            dateNotGreaterThenEndDate: true,
-          },
-          valid: true,
-        },
-        endDate: {
-          label: 'End Date:',
-          elementType: 'date',
-          elementConfig: {
-            type: 'text',
-            placeholder: 'Enter an end date',
-          },
-          value: moment(),
-          validation: {
-            dateNotInPast: true,
-          },
-          valid: true,
-        },
-        isHalfday: {
-          label: 'Halfday',
-          elementType: 'checkbox',
-          elementConfig: {
-            type: 'checkbox',
-          },
-          value: false,
-          validation: {},
-          valid: true,
-        },
-        isWFH: {
-          label: 'Working from home',
-          elementType: 'checkbox',
-          elementConfig: {
-            type: 'checkbox',
-          },
-          value: false,
-          validation: {},
-          valid: true,
-        },
-      };
     }
 
     getTakenHolidays = userId => {
@@ -144,126 +92,70 @@ const DashboardContainer = Wrapped =>
 
     getDuration({ isHalfday, isWFH, startDate, endDate }) {
       let duration = 1;
-      if (isHalfday.value) {
+      if (isHalfday) {
         duration = 0.5;
-      } else if (isWFH.value) {
+      } else if (isWFH) {
         duration = 0;
       } else {
-        duration =
-          moment.duration(endDate.value.diff(startDate.value)).asDays() + 1;
+        duration = moment.duration(endDate.diff(startDate)).asDays() + 1;
       }
       return duration;
     }
 
-    updateBookingFormOnSelect = (start, end, isHalfday, isWFH) => {
+    updateBookingFormOnSelect = (booking, buttonLabel) => {
       let updatedForm = {
-        ...this.state.booking.form,
+        ...this.state.booking.formData,
       };
-      updatedForm = updateFormDataOnChange(updatedForm, 'startDate', start);
-      updatedForm = updateFormDataOnChange(updatedForm, 'endDate', end);
-      updatedForm.isHalfday.value = isHalfday;
-      updatedForm.isWFH.value = isWFH;
-
-      return updatedForm;
-    };
-
-    onSelectSlot = ({ start, end }) => {
-      const updatedForm = this.updateBookingFormOnSelect(
-        moment(start),
-        moment(end),
-        false,
-        false,
-      );
+      updatedForm.startDate = moment(booking.start);
+      updatedForm.endDate = moment(booking.end);
+      updatedForm.isHalfday = booking.isHalfday;
+      updatedForm.isWFH = booking.isWFH;
 
       this.setState({
         showModal: true,
         booking: {
-          form: updatedForm,
-          formIsValid: isFormValidOnChange(updatedForm),
+          buttonLabel: buttonLabel,
+          formData: updatedForm,
           duration: this.getDuration(updatedForm),
-        },
-      });
-    };
-
-    onSelectEvent = booking => {
-      const updatedForm = this.updateBookingFormOnSelect(
-        moment(booking.start),
-        moment(booking.end),
-        booking.isHalfday,
-        booking.isWFH,
-      );
-
-      this.setState({
-        showModal: true,
-        booking: {
-          form: updatedForm,
-          formIsValid: isFormValidOnChange(updatedForm),
-          duration: this.getDuration(updatedForm),
-          id: booking.id,
-          title: booking.title,
           ...booking,
         },
       });
     };
 
-    handleFormChange = (event, inputIdentifier) => {
-      let value = event.target == undefined ? event : event.target.checked;
-      let updatedForm = updateFormDataOnChange(
-        this.state.booking.form,
-        inputIdentifier,
-        value,
-      );
-      let { startDate, endDate, isHalfday, isWFH } = updatedForm;
-
-      if (
-        inputIdentifier == 'startDate' &&
-        startDate.value.isAfter(endDate.value)
-      ) {
-        updatedForm = updateFormDataOnChange(
-          updatedForm,
-          'endDate',
-          startDate.value,
-        );
-      } else if (
-        inputIdentifier == 'endDate' &&
-        endDate.value.isBefore(startDate.value)
-      ) {
-        updatedForm = updateFormDataOnChange(
-          updatedForm,
-          'startDate',
-          endDate.value,
-        );
-      } else if (inputIdentifier == 'isHalfday' && isHalfday.value) {
-        updatedForm.isWFH.value = false;
-        updatedForm = updateFormDataOnChange(
-          updatedForm,
-          'endDate',
-          startDate.value,
-        );
-      } else if (inputIdentifier == 'isWFH' && isWFH.value) {
-        isHalfday.value = false;
-        updatedForm = updateFormDataOnChange(
-          updatedForm,
-          'endDate',
-          startDate.value,
-        );
-      }
-
-      this.setState({
-        booking: {
-          form: updatedForm,
-          formIsValid: isFormValidOnChange(updatedForm),
-          duration: this.getDuration(updatedForm),
-        },
-      });
+    onSelectSlot = ({ start, end }) => {
+      let booking = {
+        start: moment(start),
+        end: moment(end),
+        isHalfday: false,
+        isWFH: false,
+      };
+      this.updateBookingFormOnSelect(booking, 'Request');
     };
 
-    submitHolidayRequest = e => {
-      e.preventDefault();
+    onSelectEvent = booking => {
+      this.updateBookingFormOnSelect(booking, 'Update');
+    };
+
+    getEmployeeDetails = userDetails => {
+      return {
+        employeeId: userDetails.employeeId,
+        forename: userDetails.forename,
+        surname: userDetails.surname,
+        email: userDetails.email,
+        totalHolidays: 33,
+        startDate: [2014, 1, 1],
+        countryId: 1,
+        countryDescription: 'Northern Ireland',
+        employeeRoleId: 2,
+        employeeRoleDescription: 'System administrator',
+        employeeStatusId: 2,
+        statusDescription: 'Inactive',
+      };
+    };
+
+    submitHolidayRequest = () => {
       const { booking, userDetails } = this.state;
-      const { startDate, endDate, isHalfday } = getFormDataOnSubmit(
-        booking.form,
-      );
+      const { startDate, endDate, isHalfday } = booking.formData;
       const request = [];
 
       for (let i = 0; i <= endDate.diff(startDate, 'days'); i++) {
@@ -276,20 +168,7 @@ const DashboardContainer = Wrapped =>
           holidayStatusDescription: 'Booked',
           holidayStatusId: 1,
           lastModified: moment().format('YYYY-MM-DD'),
-          employee: {
-            employeeId: userDetails.employeeId,
-            forename: userDetails.forename,
-            surname: userDetails.surname,
-            email: userDetails.email,
-            totalHolidays: 33,
-            startDate: [2014, 1, 1],
-            countryId: 1,
-            countryDescription: 'Northern Ireland',
-            employeeRoleId: 2,
-            employeeRoleDescription: 'System administrator',
-            employeeStatusId: 2,
-            statusDescription: 'Inactive',
-          },
+          employee: this.getEmployeeDetails(userDetails),
         });
       }
 
@@ -301,7 +180,7 @@ const DashboardContainer = Wrapped =>
 
     updateHoliday = cancel => {
       const { booking, userDetails } = this.state;
-      const { startDate, isHalfday } = getFormDataOnSubmit(booking.form);
+      const { startDate, isHalfday } = booking.formData;
 
       const request = {
         date: startDate.format('YYYY-MM-DD'),
@@ -311,20 +190,7 @@ const DashboardContainer = Wrapped =>
         holidayStatusDescription: 'Booked',
         holidayStatusId: cancel ? 3 : 1,
         lastModified: moment().format('YYYY-MM-DD'),
-        employee: {
-          employeeId: userDetails.employeeId,
-          forename: userDetails.forename,
-          surname: userDetails.surname,
-          email: userDetails.email,
-          totalHolidays: 33,
-          startDate: [2014, 1, 1],
-          countryId: 1,
-          countryDescription: 'Northern Ireland',
-          employeeRoleId: 2,
-          employeeRoleDescription: 'System administrator',
-          employeeStatusId: 2,
-          statusDescription: 'Inactive',
-        },
+        employee: this.getEmployeeDetails(userDetails),
       };
       updateHoliday(request).then(() => {
         this.getTakenHolidays(userDetails.employeeId);
@@ -332,21 +198,68 @@ const DashboardContainer = Wrapped =>
       });
     };
 
+    handleFormStatus(name, value, formIsValid) {
+      const formData = { ...this.state.booking.formData };
+      formData[name] = value;
+
+      if (name == 'startDate' || name == 'endDate') {
+        formData.isHalfday = false;
+        formData.isWFH = false;
+      }
+
+      if (name == 'startDate' && formData.startDate.isAfter(formData.endDate)) {
+        formData.endDate = formData.startDate;
+      } else if (
+        name == 'endDate' &&
+        formData.endDate.isBefore(formData.startDate)
+      ) {
+        formData.startDate = formData.endDate;
+      } else if (name == 'isHalfday' && formData.isHalfday) {
+        formData.isWFH = false;
+        formData.endDate = formData.startDate;
+      } else if (name == 'isWFH' && formData.isWFH) {
+        formData.isHalfday = false;
+        formData.endDate = formData.startDate;
+      }
+
+      this.setState({
+        booking: {
+          buttonLabel: this.state.booking.buttonLabel,
+          formData,
+          formIsValid,
+          duration: this.getDuration(formData),
+        },
+      });
+    }
+
+    handleFormSubmit = event => {
+      event.preventDefault();
+      let buttonEvent = event.target.getAttribute('label');
+      if (buttonEvent == 'Request') {
+        this.submitHolidayRequest();
+      } else if (buttonEvent == 'Update') {
+        this.updateHoliday(true);
+      } else if (buttonEvent == 'Cancel') {
+        this.updateHoliday(false);
+      }
+    };
+
     render() {
       return (
         this.state.userDetails &&
         this.state.takenHolidays && (
           <Wrapped
-            formElementsArray={getFormElementsArray(this.state.booking.form)}
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
             closeModal={this.closeModal}
-            formChanged={(event, id) => this.handleFormChange(event, id)}
+            showModal={this.showModal}
+            booking={this.state.booking}
             userDetails={this.state.userDetails}
-            requestHoliday={this.submitHolidayRequest}
             takenHolidays={this.state.takenHolidays}
-            updateHoliday={() => this.updateHoliday(false)}
-            cancelHoliday={() => this.updateHoliday(true)}
+            formStatus={(name, value, formIsValid) =>
+              this.handleFormStatus(name, value, formIsValid)
+            }
+            submitForm={e => this.handleFormSubmit(e)}
             {...this.state}
             {...this.props}
           />

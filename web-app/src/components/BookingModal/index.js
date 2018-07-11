@@ -1,84 +1,91 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Button, Modal, Input } from '../common';
+import { Modal, Form, Input } from '../common';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/fontawesome-free-solid';
 import {
   StyleContainer,
   BookingStatus,
   StatusDot,
-  ButtonWrap,
-  Form,
+  FormContainer,
 } from './styled';
 import { statusText } from '../../utilities/holidayStatus';
 
 const BookingModal = props => {
-  const {
-    closeModal,
-    showModal,
-    booking,
-    formElementsArray,
-    requestHoliday,
-    cancelHoliday,
-    updateHoliday,
-    formChanged,
-  } = props;
+  const { closeModal, showModal, booking, submitForm, formStatus } = props;
 
-  const getActions = () =>
-    booking.title ? (
-      <ButtonWrap>
-        <Button
-          id="updateHolidayBtn"
-          onClick={updateHoliday}
-          label={'Update'}
-          disabled={!booking.formIsValid}
-        />
-        <Button
-          id="cancelHolidayBtn"
-          onClick={cancelHoliday}
-          label={'Cancel Booking'}
-          disabled={!booking.formIsValid}
-        />
-      </ButtonWrap>
-    ) : (
-      <Button
-        id="requestHolidayBtn"
-        onClick={requestHoliday}
-        label={booking.form.isWFH.value ? 'Add' : 'Request'}
-        disabled={!booking.formIsValid}
-      />
-    );
-
-  const cssFormConfig = () => {
-    let cssClass = '';
-    if (booking.duration == 0) {
-      cssClass = 'workingFromHome';
-    } else if (booking.duration == 0.5) {
-      cssClass = 'bookingHalfDay';
+  const isDateDisabled = () => {
+    if (booking.formData.isWFH || booking.formData.isHalfday) {
+      return true;
+    } else if (booking.duration === 0.5) {
+      return false;
     }
-    return cssClass;
+  };
+
+  const getStartDateLabel = () => {
+    if (booking.formData.isWFH || booking.formData.isHalfday) {
+      return 'Date:';
+    } else {
+      return 'Start Date:';
+    }
   };
 
   const form = (
-    <Form id="bookingForm" className={cssFormConfig()}>
-      {formElementsArray.map(({ id, config }, index) => (
-        <Input
-          key={id}
-          label={config.label}
-          elementType={config.elementType}
-          elementConfig={config.elementConfig}
-          value={config.value}
-          invalid={!config.valid}
-          shouldValidate={config.validation}
-          focus={index === 0 ? true : false}
-          touched={config.touched}
-          changed={event => formChanged(event, id)}
-        />
-      ))}
-      <div>
-        <h4 id="totalDaysToBook">Total days: {booking.duration}</h4>
-        {getActions()}
-      </div>
+    <Form
+      formData={booking.formData}
+      submitForm={submitForm}
+      formStatus={formStatus}
+      buttonLabel={booking.buttonLabel}
+    >
+      <Input
+        type="date"
+        htmlAttrs={{
+          type: 'input',
+          name: 'startDate',
+          placeholder: 'Enter a start date',
+        }}
+        value={booking.formData.startDate}
+        rules={{
+          dateNotInPast: true,
+        }}
+        focus={false}
+        label={getStartDateLabel()}
+      />
+      <Input
+        type="date"
+        htmlAttrs={{
+          type: 'input',
+          name: 'endDate',
+          placeholder: 'Enter a end date',
+          disabled: isDateDisabled(),
+        }}
+        value={booking.formData.endDate}
+        rules={{
+          dateNotInPast: true,
+        }}
+        focus={false}
+        label="End Date:"
+      />
+      <Input
+        type="checkbox"
+        htmlAttrs={{
+          type: 'checkbox',
+          name: 'isWFH',
+        }}
+        value={booking.formData.isWFH}
+        focus={false}
+        label="Working from home"
+      />
+      <Input
+        type="checkbox"
+        htmlAttrs={{
+          type: 'checkbox',
+          name: 'isHalfday',
+        }}
+        value={booking.formData.isHalfday}
+        focus={false}
+        label="Request a halfday"
+      />
     </Form>
   );
 
@@ -89,7 +96,7 @@ const BookingModal = props => {
           <span id="closeBookingModal" onClick={closeModal}>
             <FontAwesomeIcon icon={faTimes} /> Close
           </span>
-          <h1>Booking</h1>
+          <h1>{booking.title ? 'Update Booking' : 'Request a Booking'}</h1>
           {booking.title && (
             <BookingStatus>
               <h4>{booking.title}</h4>
@@ -99,7 +106,10 @@ const BookingModal = props => {
               </span>
             </BookingStatus>
           )}
-          {form}
+          <FormContainer>
+            <h4 id="totalDaysToBook">Total days: {booking.duration}</h4>
+            {form}
+          </FormContainer>
         </StyleContainer>
       </Modal>
     )
@@ -110,9 +120,8 @@ BookingModal.propTypes = {
   showModal: PT.bool.isRequired,
   booking: PT.object.isRequired,
   closeModal: PT.func.isRequired,
-  formChanged: PT.func.isRequired,
-  requestHoliday: PT.func.isRequired,
-  cancelHoliday: PT.func.isRequired,
+  submitForm: PT.func.isRequired,
+  formStatus: PT.func.isRequired,
 };
 
 export default BookingModal;
