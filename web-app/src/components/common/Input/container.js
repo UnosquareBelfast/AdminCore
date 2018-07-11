@@ -7,47 +7,61 @@ export default Wrapped =>
     static propTypes = {
       label: PT.string.isRequired,
       type: PT.string.isRequired,
-      htmlAttr: PT.object.isRequired,
+      htmlAttrs: PT.object.isRequired,
       focus: PT.bool,
-      rules: PT.object.isRequired,
+      rules: PT.object,
       validateForm: PT.func,
+      value: PT.any,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        value: '',
-        valid: false,
-        touched: false,
+        valid: this.setDefaultValidation(),
+        touched: this.setDefaultValidation(),
       };
     }
 
-    componentDidMount() {
-      this.handleValidation(this.state.value);
+    setDefaultValidation() {
+      if (this.props.type == 'select' || this.props.type == 'checkbox') {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     handleInputChange = event => {
-      const value = event.target.value;
+      let value;
+      if (this.props.type == 'checkbox') {
+        value = event.target.checked;
+      } else if (this.props.type == 'date') {
+        value = event;
+      } else {
+        value = event.target.value;
+      }
+
       this.setState(
         {
-          value,
           touched: true,
         },
-        this.handleValidation(value)
+        this.handleValidation(value),
       );
     };
 
     handleValidation = value => {
-      if (!this.props.rules) return true;
-      const valid = checkValidity(value, this.props.rules);
-      this.setState(
-        {
-          valid,
-        },
-        () => {
-          this.props.validateForm(this.props.label, valid);
-        }
-      );
+      if (!this.props.rules) {
+        this.props.validateForm(this.props.htmlAttrs.name, value, true);
+      } else {
+        const valid = checkValidity(value, this.props.rules);
+        this.setState(
+          {
+            valid,
+          },
+          () => {
+            this.props.validateForm(this.props.htmlAttrs.name, value, valid);
+          },
+        );
+      }
     };
 
     render() {

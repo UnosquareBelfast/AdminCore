@@ -1,6 +1,8 @@
 import React from 'react';
 import container from './container';
 import { PropTypes as PT } from 'prop-types';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/fontawesome-free-solid';
 import {
   FormGroup,
   Label,
@@ -20,7 +22,7 @@ const Input = props => {
     valid,
     touched,
     type,
-    htmlAttr,
+    htmlAttrs,
     value,
     changed,
     focus,
@@ -32,13 +34,17 @@ const Input = props => {
     inputClasses.push('invalid');
   }
 
+  if (htmlAttrs.disabled) {
+    inputClasses.push('disabled');
+  }
+
   switch (type) {
     case 'input':
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
           id={id}
-          {...htmlAttr}
+          {...htmlAttrs}
           value={value}
           onChange={changed}
           autoFocus={focus}
@@ -50,7 +56,7 @@ const Input = props => {
         <TextBoxLarge
           rows={6}
           className={'large' + inputClasses.join(' ')}
-          {...htmlAttr}
+          {...htmlAttrs}
           value={value}
           id={id}
           onChange={changed}
@@ -62,7 +68,7 @@ const Input = props => {
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
-          {...htmlAttr}
+          {...htmlAttrs}
           checked={value}
           id={id}
           onChange={changed}
@@ -79,7 +85,7 @@ const Input = props => {
             id={id}
             onChange={changed}
           >
-            {htmlAttr.options.map(option => (
+            {htmlAttrs.options.map(option => (
               <option key={option.value} value={option.value}>
                 {option.displayValue}
               </option>
@@ -91,6 +97,7 @@ const Input = props => {
     case 'date':
       inputElement = (
         <DatePickerContainer className={inputClasses.join(' ')}>
+          <FontAwesomeIcon icon={faCalendarAlt} />
           <DatePicker selected={value} onChange={changed} />
         </DatePickerContainer>
       );
@@ -99,7 +106,7 @@ const Input = props => {
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
-          {...htmlAttr}
+          {...htmlAttrs}
           value={value}
           id={id}
           onChange={changed}
@@ -108,8 +115,24 @@ const Input = props => {
       );
   }
 
+  const checkType = () => {
+    let styles = [];
+    styles.push(type);
+    if (type == 'checkbox') {
+      if (value) {
+        styles.push('ischecked');
+      }
+    }
+
+    if (htmlAttrs.disabled) {
+      styles.push('isDisabled');
+    }
+
+    return styles.join(' ');
+  };
+
   return (
-    <FormGroup className={type == 'checkbox' ? 'checkbox' : null}>
+    <FormGroup className={checkType()}>
       <Label htmlFor={id}>{label}</Label>
       {inputElement}
     </FormGroup>
@@ -117,7 +140,7 @@ const Input = props => {
 };
 
 Input.propTypes = {
-  htmlAttr: PT.object.isRequired,
+  htmlAttrs: PT.object.isRequired,
   type: PT.string.isRequired,
   value: PT.any,
   label: PT.string.isRequired,
