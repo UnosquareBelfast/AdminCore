@@ -1,2 +1,2 @@
 export { default as ModalWrapper } from './ModalWrapper';
-export { default as CustomDatePickerIOS } from './CustomDatePickerIOS';
+export { default as CustomDatePicker } from './CustomDatePicker';
