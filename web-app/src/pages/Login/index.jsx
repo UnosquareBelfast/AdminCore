@@ -5,19 +5,26 @@ import container from './container';
 import { Form, Input } from '../../components/common';
 
 export const Login = props => {
-  const { submitForm } = props;
+  const { submitForm, formStatus, formData } = props;
 
   return (
     <LoginBG>
       <LoginPanel>
         <h1>Welcome to Admin Core</h1>
         <Form
+          formData={formData}
           submitForm={submitForm}
-          isValid={valid => console.log('valid', valid)}
+          formStatus={formStatus}
+          buttonLabel="Login"
         >
           <Input
             type="input"
-            htmlAttr={{ type: 'email', placeholder: 'Enter an email' }}
+            htmlAttrs={{
+              type: 'email',
+              name: 'email',
+              placeholder: 'Enter an email',
+            }}
+            value={formData.email}
             focus
             label="Email:"
             rules={{
@@ -27,7 +34,12 @@ export const Login = props => {
           />
           <Input
             type="input"
-            htmlAttr={{ type: 'password', placeholder: 'Enter an password' }}
+            htmlAttrs={{
+              type: 'password',
+              name: 'password',
+              placeholder: 'Enter an password',
+            }}
+            value={formData.password}
             focus={false}
             label="Password:"
             rules={{
@@ -42,9 +54,9 @@ export const Login = props => {
 };
 
 Login.propTypes = {
-  email: PT.string,
-  password: PT.string,
+  formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
+  formStatus: PT.func.isRequired,
 };
 
 export default container(Login);
