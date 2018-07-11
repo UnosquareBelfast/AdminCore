@@ -97,7 +97,9 @@ const DashboardContainer = Wrapped =>
       } else if (isWFH) {
         duration = 0;
       } else {
-        duration = moment.duration(endDate.diff(startDate)).asDays() + 1;
+        duration = Math.floor(
+          moment.duration(endDate.diff(startDate)).asDays() + 1,
+        );
       }
       return duration;
     }
@@ -204,8 +206,11 @@ const DashboardContainer = Wrapped =>
         formData.endDate = formData.startDate;
       }
 
+      console.log('this.state.booking :', this.state.booking);
+
       this.setState({
         booking: {
+          ...this.state.booking,
           buttonLabel: this.state.booking.buttonLabel,
           formData,
           formIsValid,
