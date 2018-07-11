@@ -1,7 +1,6 @@
 package com.unosquare.admin_core.back_end.configuration;
 
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
-import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
 import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.*;
@@ -10,17 +9,13 @@ import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.print.attribute.standard.Destination;
 import java.time.LocalDate;
-import java.util.List;
 
 @Configuration
 @EnableTransactionManagement
@@ -87,8 +82,27 @@ public class AppConfig {
             }
         };
 
+        PropertyMap<Employee, EmployeeDto> employeeDtoMapping = new PropertyMap<Employee, EmployeeDto>() {
+            @Override
+            protected void configure() {
+                map().setTotalHolidays(source.getTotalHolidays());
+                map().setEmail(source.getEmail());
+                map().setCountryId(source.getCountry().getCountryId());
+                map().setCountryDescription(source.getCountry().getDescription());
+                map().setEmployeeId(source.getEmployeeId());
+                map().setEmployeeStatusId(source.getEmployeeStatus().getEmployeeStatusId());
+                map().setStatusDescription(source.getEmployeeStatus().getDescription());
+                map().setEmployeeRoleId(source.getEmployeeRole().getEmployeeRoleId());
+                map().setEmployeeRoleDescription(source.getEmployeeRole().getDescription());
+                map().setForename(source.getForename());
+                map().setSurname(source.getSurname());
+                map().setStartDate(source.getStartDate());
+            }
+        };
+
         modelMapper.addConverter(holidayConverter);
         modelMapper.addMappings(employeeMapping);
+        modelMapper.addMappings(employeeDtoMapping);
         modelMapper.addConverter(holidayDtoConvert);
         modelMapper.addMappings(holidayEntityMapping);
 

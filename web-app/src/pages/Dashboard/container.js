@@ -117,6 +117,8 @@ const DashboardContainer = Wrapped =>
           buttonLabel: buttonLabel,
           formData: updatedForm,
           duration: this.getDuration(updatedForm),
+          id: booking.id,
+          title: booking.title,
           ...booking,
         },
       });
@@ -136,41 +138,21 @@ const DashboardContainer = Wrapped =>
       this.updateBookingFormOnSelect(booking, 'Update');
     };
 
-    getEmployeeDetails = userDetails => {
-      return {
-        employeeId: userDetails.employeeId,
-        forename: userDetails.forename,
-        surname: userDetails.surname,
-        email: userDetails.email,
-        totalHolidays: 33,
-        startDate: [2014, 1, 1],
-        countryId: 1,
-        countryDescription: 'Northern Ireland',
-        employeeRoleId: 2,
-        employeeRoleDescription: 'System administrator',
-        employeeStatusId: 2,
-        statusDescription: 'Inactive',
-      };
-    };
-
     submitHolidayRequest = () => {
       const { booking, userDetails } = this.state;
       const { startDate, endDate, isHalfday } = booking.formData;
-      const request = [];
+      const dateFormat = 'YYYY-MM-DD';
 
-      for (let i = 0; i <= endDate.diff(startDate, 'days'); i++) {
-        const start = startDate.clone();
-        request.push({
-          date: start.add(i, 'days').format('YYYY-MM-DD'),
-          dateCreated: moment().format('YYYY-MM-DD'),
-          halfDay: isHalfday,
-          holidayId: 0,
-          holidayStatusDescription: 'Booked',
-          holidayStatusId: 1,
-          lastModified: moment().format('YYYY-MM-DD'),
-          employee: this.getEmployeeDetails(userDetails),
-        });
-      }
+      const request = {
+        dates: [
+          {
+            startDate: startDate.format(dateFormat),
+            endDate: endDate.format(dateFormat),
+            halfDay: isHalfday,
+          },
+        ],
+        employeeId: userDetails.employeeId,
+      };
 
       requestHoliday(request).then(() => {
         this.getTakenHolidays(userDetails.employeeId);
@@ -180,18 +162,18 @@ const DashboardContainer = Wrapped =>
 
     updateHoliday = cancel => {
       const { booking, userDetails } = this.state;
-      const { startDate, isHalfday } = booking.formData;
+      const { startDate, endDate, isHalfday } = booking.formData;
+      const dateFormat = 'YYYY-MM-DD';
 
       const request = {
-        date: startDate.format('YYYY-MM-DD'),
-        dateCreated: moment().format('YYYY-MM-DD'),
+        startDate: startDate.format(dateFormat),
+        endDate: endDate.format(dateFormat),
         halfDay: isHalfday,
         holidayId: booking.id,
-        holidayStatusDescription: 'Booked',
         holidayStatusId: cancel ? 3 : 1,
-        lastModified: moment().format('YYYY-MM-DD'),
-        employee: this.getEmployeeDetails(userDetails),
+        employeeId: userDetails.employeeId,
       };
+
       updateHoliday(request).then(() => {
         this.getTakenHolidays(userDetails.employeeId);
         this.closeModal();

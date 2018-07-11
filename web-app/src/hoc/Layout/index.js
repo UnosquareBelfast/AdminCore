@@ -6,15 +6,28 @@ import { LayoutContainer, Input } from './styled';
 
 export const Layout = props => {
   let drawer = null;
-  if (props.isAuthenticated) {
+  const {
+    isAuthenticated,
+    toggleDrawer,
+    drawerOpen,
+    children,
+    history,
+    menuItems,
+  } = props;
+
+  if (isAuthenticated) {
     drawer = (
       <Fragment>
-        <Input type="checkbox" id="toggle-drawer" />
+        <Input
+          type="checkbox"
+          id="toggle-drawer"
+          onChange={toggleDrawer}
+          checked={drawerOpen}
+        />
         <NavMenu
-          isAuthenticated={props.isAuthenticated}
-          userDetails={props.userDetails}
-          history={props.history}
-          menuItems={props.menuItems}
+          isAuthenticated={isAuthenticated}
+          history={history}
+          menuItems={menuItems}
         />
       </Fragment>
     );
@@ -23,18 +36,19 @@ export const Layout = props => {
   return (
     <Fragment>
       {drawer}
-      <LayoutContainer history={props.history.location.pathname}>
-        {props.children}
+      <LayoutContainer history={history.location.pathname}>
+        {children}
       </LayoutContainer>
     </Fragment>
   );
 };
 
 Layout.propTypes = {
-  menuItems: PT.array,
-  userDetails: PT.object,
-  history: PT.object,
-  isAuthenticated: PT.bool,
-  children: PT.node,
+  menuItems: PT.array.isRequired,
+  history: PT.object.isRequired,
+  isAuthenticated: PT.bool.isRequired,
+  children: PT.node.isRequired,
+  drawerOpen: PT.bool.isRequired,
+  toggleDrawer: PT.func.isRequired,
 };
 export default container(Layout);

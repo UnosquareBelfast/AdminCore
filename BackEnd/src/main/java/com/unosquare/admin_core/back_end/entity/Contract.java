@@ -3,7 +3,6 @@ package com.unosquare.admin_core.back_end.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Data

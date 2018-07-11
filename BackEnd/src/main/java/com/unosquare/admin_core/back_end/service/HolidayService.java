@@ -3,7 +3,6 @@ package com.unosquare.admin_core.back_end.service;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Holiday;
-import com.unosquare.admin_core.back_end.entity.MandatoryHoliday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
 import com.unosquare.admin_core.back_end.repository.HolidayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ import java.util.Optional;
 @Service
 @Transactional
 public class HolidayService {
-
-    @Autowired
-    MandatoryHolidayService mandatoryHolidayService;
 
     @Autowired
     HolidayRepository holidayRepository;
@@ -70,43 +66,12 @@ public class HolidayService {
         return holiday;
     }
 
-    public void saveMultiple(List<Holiday> holidays) {
-        Preconditions.checkNotNull(holidays);
-
-        for (int i = 0; i < holidays.size(); i++) {
-            holidays.set(i, checkForHolidayWithSameDate(holidays.get(i)));
-        }
-
-        holidayRepository.saveAll(holidays);
-    }
-
-    public void addMandatoryHolidaysForNewEmployee(Employee employee) {
-        List<MandatoryHoliday> mandatoryHolidaysByCountryIdAfterStartDate = mandatoryHolidayService.findMandatoryHolidaysByCountryIdAfterStartDate(employee.getCountry().getCountryId(), employee.getStartDate());
-
-        for (MandatoryHoliday mandatoryHoliday : mandatoryHolidaysByCountryIdAfterStartDate) {
-            Holiday holiday = new Holiday(mandatoryHoliday.getDate(), mandatoryHoliday.getDate(), employee.getEmployeeId(), HolidayStatus.MANDATORY.getHolidayStatusId(), false);
-            holidayRepository.save(holiday);
-        }
-    }
-
-    public List<Holiday> findByDateAfter(LocalDate startDate) {
-        return holidayRepository.findByStartDateAfter(startDate);
-    }
-
-    public List<Holiday> findByDateBefore(LocalDate startDate) {
-        return holidayRepository.findByStartDateBefore(startDate.plusDays(1));
-    }
-
     public List<Holiday> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd) {
         return holidayRepository.findByStartDateBetween(rangeStart, rangeEnd);
     }
 
     public List<Holiday> findByStatus(HolidayStatus holidayStatus) {
         return holidayRepository.findByHolidayStatus(new com.unosquare.admin_core.back_end.entity.HolidayStatus(holidayStatus.getHolidayStatusId()));
-    }
-
-    public List<Holiday> findByStatusAndDateAfter(HolidayStatus holidayStatus, LocalDate startDate) {
-        return holidayRepository.findByHolidayStatusAndStartDate(new com.unosquare.admin_core.back_end.entity.HolidayStatus(holidayStatus.getHolidayStatusId()), startDate);
     }
 }
 

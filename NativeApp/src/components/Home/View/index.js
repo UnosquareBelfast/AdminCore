@@ -4,7 +4,11 @@ import { View, Button, StyleSheet } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
 
 const HomeView = (props) => {
-  const { handleLogout, takenHolidays } = props;
+  const {
+    handleLogout,
+    takenHolidays,
+    onDayPress,
+  } = props;
 
   return (
     <View style={styles.container}>
@@ -20,6 +24,7 @@ const HomeView = (props) => {
         theme={{
           todayTextColor: '#00adf5',
         }}
+        onDayPress={(day) => { onDayPress(day); }}
       />
     </View>
   );
@@ -31,6 +36,7 @@ HomeView.propTypes = {
     text: PT.string,
     color: PT.string,
   }).isRequired,
+  onDayPress: PT.func.isRequired,
 };
 
 const styles = StyleSheet.create({
