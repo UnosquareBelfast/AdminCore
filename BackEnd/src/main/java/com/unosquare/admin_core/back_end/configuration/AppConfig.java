@@ -1,21 +1,36 @@
 package com.unosquare.admin_core.back_end.configuration;
-
-import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
-import com.unosquare.admin_core.back_end.dto.EmployeeDto;
-import com.unosquare.admin_core.back_end.dto.HolidayDto;
+import com.unosquare.admin_core.back_end.configuration.mappings.*;
+import com.unosquare.admin_core.back_end.dto.*;
 import com.unosquare.admin_core.back_end.entity.*;
-import javafx.beans.property.Property;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
+import com.unosquare.admin_core.back_end.enums.converter.ContractStatusConverter;
+import com.unosquare.admin_core.back_end.payload.SignUpRequest;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.modelmapper.ModelMapper;
+
+import java.io.Console;
+import java.io.File;
+import java.io.FileInputStream;
+import java.lang.reflect.Method;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import sun.security.ssl.Debug;
+import java.lang.*;
+import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
+import java.lang.reflect.Constructor;
 
+import javax.print.attribute.standard.Destination;
+import java.lang.reflect.Type;
+import java.net.URL;
 import java.time.LocalDate;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
 
 @Configuration
 @EnableTransactionManagement
@@ -24,88 +39,25 @@ public class AppConfig {
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-
-        Converter<CreateHolidayDto, Holiday> holidayConverter = new AbstractConverter<CreateHolidayDto, Holiday>() {
-            @Override
-            protected Holiday convert(CreateHolidayDto source) {
-                Holiday ret = new Holiday(source.getDates().get(0).getStartDate(), source.getDates().get(source.getDates().size()-1).getEndDate(),
-                        source.getEmployeeId(), 1, source.getDates().get(0).isHalfDay());
-
-                return ret;
+        ModelMapper mapper = new ModelMapper();
+// Alternative Java 8 version using a method reference:
+        List mappings = new ArrayList<>();
+        new FastClasspathScanner(ClientMappings.class.getPackage().getName())
+                .matchSubclassesOf(Object.class, mappings::add)
+                .scan();
+        for (Object mapping : mappings) {
+            if (mapping instanceof BaseMappings<?, ?>) {
+               mapper.addMappings(((BaseMappings) mapping).RetrieveSourceDtoMapping());
+               mapper.addMappings(((BaseMappings) mapping).RetrieveTargetDtoMapping());
             }
-        };
 
-        Converter<Holiday, HolidayDto> holidayDtoConvert = new AbstractConverter<Holiday, HolidayDto>() {
-            @Override
-            protected HolidayDto convert(Holiday source) {
-                HolidayDto ret = new HolidayDto(source.getHolidayId(), source.getStartDate(), source.getEndDate(),
-                        source.getEmployee().getEmployeeId(), source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
+        }
+        //Converter function
+        HolidayMappings holidayMappings = new HolidayMappings();
+        mapper.addConverter(holidayMappings.holidayConverter);
+        mapper.addConverter(holidayMappings.holidayDtoConvert);
 
-                return ret;
-            }
-        };
 
-        PropertyMap<HolidayDto, Holiday> holidayEntityMapping = new PropertyMap<HolidayDto, Holiday>() {
-            @Override
-            protected void configure() {
-                skip().setDateCreated(null);
-                skip().getHolidayStatus().setDescription(source.getHolidayStatusDescription());
-                map().setLastModified(LocalDate.now());
-                map().setHalfDay(source.isHalfDay());
-                map().setEndDate(source.getEndDate());
-                map().setEmployee(new Employee(source.getEmployeeId()));
-                map().setHolidayId(source.getHolidayId());
-                map().setHolidayStatus(new HolidayStatus(source.getHolidayStatusId()));
-                map().setStartDate(source.getStartDate());
-            }
-        };
-
-        PropertyMap<EmployeeDto, Employee> employeeMapping = new PropertyMap<EmployeeDto, Employee>() {
-            @Override
-            protected void configure() {
-                skip().setPassword(null);
-                skip().getCountry().setDescription(source.getCountryDescription());
-                skip().getEmployeeRole().setDescription(source.getEmployeeRoleDescription());
-                skip().getEmployeeStatus().setDescription(source.getStatusDescription());
-                skip().setHolidays(null);
-                skip().setContracts(null);
-                map().setTotalHolidays(source.getTotalHolidays());
-                map().setEmail(source.getEmail());
-                map().setCountry(new Country(source.getCountryId()));
-                map().setEmployeeId(source.getEmployeeId());
-                map().setEmployeeStatus(new EmployeeStatus(source.getEmployeeStatusId()));
-                map().setEmployeeRole(new EmployeeRole(source.getEmployeeRoleId()));
-                map().setForename(source.getForename());
-                map().setSurname(source.getSurname());
-                map().setStartDate(source.getStartDate());
-            }
-        };
-
-        PropertyMap<Employee, EmployeeDto> employeeDtoMapping = new PropertyMap<Employee, EmployeeDto>() {
-            @Override
-            protected void configure() {
-                map().setTotalHolidays(source.getTotalHolidays());
-                map().setEmail(source.getEmail());
-                map().setCountryId(source.getCountry().getCountryId());
-                map().setCountryDescription(source.getCountry().getDescription());
-                map().setEmployeeId(source.getEmployeeId());
-                map().setEmployeeStatusId(source.getEmployeeStatus().getEmployeeStatusId());
-                map().setStatusDescription(source.getEmployeeStatus().getDescription());
-                map().setEmployeeRoleId(source.getEmployeeRole().getEmployeeRoleId());
-                map().setEmployeeRoleDescription(source.getEmployeeRole().getDescription());
-                map().setForename(source.getForename());
-                map().setSurname(source.getSurname());
-                map().setStartDate(source.getStartDate());
-            }
-        };
-
-        modelMapper.addConverter(holidayConverter);
-        modelMapper.addMappings(employeeMapping);
-        modelMapper.addMappings(employeeDtoMapping);
-        modelMapper.addConverter(holidayDtoConvert);
-        modelMapper.addMappings(holidayEntityMapping);
-
-        return modelMapper;
+        return mapper;
     }
 }
