@@ -53,6 +53,7 @@ export default Wrapped =>
       return (
         <Wrapped
           formData={this.state.formData}
+          formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>
             this.handleFormStatus(name, value, formIsValid)
           }

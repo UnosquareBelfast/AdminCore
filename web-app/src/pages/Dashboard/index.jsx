@@ -23,6 +23,7 @@ export const Dashboard = props => {
         closeModal={props.closeModal}
         showModal={props.showModal}
         booking={props.booking}
+        formIsValid={props.booking.formIsValid}
         formStatus={props.formStatus}
         submitForm={props.submitForm}
       />

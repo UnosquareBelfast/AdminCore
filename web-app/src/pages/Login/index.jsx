@@ -5,7 +5,7 @@ import container from './container';
 import { Form, Input } from '../../components/common';
 
 export const Login = props => {
-  const { submitForm, formStatus, formData } = props;
+  const { submitForm, formStatus, formData, formIsValid } = props;
 
   return (
     <LoginBG>
@@ -15,7 +15,13 @@ export const Login = props => {
           formData={formData}
           submitForm={submitForm}
           formStatus={formStatus}
-          buttonLabel="Login"
+          actions={[
+            {
+              label: 'Login',
+              event: props.submitForm,
+              disabled: !formIsValid,
+            },
+          ]}
         >
           <Input
             type="input"
@@ -57,6 +63,7 @@ Login.propTypes = {
   formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
   formStatus: PT.func.isRequired,
+  formIsValid: PT.bool.isRequired,
 };
 
 export default container(Login);

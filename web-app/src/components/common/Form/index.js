@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Button } from '../../common';
-import { ButtonWrap, ButtonContainer } from './styled';
+import { ButtonContainer } from './styled';
 
 export class Form extends Component {
   static propTypes = {
-    submitForm: PT.func.isRequired,
     formStatus: PT.func,
     formData: PT.object,
-    buttonLabel: PT.string,
+    actions: PT.array.isRequired,
     children: PT.array.isRequired,
   };
 
@@ -43,6 +42,7 @@ export class Form extends Component {
       }
     }
     let formIsValid = validatedElements.length === this.state.elementCount;
+    this.props.formStatus(undefined, undefined, formIsValid);
     this.setState({ formIsValid });
   };
 
@@ -71,38 +71,22 @@ export class Form extends Component {
       });
     });
 
-    let buttons;
-    if (this.props.buttonLabel == 'Update') {
-      buttons = (
-        <ButtonWrap>
-          <Button
-            label={this.props.buttonLabel}
-            onClick={this.props.submitForm}
-            disabled={!this.state.formIsValid}
-          />
-          <Button
-            label="Cancel"
-            onClick={this.props.submitForm}
-            disabled={!this.state.formIsValid}
-          />
-        </ButtonWrap>
-      );
-    } else {
-      buttons = (
-        <ButtonContainer>
-          <Button
-            label={this.props.buttonLabel}
-            onClick={this.props.submitForm}
-            disabled={!this.state.formIsValid}
-          />
-        </ButtonContainer>
-      );
-    }
-
     return (
       <form>
         {childWithProp}
-        {buttons}
+        <ButtonContainer>
+          {this.props.actions.map((action, index) => {
+            return (
+              <Fragment key={index}>
+                <Button
+                  label={action.label}
+                  onClick={action.event}
+                  disabled={action.disabled}
+                />
+              </Fragment>
+            );
+          })}
+        </ButtonContainer>
       </form>
     );
   }

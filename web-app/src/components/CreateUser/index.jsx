@@ -6,7 +6,15 @@ import { Card, Form, Input, Errorbox } from '../common';
 import { FormContainer } from './styled';
 
 export const CreateUser = props => {
-  const { error, success, loading, submitForm, formStatus, formData } = props;
+  const {
+    error,
+    success,
+    loading,
+    submitForm,
+    formStatus,
+    formData,
+    formIsValid,
+  } = props;
 
   let form;
   if (loading) {
@@ -17,7 +25,13 @@ export const CreateUser = props => {
         formData={formData}
         submitForm={submitForm}
         formStatus={formStatus}
-        buttonLabel="Create user"
+        actions={[
+          {
+            label: 'Login',
+            event: props.submitForm,
+            disabled: !formIsValid,
+          },
+        ]}
       >
         <Input
           type="input"
@@ -156,6 +170,7 @@ CreateUser.propTypes = {
   formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
   formStatus: PT.func.isRequired,
+  formIsValid: PT.bool.isRequired,
 };
 
 CreateUser.defaultProps = {

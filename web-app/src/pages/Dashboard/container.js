@@ -22,14 +22,13 @@ const DashboardContainer = Wrapped =>
         takenHolidays: null,
         showModal: false,
         booking: {
-          buttonLabel: 'Request',
           formData: {
             startDate: moment(),
             endDate: moment(),
             isHalfday: false,
             isWFH: false,
           },
-          formIsValid: false,
+          formIsValid: true,
           duration: 0,
         },
         requestModalOpen: false,
@@ -104,7 +103,7 @@ const DashboardContainer = Wrapped =>
       return duration;
     }
 
-    updateBookingFormOnSelect = (booking, buttonLabel) => {
+    updateBookingFormOnSelect = booking => {
       let updatedForm = {
         ...this.state.booking.formData,
       };
@@ -116,7 +115,6 @@ const DashboardContainer = Wrapped =>
       this.setState({
         showModal: true,
         booking: {
-          buttonLabel: buttonLabel,
           formData: updatedForm,
           duration: this.getDuration(updatedForm),
           id: booking.id,
@@ -133,11 +131,11 @@ const DashboardContainer = Wrapped =>
         isHalfday: false,
         isWFH: false,
       };
-      this.updateBookingFormOnSelect(booking, 'Request');
+      this.updateBookingFormOnSelect(booking);
     };
 
     onSelectEvent = booking => {
-      this.updateBookingFormOnSelect(booking, 'Update');
+      this.updateBookingFormOnSelect(booking);
     };
 
     submitHolidayRequest = () => {
@@ -206,12 +204,11 @@ const DashboardContainer = Wrapped =>
         formData.endDate = formData.startDate;
       }
 
-      console.log('this.state.booking :', this.state.booking);
+      console.log('formIsValid :', formIsValid);
 
       this.setState({
         booking: {
           ...this.state.booking,
-          buttonLabel: this.state.booking.buttonLabel,
           formData,
           formIsValid,
           duration: this.getDuration(formData),

@@ -12,7 +12,16 @@ import {
 import { statusText } from '../../utilities/holidayStatus';
 
 const BookingModal = props => {
-  const { closeModal, showModal, booking, submitForm, formStatus } = props;
+  const {
+    closeModal,
+    showModal,
+    booking,
+    submitForm,
+    formStatus,
+    formIsValid,
+  } = props;
+
+  console.log('formIsValid :', formIsValid);
 
   const isDateDisabled = () => {
     if (booking.formData.isWFH || booking.formData.isHalfday) {
@@ -30,12 +39,36 @@ const BookingModal = props => {
     }
   };
 
+  let ctas;
+  if (!booking.title) {
+    ctas = [
+      {
+        label: 'Request',
+        event: props.submitForm,
+        disabled: !formIsValid,
+      },
+    ];
+  } else {
+    ctas = [
+      {
+        label: 'Update',
+        event: props.submitForm,
+        disabled: !formIsValid,
+      },
+      {
+        label: 'Cancel',
+        event: props.submitForm,
+        disabled: !formIsValid,
+      },
+    ];
+  }
+
   const form = (
     <Form
       formData={booking.formData}
       submitForm={submitForm}
       formStatus={formStatus}
-      buttonLabel={booking.buttonLabel}
+      actions={ctas}
     >
       <Input
         type="date"

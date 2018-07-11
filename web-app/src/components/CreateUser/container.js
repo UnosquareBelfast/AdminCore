@@ -58,6 +58,7 @@ export default Wrapped =>
           error={this.state.error}
           loading={this.state.loading}
           formData={this.state.formData}
+          formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>
             this.handleFormStatus(name, value, formIsValid)
           }
