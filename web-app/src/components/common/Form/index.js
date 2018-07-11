@@ -1,40 +1,67 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Button } from '../../common';
+import { ButtonWrap, ButtonContainer } from './styled';
 
 export class Form extends Component {
   static propTypes = {
     submitForm: PT.func.isRequired,
+    formStatus: PT.func,
+    formData: PT.object,
+    buttonLabel: PT.string,
     children: PT.array.isRequired,
-    isValid: PT.func,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      invalidInputs: [],
-      formIsValid: true,
+      elementCount: 0,
+      validatedElements: [],
+      formIsValid: false,
     };
   }
 
-  componentDidUpdate() {
-    if (this.props.isValid) {
-      this.props.isValid(this.state.formIsValid);
-    }
+  componentDidMount() {
+    const elementCount = React.Children.count(this.props.children);
+    this.setState(
+      {
+        elementCount,
+      },
+      () => {
+        this.addInputsToValidatedElements();
+      },
+    );
   }
 
-  handleCheckInputValid = (label, isValid) => {
-    let invalidInputs = [...this.state.invalidInputs];
-    if (isValid) {
-      if (invalidInputs.includes(label)) {
-        invalidInputs = invalidInputs.filter(item => item !== label);
-      }
-    } else {
-      if (!invalidInputs.includes(label)) {
-        invalidInputs.push(label);
+  addInputsToValidatedElements = () => {
+    let validatedElements = [...this.state.validatedElements];
+    let keys = Object.keys(this.props.formData);
+    for (let key of keys) {
+      if (this.props.formData[key] !== '') {
+        validatedElements.push(key);
+        this.setState({ validatedElements });
       }
     }
-    let formIsValid = invalidInputs.length === 0;
-    this.setState({ invalidInputs, formIsValid });
+    let formIsValid = validatedElements.length === this.state.elementCount;
+    this.setState({ formIsValid });
+  };
+
+  handleCheckInputValid = (name, value, isValid) => {
+    let validatedElements = [...this.state.validatedElements];
+    if (isValid) {
+      if (!validatedElements.includes(name)) {
+        validatedElements.push(name);
+      }
+    } else {
+      if (validatedElements.includes(name)) {
+        validatedElements = validatedElements.filter(item => item !== name);
+      }
+    }
+
+    let formIsValid = validatedElements.length === this.state.elementCount;
+    this.setState({ validatedElements, formIsValid });
+
+    this.props.formStatus(name, value, this.state.formIsValid);
   };
 
   render() {
@@ -44,12 +71,38 @@ export class Form extends Component {
       });
     });
 
+    let buttons;
+    if (this.props.buttonLabel == 'Update') {
+      buttons = (
+        <ButtonWrap>
+          <Button
+            label={this.props.buttonLabel}
+            onClick={this.props.submitForm}
+            disabled={!this.state.formIsValid}
+          />
+          <Button
+            label="Cancel"
+            onClick={this.props.submitForm}
+            disabled={!this.state.formIsValid}
+          />
+        </ButtonWrap>
+      );
+    } else {
+      buttons = (
+        <ButtonContainer>
+          <Button
+            label={this.props.buttonLabel}
+            onClick={this.props.submitForm}
+            disabled={!this.state.formIsValid}
+          />
+        </ButtonContainer>
+      );
+    }
+
     return (
-      <form id="loginForm" onSubmit={this.props.submitForm}>
+      <form>
         {childWithProp}
-        <button type="submit" disabled={!this.state.formIsValid}>
-          Login
-        </button>
+        {buttons}
       </form>
     );
   }
