@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
-  faUser,
-  faTachometerAlt,
+  faSmile,
+  faCalendarAlt,
   faUnlockAlt,
 } from '@fortawesome/fontawesome-free-solid';
 
@@ -16,14 +16,14 @@ export default Wrapped =>
             name: 'Profile',
             tooltip: 'Go to profile',
             route: '/profile',
-            icon: faUser,
+            icon: faSmile,
             subnav: null,
           },
           {
             name: 'Dashboard',
             tooltip: 'Go to dashboard',
             route: '/',
-            icon: faTachometerAlt,
+            icon: faCalendarAlt,
             subnav: null,
           },
           {
