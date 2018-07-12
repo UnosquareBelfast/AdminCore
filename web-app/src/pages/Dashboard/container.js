@@ -184,21 +184,18 @@ const DashboardContainer = Wrapped =>
       const formData = { ...this.state.booking.formData };
       formData[name] = value;
 
-      if (name == 'startDate' || name == 'endDate') {
+      if (name == 'startDate') {
         formData.isHalfday = false;
         formData.isWFH = false;
-      }
-
-      if (
-        name === 'startDate' &&
-        formData.startDate.isAfter(formData.endDate)
-      ) {
-        formData.endDate = formData.startDate;
-      } else if (
-        name === 'endDate' &&
-        formData.endDate.isBefore(formData.startDate)
-      ) {
-        formData.startDate = formData.endDate;
+        if (formData.startDate.isAfter(formData.endDate)) {
+          formData.endDate = formData.startDate;
+        }
+      } else if (name == 'endDate') {
+        formData.isHalfday = false;
+        formData.isWFH = false;
+        if (formData.endDate.isBefore(formData.startDate)) {
+          formData.startDate = formData.endDate;
+        }
       } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.isWFH = false;
         formData.endDate = formData.startDate;
