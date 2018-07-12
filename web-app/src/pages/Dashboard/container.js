@@ -204,8 +204,6 @@ const DashboardContainer = Wrapped =>
         formData.endDate = formData.startDate;
       }
 
-      console.log('formIsValid :', formIsValid);
-
       this.setState({
         booking: {
           ...this.state.booking,

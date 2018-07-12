@@ -21,8 +21,6 @@ const BookingModal = props => {
     formIsValid,
   } = props;
 
-  console.log('formIsValid :', formIsValid);
-
   const isDateDisabled = () => {
     if (booking.formData.isWFH || booking.formData.isHalfday) {
       return true;
