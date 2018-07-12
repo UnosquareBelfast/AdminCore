@@ -39,7 +39,7 @@ export const LoginForm = props => {
         htmlAttrs={{
           type: 'password',
           name: 'password',
-          placeholder: 'Enter an password',
+          placeholder: 'Enter a password',
         }}
         value={formData.password}
         label="Password:"
