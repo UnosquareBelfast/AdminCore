@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import _ from 'lodash';
+import { has, get } from 'lodash';
 import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
 
@@ -42,8 +42,8 @@ export default Container => class extends Component {
       const { takenHolidays } = this.state;
 
       if (day) {
-        const booked = _.has(takenHolidays, day.dateString);
-        const holiday = _.get(takenHolidays, day.dateString, 0);
+        const booked = has(takenHolidays, day.dateString);
+        const holiday = get(takenHolidays, day.dateString, 0);
         navigation.push('Booking', { date: day.dateString, holId: holiday.holId, booked });
       }
     }

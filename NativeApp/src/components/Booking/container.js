@@ -4,7 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
 import { userProfile } from '../../utilities/currentUser';
-import { requestHolidays, updateHoliday } from '../../services/holidayService';
+import { requestHolidays, updateHolidayRequest } from '../../services/holidayService';
 
 
 export default Container => class extends Component {
@@ -53,12 +53,13 @@ export default Container => class extends Component {
     const formatDate = moment(date).format('YYYY-MM-DD');
 
     if (moment(date).isAfter(booking.endDate)) {
-      this.setState({
+      this.setState(prevState => ({
         booking: {
+          ...prevState.booking,
           startDate: formatDate,
           endDate: formatDate,
         },
-      });
+      }));
     } else {
       this.setState(prevState => ({
         booking: {
@@ -109,18 +110,15 @@ export default Container => class extends Component {
     const { navigation } = this.props;
 
     const request = {
-      dateCreated: booking.startDate,
       employeeId: user.employeeId,
       endDate: booking.endDate,
       halfDay: false,
       holidayId: booking.holId,
-      holidayStatusDescription: 'Booked',
       holidayStatusId: 1,
-      lastModified: moment().format('YYYY-MM-DD'),
       startDate: booking.startDate,
     };
 
-    updateHoliday(request)
+    updateHolidayRequest(request)
       .then(() => {
         navigation.pop();
       })

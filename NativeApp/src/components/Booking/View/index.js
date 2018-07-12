@@ -20,7 +20,7 @@ const BookingView = (props) => {
   } = props;
 
   const renderButton = booked
-    ? <Button onPress={updateHoliday} title="updated" />
+    ? <Button onPress={updateHoliday} title="Update Holiday" />
     : <Button onPress={submitRequest} title="Request Holiday" />;
 
 
@@ -52,6 +52,8 @@ BookingView.propTypes = {
   changeStartDate: PT.func.isRequired,
   changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
+  updateHoliday: PT.func.isRequired,
+  booked: PT.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
