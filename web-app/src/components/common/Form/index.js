@@ -42,7 +42,6 @@ export class Form extends Component {
       }
     }
     let formIsValid = validatedElements.length === this.state.elementCount;
-    this.props.formStatus(undefined, undefined, formIsValid);
     this.setState({ formIsValid });
   };
 
