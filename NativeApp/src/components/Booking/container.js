@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import _ from 'lodash';
 import { userProfile } from '../../utilities/currentUser';
 import { requestHolidays, updateHolidayRequest } from '../../services/holidayService';
 
@@ -24,7 +23,6 @@ export default Container => class extends Component {
         halfDay: false,
       },
       booked: false,
-      holiday: {},
       user: {},
     };
   }
