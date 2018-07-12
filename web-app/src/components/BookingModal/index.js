@@ -79,7 +79,6 @@ const BookingModal = props => {
         rules={{
           dateNotInPast: true,
         }}
-        focus={false}
         label={getStartDateLabel()}
       />
       <Input
@@ -94,7 +93,6 @@ const BookingModal = props => {
         rules={{
           dateNotInPast: true,
         }}
-        focus={false}
         label="End Date:"
       />
       <Input
@@ -104,7 +102,6 @@ const BookingModal = props => {
           name: 'isWFH',
         }}
         value={booking.formData.isWFH}
-        focus={false}
         label="Working from home"
       />
       <Input
@@ -114,7 +111,6 @@ const BookingModal = props => {
           name: 'isHalfday',
         }}
         value={booking.formData.isHalfday}
-        focus={false}
         label="Request a halfday"
       />
     </Form>

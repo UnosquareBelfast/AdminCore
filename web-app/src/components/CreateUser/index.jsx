@@ -55,7 +55,6 @@ export const CreateUser = props => {
             placeholder: 'Enter a surname',
           }}
           value={formData.surname}
-          focus={false}
           label="Surname:"
           rules={{
             required: true,
@@ -69,7 +68,6 @@ export const CreateUser = props => {
             placeholder: 'Enter an email',
           }}
           value={formData.email}
-          focus={false}
           label="Email:"
           rules={{
             required: true,
@@ -84,7 +82,6 @@ export const CreateUser = props => {
             placeholder: 'Enter an password',
           }}
           value={formData.password}
-          focus={false}
           label="Password:"
           rules={{
             required: true,
@@ -101,7 +98,6 @@ export const CreateUser = props => {
             ],
           }}
           value={formData.country}
-          focus={false}
           label="Country:"
         />
         <Input
@@ -114,7 +110,6 @@ export const CreateUser = props => {
             ],
           }}
           value={formData.status}
-          focus={false}
           label="Status:"
         />
         <Input
@@ -128,7 +123,6 @@ export const CreateUser = props => {
             ],
           }}
           value={formData.employeeRole}
-          focus={false}
           label="Employee Role:"
         />
         <Input
@@ -142,7 +136,6 @@ export const CreateUser = props => {
           rules={{
             dateNotInPast: true,
           }}
-          focus={false}
           label="Start Date:"
         />
       </Form>

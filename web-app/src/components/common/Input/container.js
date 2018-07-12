@@ -8,10 +8,16 @@ export default Wrapped =>
       label: PT.string.isRequired,
       type: PT.string.isRequired,
       htmlAttrs: PT.object.isRequired,
+      value: PT.any.isRequired,
+      validateForm: PT.func,
       focus: PT.bool,
       rules: PT.object,
-      validateForm: PT.func,
-      value: PT.any,
+    };
+
+    static defaultProps = {
+      focus: false,
+      rules: null,
+      validateForm: () => {},
     };
 
     constructor(props) {

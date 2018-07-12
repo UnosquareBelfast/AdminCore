@@ -46,7 +46,6 @@ export const Login = props => {
               placeholder: 'Enter an password',
             }}
             value={formData.password}
-            focus={false}
             label="Password:"
             rules={{
               required: true,
