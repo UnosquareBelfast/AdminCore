@@ -1,18 +1,19 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Card, Input, Button, Errorbox } from '../common';
-import { Form, ButtonWrap } from './styled';
+import employeeStatus from '../../utilities/employeeStatus';
+import { Card, Form, Input, Errorbox } from '../common';
+import { FormContainer } from './styled';
 
 export const CreateUser = props => {
   const {
-    formElementsArray,
-    formIsValid,
-    submitForm,
-    formChanged,
     error,
     success,
     loading,
+    submitForm,
+    formStatus,
+    formData,
+    formIsValid,
   } = props;
 
   let form;
@@ -20,37 +21,131 @@ export const CreateUser = props => {
     form = null;
   } else {
     form = (
-      <Form autoComplete="off">
-        {formElementsArray.map(({ id, config }, index) => (
-          <Input
-            key={id}
-            label={config.label}
-            elementType={config.elementType}
-            elementConfig={config.elementConfig}
-            value={config.value}
-            invalid={!config.valid}
-            shouldValidate={config.validation}
-            focus={index === 0 ? true : false}
-            touched={config.touched}
-            changed={event => formChanged(event, id)}
-          />
-        ))}
-        <ButtonWrap>
-          <Button
-            id="createUserBtn"
-            label="Create User"
-            onClick={submitForm}
-            disabled={!formIsValid}
-          />
-        </ButtonWrap>
+      <Form
+        formData={formData}
+        submitForm={submitForm}
+        formStatus={formStatus}
+        actions={[
+          {
+            label: 'Login',
+            event: props.submitForm,
+            disabled: !formIsValid,
+          },
+        ]}
+      >
+        <Input
+          type="input"
+          htmlAttrs={{
+            type: 'input',
+            name: 'forename',
+            placeholder: 'Enter a forename',
+          }}
+          value={formData.forename}
+          focus
+          label="Forename:"
+          rules={{
+            required: true,
+          }}
+        />
+        <Input
+          type="input"
+          htmlAttrs={{
+            type: 'input',
+            name: 'surname',
+            placeholder: 'Enter a surname',
+          }}
+          value={formData.surname}
+          label="Surname:"
+          rules={{
+            required: true,
+          }}
+        />
+        <Input
+          type="input"
+          htmlAttrs={{
+            type: 'email',
+            name: 'email',
+            placeholder: 'Enter an email',
+          }}
+          value={formData.email}
+          label="Email:"
+          rules={{
+            required: true,
+            isEmail: true,
+          }}
+        />
+        <Input
+          type="input"
+          htmlAttrs={{
+            type: 'password',
+            name: 'password',
+            placeholder: 'Enter an password',
+          }}
+          value={formData.password}
+          label="Password:"
+          rules={{
+            required: true,
+            minLength: 6,
+          }}
+        />
+        <Input
+          type="select"
+          htmlAttrs={{
+            name: 'country',
+            options: [
+              { value: 1, displayValue: 'Northern Ireland' },
+              { value: 2, displayValue: 'Mexico' },
+            ],
+          }}
+          value={formData.country}
+          label="Country:"
+        />
+        <Input
+          type="select"
+          htmlAttrs={{
+            name: 'status',
+            options: [
+              { value: employeeStatus.ACTIVE, displayValue: 'Active' },
+              { value: employeeStatus.INACTIVE, displayValue: 'Inactive' },
+            ],
+          }}
+          value={formData.status}
+          label="Status:"
+        />
+        <Input
+          type="select"
+          htmlAttrs={{
+            name: 'employeeRole',
+            options: [
+              { value: 1, displayValue: 'Team Leader' },
+              { value: 2, displayValue: 'System Admin' },
+              { value: 3, displayValue: 'Employee' },
+            ],
+          }}
+          value={formData.employeeRole}
+          label="Employee Role:"
+        />
+        <Input
+          type="date"
+          htmlAttrs={{
+            type: 'input',
+            name: 'startDate',
+            placeholder: 'Enter a start date',
+          }}
+          value={formData.startDate}
+          rules={{
+            dateNotInPast: true,
+          }}
+          label="Start Date:"
+        />
       </Form>
     );
   }
 
   return (
     <Card>
-      <h3>Create Employee</h3>
-      {form}
+      <h3>Create User</h3>
+      <FormContainer>{form}</FormContainer>
       <Errorbox
         id="errorCreateUser"
         error={error}
@@ -62,13 +157,13 @@ export const CreateUser = props => {
 };
 
 CreateUser.propTypes = {
-  formElementsArray: PT.array.isRequired,
-  formIsValid: PT.bool.isRequired,
-  submitForm: PT.func.isRequired,
-  formChanged: PT.func.isRequired,
   loading: PT.bool.isRequired,
   error: PT.object,
   success: PT.bool,
+  formData: PT.object.isRequired,
+  submitForm: PT.func.isRequired,
+  formStatus: PT.func.isRequired,
+  formIsValid: PT.bool.isRequired,
 };
 
 CreateUser.defaultProps = {

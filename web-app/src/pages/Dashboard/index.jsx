@@ -19,7 +19,14 @@ Calendar.momentLocalizer(moment);
 export const Dashboard = props => {
   return (
     <Fragment>
-      <BookingModal {...props} />
+      <BookingModal
+        closeModal={props.closeModal}
+        showModal={props.showModal}
+        booking={props.booking}
+        formIsValid={props.booking.formIsValid}
+        formStatus={props.formStatus}
+        submitForm={props.submitForm}
+      />
       <InnerLayout>
         <Calendar
           showMultiDayTimes
@@ -57,6 +64,9 @@ Dashboard.propTypes = {
   booking: PT.object,
   showBookingModal: PT.bool,
   closeModal: PT.func,
+  showModal: PT.bool,
+  submitForm: PT.func,
+  formStatus: PT.func,
   takenHolidays: PT.array,
 };
 
