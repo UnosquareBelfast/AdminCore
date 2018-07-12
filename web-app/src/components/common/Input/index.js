@@ -118,7 +118,7 @@ const Input = props => {
   const checkType = () => {
     let styles = [];
     styles.push(type);
-    if (type == 'checkbox') {
+    if (type === 'checkbox') {
       if (value) {
         styles.push('ischecked');
       }
