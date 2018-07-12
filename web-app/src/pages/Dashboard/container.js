@@ -189,17 +189,20 @@ const DashboardContainer = Wrapped =>
         formData.isWFH = false;
       }
 
-      if (name == 'startDate' && formData.startDate.isAfter(formData.endDate)) {
+      if (
+        name === 'startDate' &&
+        formData.startDate.isAfter(formData.endDate)
+      ) {
         formData.endDate = formData.startDate;
       } else if (
-        name == 'endDate' &&
+        name === 'endDate' &&
         formData.endDate.isBefore(formData.startDate)
       ) {
         formData.startDate = formData.endDate;
-      } else if (name == 'isHalfday' && formData.isHalfday) {
+      } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.isWFH = false;
         formData.endDate = formData.startDate;
-      } else if (name == 'isWFH' && formData.isWFH) {
+      } else if (name === 'isWFH' && formData.isWFH) {
         formData.isHalfday = false;
         formData.endDate = formData.startDate;
       }
@@ -217,11 +220,11 @@ const DashboardContainer = Wrapped =>
     handleFormSubmit = event => {
       event.preventDefault();
       let buttonEvent = event.target.getAttribute('label');
-      if (buttonEvent == 'Request') {
+      if (buttonEvent === 'Request') {
         this.submitHolidayRequest();
-      } else if (buttonEvent == 'Update') {
+      } else if (buttonEvent === 'Update') {
         this.updateHoliday(true);
-      } else if (buttonEvent == 'Cancel') {
+      } else if (buttonEvent === 'Cancel') {
         this.updateHoliday(false);
       }
     };
