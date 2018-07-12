@@ -19,7 +19,6 @@ public class AppConfig {
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
-// Alternative Java 8 version using a method reference:
         List mappings = new ArrayList<>();
         new FastClasspathScanner(ClientMappings.class.getPackage().getName())
                 .matchSubclassesOf(Object.class, mappings::add)
@@ -31,7 +30,6 @@ public class AppConfig {
             }
 
         }
-        //Converter function
         HolidayMappings holidayMappings = new HolidayMappings();
         mapper.addConverter(holidayMappings.holidayConverter);
         mapper.addConverter(holidayMappings.holidayDtoConvert);
