@@ -1,4 +1,5 @@
 import moment from 'moment';
+
 const checkValidity = (value, rules) => {
   let isValid = true;
   if (!rules) {
