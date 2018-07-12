@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
 
@@ -20,11 +21,6 @@ export default Container => class extends Component {
       this.state = {
         takenHolidays: {},
         showModal: false,
-        booking: {
-          startDate: '',
-          endDate: '',
-          halfDay: false,
-        },
       };
     }
 
@@ -43,14 +39,12 @@ export default Container => class extends Component {
 
     onDayPress = (day) => {
       const { navigation } = this.props;
+      const { takenHolidays } = this.state;
+
       if (day) {
-        this.setState({
-          booking: {
-            startDate: day.dateString,
-            endDate: day.dateString,
-          },
-        });
-        navigation.push('Booking', { date: day.dateString });
+        const booked = _.has(takenHolidays, day.dateString);
+        const holiday = _.get(takenHolidays, day.dateString, 0);
+        navigation.push('Booking', { date: day.dateString, holId: holiday.holId, booked });
       }
     }
 
@@ -78,7 +72,7 @@ export default Container => class extends Component {
       const holidayStatus = this.holidayStatus(item.holidayStatusId);
       const dates = this.enumerateDaysBetweenDates(item.start, item.end);
       dates.forEach((date) => {
-        obj[date] = { textColor: 'white', color: holidayStatus };
+        obj[date] = { textColor: 'white', color: holidayStatus, holId: item.holidayId };
       });
 
       return obj;

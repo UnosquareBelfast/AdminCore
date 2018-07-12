@@ -17,3 +17,5 @@ export const getUserHolidays = () => {
 };
 
 export const requestHolidays = holidays => axios.post('/holidays/', holidays);
+
+export const updateHoliday = holiday => axios.put('/holidays/', holiday);
