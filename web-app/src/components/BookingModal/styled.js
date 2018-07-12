@@ -12,7 +12,7 @@ export const StyleContainer = styled.div`
     font-weight: bold;
   }
   h1 {
-    margin: 0;
+    margin: 0 0 10px 0;
   }
 `;
 
@@ -50,12 +50,6 @@ export const StatusDot = styled.div`
 export const FormContainer = styled.div`
   position: relative;
   padding-top: 15px;
-
-  h4 {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
 
   form {
     margin: 15px 0;

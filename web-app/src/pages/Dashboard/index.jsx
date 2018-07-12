@@ -17,22 +17,33 @@ moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
 export const Dashboard = props => {
+  const {
+    userDetails,
+    closeModal,
+    showModal,
+    booking,
+    takenHolidays,
+    onSelectSlot,
+    onSelectEvent,
+    updateTakenHolidays,
+    getDuration,
+  } = props;
   return (
     <Fragment>
       <BookingModal
-        closeModal={props.closeModal}
-        showModal={props.showModal}
-        booking={props.booking}
-        formIsValid={props.booking.formIsValid}
-        formStatus={props.formStatus}
-        submitForm={props.submitForm}
+        updateTakenHolidays={updateTakenHolidays}
+        employeeId={userDetails.employeeId.toString()}
+        closeModal={closeModal}
+        showModal={showModal}
+        booking={booking}
+        getDuration={getDuration}
       />
       <InnerLayout>
         <Calendar
           showMultiDayTimes
-          events={props.takenHolidays}
-          onSelectSlot={props.onSelectSlot}
-          onSelectEvent={props.onSelectEvent}
+          events={takenHolidays}
+          onSelectSlot={onSelectSlot}
+          onSelectEvent={onSelectEvent}
           endAccessor={({ end }) => end.endOf('day')}
           defaultDate={new Date()}
           components={{ eventWrapper: Event, toolbar: BigCalendarToolbar }}
@@ -44,8 +55,8 @@ export const Dashboard = props => {
           messages={{ agenda: 'team', personal: 'personal' }}
           selectable
           popup
-          user={props.userDetails}
-          takenHolidays={props.takenHolidays}
+          user={userDetails}
+          takenHolidays={takenHolidays}
         />
         <Legend />
       </InnerLayout>
@@ -56,6 +67,7 @@ export const Dashboard = props => {
 Dashboard.propTypes = {
   user: PT.object,
   userDetails: PT.object,
+  updateTakenHolidays: PT.func,
   totalHolidays: PT.number,
   toggleHolidayModal: PT.func,
   date: PT.object,
@@ -68,6 +80,7 @@ Dashboard.propTypes = {
   submitForm: PT.func,
   formStatus: PT.func,
   takenHolidays: PT.array,
+  getDuration: PT.func,
 };
 
 export default container(Dashboard);

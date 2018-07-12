@@ -3,11 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import {
-  updateHoliday,
-  requestHoliday,
-  getHolidays,
-} from '../../services/holidayService';
+import { getHolidays } from '../../services/holidayService';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -18,17 +14,14 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        date: moment(),
         takenHolidays: null,
         showModal: false,
         booking: {
-          formData: {
-            startDate: moment(),
-            endDate: moment(),
-            isHalfday: false,
-            isWFH: false,
-          },
-          formIsValid: true,
+          start: moment(),
+          end: moment(),
+          isHalfday: false,
+          isWFH: false,
+          isEventBeingUpdated: false,
           duration: 0,
         },
         requestModalOpen: false,
@@ -89,38 +82,23 @@ const DashboardContainer = Wrapped =>
       this.setState({ showModal: false });
     };
 
-    getDuration({ isHalfday, isWFH, startDate, endDate }) {
-      let duration = 1;
+    getDuration = booking => {
+      console.log('getDuration :', booking);
+      const { isHalfday, isWFH, start, end } = booking;
+      booking.duration = 1;
       if (isHalfday) {
-        duration = 0.5;
+        booking.duration = 0.5;
       } else if (isWFH) {
-        duration = 0;
+        booking.duration = 0;
       } else {
-        duration = Math.floor(
-          moment.duration(endDate.diff(startDate)).asDays() + 1,
+        booking.duration = Math.floor(
+          moment.duration(end.diff(start)).asDays() + 1,
         );
       }
-      return duration;
-    }
-
-    updateBookingFormOnSelect = booking => {
-      let updatedForm = {
-        ...this.state.booking.formData,
-      };
-      updatedForm.startDate = moment(booking.start);
-      updatedForm.endDate = moment(booking.end);
-      updatedForm.isHalfday = booking.isHalfday;
-      updatedForm.isWFH = booking.isWFH;
 
       this.setState({
         showModal: true,
-        booking: {
-          formData: updatedForm,
-          duration: this.getDuration(updatedForm),
-          id: booking.id,
-          title: booking.title,
-          ...booking,
-        },
+        booking: booking,
       });
     };
 
@@ -130,100 +108,17 @@ const DashboardContainer = Wrapped =>
         end: moment(end),
         isHalfday: false,
         isWFH: false,
+        isEventBeingUpdated: false,
       };
-      this.updateBookingFormOnSelect(booking);
+      this.getDuration(booking);
     };
 
     onSelectEvent = booking => {
-      this.updateBookingFormOnSelect(booking);
-    };
-
-    submitHolidayRequest = () => {
-      const { booking, userDetails } = this.state;
-      const { startDate, endDate, isHalfday } = booking.formData;
-      const dateFormat = 'YYYY-MM-DD';
-
-      const request = {
-        dates: [
-          {
-            startDate: startDate.format(dateFormat),
-            endDate: endDate.format(dateFormat),
-            halfDay: isHalfday,
-          },
-        ],
-        employeeId: userDetails.employeeId,
+      const updatedBooking = {
+        ...booking,
+        isEventBeingUpdated: true,
       };
-
-      requestHoliday(request).then(() => {
-        this.getTakenHolidays(userDetails.employeeId);
-        this.closeModal();
-      });
-    };
-
-    updateHoliday = cancel => {
-      const { booking, userDetails } = this.state;
-      const { startDate, endDate, isHalfday } = booking.formData;
-      const dateFormat = 'YYYY-MM-DD';
-
-      const request = {
-        startDate: startDate.format(dateFormat),
-        endDate: endDate.format(dateFormat),
-        halfDay: isHalfday,
-        holidayId: booking.id,
-        holidayStatusId: cancel ? 3 : 1,
-        employeeId: userDetails.employeeId,
-      };
-
-      updateHoliday(request).then(() => {
-        this.getTakenHolidays(userDetails.employeeId);
-        this.closeModal();
-      });
-    };
-
-    handleFormStatus(name, value, formIsValid) {
-      const formData = { ...this.state.booking.formData };
-      formData[name] = value;
-
-      if (name == 'startDate') {
-        formData.isHalfday = false;
-        formData.isWFH = false;
-        if (formData.startDate.isAfter(formData.endDate)) {
-          formData.endDate = formData.startDate;
-        }
-      } else if (name == 'endDate') {
-        formData.isHalfday = false;
-        formData.isWFH = false;
-        if (formData.endDate.isBefore(formData.startDate)) {
-          formData.startDate = formData.endDate;
-        }
-      } else if (name === 'isHalfday' && formData.isHalfday) {
-        formData.isWFH = false;
-        formData.endDate = formData.startDate;
-      } else if (name === 'isWFH' && formData.isWFH) {
-        formData.isHalfday = false;
-        formData.endDate = formData.startDate;
-      }
-
-      this.setState({
-        booking: {
-          ...this.state.booking,
-          formData,
-          formIsValid,
-          duration: this.getDuration(formData),
-        },
-      });
-    }
-
-    handleFormSubmit = event => {
-      event.preventDefault();
-      let buttonEvent = event.target.getAttribute('label');
-      if (buttonEvent === 'Request') {
-        this.submitHolidayRequest();
-      } else if (buttonEvent === 'Update') {
-        this.updateHoliday(true);
-      } else if (buttonEvent === 'Cancel') {
-        this.updateHoliday(false);
-      }
+      this.getDuration(updatedBooking);
     };
 
     render() {
@@ -233,15 +128,13 @@ const DashboardContainer = Wrapped =>
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
+            updateTakenHolidays={this.getTakenHolidays}
             closeModal={this.closeModal}
             showModal={this.showModal}
             booking={this.state.booking}
             userDetails={this.state.userDetails}
             takenHolidays={this.state.takenHolidays}
-            formStatus={(name, value, formIsValid) =>
-              this.handleFormStatus(name, value, formIsValid)
-            }
-            submitForm={e => this.handleFormSubmit(e)}
+            getDuration={this.getDuration}
             {...this.state}
             {...this.props}
           />
