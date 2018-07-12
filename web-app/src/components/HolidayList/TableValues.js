@@ -1,18 +1,22 @@
-import React, { Fragment } from 'react';
-import { StatusDot } from './styled';
 import { statusText } from '../../utilities/holidayStatus';
+import { theme } from '../../styled';
 
 const status = {
   id: 'status',
   Header: 'Status',
   sortable: false,
   filterable: false,
-  accessor: holiday => (
-    <Fragment>
-      <StatusDot status={holiday.holidayStatusId} />
-      {statusText[holiday.holidayStatusId]}
-    </Fragment>
-  ),
+  width: 110,
+  accessor: holiday => statusText[holiday.holidayStatusId],
+  getProps: (state, rowInfo) => {
+    if (!rowInfo) return {};
+    return {
+      style: {
+        backgroundColor: theme.holidayStatus[rowInfo.original.holidayStatusId],
+        color: 'white',
+      },
+    };
+  },
 };
 
 const employee = {
@@ -49,8 +53,8 @@ const endDate = {
 
 const requestedDate = {
   id: 'requestedDate',
-  Header: 'Requested Date',
-  accessor: holiday => holiday.requested.format('D MMM YYYY'),
+  Header: 'Requested',
+  accessor: holiday => holiday.requested.fromNow(),
 };
 
 export default {
