@@ -19,13 +19,11 @@ const AdminDashboard = () => {
         </div>
         <div>
           <h3>Clients</h3>
-          <Link to="">View All Holidays</Link>
-          <Link to="">View Pending Holidays</Link>
+          <Link to="/admin/clients">View All Clients</Link>
+          <Link to="/admin/createClient">Create Client</Link>
         </div>
         <div>
           <h3>Contracts</h3>
-          <Link to="">View All Holidays</Link>
-          <Link to="">View Pending Holidays</Link>
         </div>
       </div>
     </InnerLayout>
