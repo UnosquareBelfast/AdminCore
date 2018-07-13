@@ -83,7 +83,6 @@ const DashboardContainer = Wrapped =>
     };
 
     getDuration = booking => {
-      console.log('getDuration :', booking);
       const { isHalfday, isWFH, start, end } = booking;
       booking.duration = 1;
       if (isHalfday) {

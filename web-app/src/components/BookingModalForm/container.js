@@ -23,7 +23,6 @@ export default Wrapped =>
         },
         formIsValid: true,
       };
-      console.log('props :', props);
     }
 
     handleMakeHolidayRequest = event => {
@@ -34,8 +33,8 @@ export default Wrapped =>
       const request = {
         dates: [
           {
-            start: start.format(dateFormat),
-            end: end.format(dateFormat),
+            startDate: start.format(dateFormat),
+            endDate: end.format(dateFormat),
             halfDay: isHalfday,
           },
         ],
@@ -48,13 +47,14 @@ export default Wrapped =>
       });
     };
 
-    handleUpdateHolidayRequest = cancel => {
+    handleUpdateHolidayRequest = (event, cancel) => {
+      event.preventDefault();
       const { start, end, isHalfday } = this.state.formData;
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
-        start: start.format(dateFormat),
-        end: end.format(dateFormat),
+        startDate: start.format(dateFormat),
+        endDate: end.format(dateFormat),
         halfDay: isHalfday,
         holidayId: this.props.booking.id,
         holidayStatusId: cancel ? 3 : 1,
