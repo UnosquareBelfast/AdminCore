@@ -259,55 +259,27 @@ ALTER TABLE public.contract
 
 ----------------------------------------------------------------------------------------
 
--- Table: public.event_type
--- DROP TABLE public.event_type;
-
-CREATE SEQUENCE IF NOT EXISTS public.event_type_event_type_id_seq1;
-CREATE TABLE IF NOT EXISTS public.event_type
-(
-  event_type_id        integer NOT NULL DEFAULT nextval('event_type_event_type_id_seq1' :: regclass),
-  description character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT event_type_pkey PRIMARY KEY (event_type_id)
-)
-WITH (
-OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER SEQUENCE event_type_event_type_id_seq1
-    OWNED BY event_type.event_type_id;
-
-ALTER TABLE public.event_type
-  OWNER to postgres;
-----------------------------------------------------------------------------------------
-
 -- Table: public.holiday
 -- DROP TABLE public.holiday;
 
-CREATE SEQUENCE IF NOT EXISTS public.event_event_id_seq1;
-CREATE TABLE IF NOT EXISTS public.event
+CREATE SEQUENCE IF NOT EXISTS public.holiday_holiday_id_seq1;
+CREATE TABLE IF NOT EXISTS public.holiday
 (
-  event_id        integer NOT NULL DEFAULT nextval('event_event_id_seq1' :: regclass),
+  holiday_id        integer NOT NULL DEFAULT nextval('holiday_holiday_id_seq1' :: regclass),
   start_date         date,
   end_date           date,
   date_created      date,
   holiday_status_id integer,
-  event_type_id     integer,
   is_half_day       boolean NOT NULL,
   last_modified     date,
   employee_id       integer,
-  CONSTRAINT event_pkey PRIMARY KEY (event_id),
+  CONSTRAINT holiday_pkey PRIMARY KEY (holiday_id),
   CONSTRAINT fkfcn4ebwwpcrk1dbvjqr760hyg FOREIGN KEY (employee_id)
         REFERENCES public.employee (employee_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-  CONSTRAINT event_holiday_status_id_fkey FOREIGN KEY (holiday_status_id)
+  CONSTRAINT holiday_holiday_status_id_fkey FOREIGN KEY (holiday_status_id)
         REFERENCES public.holiday_status (holiday_status_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        ,
-  CONSTRAINT event_event_type_id_fkey FOREIGN KEY (event_type_id)
-        REFERENCES public.event_type (event_type_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -316,9 +288,8 @@ OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER SEQUENCE event_event_id_seq1
-    OWNED BY event.event_id;
+ALTER SEQUENCE holiday_holiday_id_seq1
+    OWNED BY holiday.holiday_id;
 
-ALTER TABLE public.event
+ALTER TABLE public.holiday
   OWNER to postgres;
-
