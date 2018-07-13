@@ -38,11 +38,10 @@ export class Form extends Component {
     for (let key of keys) {
       if (this.props.formData[key] !== '') {
         validatedElements.push(key);
-        this.setState({ validatedElements });
       }
     }
     let formIsValid = validatedElements.length === this.state.elementCount;
-    this.setState({ formIsValid });
+    this.setState({ validatedElements, formIsValid });
   };
 
   handleCheckInputValid = (name, value, isValid) => {
@@ -58,9 +57,9 @@ export class Form extends Component {
     }
 
     let formIsValid = validatedElements.length === this.state.elementCount;
-    this.setState({ validatedElements, formIsValid });
-
-    this.props.formStatus(name, value, this.state.formIsValid);
+    this.setState({ validatedElements, formIsValid }, () => {
+      this.props.formStatus(name, value, this.state.formIsValid);
+    });
   };
 
   render() {
