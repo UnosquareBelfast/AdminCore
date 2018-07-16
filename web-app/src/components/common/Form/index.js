@@ -34,9 +34,10 @@ export class Form extends Component {
 
   addInputsToValidatedElements = () => {
     let validatedElements = [...this.state.validatedElements];
-    let keys = Object.keys(this.props.formData);
+    const { formData } = this.props;
+    let keys = Object.keys(formData);
     for (let key of keys) {
-      if (this.props.formData[key] !== '') {
+      if (formData[key] !== '') {
         validatedElements.push(key);
       }
     }
