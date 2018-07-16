@@ -5,11 +5,11 @@ import { updateHoliday, requestHoliday } from '../../services/holidayService';
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      employeeId: PT.string,
-      updateTakenHolidays: PT.func,
-      getDuration: PT.func,
-      closeModal: PT.func,
-      booking: PT.object,
+      employeeId: PT.string.isRequired,
+      updateTakenHolidays: PT.func.isRequired,
+      getDuration: PT.func.isRequired,
+      closeModal: PT.func.isRequired,
+      booking: PT.object.isRequired,
     };
 
     constructor(props) {
