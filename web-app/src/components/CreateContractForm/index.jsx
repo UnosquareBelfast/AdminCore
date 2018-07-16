@@ -26,7 +26,6 @@ export const CreateContractForm = props => {
           type="select"
           htmlAttrs={{
             name: 'clientId',
-            placeholder: 'blah',
             options: [],
           }}
           value={formData.clientId}
