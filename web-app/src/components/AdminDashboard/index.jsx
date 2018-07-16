@@ -24,8 +24,7 @@ const AdminDashboard = () => {
         </div>
         <div>
           <h3>Contracts</h3>
-          <Link to="">View All Holidays</Link>
-          <Link to="">View Pending Holidays</Link>
+          <Link to="/admin/contracts/new">Create Contract</Link>
         </div>
       </div>
     </InnerLayout>
