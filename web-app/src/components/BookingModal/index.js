@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Modal, Form, Input } from '../common';
+import BookingModalForm from '../BookingModalForm';
+import { Modal } from '../common';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/fontawesome-free-solid';
 import {
@@ -16,105 +17,10 @@ const BookingModal = props => {
     closeModal,
     showModal,
     booking,
-    submitForm,
-    formStatus,
-    formIsValid,
+    employeeId,
+    updateTakenHolidays,
+    getDuration,
   } = props;
-
-  const isDateDisabled = () => {
-    if (booking.formData.isWFH || booking.formData.isHalfday) {
-      return true;
-    } else if (booking.duration === 0.5) {
-      return false;
-    }
-  };
-
-  const getStartDateLabel = () => {
-    if (booking.formData.isWFH || booking.formData.isHalfday) {
-      return 'Date:';
-    } else {
-      return 'Start Date:';
-    }
-  };
-
-  let ctas;
-  if (!booking.title) {
-    ctas = [
-      {
-        label: 'Request',
-        event: props.submitForm,
-        disabled: !formIsValid,
-      },
-    ];
-  } else {
-    ctas = [
-      {
-        label: 'Update',
-        event: props.submitForm,
-        disabled: !formIsValid,
-      },
-      {
-        label: 'Cancel',
-        event: props.submitForm,
-        disabled: !formIsValid,
-      },
-    ];
-  }
-
-  const form = (
-    <Form
-      formData={booking.formData}
-      submitForm={submitForm}
-      formStatus={formStatus}
-      actions={ctas}
-    >
-      <Input
-        type="date"
-        htmlAttrs={{
-          type: 'input',
-          name: 'startDate',
-          placeholder: 'Enter a start date',
-        }}
-        value={booking.formData.startDate}
-        rules={{
-          dateNotInPast: true,
-        }}
-        label={getStartDateLabel()}
-      />
-      <Input
-        type="date"
-        htmlAttrs={{
-          type: 'input',
-          name: 'endDate',
-          placeholder: 'Enter a end date',
-          disabled: isDateDisabled(),
-        }}
-        value={booking.formData.endDate}
-        rules={{
-          dateNotInPast: true,
-        }}
-        label="End Date:"
-      />
-      <Input
-        type="checkbox"
-        htmlAttrs={{
-          type: 'checkbox',
-          name: 'isWFH',
-        }}
-        value={booking.formData.isWFH}
-        label="Working from home"
-      />
-      <Input
-        type="checkbox"
-        htmlAttrs={{
-          type: 'checkbox',
-          name: 'isHalfday',
-        }}
-        value={booking.formData.isHalfday}
-        label="Request a halfday"
-      />
-    </Form>
-  );
 
   return (
     showModal && (
@@ -123,8 +29,13 @@ const BookingModal = props => {
           <span id="closeBookingModal" onClick={closeModal}>
             <FontAwesomeIcon icon={faTimes} /> Close
           </span>
-          <h1>{booking.title ? 'Update Booking' : 'Request a Booking'}</h1>
-          {booking.title && (
+          <h1>
+            {booking.isEventBeingUpdated
+              ? 'Update Booking'
+              : 'Request a Booking'}
+          </h1>
+          <h4 id="totalDaysToBook">Total days: {booking.duration}</h4>
+          {booking.isEventBeingUpdated && (
             <BookingStatus>
               <h4>{booking.title}</h4>
               <span>
@@ -134,8 +45,13 @@ const BookingModal = props => {
             </BookingStatus>
           )}
           <FormContainer>
-            <h4 id="totalDaysToBook">Total days: {booking.duration}</h4>
-            {form}
+            <BookingModalForm
+              updateTakenHolidays={updateTakenHolidays}
+              employeeId={employeeId}
+              booking={booking}
+              closeModal={closeModal}
+              getDuration={getDuration}
+            />
           </FormContainer>
         </StyleContainer>
       </Modal>
@@ -144,11 +60,12 @@ const BookingModal = props => {
 };
 
 BookingModal.propTypes = {
+  closeModal: PT.func.isRequired,
   showModal: PT.bool.isRequired,
   booking: PT.object.isRequired,
-  closeModal: PT.func.isRequired,
-  submitForm: PT.func.isRequired,
-  formStatus: PT.func.isRequired,
+  employeeId: PT.string.isRequired,
+  updateTakenHolidays: PT.func.isRequired,
+  getDuration: PT.func.isRequired,
 };
 
 export default BookingModal;
