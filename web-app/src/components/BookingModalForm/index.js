@@ -75,7 +75,7 @@ const BookingModalForm = props => {
         htmlAttrs={{
           type: 'input',
           name: 'end',
-          placeholder: 'Enter a end date',
+          placeholder: 'Enter an end date',
           disabled: isDateDisabled(),
         }}
         value={formData.end}
