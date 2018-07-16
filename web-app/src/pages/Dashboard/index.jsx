@@ -65,22 +65,15 @@ export const Dashboard = props => {
 };
 
 Dashboard.propTypes = {
-  user: PT.object,
-  userDetails: PT.object,
-  updateTakenHolidays: PT.func,
-  totalHolidays: PT.number,
-  toggleHolidayModal: PT.func,
-  date: PT.object,
-  onSelectSlot: PT.func,
-  onSelectEvent: PT.func,
-  booking: PT.object,
-  showBookingModal: PT.bool,
-  closeModal: PT.func,
-  showModal: PT.bool,
-  submitForm: PT.func,
-  formStatus: PT.func,
-  takenHolidays: PT.array,
-  getDuration: PT.func,
+  userDetails: PT.object.isRequired,
+  updateTakenHolidays: PT.func.isRequired,
+  onSelectSlot: PT.func.isRequired,
+  onSelectEvent: PT.func.isRequired,
+  booking: PT.object.isRequired,
+  closeModal: PT.func.isRequired,
+  showModal: PT.bool.isRequired,
+  takenHolidays: PT.array.isRequired,
+  getDuration: PT.func.isRequired,
 };
 
 export default container(Dashboard);
