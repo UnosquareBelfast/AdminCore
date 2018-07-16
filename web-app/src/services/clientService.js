@@ -1,7 +1,7 @@
 import axios from '../utilities/AxiosInstance';
 
-export const createClient = () => {
-  return axios.post('/clients/');
+export const createClient = data => {
+  return axios.post('/clients/', data);
 };
 
 export const getAllClients = () => {
@@ -13,7 +13,7 @@ export const updateClient = client => {
 };
 
 export const findClientByClientName = clientName => {
-  return axios.get(`GET /clients/findByClientNameContaining/${clientName}`);
+  return axios.get(`/clients/findByClientNameContaining/${clientName}`);
 };
 
 export const findClientsByStatus = clientStatusId => {
