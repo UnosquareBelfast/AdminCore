@@ -103,7 +103,7 @@ export default Container => class extends Component {
       ));
   }
 
-  updateHoliday = () => {
+  updateHoliday = (cancel) => {
     const { booking, user } = this.state;
     const { navigation } = this.props;
 
@@ -112,7 +112,7 @@ export default Container => class extends Component {
       endDate: booking.endDate,
       halfDay: false,
       holidayId: booking.holId,
-      holidayStatusId: 1,
+      holidayStatusId: cancel ? 3 : 1,
       startDate: booking.startDate,
     };
 
