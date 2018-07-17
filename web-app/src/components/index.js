@@ -11,5 +11,6 @@ export { default as TeamView } from './TeamView';
 export { default as PendingHolidays } from './PendingHolidays';
 export { default as AllHolidays } from './AllHolidays';
 export { default as HolidayList } from './HolidayList';
+export { default as UserList } from './UserList';
 export { default as BigCalendarToolbar } from './BigCalendarToolbar';
 export { default as AdminDashboard } from './AdminDashboard';

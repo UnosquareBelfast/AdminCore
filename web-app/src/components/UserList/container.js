@@ -6,6 +6,7 @@ export default Wrapped =>
     static propTypes = {
       users: PT.array,
       actions: PT.array,
+      onView: PT.func.isRequired,
     };
 
     static defaultProps = {

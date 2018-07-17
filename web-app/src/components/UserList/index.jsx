@@ -5,7 +5,6 @@ import ReactTable from 'react-table';
 import TableValues from './TableValues';
 import ActionButton from './ActionButton';
 import { ActionWrap } from './styled';
-import moment from 'moment';
 import { isEmpty } from 'lodash';
 
 const buildActions = (holiday, actions) => {
@@ -36,7 +35,7 @@ const buildColumns = (columns, actions) => {
     id: 'actions',
     sortable: false,
     filterable: false,
-    accessor: holiday => buildActions(holiday, actions),
+    accessor: user => buildActions(user, actions),
   });
 
   return formattedColumns;
@@ -58,7 +57,7 @@ const renderTable = (users, columns, actions) => {
   );
 };
 
-export const HolidayList = props => {
+export const UserList = props => {
   const { users, columns, actions } = props;
   return !users || users.length === 0 ? (
     <p>There are no users to show</p>
@@ -67,10 +66,10 @@ export const HolidayList = props => {
   );
 };
 
-HolidayList.propTypes = {
+UserList.propTypes = {
   users: PT.array,
   columns: PT.array.isRequired,
   actions: PT.object,
 };
 
-export default container(HolidayList);
+export default container(UserList);
