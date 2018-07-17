@@ -104,24 +104,17 @@ export const CreateClientForm = props => {
           }}
         />
         <Input
-          type="select"
+          type="input"
           htmlAttrs={{
+            type: 'number',
             name: 'minimumEmployeesForTeam',
-            options: [
-              { value: 1, displayValue: 'One' },
-              { value: 2, displayValue: 'Two' },
-              { value: 3, displayValue: 'Three' },
-              { value: 4, displayValue: 'Four' },
-              { value: 5, displayValue: 'Five' },
-              { value: 6, displayValue: 'Six' },
-              { value: 7, displayValue: 'Seven' },
-              { value: 8, displayValue: 'Eight' },
-              { value: 9, displayValue: 'Nine' },
-              { value: 10, displayValue: 'Ten' },
-            ],
+            placeholder: 'Minimum Employees For Team:',
           }}
           value={formData.minimumEmployeesForTeam}
-          label="Minimum Employees For Team:"
+          label="Enter minimum employee number"
+          rules={{
+            required: true,
+          }}
         />
         <Input
           type="input"
