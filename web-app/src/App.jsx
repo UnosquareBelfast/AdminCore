@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import { Dashboard, Login, Admin, User, Profile } from './pages';
+import { Dashboard, Login, Admin, User, Profile, TeamDashboard } from './pages';
 import { ThemeProvider } from 'styled-components';
 import { PropTypes as PT } from 'prop-types';
 import { theme } from './styled';
@@ -24,6 +24,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Dashboard} />
             <Route path="/profile" component={Profile} />
+            <Route path="/team" component={TeamDashboard} />
             <Route path="/admin" component={Admin} />
             <Route path="/user/:userId" component={User} />
             <Redirect to="/" />
