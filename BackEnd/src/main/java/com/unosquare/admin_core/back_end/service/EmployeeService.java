@@ -10,6 +10,7 @@ import com.unosquare.admin_core.back_end.payload.LoginRequest;
 import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.security.JwtTokenProvider;
+import com.unosquare.admin_core.back_end.viewModels.EmployeeViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,12 +67,12 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(EmployeeDto employeeDto){
-        Employee employee = entityManager.find(Employee.class, employeeDto.getEmployeeId());
+    public Employee updateEmployee(EmployeeViewModel employeeViewModel){
+        Employee employee = entityManager.find(Employee.class, employeeViewModel.getEmployeeId());
 
-        Country country = entityManager.find(Country.class, employeeDto.getCountryId());
-        EmployeeRole role = entityManager.find(EmployeeRole.class, employeeDto.getEmployeeRoleId());
-        EmployeeStatus status = entityManager.find(EmployeeStatus.class, employeeDto.getEmployeeStatusId());
+        Country country = entityManager.find(Country.class, employeeViewModel.getCountryId());
+        EmployeeRole role = entityManager.find(EmployeeRole.class, employeeViewModel.getEmployeeRoleId());
+        EmployeeStatus status = entityManager.find(EmployeeStatus.class, employeeViewModel.getEmployeeStatusId());
 
         employee.setCountry(country);
         employee.setEmployeeRole(role);
@@ -81,7 +82,7 @@ public class EmployeeService {
         entityManager.detach(employee.getEmployeeRole());
         entityManager.detach(employee.getEmployeeStatus());
 
-        modelMapper.map(employeeDto, employee);
+        modelMapper.map(employeeViewModel, employee);
 
         return save(employee);
     }

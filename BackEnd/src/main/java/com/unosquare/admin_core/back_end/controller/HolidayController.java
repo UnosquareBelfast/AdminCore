@@ -6,6 +6,10 @@ import com.unosquare.admin_core.back_end.dto.HolidayDto;
 import com.unosquare.admin_core.back_end.entity.Holiday;
 import com.unosquare.admin_core.back_end.enums.HolidayStatus;
 import com.unosquare.admin_core.back_end.service.HolidayService;
+import com.unosquare.admin_core.back_end.viewModels.CreateHolidayViewModel;
+import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
+import com.unosquare.admin_core.back_end.viewModels.UpdateHolidayViewModel;
+import com.unosquare.admin_core.back_end.viewModels.HolidayViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,7 +36,7 @@ public class HolidayController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findAllHolidays() {
+    public List<HolidayViewModel> findAllHolidays() {
         return mapHolidaysToDtos(holidayService.findAll());
     }
 
@@ -44,26 +48,26 @@ public class HolidayController {
 
     @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HolidayDto findHolidayById(@PathVariable("holidayId") int holidayId) {
-        return modelMapper.map(holidayService.findById(holidayId), HolidayDto.class);
+    public HolidayViewModel findHolidayById(@PathVariable("holidayId") int holidayId) {
+        return modelMapper.map(holidayService.findById(holidayId), HolidayViewModel.class);
     }
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findHolidayByEmployeeId(@PathVariable("employeeId") int employeeId) {
+    public List<HolidayViewModel> findHolidayByEmployeeId(@PathVariable("employeeId") int employeeId) {
         return mapHolidaysToDtos(holidayService.findByEmployee(employeeId));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createHolidayDto) {
+    public ResponseEntity createHoliday(@RequestBody CreateHolidayViewModel createHolidayViewModel) {
 
         List<String> responses = new ArrayList<>();
 
-        for (DateDTO date : createHolidayDto.getDates()) {
+        for (DateViewModel date : createHolidayViewModel.getDates()) {
             Holiday existentHoliday = holidayService.findByEmployeeIdStartDataEndDate(
-                    createHolidayDto.getEmployeeId(), date.getStartDate(), date.getEndDate());
+                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
 
             if (existentHoliday != null) {
                 responses.add("Holiday already exists");
@@ -78,25 +82,34 @@ public class HolidayController {
 
         if (responses.isEmpty()) {
 
-            Holiday newHoliday = modelMapper.map(createHolidayDto, Holiday.class);
 
-            holidayService.save(createHolidayDto.getEmployeeId(), newHoliday);
-            responses.add("Created");
+                Holiday newHoliday = modelMapper.map(createHolidayViewModel, Holiday.class);
+
+                holidayService.save(createHolidayViewModel.getEmployeeId(), newHoliday);
+                responses.add("Created");
+
+
         }
 
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody HolidayDto holiday) {
         holidayService.save(holiday.getEmployeeId(), modelMapper.map(holiday, Holiday.class));
-    }
+    }*/
+
+   /* @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateHoliday(@RequestBody HolidayViewModel holiday) {
+        holidayService.save(holiday.getEmployeeId(), modelMapper.map(holiday, Holiday.class));
+    }*/
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
+    public List<HolidayViewModel> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
                                               @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
         return mapHolidaysToDtos(holidayService.findByDateBetween(rangeStart, rangeEnd));
     }
@@ -104,15 +117,15 @@ public class HolidayController {
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<HolidayDto> findByClientStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
+    public List<HolidayViewModel> findByClientStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
         return mapHolidaysToDtos(holidayService.findByStatus(HolidayStatus.fromId(holidayStatusId)));
     }
 
-    private List<HolidayDto> mapHolidaysToDtos(List<Holiday> holidays) {
-        return holidays.stream().map(holiday -> modelMapper.map(holiday, HolidayDto.class)).collect(Collectors.toList());
+    private List<HolidayViewModel> mapHolidaysToDtos(List<Holiday> holidays) {
+        return holidays.stream().map(holiday -> modelMapper.map(holiday, HolidayViewModel.class)).collect(Collectors.toList());
     }
 
-    private List<Holiday> mapDtosToHolidays(List<HolidayDto> holidays) {
+    private List<Holiday> mapDtosToHolidays(List<HolidayViewModel> holidays) {
         return holidays.stream().map(holiday -> modelMapper.map(holiday, Holiday.class)).collect(Collectors.toList());
     }
 }

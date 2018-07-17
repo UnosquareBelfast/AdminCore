@@ -7,6 +7,7 @@ import com.unosquare.admin_core.back_end.payload.JwtAuthenticationResponse;
 import com.unosquare.admin_core.back_end.payload.LoginRequest;
 import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
+import com.unosquare.admin_core.back_end.viewModels.EmployeeRegistrationViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
-    @PostMapping("/register")
+   /* @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody SignUpRequestDto signUpRequestDto) {
         if (employeeService.findByEmail(signUpRequestDto.getEmail()) != null) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
@@ -49,6 +50,18 @@ public class AuthenticationController {
         Employee user = employeeService.createNewEmployeeUser(modelMapper.map(signUpRequestDto, SignUpRequest.class));
 
         return ResponseEntity.ok(new JwtAuthenticationResponse(String.format("USER added:%s", user.toString())));
+    }*/
+
+    @PostMapping("/register")
+    public ResponseEntity registerUser(@RequestBody EmployeeRegistrationViewModel employeeRegistrationViewModel) {
+        if (employeeService.findByEmail(employeeRegistrationViewModel.getEmail()) != null) {
+            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        Employee user = employeeService.createNewEmployeeUser(modelMapper.map(employeeRegistrationViewModel, SignUpRequest.class));
+
+        return ResponseEntity.ok(new JwtAuthenticationResponse(String.format("USER added:%s", user.toString())));
     }
+
 
 }

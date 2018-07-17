@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.unosquare.admin_core.back_end.enums.ClientStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,7 @@ public class ClientMappings implements BaseMappings<ClientDto, Client> {
                 map().setClientName(source.getClientName());
                 map().setClientId(source.getClientId());
                 map().setContactName(source.getContactName());
-                skip().setClientStatus(new com.unosquare.admin_core.back_end.entity.ClientStatus(source.getClientStatusId()));
-
+                map().setClientStatus(new com.unosquare.admin_core.back_end.entity.ClientStatus(source.getClientStatusId()));
             }
         };
     }

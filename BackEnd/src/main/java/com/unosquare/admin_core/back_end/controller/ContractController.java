@@ -4,6 +4,7 @@ import com.unosquare.admin_core.back_end.dto.ContractDto;
 import com.unosquare.admin_core.back_end.entity.Contract;
 import com.unosquare.admin_core.back_end.enums.ContractStatus;
 import com.unosquare.admin_core.back_end.service.ContractService;
+import com.unosquare.admin_core.back_end.viewModels.ContractViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,8 @@ public class ContractController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDto> findAllContracts() {
-        return mapContractsToDtos(contractService.findAll());
+    public List<ContractViewModel> findAllContracts() {
+        return mapContractsToViewModel(contractService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
@@ -39,43 +40,43 @@ public class ContractController {
 
     @GetMapping(value = "/{employeeId}/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ContractDto findContractById(@PathVariable("employeeId") int employeeId, @PathVariable("clientId") int clientId) {
-        return modelMapper.map(contractService.findById(employeeId, clientId), ContractDto.class);
+    public ContractViewModel findContractById(@PathVariable("employeeId") int employeeId, @PathVariable("clientId") int clientId) {
+        return modelMapper.map(contractService.findById(employeeId, clientId), ContractViewModel.class);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void createContract(@RequestBody ContractDto contract) {
+    public void createContract(@RequestBody ContractViewModel contract) {
         contractService.save(modelMapper.map(contract, Contract.class));
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateContract(@RequestBody ContractDto contract) {
+    public void updateContract(@RequestBody ContractViewModel contract) {
         contractService.save(modelMapper.map(contract, Contract.class));
     }
 
     @GetMapping(value = "/findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDto> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
-        return mapContractsToDtos(contractService.findByEmployeeId(employeeId));
+    public List<ContractViewModel> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
+        return mapContractsToViewModel(contractService.findByEmployeeId(employeeId));
     }
 
     @GetMapping(value = "/findByClientId/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDto> findByClientId(@PathVariable("clientId") int clientId) {
-        return mapContractsToDtos(contractService.findByClientId(clientId));
+    public List<ContractViewModel> findByClientId(@PathVariable("clientId") int clientId) {
+        return mapContractsToViewModel(contractService.findByClientId(clientId));
     }
 
     @GetMapping(value = "/findByContractStatus/{contractStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ContractDto> findByClientStatus(@PathVariable("contractStatusId") int contractStatusId) {
-        return mapContractsToDtos(contractService.findByStatus(ContractStatus.fromId(contractStatusId)));
+    public List<ContractViewModel> findByClientStatus(@PathVariable("contractStatusId") int contractStatusId) {
+        return mapContractsToViewModel(contractService.findByStatus(ContractStatus.fromId(contractStatusId)));
     }
 
-    private List<ContractDto> mapContractsToDtos(List<Contract> contracts) {
+    private List<ContractViewModel> mapContractsToViewModel(List<Contract> contracts) {
 
-        return contracts.stream().map(contract -> modelMapper.map(contract, ContractDto.class)).collect(Collectors.toList());
+        return contracts.stream().map(contract -> modelMapper.map(contract, ContractViewModel.class)).collect(Collectors.toList());
     }
 }

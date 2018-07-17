@@ -37,7 +37,8 @@ public class EmployeeDto {
     public EmployeeDto(int employeeId, String forename, String surname, String email,
                        int employeeRoleId,
                        int employeeStatusId, LocalDate startDate,
-                       int countryId) {
+                       int countryId,
+                       int totalHolidays) {
         this.employeeId = employeeId;
         this.forename = forename;
         this.surname = surname;
@@ -49,12 +50,13 @@ public class EmployeeDto {
         this.startDate = startDate;
         this.countryId = countryId;
         this.countryDescription = getCountry().getDescription();
+        this.totalHolidays = totalHolidays;
     }
 
     public EmployeeDto(String forename, String surname, String email,
                        int employeeRoleId,
                        int employeeStatusId, LocalDate startDate,
-                       int countryId) {
+                       int countryId, int totalHolidays) {
         this.forename = forename;
         this.surname = surname;
         this.email = email;
@@ -65,9 +67,11 @@ public class EmployeeDto {
         this.startDate = startDate;
         this.countryId = countryId;
         this.countryDescription = getCountry().getDescription();
+        this.totalHolidays = totalHolidays;
     }
 
     @JsonIgnore
+
     public EmployeeRole getEmployeeRole() {
         return EmployeeRole.fromId(employeeRoleId);
     }

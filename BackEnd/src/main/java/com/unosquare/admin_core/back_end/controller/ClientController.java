@@ -4,6 +4,7 @@ import com.unosquare.admin_core.back_end.dto.ClientDto;
 import com.unosquare.admin_core.back_end.entity.Client;
 import com.unosquare.admin_core.back_end.enums.ClientStatus;
 import com.unosquare.admin_core.back_end.service.ClientService;
+import com.unosquare.admin_core.back_end.viewModels.ClientViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class ClientController {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @RolesAllowed("ROLE_TEAM LEADER")
     @ResponseBody
-    public List<ClientDto> findAllClients() {
+    public List<ClientViewModel> findAllClients() {
         return mapClientsToDtos(clientService.findAll());
     }
 
@@ -60,30 +61,30 @@ public class ClientController {
 
     @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientNameContaining(@PathVariable("clientName") String clientName) {
+    public List<ClientViewModel> findByClientNameContaining(@PathVariable("clientName") String clientName) {
         return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
     }
 
     @GetMapping(value = "/findByTeamNameContaining/{teamName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByTeamNameContaining(@PathVariable("teamName") String teamName) {
+    public List<ClientViewModel> findByTeamNameContaining(@PathVariable("teamName") String teamName) {
         return mapClientsToDtos(clientService.findByTeamNameContaining(teamName));
     }
 
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByContactNameContaining/{contactName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByContactNameContaining(@PathVariable("contactName") String contactName) {
+    public List<ClientViewModel> findByContactNameContaining(@PathVariable("contactName") String contactName) {
         return mapClientsToDtos(clientService.findByContactNameContaining(contactName));
     }
 
     @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") int clientStatusId) {
+    public List<ClientViewModel> findByClientStatus(@PathVariable("clientStatusId") int clientStatusId) {
         return mapClientsToDtos(clientService.findByClientStatus(ClientStatus.fromId(clientStatusId)));
     }
 
-    private List<ClientDto> mapClientsToDtos(List<Client> clients) {
-        return clients.stream().map(client -> modelMapper.map(client, ClientDto.class)).collect(Collectors.toList());
+    private List<ClientViewModel> mapClientsToDtos(List<Client> clients) {
+        return clients.stream().map(client -> modelMapper.map(client, ClientViewModel.class)).collect(Collectors.toList());
     }
 }

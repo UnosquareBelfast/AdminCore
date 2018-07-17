@@ -32,22 +32,7 @@
     }
     ,
     {
-      "name" : "ClientStatusController",
-      "description" : ""
-    }
-    ,
-    {
       "name" : "ContractController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "ContractStatusController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "CountryController",
       "description" : ""
     }
     ,
@@ -57,22 +42,7 @@
     }
     ,
     {
-      "name" : "EmployeeStatusController",
-      "description" : ""
-    }
-    ,
-    {
       "name" : "HolidayController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "HolidayStatusController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "MandatoryHolidayController",
       "description" : ""
     }
     ,
@@ -92,22 +62,6 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
-            "realm" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKey" : {
-"description" : "",
-"type" : "string"
-            },
-            "appName" : {
-"description" : "",
-"type" : "string"
-            },
-            "clientId" : {
-"description" : "",
-"type" : "string"
-            },
             "clientSecret" : {
 "description" : "",
 "type" : "string"
@@ -119,6 +73,22 @@
             "apiKeyVehicle" : {
 "description" : "",
 "type" : "string"
+            },
+            "realm" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientId" : {
+"description" : "",
+"type" : "string"
+            },
+            "apiKey" : {
+"description" : "",
+"type" : "string"
+            },
+            "appName" : {
+"description" : "",
+"type" : "string"
             }
           },
       "description" : ""
@@ -128,15 +98,15 @@
       "type" : "object",
       "title" : "SwaggerResource",
           "properties" : {
-            "location" : {
-"description" : "",
-"type" : "string"
-            },
             "name" : {
 "description" : "",
 "type" : "string"
             },
             "swaggerVersion" : {
+"description" : "",
+"type" : "string"
+            },
+            "location" : {
 "description" : "",
 "type" : "string"
             }
@@ -152,7 +122,15 @@
 "description" : "",
 "type" : "string"
             },
-            "apisSorter" : {
+            "showRequestHeaders" : {
+"description" : "",
+"type" : "boolean"
+            },
+            "validatorUrl" : {
+"description" : "",
+"type" : "string"
+            },
+            "defaultModelRendering" : {
 "description" : "",
 "type" : "string"
             },
@@ -160,17 +138,9 @@
 "description" : "",
 "type" : "boolean"
             },
-            "defaultModelRendering" : {
+            "apisSorter" : {
 "description" : "",
 "type" : "string"
-            },
-            "validatorUrl" : {
-"description" : "",
-"type" : "string"
-            },
-            "showRequestHeaders" : {
-"description" : "",
-"type" : "boolean"
             }
           },
       "description" : ""
@@ -1248,86 +1218,11 @@
       }
     }
     ,
-    "\/clientStatuses/*" : {
-      "options" : {
-        "tags" : [ "ClientStatusController" ],
-        "description" : "",
-        "operationId" : "resource_ClientStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
     "\/contracts/*" : {
       "options" : {
         "tags" : [ "ContractController" ],
         "description" : "",
         "operationId" : "resource_ContractController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/contractStatuses/*" : {
-      "options" : {
-        "tags" : [ "ContractStatusController" ],
-        "description" : "",
-        "operationId" : "resource_ContractStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/countries/*" : {
-      "options" : {
-        "tags" : [ "CountryController" ],
-        "description" : "",
-        "operationId" : "resource_CountryController_handleOptions_OPTIONS",
         "produces" : [ "application/json", "application/xml" ],
         "parameters" : [
         ],
@@ -1373,86 +1268,11 @@
       }
     }
     ,
-    "\/employeeStatuses/*" : {
-      "options" : {
-        "tags" : [ "EmployeeStatusController" ],
-        "description" : "",
-        "operationId" : "resource_EmployeeStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
     "\/holidays/*" : {
       "options" : {
         "tags" : [ "HolidayController" ],
         "description" : "",
         "operationId" : "resource_HolidayController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/holidayStatuses/*" : {
-      "options" : {
-        "tags" : [ "HolidayStatusController" ],
-        "description" : "",
-        "operationId" : "resource_HolidayStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/mandatoryHolidays/*" : {
-      "options" : {
-        "tags" : [ "MandatoryHolidayController" ],
-        "description" : "",
-        "operationId" : "resource_MandatoryHolidayController_handleOptions_OPTIONS",
         "produces" : [ "application/json", "application/xml" ],
         "parameters" : [
         ],

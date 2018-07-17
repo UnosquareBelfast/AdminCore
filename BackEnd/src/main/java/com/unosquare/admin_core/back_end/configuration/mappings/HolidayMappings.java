@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ser.Serializers;
 import com.unosquare.admin_core.back_end.dto.*;
 import com.unosquare.admin_core.back_end.entity.*;
 import com.unosquare.admin_core.back_end.payload.SignUpRequest;
+import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -23,8 +24,11 @@ public class HolidayMappings implements BaseMappings<HolidayDto, Holiday> {
    public Converter<CreateHolidayDto, Holiday> holidayConverter = new AbstractConverter<CreateHolidayDto, Holiday>() {
         @Override
         protected Holiday convert(CreateHolidayDto source) {
-            Holiday ret = new Holiday(source.getDates().get(0).getStartDate(), source.getDates().get(source.getDates().size()-1).getEndDate(),
-                    source.getEmployeeId(), 1, source.getDates().get(0).isHalfDay());
+            Holiday ret = new Holiday(source.getDates().get(0).getStartDate(),
+                    source.getDates().get(source.getDates().size()-1).getEndDate(),
+                    source.getEmployeeId(),
+                    1,
+                    source.getDates().get(0).isHalfDay());
 
             return ret;
         }
@@ -33,15 +37,23 @@ public class HolidayMappings implements BaseMappings<HolidayDto, Holiday> {
    public Converter<Holiday, HolidayDto> holidayDtoConvert = new AbstractConverter<Holiday, HolidayDto>() {
         @Override
         protected HolidayDto convert(Holiday source) {
-            HolidayDto ret = new HolidayDto(source.getHolidayId(), source.getStartDate(), source.getEndDate(),
-                    source.getEmployee().getEmployeeId(), source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
+            HolidayDto ret = new HolidayDto(source.getHolidayId(),
+                    source.getStartDate(),
+                    source.getEndDate(),
+                    source.getEmployee().getEmployeeId(),
+                    source.getHolidayStatus().getHolidayStatusId(),
+                    source.isHalfDay());
+                    source.getEmployee();
+
 
             return ret;
         }
-    };
+    };//This is what is returned from postman
 
     @Override
     public PropertyMap<HolidayDto, Holiday> RetrieveSourceDtoMapping(){
+        EmployeeService employeeService = new EmployeeService();
+
         return new PropertyMap<HolidayDto, Holiday>() {
             protected void configure() {
                 skip().setDateCreated(null);
@@ -49,7 +61,6 @@ public class HolidayMappings implements BaseMappings<HolidayDto, Holiday> {
                 map().setLastModified(LocalDate.now());
                 map().setHalfDay(source.isHalfDay());
                 map().setEndDate(source.getEndDate());
-               // map().setEmployee(new Employee(source.getEmployeeId()));
                 map().setEmployee(new Employee(source.getEmployeeId()));
                 map().setHolidayId(source.getHolidayId());
                 map().setHolidayStatus(new HolidayStatus(source.getHolidayStatusId()));
@@ -64,6 +75,8 @@ public class HolidayMappings implements BaseMappings<HolidayDto, Holiday> {
 
     @Override
     public PropertyMap<Holiday, HolidayDto>RetrieveTargetDtoMapping(){
+        EmployeeService employeeService = new EmployeeService();
+
         return new PropertyMap<Holiday, HolidayDto>() {
 
             protected void configure() {
@@ -76,6 +89,9 @@ public class HolidayMappings implements BaseMappings<HolidayDto, Holiday> {
                 map().setStartDate(source.getStartDate());
                 map().setEmployeeId(source.getEmployee().getEmployeeId());
                 map().setHolidayStatusId(source.getHolidayStatus().getHolidayStatusId());
+                map().setEmployee(source.getEmployee());
+                //map().setEmployee(new Employee(source.getEmployee().getEmployeeId()));
+
 
             }
         };
