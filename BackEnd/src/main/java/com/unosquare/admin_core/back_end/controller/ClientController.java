@@ -32,12 +32,6 @@ public class ClientController {
         return mapClientsToDtos(clientService.findAll());
     }
 
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
-    @ResponseBody
-    public ResponseEntity handleOptions() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ClientDto findClientById(@PathVariable("clientId") int id) {

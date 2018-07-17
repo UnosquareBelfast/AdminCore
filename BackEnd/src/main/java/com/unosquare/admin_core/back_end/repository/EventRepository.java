@@ -19,7 +19,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     List<Event> findByStartDateBetween(LocalDate rangeStart, LocalDate rangeEnd);
 
-    List<Event> findByEventStatus(EventStatus holidayStatus);
+    List<Event> findByEventStatusAndEventType(EventStatus eventStatus, EventType eventType);
 
     List<Event> findByEventType(EventType eventType);
 }

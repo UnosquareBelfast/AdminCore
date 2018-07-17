@@ -38,12 +38,6 @@ public class HolidayController {
         return mapEventsToDtos(eventService.findByType(EventTypes.ANNUAL_LEAVE));
     }
 
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
-    @ResponseBody
-    public ResponseEntity handleOptions() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public EventDto findEventById(@PathVariable("eventId") int eventId) {
@@ -108,7 +102,7 @@ public class HolidayController {
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<EventDto> findByHolidayStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
-        return mapEventsToDtos(eventService.findByStatus(EventStatuses.fromId(holidayStatusId)));
+        return mapEventsToDtos(eventService.findByStatusAndType(EventStatuses.fromId(holidayStatusId), EventTypes.ANNUAL_LEAVE));
     }
 
     private List<EventDto> mapEventsToDtos(List<Event> events) {

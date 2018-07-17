@@ -30,12 +30,6 @@ public class ContractController {
         return mapContractsToDtos(contractService.findAll());
     }
 
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
-    @ResponseBody
-    public ResponseEntity handleOptions() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody

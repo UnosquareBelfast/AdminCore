@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +28,6 @@ public class EmployeeController {
     @ResponseBody
     public List<EmployeeDto> findAllEmployees() {
         return mapEployeessToDtos(employeeService.findAll());
-    }
-
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
-    @ResponseBody
-    public ResponseEntity handleOptions() {
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)

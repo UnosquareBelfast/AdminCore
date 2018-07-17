@@ -3,6 +3,7 @@ package com.unosquare.admin_core.back_end.service;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Event;
+import com.unosquare.admin_core.back_end.entity.EventStatus;
 import com.unosquare.admin_core.back_end.entity.EventType;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
@@ -73,8 +74,8 @@ public class EventService {
         return eventRepository.findByStartDateBetween(rangeStart, rangeEnd);
     }
 
-    public List<Event> findByStatus(EventStatuses eventStatus) {
-        return eventRepository.findByEventStatus(new com.unosquare.admin_core.back_end.entity.EventStatus(eventStatus.getEventStatusId()));
+    public List<Event> findByStatusAndType(EventStatuses eventStatus, EventTypes eventType) {
+        return eventRepository.findByEventStatusAndEventType(new EventStatus(eventStatus.getEventStatusId()), new EventType(eventType.getEventTypeId()));
     }
 }
 
