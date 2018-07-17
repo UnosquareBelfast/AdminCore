@@ -6,22 +6,37 @@ import { Form, Input } from '../common';
 import { FormContainer } from './styled';
 
 export const CreateClientForm = props => {
-  const { submitForm, formStatus, formData, formIsValid } = props;
+  const {
+    clientId,
+    submitFormCreate,
+    submitFormUpdate,
+    formStatus,
+    formData,
+    formIsValid,
+  } = props;
+
+  let ctas = [];
+  if (clientId > 0) {
+    ctas = [
+      {
+        label: 'Update Client',
+        event: submitFormUpdate,
+        disabled: false,
+      },
+    ];
+  } else {
+    ctas = [
+      {
+        label: 'Create Client',
+        event: submitFormCreate,
+        disabled: !formIsValid,
+      },
+    ];
+  }
 
   return (
     <FormContainer>
-      <Form
-        formData={formData}
-        submitForm={submitForm}
-        formStatus={formStatus}
-        actions={[
-          {
-            label: 'Create Client',
-            event: props.submitForm,
-            disabled: !formIsValid,
-          },
-        ]}
-      >
+      <Form formData={formData} formStatus={formStatus} actions={ctas}>
         <Input
           type="input"
           htmlAttrs={{
@@ -109,16 +124,18 @@ export const CreateClientForm = props => {
           label="Minimum Employees For Team:"
         />
         <Input
-          type="select"
+          type="input"
           htmlAttrs={{
+            type: 'input',
             name: 'teamName',
-            options: [
-              { value: 'Team A', displayValue: 'Team A' },
-              { value: 'Team B', displayValue: 'Team B' },
-            ],
+            placeholder: 'Enter a Team Name',
           }}
           value={formData.teamName}
           label="Team Name:"
+          rules={{
+            required: true,
+            isEmail: true,
+          }}
         />
       </Form>
     </FormContainer>
@@ -126,8 +143,10 @@ export const CreateClientForm = props => {
 };
 
 CreateClientForm.propTypes = {
+  clientId: PT.number,
   formData: PT.object.isRequired,
-  submitForm: PT.func.isRequired,
+  submitFormCreate: PT.func.isRequired,
+  submitFormUpdate: PT.func.isRequired,
   formStatus: PT.func.isRequired,
   formIsValid: PT.bool.isRequired,
 };
