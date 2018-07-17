@@ -1,33 +1,40 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { CreateContractForm } from '../';
-import { Errorbox } from '../common';
+import UserForm from '../CreateContractForms/user';
+import DateForm from '../CreateContractForms/dates';
+import { Steps } from '../common';
 
 export const CreateContract = props => {
-  const { error, success, onSuccess, onFailed } = props;
+  const { step, nextStep } = props;
 
   return (
     <div>
       <h2>Create Contract</h2>
-      <CreateContractForm onSuccess={onSuccess} onFailed={onFailed} />
-      <Errorbox
-        id="errorCreateContract"
-        error={error}
-        label="Error creating contract"
+      <Steps
+        current={step}
+        steps={[
+          {
+            title: 'Find Employee',
+            component: <UserForm onSuccess={nextStep} />,
+          },
+          {
+            title: 'Find Team',
+            component: <p>Find Team</p>,
+          },
+          {
+            title: 'Contract Dates',
+            component: <DateForm onSuccess={nextStep} />,
+          },
+        ]}
       />
-      {success && (
-        <p id="contractCreatedSuccess">Contract created successfully!</p>
-      )}
     </div>
   );
 };
 
 CreateContract.propTypes = {
-  error: PT.object,
-  success: PT.bool,
-  onSuccess: PT.func.isRequired,
-  onFailed: PT.func.isRequired,
+  step: PT.number.isRequired,
+  nextStep: PT.func.isRequired,
 };
 
 CreateContract.defaultProps = {

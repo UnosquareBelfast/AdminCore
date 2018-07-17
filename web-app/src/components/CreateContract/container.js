@@ -5,31 +5,21 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        success: null,
-        error: null,
+        contractData: {},
+        step: 0,
       };
     }
 
-    userCreatedSuccessfully = () => {
+    nextStep = formData =>
       this.setState({
-        success: true,
+        step: this.state.step + 1,
+        contractData: {
+          ...this.state.contractData,
+          ...formData,
+        },
       });
-    };
-
-    userFailedToCreated = error => {
-      this.setState({ error, loading: false });
-    };
 
     render() {
-      return (
-        <Wrapped
-          success={this.state.success}
-          error={this.state.error}
-          onSuccess={this.userCreatedSuccessfully}
-          onFailed={error => {
-            this.userFailedToCreated(error);
-          }}
-        />
-      );
+      return <Wrapped step={this.state.step} nextStep={this.nextStep} />;
     }
   };
