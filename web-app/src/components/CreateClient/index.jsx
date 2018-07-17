@@ -5,12 +5,16 @@ import CreateClientForm from '../CreateClientForm';
 import { Card, Errorbox } from '../common';
 
 export const CreateClient = props => {
-  const { error, success, onSuccess, onFailed } = props;
+  const { clientId, error, success, onSuccess, onFailed } = props;
 
   return (
     <Card>
-      <h3>Create Client</h3>
-      <CreateClientForm onSuccess={onSuccess} onFailed={onFailed} />
+      <h3>{clientId > 0 ? 'Update Client' : 'Create Client'}</h3>
+      <CreateClientForm
+        clientId={clientId}
+        onSuccess={onSuccess}
+        onFailed={onFailed}
+      />
       <Errorbox
         id="errorCreateUser"
         error={error}
@@ -22,6 +26,7 @@ export const CreateClient = props => {
 };
 
 CreateClient.propTypes = {
+  clientId: PT.number,
   error: PT.object,
   success: PT.bool,
   onSuccess: PT.func.isRequired,
