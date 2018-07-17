@@ -14,4 +14,3 @@ export { default as HolidayList } from './HolidayList';
 export { default as BigCalendarToolbar } from './BigCalendarToolbar';
 export { default as AdminDashboard } from './AdminDashboard';
 export { default as CreateContract } from './CreateContract';
-export { default as CreateContractForm } from './CreateContractForm';
