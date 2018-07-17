@@ -6,7 +6,10 @@ import { Card, Errorbox } from '../common';
 
 export const CreateClient = props => {
   const { clientId, error, success, onSuccess, onFailed } = props;
-
+  const successMessage =
+    clientId > 0
+      ? 'Client updated successfully!'
+      : 'Client created successfully!';
   return (
     <Card>
       <h3>{clientId > 0 ? 'Update Client' : 'Create Client'}</h3>
@@ -20,17 +23,17 @@ export const CreateClient = props => {
         error={error}
         label="Error creating user"
       />
-      {success && <p id="userCreatedSuccess">Client created successfully!</p>}
+      {success && <p id="userCreatedSuccess">{successMessage}!</p>}
     </Card>
   );
 };
 
 CreateClient.propTypes = {
-  clientId: PT.number,
-  error: PT.object,
-  success: PT.bool,
+  clientId: PT.number.isRequired,
   onSuccess: PT.func.isRequired,
   onFailed: PT.func.isRequired,
+  error: PT.object,
+  success: PT.bool,
 };
 
 CreateClient.defaultProps = {

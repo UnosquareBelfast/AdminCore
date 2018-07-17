@@ -64,8 +64,8 @@ export const AllClients = ({
 };
 
 AllClients.propTypes = {
-  createNewClient: PT.func,
-  clients: PT.array,
+  createNewClient: PT.func.isRequired,
+  clients: PT.array.isRequired,
   archive: PT.func.isRequired,
   viewClient: PT.func.isRequired,
 };

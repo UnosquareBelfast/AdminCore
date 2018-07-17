@@ -10,9 +10,9 @@ import {
 export default Wrapped =>
   class extends Component {
     static propTypes = {
-      clientId: PT.number,
-      onSuccess: PT.func,
-      onFailed: PT.func,
+      clientId: PT.number.isRequired,
+      onSuccess: PT.func.isRequired,
+      onFailed: PT.func.isRequired,
     };
 
     constructor(props) {

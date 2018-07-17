@@ -143,7 +143,7 @@ export const CreateClientForm = props => {
 };
 
 CreateClientForm.propTypes = {
-  clientId: PT.number,
+  clientId: PT.number.isRequired,
   formData: PT.object.isRequired,
   submitFormCreate: PT.func.isRequired,
   submitFormUpdate: PT.func.isRequired,
