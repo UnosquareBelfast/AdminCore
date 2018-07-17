@@ -12,7 +12,6 @@ export const DateForm = props => {
       <h3>Select contract dates</h3>
       <Form
         formData={formData}
-        submitForm={submitForm}
         formStatus={formStatus}
         actions={[
           {
