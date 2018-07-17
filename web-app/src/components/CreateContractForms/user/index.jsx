@@ -41,7 +41,6 @@ export const DateForm = props => {
       <h3>Find user for contract</h3>
       <Form
         formData={formData}
-        submitForm={submitForm}
         formStatus={formStatus}
         actions={users.length === 0 ? searchActions : submitActions}
       >
