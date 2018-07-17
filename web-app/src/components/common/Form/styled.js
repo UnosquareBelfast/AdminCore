@@ -11,7 +11,7 @@ export const ButtonContainer = styled.div`
   button {
     margin: 0 0 10px 0;
     @media (min-width: 992px) {
-      margin: 20px 4px;
+      margin: 0px 4px;
     }
   }
 `;
