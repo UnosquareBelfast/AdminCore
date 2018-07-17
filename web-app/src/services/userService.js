@@ -20,6 +20,12 @@ export const getUserProfile = id => {
   return axios.get(`/employees/${id}`);
 };
 
+export const getUserByName = (forename, surname) => {
+  return axios.get(
+    `/employees/findByForenameAndSurname/${forename}/${surname}`
+  );
+};
+
 export const createUser = data => {
   return axios.post('authentication/register/', data);
 };
