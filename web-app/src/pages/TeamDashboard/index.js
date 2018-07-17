@@ -1,17 +1,20 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import container from './container';
 import { Container, Columns, Stat } from './styled';
 import { HolidayList } from '../../components/HolidayList';
+import { UserList } from '../../components/UserList';
+import { Modal } from '../../components/common';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
 
-export const User = props => {
+export const User = ({ team, teamHolidays }) => {
   return (
     <Container>
       <h2>My Team</h2>
       <Columns>
         <Stat>
-          <h1>8 MEMBERS</h1>
+          <h1>{team.length} MEMBERS</h1>
           <h4>
             <FontAwesomeIcon icon={faChild} /> Active
           </h4>
@@ -33,11 +36,21 @@ export const User = props => {
       <Columns>
         <div>
           <h3>Active Members</h3>
+          <UserList
+            users={team}
+            columns={['fullName', 'email']}
+            onView={() => {}}
+          />
         </div>
         <div>
-          <h3>Pending Holidays</h3>
+          <h3>
+            Member's Pending Holidays{' '}
+            {teamHolidays != 0
+              ? `(${teamHolidays.length} needing reviewed)`
+              : null}
+          </h3>
           <HolidayList
-            holidays={[]}
+            holidays={teamHolidays}
             columns={['employee', 'startDate', 'endDate']}
           />
         </div>
@@ -47,10 +60,14 @@ export const User = props => {
 };
 
 User.propTypes = {
-  localUser: PT.object,
-  profileUser: PT.object,
-  profileHolidays: PT.array,
   history: PT.object,
+  team: PT.array,
+  teamHolidays: PT.array,
 };
 
-export default User;
+User.defaultProps = {
+  team: [],
+  teamHolidays: [],
+};
+
+export default container(User);

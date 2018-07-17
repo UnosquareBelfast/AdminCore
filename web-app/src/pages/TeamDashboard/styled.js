@@ -13,7 +13,13 @@ export const Stat = styled.div`
 export const Columns = styled.div`
   display: flex;
   margin-bottom: 20px;
-  div {
+  > div {
     width: 50%;
+    :first-of-type {
+      margin-right: 10px;
+    }
+    :last-of-type {
+      margin-left: 10px;
+    }
   }
 `;
