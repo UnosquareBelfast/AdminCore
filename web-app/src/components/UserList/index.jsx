@@ -41,7 +41,7 @@ const buildColumns = (columns, actions) => {
   return formattedColumns;
 };
 
-const renderTable = (users, columns, actions) => {
+const renderTable = (users, columns, actions, onRowClick) => {
   const formattedColumns = buildColumns(columns, actions);
   return (
     <ReactTable
@@ -53,16 +53,24 @@ const renderTable = (users, columns, actions) => {
       defaultFilterMethod={(filter, row) =>
         String(row[filter.id]).includes(filter.value)
       }
+      getTrProps={(state, rowInfo) => {
+        return {
+          onClick: () => onRowClick(rowInfo.original),
+          style: {
+            cursor: rowInfo ? 'pointer' : 'null',
+          },
+        };
+      }}
     />
   );
 };
 
 export const UserList = props => {
-  const { users, columns, actions } = props;
+  const { users, columns, actions, onRowClick } = props;
   return !users || users.length === 0 ? (
     <p>There are no users to show</p>
   ) : (
-    renderTable(users, columns, actions)
+    renderTable(users, columns, actions, onRowClick)
   );
 };
 
@@ -70,6 +78,11 @@ UserList.propTypes = {
   users: PT.array,
   columns: PT.array.isRequired,
   actions: PT.object,
+  onRowClick: PT.func,
+};
+
+UserList.defaultProps = {
+  onRowClick: () => {},
 };
 
 export default container(UserList);

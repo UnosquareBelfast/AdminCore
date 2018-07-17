@@ -13,6 +13,7 @@ export default Wrapped =>
       this.state = {
         team: [],
         teamHolidays: [],
+        selectedUser: null,
       };
     }
 
@@ -33,12 +34,18 @@ export default Wrapped =>
       });
     };
 
+    handleUserSelection = user => {
+      this.setState({ selectedUser: user });
+    };
+
     render() {
       return (
         <Wrapped
           history={this.props.history}
           teamHolidays={this.state.teamHolidays}
           team={this.state.team}
+          onUserSelect={this.handleUserSelection}
+          selectedUser={this.state.selectedUser}
         />
       );
     }

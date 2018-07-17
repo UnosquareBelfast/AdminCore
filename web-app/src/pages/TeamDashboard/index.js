@@ -4,13 +4,14 @@ import container from './container';
 import { Container, Columns, Stat } from './styled';
 import { HolidayList } from '../../components/HolidayList';
 import { UserList } from '../../components/UserList';
-import { Modal } from '../../components/common';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
+import UserModal from './UserModal';
 
-export const User = ({ team, teamHolidays }) => {
+export const User = ({ team, teamHolidays, selectedUser, onUserSelect }) => {
   return (
     <Container>
+      <UserModal user={selectedUser} />
       <h2>My Team</h2>
       <Columns>
         <Stat>
@@ -39,7 +40,7 @@ export const User = ({ team, teamHolidays }) => {
           <UserList
             users={team}
             columns={['fullName', 'email']}
-            onView={() => {}}
+            onRowClick={onUserSelect}
           />
         </div>
         <div>
@@ -63,11 +64,14 @@ User.propTypes = {
   history: PT.object,
   team: PT.array,
   teamHolidays: PT.array,
+  selectedUser: PT.object,
+  onUserSelect: PT.func.isRequired,
 };
 
 User.defaultProps = {
   team: [],
   teamHolidays: [],
+  selectedUser: null,
 };
 
 export default container(User);
