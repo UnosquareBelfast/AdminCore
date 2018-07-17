@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   View,
   Button,
@@ -20,7 +20,12 @@ const BookingView = (props) => {
   } = props;
 
   const renderButton = booked
-    ? <Button onPress={updateHoliday} title="Update Holiday" />
+    ? (
+      <Fragment>
+        <Button onPress={() => updateHoliday(false)} title="Update Holiday" />
+        <Button onPress={() => updateHoliday(true)} title="Cancel Holiday" />
+      </Fragment>
+    )
     : <Button onPress={submitRequest} title="Request Holiday" />;
 
 
