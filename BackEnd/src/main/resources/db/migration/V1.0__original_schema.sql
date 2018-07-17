@@ -35,52 +35,6 @@ ALTER TABLE public.country
 
 ----------------------------------------------------------------------------------------
 
--- Table: public.client_status
--- DROP TABLE public.client_status;
-
-CREATE SEQUENCE IF NOT EXISTS public.client_status_client_status_id_seq;
-CREATE TABLE IF NOT EXISTS public.client_status
-(
-    client_status_id integer NOT NULL DEFAULT nextval('client_status_client_status_id_seq'::regclass),
-    description character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT client_status_pkey PRIMARY KEY (client_status_id)
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER SEQUENCE client_status_client_status_id_seq
-    OWNED BY client_status.client_status_id;
-
-ALTER TABLE public.client_status
-    OWNER to postgres;
-
-----------------------------------------------------------------------------------------
-
--- Table: public.contract_status
--- DROP TABLE public.contract_status;
-
-CREATE SEQUENCE IF NOT EXISTS public.contract_status_contract_status_id_seq;
-CREATE TABLE IF NOT EXISTS public.contract_status
-(
-    contract_status_id integer NOT NULL DEFAULT nextval('contract_status_contract_status_id_seq'::regclass),
-    description character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT contract_status_pkey PRIMARY KEY (contract_status_id)
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER SEQUENCE contract_status_contract_status_id_seq
-    OWNED BY contract_status.contract_status_id;
-
-ALTER TABLE public.contract_status
-    OWNER to postgres;
-
-----------------------------------------------------------------------------------------
-
 -- Table: public.employee_status
 -- DROP TABLE public.employee_status;
 
@@ -130,35 +84,55 @@ ALTER TABLE public.employee_role
 -- Table: public.holiday_status
 -- DROP TABLE public.holiday_status;
 
-CREATE SEQUENCE IF NOT EXISTS public.holiday_status_holiday_status_id_seq;
-CREATE TABLE IF NOT EXISTS public.holiday_status
+CREATE SEQUENCE IF NOT EXISTS public.event_status_event_status_id_seq;
+CREATE TABLE IF NOT EXISTS public.event_status
 (
-    holiday_status_id integer NOT NULL DEFAULT nextval('holiday_status_holiday_status_id_seq'::regclass),
+    event_status_id integer NOT NULL DEFAULT nextval('event_status_event_status_id_seq'::regclass),
     description character varying(255) COLLATE pg_catalog."default",
-    CONSTRAINT holiday_status_pkey PRIMARY KEY (holiday_status_id)
+    CONSTRAINT event_status_pkey PRIMARY KEY (event_status_id)
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER SEQUENCE holiday_status_holiday_status_id_seq
-    OWNED BY holiday_status.holiday_status_id;
+ALTER SEQUENCE event_status_event_status_id_seq
+    OWNED BY event_status.event_status_id;
 
-ALTER TABLE public.holiday_status
+ALTER TABLE public.event_status
     OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+
+-- Table: public.event_type
+-- DROP TABLE public.event_type;
+
+CREATE SEQUENCE IF NOT EXISTS public.event_type_event_type_id_seq;
+CREATE TABLE IF NOT EXISTS public.event_type
+(
+    event_type_id        integer NOT NULL DEFAULT nextval('event_type_event_type_id_seq' :: regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT event_type_pkey PRIMARY KEY (event_type_id)
+)
+WITH (
+OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER SEQUENCE event_type_event_type_id_seq
+    OWNED BY event_type.event_type_id;
+
+ALTER TABLE public.event_type
+  OWNER to postgres;
 
 ----------------------------------------------------------------------------------------
 -- Table: public.employee
 -- DROP TABLE public.employee;
-CREATE SEQUENCE IF NOT EXISTS public.employee_employee_id_seq1;
-
--- Table: public.employee
--- DROP TABLE public.employee CASCADE;
-
+CREATE SEQUENCE IF NOT EXISTS public.employee_employee_id_seq;
 CREATE TABLE IF NOT EXISTS public.employee
 (
-    employee_id integer NOT NULL DEFAULT nextval('employee_employee_id_seq1'::regclass),
+    employee_id integer NOT NULL DEFAULT nextval('employee_employee_id_seq'::regclass),
     country_id integer NOT NULL,
     email character varying(255) COLLATE pg_catalog."default",
     employee_role_id integer NOT NULL,
@@ -187,7 +161,7 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER SEQUENCE employee_employee_id_seq1
+ALTER SEQUENCE employee_employee_id_seq
     OWNED BY employee.employee_id;
 
 ALTER TABLE public.employee
@@ -198,19 +172,40 @@ ALTER TABLE public.employee
 -- Table: public.client
 -- DROP TABLE public.client;
 
-CREATE SEQUENCE IF NOT EXISTS public.client_client_id_seq1;
+CREATE SEQUENCE IF NOT EXISTS public.client_client_id_seq;
 CREATE TABLE IF NOT EXISTS public.client
 (
-  client_id                  integer  NOT NULL DEFAULT nextval('client_client_id_seq1' :: regclass),
+  client_id                  integer  NOT NULL DEFAULT nextval('client_client_id_seq' :: regclass),
   client_name                character varying(255) COLLATE pg_catalog."default",
-  client_status_id           integer,
+  CONSTRAINT client_pkey PRIMARY KEY (client_id)
+)
+WITH (
+OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER SEQUENCE client_client_id_seq
+    OWNED BY client.client_id;
+
+ALTER TABLE public.client
+    OWNER to postgres;
+
+----------------------------------------------------------------------------------------
+
+-- Table: public.team
+-- DROP TABLE public.team;
+
+CREATE SEQUENCE IF NOT EXISTS public.team_team_id_seq;
+CREATE TABLE IF NOT EXISTS public.team
+(
+  team_id                    integer  NOT NULL DEFAULT nextval('team_team_id_seq' :: regclass),
+  client_id                  integer NOT NULL,
+  team_name                  character varying(255) COLLATE pg_catalog."default",
   contact_email              character varying(255) COLLATE pg_catalog."default",
   contact_name               character varying(255) COLLATE pg_catalog."default",
-  minimum_employees_for_team integer NOT NULL,
-  team_name                  character varying(255) COLLATE pg_catalog."default",
-  CONSTRAINT client_pkey PRIMARY KEY (client_id),
-  CONSTRAINT client_client_status_id_fkey FOREIGN KEY (client_status_id)
-        REFERENCES public.client_status (client_status_id) MATCH SIMPLE
+  CONSTRAINT team_pkey PRIMARY KEY (team_id),
+  CONSTRAINT team_client_id_fkey FOREIGN KEY (client_id)
+        REFERENCES public.client (client_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -219,10 +214,10 @@ OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER SEQUENCE client_client_id_seq1
-    OWNED BY client.client_id;
+ALTER SEQUENCE team_team_id_seq
+    OWNED BY team.team_id;
 
-ALTER TABLE public.client
+ALTER TABLE public.team
     OWNER to postgres;
 
 ----------------------------------------------------------------------------------------
@@ -230,22 +225,21 @@ ALTER TABLE public.client
 -- Table: public.contract
 -- DROP TABLE public.contract;
 
+CREATE SEQUENCE IF NOT EXISTS public.contract_contract_id_seq;
 CREATE TABLE IF NOT EXISTS public.contract
 (
-  client_id          integer NOT NULL,
+  contract_id        integer  NOT NULL DEFAULT nextval('contract_contract_id_seq' :: regclass),
+  team_id            integer NOT NULL,
   employee_id        integer NOT NULL,
-  contract_status_id integer,
-  CONSTRAINT contract_pkey PRIMARY KEY (client_id, employee_id),
-  CONSTRAINT fklhq3p3xl25vvnfvyfc51ica0j FOREIGN KEY (client_id)
-        REFERENCES public.client (client_id) MATCH SIMPLE
+  start_date         date NOT NULL,
+  end_date         date NULL,
+  CONSTRAINT contract_pkey PRIMARY KEY (contract_id),
+  CONSTRAINT contract_team_id_fkey FOREIGN KEY (team_id)
+        REFERENCES public.team (team_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-  CONSTRAINT fkr2iw6grixlkbx43q2svdrhbb9 FOREIGN KEY (employee_id)
+  CONSTRAINT contract_employee_id FOREIGN KEY (employee_id)
         REFERENCES public.employee (employee_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-  CONSTRAINT contract_contract_status_id_fkey FOREIGN KEY (contract_status_id)
-        REFERENCES public.contract_status (contract_status_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -262,34 +256,40 @@ ALTER TABLE public.contract
 -- Table: public.holiday
 -- DROP TABLE public.holiday;
 
-CREATE SEQUENCE IF NOT EXISTS public.holiday_holiday_id_seq1;
-CREATE TABLE IF NOT EXISTS public.holiday
+CREATE SEQUENCE IF NOT EXISTS public.event_event_id_seq;
+CREATE TABLE IF NOT EXISTS public.event
 (
-  holiday_id        integer NOT NULL DEFAULT nextval('holiday_holiday_id_seq1' :: regclass),
+  event_id        integer NOT NULL DEFAULT nextval('event_event_id_seq' :: regclass),
+  employee_id       integer,
   start_date         date,
   end_date           date,
   date_created      date,
-  holiday_status_id integer,
+  event_status_id integer,
+  event_type_id integer,
   is_half_day       boolean NOT NULL,
   last_modified     date,
-  employee_id       integer,
-  CONSTRAINT holiday_pkey PRIMARY KEY (holiday_id),
-  CONSTRAINT fkfcn4ebwwpcrk1dbvjqr760hyg FOREIGN KEY (employee_id)
+  CONSTRAINT event_pkey PRIMARY KEY (event_id),
+  CONSTRAINT event_employee_id_fkey FOREIGN KEY (employee_id)
         REFERENCES public.employee (employee_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-  CONSTRAINT holiday_holiday_status_id_fkey FOREIGN KEY (holiday_status_id)
-        REFERENCES public.holiday_status (holiday_status_id) MATCH SIMPLE
+  CONSTRAINT event_event_status_id_fkey FOREIGN KEY (event_status_id)
+        REFERENCES public.event_status (event_status_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT event_event_type_id_fkey FOREIGN KEY (event_type_id)
+        REFERENCES public.event_type (event_type_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
+
 )
 WITH (
 OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER SEQUENCE holiday_holiday_id_seq1
-    OWNED BY holiday.holiday_id;
+ALTER SEQUENCE event_event_id_seq
+    OWNED BY event.event_id;
 
-ALTER TABLE public.holiday
+ALTER TABLE public.event
   OWNER to postgres;

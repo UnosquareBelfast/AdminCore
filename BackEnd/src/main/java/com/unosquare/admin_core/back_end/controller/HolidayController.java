@@ -1,11 +1,12 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.CreateEventDto;
+import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.EventDto;
 import com.unosquare.admin_core.back_end.entity.Event;
-import com.unosquare.admin_core.back_end.enums.EventType;
-import com.unosquare.admin_core.back_end.enums.HolidayStatus;
+import com.unosquare.admin_core.back_end.entity.EventType;
+import com.unosquare.admin_core.back_end.enums.EventStatuses;
+import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class HolidayController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventDto> findAllEvents() {
-        return mapEventsToDtos(eventService.findAll());
+    public List<EventDto> findAll() {
+        return mapEventsToDtos(eventService.findByType(EventTypes.ANNUAL_LEAVE));
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
@@ -58,7 +59,7 @@ public class HolidayController {
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createEvent(@RequestBody CreateEventDto createEventDto) {
+    public ResponseEntity createEvent(@RequestBody CreateHolidayDto createEventDto) {
 
         List<String> responses = new ArrayList<>();
 
@@ -80,6 +81,7 @@ public class HolidayController {
         if (responses.isEmpty()) {
 
             Event newEvent = modelMapper.map(createEventDto, Event.class);
+            newEvent.setEventType(new EventType(EventTypes.ANNUAL_LEAVE.getEventTypeId()));
 
             eventService.save(createEventDto.getEmployeeId(), newEvent);
             responses.add("Created");
@@ -105,15 +107,8 @@ public class HolidayController {
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventDto> findByClientStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
-        return mapEventsToDtos(eventService.findByStatus(HolidayStatus.fromId(holidayStatusId)));
-    }
-
-    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
-    @GetMapping(value = "/findByEventType/{eventTypeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<EventDto> findByEventType(@PathVariable("eventTypeId") int eventTypeId){
-        return mapEventsToDtos(eventService.findByType(EventType.fromId(eventTypeId)));
+    public List<EventDto> findByHolidayStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
+        return mapEventsToDtos(eventService.findByStatus(EventStatuses.fromId(holidayStatusId)));
     }
 
     private List<EventDto> mapEventsToDtos(List<Event> events) {

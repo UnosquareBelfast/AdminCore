@@ -2,7 +2,6 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.ClientDto;
 import com.unosquare.admin_core.back_end.entity.Client;
-import com.unosquare.admin_core.back_end.enums.ClientStatus;
 import com.unosquare.admin_core.back_end.service.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,23 +63,11 @@ public class ClientController {
         return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
     }
 
-    @GetMapping(value = "/findByTeamNameContaining/{teamName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByTeamNameContaining(@PathVariable("teamName") String teamName) {
-        return mapClientsToDtos(clientService.findByTeamNameContaining(teamName));
-    }
-
     @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByContactNameContaining/{contactName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<ClientDto> findByContactNameContaining(@PathVariable("contactName") String contactName) {
         return mapClientsToDtos(clientService.findByContactNameContaining(contactName));
-    }
-
-    @GetMapping(value = "/findByClientStatus/{clientStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientStatus(@PathVariable("clientStatusId") int clientStatusId) {
-        return mapClientsToDtos(clientService.findByClientStatus(ClientStatus.fromId(clientStatusId)));
     }
 
     private List<ClientDto> mapClientsToDtos(List<Client> clients) {

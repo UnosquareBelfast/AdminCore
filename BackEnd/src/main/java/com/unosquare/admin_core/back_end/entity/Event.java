@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Event implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="eventSeq",sequenceName="event_event_id_seq1", allocationSize = 1)
+    @SequenceGenerator(name="eventSeq",sequenceName="event_event_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="eventSeq")
     @Column(name = "event_id", unique = true, nullable = false)
     private int eventId;
@@ -29,8 +29,8 @@ public class Event implements java.io.Serializable {
     private Employee employee;
 
     @OneToOne
-    @JoinColumn(name = "holiday_status_id")
-    private HolidayStatus holidayStatus;
+    @JoinColumn(name = "event_status_id")
+    private EventStatus eventStatus;
 
     @OneToOne
     @JoinColumn(name = "event_type_id")
@@ -54,7 +54,7 @@ public class Event implements java.io.Serializable {
         this.endDate = endDate;
         this.employee = new Employee(employeeId);
         this.eventType = new EventType(eventTypeId);
-        this.holidayStatus = new HolidayStatus(statusId);
+        this.eventStatus = new EventStatus(statusId);
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
         this.isHalfDay = isHalfDay;

@@ -3,8 +3,9 @@ package com.unosquare.admin_core.back_end.service;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Event;
-import com.unosquare.admin_core.back_end.enums.EventType;
-import com.unosquare.admin_core.back_end.enums.HolidayStatus;
+import com.unosquare.admin_core.back_end.entity.EventType;
+import com.unosquare.admin_core.back_end.enums.EventStatuses;
+import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,8 @@ public class EventService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    public List<Event> findByType(EventTypes eventType) {
+        return eventRepository.findByEventType(new EventType(eventType.getEventTypeId()));
     }
 
     public Event findById(int id) {
@@ -50,7 +51,7 @@ public class EventService {
         Preconditions.checkNotNull(event);
 
         event.setEventType(entityManager.find(com.unosquare.admin_core.back_end.entity.EventType.class, event.getEventType().getEventTypeId()));
-        event.setHolidayStatus(entityManager.find(com.unosquare.admin_core.back_end.entity.HolidayStatus.class, HolidayStatus.AWAITING_APPROVAL.getHolidayStatusId()));
+        event.setEventStatus(entityManager.find(com.unosquare.admin_core.back_end.entity.EventStatus.class, EventStatuses.AWAITING_APPROVAL.getEventStatusId()));
         event.setDateCreated(LocalDate.now());
         event.setLastModified(LocalDate.now());
 
@@ -72,12 +73,8 @@ public class EventService {
         return eventRepository.findByStartDateBetween(rangeStart, rangeEnd);
     }
 
-    public List<Event> findByStatus(HolidayStatus holidayStatus) {
-        return eventRepository.findByHolidayStatus(new com.unosquare.admin_core.back_end.entity.HolidayStatus(holidayStatus.getHolidayStatusId()));
-    }
-
-    public List<Event> findByType(EventType eventType){
-        return  eventRepository.findByEventType(new com.unosquare.admin_core.back_end.entity.EventType(eventType.getEventTypeId()));
+    public List<Event> findByStatus(EventStatuses eventStatus) {
+        return eventRepository.findByEventStatus(new com.unosquare.admin_core.back_end.entity.EventStatus(eventStatus.getEventStatusId()));
     }
 }
 

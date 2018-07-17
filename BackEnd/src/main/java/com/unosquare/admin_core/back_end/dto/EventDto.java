@@ -1,8 +1,8 @@
 package com.unosquare.admin_core.back_end.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.unosquare.admin_core.back_end.enums.EventType;
-import com.unosquare.admin_core.back_end.enums.HolidayStatus;
+import com.unosquare.admin_core.back_end.enums.EventStatuses;
+import com.unosquare.admin_core.back_end.enums.EventTypes;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -20,8 +20,8 @@ public class EventDto {
     private int eventTypeId;
     private String eventTypeDescription;
 
-    private int holidayStatusId;
-    private String holidayStatusDescription;
+    private int eventStatusId;
+    private String eventStatusDescription;
 
     private boolean isHalfDay;
 
@@ -32,17 +32,17 @@ public class EventDto {
 
     }
 
-    public EventDto(int eventId, LocalDate startDate, LocalDate endDate, int employeeId, int eventTypeId, int holidayStatusId, boolean isHalfDay) {
+    public EventDto(int eventId, LocalDate startDate, LocalDate endDate, int employeeId, int eventTypeId, int eventStatusId, boolean isHalfDay) {
         this.eventId = eventId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.employeeId = employeeId;
         this.eventTypeId = (short) eventTypeId;
-        this.holidayStatusId = (short) holidayStatusId;
+        this.eventStatusId = (short) eventStatusId;
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
         this.eventTypeDescription = getEventType().getDescription();
-        this.holidayStatusDescription = getHolidayStatus().getDescription();
+        this.eventStatusDescription = getEventStatus().getDescription();
         this.isHalfDay = isHalfDay;
     }
 
@@ -51,19 +51,19 @@ public class EventDto {
         this.endDate = endDate;
         this.employeeId = employeeId;
         this.eventTypeId = (short) eventTypeId;
-        this.holidayStatusId = (short) holidayStatusId;
+        this.eventStatusId = (short) holidayStatusId;
         this.lastModified = LocalDate.now();
         this.dateCreated = LocalDate.now();
         this.eventTypeDescription = getEventType().getDescription();
-        this.holidayStatusDescription = getHolidayStatus().getDescription();
+        this.eventStatusDescription = getEventStatus().getDescription();
         this.isHalfDay = isHalfDay;
     }
 
     @JsonIgnore
-    public HolidayStatus getHolidayStatus() {
-        return HolidayStatus.fromId(holidayStatusId);
+    public EventStatuses getEventStatus() {
+        return EventStatuses.fromId(eventStatusId);
     }
 
     @JsonIgnore
-    public EventType getEventType() {return EventType.fromId(eventTypeId); }
+    public EventTypes getEventType() {return EventTypes.fromId(eventTypeId); }
 }

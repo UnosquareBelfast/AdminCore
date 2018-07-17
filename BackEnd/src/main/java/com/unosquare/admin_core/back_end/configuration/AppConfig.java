@@ -1,10 +1,10 @@
 package com.unosquare.admin_core.back_end.configuration;
 
-import com.unosquare.admin_core.back_end.dto.CreateEventDto;
+import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
 import com.unosquare.admin_core.back_end.dto.EventDto;
 import com.unosquare.admin_core.back_end.entity.*;
-import javafx.beans.property.Property;
+import com.unosquare.admin_core.back_end.enums.EventTypes;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -26,39 +26,39 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        Converter<CreateEventDto, Event> holidayConverter = new AbstractConverter<CreateEventDto, Event>() {
+        Converter<CreateHolidayDto, Event> eventConverter = new AbstractConverter<CreateHolidayDto, Event>() {
             @Override
-            protected Event convert(CreateEventDto source) {
+            protected Event convert(CreateHolidayDto source) {
                 Event ret = new Event(source.getDates().get(0).getStartDate(), source.getDates().get(source.getDates().size()-1).getEndDate(),
-                        source.getEmployeeId(), source.getEventTypeId(), 1, source.getDates().get(0).isHalfDay());
+                        source.getEmployeeId(), EventTypes.ANNUAL_LEAVE.getEventTypeId(), 1, source.getDates().get(0).isHalfDay());
 
                 return ret;
             }
         };
 
-        Converter<Event, EventDto> holidayDtoConvert = new AbstractConverter<Event, EventDto>() {
+        Converter<Event, EventDto> eventDtoConvert = new AbstractConverter<Event, EventDto>() {
             @Override
             protected EventDto convert(Event source) {
                 EventDto ret = new EventDto(source.getEventId(), source.getStartDate(), source.getEndDate(),
                         source.getEmployee().getEmployeeId(), source.getEventType().getEventTypeId(),
-                        source.getHolidayStatus().getHolidayStatusId(), source.isHalfDay());
+                        source.getEventStatus().getEventStatusId(), source.isHalfDay());
 
                 return ret;
             }
         };
 
-        PropertyMap<EventDto, Event> holidayEntityMapping = new PropertyMap<EventDto, Event>() {
+        PropertyMap<EventDto, Event> eventEntityMapping = new PropertyMap<EventDto, Event>() {
             @Override
             protected void configure() {
                 skip().setDateCreated(null);
-                skip().getHolidayStatus().setDescription(source.getHolidayStatusDescription());
+                skip().getEventStatus().setDescription(source.getEventStatusDescription());
                 skip().getEventType().setDescription(source.getEventTypeDescription());
                 map().setLastModified(LocalDate.now());
                 map().setHalfDay(source.isHalfDay());
                 map().setEndDate(source.getEndDate());
                 map().setEmployee(new Employee(source.getEmployeeId()));
                 map().setEventId(source.getEventId());
-                map().setHolidayStatus(new HolidayStatus(source.getHolidayStatusId()));
+                map().setEventStatus(new EventStatus(source.getEventStatusId()));
                 map().setStartDate(source.getStartDate());
                 map().setEventType(new EventType(source.getEventTypeId()));
             }
@@ -103,11 +103,11 @@ public class AppConfig {
             }
         };
 
-        modelMapper.addConverter(holidayConverter);
+        modelMapper.addConverter(eventConverter);
         modelMapper.addMappings(employeeMapping);
         modelMapper.addMappings(employeeDtoMapping);
-        modelMapper.addConverter(holidayDtoConvert);
-        modelMapper.addMappings(holidayEntityMapping);
+        modelMapper.addConverter(eventDtoConvert);
+        modelMapper.addMappings(eventEntityMapping);
 
         return modelMapper;
     }

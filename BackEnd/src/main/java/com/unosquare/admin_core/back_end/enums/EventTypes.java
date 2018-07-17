@@ -3,7 +3,7 @@ package com.unosquare.admin_core.back_end.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum EventType {
+public enum EventTypes {
 
     ANNUAL_LEAVE(1, "Annual Leave"),
     WORKING_FROM_HOME(2, "Working From Home"),
@@ -14,7 +14,7 @@ public enum EventType {
     private final String description;
     private final int eventTypeId;
 
-    EventType(int eventTypeId, String description) {
+    EventTypes(int eventTypeId, String description) {
         this.eventTypeId = eventTypeId;
         this.description = description;
     }
@@ -34,8 +34,8 @@ public enum EventType {
                 eventTypeId, description);
     }
 
-    public static EventType fromId(int eventTypeID) {
-        for (EventType type : EventType.values()) {
+    public static EventTypes fromId(int eventTypeID) {
+        for (EventTypes type : EventTypes.values()) {
             if (type.eventTypeId == eventTypeID) {
                 return type;
             }

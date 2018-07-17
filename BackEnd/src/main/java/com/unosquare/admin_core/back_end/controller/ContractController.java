@@ -2,7 +2,6 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.ContractDto;
 import com.unosquare.admin_core.back_end.entity.Contract;
-import com.unosquare.admin_core.back_end.enums.ContractStatus;
 import com.unosquare.admin_core.back_end.service.ContractService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +36,6 @@ public class ContractController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{employeeId}/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ContractDto findContractById(@PathVariable("employeeId") int employeeId, @PathVariable("clientId") int clientId) {
-        return modelMapper.map(contractService.findById(employeeId, clientId), ContractDto.class);
-    }
-
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -60,18 +53,6 @@ public class ContractController {
     @ResponseBody
     public List<ContractDto> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
         return mapContractsToDtos(contractService.findByEmployeeId(employeeId));
-    }
-
-    @GetMapping(value = "/findByClientId/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<ContractDto> findByClientId(@PathVariable("clientId") int clientId) {
-        return mapContractsToDtos(contractService.findByClientId(clientId));
-    }
-
-    @GetMapping(value = "/findByContractStatus/{contractStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<ContractDto> findByClientStatus(@PathVariable("contractStatusId") int contractStatusId) {
-        return mapContractsToDtos(contractService.findByStatus(ContractStatus.fromId(contractStatusId)));
     }
 
     private List<ContractDto> mapContractsToDtos(List<Contract> contracts) {

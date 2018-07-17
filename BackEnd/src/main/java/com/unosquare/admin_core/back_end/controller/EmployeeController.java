@@ -2,7 +2,7 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
 import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.enums.Country;
+import com.unosquare.admin_core.back_end.enums.Countries;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class EmployeeController {
     @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeDto> findByCountry(@PathVariable("countryId") int countryId) {
-        return mapEployeessToDtos(employeeService.findByCountry(Country.fromId(countryId)));
+        return mapEployeessToDtos(employeeService.findByCountry(Countries.fromId(countryId)));
     }
 
     private List<EmployeeDto> mapEployeessToDtos(List<Employee> employees) {

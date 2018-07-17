@@ -5,11 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ContractRepository extends JpaRepository<Contract, ContractPK> {
+public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
     List<Contract> findByEmployee(Employee employee);
 
     List<Contract> findByClient(Client client);
 
-    List<Contract> findByContractStatus(ContractStatus contractStatus);
+    List<Contract> findByTeam(Team team);
 }

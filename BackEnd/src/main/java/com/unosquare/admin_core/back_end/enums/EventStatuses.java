@@ -3,24 +3,23 @@ package com.unosquare.admin_core.back_end.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum HolidayStatus {
+public enum EventStatuses {
 
     AWAITING_APPROVAL(1, "Awaiting approval"), //default clientStatus for new holiday requests
     APPROVED(2, "Approved"),
     DENIED(3, "Denied"),
-    MANDATORY(4, "Mandatory"), // public holiday, can't cancel
     TAKEN(5, "Taken");
 
     private final String description;
-    private final int holidayStatusId;
+    private final int eventStatusId;
 
-    HolidayStatus(int holidayStatusId, String description) {
-        this.holidayStatusId = holidayStatusId;
+    EventStatuses(int holidayStatusId, String description) {
+        this.eventStatusId = holidayStatusId;
         this.description = description;
     }
 
-    public int getHolidayStatusId() {
-        return holidayStatusId;
+    public int getEventStatusId() {
+        return eventStatusId;
     }
 
     public String getDescription() {
@@ -31,12 +30,12 @@ public enum HolidayStatus {
     public String toString() {
         return String.format(
                 "{holidayStatusId='%s', description='%s'}",
-                holidayStatusId, description);
+                eventStatusId, description);
     }
 
-    public static HolidayStatus fromId(int holidayStatusId) {
-        for (HolidayStatus status : HolidayStatus.values()) {
-            if (status.holidayStatusId == holidayStatusId) {
+    public static EventStatuses fromId(int holidayStatusId) {
+        for (EventStatuses status : EventStatuses.values()) {
+            if (status.eventStatusId == holidayStatusId) {
                 return status;
             }
         }

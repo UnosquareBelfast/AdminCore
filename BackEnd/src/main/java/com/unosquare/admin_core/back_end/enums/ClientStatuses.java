@@ -3,7 +3,7 @@ package com.unosquare.admin_core.back_end.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ClientStatus {
+public enum ClientStatuses {
 
     ACTIVE(1, "Active"),
     INACTIVE(2, "Inactive");
@@ -11,7 +11,7 @@ public enum ClientStatus {
     private final String description;
     private final int clientStatusId;
 
-    ClientStatus(int clientStatusId, String description) {
+    ClientStatuses(int clientStatusId, String description) {
         this.clientStatusId = clientStatusId;
         this.description = description;
     }
@@ -31,8 +31,8 @@ public enum ClientStatus {
                 clientStatusId, description);
     }
 
-    public static ClientStatus fromId(int clientStatusId) {
-        for (ClientStatus status : ClientStatus.values()) {
+    public static ClientStatuses fromId(int clientStatusId) {
+        for (ClientStatuses status : ClientStatuses.values()) {
             if (status.clientStatusId == clientStatusId) {
                 return status;
             }
