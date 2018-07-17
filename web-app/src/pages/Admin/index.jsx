@@ -30,8 +30,12 @@ export const Admin = props => (
         />
         <Route path="/admin/pendingHolidays" component={PendingHolidays} />
         <Route path="/admin/holidays" component={AllHolidays} />
-        <Route path="/admin/clients" component={AllClients} />
+        <Route
+          path="/admin/clients"
+          render={() => <AllClients history={props.history} />}
+        />
         <Route path="/admin/createClient" component={CreateClient} />
+        <Route path="/admin/updateClient/:clientId" component={CreateClient} />
         <Route path="/admin" component={AdminDashboard} />
       </Switch>
     </MainContentContainer>
