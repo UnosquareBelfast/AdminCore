@@ -1,45 +1,52 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   View,
-  Text,
   Button,
+  Text,
   StyleSheet,
 } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import moment from 'moment';
-import { CustomDatePickerIOS } from '../../Common';
+import { CustomDatePicker } from '../../Common';
 
 const BookingView = (props) => {
   const {
     startDate,
     changeStartDate,
     endDate,
+    booked,
+    updateHoliday,
     changeEndDate,
     submitRequest,
   } = props;
 
-  const formatDate = date => moment(date).toDate();
+  const renderButton = booked
+    ? (
+      <Fragment>
+        <Button onPress={() => updateHoliday(false)} title="Update Holiday" />
+        <Button onPress={() => updateHoliday(true)} title="Cancel Holiday" />
+      </Fragment>
+    )
+    : <Button onPress={submitRequest} title="Request Holiday" />;
+
 
   return (
     <View style={styles.container}>
       <Text>
-        Starting
-        {'\n'}
-        {startDate}
+        Start date
       </Text>
-      <CustomDatePickerIOS
-        chosenDate={formatDate(startDate)}
+      <CustomDatePicker
+        chosenDate={startDate}
         setDate={changeStartDate}
       />
       <Text>
-        Ending
+        End date
       </Text>
-      <CustomDatePickerIOS
-        chosenDate={formatDate(endDate)}
+      <CustomDatePicker
+        chosenDate={endDate}
         setDate={changeEndDate}
-        minimumDate={formatDate(startDate)}
+        minimumDate={startDate}
       />
-      <Button onPress={submitRequest} title="Request Holiday" />
+      {renderButton}
     </View>
   );
 };
@@ -50,12 +57,15 @@ BookingView.propTypes = {
   changeStartDate: PT.func.isRequired,
   changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
+  updateHoliday: PT.func.isRequired,
+  booked: PT.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+    alignItems: 'center',
     paddingTop: 50,
     backgroundColor: '#fff',
   },

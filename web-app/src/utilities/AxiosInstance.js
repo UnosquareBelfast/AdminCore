@@ -35,12 +35,12 @@ instance.interceptors.response.use(function(response) {
 
       holidays[index].start = new moment(
         holidays[index].startDate,
-        'YYYY-MM-DD'
+        'YYYY-MM-DD',
       );
       holidays[index].end = new moment(holidays[index].endDate, 'YYYY-MM-DD');
       holidays[index].requested = new moment(
         holidays[index].dateCreated,
-        'YYYY-MM-DD'
+        'YYYY-MM-DD',
       );
     }
     return {

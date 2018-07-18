@@ -5,3 +5,4 @@ export { default as RangeDayPicker } from './RangeDayPicker';
 export { default as Errorbox } from './Errorbox';
 export { default as Event } from './Event';
 export { default as Input } from './Input';
+export { default as Form } from './Form';

@@ -1,4 +1,6 @@
 package com.unosquare.admin_core.back_end.configuration;
+import com.unosquare.admin_core.back_end.configuration.mappings.*;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.EmployeeDto;
@@ -8,14 +10,14 @@ import com.unosquare.admin_core.back_end.enums.EventTypes;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.time.LocalDate;
+import java.lang.*;
+import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
+import java.util.*;
 
 @Configuration
 @EnableTransactionManagement
@@ -33,9 +35,21 @@ public class AppConfig {
                         source.getEmployeeId(), EventTypes.ANNUAL_LEAVE.getEventTypeId(), 1, source.getDates().get(0).isHalfDay());
 
                 return ret;
+        ModelMapper mapper = new ModelMapper();
+        List mappings = new ArrayList<>();
+        new FastClasspathScanner(ClientMappings.class.getPackage().getName())
+                .matchSubclassesOf(Object.class, mappings::add)
+                .scan();
+        for (Object mapping : mappings) {
+            if (mapping instanceof BaseMappings<?, ?>) {
+               mapper.addMappings(((BaseMappings) mapping).RetrieveSourceDtoMapping());
+               mapper.addMappings(((BaseMappings) mapping).RetrieveTargetDtoMapping());
             }
-        };
 
+        }
+        HolidayMappings holidayMappings = new HolidayMappings();
+        mapper.addConverter(holidayMappings.holidayConverter);
+        mapper.addConverter(holidayMappings.holidayDtoConvert);
         Converter<Event, EventDto> eventDtoConvert = new AbstractConverter<Event, EventDto>() {
             @Override
             protected EventDto convert(Event source) {
@@ -43,10 +57,8 @@ public class AppConfig {
                         source.getEmployee().getEmployeeId(), source.getEventType().getEventTypeId(),
                         source.getEventStatus().getEventStatusId(), source.isHalfDay());
 
-                return ret;
-            }
-        };
 
+        return mapper;
         PropertyMap<EventDto, Event> eventEntityMapping = new PropertyMap<EventDto, Event>() {
             @Override
             protected void configure() {

@@ -1,5 +1,8 @@
 import React from 'react';
+import container from './container';
 import { PropTypes as PT } from 'prop-types';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/fontawesome-free-solid';
 import {
   FormGroup,
   Label,
@@ -16,11 +19,10 @@ const Input = props => {
   let inputClasses = [];
   const {
     label,
-    invalid,
-    shouldValidate,
+    valid,
     touched,
-    elementType,
-    elementConfig,
+    type,
+    htmlAttrs,
     value,
     changed,
     focus,
@@ -28,17 +30,21 @@ const Input = props => {
   let formGroupId = label;
   let id = formGroupId.replace(' ', '').toLowerCase();
 
-  if (invalid && shouldValidate && touched) {
+  if (!valid && touched) {
     inputClasses.push('invalid');
   }
 
-  switch (elementType) {
+  if (htmlAttrs.disabled) {
+    inputClasses.push('disabled');
+  }
+
+  switch (type) {
     case 'input':
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
           id={id}
-          {...elementConfig}
+          {...htmlAttrs}
           value={value}
           onChange={changed}
           autoFocus={focus}
@@ -50,7 +56,7 @@ const Input = props => {
         <TextBoxLarge
           rows={6}
           className={'large' + inputClasses.join(' ')}
-          {...elementConfig}
+          {...htmlAttrs}
           value={value}
           id={id}
           onChange={changed}
@@ -61,9 +67,8 @@ const Input = props => {
     case 'checkbox':
       inputElement = (
         <TextBox
-          rows={6}
           className={inputClasses.join(' ')}
-          {...elementConfig}
+          {...htmlAttrs}
           checked={value}
           id={id}
           onChange={changed}
@@ -80,7 +85,7 @@ const Input = props => {
             id={id}
             onChange={changed}
           >
-            {elementConfig.options.map(option => (
+            {htmlAttrs.options.map(option => (
               <option key={option.value} value={option.value}>
                 {option.displayValue}
               </option>
@@ -92,6 +97,7 @@ const Input = props => {
     case 'date':
       inputElement = (
         <DatePickerContainer className={inputClasses.join(' ')}>
+          <FontAwesomeIcon icon={faCalendarAlt} />
           <DatePicker selected={value} onChange={changed} />
         </DatePickerContainer>
       );
@@ -100,7 +106,7 @@ const Input = props => {
       inputElement = (
         <TextBox
           className={inputClasses.join(' ')}
-          {...elementConfig}
+          {...htmlAttrs}
           value={value}
           id={id}
           onChange={changed}
@@ -109,8 +115,24 @@ const Input = props => {
       );
   }
 
+  const checkType = () => {
+    let styles = [];
+    styles.push(type);
+    if (type === 'checkbox') {
+      if (value) {
+        styles.push('ischecked');
+      }
+    }
+
+    if (htmlAttrs.disabled) {
+      styles.push('isDisabled');
+    }
+
+    return styles.join(' ');
+  };
+
   return (
-    <FormGroup className={elementType == 'checkbox' ? 'checkbox' : null}>
+    <FormGroup className={checkType()}>
       <Label htmlFor={id}>{label}</Label>
       {inputElement}
     </FormGroup>
@@ -118,13 +140,12 @@ const Input = props => {
 };
 
 Input.propTypes = {
-  elementConfig: PT.object.isRequired,
-  elementType: PT.string.isRequired,
-  value: PT.any.isRequired,
+  htmlAttrs: PT.object.isRequired,
+  type: PT.string.isRequired,
+  value: PT.any,
   label: PT.string.isRequired,
   changed: PT.func.isRequired,
-  invalid: PT.bool.isRequired,
-  shouldValidate: PT.object.isRequired,
+  valid: PT.bool.isRequired,
   touched: PT.bool,
   focus: PT.bool,
 };
@@ -134,4 +155,4 @@ Input.defaultProps = {
   focus: false,
 };
 
-export default Input;
+export default container(Input);

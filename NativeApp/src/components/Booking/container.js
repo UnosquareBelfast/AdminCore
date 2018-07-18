@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
-import { requestHolidays } from '../../services/holidayService';
+import { requestHolidays, updateHolidayRequest } from '../../services/holidayService';
 
 
 export default Container => class extends Component {
@@ -17,10 +17,12 @@ export default Container => class extends Component {
     super(props);
     this.state = {
       booking: {
+        holId: 0,
         startDate: '',
         endDate: '',
         halfDay: false,
       },
+      booked: false,
       user: {},
     };
   }
@@ -28,26 +30,42 @@ export default Container => class extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const chosenDate = navigation.getParam('date', '');
+    const booked = navigation.getParam('booked', '');
+    const holId = navigation.getParam('holId', '');
 
     userProfile()
       .then(user => this.setState({ user }));
 
     this.setState({
       booking: {
+        holId,
         startDate: chosenDate,
         endDate: chosenDate,
       },
+      booked,
     });
   }
 
   changeStartDate = (date) => {
+    const { booking } = this.state;
     const formatDate = moment(date).format('YYYY-MM-DD');
-    this.setState(prevState => ({
-      booking: {
-        ...prevState.booking,
-        startDate: formatDate,
-      },
-    }));
+
+    if (moment(date).isAfter(booking.endDate)) {
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          startDate: formatDate,
+          endDate: formatDate,
+        },
+      }));
+    } else {
+      this.setState(prevState => ({
+        booking: {
+          ...prevState.booking,
+          startDate: formatDate,
+        },
+      }));
+    }
   }
 
   changeEndDate = (endDate) => {
@@ -85,14 +103,39 @@ export default Container => class extends Component {
       ));
   }
 
+  updateHoliday = (cancel) => {
+    const { booking, user } = this.state;
+    const { navigation } = this.props;
+
+    const request = {
+      employeeId: user.employeeId,
+      endDate: booking.endDate,
+      halfDay: false,
+      holidayId: booking.holId,
+      holidayStatusId: cancel ? 3 : 1,
+      startDate: booking.startDate,
+    };
+
+    updateHolidayRequest(request)
+      .then(() => {
+        navigation.pop();
+      })
+      .catch(e => Alert.alert(
+        'Could not update holiday',
+        e.message,
+      ));
+  }
+
   render() {
-    const { booking } = this.state;
+    const { booking, booked } = this.state;
 
     return (
       <Container
         startDate={booking.startDate}
         endDate={booking.endDate}
+        booked={booked}
         submitRequest={this.submitRequest}
+        updateHoliday={this.updateHoliday}
         changeStartDate={this.changeStartDate}
         changeEndDate={this.changeEndDate}
       />

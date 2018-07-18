@@ -17,19 +17,22 @@ export const ButtonWrap = styled.div`
   }
 `;
 
-export const Form = styled.form`
-  @media (min-width: 992px) {
-    margin-right: -10px;
-    margin-left: -10px;
-  }
-
-  & > div:not(${ButtonWrap}) {
+export const FormContainer = styled.div`
+  form {
     @media (min-width: 992px) {
-      margin: 0 0 20px 0;
-      display: inline-block;
-      width: 50%;
-      padding: 0 10px;
-      box-sizing: border-box;
+      margin-right: -10px;
+      margin-left: -10px;
+    }
+
+    & > div:not(${ButtonWrap}) {
+      @media (min-width: 992px) {
+        margin: 0 0 20px 0;
+        display: inline-block;
+        width: 50%;
+        padding: 0 10px;
+        box-sizing: border-box;
+        vertical-align: bottom;
+      }
     }
   }
 `;

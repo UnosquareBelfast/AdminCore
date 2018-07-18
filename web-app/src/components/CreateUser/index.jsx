@@ -1,56 +1,16 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Card, Input, Button, Errorbox } from '../common';
-import { Form, ButtonWrap } from './styled';
+import CreateUserForm from '../CreateUserForm';
+import { Card, Errorbox } from '../common';
 
 export const CreateUser = props => {
-  const {
-    formElementsArray,
-    formIsValid,
-    submitForm,
-    formChanged,
-    error,
-    success,
-    loading,
-  } = props;
-
-  let form;
-  if (loading) {
-    form = null;
-  } else {
-    form = (
-      <Form autoComplete="off">
-        {formElementsArray.map(({ id, config }, index) => (
-          <Input
-            key={id}
-            label={config.label}
-            elementType={config.elementType}
-            elementConfig={config.elementConfig}
-            value={config.value}
-            invalid={!config.valid}
-            shouldValidate={config.validation}
-            focus={index === 0 ? true : false}
-            touched={config.touched}
-            changed={event => formChanged(event, id)}
-          />
-        ))}
-        <ButtonWrap>
-          <Button
-            id="createUserBtn"
-            label="Create User"
-            onClick={submitForm}
-            disabled={!formIsValid}
-          />
-        </ButtonWrap>
-      </Form>
-    );
-  }
+  const { error, success, onSuccess, onFailed } = props;
 
   return (
     <Card>
-      <h3>Create Employee</h3>
-      {form}
+      <h3>Create User</h3>
+      <CreateUserForm onSuccess={onSuccess} onFailed={onFailed} />
       <Errorbox
         id="errorCreateUser"
         error={error}
@@ -62,13 +22,10 @@ export const CreateUser = props => {
 };
 
 CreateUser.propTypes = {
-  formElementsArray: PT.array.isRequired,
-  formIsValid: PT.bool.isRequired,
-  submitForm: PT.func.isRequired,
-  formChanged: PT.func.isRequired,
-  loading: PT.bool.isRequired,
   error: PT.object,
   success: PT.bool,
+  onSuccess: PT.func.isRequired,
+  onFailed: PT.func.isRequired,
 };
 
 CreateUser.defaultProps = {

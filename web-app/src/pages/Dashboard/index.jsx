@@ -17,15 +17,33 @@ moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
 export const Dashboard = props => {
+  const {
+    userDetails,
+    closeModal,
+    showModal,
+    booking,
+    takenHolidays,
+    onSelectSlot,
+    onSelectEvent,
+    updateTakenHolidays,
+    getDuration,
+  } = props;
   return (
     <Fragment>
-      <BookingModal {...props} />
+      <BookingModal
+        updateTakenHolidays={updateTakenHolidays}
+        employeeId={userDetails.employeeId.toString()}
+        closeModal={closeModal}
+        showModal={showModal}
+        booking={booking}
+        getDuration={getDuration}
+      />
       <InnerLayout>
         <Calendar
           showMultiDayTimes
-          events={props.takenHolidays}
-          onSelectSlot={props.onSelectSlot}
-          onSelectEvent={props.onSelectEvent}
+          events={takenHolidays}
+          onSelectSlot={onSelectSlot}
+          onSelectEvent={onSelectEvent}
           endAccessor={({ end }) => end.endOf('day')}
           defaultDate={new Date()}
           components={{ eventWrapper: Event, toolbar: BigCalendarToolbar }}
@@ -37,8 +55,8 @@ export const Dashboard = props => {
           messages={{ agenda: 'team', personal: 'personal' }}
           selectable
           popup
-          user={props.userDetails}
-          takenHolidays={props.takenHolidays}
+          user={userDetails}
+          takenHolidays={takenHolidays}
         />
         <Legend />
       </InnerLayout>
@@ -47,17 +65,15 @@ export const Dashboard = props => {
 };
 
 Dashboard.propTypes = {
-  user: PT.object,
-  userDetails: PT.object,
-  totalHolidays: PT.number,
-  toggleHolidayModal: PT.func,
-  date: PT.object,
-  onSelectSlot: PT.func,
-  onSelectEvent: PT.func,
-  booking: PT.object,
-  showBookingModal: PT.bool,
-  closeModal: PT.func,
-  takenHolidays: PT.array,
+  userDetails: PT.object.isRequired,
+  updateTakenHolidays: PT.func.isRequired,
+  onSelectSlot: PT.func.isRequired,
+  onSelectEvent: PT.func.isRequired,
+  booking: PT.object.isRequired,
+  closeModal: PT.func.isRequired,
+  showModal: PT.bool.isRequired,
+  takenHolidays: PT.array.isRequired,
+  getDuration: PT.func.isRequired,
 };
 
 export default container(Dashboard);

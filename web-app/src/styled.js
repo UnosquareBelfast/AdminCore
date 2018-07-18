@@ -3,12 +3,14 @@ import holidayStatus from './utilities/holidayStatus';
 
 export const theme = {
   colours: {
+    lightBlue: '#daffff',
     unoBlue: '#0eb5d1',
     darkBlue: '#0a98af',
     white: '#ffffff',
     grey: '#d6d6d6',
     lightgrey: '#f7f7f7',
     darkGrey: '#3a3939',
+    lightRed: '#fda49a',
     red: '#ff3434',
     darkRed: '#c4412b',
     green: '#35c375',
@@ -28,9 +30,10 @@ export const theme = {
 };
 
 injectGlobal`
+
+  @import url('https://fonts.googleapis.com/css?family=Oswald');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
   body {
-    margin: 0;
-    padding: 0;
     font-family: ${theme.fonts.main}, ${theme.fonts.fallback};
     background: #f1f5f8;
     color: #303335;
@@ -39,5 +42,6 @@ injectGlobal`
   h1, h2, h3, h4 {
     font-family: ${theme.fonts.headers}, ${theme.fonts.fallback};
     text-transform: uppercase;
+    margin: 0 0 20px 0;
   }
 `;
