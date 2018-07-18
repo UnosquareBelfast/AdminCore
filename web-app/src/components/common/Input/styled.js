@@ -120,6 +120,7 @@ export const FormGroup = styled.div`
   }
 
   &.isDisabled {
+    display: none;
     visibility: hidden !important;
     input {
       cursor: none;

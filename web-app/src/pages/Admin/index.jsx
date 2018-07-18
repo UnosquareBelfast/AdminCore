@@ -9,6 +9,7 @@ import {
   PendingHolidays,
   AllHolidays,
   AdminDashboard,
+  CreateContract,
   AllClients,
 } from '../../components';
 import { Container, MainContentContainer, Refresh } from './styled';
@@ -17,6 +18,7 @@ export const Admin = props => (
   <Container>
     <MainContentContainer>
       <Switch>
+        <Route path="/admin/contracts/new" component={CreateContract} />
         <Route path="/admin/createEmployee" component={CreateUser} />
         <Route
           path="/admin/employees"
