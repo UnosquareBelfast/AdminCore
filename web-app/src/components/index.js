@@ -13,3 +13,5 @@ export { default as AllHolidays } from './AllHolidays';
 export { default as HolidayList } from './HolidayList';
 export { default as BigCalendarToolbar } from './BigCalendarToolbar';
 export { default as AdminDashboard } from './AdminDashboard';
+export { default as AllClients } from './AllClients';
+export { default as CreateClient } from './CreateClient';
