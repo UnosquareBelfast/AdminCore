@@ -15,8 +15,6 @@ export const User = ({
   userModalVisible,
   history,
 }) => {
-  console.log(history);
-
   return (
     <Container>
       {userModalVisible && (
