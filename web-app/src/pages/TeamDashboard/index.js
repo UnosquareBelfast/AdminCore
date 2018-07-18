@@ -2,16 +2,23 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Container, Columns, Stat } from './styled';
-import { HolidayList } from '../../components/HolidayList';
-import { UserList } from '../../components/UserList';
+import { UserModal, UserList, HolidayList } from '../../components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
-import UserModal from './UserModal';
 
-export const User = ({ team, teamHolidays, selectedUser, onUserSelect }) => {
+export const User = ({
+  team,
+  teamHolidays,
+  selectedUser,
+  onUserSelect,
+  hideUserModal,
+  userModalVisible,
+}) => {
   return (
     <Container>
-      <UserModal user={selectedUser} />
+      {userModalVisible && (
+        <UserModal user={selectedUser} closeModal={hideUserModal} />
+      )}
       <h2>My Team</h2>
       <Columns>
         <Stat>
@@ -66,6 +73,8 @@ User.propTypes = {
   teamHolidays: PT.array,
   selectedUser: PT.object,
   onUserSelect: PT.func.isRequired,
+  hideUserModal: PT.func.isRequired,
+  userModalVisible: PT.bool.isRequired,
 };
 
 User.defaultProps = {
