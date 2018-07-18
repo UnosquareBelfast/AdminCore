@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class DateDTO {
+
     private LocalDate startDate;
 
     private LocalDate endDate;

@@ -7,3 +7,4 @@ export { default as Event } from './Event';
 export { default as Input } from './Input';
 export { default as Form } from './Form';
 export { default as Steps } from './Steps';
+export { default as Table } from './Table';

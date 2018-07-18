@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   View,
   Button,
@@ -13,9 +13,20 @@ const BookingView = (props) => {
     startDate,
     changeStartDate,
     endDate,
+    booked,
+    updateHoliday,
     changeEndDate,
     submitRequest,
   } = props;
+
+  const renderButton = booked
+    ? (
+      <Fragment>
+        <Button onPress={() => updateHoliday(false)} title="Update Holiday" />
+        <Button onPress={() => updateHoliday(true)} title="Cancel Holiday" />
+      </Fragment>
+    )
+    : <Button onPress={submitRequest} title="Request Holiday" />;
 
 
   return (
@@ -35,7 +46,7 @@ const BookingView = (props) => {
         setDate={changeEndDate}
         minimumDate={startDate}
       />
-      <Button onPress={submitRequest} title="Request Holiday" />
+      {renderButton}
     </View>
   );
 };
@@ -46,6 +57,8 @@ BookingView.propTypes = {
   changeStartDate: PT.func.isRequired,
   changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
+  updateHoliday: PT.func.isRequired,
+  booked: PT.bool.isRequired,
 };
 
 const styles = StyleSheet.create({

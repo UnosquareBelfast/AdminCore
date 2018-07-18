@@ -16,7 +16,7 @@ import java.util.Set;
 public class Employee implements java.io.Serializable {
 
     @Id
-    @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq1", allocationSize = 1)
+    @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq", allocationSize = 1)
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="employeeSeq")
     @Column(name = "employee_id", unique = true, insertable = false, nullable = false)
     private int employeeId;
@@ -31,17 +31,17 @@ public class Employee implements java.io.Serializable {
     @Column(name = "start_date")
     private LocalDate startDate;
 
-    @ManyToOne
+    @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "country_id")
     private Country country;
 
     private String password;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_role_id")
     private EmployeeRole employeeRole;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_status_id")
     private EmployeeStatus employeeStatus;
 
@@ -51,7 +51,7 @@ public class Employee implements java.io.Serializable {
 
     @OneToMany(mappedBy = "employee")
     @JsonIgnore
-    private Set<Holiday> holidays = new HashSet<>();
+    private Set<Event> events = new HashSet<>();
 
     public Employee() {
 

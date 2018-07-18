@@ -3,37 +3,39 @@ package com.unosquare.admin_core.back_end.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
 @Table(name = "Contract")
 public class Contract implements java.io.Serializable{
 
-    @EmbeddedId
-    private ContractPK contractId = new ContractPK();
+    @Id
+    @SequenceGenerator(name="seq",sequenceName="contract_contract_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @Column(name = "contract_id", unique = true, nullable = false)
+    private int contractId;
 
-    @ManyToOne
-    @MapsId("employeeId")
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @ManyToOne
-    @MapsId("clientId")
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @ManyToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    @OneToOne
-    @MapsId("contract_status_id")
-    @JoinColumn(name = "contract_status_id")
-    private ContractStatus contractStatus;
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     public Contract() {
 
     }
 
-    public Contract(ContractPK id, ContractStatus status) {
+    public Contract(int id) {
         this.contractId = id;
-        this.contractStatus = status;
     }
 }
 
