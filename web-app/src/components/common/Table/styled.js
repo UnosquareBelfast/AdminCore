@@ -58,10 +58,14 @@ export const TableCSS = styled.table`
     border: none;
     background: ${props => props.theme.colours.unoBlue};
     color: white;
-    padding: 3px 10px;
+    padding: 0px 10px;
     margin: 2px 5px 2px 0;
     border-radius: 3px;
     cursor: pointer;
+    min-width: 100px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
   }
 
   button.error {
