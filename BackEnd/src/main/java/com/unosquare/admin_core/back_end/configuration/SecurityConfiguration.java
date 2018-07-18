@@ -87,14 +87,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authentication/**", "/swaggerLogin/**")
                 .permitAll()
                 .antMatchers("/clients/**", "/employees/**", "/contracts/**",
-                        "/holidays/**", "/mandatoryHolidays/**", "/employeeUserRoles/**",
-                        "/clientStatuses/**", "/employeeStatuses/**", "/contractStatuses/**",
-                        "/holidayStatuses/**", "/employeeRoles/**", "/countries/**")
+                        "/holidays/**", "/teams/**")
 //                .hasRole("USER")
 //                .anyRequest()
                 .authenticated();
 
-        // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 @Data
 public class SignUpRequestDto {
+
     @NotBlank
     @Size(min = 4, max = 40)
     private String forename;

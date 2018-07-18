@@ -3,10 +3,11 @@ package com.unosquare.admin_core.back_end.service;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.entity.Client;
 import com.unosquare.admin_core.back_end.entity.Contract;
-import com.unosquare.admin_core.back_end.entity.ContractPK;
 import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.enums.ContractStatus;
+import com.unosquare.admin_core.back_end.entity.Team;
 import com.unosquare.admin_core.back_end.repository.ContractRepository;
+import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
+import com.unosquare.admin_core.back_end.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,12 @@ public class ContractService {
     @Autowired
     ContractRepository contractRepository;
 
+    @Autowired
+    TeamRepository teamRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
     public List<Contract> findAll() {
         return contractRepository.findAll();
     }
@@ -28,23 +35,20 @@ public class ContractService {
         contractRepository.save(contract);
     }
 
+    public void delete(Contract contract) {
+        Preconditions.checkNotNull(contract);
+        contractRepository.delete(contract);
+    }
+
     public List<Contract> findByEmployeeId(int employeeId) {
         return contractRepository.findByEmployee(new Employee(employeeId));
     }
 
-    public List<Contract> findByClientId(int clientId) {
-        return contractRepository.findByClient(new Client(clientId));
+    public List<Contract> findByEmployeeIdAndTeamId(int employeeId, int teamId) {
+        return contractRepository.findByEmployeeAndTeam(new Employee(employeeId), new Team(teamId));
     }
 
-    public List<Contract> findByStatus(ContractStatus status) {
-        return contractRepository.findByContractStatus(new com.unosquare.admin_core.back_end.entity.ContractStatus(status.getContractStatusId()));
-    }
-
-    public Contract findById(int employeeId, int clientId) {
-        Optional<Contract> result = contractRepository.findById(new ContractPK(employeeId, clientId));
-        if (result.isPresent()) {
-            return result.get();
-        }
-        return null;
+    public List<Contract> findByTeamId(int teamId) {
+        return contractRepository.findByTeam(new Team(teamId));
     }
 }
