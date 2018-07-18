@@ -16,13 +16,15 @@ export default Wrapped =>
     }
 
     clientCreatedSuccessfully = () => {
-      this.setState({
-        success: true,
-      });
+      this.props.history.push('/admin/clients');
     };
 
     clientsFailedToCreated = error => {
-      this.setState({ error, loading: false });
+      this.setState({ error });
+    };
+
+    goToAllClients = () => {
+      this.props.history.push('/admin/clients');
     };
 
     render() {
@@ -34,6 +36,7 @@ export default Wrapped =>
 
       return (
         <Wrapped
+          goToAllClients={this.goToAllClients}
           clientId={parseInt(clientId)}
           success={this.state.success}
           error={this.state.error}
