@@ -6,7 +6,7 @@ export default Wrapped =>
     static propTypes = {
       users: PT.array,
       actions: PT.array,
-      onView: PT.func.isRequired,
+      onRowClick: PT.func.isRequired,
     };
 
     static defaultProps = {
@@ -44,7 +44,6 @@ export default Wrapped =>
         <Wrapped
           {...this.props}
           {...this.state}
-          view={this.props.onView}
           actions={this.buildActions()}
         />
       );

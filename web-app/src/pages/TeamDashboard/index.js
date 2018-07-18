@@ -13,11 +13,18 @@ export const User = ({
   onUserSelect,
   hideUserModal,
   userModalVisible,
+  history,
 }) => {
+  console.log(history);
+
   return (
     <Container>
       {userModalVisible && (
-        <UserModal user={selectedUser} closeModal={hideUserModal} />
+        <UserModal
+          user={selectedUser}
+          closeModal={hideUserModal}
+          history={history}
+        />
       )}
       <h2>My Team</h2>
       <Columns>
