@@ -127,7 +127,6 @@ export const CreateClientForm = props => {
           label="Team Name:"
           rules={{
             required: true,
-            isEmail: true,
           }}
         />
       </Form>
