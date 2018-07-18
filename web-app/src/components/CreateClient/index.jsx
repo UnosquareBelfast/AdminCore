@@ -2,10 +2,18 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import CreateClientForm from '../CreateClientForm';
-import { Card, Errorbox } from '../common';
+import { Card, Errorbox, Button } from '../common';
+import { ListCTA } from './styled';
 
 export const CreateClient = props => {
-  const { clientId, error, success, onSuccess, onFailed } = props;
+  const {
+    goToAllClients,
+    clientId,
+    error,
+    success,
+    onSuccess,
+    onFailed,
+  } = props;
   const successMessage =
     clientId > 0
       ? 'Client updated successfully!'
@@ -13,6 +21,9 @@ export const CreateClient = props => {
   return (
     <Card>
       <h3>{clientId > 0 ? 'Update Client' : 'Create Client'}</h3>
+      <ListCTA>
+        <Button label="View all clients" onClick={goToAllClients} />
+      </ListCTA>
       <CreateClientForm
         clientId={clientId}
         onSuccess={onSuccess}
@@ -29,6 +40,7 @@ export const CreateClient = props => {
 };
 
 CreateClient.propTypes = {
+  goToAllClients: PT.func.isRequired,
   clientId: PT.number.isRequired,
   onSuccess: PT.func.isRequired,
   onFailed: PT.func.isRequired,
