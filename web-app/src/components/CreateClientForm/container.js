@@ -31,27 +31,20 @@ export default Wrapped =>
       };
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
+      this.getClientDetails();
+    };
+
+    getClientDetails = () => {
       if (this.props.clientId > 0) {
-        getClientById(this.props.clientId)
-          .then(response => response.data)
-          .catch(() => {
-            let formData = {
-              clientId: 1,
-              clientName: 'Client One',
-              clientStatusDescription: 'Client One Description',
-              clientStatusId: employeeStatus.ACTIVE,
-              contactEmail: 'frank@client-one.com',
-              contactName: 'Joe Bloggs',
-              minimumEmployeesForTeam: 5,
-              teamName: 'Team A',
-            };
-            this.setState({
-              formData: formData,
-            });
+        getClientById(this.props.clientId).then(response => {
+          const formData = { ...this.state.formData, ...response.data };
+          this.setState({
+            formData: formData,
           });
+        });
       }
-    }
+    };
 
     handleFormStatus(name, value, formIsValid) {
       const updatedFormData = { ...this.state.formData };
