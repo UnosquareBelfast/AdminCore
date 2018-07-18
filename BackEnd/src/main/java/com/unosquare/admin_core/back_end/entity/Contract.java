@@ -16,13 +16,11 @@ public class Contract implements java.io.Serializable{
     @Column(name = "contract_id", unique = true, nullable = false)
     private int contractId;
 
-    @ManyToOne
-    @MapsId("employeeId")
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @ManyToOne
-    @MapsId("clientId")
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "team_id")
     private Team team;
 

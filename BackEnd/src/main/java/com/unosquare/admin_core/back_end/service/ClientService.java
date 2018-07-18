@@ -32,12 +32,6 @@ public class ClientService {
         return clientRepository.findByClientNameContainingIgnoreCase(clientName);
     }
 
-
-
-    public List<Client> findByContactNameContaining(String contactName) {
-        return clientRepository.findByContactNameContainingIgnoreCase(contactName);
-    }
-
     public void save(Client client) {
         Preconditions.checkNotNull(client);
         clientRepository.save(client);

@@ -24,15 +24,15 @@ public class Event implements java.io.Serializable {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "event_status_id")
     private EventStatus eventStatus;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "event_type_id")
     private EventType eventType;
 

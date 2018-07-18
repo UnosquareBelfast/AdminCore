@@ -17,7 +17,7 @@ public class Team implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client clientId;
+    private Client client;
 
     private String teamName;
 

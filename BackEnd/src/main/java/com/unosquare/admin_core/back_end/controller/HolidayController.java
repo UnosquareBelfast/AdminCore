@@ -40,7 +40,7 @@ public class HolidayController {
 
     @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EventDto findEventById(@PathVariable("eventId") int eventId) {
+    public EventDto findholidayById(@PathVariable("eventId") int eventId) {
         return modelMapper.map(eventService.findById(eventId), EventDto.class);
     }
 
@@ -50,10 +50,9 @@ public class HolidayController {
         return mapEventsToDtos(eventService.findByEmployee(employeeId));
     }
 
-    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createEvent(@RequestBody CreateHolidayDto createEventDto) {
+    public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createEventDto) {
 
         List<String> responses = new ArrayList<>();
 
@@ -86,11 +85,10 @@ public class HolidayController {
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateEvent(@RequestBody EventDto event) {
+    public void updateHoliday(@RequestBody EventDto event) {
         eventService.save(event.getEmployeeId(), modelMapper.map(event, Event.class));
     }
 
-    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<EventDto> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
@@ -98,7 +96,6 @@ public class HolidayController {
         return mapEventsToDtos(eventService.findByDateBetween(rangeStart, rangeEnd));
     }
 
-    @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<EventDto> findByHolidayStatus(@PathVariable("holidayStatusId") int holidayStatusId) {

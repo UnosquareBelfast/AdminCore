@@ -7,9 +7,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,12 +24,6 @@ public class ContractController {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<ContractDto> findAllContracts() {
-        return mapContractsToDtos(contractService.findAll());
-    }
-
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -43,10 +37,23 @@ public class ContractController {
         contractService.save(modelMapper.map(contract, Contract.class));
     }
 
+    @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RolesAllowed("ROLE_TEAM LEADER")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteContract(@RequestBody ContractDto contract) {
+        contractService.delete(modelMapper.map(contract, Contract.class));
+    }
+
     @GetMapping(value = "/findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<ContractDto> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
         return mapContractsToDtos(contractService.findByEmployeeId(employeeId));
+    }
+
+    @GetMapping(value = "/findByEmployeeIdAndTeamId/{employeeId}/{teamID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<ContractDto> findByEmployeeIdAndTeamId(@PathVariable("employeeId") int employeeId, @PathVariable("teamId") int teamId) {
+        return mapContractsToDtos(contractService.findByEmployeeIdAndTeamId(employeeId, teamId));
     }
 
     private List<ContractDto> mapContractsToDtos(List<Contract> contracts) {

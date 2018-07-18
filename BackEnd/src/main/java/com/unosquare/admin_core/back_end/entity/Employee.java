@@ -31,17 +31,17 @@ public class Employee implements java.io.Serializable {
     @Column(name = "start_date")
     private LocalDate startDate;
 
-    @ManyToOne
+    @OneToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "country_id")
     private Country country;
 
     private String password;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_role_id")
     private EmployeeRole employeeRole;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.DETACH)
     @JoinColumn(name = "employee_status_id")
     private EmployeeStatus employeeStatus;
 

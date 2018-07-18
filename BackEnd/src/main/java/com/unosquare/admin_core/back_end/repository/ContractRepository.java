@@ -9,7 +9,7 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
     List<Contract> findByEmployee(Employee employee);
 
-    List<Contract> findByClient(Client client);
+    List<Contract> findByEmployeeAndTeam(Employee employee, Team team);
 
     List<Contract> findByTeam(Team team);
 }
