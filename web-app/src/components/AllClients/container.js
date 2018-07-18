@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-//import Swal from 'sweetalert2';
-//import { getAllClients, updateClient } from '../../services/clientService';
+import Swal from 'sweetalert2';
+import { getAllClients, updateClient } from '../../services/clientService';
 import employeeStatus from '../../utilities/employeeStatus';
 
 export default Wrapped =>
@@ -15,23 +15,10 @@ export default Wrapped =>
     }
 
     componentDidMount() {
-      let clients = [
-        {
-          clientId: 1,
-          clientName: 'Client One',
-          clientStatusDescription: 'Client One Description',
-          clientStatusId: employeeStatus.ACTIVE,
-          contactEmail: 'frank@client-one.com',
-          contactName: 'Joe Bloggs',
-          minimumEmployeesForTeam: 5,
-          teamName: 'Team A',
-        },
-      ];
-      this.setState({ clients });
-      // getAllClients().then(response => {
-      //   clients = response.data;
-      //   this.setState({ clients });
-      // });
+      getAllClients().then(response => {
+        const clients = response.data;
+        this.setState({ clients });
+      });
     }
 
     onCreateNewClient = () => {
@@ -46,18 +33,17 @@ export default Wrapped =>
         ? (clients[clientIndex].clientStatusId = employeeStatus.ACTIVE)
         : (clients[clientIndex].clientStatusId = employeeStatus.INACTIVE);
 
-      this.setState({ clients });
-      // updateClient(clients[clientIndex])
-      //   .then(() => {
-      //     this.setState({ clients });
-      //   })
-      //   .catch(error =>
-      //     Swal({
-      //       title: 'Could not change client status',
-      //       text: error.message,
-      //       type: 'error',
-      //     }),
-      //   );
+      updateClient(clients[clientIndex])
+        .then(() => {
+          this.setState({ clients });
+        })
+        .catch(error =>
+          Swal({
+            title: 'Could not change client status',
+            text: error.message,
+            type: 'error',
+          }),
+        );
     };
 
     viewClient = clientId => {
