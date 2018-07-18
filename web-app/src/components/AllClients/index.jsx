@@ -42,7 +42,7 @@ export const AllClients = ({
   } else {
     clientList = (
       <tr>
-        <td>No Clients</td>
+        <td>There are no Clients available</td>
         <td />
         <td />
         <td />
