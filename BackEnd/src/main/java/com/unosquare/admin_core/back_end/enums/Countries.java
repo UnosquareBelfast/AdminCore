@@ -3,7 +3,7 @@ package com.unosquare.admin_core.back_end.enums;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum Country {
+public enum Countries {
 
     NORTHERN_IRELAND(1, "Northern Ireland"),
     MEXICO(2, "Mexico");
@@ -11,7 +11,7 @@ public enum Country {
     private final int countryId;
     private final String description;
 
-    Country(int countryId, String description) {
+    Countries(int countryId, String description) {
         this.countryId = countryId;
         this.description = description;
     }
@@ -31,9 +31,9 @@ public enum Country {
                 countryId, description);
     }
 
-    public static Country fromId(int countryId) {
+    public static Countries fromId(int countryId) {
 
-        for (Country status : Country.values()) {
+        for (Countries status : Countries.values()) {
             if (status.countryId == countryId) {
                 return status;
             }

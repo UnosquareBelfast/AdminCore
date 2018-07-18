@@ -13,5 +13,4 @@ public class CreateHolidayDto {
 
     @NotBlank
     private int employeeId;
-
 }
