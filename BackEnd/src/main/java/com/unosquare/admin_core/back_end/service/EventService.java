@@ -51,20 +51,15 @@ public class EventService {
     public void save(int employeeId, Event event) {
         Preconditions.checkNotNull(event);
 
-        event.setEventType(entityManager.find(com.unosquare.admin_core.back_end.entity.EventType.class, event.getEventType().getEventTypeId()));
-        event.setEventStatus(entityManager.find(com.unosquare.admin_core.back_end.entity.EventStatus.class, EventStatuses.AWAITING_APPROVAL.getEventStatusId()));
-        event.setDateCreated(LocalDate.now());
-        event.setLastModified(LocalDate.now());
-
-        event.setEmployee(entityManager.find(Employee.class, employeeId));
-
-        eventRepository.save(checkForHolidayWithSameDate(event));
+        eventRepository.save(event);
     }
 
     private Event checkForHolidayWithSameDate(Event holiday) {
-        Event holidayWithSameDate = eventRepository.findByStartDateAndEmployee(holiday.getStartDate(), holiday.getEmployee());
+        List<Event> holidayWithSameDate = eventRepository.findByStartDateAndEmployeeAndEventType(holiday.getStartDate(),
+                holiday.getEmployee(),
+                new EventType(EventTypes.ANNUAL_LEAVE.getEventTypeId()));
         if (holidayWithSameDate != null) {
-            holiday.setEventId(holidayWithSameDate.getEventId());
+//            holiday.setEventId(holidayWithSameDate.getEventId());
         }
 
         return holiday;
