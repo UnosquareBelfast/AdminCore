@@ -16,7 +16,7 @@ export const DateForm = props => {
         actions={[
           {
             label: 'Create Contract',
-            event: props.submitForm,
+            event: submitForm,
             disabled: !formIsValid,
           },
         ]}
