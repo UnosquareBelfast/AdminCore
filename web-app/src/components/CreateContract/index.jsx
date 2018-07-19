@@ -2,11 +2,12 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import UserForm from '../CreateContractForms/user';
+import TeamForm from '../CreateContractForms/team';
 import DateForm from '../CreateContractForms/dates';
 import { Steps } from '../common';
 
 export const CreateContract = props => {
-  const { step, nextStep } = props;
+  const { step, nextStep, submit } = props;
 
   return (
     <div>
@@ -20,11 +21,15 @@ export const CreateContract = props => {
           },
           {
             title: 'Find Team',
-            component: <p>Find Team</p>,
+            component: <TeamForm onSuccess={nextStep} />,
           },
           {
             title: 'Contract Dates',
-            component: <DateForm onSuccess={nextStep} />,
+            component: <DateForm onSuccess={submit} />,
+          },
+          {
+            title: 'Submission',
+            component: <p>Submitted Contract</p>,
           },
         ]}
       />
@@ -35,6 +40,7 @@ export const CreateContract = props => {
 CreateContract.propTypes = {
   step: PT.number.isRequired,
   nextStep: PT.func.isRequired,
+  submit: PT.func.isRequired,
 };
 
 CreateContract.defaultProps = {
