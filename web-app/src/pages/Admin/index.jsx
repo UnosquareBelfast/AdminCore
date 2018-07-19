@@ -4,10 +4,13 @@ import { Route, Switch } from 'react-router-dom';
 import container from './container';
 import {
   CreateUser,
+  CreateClient,
   UserListing,
   PendingHolidays,
   AllHolidays,
   AdminDashboard,
+  CreateContract,
+  AllClients,
 } from '../../components';
 import { Container, MainContentContainer, Refresh } from './styled';
 
@@ -15,6 +18,7 @@ export const Admin = props => (
   <Container>
     <MainContentContainer>
       <Switch>
+        <Route path="/admin/contracts/new" component={CreateContract} />
         <Route path="/admin/createEmployee" component={CreateUser} />
         <Route
           path="/admin/employees"
@@ -28,6 +32,12 @@ export const Admin = props => (
         />
         <Route path="/admin/pendingHolidays" component={PendingHolidays} />
         <Route path="/admin/holidays" component={AllHolidays} />
+        <Route
+          path="/admin/clients"
+          render={() => <AllClients history={props.history} />}
+        />
+        <Route path="/admin/createClient" component={CreateClient} />
+        <Route path="/admin/updateClient/:clientId" component={CreateClient} />
         <Route path="/admin" component={AdminDashboard} />
       </Switch>
     </MainContentContainer>

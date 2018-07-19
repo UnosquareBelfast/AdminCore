@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @ToString
-@Table(name = "EmployeeStatus")
+@Table(name = "Employee_Status")
 public class EmployeeStatus implements java.io.Serializable {
 
     @Id

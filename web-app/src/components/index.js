@@ -15,3 +15,6 @@ export { default as UserList } from './UserList';
 export { default as BigCalendarToolbar } from './BigCalendarToolbar';
 export { default as AdminDashboard } from './AdminDashboard';
 export { default as UserModal } from './UserModal';
+export { default as CreateContract } from './CreateContract';
+export { default as AllClients } from './AllClients';
+export { default as CreateClient } from './CreateClient';
