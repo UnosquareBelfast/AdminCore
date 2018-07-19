@@ -24,16 +24,6 @@ public class AppConfig {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
 
-       /* Converter<CreateHolidayDto, Event> eventConverter = new AbstractConverter<CreateHolidayDto, Event>() {
-            @Override
-            protected Event convert(CreateHolidayDto source) {
-                Event ret = new Event(source.getDates().get(0).getStartDate(), source.getDates().get(source.getDates().size() - 1).getEndDate(),
-                        source.getEmployeeId(), EventTypes.ANNUAL_LEAVE.getEventTypeId(), 1, source.getDates().get(0).isHalfDay());
-
-                return ret;
-            }
-        };*/
-
         List mappings = new ArrayList<>();
         new FastClasspathScanner(EmployeeMappings.class.getPackage().getName())
                 .matchSubclassesOf(Object.class, mappings::add)
@@ -49,25 +39,6 @@ public class AppConfig {
             }
 
         }
-
-        /*Converter<Event, EventDto> eventDtoConvert = new AbstractConverter<Event, EventDto>() {
-            @Override
-            protected EventDto convert(Event source) {
-                EventDto ret = new EventDto(source.getEventId(), source.getStartDate(), source.getEndDate(),
-                        source.getEmployee().getEmployeeId(), source.getEventType().getEventTypeId(),
-                        source.getEventStatus().getEventStatusId(), source.isHalfDay());
-                return ret;
-            }
-        };
-
-
-
-        modelMapper.addConverter(eventConverter);
-     //   modelMapper.addMappings(employeeMapping);
-    //    modelMapper.addMappings(employeeDtoMapping);
-        modelMapper.addConverter(eventDtoConvert);
-      //  modelMapper.addMappings(eventEntityMapping);*/
-
         return modelMapper;
     }
 }

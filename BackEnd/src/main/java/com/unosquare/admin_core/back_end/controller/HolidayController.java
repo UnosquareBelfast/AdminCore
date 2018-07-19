@@ -2,7 +2,7 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.ViewModels.CreateHolidayViewModel;
 import com.unosquare.admin_core.back_end.ViewModels.CreateEventViewModel;
-import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
+import com.unosquare.admin_core.back_end.dto.CreateHolidayDTO;
 import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.EventDto;
 import com.unosquare.admin_core.back_end.entity.Event;
@@ -56,7 +56,7 @@ public class HolidayController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity createHoliday(@RequestBody CreateHolidayViewModel createHolidayViewModel) {
 
-        CreateHolidayDto createHolidayDto = modelMapper.map(createHolidayViewModel, CreateHolidayDto.class);
+        CreateHolidayDTO createHolidayDto = modelMapper.map(createHolidayViewModel, CreateHolidayDTO.class);
 
         List<String> responses = new ArrayList<>();
 
