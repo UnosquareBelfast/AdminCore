@@ -1,9 +1,9 @@
 package com.unosquare.admin_core.back_end.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.unosquare.admin_core.back_end.enums.Country;
-import com.unosquare.admin_core.back_end.enums.EmployeeRole;
-import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
+import com.unosquare.admin_core.back_end.enums.Countries;
+import com.unosquare.admin_core.back_end.enums.EmployeeRoles;
+import com.unosquare.admin_core.back_end.enums.EmployeeStatuses;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -68,17 +68,17 @@ public class EmployeeDto {
     }
 
     @JsonIgnore
-    public EmployeeRole getEmployeeRole() {
-        return EmployeeRole.fromId(employeeRoleId);
+    public EmployeeRoles getEmployeeRole() {
+        return EmployeeRoles.fromId(employeeRoleId);
     }
 
     @JsonIgnore
-    public EmployeeStatus getEmployeeStatus() {
-        return EmployeeStatus.fromId(employeeStatusId);
+    public EmployeeStatuses getEmployeeStatus() {
+        return EmployeeStatuses.fromId(employeeStatusId);
     }
 
     @JsonIgnore
-    public Country getCountry() {
-        return Country.fromId(countryId);
+    public Countries getCountry() {
+        return Countries.fromId(countryId);
     }
 }

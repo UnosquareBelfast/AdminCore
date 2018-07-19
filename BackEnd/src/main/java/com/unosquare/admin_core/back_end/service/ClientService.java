@@ -32,22 +32,8 @@ public class ClientService {
         return clientRepository.findByClientNameContainingIgnoreCase(clientName);
     }
 
-    public List<Client> findByTeamNameContaining(String teamName) {
-        return clientRepository.findByTeamNameContainingIgnoreCase(teamName);
-    }
-
-    public List<Client> findByContactNameContaining(String contactName) {
-        return clientRepository.findByContactNameContainingIgnoreCase(contactName);
-    }
-
-    public List<Client> findByClientStatus(com.unosquare.admin_core.back_end.enums.ClientStatus clientStatus) {
-        return clientRepository.findByClientStatus(new com.unosquare.admin_core.back_end.entity.ClientStatus(clientStatus.getClientStatusId()));
-    }
-
     public void save(Client client) {
         Preconditions.checkNotNull(client);
         clientRepository.save(client);
     }
-
-
 }

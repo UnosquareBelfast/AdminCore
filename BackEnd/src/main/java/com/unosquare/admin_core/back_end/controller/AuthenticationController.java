@@ -27,12 +27,6 @@ public class AuthenticationController {
     @Autowired
     ModelMapper modelMapper;
 
-    @RequestMapping(method = RequestMethod.OPTIONS, value = "/*")
-    @ResponseBody
-    public ResponseEntity handleOptions() {
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @PostMapping("/login")
     public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -43,9 +37,9 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody SignUpRequestDto signUpRequestDto) {
         if (employeeService.findByEmail(signUpRequestDto.getEmail()) != null) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(new ApiResponse(false, "Username is already taken!"));
         }
+
         Employee user = employeeService.createNewEmployeeUser(modelMapper.map(signUpRequestDto, SignUpRequest.class));
 
         return ResponseEntity.ok(new JwtAuthenticationResponse(String.format("USER added:%s", user.toString())));
