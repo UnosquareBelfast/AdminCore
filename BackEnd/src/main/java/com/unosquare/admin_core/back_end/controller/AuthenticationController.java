@@ -1,15 +1,12 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.SignUpRequestDto;
-import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.payload.ApiResponse;
-import com.unosquare.admin_core.back_end.payload.JwtAuthenticationResponse;
-import com.unosquare.admin_core.back_end.payload.LoginRequest;
-import com.unosquare.admin_core.back_end.payload.SignUpRequest;
+import com.unosquare.admin_core.back_end.ViewModels.RegisterEmployeeViewModel;
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
+import com.unosquare.admin_core.back_end.ViewModels.JwtAuthenticationResponseViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.LoginRequestViewModel;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,21 +25,21 @@ public class AuthenticationController {
     ModelMapper modelMapper;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtAuthenticationResponseViewModel> authenticateEmployee(@Valid @RequestBody LoginRequestViewModel loginRequest) {
 
-        String jwt = employeeService.jwtSignIn(loginRequest);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        String jwt = employeeService.jwtSignIn(loginRequest.getEmail(), loginRequest.getPassword());
+        return ResponseEntity.ok(new JwtAuthenticationResponseViewModel(jwt));
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody SignUpRequestDto signUpRequestDto) {
-        if (employeeService.findByEmail(signUpRequestDto.getEmail()) != null) {
-            return ResponseEntity.badRequest().body(new ApiResponse(false, "Username is already taken!"));
+    public ResponseEntity registerEmployee(@RequestBody RegisterEmployeeViewModel registerEmployee) {
+        if (employeeService.findByEmail(registerEmployee.getEmail()) != null) {
+            return ResponseEntity.badRequest().body("Username is already taken.");
         }
 
-        Employee user = employeeService.createNewEmployeeUser(modelMapper.map(signUpRequestDto, SignUpRequest.class));
+        EmployeeDTO employee = modelMapper.map(registerEmployee, EmployeeDTO.class);
+        EmployeeDTO user = employeeService.createNewEmployee(employee);
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(String.format("USER added:%s", user.toString())));
+        return ResponseEntity.ok(String.format("Employee registered:%s", user.getEmail()));
     }
-
 }

@@ -4,22 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class ClientDto implements java.io.Serializable {
+public class ClientDTO implements java.io.Serializable {
 
     private int clientId;
     private String clientName;
 
-    public ClientDto() {
+    public ClientDTO() {
 
     }
 
-    public ClientDto(int clientId, String clientName) {
+    public ClientDTO(int clientId, String clientName) {
         this.clientId = clientId;
         this.clientName = clientName;
 
     }
 
-    public ClientDto(String clientName) {
+    public ClientDTO(String clientName) {
         this.clientName = clientName;
 
     }

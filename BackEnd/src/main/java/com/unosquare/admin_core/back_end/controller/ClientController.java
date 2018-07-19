@@ -1,6 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.ClientDto;
+import com.unosquare.admin_core.back_end.ViewModels.ClientViewModel;
+import com.unosquare.admin_core.back_end.dto.ClientDTO;
 import com.unosquare.admin_core.back_end.entity.Client;
 import com.unosquare.admin_core.back_end.service.ClientService;
 import org.modelmapper.ModelMapper;
@@ -25,36 +26,38 @@ public class ClientController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ClientDto> findAllClients() {
+    public List<ClientDTO> findAllClients() {
         return mapClientsToDtos(clientService.findAll());
     }
 
     @GetMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ClientDto findClientById(@PathVariable("clientId") int id) {
-        return modelMapper.map(clientService.findById(id), ClientDto.class);
+    public ClientDTO findClientById(@PathVariable("clientId") int id) {
+        return modelMapper.map(clientService.findById(id), ClientDTO.class);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void createClient(@RequestBody ClientDto client) {
+    public void createClient(@RequestBody ClientViewModel clientViewModel) {
+        ClientDTO client = modelMapper.map(clientViewModel, ClientDTO.class);
         clientService.save(modelMapper.map(client, Client.class));
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateClient(@RequestBody ClientDto client) {
+    public void updateClient(@RequestBody ClientViewModel clientViewModel) {
+        ClientDTO client = modelMapper.map(clientViewModel, ClientDTO.class);
         clientService.save(modelMapper.map(client, Client.class));
     }
 
     @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDto> findByClientNameContaining(@PathVariable("clientName") String clientName) {
+    public List<ClientDTO> findByClientNameContaining(@PathVariable("clientName") String clientName) {
         return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
     }
 
-    private List<ClientDto> mapClientsToDtos(List<Client> clients) {
-        return clients.stream().map(client -> modelMapper.map(client, ClientDto.class)).collect(Collectors.toList());
+    private List<ClientDTO> mapClientsToDtos(List<Client> clients) {
+        return clients.stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
     }
 }

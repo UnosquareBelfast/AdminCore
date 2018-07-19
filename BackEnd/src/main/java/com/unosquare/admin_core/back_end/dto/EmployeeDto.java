@@ -9,7 +9,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class EmployeeDto {
+public class EmployeeDTO {
 
 
     private int employeeId;
@@ -30,42 +30,8 @@ public class EmployeeDto {
     private int employeeStatusId;
     private String statusDescription;
 
-    public EmployeeDto() {
 
-    }
-
-    public EmployeeDto(int employeeId, String forename, String surname, String email,
-                       int employeeRoleId,
-                       int employeeStatusId, LocalDate startDate,
-                       int countryId) {
-        this.employeeId = employeeId;
-        this.forename = forename;
-        this.surname = surname;
-        this.email = email;
-        this.employeeRoleId = employeeRoleId;
-        this.employeeRoleDescription = getEmployeeRole().getDescription();
-        this.employeeStatusId = employeeStatusId;
-        this.statusDescription = getEmployeeStatus().getDescription();
-        this.startDate = startDate;
-        this.countryId = countryId;
-        this.countryDescription = getCountry().getDescription();
-    }
-
-    public EmployeeDto(String forename, String surname, String email,
-                       int employeeRoleId,
-                       int employeeStatusId, LocalDate startDate,
-                       int countryId) {
-        this.forename = forename;
-        this.surname = surname;
-        this.email = email;
-        this.employeeRoleId = employeeRoleId;
-        this.employeeRoleDescription = getEmployeeRole().getDescription();
-        this.employeeStatusId = employeeStatusId;
-        this.statusDescription = getEmployeeStatus().getDescription();
-        this.startDate = startDate;
-        this.countryId = countryId;
-        this.countryDescription = getCountry().getDescription();
-    }
+    private String password;
 
     @JsonIgnore
     public EmployeeRoles getEmployeeRole() {

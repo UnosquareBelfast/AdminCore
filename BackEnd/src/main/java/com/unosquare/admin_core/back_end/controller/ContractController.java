@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.ContractDto;
+import com.unosquare.admin_core.back_end.dto.ContractDTO;
 import com.unosquare.admin_core.back_end.entity.Contract;
 import com.unosquare.admin_core.back_end.service.ContractService;
 import org.modelmapper.ModelMapper;
@@ -26,36 +26,36 @@ public class ContractController {
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void createContract(@RequestBody ContractDto contract) {
+    public void createContract(@RequestBody ContractDTO contract) {
         contractService.save(modelMapper.map(contract, Contract.class));
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateContract(@RequestBody ContractDto contract) {
+    public void updateContract(@RequestBody ContractDTO contract) {
         contractService.save(modelMapper.map(contract, Contract.class));
     }
 
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteContract(@RequestBody ContractDto contract) {
+    public void deleteContract(@RequestBody ContractDTO contract) {
         contractService.delete(modelMapper.map(contract, Contract.class));
     }
 
     @GetMapping(value = "/findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDto> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
+    public List<ContractDTO> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
         return mapContractsToDtos(contractService.findByEmployeeId(employeeId));
     }
 
     @GetMapping(value = "/findByEmployeeIdAndTeamId/{employeeId}/{teamID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDto> findByEmployeeIdAndTeamId(@PathVariable("employeeId") int employeeId, @PathVariable("teamId") int teamId) {
+    public List<ContractDTO> findByEmployeeIdAndTeamId(@PathVariable("employeeId") int employeeId, @PathVariable("teamId") int teamId) {
         return mapContractsToDtos(contractService.findByEmployeeIdAndTeamId(employeeId, teamId));
     }
 
-    private List<ContractDto> mapContractsToDtos(List<Contract> contracts) {
+    private List<ContractDTO> mapContractsToDtos(List<Contract> contracts) {
 
-        return contracts.stream().map(contract -> modelMapper.map(contract, ContractDto.class)).collect(Collectors.toList());
+        return contracts.stream().map(contract -> modelMapper.map(contract, ContractDTO.class)).collect(Collectors.toList());
     }
 }

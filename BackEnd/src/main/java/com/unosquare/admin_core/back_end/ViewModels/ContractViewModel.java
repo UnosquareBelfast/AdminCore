@@ -1,12 +1,8 @@
-package com.unosquare.admin_core.back_end.dto;
-
-import lombok.Data;
-import org.modelmapper.ModelMapper;
+package com.unosquare.admin_core.back_end.ViewModels;
 
 import java.time.LocalDate;
 
-@Data
-public class ContractDTO {
+public class ContractViewModel {
 
     private int contractId;
     private int teamId;
@@ -14,9 +10,4 @@ public class ContractDTO {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public ContractDTO() {
-
-    }
 }
-
-

@@ -6,7 +6,7 @@
 //import com.unosquare.admin_core.back_end.enums.EmployeeRole;
 //import com.unosquare.admin_core.back_end.enums.EmployeeStatus;
 //import com.unosquare.admin_core.back_end.enums.HolidayStatus;
-//import com.unosquare.admin_core.back_end.payload.LoginRequest;
+//import com.unosquare.admin_core.back_end.ViewModels.LoginRequestViewModel;
 //import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 //import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 //import com.unosquare.admin_core.back_end.repository.EventRepository;
@@ -490,6 +490,6 @@
 //        Mockito.doReturn("authcode").when(tokenProvider).generateToken(any(Authentication.class));
 //
 //        Assert.assertEquals("authcode", testingObject.jwtSignIn(
-//                new LoginRequest("email@email.com", "password")));
+//                new LoginRequestViewModel("email@email.com", "password")));
 //    }
 //}

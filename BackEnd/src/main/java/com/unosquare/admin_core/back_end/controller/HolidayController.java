@@ -1,5 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.ViewModels.CreateHolidayViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.CreateEventViewModel;
 import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
 import com.unosquare.admin_core.back_end.dto.DateDTO;
 import com.unosquare.admin_core.back_end.dto.EventDto;
@@ -52,13 +54,15 @@ public class HolidayController {
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createEventDto) {
+    public ResponseEntity createHoliday(@RequestBody CreateHolidayViewModel createHolidayViewModel) {
+
+        CreateHolidayDto createHolidayDto = modelMapper.map(createHolidayViewModel, CreateHolidayDto.class);
 
         List<String> responses = new ArrayList<>();
 
-        for (DateDTO date : createEventDto.getDates()) {
+        for (DateDTO date : createHolidayDto.getDates()) {
             Event existentEvent = eventService.findByEmployeeIdStartDataEndDate(
-                    createEventDto.getEmployeeId(), date.getStartDate(), date.getEndDate());
+                    createHolidayDto.getEmployeeId(), date.getStartDate(), date.getEndDate());
 
             if (existentEvent != null) {
                 responses.add("Event already exists");
@@ -73,10 +77,10 @@ public class HolidayController {
 
         if (responses.isEmpty()) {
 
-            Event newEvent = modelMapper.map(createEventDto, Event.class);
+            Event newEvent = modelMapper.map(createHolidayDto, Event.class);
             newEvent.setEventType(new EventType(EventTypes.ANNUAL_LEAVE.getEventTypeId()));
 
-            eventService.save(createEventDto.getEmployeeId(), newEvent);
+            eventService.save(createHolidayDto.getEmployeeId(), newEvent);
             responses.add("Created");
         }
 
@@ -85,7 +89,10 @@ public class HolidayController {
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateHoliday(@RequestBody EventDto event) {
+    public void updateHoliday(@RequestBody CreateEventViewModel createEventViewModel) {
+
+        EventDto event = modelMapper.map(createEventViewModel, EventDto.class);
+
         eventService.save(event.getEmployeeId(), modelMapper.map(event, Event.class));
     }
 

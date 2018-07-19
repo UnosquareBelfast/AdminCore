@@ -1,13 +1,11 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
-import com.unosquare.admin_core.back_end.dto.EmployeeDto;
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import com.unosquare.admin_core.back_end.entity.Country;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.EmployeeRole;
 import com.unosquare.admin_core.back_end.entity.EmployeeStatus;
-import com.unosquare.admin_core.back_end.payload.LoginRequest;
-import com.unosquare.admin_core.back_end.payload.SignUpRequest;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.security.JwtTokenProvider;
 import org.modelmapper.ModelMapper;
@@ -66,12 +64,12 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(EmployeeDto employeeDto){
-        Employee employee = entityManager.find(Employee.class, employeeDto.getEmployeeId());
+    public Employee updateEmployee(EmployeeDTO employeeDTO){
+        Employee employee = entityManager.find(Employee.class, employeeDTO.getEmployeeId());
 
-        Country country = entityManager.find(Country.class, employeeDto.getCountryId());
-        EmployeeRole role = entityManager.find(EmployeeRole.class, employeeDto.getEmployeeRoleId());
-        EmployeeStatus status = entityManager.find(EmployeeStatus.class, employeeDto.getEmployeeStatusId());
+        Country country = entityManager.find(Country.class, employeeDTO.getCountryId());
+        EmployeeRole role = entityManager.find(EmployeeRole.class, employeeDTO.getEmployeeRoleId());
+        EmployeeStatus status = entityManager.find(EmployeeStatus.class, employeeDTO.getEmployeeStatusId());
 
         employee.setCountry(country);
         employee.setEmployeeRole(role);
@@ -81,16 +79,9 @@ public class EmployeeService {
         entityManager.detach(employee.getEmployeeRole());
         entityManager.detach(employee.getEmployeeStatus());
 
-        modelMapper.map(employeeDto, employee);
+        modelMapper.map(employeeDTO, employee);
 
         return save(employee);
-    }
-
-
-    public void updateTotalHolidayForNewEmployee(Employee employee) {
-        int maxHolidays = 33;
-        employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
-        save(employee);
     }
 
     private short calculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays) {
@@ -115,29 +106,20 @@ public class EmployeeService {
         return employeeRepository.findByEmailIgnoreCase(email);
     }
 
-    public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
-
-        Country country = entityManager.find(Country.class, signUpRequest.getCountryId());
-        EmployeeRole employeeRole = entityManager.find(EmployeeRole.class, signUpRequest.getEmployeeRoleId());
-        EmployeeStatus employeeStatus = entityManager.find(EmployeeStatus.class, signUpRequest.getStatusId());
-
-        Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-                signUpRequest.getEmail(), employeeRole, employeeStatus,
-                signUpRequest.getStartDate(), country, signUpRequest.getPassword());
-
+    public EmployeeDTO createNewEmployee(EmployeeDTO newEmployeeDTO) {
+        Employee employee = modelMapper.map(newEmployeeDTO, Employee.class);
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-        employee = save(employee);
+        employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, 33));
+        Employee newEmployee = save(employee);
 
-        updateTotalHolidayForNewEmployee(employee);
-
-        return employee;
+        return modelMapper.map(newEmployee, EmployeeDTO.class);
     }
 
-    public String jwtSignIn(LoginRequest loginRequest) {
+    public String jwtSignIn(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
+                        email,
+                        password
                 )
         );
 

@@ -1,28 +1,18 @@
-package com.unosquare.admin_core.back_end.configuration.mappings;
+package com.unosquare.admin_core.back_end.configuration.mappings.domain;
 
-import com.unosquare.admin_core.back_end.dto.*;
-import com.unosquare.admin_core.back_end.entity.*;
-import com.unosquare.admin_core.back_end.payload.SignUpRequest;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
-import org.modelmapper.ModelMapper;
+import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
+import com.unosquare.admin_core.back_end.entity.Country;
+import com.unosquare.admin_core.back_end.entity.Employee;
+import com.unosquare.admin_core.back_end.entity.EmployeeRole;
+import com.unosquare.admin_core.back_end.entity.EmployeeStatus;
 import org.modelmapper.PropertyMap;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
-public class EmployeeMappings implements BaseMappings<EmployeeDto, Employee> {
-
+public class EmployeeMappings implements BaseMappings<EmployeeDTO, Employee> {
 
     @Override
-    public PropertyMap<EmployeeDto, Employee> RetrieveSourceDtoMapping() {
-        return new PropertyMap <EmployeeDto, Employee>() {
+    public PropertyMap<EmployeeDTO, Employee> MapFromDtoToTarget() {
+        return new PropertyMap <EmployeeDTO, Employee>() {
             protected void configure() {
                 map().setPassword(null);
                 map().getCountry().setDescription(source.getCountryDescription());
@@ -37,21 +27,19 @@ public class EmployeeMappings implements BaseMappings<EmployeeDto, Employee> {
                 map().setForename(source.getForename());
                 map().setSurname(source.getSurname());
                 map().setStartDate(source.getStartDate());
-           //     map().setHolidays(new HashSet<Holiday>(source.getEmployeeId()));
             }
         };
     }
 
     @Override
-    public PropertyMap<Employee, EmployeeDto> RetrieveTargetDtoMapping() {
-        return new PropertyMap <Employee, EmployeeDto>() {
+    public PropertyMap<Employee, EmployeeDTO> MapFromTargetToDto() {
+        return new PropertyMap <Employee, EmployeeDTO>() {
             protected void configure() {
 
                 map().setTotalHolidays(source.getTotalHolidays());
                 map().setEmail(source.getEmail());
                 map().setCountryId(source.getCountry().getCountryId());
                 map().setCountryDescription(source.getCountry().getDescription());
-                map().setEmployeeId(source.getEmployeeId());
                 map().setEmployeeStatusId(source.getEmployeeStatus().getEmployeeStatusId());
                 map().setStatusDescription(source.getEmployeeStatus().getDescription());
                 map().setEmployeeRoleId(source.getEmployeeRole().getEmployeeRoleId());
@@ -59,6 +47,7 @@ public class EmployeeMappings implements BaseMappings<EmployeeDto, Employee> {
                 map().setForename(source.getForename());
                 map().setSurname(source.getSurname());
                 map().setStartDate(source.getStartDate());
+                map().setEmployeeId(source.getEmployeeId());
 
 
             }
