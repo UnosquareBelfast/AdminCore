@@ -4,9 +4,10 @@ import container from './container';
 import { Form, Input, Errorbox } from '../../common';
 import { FormContainer } from '../styled';
 
-export const DateForm = props => {
+export const UserForm = props => {
   const {
     submitForm,
+    searchUser,
     formStatus,
     formData,
     formIsValid,
@@ -18,7 +19,7 @@ export const DateForm = props => {
   const searchActions = [
     {
       label: 'Search',
-      event: props.searchUser,
+      event: searchUser,
       disabled: !formData.userFullName.includes(' '),
     },
   ];
@@ -26,7 +27,7 @@ export const DateForm = props => {
   const submitActions = [
     {
       label: 'Next Step',
-      event: props.submitForm,
+      event: submitForm,
       disabled: !formIsValid,
     },
     {
@@ -75,7 +76,7 @@ export const DateForm = props => {
   );
 };
 
-DateForm.propTypes = {
+UserForm.propTypes = {
   formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
   resetForm: PT.func.isRequired,
@@ -86,8 +87,8 @@ DateForm.propTypes = {
   error: PT.bool,
 };
 
-DateForm.defaultProps = {
+UserForm.defaultProps = {
   users: [],
 };
 
-export default container(DateForm);
+export default container(UserForm);
