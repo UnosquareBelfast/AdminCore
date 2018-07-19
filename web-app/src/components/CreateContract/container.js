@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { createContract } from '../../services/contractService';
+import swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
@@ -10,16 +12,59 @@ export default Wrapped =>
       };
     }
 
-    nextStep = formData =>
+    updateFormState = formData => {
       this.setState({
-        step: this.state.step + 1,
         contractData: {
           ...this.state.contractData,
           ...formData,
         },
       });
+    };
+
+    nextStep = formData => {
+      this.setState({
+        step: this.state.step + 1,
+      });
+
+      if (formData) {
+        this.updateFormState(formData);
+      }
+    };
+
+    submitContract = formData => {
+      this.setState(
+        {
+          contractData: {
+            ...this.state.contractData,
+            ...formData,
+          },
+        },
+        () => {
+          const { contractData } = this.state;
+
+          const contractRequest = {
+            employeeId: contractData.selectedUserId,
+            teamId: contractData.selectedTeam,
+            startDate: contractData.startDate,
+            endDate: contractData.endDate,
+          };
+
+          createContract(contractRequest)
+            .then(() => this.nextStep())
+            .catch(error =>
+              swal('Error Creating Contract', error.message, 'error')
+            );
+        }
+      );
+    };
 
     render() {
-      return <Wrapped step={this.state.step} nextStep={this.nextStep} />;
+      return (
+        <Wrapped
+          step={this.state.step}
+          nextStep={this.nextStep}
+          submit={this.submitContract}
+        />
+      );
     }
   };
