@@ -1,10 +1,12 @@
 package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Entity
 @Data
 @ToString
@@ -20,10 +22,6 @@ public class Country implements java.io.Serializable {
 
     @Column(name = "description")
     private String description;
-
-    public Country(){
-
-    }
 
     public Country(int countryId){
         this.countryId = countryId;

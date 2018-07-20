@@ -37,23 +37,7 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
-            "clientSecret" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKey" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKeyVehicle" : {
-"description" : "",
-"type" : "string"
-            },
-            "realm" : {
-"description" : "",
-"type" : "string"
-            },
-            "clientId" : {
+            "appName" : {
 "description" : "",
 "type" : "string"
             },
@@ -61,7 +45,23 @@
 "description" : "",
 "type" : "string"
             },
-            "appName" : {
+            "apiKeyVehicle" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientSecret" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientId" : {
+"description" : "",
+"type" : "string"
+            },
+            "realm" : {
+"description" : "",
+"type" : "string"
+            },
+            "apiKey" : {
 "description" : "",
 "type" : "string"
             }
@@ -77,11 +77,11 @@
 "description" : "",
 "type" : "string"
             },
-            "swaggerVersion" : {
+            "location" : {
 "description" : "",
 "type" : "string"
             },
-            "location" : {
+            "swaggerVersion" : {
 "description" : "",
 "type" : "string"
             }
@@ -93,6 +93,10 @@
       "type" : "object",
       "title" : "UiConfiguration",
           "properties" : {
+            "showRequestHeaders" : {
+"description" : "",
+"type" : "boolean"
+            },
             "docExpansion" : {
 "description" : "",
 "type" : "string"
@@ -101,6 +105,10 @@
 "description" : "",
 "type" : "boolean"
             },
+            "defaultModelRendering" : {
+"description" : "",
+"type" : "string"
+            },
             "apisSorter" : {
 "description" : "",
 "type" : "string"
@@ -108,14 +116,6 @@
             "validatorUrl" : {
 "description" : "",
 "type" : "string"
-            },
-            "defaultModelRendering" : {
-"description" : "",
-"type" : "string"
-            },
-            "showRequestHeaders" : {
-"description" : "",
-"type" : "boolean"
             }
           },
       "description" : ""

@@ -2,11 +2,13 @@ package com.unosquare.admin_core.back_end.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@NoArgsConstructor
 @Entity
 @Data
 @Table(name = "Client")
@@ -20,14 +22,9 @@ public class Client implements java.io.Serializable {
 
     private String clientName;
 
-
     @OneToMany(mappedBy = "client")
     @JsonIgnore
     private Set<Team> teams = new HashSet();
-
-    public Client() {
-
-    }
 
     public Client(int clientId){
         this.clientId = clientId;

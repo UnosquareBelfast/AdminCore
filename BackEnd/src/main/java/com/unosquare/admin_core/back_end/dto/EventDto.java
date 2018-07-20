@@ -3,12 +3,13 @@ package com.unosquare.admin_core.back_end.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
+import com.unosquare.admin_core.back_end.entity.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class EventDto {
+public class EventDTO {
 
     private int eventId;
 
@@ -23,16 +24,18 @@ public class EventDto {
     private int eventStatusId;
     private String eventStatusDescription;
 
+    private Employee employee;
+
     private boolean isHalfDay;
 
     private LocalDate lastModified;
     private LocalDate dateCreated;
 
-    public EventDto() {
+    public EventDTO() {
 
     }
 
-    public EventDto(int eventId, LocalDate startDate, LocalDate endDate, int employeeId, int eventTypeId, int eventStatusId, boolean isHalfDay) {
+    public EventDTO(int eventId, LocalDate startDate, LocalDate endDate, int employeeId, int eventTypeId, int eventStatusId, boolean isHalfDay) {
         this.eventId = eventId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -44,9 +47,11 @@ public class EventDto {
         this.eventTypeDescription = getEventType().getDescription();
         this.eventStatusDescription = getEventStatus().getDescription();
         this.isHalfDay = isHalfDay;
+        this.employee = new Employee(getEmployeeId());
+
     }
 
-    public EventDto(LocalDate startDate, LocalDate endDate, int employeeId, int eventTypeId, int holidayStatusId, boolean isHalfDay) {
+    public EventDTO(LocalDate startDate, LocalDate endDate, int employeeId, int eventTypeId, int holidayStatusId, boolean isHalfDay) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.employeeId = employeeId;
@@ -57,6 +62,8 @@ public class EventDto {
         this.eventTypeDescription = getEventType().getDescription();
         this.eventStatusDescription = getEventStatus().getDescription();
         this.isHalfDay = isHalfDay;
+        this.employee = new Employee(getEmployeeId());
+
     }
 
     @JsonIgnore

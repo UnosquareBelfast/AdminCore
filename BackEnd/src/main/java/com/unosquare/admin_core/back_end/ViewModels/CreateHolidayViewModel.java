@@ -10,7 +10,7 @@ import java.util.List;
 public class CreateHolidayViewModel {
 
     @NotBlank
-    private List<DateDTO> dates;
+    private List<DateViewModel> dates;
 
     @NotBlank
     private int employeeId;
