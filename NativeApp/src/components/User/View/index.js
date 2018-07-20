@@ -5,21 +5,28 @@ import {
   View,
   Text,
   StyleSheet,
+  FlatList,
 } from 'react-native';
+import ListItem from './ListItem';
 
 
 const UserView = (props) => {
-  const { takenHolidays, remainingHolidays } = props;
+  const { takenHolidays, remainingHolidays, employee } = props;
+
   return (
     <ScrollView
       contentContainerStyle={styles.container}
     >
-      <View>
+      <View style={styles.holsDate}>
+        <Text>
+          {employee.forename}
+          {employee.surname}
+        </Text>
         <Text>
           Holidays taken
         </Text>
         <Text>
-          {takenHolidays}
+          {takenHolidays.length}
         </Text>
         <Text>
           Holidays remaining
@@ -28,13 +35,32 @@ const UserView = (props) => {
           {remainingHolidays}
         </Text>
       </View>
+
+      <View>
+        <FlatList
+          keyExtractor={item => item.holidayId.toString()}
+          data={takenHolidays}
+          renderItem={({ item }) => (
+            <ListItem
+              statusId={item.holidayStatusId}
+              status={item.holidayStatusDescription}
+              startDate={item.start}
+              endDate={item.end}
+            />
+          )}
+        />
+      </View>
     </ScrollView>
   );
 };
 
 UserView.propTypes = {
-  takenHolidays: PT.number.isRequired,
+  takenHolidays: PT.arrayOf(PT.object).isRequired,
   remainingHolidays: PT.number.isRequired,
+  employee: PT.shape({
+    forename: PT.string,
+    surname: PT.string,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -43,6 +69,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: 50,
     backgroundColor: '#fff',
+  },
+  holsDate: {
+    paddingBottom: 10,
   },
 });
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getTakenHolidays, getRemainingHolidays } from '../../utilities/holidays';
+import { userProfile } from '../../utilities/currentUser';
 
 export default Container => class extends Component {
   constructor(props) {
@@ -8,6 +9,10 @@ export default Container => class extends Component {
       id: '',
       takenHolidays: [],
       remainingHolidays: 0,
+      employee: {
+        forename: '',
+        surname: '',
+      },
     };
   }
 
@@ -17,13 +22,25 @@ export default Container => class extends Component {
 
     getRemainingHolidays()
       .then(remainingHolidays => this.setState({ remainingHolidays }));
+
+    userProfile()
+      .then(employee => this.setState(
+        {
+          employee: {
+            forename: employee.forename,
+            surname: employee.surname,
+          },
+        }
+      ));
   }
 
   render() {
-    const { takenHolidays, remainingHolidays } = this.state;
+    const { takenHolidays, remainingHolidays, employee } = this.state;
+
     return (
       <Container
-        takenHolidays={takenHolidays.length}
+        employee={employee}
+        takenHolidays={takenHolidays}
         remainingHolidays={remainingHolidays - takenHolidays.length}
       />
     );
