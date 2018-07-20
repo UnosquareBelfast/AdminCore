@@ -7,3 +7,7 @@ export const createClient = client => {
 export const getAllClients = () => {
   return axios.get('/clients/');
 };
+
+export const getClientById = clientId => {
+  return axios.get(`/clients/${clientId}`);
+};
