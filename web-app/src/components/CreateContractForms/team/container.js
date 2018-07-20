@@ -14,12 +14,12 @@ export default Wrapped =>
       super(props);
       this.state = {
         formData: {
-          clients: [],
-          teams: [],
           selectedClient: -1,
           selectedTeam: -1,
         },
-        formIsValid: true,
+        clients: [],
+        teams: [],
+        formIsValid: false,
         error: false,
       };
     }
@@ -41,9 +41,9 @@ export default Wrapped =>
         this.setState({
           formData: {
             ...this.state.formData,
-            clients: clientsFormatted,
             selectedClient: clientsFormatted[0].value,
           },
+          clients: clientsFormatted,
         });
       });
     };
@@ -59,9 +59,20 @@ export default Wrapped =>
 
     handleFormSubmit = event => {
       event.preventDefault();
-      const formData = { ...this.state.formData };
 
-      return this.props.onSuccess(formData);
+      let selectedTeam = this.state.teams.filter(
+        team => team.value == this.state.formData.selectedTeam
+      );
+      selectedTeam = selectedTeam[0];
+
+      let selectedClient = this.state.clients.filter(
+        client => client.value == this.state.formData.selectedClient
+      );
+      selectedClient = selectedClient[0];
+
+      const data = { selectedTeam, selectedClient };
+
+      return this.props.onSuccess(data);
     };
 
     handleTeamSearch = event => {
@@ -80,9 +91,9 @@ export default Wrapped =>
           this.setState({
             formData: {
               ...this.state.formData,
-              teams: teamsFormatted,
               selectedTeam: teamsFormatted[0].value,
             },
+            teams: teamsFormatted,
             error: false,
           });
         })
@@ -97,11 +108,11 @@ export default Wrapped =>
       event.preventDefault();
       this.setState({
         formData: {
-          clients: this.state.formData.clients,
-          teams: [],
           selectedClient: this.state.formData.selectedClient,
           selectedTeam: -1,
         },
+        teams: [],
+        clients: this.state.clients,
         formIsValid: false,
         error: false,
       });
@@ -118,8 +129,8 @@ export default Wrapped =>
           submitForm={e => this.handleFormSubmit(e)}
           searchTeam={e => this.handleTeamSearch(e)}
           resetForm={e => this.handleFormReset(e)}
-          teams={this.state.formData.teams}
-          clients={this.state.formData.clients}
+          teams={this.state.teams}
+          clients={this.state.clients}
           error={this.state.error}
         />
       );
