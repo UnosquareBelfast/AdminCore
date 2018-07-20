@@ -43,10 +43,10 @@ export default Wrapped =>
           const { contractData } = this.state;
 
           const contractRequest = {
-            employeeId: contractData.selectedUserId,
-            teamId: contractData.selectedTeam,
-            startDate: contractData.startDate,
-            endDate: contractData.endDate,
+            employeeId: contractData.selectedUser.value,
+            teamId: contractData.selectedTeam.value,
+            startDate: contractData.startDate.toISOString(),
+            endDate: contractData.endDate.toISOString(),
           };
 
           createContract(contractRequest)
@@ -64,6 +64,7 @@ export default Wrapped =>
           step={this.state.step}
           nextStep={this.nextStep}
           submit={this.submitContract}
+          contract={this.state.contractData}
         />
       );
     }

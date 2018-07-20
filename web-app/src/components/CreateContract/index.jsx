@@ -5,13 +5,55 @@ import UserForm from '../CreateContractForms/user';
 import TeamForm from '../CreateContractForms/team';
 import DateForm from '../CreateContractForms/dates';
 import { Steps } from '../common';
+import { ContractStyle } from './styled';
 
 export const CreateContract = props => {
-  const { step, nextStep, submit } = props;
+  const { step, nextStep, submit, contract } = props;
+  console.log(contract);
+
+  const {
+    selectedUser,
+    selectedTeam,
+    selectedClient,
+    startDate,
+    endDate,
+  } = contract;
 
   return (
     <div>
       <h2>Create Contract</h2>
+      <ContractStyle>
+        <h3>Contract</h3>
+        <ul>
+          {selectedUser ? (
+            <li>
+              <span>Name: </span>
+              {selectedUser.displayValue}
+            </li>
+          ) : (
+            <li>No contract details entered yet.</li>
+          )}
+          {selectedClient ? (
+            <li>
+              <span>Client: </span>
+              {selectedClient.displayValue}
+            </li>
+          ) : null}
+          {selectedTeam ? (
+            <li>
+              <span>Team: </span>
+              {selectedTeam.displayValue}
+            </li>
+          ) : null}
+          {startDate && endDate ? (
+            <li>
+              <span>Term: </span>
+              {startDate.format('Do MMMM YYYY')} to{' '}
+              {endDate.format('Do MMMM YYYY')}
+            </li>
+          ) : null}
+        </ul>
+      </ContractStyle>
       <Steps
         current={step}
         steps={[
@@ -29,7 +71,7 @@ export const CreateContract = props => {
           },
           {
             title: 'Submission',
-            component: <p>Submitted Contract</p>,
+            component: <p>Contract created successfully!</p>,
           },
         ]}
       />
