@@ -18,11 +18,7 @@ const renderTable = (contracts, columns, onRowClick) => {
       data={contracts}
       columns={formattedColumns}
       defaultPageSize={10}
-      filterable
       className="-striped -highlight"
-      defaultFilterMethod={(filter, row) =>
-        String(row[filter.id]).includes(filter.value)
-      }
       getTrProps={(state, rowInfo) => {
         return {
           onClick: () => onRowClick(rowInfo.original),
