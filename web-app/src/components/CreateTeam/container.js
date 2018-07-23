@@ -4,21 +4,17 @@ export default Wrapped =>
   class extends Component {
     constructor(props) {
       super(props);
-      this.state = {
-        clients: [],
-      };
+      this.state = {};
     }
 
-    updateFormState = formData => {
-      this.setState({
-        contractData: {
-          ...this.state.contractData,
-          ...formData,
-        },
-      });
-    };
-
     render() {
-      return <Wrapped />;
+      return (
+        <Wrapped
+          step={this.state.step}
+          nextStep={this.nextStep}
+          submit={this.submitContract}
+          contract={this.state.contractData}
+        />
+      );
     }
   };
