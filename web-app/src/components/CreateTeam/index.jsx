@@ -3,11 +3,12 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import CreateTeamForm from './CreateTeamForm';
 
-export const CreateTeam = ({ submitRequest }) => {
+export const CreateTeam = ({ submitRequest, success }) => {
   return (
     <div>
       <h2>Create Team</h2>
       <CreateTeamForm onSuccess={submitRequest} />
+      {success && <p>Team created successfully!</p>}
     </div>
   );
 };
