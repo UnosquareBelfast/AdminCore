@@ -18,3 +18,5 @@ export { default as UserModal } from './UserModal';
 export { default as CreateContract } from './CreateContract';
 export { default as AllClients } from './AllClients';
 export { default as CreateClient } from './CreateClient';
+export { default as ViewContracts } from './ViewContracts';
+export { default as ContractList } from './ContractList';
