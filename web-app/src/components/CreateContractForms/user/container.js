@@ -17,8 +17,8 @@ export default Wrapped =>
           selectedUserId: -1,
         },
         formIsValid: false,
-        foundUsers: [],
         error: false,
+        users: [],
       };
     }
 
@@ -33,9 +33,17 @@ export default Wrapped =>
 
     handleFormSubmit = event => {
       event.preventDefault();
-      const formData = { ...this.state.formData };
 
-      return this.props.onSuccess(formData);
+      let selectedUser = this.state.users.filter(
+        user => user.value == this.state.formData.selectedUserId
+      );
+      selectedUser = selectedUser[0];
+
+      const data = {
+        selectedUser,
+      };
+
+      return this.props.onSuccess(data);
     };
 
     handleUserSearch = event => {
@@ -56,11 +64,11 @@ export default Wrapped =>
           }, []);
           this.setState({
             error: false,
-            foundUsers: usersFormatted,
             formData: {
               ...this.state.formData,
               selectedUserId: usersFormatted[0].value,
             },
+            users: usersFormatted,
           });
         })
         .catch(() => {
@@ -76,8 +84,8 @@ export default Wrapped =>
           selectedUserId: -1,
         },
         formIsValid: false,
-        foundUsers: [],
         error: false,
+        users: [],
       });
     };
 
@@ -92,7 +100,7 @@ export default Wrapped =>
           submitForm={e => this.handleFormSubmit(e)}
           searchUser={e => this.handleUserSearch(e)}
           resetForm={e => this.handleFormReset(e)}
-          users={this.state.foundUsers}
+          users={this.state.users}
           error={this.state.error}
         />
       );
