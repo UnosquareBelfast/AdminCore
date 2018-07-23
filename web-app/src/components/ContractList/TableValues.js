@@ -4,7 +4,8 @@ const startDate = {
   id: 'startDate',
   Header: 'Start Date',
   accessor: contract => {
-    return new moment(contract.startDate, 'YYYY-MM-DD');
+    const startDate = new moment(contract.startDate, 'YYYY-MM-DD');
+    return startDate.format('Do MMMM YYYY');
   },
 };
 
@@ -12,7 +13,8 @@ const endDate = {
   id: 'endDate',
   Header: 'End Date',
   accessor: contract => {
-    return new moment(contract.endDate, 'YYYY-MM-DD');
+    const endDate = new moment(contract.endDate, 'YYYY-MM-DD');
+    return endDate.format('Do MMMM YYYY');
   },
 };
 
