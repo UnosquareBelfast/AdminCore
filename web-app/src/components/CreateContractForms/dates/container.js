@@ -32,8 +32,8 @@ export default Wrapped =>
     handleFormSubmit = event => {
       event.preventDefault();
       const formData = { ...this.state.formData };
-      formData.startDate = formData.startDate.toISOString();
-      formData.endDate = formData.endDate.toISOString();
+      formData.startDate = formData.startDate.startOf();
+      formData.endDate = formData.endDate.endOf();
 
       return this.props.onSuccess(formData);
     };
