@@ -33,7 +33,13 @@ export default Wrapped =>
             });
             return acc;
           }, []);
-          this.setState({ clients: formattedClients });
+          this.setState({
+            clients: formattedClients,
+            formData: {
+              ...this.state.formData,
+              selectedClient: formattedClients[0].value,
+            },
+          });
         })
         .catch(error =>
           swal('Error', `Could not retreive clients: ${error.message}`, 'error')
