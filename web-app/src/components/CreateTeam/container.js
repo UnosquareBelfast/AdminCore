@@ -21,7 +21,7 @@ export default Wrapped =>
           this.setState({ success: true });
         })
         .catch(error => {
-          swal('Error', `Error creating team: ${error.message}`, error);
+          swal('Error', `Error creating team: ${error.message}`, 'error');
         });
     };
 
