@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { getUserByName } from '../../../services/userService';
 import { getContractsByEmployeeId } from '../../../services/contractService';
+import swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
@@ -20,6 +21,15 @@ export default Wrapped =>
         users: [],
         formIsValid: false,
       };
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+      const oldSelectedUser = prevState.formData.selectedUserId;
+      const newSelectedUser = this.state.formData.selectedUserId;
+
+      if (oldSelectedUser !== newSelectedUser) {
+        this.getContracts();
+      }
     }
 
     handleFormStatus(name, value, formIsValid) {
@@ -59,14 +69,15 @@ export default Wrapped =>
 
     getContracts = () => {
       const userId = this.state.formData.selectedUserId;
-      console.log('getting contracts');
 
       getContractsByEmployeeId(userId)
         .then(response => {
           const contracts = response.data;
-          console.log(contracts);
+          this.props.onSuccess(contracts);
         })
-        .catch(error => {});
+        .catch(error =>
+          swal('Error'`Error finding contracts: ${error.message}`, 'error')
+        );
     };
 
     handleFormSubmit = event => {
