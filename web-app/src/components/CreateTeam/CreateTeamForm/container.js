@@ -51,6 +51,7 @@ export default Wrapped =>
 
     handleFormSubmit = event => {
       event.preventDefault();
+      this.props.onSuccess(this.state.formData);
     };
 
     render() {
