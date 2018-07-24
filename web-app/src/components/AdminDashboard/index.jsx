@@ -17,13 +17,21 @@ const AdminDashboard = () => {
           <Link to="/admin/holidays">View All Holidays</Link>
           <Link to="/admin/pendingHolidays">View Pending Holidays</Link>
         </div>
+      </div>
+      <div className="columnWrap">
         <div>
           <h3>Clients</h3>
           <Link to="/admin/clients">View All Clients</Link>
           <Link to="/admin/createClient">Create Client</Link>
         </div>
         <div>
+          <h3>Teams</h3>
+          <Link to="/admin/teams">View All Teams</Link>
+          <Link to="/admin/teams/new">Create Team</Link>
+        </div>
+        <div>
           <h3>Contracts</h3>
+          <Link to="/admin/contracts">View Contracts</Link>
           <Link to="/admin/contracts/new">Create Contract</Link>
         </div>
       </div>

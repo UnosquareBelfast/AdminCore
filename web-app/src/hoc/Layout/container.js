@@ -57,7 +57,11 @@ export default Wrapped =>
                 route: '/admin/clients',
               },
               {
-                name: 'Contract',
+                name: 'Teams',
+                route: '/admin/teams',
+              },
+              {
+                name: 'Contracts',
                 route: '/admin/contracts',
               },
             ],

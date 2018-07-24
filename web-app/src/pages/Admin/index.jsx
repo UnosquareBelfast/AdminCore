@@ -10,7 +10,9 @@ import {
   AllHolidays,
   AdminDashboard,
   CreateContract,
+  ViewContracts,
   AllClients,
+  CreateTeam,
 } from '../../components';
 import { Container, MainContentContainer, Refresh } from './styled';
 
@@ -18,6 +20,8 @@ export const Admin = props => (
   <Container>
     <MainContentContainer>
       <Switch>
+        <Route path="/admin/teams/new" component={CreateTeam} />
+        <Route exact path="/admin/contracts/" component={ViewContracts} />
         <Route path="/admin/contracts/new" component={CreateContract} />
         <Route path="/admin/createEmployee" component={CreateUser} />
         <Route
