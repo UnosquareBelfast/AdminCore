@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import moment from 'moment';
+import { getAllClients } from '../../../services/clientService';
+import swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
@@ -13,11 +14,36 @@ export default Wrapped =>
       super(props);
       this.state = {
         formData: {
-          startDate: moment(),
-          endDate: moment(),
+          selectedClient: -1,
+          teamName: '',
         },
         formIsValid: false,
+        clients: [],
       };
+    }
+
+    componentDidMount() {
+      getAllClients()
+        .then(response => {
+          const clients = response.data;
+          const formattedClients = clients.reduce((acc, client) => {
+            acc.push({
+              value: client.clientId,
+              displayValue: client.clientName,
+            });
+            return acc;
+          }, []);
+          this.setState({
+            clients: formattedClients,
+            formData: {
+              ...this.state.formData,
+              selectedClient: formattedClients[0].value,
+            },
+          });
+        })
+        .catch(error =>
+          swal('Error', `Could not retreive clients: ${error.message}`, 'error')
+        );
     }
 
     handleFormStatus(name, value, formIsValid) {
@@ -31,16 +57,13 @@ export default Wrapped =>
 
     handleFormSubmit = event => {
       event.preventDefault();
-      const formData = { ...this.state.formData };
-      formData.startDate = formData.startDate.startOf();
-      formData.endDate = formData.endDate.endOf();
-
-      return this.props.onSuccess(formData);
+      this.props.onSuccess(this.state.formData);
     };
 
     render() {
       return (
         <Wrapped
+          clients={this.state.clients}
           formData={this.state.formData}
           formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>

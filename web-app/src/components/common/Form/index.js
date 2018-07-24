@@ -7,8 +7,12 @@ export class Form extends Component {
   static propTypes = {
     formStatus: PT.func,
     formData: PT.object,
-    actions: PT.array.isRequired,
-    children: PT.array.isRequired,
+    actions: PT.array,
+    children: PT.oneOfType([PT.array, PT.object]).isRequired,
+  };
+
+  static defaultProps = {
+    actions: [],
   };
 
   constructor(props) {
@@ -28,7 +32,7 @@ export class Form extends Component {
       },
       () => {
         this.addInputsToValidatedElements();
-      },
+      }
     );
   }
 

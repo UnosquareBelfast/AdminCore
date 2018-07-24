@@ -3,6 +3,7 @@ import {
   faSmile,
   faCalendarAlt,
   faUnlockAlt,
+  faUsers,
 } from '@fortawesome/fontawesome-free-solid';
 
 export default Wrapped =>
@@ -24,6 +25,13 @@ export default Wrapped =>
             tooltip: 'Go to dashboard',
             route: '/',
             icon: faCalendarAlt,
+            subnav: null,
+          },
+          {
+            name: 'My Team',
+            tooltip: 'Manage your team',
+            route: '/team',
+            icon: faUsers,
             subnav: null,
           },
           {
@@ -49,7 +57,11 @@ export default Wrapped =>
                 route: '/admin/clients',
               },
               {
-                name: 'Contract',
+                name: 'Teams',
+                route: '/admin/teams',
+              },
+              {
+                name: 'Contracts',
                 route: '/admin/contracts',
               },
             ],
