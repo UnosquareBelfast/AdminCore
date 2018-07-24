@@ -15,11 +15,11 @@ export const InnerLayout = styled.div`
   }
 
   .rbc-off-range-bg {
-    background: #e5e5e5;
+    background: ${props => props.theme.colours.lightgrey};
     cursor: not-allowed;
   }
 
   .rbc-today {
-    background-color: rgba(14, 181, 209, 0.5);
+    background-color: ${props => props.theme.colours.lightBlue};
   }
 `;

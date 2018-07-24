@@ -30,4 +30,28 @@ export const Content = styled.div`
     right: 0;
     padding: 15px;
   }
+
+  #closeBookingModal {
+    position: absolute;
+    cursor: pointer;
+    top: 5px;
+    font-weight: bold;
+    background: #0eb5d1;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 40px;
+    right: -10px;
+    top: -10px !important;
+    color: transparent;
+
+    svg {
+      color: white;
+      position: absolute;
+      left: 13px;
+      top: 9px;
+      font-size: 22px;
+    }
+  }
 `;
