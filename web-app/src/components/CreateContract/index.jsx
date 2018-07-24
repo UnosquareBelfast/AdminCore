@@ -1,9 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import UserForm from '../CreateContractForms/user';
-import TeamForm from '../CreateContractForms/team';
-import DateForm from '../CreateContractForms/dates';
+import UserForm from './CreateContractForms/user';
+import TeamForm from './CreateContractForms/team';
+import DateForm from './CreateContractForms/dates';
 import { Steps } from '../common';
 import { ContractStyle } from './styled';
 
