@@ -21,7 +21,7 @@ export const Admin = props => (
   <Container>
     <MainContentContainer>
       <Switch>
-        <Route path="/admin/teams" component={ViewTeams} />
+        <Route exact path="/admin/teams/" component={ViewTeams} />
         <Route path="/admin/teams/new" component={CreateTeam} />
         <Route exact path="/admin/contracts/" component={ViewContracts} />
         <Route path="/admin/contracts/new" component={CreateContract} />
