@@ -1,9 +1,9 @@
-const employee = {
-  id: 'employee',
-  Header: 'Employee',
-  accessor: contract => 'employee',
+const teamName = {
+  id: 'teamName',
+  Header: 'Team Name',
+  accessor: team => team.teamName,
 };
 
 export default {
-  employee,
+  teamName,
 };
