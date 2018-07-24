@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../common';
@@ -13,22 +14,6 @@ const BookingModalForm = props => {
     formStatus,
     formIsValid,
   } = props;
-
-  const isDateDisabled = () => {
-    if (formData.isWFH) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const getStartLabel = () => {
-    if (formData.isWFH) {
-      return 'Enter Date:';
-    } else {
-      return 'Start Date:';
-    }
-  };
 
   const createCtas = () => {
     if (isEventBeingUpdated) {
@@ -55,8 +40,29 @@ const BookingModalForm = props => {
     }
   };
 
+  const updateVisability = () => {
+    return Math.floor(
+      moment.duration(formData.end.diff(formData.start)).asDays(),
+    ) === 0
+      ? false
+      : true;
+  };
+
   return (
     <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
+      <Input
+        type="select"
+        htmlAttrs={{
+          name: 'eventStatusId',
+          options: [
+            { value: 1, displayValue: 'Annual Leave' },
+            { value: 4, displayValue: 'Working Remotely' },
+            { value: 5, displayValue: 'Sick Leave' },
+          ],
+        }}
+        value={formData.eventStatusId}
+        label="Reason:"
+      />
       <Input
         type="date"
         htmlAttrs={{
@@ -68,7 +74,7 @@ const BookingModalForm = props => {
         rules={{
           dateNotInPast: true,
         }}
-        label={getStartLabel()}
+        label="Start Date:"
       />
       <Input
         type="date"
@@ -76,7 +82,6 @@ const BookingModalForm = props => {
           type: 'input',
           name: 'end',
           placeholder: 'Enter an end date',
-          disabled: isDateDisabled(),
         }}
         value={formData.end}
         rules={{
@@ -88,16 +93,8 @@ const BookingModalForm = props => {
         type="checkbox"
         htmlAttrs={{
           type: 'checkbox',
-          name: 'isWFH',
-        }}
-        value={formData.isWFH}
-        label="Working from home"
-      />
-      <Input
-        type="checkbox"
-        htmlAttrs={{
-          type: 'checkbox',
           name: 'isHalfday',
+          disabled: updateVisability(),
         }}
         value={formData.isHalfday}
         label="Request a halfday"

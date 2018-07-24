@@ -7,7 +7,7 @@ export default Wrapped =>
     static propTypes = {
       employeeId: PT.string.isRequired,
       updateTakenHolidays: PT.func.isRequired,
-      getDuration: PT.func.isRequired,
+      updateBookingAndDuration: PT.func.isRequired,
       closeModal: PT.func.isRequired,
       booking: PT.object.isRequired,
     };
@@ -16,10 +16,10 @@ export default Wrapped =>
       super(props);
       this.state = {
         formData: {
-          start: props.booking.start,
           end: props.booking.end,
+          eventStatusId: props.booking.eventStatusId,
           isHalfday: props.booking.isHalfday,
-          isWFH: props.booking.isWFH,
+          start: props.booking.start,
         },
         formIsValid: true,
       };
@@ -27,7 +27,7 @@ export default Wrapped =>
 
     handleMakeHolidayRequest = event => {
       event.preventDefault();
-      const { start, end, isHalfday } = this.state.formData;
+      const { start, end, isHalfday, eventStatusId } = this.state.formData;
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
@@ -38,6 +38,7 @@ export default Wrapped =>
             halfDay: isHalfday,
           },
         ],
+        eventStatusId: eventStatusId,
         employeeId: this.props.employeeId,
       };
 
@@ -56,8 +57,8 @@ export default Wrapped =>
         startDate: start.format(dateFormat),
         endDate: end.format(dateFormat),
         halfDay: isHalfday,
-        holidayId: this.props.booking.id,
-        holidayStatusId: cancel ? 3 : 1,
+        eventId: this.props.booking.id,
+        eventStatusId: cancel ? 3 : 1,
         employeeId: this.props.employeeId,
       };
 
@@ -71,28 +72,17 @@ export default Wrapped =>
       const formData = { ...this.state.formData };
       formData[name] = value;
 
-      if (name == 'start') {
-        if (formData.isHalfday || formData.isWFH) {
-          formData.end = formData.start;
-        } else {
-          formData.isHalfday = false;
-          formData.isWFH = false;
-          if (formData.start.isAfter(formData.end)) {
-            formData.end = formData.start;
-          }
-        }
-      } else if (name == 'end') {
+      if (name == 'start' || name == 'end') {
         formData.isHalfday = false;
-        formData.isWFH = false;
-        if (formData.end.isBefore(formData.start)) {
+        if (formData.start.isAfter(formData.end)) {
+          formData.end = formData.start;
+        } else if (formData.end.isBefore(formData.start)) {
           formData.start = formData.end;
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
-        formData.isWFH = false;
         formData.end = formData.start;
-      } else if (name === 'isWFH' && formData.isWFH) {
+      } else if (name === 'eventTypeId' && value !== 1) {
         formData.isHalfday = false;
-        formData.end = formData.start;
       }
 
       this.setState(
@@ -101,19 +91,19 @@ export default Wrapped =>
           formIsValid,
         },
         () => {
-          this.updateDuration(formData);
+          this.updateBookingObj(formData);
         },
       );
     }
 
-    updateDuration(formData) {
+    updateBookingObj(formData) {
       const { isEventBeingUpdated } = this.props.booking;
       const updatedBooking = {
         ...this.props.booking,
         ...formData,
         isEventBeingUpdated: isEventBeingUpdated,
       };
-      this.props.getDuration(updatedBooking);
+      this.props.updateBookingAndDuration(updatedBooking);
     }
 
     render() {
@@ -121,10 +111,11 @@ export default Wrapped =>
         <Wrapped
           formData={this.state.formData}
           isEventBeingUpdated={this.props.booking.isEventBeingUpdated}
+          formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>
             this.handleFormStatus(name, value, formIsValid)
           }
-          getDuration={this.props.getDuration}
+          updateBookingAndDuration={this.props.updateBookingAndDuration}
           submitHolidayRequest={e => this.handleMakeHolidayRequest(e)}
           updateHolidayRequest={e => this.handleUpdateHolidayRequest(e, true)}
           deleteHolidayRequest={e => this.handleUpdateHolidayRequest(e, false)}

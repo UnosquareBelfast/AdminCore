@@ -19,7 +19,7 @@ const BookingModal = props => {
     booking,
     employeeId,
     updateTakenHolidays,
-    getDuration,
+    updateBookingAndDuration,
   } = props;
 
   return (
@@ -39,8 +39,8 @@ const BookingModal = props => {
             <BookingStatus>
               <h4>{booking.title}</h4>
               <span>
-                <StatusDot status={booking.holidayStatusId} />
-                {statusText[booking.holidayStatusId]}
+                <StatusDot status={booking.eventStatusId} />
+                {statusText[booking.eventStatusId]}
               </span>
             </BookingStatus>
           )}
@@ -50,7 +50,7 @@ const BookingModal = props => {
               employeeId={employeeId}
               booking={booking}
               closeModal={closeModal}
-              getDuration={getDuration}
+              updateBookingAndDuration={updateBookingAndDuration}
             />
           </FormContainer>
         </StyleContainer>
@@ -65,7 +65,7 @@ BookingModal.propTypes = {
   booking: PT.object.isRequired,
   employeeId: PT.string.isRequired,
   updateTakenHolidays: PT.func.isRequired,
-  getDuration: PT.func.isRequired,
+  updateBookingAndDuration: PT.func.isRequired,
 };
 
 export default BookingModal;

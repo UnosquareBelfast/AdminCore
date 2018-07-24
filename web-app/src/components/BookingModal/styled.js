@@ -71,6 +71,13 @@ export const FormContainer = styled.div`
       }
     }
 
+    .select {
+      @media (min-width: 992px) {
+        margin: 20px 10px;
+        width: calc(100% - 20px);
+      }
+    }
+
     .checkbox {
       @media (min-width: 992px) {
         margin: 20px 10px;
