@@ -8,7 +8,7 @@ export class Form extends Component {
     formStatus: PT.func,
     formData: PT.object,
     actions: PT.array,
-    children: PT.array.isRequired,
+    children: PT.oneOfType([PT.array, PT.object]).isRequired,
   };
 
   static defaultProps = {
