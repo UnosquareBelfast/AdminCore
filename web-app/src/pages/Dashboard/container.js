@@ -14,17 +14,20 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidays: null,
-        showModal: false,
         booking: {
-          start: moment(),
+          duration: 0,
           end: moment(),
+          eventType: 'Holiday',
+          isEventBeingUpdated: false,
           isHalfday: false,
           isWFH: false,
-          isEventBeingUpdated: false,
-          duration: 0,
+          start: moment(),
         },
         requestModalOpen: false,
+        showModal: false,
+        takenHolidays: null,
+        takenHolidaysFiltered: null,
+        filterEvents: [],
         userDetails: null,
       };
     }
@@ -33,46 +36,60 @@ const DashboardContainer = Wrapped =>
       const userId = localStorage.getItem('user_id');
       getUserProfile(userId)
         .then(response => {
-          this.setState({
-            userDetails: response.data,
-          });
-          this.getTakenHolidays(userId);
+          this.setState(
+            {
+              userDetails: response.data,
+            },
+            () => {
+              this.getTakenHolidays(response.data);
+            },
+          );
         })
         .catch(error =>
           Swal({
-            title: 'Could not get user profile',
             text: error.message,
+            title: 'Could not get user profile',
             type: 'error',
           }),
         );
     }
 
-    getTakenHolidays = userId => {
-      getHolidays(userId)
+    getTakenHolidays = userDetails => {
+      getHolidays(userDetails.employeeId)
         .then(response => {
+          const usersHolidays = response.data;
+          const eventArray = [1, 4, 5];
+          for (let hol of usersHolidays) {
+            var eventId =
+              eventArray[Math.floor(Math.random() * eventArray.length)];
+            hol.eventStatusId = eventId;
+            hol.employee.forename = userDetails.forename;
+            hol.employee.surname = userDetails.surname;
+            hol.employee.email = userDetails.email;
+          }
           this.setState({
-            takenHolidays: this.formatDates(response.data),
+            takenHolidays: this.formatDates(usersHolidays),
           });
         })
         .catch(error => {
           Swal({
-            title: 'Could not get taken holidays',
             text: error.message,
+            title: 'Could not get taken holidays',
             type: 'error',
           });
         });
     };
 
     formatDates(events) {
-      var eventsForCalendar = events.map(hol => {
+      var eventsForCalendar = events.map(event => {
         return {
-          id: hol.holidayId,
-          title: `${hol.employee.forename} ${hol.employee.surname}`,
-          allDay: !hol.halfDay,
-          isHalfday: hol.halfDay,
+          ...event,
+          allDay: !event.halfDay,
+          eventStatusId: event.eventStatusId,
+          id: event.eventId,
+          isHalfday: event.halfDay,
           isWFH: false,
-          ...hol,
-          holidayStatusId: hol.holidayStatusId,
+          title: `${event.employee.forename} ${event.employee.surname}`,
         };
       });
       return eventsForCalendar;
@@ -82,7 +99,7 @@ const DashboardContainer = Wrapped =>
       this.setState({ showModal: false });
     };
 
-    getDuration = booking => {
+    updateBookingAndDuration = booking => {
       const { isHalfday, isWFH, start, end } = booking;
       booking.duration = 1;
       if (isHalfday) {
@@ -96,28 +113,32 @@ const DashboardContainer = Wrapped =>
       }
 
       this.setState({
-        showModal: true,
         booking: booking,
+        showModal: true,
       });
     };
 
-    onSelectSlot = ({ start, end }) => {
-      let booking = {
-        start: moment(start),
-        end: moment(end),
-        isHalfday: false,
-        isWFH: false,
-        isEventBeingUpdated: false,
-      };
-      this.getDuration(booking);
-    };
+    onUpdateEvents = eventStatusId => {
+      let updatedFilterEvents = this.state.filterEvents;
+      if (updatedFilterEvents.includes(eventStatusId)) {
+        updatedFilterEvents = updatedFilterEvents.filter(
+          item => item !== eventStatusId,
+        );
+      } else {
+        updatedFilterEvents.push(eventStatusId);
+      }
 
-    onSelectEvent = booking => {
-      const updatedBooking = {
-        ...booking,
-        isEventBeingUpdated: true,
-      };
-      this.getDuration(updatedBooking);
+      let takenHolidaysUpdated = null;
+      if (updatedFilterEvents.length > 0) {
+        takenHolidaysUpdated = this.state.takenHolidays.filter(hol =>
+          updatedFilterEvents.includes(hol.eventStatusId),
+        );
+      }
+
+      this.setState({
+        filterEvents: updatedFilterEvents,
+        takenHolidaysFiltered: takenHolidaysUpdated,
+      });
     };
 
     render() {
@@ -125,17 +146,18 @@ const DashboardContainer = Wrapped =>
         this.state.userDetails &&
         this.state.takenHolidays && (
           <Wrapped
-            onSelectSlot={this.onSelectSlot}
-            onSelectEvent={this.onSelectEvent}
-            updateTakenHolidays={this.getTakenHolidays}
-            closeModal={this.closeModal}
-            showModal={this.showModal}
             booking={this.state.booking}
+            closeModal={this.closeModal}
+            updateBookingAndDuration={this.updateBookingAndDuration}
+            showModal={this.state.showModal}
+            takenHolidays={
+              this.state.takenHolidaysFiltered === null
+                ? this.state.takenHolidays
+                : this.state.takenHolidaysFiltered
+            }
+            updateTakenHolidays={this.getTakenHolidays}
             userDetails={this.state.userDetails}
-            takenHolidays={this.state.takenHolidays}
-            getDuration={this.getDuration}
-            {...this.state}
-            {...this.props}
+            onUpdateEvents={this.onUpdateEvents}
           />
         )
       );
