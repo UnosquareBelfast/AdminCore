@@ -41,7 +41,7 @@ const DashboardContainer = Wrapped =>
               userDetails: response.data,
             },
             () => {
-              this.getTakenHolidays(response.data);
+              this.getTakenHolidays();
             },
           );
         })
@@ -58,31 +58,10 @@ const DashboardContainer = Wrapped =>
       return array[Math.floor(Math.random() * array.length)];
     };
 
-    getTakenHolidays = userDetails => {
+    getTakenHolidays = () => {
       getAllHolidays()
         .then(response => {
           const usersHolidays = response.data;
-          const eventArray = [1, 4, 5];
-          const personArray = [
-            {
-              forename: userDetails.forename,
-              surname: userDetails.surname,
-              email: userDetails.email,
-            },
-            {
-              forename: 'Jim',
-              surname: 'Beam',
-              email: 'jim@gmail.com',
-            },
-          ];
-          for (let hol of usersHolidays) {
-            var eventId = this.getRandomItem(eventArray);
-            var user = this.getRandomItem(personArray);
-            hol.eventStatusId = eventId;
-            hol.employee.forename = user.forename;
-            hol.employee.surname = user.surname;
-            hol.employee.email = user.email;
-          }
           this.setState({
             takenHolidays: this.formatDates(usersHolidays),
           });
@@ -97,7 +76,7 @@ const DashboardContainer = Wrapped =>
     };
 
     formatDates(events) {
-      var eventsForCalendar = events.map(event => {
+      const eventsForCalendar = events.map(event => {
         return {
           ...event,
           allDay: !event.halfDay,

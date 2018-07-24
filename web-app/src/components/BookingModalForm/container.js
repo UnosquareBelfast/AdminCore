@@ -43,7 +43,7 @@ export default Wrapped =>
       };
 
       requestHoliday(request).then(() => {
-        this.props.updateTakenHolidays(this.props.employeeId);
+        this.props.updateTakenHolidays();
         this.props.closeModal();
       });
     };
@@ -63,7 +63,7 @@ export default Wrapped =>
       };
 
       updateHoliday(request).then(() => {
-        this.props.updateTakenHolidays(this.props.employeeId);
+        this.props.updateTakenHolidays();
         this.props.closeModal();
       });
     };
