@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import employeeStatus from '../../utilities/employeeStatus';
-import { createUser } from '../../services/userService';
+import employeeStatus from '../../../utilities/employeeStatus';
+import { createUser } from '../../../services/userService';
 
 export default Wrapped =>
   class extends Component {
