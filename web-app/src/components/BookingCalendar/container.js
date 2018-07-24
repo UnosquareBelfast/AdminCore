@@ -27,11 +27,13 @@ const BookingCalendarContainer = Wrapped =>
     };
 
     onSelectEvent = booking => {
-      const updatedBooking = {
-        ...booking,
-        isEventBeingUpdated: true,
-      };
-      this.props.updateBookingAndDuration(updatedBooking);
+      if (booking.employeeId == this.props.userDetails.employeeId) {
+        const updatedBooking = {
+          ...booking,
+          isEventBeingUpdated: true,
+        };
+        this.props.updateBookingAndDuration(updatedBooking);
+      }
     };
 
     render() {
