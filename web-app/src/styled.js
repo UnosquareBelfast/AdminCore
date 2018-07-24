@@ -26,6 +26,7 @@ export const theme = {
     [holidayStatus.REJECTED]: '#ff3434',
     [holidayStatus.APPROVED]: '#35c375',
     [holidayStatus.WFH]: '#3469ff',
+    [holidayStatus.SICK]: '#333333',
   },
 };
 
