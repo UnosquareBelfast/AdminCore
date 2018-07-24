@@ -4,23 +4,23 @@ import container from './container';
 import { Form, Input, Errorbox } from '../../common';
 import { FormContainer } from '../styled';
 
-export const UserForm = props => {
+export const TeamForm = props => {
   const {
     submitForm,
-    searchUser,
     formStatus,
     formData,
-    formIsValid,
-    users,
+    teams,
+    clients,
     error,
     resetForm,
+    searchTeam,
   } = props;
 
   const searchActions = [
     {
       label: 'Search',
-      event: searchUser,
-      disabled: !formData.userFullName.includes(' '),
+      event: searchTeam,
+      disabled: formData.selectedClient == -1,
     },
   ];
 
@@ -28,7 +28,7 @@ export const UserForm = props => {
     {
       label: 'Next Step',
       event: submitForm,
-      disabled: !formIsValid,
+      disabled: false,
     },
     {
       label: 'Reset',
@@ -39,56 +39,59 @@ export const UserForm = props => {
 
   return (
     <FormContainer>
-      <h3>Find user for contract</h3>
+      <h3>Find team for contract</h3>
       <Form
         formData={formData}
         formStatus={formStatus}
-        actions={users.length === 0 ? searchActions : submitActions}
+        actions={teams.length === 0 ? searchActions : submitActions}
       >
         <Input
-          label="Search full name:"
-          type="input"
-          htmlAttrs={{
-            name: 'userFullName',
-            placeholder: 'Enter full name',
-          }}
-          rules={{
-            required: true,
-          }}
-          value={formData.userFullName}
-        />
-        <Input
-          label="Pick a user:"
+          label="Pick a client:"
           type="select"
           htmlAttrs={{
-            name: 'selectedUserId',
-            options: users,
-            disabled: users.length === 0,
+            name: 'selectedClient',
+            options: clients,
+            disabled: teams.length > 0,
           }}
-          value={formData.selectedUserId}
-          rules={{
-            required: true,
+          value={formData.selectedClient}
+          rules={{}}
+        />
+        <Input
+          label="Pick a team:"
+          type="select"
+          htmlAttrs={{
+            name: 'selectedTeam',
+            options: teams,
+            disabled: teams.length === 0,
           }}
+          value={formData.selectedTeam}
+          rules={{}}
         />
       </Form>
-      {error && <Errorbox error={{ message: 'Could not find user' }} />}
+      {error && (
+        <Errorbox
+          error={{ message: 'Could not find teams, are you sure they exist?' }}
+        />
+      )}
     </FormContainer>
   );
 };
 
-UserForm.propTypes = {
+TeamForm.propTypes = {
   formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
   resetForm: PT.func.isRequired,
-  searchUser: PT.func.isRequired,
   formStatus: PT.func.isRequired,
   formIsValid: PT.bool.isRequired,
-  users: PT.array,
   error: PT.bool,
+  teams: PT.array,
+  clients: PT.array,
+  searchTeam: PT.func.isRequired,
 };
 
-UserForm.defaultProps = {
-  users: [],
+TeamForm.defaultProps = {
+  clients: [],
+  teams: [],
 };
 
-export default container(UserForm);
+export default container(TeamForm);

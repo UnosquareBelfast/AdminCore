@@ -16,4 +16,6 @@ export { default as RequestHoliday } from './RequestHoliday';
 export { default as TakenLeave } from './TakenLeave';
 export { default as TeamView } from './TeamView';
 export { default as UserDetails } from './UserDetails';
+export { default as UserList } from './UserList';
 export { default as UserListing } from './UserListing';
+export { default as UserModal } from './UserModal';
