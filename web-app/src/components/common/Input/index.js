@@ -126,6 +126,11 @@ const Input = props => {
 
     if (htmlAttrs.disabled) {
       styles.push('isDisabled');
+    } else {
+      var index = styles.indexOf('isDisabled');
+      if (index !== -1) {
+        styles.splice(index, 1);
+      }
     }
 
     return styles.join(' ');
