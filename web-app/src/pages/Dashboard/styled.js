@@ -10,13 +10,22 @@ export const InnerLayout = styled.div`
 
   .rbc-header {
     padding: 10px 3px;
-    background: #0eb5d1;
+    background: ${props => props.theme.colours.unoBlue};
     color: white;
   }
 
   .rbc-off-range-bg {
     background: ${props => props.theme.colours.lightgrey};
     cursor: not-allowed;
+  }
+
+  .rbc-off-range a {
+    color: ${props => props.theme.colours.lightgrey} !important;
+  }
+
+  .rbc-date-cell a {
+    color: ${props => props.theme.colours.unoBlue};
+    font-weight: bold;
   }
 
   .rbc-today {
