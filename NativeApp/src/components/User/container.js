@@ -38,14 +38,7 @@ export default Container => class extends Component {
         .then(remainingHolidays => this.setState({ remainingHolidays }));
 
       userProfile()
-        .then(employee => this.setState(
-          {
-            employee: {
-              forename: employee.forename,
-              surname: employee.surname,
-            },
-          }
-        ));
+        .then(employee => this.setState({ employee }));
     });
   }
 
