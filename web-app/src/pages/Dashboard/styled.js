@@ -23,9 +23,12 @@ export const InnerLayout = styled.div`
     color: ${props => props.theme.colours.lightgrey} !important;
   }
 
-  .rbc-date-cell a {
-    color: ${props => props.theme.colours.unoBlue};
-    font-weight: bold;
+  .rbc-date-cell {
+    padding: 4px 5px;
+    a {
+      color: ${props => props.theme.colours.unoBlue};
+      font-weight: bold;
+    }
   }
 
   .rbc-today {
