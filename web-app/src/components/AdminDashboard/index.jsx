@@ -31,6 +31,7 @@ const AdminDashboard = () => {
         </div>
         <div>
           <h3>Contracts</h3>
+          <Link to="/admin/contracts">View Contracts</Link>
           <Link to="/admin/contracts/new">Create Contract</Link>
         </div>
       </div>
