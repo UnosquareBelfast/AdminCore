@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import { getHolidays } from '../../services/holidayService';
+import { getAllHolidays } from '../../services/holidayService';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -54,18 +54,34 @@ const DashboardContainer = Wrapped =>
         );
     }
 
+    getRandomItem = array => {
+      return array[Math.floor(Math.random() * array.length)];
+    };
+
     getTakenHolidays = userDetails => {
-      getHolidays(userDetails.employeeId)
+      getAllHolidays()
         .then(response => {
           const usersHolidays = response.data;
           const eventArray = [1, 4, 5];
+          const personArray = [
+            {
+              forename: userDetails.forename,
+              surname: userDetails.surname,
+              email: userDetails.email,
+            },
+            {
+              forename: 'Jim',
+              surname: 'Beam',
+              email: 'jim@gmail.com',
+            },
+          ];
           for (let hol of usersHolidays) {
-            var eventId =
-              eventArray[Math.floor(Math.random() * eventArray.length)];
+            var eventId = this.getRandomItem(eventArray);
+            var user = this.getRandomItem(personArray);
             hol.eventStatusId = eventId;
-            hol.employee.forename = userDetails.forename;
-            hol.employee.surname = userDetails.surname;
-            hol.employee.email = userDetails.email;
+            hol.employee.forename = user.forename;
+            hol.employee.surname = user.surname;
+            hol.employee.email = user.email;
           }
           this.setState({
             takenHolidays: this.formatDates(usersHolidays),
