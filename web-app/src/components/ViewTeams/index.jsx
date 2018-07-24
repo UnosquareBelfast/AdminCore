@@ -2,18 +2,21 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import ViewTeamsForm from './ViewTeamsForm';
+import { TeamList } from '../';
 
-export const ViewTeams = ({ submitRequest }) => {
+export const ViewTeams = ({ teamSearch, teams }) => {
   return (
     <div>
       <h2>View Teams</h2>
-      <ViewTeamsForm onSuccess={submitRequest} />
+      <ViewTeamsForm onChange={teamSearch} />
+      <TeamList teams={teams} columns={['teamName']} />
     </div>
   );
 };
 
 ViewTeams.propTypes = {
-  submitRequest: PT.func.isRequired,
+  teamSearch: PT.func.isRequired,
+  teams: PT.array.isRequired,
 };
 
 export default container(ViewTeams);

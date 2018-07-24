@@ -28,7 +28,6 @@ export const CreateTeamForm = props => {
 CreateTeamForm.propTypes = {
   clients: PT.array,
   formData: PT.object.isRequired,
-  submitForm: PT.func.isRequired,
   formStatus: PT.func.isRequired,
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createTeam } from '../../services/teamService';
+import { getTeamsFromClient } from '../../services/teamService';
 import swal from 'sweetalert2';
 
 export default Wrapped =>
@@ -7,30 +7,22 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        success: false,
+        teams: [],
       };
     }
 
-    submitRequest = data => {
-      const request = {
-        clientId: data.selectedClient,
-        teamName: data.teamName,
-      };
-      createTeam(request)
-        .then(() => {
-          this.setState({ success: true });
+    teamSearch = clientId => {
+      getTeamsFromClient(clientId)
+        .then(response => {
+          const teams = response.data;
+          this.setState({ teams });
         })
-        .catch(error => {
-          swal('Error', `Error creating team: ${error.message}`, 'error');
-        });
+        .catch(error =>
+          swal('Error', `Could not get teams: ${error.message}`, 'error')
+        );
     };
 
     render() {
-      return (
-        <Wrapped
-          submitRequest={this.submitRequest}
-          success={this.state.success}
-        />
-      );
+      return <Wrapped teamSearch={this.teamSearch} teams={this.state.teams} />;
     }
   };

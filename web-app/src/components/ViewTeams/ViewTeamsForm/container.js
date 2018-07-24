@@ -6,8 +6,7 @@ import swal from 'sweetalert2';
 export default Wrapped =>
   class extends Component {
     static propTypes = {
-      onSuccess: PT.func,
-      onFailed: PT.func,
+      onChange: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -16,7 +15,6 @@ export default Wrapped =>
         formData: {
           selectedClient: -1,
         },
-        formIsValid: false,
         clients: [],
       };
     }
@@ -32,45 +30,40 @@ export default Wrapped =>
             });
             return acc;
           }, []);
-          this.setState({
-            clients: formattedClients,
-            formData: {
-              ...this.state.formData,
-              selectedClient: formattedClients[0].value,
+          this.setState(
+            {
+              clients: formattedClients,
+              formData: {
+                ...this.state.formData,
+                selectedClient: formattedClients[0].value,
+              },
             },
-          });
+            () => this.props.onChange(this.state.formData.selectedClient)
+          );
         })
         .catch(error =>
           swal('Error', `Could not retreive clients: ${error.message}`, 'error')
         );
     }
 
-    handleFormStatus(name, value, formIsValid) {
+    handleFormStatus(name, value) {
       const updatedFormData = { ...this.state.formData };
       updatedFormData[name] = value;
-      this.setState({
-        formData: updatedFormData,
-        formIsValid,
-      });
-
-      console.log('form updated');
+      this.setState(
+        {
+          formData: updatedFormData,
+        },
+        () => {
+          this.props.onChange(this.state.formData.selectedClient);
+        }
+      );
     }
-
-    handleFormSubmit = event => {
-      event.preventDefault();
-      this.props.onSuccess(this.state.formData);
-    };
-
     render() {
       return (
         <Wrapped
           clients={this.state.clients}
           formData={this.state.formData}
-          formIsValid={this.state.formIsValid}
-          formStatus={(name, value, formIsValid) =>
-            this.handleFormStatus(name, value, formIsValid)
-          }
-          submitForm={e => this.handleFormSubmit(e)}
+          formStatus={(name, value) => this.handleFormStatus(name, value)}
         />
       );
     }
