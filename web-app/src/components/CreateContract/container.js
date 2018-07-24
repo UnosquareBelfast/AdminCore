@@ -31,6 +31,14 @@ export default Wrapped =>
       }
     };
 
+    complete = () => {
+      swal('Success!', 'Contract created successfully.', 'success');
+      this.setState({
+        contractData: {},
+        step: 0,
+      });
+    };
+
     submitContract = formData => {
       this.setState(
         {
@@ -50,7 +58,7 @@ export default Wrapped =>
           };
 
           createContract(contractRequest)
-            .then(() => this.nextStep())
+            .then(() => this.complete())
             .catch(error =>
               swal('Error Creating Contract', error.message, 'error')
             );

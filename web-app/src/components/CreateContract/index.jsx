@@ -9,7 +9,6 @@ import { ContractStyle } from './styled';
 
 export const CreateContract = props => {
   const { step, nextStep, submit, contract } = props;
-  console.log(contract);
 
   const {
     selectedUser,
@@ -69,10 +68,6 @@ export const CreateContract = props => {
             title: 'Contract Dates',
             component: <DateForm onSuccess={submit} />,
           },
-          {
-            title: 'Submission',
-            component: <p>Contract created successfully!</p>,
-          },
         ]}
       />
     </div>
@@ -83,6 +78,7 @@ CreateContract.propTypes = {
   step: PT.number.isRequired,
   nextStep: PT.func.isRequired,
   submit: PT.func.isRequired,
+  contract: PT.object.isRequired,
 };
 
 CreateContract.defaultProps = {
