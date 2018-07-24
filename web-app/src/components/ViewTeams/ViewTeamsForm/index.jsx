@@ -5,11 +5,11 @@ import { Form, Input } from '../../common';
 import { FormContainer } from './styled';
 
 export const CreateTeamForm = props => {
-  const { submitForm, formStatus, formData, formIsValid, clients } = props;
+  const { formStatus, formData, clients } = props;
 
   return (
     <FormContainer>
-      <Form formData={formData} formStatus={formStatus} actions={[]}>
+      <Form formData={formData} formStatus={formStatus}>
         <Input
           label="Pick a client:"
           type="select"
@@ -30,7 +30,6 @@ CreateTeamForm.propTypes = {
   formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
   formStatus: PT.func.isRequired,
-  formIsValid: PT.bool.isRequired,
 };
 
 CreateTeamForm.defaultProps = {

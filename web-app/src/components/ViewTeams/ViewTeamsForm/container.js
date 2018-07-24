@@ -15,7 +15,6 @@ export default Wrapped =>
       this.state = {
         formData: {
           selectedClient: -1,
-          teamName: '',
         },
         formIsValid: false,
         clients: [],
@@ -53,6 +52,8 @@ export default Wrapped =>
         formData: updatedFormData,
         formIsValid,
       });
+
+      console.log('form updated');
     }
 
     handleFormSubmit = event => {
