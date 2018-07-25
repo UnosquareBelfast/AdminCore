@@ -20,12 +20,11 @@ class AuthUserAndStore extends Component {
       getUserProfile(userId)
         .then(({ data }) => {
           store.dispatch(updateUser(data));
-          console.log(tokenProfile);
-
           Toast({
             type: 'success',
             title: `Welcome, ${tokenProfile.name}`,
             position: 'top-end',
+            timer: 2000,
           });
         })
         .catch(error => {
