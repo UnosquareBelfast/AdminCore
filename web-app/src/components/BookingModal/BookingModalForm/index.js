@@ -2,9 +2,9 @@ import React, { Fragment } from 'react';
 import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Form, Input } from '../common';
-import { getDurationNotice } from '../../utilities/dates';
-import Errorbox from '../common/Errorbox';
+import { Form, Input } from '../../common';
+import { getDurationNotice } from '../../../utilities/dates';
+import Errorbox from '../../common/Errorbox';
 
 const BookingModalForm = props => {
   const {

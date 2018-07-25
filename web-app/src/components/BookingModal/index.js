@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import BookingModalForm from '../BookingModalForm';
+import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/fontawesome-free-solid';

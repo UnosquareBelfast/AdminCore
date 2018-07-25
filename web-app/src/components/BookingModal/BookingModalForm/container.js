@@ -1,6 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { updateHoliday, requestHoliday } from '../../services/holidayService';
+import {
+  updateHoliday,
+  requestHoliday,
+} from '../../../services/holidayService';
 
 export default Wrapped =>
   class extends React.Component {
