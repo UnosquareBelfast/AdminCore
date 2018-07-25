@@ -4,6 +4,7 @@ import moment from 'moment';
 import employeeStatus from '../../../utilities/employeeStatus';
 import { createUser } from '../../../services/userService';
 import swal from 'sweetalert2';
+import { Toast } from '../../../utilities/Notifications';
 
 const initialFormState = {
   forename: '',
@@ -49,13 +50,9 @@ export default Wrapped =>
           this.setState({
             formData: { ...initialFormState },
           });
-          swal({
+          Toast({
             type: 'success',
-            title: 'Success!',
-            text: 'Employee created successfully',
-            toast: true,
-            timer: 4000,
-            showConfirmButton: false,
+            title: 'Employee created successfully! 👍',
           });
         })
         .catch(error => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createContract } from '../../services/contractService';
 import swal from 'sweetalert2';
+import { Toast } from '../../utilities/Notifications';
 
 export default Wrapped =>
   class extends Component {
@@ -32,13 +33,9 @@ export default Wrapped =>
     };
 
     complete = () => {
-      swal({
+      Toast({
         type: 'success',
-        title: 'Success!',
-        text: 'Contract created successfully',
-        toast: true,
-        timer: 4000,
-        showConfirmButton: false,
+        title: 'Contract created successfully! 👍',
       });
       this.setState({
         contractData: {},

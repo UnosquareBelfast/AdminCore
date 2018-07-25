@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createTeam } from '../../services/teamService';
 import swal from 'sweetalert2';
+import { Toast } from '../../utilities/Notifications';
 
 export default Wrapped =>
   class extends Component {
@@ -11,13 +12,9 @@ export default Wrapped =>
       };
       createTeam(request)
         .then(() => {
-          swal({
+          Toast({
             type: 'success',
-            title: 'Success!',
-            text: 'Team created successfully',
-            toast: true,
-            timer: 4000,
-            showConfirmButton: false,
+            title: 'Team created successfully! 👍',
           });
         })
         .catch(error => {
