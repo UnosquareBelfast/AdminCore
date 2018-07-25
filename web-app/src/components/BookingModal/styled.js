@@ -91,20 +91,5 @@ export const FormContainer = styled.div`
         margin-left: calc(50% + 10px);
       }
     }
-
-    &.bookingHalfDay {
-      > div:nth-child(2) {
-        visibility: hidden;
-      }
-    }
-
-    &.workingFromHome {
-      > div:nth-child(2) {
-        visibility: hidden;
-      }
-      h4#totalDaysToBook {
-        opacity: 0.4;
-      }
-    }
   }
 `;
