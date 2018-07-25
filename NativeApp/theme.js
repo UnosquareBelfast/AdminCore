@@ -7,8 +7,3 @@ export const theme = {
   },
 };
 
-// export const Container = styled.container`
-//   flex: 1;
-//   padding-top: 23;
-//   background-color: '#fff';
-// `;

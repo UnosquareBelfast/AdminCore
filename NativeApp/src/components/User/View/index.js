@@ -1,58 +1,47 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import {
-  ScrollView,
   View,
-  // Text,
   StyleSheet,
   FlatList,
 } from 'react-native';
 import ListItem from './ListItem';
-import { Text } from './styled';
+import { ScrollView, Text, HeaderContainer, HolidayContainer, HolidayText } from './styled';
 
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.headerContainer}>
-        <View style={styles.headerHolidayContainer}>
-          <View style={styles.holidayContainer}>
-            <Text>
-              Taken
+    <ScrollView>
+      <HeaderContainer>
+        <HolidayContainer divider>
+          <Text>
+            Taken
+          </Text>
+          <HolidayText>
+            <Text largeText>
+              {takenHolidays.length}
             </Text>
-            <View style={styles.holidayText}>
-              <Text largeText>
-                {takenHolidays.length}
-              </Text>
-              <Text smallText>
-                DAYS
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.headerHolidayContainer}>
-          <View style={styles.holidayContainer}>
-            <Text>
-              Remaining
+            <Text smallText>
+              DAYS
             </Text>
-            <View style={styles.holidayText}>
-              <Text largeText>
-                {remainingHolidays}
-              </Text>
-              <Text smallText>
-                DAYS
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
+          </HolidayText>
+        </HolidayContainer>
+        <HolidayContainer>
+          <Text>
+            Remaining
+          </Text>
+          <HolidayText>
+            <Text largeText>
+              {remainingHolidays}
+            </Text>
+            <Text smallText>
+              DAYS
+            </Text>
+          </HolidayText>
+        </HolidayContainer>
+      </HeaderContainer>
 
       <View style={styles.holsDate}>
         <Text>
@@ -96,43 +85,6 @@ const styles = StyleSheet.create({
   },
   holsDate: {
     paddingBottom: 10,
-  },
-  headerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: '#E5E5E5',
-    maxHeight: 93,
-    justifyContent: 'space-evenly',
-    borderColor: '#B1B1B1',
-    borderBottomWidth: 1,
-  },
-  headerHolidayContainer: {
-    justifyContent: 'center',
-    alignSelf: 'flex-start',
-    alignItems: 'center',
-
-    borderWidth: 3,
-    borderColor: 'blue',
-  },
-  holidayContainer: {
-    // justifyContent: 'center',
-    // alignSelf: 'center',
-    // flex: 1,
-    // flexDirection: 'row',
-    alignItems: 'center',
-
-    borderWidth: 3,
-    borderColor: 'yellow',
-  },
-  holidayText: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'baseline',
-
-    // justifyContent: 'center',
-    // alignSelf: 'center',
-    borderWidth: 3,
-    borderColor: 'green',
   },
 });
 

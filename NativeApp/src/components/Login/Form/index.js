@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-} from 'react-native';
 import { PropTypes as PT } from 'prop-types';
+import { Text, TextInput, TouchableOpacity, View } from '../styled';
+
 
 class LoginForm extends Component {
   static propTypes = {
@@ -41,12 +36,11 @@ class LoginForm extends Component {
     const { handleLogin, hasError } = this.props;
     const { changeColor } = this;
     return (
-      <View style={styles.container}>
+      <View>
         <TextInput
           id="input-1"
           onFocus={() => changeColor('input-1', '#00DCFA')}
           onBlur={() => changeColor('input-1', 'gray')}
-          style={styles.input}
           placeholder="Email"
           onChangeText={text => this.setState({ email: text })}
           value={email}
@@ -58,7 +52,6 @@ class LoginForm extends Component {
           id="input-2"
           onFocus={() => changeColor('input-2', '#00DCFA')}
           onBlur={() => changeColor('input-2', 'gray')}
-          style={styles.input}
           placeholder="Password"
           onChangeText={text => this.setState({ password: text })}
           value={password}
@@ -68,16 +61,15 @@ class LoginForm extends Component {
         />
         {
           hasError && (
-            <Text style={styles.validationText}>
+            <Text validationText>
               Incorrect email or password
             </Text>
           )
         }
         <TouchableOpacity
-          style={styles.button}
           onPress={() => handleLogin(email, password)}
         >
-          <Text style={[styles.text]}>
+          <Text>
             Log in to Holiday Tracker
           </Text>
         </TouchableOpacity>
@@ -85,35 +77,5 @@ class LoginForm extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  input: {
-    height: 40,
-    marginTop: 20,
-    paddingHorizontal: 5,
-    fontSize: 20,
-  },
-  button: {
-    backgroundColor: '#00DCFA',
-    height: 48,
-    borderRadius: 5,
-    alignItems: 'center',
-    padding: 8,
-    marginTop: 30,
-  },
-  text: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  validationText: {
-    color: 'red',
-    fontSize: 18,
-    paddingHorizontal: 5,
-  },
-});
 
 export default LoginForm;
