@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import Swal from 'sweetalert2';
 import { PropTypes as PT } from 'prop-types';
 import { userLogout } from '../../utilities/currentUser';
 import { NavLink } from 'react-router-dom';
@@ -13,15 +12,17 @@ import {
 } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faBars, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
+import Swal from 'sweetalert2';
 
 const NavMenu = ({ history, isAuthenticated, menuItems }) => {
   const handleLogout = () => {
     Swal({
-      title: 'Are you sure?',
-      text: 'Do you wish to log out?',
-      buttons: true,
-      dangerMode: true,
+      title: 'Log out?',
+      text: 'Are you sure you wish to log out?',
+      type: 'warning',
       showCancelButton: true,
+      confirmButtonText: 'Yes, log out',
+      cancelButtonText: 'No, cancel',
     }).then(signOut => {
       if (signOut.value === true) {
         userLogout();
