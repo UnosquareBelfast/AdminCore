@@ -1,6 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
+import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Home,
@@ -22,25 +21,29 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = () => {
-  const tabBarIcon = (<Icon name="home" size={25} color="#fff" />);
-  const tabBarColor = '#14967C';
+  const tabBarIcon = ({ tintColor }) => (<Icon name="home" size={25} color={tintColor} />);
 
   return {
     tabBarIcon,
-    tabBarColor,
   };
 };
 
-const AppStack = createMaterialBottomTabNavigator(
+const AppStack = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
     User: { screen: User },
     Team: { screen: Team },
+    Logout: { screen: Login },
   }, {
     initialRouteName: 'HomeStack',
-    activeTintColor: '#f0edf6',
-    inactiveTintColor: '#3e2465',
-    shifting: true,
+    order: ['HomeStack', 'User', 'Team', 'Logout'],
+    tabBarOptions: {
+      activeTintColor: '#FFFFFF',
+      inactiveTintColor: 'rgba(2,157,178,0.7)',
+      showLabel: false,
+      inactiveBackgroundColor: '#00DCFA',
+      activeBackgroundColor: '#00DCFA',
+    },
   }
 );
 
