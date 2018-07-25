@@ -11,7 +11,14 @@ export default Wrapped =>
       };
       createTeam(request)
         .then(() => {
-          swal('Success!', 'Team created successfully.', 'success');
+          swal({
+            type: 'success',
+            title: 'Success!',
+            text: 'Team created successfully',
+            toast: true,
+            timer: 4000,
+            showConfirmButton: false,
+          });
         })
         .catch(error => {
           swal('Error', `Error creating team: ${error.message}`, 'error');

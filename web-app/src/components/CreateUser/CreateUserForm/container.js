@@ -49,7 +49,14 @@ export default Wrapped =>
           this.setState({
             formData: { ...initialFormState },
           });
-          swal('Success!', 'User created sucessfully', 'success');
+          swal({
+            type: 'success',
+            title: 'Success!',
+            text: 'Employee created successfully',
+            toast: true,
+            timer: 4000,
+            showConfirmButton: false,
+          });
         })
         .catch(error => {
           swal('Error', `Error creating user: ${error.message}`, 'error');

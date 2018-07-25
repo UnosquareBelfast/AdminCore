@@ -32,7 +32,14 @@ export default Wrapped =>
     };
 
     complete = () => {
-      swal('Success!', 'Contract created successfully.', 'success');
+      swal({
+        type: 'success',
+        title: 'Success!',
+        text: 'Contract created successfully',
+        toast: true,
+        timer: 4000,
+        showConfirmButton: false,
+      });
       this.setState({
         contractData: {},
         step: 0,
