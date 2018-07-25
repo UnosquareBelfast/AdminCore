@@ -15,12 +15,13 @@ export const InnerLayout = styled.div`
   }
 
   .rbc-off-range-bg {
-    background: ${props => props.theme.colours.lightgrey};
+    background: ${props => props.theme.colours.grey};
+    border-left: 1px solid transparent !important;
     cursor: not-allowed;
   }
 
   .rbc-off-range a {
-    color: ${props => props.theme.colours.lightgrey} !important;
+    color: ${props => props.theme.colours.grey} !important;
   }
 
   .rbc-date-cell {
