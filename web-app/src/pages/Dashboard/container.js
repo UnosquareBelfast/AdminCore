@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
 import { getAllHolidays } from '../../services/holidayService';
+import { getDurationNotice } from '../../utilities/dates';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -54,10 +55,6 @@ const DashboardContainer = Wrapped =>
         );
     }
 
-    getRandomItem = array => {
-      return array[Math.floor(Math.random() * array.length)];
-    };
-
     getTakenHolidays = () => {
       getAllHolidays()
         .then(response => {
@@ -102,9 +99,7 @@ const DashboardContainer = Wrapped =>
       } else if (isWFH) {
         booking.duration = 0;
       } else {
-        booking.duration = Math.floor(
-          moment.duration(end.diff(start)).asDays() + 1,
-        );
+        booking.duration = getDurationNotice(start, end);
       }
 
       this.setState({
@@ -113,8 +108,8 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    onUpdateEvents = eventStatusId => {
-      let updatedFilterEvents = this.state.filterEvents;
+    onFilterEvents = eventStatusId => {
+      let updatedFilterEvents = [...this.state.filterEvents];
       if (updatedFilterEvents.includes(eventStatusId)) {
         updatedFilterEvents = updatedFilterEvents.filter(
           item => item !== eventStatusId,
@@ -152,7 +147,7 @@ const DashboardContainer = Wrapped =>
             }
             updateTakenHolidays={this.getTakenHolidays}
             userDetails={this.state.userDetails}
-            onUpdateEvents={this.onUpdateEvents}
+            onUpdateEvents={this.onFilterEvents}
           />
         )
       );

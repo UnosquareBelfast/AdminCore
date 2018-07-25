@@ -30,3 +30,21 @@ export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   });
   return totalDays;
 };
+
+export const getDuration = (startDate, endDate) => {
+  return Math.floor(moment.duration(endDate.diff(startDate)).asDays() + 1);
+};
+
+export const getDurationNotice = (startDate, endDate) => {
+  let days = getDuration(startDate, endDate);
+  let businessDays = 0;
+  let date = new moment(startDate);
+  while (days > 0) {
+    if (date.isoWeekday() !== 6 && date.isoWeekday() !== 7) {
+      businessDays += 1;
+    }
+    days -= 1;
+    date = date.add(1, 'days');
+  }
+  return businessDays;
+};
