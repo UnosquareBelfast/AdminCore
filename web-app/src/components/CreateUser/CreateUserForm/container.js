@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import employeeStatus from '../../../utilities/employeeStatus';
 import { createUser } from '../../../services/userService';
+import swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
@@ -43,10 +44,22 @@ export default Wrapped =>
       formData.startDate = formData.startDate.toISOString();
       return createUser(formData)
         .then(() => {
-          this.props.onSuccess();
+          this.setState({
+            formData: {
+              forename: '',
+              surname: '',
+              email: '',
+              password: '',
+              country: 1,
+              status: employeeStatus.ACTIVE,
+              employeeRole: 3,
+              startDate: moment(),
+            },
+          });
+          swal('Success!', 'User created sucessfully', 'success');
         })
         .catch(error => {
-          this.props.onFailed(error);
+          swal('Error', `Error creating user: ${error.message}`, 'error');
         });
     };
 
