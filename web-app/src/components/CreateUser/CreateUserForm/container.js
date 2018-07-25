@@ -5,6 +5,17 @@ import employeeStatus from '../../../utilities/employeeStatus';
 import { createUser } from '../../../services/userService';
 import swal from 'sweetalert2';
 
+const initialFormState = {
+  forename: '',
+  surname: '',
+  email: '',
+  password: '',
+  country: 1,
+  status: employeeStatus.ACTIVE,
+  employeeRole: 3,
+  startDate: moment(),
+};
+
 export default Wrapped =>
   class extends Component {
     static propTypes = {
@@ -15,16 +26,7 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        formData: {
-          forename: '',
-          surname: '',
-          email: '',
-          password: '',
-          country: 1,
-          status: employeeStatus.ACTIVE,
-          employeeRole: 3,
-          startDate: moment(),
-        },
+        formData: { ...initialFormState },
         formIsValid: false,
       };
     }
@@ -45,16 +47,7 @@ export default Wrapped =>
       return createUser(formData)
         .then(() => {
           this.setState({
-            formData: {
-              forename: '',
-              surname: '',
-              email: '',
-              password: '',
-              country: 1,
-              status: employeeStatus.ACTIVE,
-              employeeRole: 3,
-              startDate: moment(),
-            },
+            formData: { ...initialFormState },
           });
           swal('Success!', 'User created sucessfully', 'success');
         })
