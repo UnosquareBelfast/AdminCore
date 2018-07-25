@@ -10,6 +10,7 @@ import {
   Platform,
   TouchableHighlight,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 
@@ -84,6 +85,11 @@ class CustomDatePicker extends Component {
               <Text>
                 {chosenDate}
               </Text>
+              <Icon
+                name="calendar"
+                type="entypo"
+                color="#00DCFA"
+              />
             </View>
 
             <Modal
@@ -117,13 +123,16 @@ class CustomDatePicker extends Component {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
+    marginTop: 10,
   },
   dateInput: {
-    paddingVertical: 10,
+    padding: 10,
     borderWidth: 1,
+    borderRadius: 10,
     borderColor: '#aaa',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   dateContainer: {
     flex: 1,

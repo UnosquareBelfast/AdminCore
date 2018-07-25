@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import {
   View,
-  Button,
+  ScrollView,
   Text,
   StyleSheet,
 } from 'react-native';
+import { CheckBox, Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { CustomDatePicker } from '../../Common';
 
@@ -22,32 +23,57 @@ const BookingView = (props) => {
   const renderButton = booked
     ? (
       <Fragment>
-        <Button onPress={() => updateHoliday(false)} title="Update Holiday" />
-        <Button onPress={() => updateHoliday(true)} title="Cancel Holiday" />
+        <Button
+          onPress={() => updateHoliday(false)}
+          title="Update Holiday"
+        />
+        <Button
+          onPress={() => updateHoliday(true)}
+          title="Cancel Holiday"
+        />
       </Fragment>
     )
-    : <Button onPress={submitRequest} title="Request Holiday" />;
+    : (
+      <Button
+        onPress={submitRequest}
+        title="Request"
+        backgroundColor="#00DCFA"
+        borderRadius={5}
+      />
+    );
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text>
-        Start date
+        I would like to request the following holiday/s:
       </Text>
-      <CustomDatePicker
-        chosenDate={startDate}
-        setDate={changeStartDate}
-      />
-      <Text>
-        End date
-      </Text>
-      <CustomDatePicker
-        chosenDate={endDate}
-        setDate={changeEndDate}
-        minimumDate={startDate}
-      />
-      {renderButton}
-    </View>
+
+      <View style={styles.dateForm}>
+        <View>
+          <Text>
+            Start Date:
+          </Text>
+          <CustomDatePicker
+            chosenDate={startDate}
+            setDate={changeStartDate}
+          />
+          <Text>
+            End Date:
+          </Text>
+          <CustomDatePicker
+            chosenDate={endDate}
+            setDate={changeEndDate}
+            minimumDate={startDate}
+          />
+          <CheckBox
+            title="Request half day"
+            containerStyle={styles.checkBox}
+          />
+        </View>
+        {renderButton}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -65,9 +91,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingTop: 50,
+    paddingVertical: 50,
+    paddingHorizontal: 30,
     backgroundColor: '#fff',
+  },
+  dateForm: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingTop: 20,
+  },
+  checkBox: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    margin: 0,
+    marginRight: 0,
+    marginLeft: 0,
   },
 });
 
