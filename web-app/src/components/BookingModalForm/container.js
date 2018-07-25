@@ -72,17 +72,25 @@ export default Wrapped =>
       const formData = { ...this.state.formData };
       formData[name] = value;
 
-      if (name == 'start' || name == 'end') {
-        formData.isHalfday = false;
-        if (formData.start.isAfter(formData.end)) {
+      if (name == 'start') {
+        if (formData.isHalfday) {
           formData.end = formData.start;
-        } else if (formData.end.isBefore(formData.start)) {
+        } else {
+          if (formData.start.isAfter(formData.end)) {
+            formData.end = formData.start;
+          }
+        }
+      } else if (name == 'end') {
+        if (formData.isHalfday) {
           formData.start = formData.end;
+        } else {
+          if (formData.end.isBefore(formData.start)) {
+            formData.start = formData.end;
+          }
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.end = formData.start;
-      } else if (name === 'eventTypeId' && value !== 1) {
-        formData.isHalfday = false;
+        formData.eventStatusId = 1;
       }
 
       this.setState(
@@ -111,6 +119,7 @@ export default Wrapped =>
         <Wrapped
           formData={this.state.formData}
           isEventBeingUpdated={this.props.booking.isEventBeingUpdated}
+          daysRequested={this.props.booking.duration}
           formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>
             this.handleFormStatus(name, value, formIsValid)
