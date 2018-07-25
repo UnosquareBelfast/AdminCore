@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import Swal from 'sweetalert2';
 import moment from 'moment';
 
 const BookingCalendarContainer = Wrapped =>
@@ -15,15 +16,23 @@ const BookingCalendarContainer = Wrapped =>
     }
 
     onSelectSlot = ({ start, end }) => {
-      let booking = {
-        end: moment(end),
-        eventStatusId: 1,
-        isEventBeingUpdated: false,
-        isHalfday: false,
-        isWFH: false,
-        start: moment(start),
-      };
-      this.props.updateBookingAndDuration(booking);
+      const today = new moment();
+      if (moment(start).isAfter(today.add(-1, 'days'))) {
+        let booking = {
+          end: moment(end),
+          eventStatusId: 1,
+          isEventBeingUpdated: false,
+          isHalfday: false,
+          isWFH: false,
+          start: moment(start),
+        };
+        this.props.updateBookingAndDuration(booking);
+      } else {
+        Swal({
+          text: 'Unable to select past dates',
+          title: 'Sorry',
+        });
+      }
     };
 
     onSelectEvent = booking => {
@@ -33,6 +42,11 @@ const BookingCalendarContainer = Wrapped =>
           isEventBeingUpdated: true,
         };
         this.props.updateBookingAndDuration(updatedBooking);
+      } else {
+        Swal({
+          text: 'Unable to update other peoples events',
+          title: 'Sorry',
+        });
       }
     };
 
