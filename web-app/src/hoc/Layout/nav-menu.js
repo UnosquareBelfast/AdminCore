@@ -19,7 +19,7 @@ const NavMenu = ({ history, isAuthenticated, menuItems }) => {
     Swal({
       title: 'Log out?',
       text: 'Are you sure you wish to log out?',
-      type: 'warning',
+      type: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, log out',
       cancelButtonText: 'No, cancel',
