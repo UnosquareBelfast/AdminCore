@@ -12,6 +12,5 @@ public class DateViewModel {
 
     private LocalDate endDate;
 
-    @Builder.Default
-    private boolean halfDay = false;
+    private boolean halfDay;
 }

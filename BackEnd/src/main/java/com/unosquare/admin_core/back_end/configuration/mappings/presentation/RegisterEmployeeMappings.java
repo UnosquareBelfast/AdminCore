@@ -5,11 +5,14 @@ import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import org.modelmapper.PropertyMap;
 
-public class RegisterEmployeeMappings implements BaseMappings<EmployeeDTO, RegisterEmployeeViewModel> {
+public class RegisterEmployeeMappings extends BaseMappings<EmployeeDTO, RegisterEmployeeViewModel> {
 
     @Override
     public PropertyMap<EmployeeDTO, RegisterEmployeeViewModel> MapFromDtoToTarget() {
-        return null;
+        return  new PropertyMap <EmployeeDTO, RegisterEmployeeViewModel>() {
+            protected void configure() {
+            }
+        };
     }
 
     @Override
@@ -20,7 +23,6 @@ public class RegisterEmployeeMappings implements BaseMappings<EmployeeDTO, Regis
                 map().setEmployeeStatusId(source.getStatusId());
                 map().setEmployeeRoleId(source.getRoleId());
                 map().setCountryId(source.getCountryId());
-                map().setEmployeeStatusId(source.getStatusId());
                 map().setEmail(source.getEmail());
                 map().setForename(source.getForename());
                 map().setSurname(source.getSurname());

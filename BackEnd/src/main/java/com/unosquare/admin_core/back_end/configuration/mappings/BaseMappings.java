@@ -2,8 +2,15 @@ package com.unosquare.admin_core.back_end.configuration.mappings;
 
 import org.modelmapper.PropertyMap;
 
-public interface BaseMappings<T, U> {
+public abstract class BaseMappings<T, U> {
 
-    PropertyMap <T, U> MapFromDtoToTarget();
-    PropertyMap <U, T> MapFromTargetToDto();
+    public PropertyMap <T, U> MapFromDtoToTarget() {
+
+        return null;
+    }
+
+    public PropertyMap <U, T> MapFromTargetToDto() {
+
+        return null;
+    }
 }

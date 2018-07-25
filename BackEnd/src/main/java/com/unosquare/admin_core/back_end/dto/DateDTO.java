@@ -12,6 +12,5 @@ public class DateDTO {
 
     private LocalDate endDate;
 
-    @Builder.Default
     private boolean halfDay = false;
 }

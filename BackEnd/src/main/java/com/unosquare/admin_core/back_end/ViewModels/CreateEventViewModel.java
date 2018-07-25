@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.ViewModels;
 
+import com.unosquare.admin_core.back_end.entity.Employee;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -23,5 +24,8 @@ public class CreateEventViewModel {
 
     private LocalDate lastModified;
     private LocalDate dateCreated;
+
+    private Employee employee;
+
 
 }

@@ -1,15 +1,14 @@
 package com.unosquare.admin_core.back_end.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "Event")
 @ToString
 public class Event {

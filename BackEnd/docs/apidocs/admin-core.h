@@ -26,20 +26,10 @@
 @interface ADMIN_CORENS0SwaggerResource : NSObject
 {
   @private
-    NSString *_name;
     NSString *_location;
+    NSString *_name;
     NSString *_swaggerVersion;
 }
-
-/**
- * (no documentation provided)
- */
-- (NSString *) name;
-
-/**
- * (no documentation provided)
- */
-- (void) setName: (NSString *) newName;
 
 /**
  * (no documentation provided)
@@ -50,6 +40,16 @@
  * (no documentation provided)
  */
 - (void) setLocation: (NSString *) newLocation;
+
+/**
+ * (no documentation provided)
+ */
+- (NSString *) name;
+
+/**
+ * (no documentation provided)
+ */
+- (void) setName: (NSString *) newName;
 
 /**
  * (no documentation provided)

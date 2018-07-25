@@ -8,7 +8,7 @@ import com.unosquare.admin_core.back_end.entity.EmployeeRole;
 import com.unosquare.admin_core.back_end.entity.EmployeeStatus;
 import org.modelmapper.PropertyMap;
 
-public class EmployeeMappings implements BaseMappings<EmployeeDTO, Employee> {
+public class EmployeeMappings extends BaseMappings<EmployeeDTO, Employee> {
 
     @Override
     public PropertyMap<EmployeeDTO, Employee> MapFromDtoToTarget() {
@@ -27,6 +27,7 @@ public class EmployeeMappings implements BaseMappings<EmployeeDTO, Employee> {
                 map().setForename(source.getForename());
                 map().setSurname(source.getSurname());
                 map().setStartDate(source.getStartDate());
+                skip().setEvents(null);
             }
         };
     }
@@ -48,8 +49,6 @@ public class EmployeeMappings implements BaseMappings<EmployeeDTO, Employee> {
                 map().setSurname(source.getSurname());
                 map().setStartDate(source.getStartDate());
                 map().setEmployeeId(source.getEmployeeId());
-
-
             }
         };
     }

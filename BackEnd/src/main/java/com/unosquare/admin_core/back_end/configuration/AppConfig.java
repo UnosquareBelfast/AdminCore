@@ -20,24 +20,21 @@ public class AppConfig {
 
     @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-    public ModelMapper modelMapper() {
+    public ModelMapper modelMapper() throws IllegalAccessException, InstantiationException {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
 
-        List mappings = new ArrayList<>();
+        List<Class<? extends BaseMappings>> mappings = new ArrayList<>();
         new FastClasspathScanner(EmployeeMappings.class.getPackage().getName())
-                .matchSubclassesOf(Object.class, mappings::add)
+                .matchSubclassesOf(BaseMappings.class, mappings::add)
                 .scan();
         new FastClasspathScanner(RegisterEmployeeMappings.class.getPackage().getName())
-                .matchSubclassesOf(Object.class, mappings::add)
+                .matchSubclassesOf(BaseMappings.class, mappings::add)
                 .scan();
-
-        for (Object mapping : mappings) {
-            if (mapping instanceof BaseMappings<?, ?>) {
-                modelMapper.addMappings(((BaseMappings) mapping).MapFromDtoToTarget());
-                modelMapper.addMappings(((BaseMappings) mapping).MapFromTargetToDto());
-            }
-
+        for (Class<? extends BaseMappings> mappingClass : mappings) {
+            BaseMappings<?, ?> mapping = mappingClass.newInstance();
+            modelMapper.addMappings(mapping.MapFromDtoToTarget());
+            modelMapper.addMappings(mapping.MapFromTargetToDto());
         }
         return modelMapper;
     }

@@ -5,7 +5,7 @@ import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.dto.TeamDTO;
 import org.modelmapper.PropertyMap;
 
-public class TeamMappings implements BaseMappings<TeamDTO,CreateTeamViewModel> {
+public class SaveTeamMappings extends BaseMappings<TeamDTO,CreateTeamViewModel> {
     @Override
     public PropertyMap<TeamDTO, CreateTeamViewModel> MapFromDtoToTarget() {
         return new PropertyMap<TeamDTO, CreateTeamViewModel>() {

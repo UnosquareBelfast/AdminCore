@@ -28,7 +28,7 @@ public class EmployeeController {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<FindEmployeeViewModel> findAllEmployees() {
-        return mapEployeessToViewModel(employeeService.findAll());
+        return mapEmployeesToViewModel(employeeService.findAll());
     }
 
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,16 +49,16 @@ public class EmployeeController {
     @GetMapping(value = "/findByForenameAndSurname/{forename}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<FindEmployeeViewModel> findByForenameAndSurname(@PathVariable("forename") String forename, @PathVariable("surname") String surname) {
-        return mapEployeessToViewModel(employeeService.findByForenameAndSurname(forename, surname));
+        return mapEmployeesToViewModel(employeeService.findByForenameAndSurname(forename, surname));
     }
 
     @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<FindEmployeeViewModel> findByCountry(@PathVariable("countryId") int countryId) {
-        return mapEployeessToViewModel(employeeService.findByCountry(Countries.fromId(countryId)));
+        return mapEmployeesToViewModel(employeeService.findByCountry(Countries.fromId(countryId)));
     }
 
-    private List<FindEmployeeViewModel> mapEployeessToViewModel(List<Employee> employees) {
+    private List<FindEmployeeViewModel> mapEmployeesToViewModel(List<Employee> employees) {
         return employees.stream().map(employee -> modelMapper.map(employee, FindEmployeeViewModel.class)).collect(Collectors.toList());
     }
 }

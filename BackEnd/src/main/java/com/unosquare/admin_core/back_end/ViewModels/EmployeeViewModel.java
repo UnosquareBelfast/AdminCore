@@ -1,4 +1,4 @@
-package com.unosquare.admin_core.back_end.dto;
+package com.unosquare.admin_core.back_end.ViewModels;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.admin_core.back_end.enums.Countries;
@@ -9,8 +9,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class EmployeeDTO {
-
+public class EmployeeViewModel {
     private int employeeId;
 
     private String forename;
@@ -35,5 +34,19 @@ public class EmployeeDTO {
 
     private String statusDescription;
 
-    private String password;
+    @JsonIgnore
+    public EmployeeRoles getEmployeeRole() {
+        return EmployeeRoles.fromId(employeeRoleId);
+    }
+
+    @JsonIgnore
+    public EmployeeStatuses getEmployeeStatus() {
+        return EmployeeStatuses.fromId(employeeStatusId);
+    }
+
+    @JsonIgnore
+    public Countries getCountry() {
+        return Countries.fromId(countryId);
+    }
+
 }

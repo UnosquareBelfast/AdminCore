@@ -13,11 +13,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     List<Event> findByEmployee(Employee employee);
 
-    Event findByEmployeeAndStartDateAndEndDate(Employee employee, LocalDate startDate, LocalDate endDate);
+    Event findByEmployeeAndStartDateAndEndDateAndEventType(Employee employee, LocalDate startDate, LocalDate endDate, EventType eventType);
 
     List<Event> findByStartDateAndEmployeeAndEventType(LocalDate startDate, Employee employee, EventType eventType);
 
-    List<Event> findByStartDateBetween(LocalDate rangeStart, LocalDate rangeEnd);
+    List<Event> findByStartDateBetweenAndEventType(LocalDate rangeStart, LocalDate rangeEnd,EventType eventType);
 
     List<Event> findByEventStatusAndEventType(EventStatus eventStatus, EventType eventType);
 

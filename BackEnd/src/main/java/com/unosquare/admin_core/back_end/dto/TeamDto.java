@@ -12,16 +12,4 @@ public class TeamDTO implements java.io.Serializable {
     public TeamDTO() {
 
     }
-
-    public TeamDTO(int clientId, int teamId, String teamName) {
-        this.clientId = clientId;
-        this.teamId = teamId;
-        this.teamName = teamName;
-
-    }
-
-    public TeamDTO(String teamName) {
-        this.teamName = teamName;
-
-    }
 }

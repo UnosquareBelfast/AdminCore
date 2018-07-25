@@ -1,8 +1,6 @@
 package com.unosquare.admin_core.back_end.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,9 +9,10 @@ import java.util.Set;
 
 @NoArgsConstructor
 @Entity
-@Data
+@Getter
+@Setter
+//@ToString
 @Table(name = "Employee")
-@ToString
 public class Employee {
 
     @Id
@@ -46,10 +45,12 @@ public class Employee {
     @JoinColumn(name = "employee_status_id")
     private EmployeeStatus employeeStatus;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
     private Set<Contract> contracts = new HashSet();
 
-    @OneToMany(mappedBy = "employee")
+
+    @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
+    @Setter(AccessLevel.PUBLIC)
     private Set<Event> events = new HashSet<>();
 
     public Employee(int employeeId){

@@ -26,14 +26,15 @@ public class ClientController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ClientDTO> findAllClients() {
-        return mapClientsToDtos(clientService.findAll());
+    public List<ClientViewModel> findAllClients() {
+        //return mapClientsToDtos(clientService.findAll());
+        return null;
     }
 
     @GetMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ClientDTO findClientById(@PathVariable("clientId") int id) {
-        return modelMapper.map(clientService.findById(id), ClientDTO.class);
+    public ClientViewModel findClientById(@PathVariable("clientId") int id) {
+        return modelMapper.map(clientService.findById(id), ClientViewModel.class);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,11 +54,12 @@ public class ClientController {
 
     @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDTO> findByClientNameContaining(@PathVariable("clientName") String clientName) {
-        return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
+    public List<ClientViewModel> findByClientNameContaining(@PathVariable("clientName") String clientName) {
+      //  return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
+        return null;
     }
 
-    private List<ClientDTO> mapClientsToDtos(List<Client> clients) {
-        return clients.stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
+    private List<ClientViewModel> mapClientsToDtos(List<ClientDTO> clients) {
+        return clients.stream().map(client -> modelMapper.map(client, ClientViewModel.class)).collect(Collectors.toList());
     }
 }
