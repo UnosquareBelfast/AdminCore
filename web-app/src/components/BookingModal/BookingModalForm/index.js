@@ -3,7 +3,10 @@ import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../common';
-import { getDurationNotice } from '../../../utilities/dates';
+import {
+  getDurationNotice,
+  calculateDaysNotice,
+} from '../../../utilities/dates';
 import Errorbox from '../../common/Errorbox';
 
 const BookingModalForm = props => {
@@ -43,18 +46,6 @@ const BookingModalForm = props => {
     }
   };
 
-  const calculateDaysNotice = () => {
-    if (daysRequested < 4) {
-      return 10;
-    } else if (daysRequested > 4 && daysRequested < 10) {
-      return 20;
-    } else if (daysRequested > 10) {
-      return 40;
-    } else {
-      return 0;
-    }
-  };
-
   const composeErrorMessage = () => {
     const { eventStatusId, start } = formData;
     if (isEventBeingUpdated || eventStatusId == 4 || eventStatusId == 5) {
@@ -63,7 +54,7 @@ const BookingModalForm = props => {
       const today = new moment();
       const fromTodayToStartDateRequested = getDurationNotice(today, start);
 
-      const daysNotice = calculateDaysNotice();
+      const daysNotice = calculateDaysNotice(daysRequested);
       let error;
       if (daysRequested == 0) {
         error = {

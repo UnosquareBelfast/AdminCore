@@ -40,11 +40,23 @@ export const getDurationNotice = (startDate, endDate) => {
   let businessDays = 0;
   let date = new moment(startDate);
   while (days > 0) {
-    if (date.isoWeekday() !== 6 && date.isoWeekday() !== 7) {
+    if (date.isoWeekday() < 6) {
       businessDays += 1;
     }
     days -= 1;
     date = date.add(1, 'days');
   }
   return businessDays;
+};
+
+export const calculateDaysNotice = daysRequested => {
+  if (daysRequested < 4) {
+    return 10;
+  } else if (daysRequested > 4 && daysRequested < 10) {
+    return 20;
+  } else if (daysRequested > 10) {
+    return 40;
+  } else {
+    return 0;
+  }
 };
