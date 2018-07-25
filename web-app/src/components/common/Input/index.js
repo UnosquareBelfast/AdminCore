@@ -34,10 +34,6 @@ const Input = props => {
     inputClasses.push('invalid');
   }
 
-  if (htmlAttrs.disabled) {
-    inputClasses.push('disabled');
-  }
-
   switch (type) {
     case 'input':
       inputElement = (
