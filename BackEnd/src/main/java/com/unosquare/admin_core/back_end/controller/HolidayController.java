@@ -1,10 +1,9 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.CreateHolidayDto;
-import com.unosquare.admin_core.back_end.dto.DateDTO;
-import com.unosquare.admin_core.back_end.dto.EventDto;
-import com.unosquare.admin_core.back_end.entity.Event;
-import com.unosquare.admin_core.back_end.entity.EventType;
+import com.unosquare.admin_core.back_end.ViewModels.HolidayViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.SaveHolidayViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.DateViewModel;
+import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
@@ -34,34 +33,37 @@ public class HolidayController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventDto> findAll() {
-        return mapEventsToDtos(eventService.findByType(EventTypes.ANNUAL_LEAVE));
+    public List<HolidayViewModel> findAll() {
+        List holidays = eventService.findByType(EventTypes.ANNUAL_LEAVE);
+        return mapEventDtosToHolidays(holidays);
     }
 
-    @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EventDto findholidayById(@PathVariable("eventId") int eventId) {
-        return modelMapper.map(eventService.findById(eventId), EventDto.class);
+    public HolidayViewModel findholidayById(@PathVariable("holidayId") int eventId) {
+        EventDTO holiday = eventService.findById(eventId);
+        return modelMapper.map(holiday, HolidayViewModel.class);
     }
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventDto> findEventByEmployeeId(@PathVariable("employeeId") int employeeId) {
-        return mapEventsToDtos(eventService.findByEmployee(employeeId));
+    public List<HolidayViewModel> findHolidaysByEmployeeId(@PathVariable("employeeId") int employeeId) {
+        List holidays = eventService.findByEmployee(employeeId);
+        return mapEventDtosToHolidays(holidays);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createHoliday(@RequestBody CreateHolidayDto createEventDto) {
+    public ResponseEntity createHoliday(@RequestBody SaveHolidayViewModel saveHolidayViewModel) {
 
         List<String> responses = new ArrayList<>();
 
-        for (DateDTO date : createEventDto.getDates()) {
-            Event existentEvent = eventService.findByEmployeeIdStartDataEndDate(
-                    createEventDto.getEmployeeId(), date.getStartDate(), date.getEndDate());
+        for (DateViewModel date : saveHolidayViewModel.getDates()) {
+            EventDTO existentEvent = eventService.findByEmployeeIdStartDataEndDate(
+                    saveHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
 
             if (existentEvent != null) {
-                responses.add("Event already exists");
+                responses.add("Holiday already exists");
                 continue;
             }
 
@@ -73,11 +75,16 @@ public class HolidayController {
 
         if (responses.isEmpty()) {
 
-            Event newEvent = modelMapper.map(createEventDto, Event.class);
-            newEvent.setEventType(new EventType(EventTypes.ANNUAL_LEAVE.getEventTypeId()));
+            ArrayList<EventDTO> newHolidays = new ArrayList<>();
 
-            eventService.save(createEventDto.getEmployeeId(), newEvent);
-            responses.add("Created");
+            for (DateViewModel date : saveHolidayViewModel.getDates()) {
+
+                EventDTO newHoliday = modelMapper.map(date , EventDTO.class);
+                modelMapper.map(saveHolidayViewModel, newHoliday);
+                newHolidays.add(newHoliday);
+            }
+
+            eventService.saveEvents(newHolidays.stream().toArray(EventDTO[]::new));
         }
 
         return ResponseEntity.ok(responses);
@@ -85,28 +92,26 @@ public class HolidayController {
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateHoliday(@RequestBody EventDto event) {
-        eventService.save(event.getEmployeeId(), modelMapper.map(event, Event.class));
+    public void updateHoliday(@RequestBody SaveHolidayViewModel saveHolidayViewModel) {
+
+        EventDTO event = modelMapper.map(saveHolidayViewModel, EventDTO.class);
+        eventService.saveEvents(event);
     }
 
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventDto> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
-                                              @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
-        return mapEventsToDtos(eventService.findByDateBetween(rangeStart, rangeEnd));
+    public List<HolidayViewModel> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
+                                            @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
+        return mapEventDtosToHolidays(eventService.findByDateBetween(rangeStart, rangeEnd,EventTypes.ANNUAL_LEAVE));
     }
 
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventDto> findByHolidayStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
-        return mapEventsToDtos(eventService.findByStatusAndType(EventStatuses.fromId(holidayStatusId), EventTypes.ANNUAL_LEAVE));
+    public List<HolidayViewModel> findByHolidayStatus(@PathVariable("holidayStatusId") int holidayStatusId) {
+        return mapEventDtosToHolidays(eventService.findByStatusAndType(EventStatuses.fromId(holidayStatusId), EventTypes.ANNUAL_LEAVE));
     }
 
-    private List<EventDto> mapEventsToDtos(List<Event> events) {
-        return events.stream().map(event -> modelMapper.map(event, EventDto.class)).collect(Collectors.toList());
-    }
-
-    private List<Event> mapDtosToEvents(List<EventDto> events) {
-        return events.stream().map(event -> modelMapper.map(event, Event.class)).collect(Collectors.toList());
+    private List<HolidayViewModel> mapEventDtosToHolidays(List<EventDTO> events) {
+            return events.stream().map(event -> modelMapper.map(event, HolidayViewModel.class)).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import CreateClientForm from '../CreateClientForm';
+import CreateClientForm from './CreateClientForm';
 import { Card, Errorbox, Button } from '../common';
 import { ListCTA } from './styled';
 

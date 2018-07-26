@@ -22,12 +22,13 @@ export const Admin = props => (
     <MainContentContainer>
       <Switch>
         <Route exact path="/admin/teams/" component={ViewTeams} />
-        <Route path="/admin/teams/new" component={CreateTeam} />
+        <Route path="/admin/teams/new/" component={CreateTeam} />
         <Route exact path="/admin/contracts/" component={ViewContracts} />
-        <Route path="/admin/contracts/new" component={CreateContract} />
-        <Route path="/admin/createEmployee" component={CreateUser} />
+        <Route path="/admin/contracts/new/" component={CreateContract} />
+        <Route path="/admin/employees/new/" component={CreateUser} />
         <Route
-          path="/admin/employees"
+          exact
+          path="/admin/employees/"
           render={() => (
             <Fragment>
               <h2>Employees</h2>
@@ -36,15 +37,16 @@ export const Admin = props => (
             </Fragment>
           )}
         />
-        <Route path="/admin/pendingHolidays" component={PendingHolidays} />
-        <Route path="/admin/holidays" component={AllHolidays} />
+        <Route path="/admin/holidays/pending/" component={PendingHolidays} />
+        <Route path="/admin/holidays/" component={AllHolidays} />
         <Route
-          path="/admin/clients"
+          exact
+          path="/admin/clients/"
           render={() => <AllClients history={props.history} />}
         />
-        <Route path="/admin/createClient" component={CreateClient} />
-        <Route path="/admin/updateClient/:clientId" component={CreateClient} />
-        <Route path="/admin" component={AdminDashboard} />
+        <Route path="/admin/clients/new/" component={CreateClient} />
+        <Route path="/admin/clients/:clientId/" component={CreateClient} />
+        <Route path="/admin/" component={AdminDashboard} />
       </Switch>
     </MainContentContainer>
   </Container>

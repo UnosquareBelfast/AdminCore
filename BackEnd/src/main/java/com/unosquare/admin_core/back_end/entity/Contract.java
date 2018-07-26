@@ -1,12 +1,14 @@
 package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "Contract")
 public class Contract implements java.io.Serializable{
 
@@ -29,10 +31,6 @@ public class Contract implements java.io.Serializable{
 
     @Column(name = "end_date")
     private LocalDate endDate;
-
-    public Contract() {
-
-    }
 
     public Contract(int id) {
         this.contractId = id;
