@@ -2,55 +2,35 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import CreateClientForm from './CreateClientForm';
-import { Card, Errorbox, Button } from '../common';
+import { Button } from '../common';
 import { ListCTA } from './styled';
 
 export const CreateClient = props => {
-  const {
-    goToAllClients,
-    clientId,
-    error,
-    success,
-    onSuccess,
-    onFailed,
-  } = props;
-  const successMessage =
-    clientId > 0
-      ? 'Client updated successfully!'
-      : 'Client created successfully!';
+  const { clientId, updateClient, createClient, history } = props;
+
   return (
-    <Card>
-      <h3>{clientId > 0 ? 'Update Client' : 'Create Client'}</h3>
+    <div>
+      <h2>{clientId > 0 ? 'Update Client' : 'Create Client'}</h2>
       <ListCTA>
-        <Button label="View all clients" onClick={goToAllClients} />
+        <Button
+          label="View all clients"
+          onClick={() => history.push('/admin/clients')}
+        />
       </ListCTA>
       <CreateClientForm
         clientId={clientId}
-        onSuccess={onSuccess}
-        onFailed={onFailed}
+        onRequestUpdate={updateClient}
+        onRequestCreate={createClient}
       />
-      <Errorbox
-        id="errorCreateUser"
-        error={error}
-        label="Error creating user"
-      />
-      {success && <p id="userCreatedSuccess">{successMessage}!</p>}
-    </Card>
+    </div>
   );
 };
 
 CreateClient.propTypes = {
-  goToAllClients: PT.func.isRequired,
+  history: PT.object.isRequired,
   clientId: PT.number.isRequired,
-  onSuccess: PT.func.isRequired,
-  onFailed: PT.func.isRequired,
-  error: PT.object,
-  success: PT.bool,
-};
-
-CreateClient.defaultProps = {
-  error: false,
-  success: false,
+  updateClient: PT.func.isRequired,
+  createClient: PT.func.isRequired,
 };
 
 export default container(CreateClient);

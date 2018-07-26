@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { createClient, updateClient } from '../../services/clientService';
+import { Toast } from '../../utilities/Notifications';
+import swal from 'sweetalert2';
 
 export default Wrapped =>
   class extends Component {
@@ -15,16 +18,28 @@ export default Wrapped =>
       };
     }
 
-    clientCreatedSuccessfully = () => {
-      this.props.history.push('/admin/clients');
+    createClient = data => {
+      createClient(data)
+        .then(() =>
+          Toast({ type: 'success', title: 'Client created sucessfully!' })
+        )
+        .catch(error =>
+          swal('Error', `Error creating client:${error.message}`, 'error')
+        );
+    };
+
+    updateClient = data => {
+      updateClient(data)
+        .then(() => {
+          Toast({ type: 'success', title: 'Client updated sucessfully!' });
+        })
+        .catch(error =>
+          swal('Error', `Error updating client:${error.message}`, 'error')
+        );
     };
 
     clientsFailedToCreated = error => {
       this.setState({ error });
-    };
-
-    goToAllClients = () => {
-      this.props.history.push('/admin/clients');
     };
 
     render() {
@@ -36,14 +51,13 @@ export default Wrapped =>
 
       return (
         <Wrapped
+          history={this.props.history}
           goToAllClients={this.goToAllClients}
           clientId={parseInt(clientId)}
           success={this.state.success}
           error={this.state.error}
-          onSuccess={this.clientCreatedSuccessfully}
-          onFailed={error => {
-            this.clientsFailedToCreated(error);
-          }}
+          createClient={this.createClient}
+          updateClient={this.updateClient}
         />
       );
     }
