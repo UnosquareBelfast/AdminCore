@@ -18,6 +18,7 @@ export default Container => class extends Component {
     this.state = {
       booking: {
         holId: 0,
+        status: '',
         startDate: '',
         endDate: '',
         halfDay: false,
@@ -33,6 +34,7 @@ export default Container => class extends Component {
     const chosenDate = navigation.getParam('date', '');
     const booked = navigation.getParam('booked', '');
     const holId = navigation.getParam('holId', '');
+    const status = navigation.getParam('status', '');
 
     userProfile()
       .then(user => this.setState({ user }));
@@ -41,6 +43,7 @@ export default Container => class extends Component {
       booking: {
         ...booking,
         holId,
+        status,
         startDate: chosenDate,
         endDate: chosenDate,
       },
@@ -151,6 +154,7 @@ export default Container => class extends Component {
         halfDay={booking.halfDay}
         updateHalfDay={this.updateHalfDay}
         booked={booked}
+        status={booking.status}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}
         changeStartDate={this.changeStartDate}

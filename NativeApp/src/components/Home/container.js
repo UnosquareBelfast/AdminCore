@@ -44,7 +44,7 @@ export default Container => class extends Component {
       if (day) {
         const booked = has(takenHolidays, day.dateString);
         const holiday = get(takenHolidays, day.dateString, 0);
-        navigation.push('Booking', { date: day.dateString, holId: holiday.holId, booked });
+        navigation.push('Booking', { date: day.dateString, status: holiday.status, holId: holiday.holId, booked });
       }
     }
 
@@ -69,10 +69,10 @@ export default Container => class extends Component {
     }
 
     formatDate = data => data.reduce((obj, item) => {
-      const holidayStatus = this.holidayStatus(item.holidayStatusId);
+      const holidayStatus = this.holidayStatus(item.eventStatus.eventStatusId);
       const dates = this.enumerateDaysBetweenDates(item.start, item.end);
       dates.forEach((date) => {
-        obj[date] = { textColor: 'white', color: holidayStatus, holId: item.holidayId };
+        obj[date] = { textColor: 'white', color: holidayStatus, status: item.eventStatus.description, holId: item.holidayId };
       });
 
       return obj;

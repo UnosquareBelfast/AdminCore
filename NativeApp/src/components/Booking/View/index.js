@@ -20,6 +20,7 @@ const BookingView = (props) => {
     submitRequest,
     halfDay,
     updateHalfDay,
+    status,
   } = props;
 
   const renderButton = booked
@@ -48,12 +49,22 @@ const BookingView = (props) => {
       />
     );
 
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text>
-        I would like to request the following holiday/s:
+        I would like to
+        {booked ? ' update ' : ' request '}
+        the following holiday/s:
       </Text>
+
+      <View style={styles.holidayStatus}>
+        <Text>
+          {status}
+        </Text>
+        <Text>
+          {startDate} to {endDate}
+        </Text>
+      </View>
 
       <View style={styles.dateForm}>
         <View>
@@ -122,6 +133,13 @@ const styles = StyleSheet.create({
     margin: 0,
     marginRight: 0,
     marginLeft: 0,
+  },
+  holidayStatus: {
+    backgroundColor: '#f7f7f7',
+    borderLeftWidth: 10,
+    borderLeftColor: '#00DCFA',
+    padding: 10,
+    marginTop: 20,
   },
 });
 
