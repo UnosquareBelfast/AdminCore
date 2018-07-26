@@ -24,3 +24,4 @@ export { default as ContractList } from './ContractList';
 export { default as ViewTeams } from './ViewTeams';
 export { default as TeamList } from './TeamList';
 export { default as ClientList } from './ClientList';
+export { default as ClientModal } from './ClientModal';
