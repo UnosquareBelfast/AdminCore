@@ -117,6 +117,7 @@ BookingView.propTypes = {
   booked: PT.bool.isRequired,
   halfDay: PT.bool.isRequired,
   updateHalfDay: PT.func.isRequired,
+  status: PT.string.isRequired,
 };
 
 const styles = StyleSheet.create({
