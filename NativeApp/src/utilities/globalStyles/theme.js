@@ -6,4 +6,3 @@ export const theme = {
     darkGrey: '#5E6B73',
   },
 };
-

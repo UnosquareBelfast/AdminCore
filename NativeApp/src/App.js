@@ -2,7 +2,7 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import RootNavigator from './utilities/navigationConfig';
 import { AuthProvider } from './utilities/AuthContext';
-import { theme } from '../theme';
+import { theme } from './utilities/globalStyles/theme';
 
 const App = () => (
   <ThemeProvider theme={theme}>
