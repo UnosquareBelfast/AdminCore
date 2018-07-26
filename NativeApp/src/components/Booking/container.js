@@ -29,6 +29,7 @@ export default Container => class extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
+    const { booking } = this.state;
     const chosenDate = navigation.getParam('date', '');
     const booked = navigation.getParam('booked', '');
     const holId = navigation.getParam('holId', '');
@@ -38,6 +39,7 @@ export default Container => class extends Component {
 
     this.setState({
       booking: {
+        ...booking,
         holId,
         startDate: chosenDate,
         endDate: chosenDate,
@@ -86,7 +88,7 @@ export default Container => class extends Component {
       dates: [
         {
           endDate: booking.endDate,
-          halfDay: false,
+          halfDay: booking.halfDay,
           startDate: booking.startDate,
         },
       ],
@@ -110,7 +112,7 @@ export default Container => class extends Component {
     const request = {
       employeeId: user.employeeId,
       endDate: booking.endDate,
-      halfDay: false,
+      halfDay: booking.halfDay,
       holidayId: booking.holId,
       holidayStatusId: cancel ? 3 : 1,
       startDate: booking.startDate,
@@ -126,6 +128,19 @@ export default Container => class extends Component {
       ));
   }
 
+  updateHalfDay = () => {
+    const { booking } = this.state;
+    const { halfDay, startDate } = booking;
+
+    this.setState({
+      booking: {
+        ...booking,
+        endDate: startDate,
+        halfDay: !halfDay,
+      },
+    });
+  }
+
   render() {
     const { booking, booked } = this.state;
 
@@ -133,6 +148,8 @@ export default Container => class extends Component {
       <Container
         startDate={booking.startDate}
         endDate={booking.endDate}
+        halfDay={booking.halfDay}
+        updateHalfDay={this.updateHalfDay}
         booked={booked}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}

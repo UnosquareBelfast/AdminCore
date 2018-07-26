@@ -18,20 +18,26 @@ const BookingView = (props) => {
     updateHoliday,
     changeEndDate,
     submitRequest,
+    halfDay,
+    updateHalfDay,
   } = props;
 
   const renderButton = booked
     ? (
-      <Fragment>
+      <View style={styles.buttonContainer}>
         <Button
           onPress={() => updateHoliday(false)}
           title="Update Holiday"
+          backgroundColor="#00DCFA"
+          borderRadius={5}
         />
         <Button
           onPress={() => updateHoliday(true)}
           title="Cancel Holiday"
+          containerViewStyle={{ marginTop: 20 }}
+          borderRadius={5}
         />
-      </Fragment>
+      </View>
     )
     : (
       <Button
@@ -59,17 +65,23 @@ const BookingView = (props) => {
             setDate={changeStartDate}
           />
 
-          <Text>
-            End Date:
-          </Text>
-          <CustomDatePicker
-            chosenDate={endDate}
-            setDate={changeEndDate}
-            minimumDate={startDate}
-          />
+          { !halfDay && (
+            <Fragment>
+              <Text>
+                End Date:
+              </Text>
+              <CustomDatePicker
+                chosenDate={endDate}
+                setDate={changeEndDate}
+                minimumDate={startDate}
+              />
+            </Fragment>
+          )}
 
           <CheckBox
             title="Request half day"
+            checked={halfDay}
+            onPress={updateHalfDay}
             containerStyle={styles.checkBox}
           />
         </View>
@@ -87,6 +99,8 @@ BookingView.propTypes = {
   submitRequest: PT.func.isRequired,
   updateHoliday: PT.func.isRequired,
   booked: PT.bool.isRequired,
+  halfDay: PT.bool.isRequired,
+  updateHalfDay: PT.func.isRequired,
 };
 
 const styles = StyleSheet.create({

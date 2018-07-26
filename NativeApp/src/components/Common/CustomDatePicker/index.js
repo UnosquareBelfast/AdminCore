@@ -76,6 +76,7 @@ class CustomDatePicker extends Component {
         {
           toValue: value,
           duration: 300,
+          useNativeDriver: true,
         }
       ),
     ]).start();
@@ -92,7 +93,6 @@ class CustomDatePicker extends Component {
 
     return (
       <Fragment>
-        {/* {modalVisable && <View style={styles.overlay} />} */}
         <TouchableHighlight
           underlayColor="transparent"
           onPress={() => this.onDatePress()}
