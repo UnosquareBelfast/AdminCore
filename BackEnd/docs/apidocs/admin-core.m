@@ -160,19 +160,19 @@
 /**
  * (no documentation provided)
  */
-- (NSString *) location
+- (NSString *) swaggerVersion
 {
-  return _location;
+  return _swaggerVersion;
 }
 
 /**
  * (no documentation provided)
  */
-- (void) setLocation: (NSString *) newLocation
+- (void) setSwaggerVersion: (NSString *) newSwaggerVersion
 {
-  [newLocation retain];
-  [_location release];
-  _location = newLocation;
+  [newSwaggerVersion retain];
+  [_swaggerVersion release];
+  _swaggerVersion = newSwaggerVersion;
 }
 
 /**
@@ -196,26 +196,26 @@
 /**
  * (no documentation provided)
  */
-- (NSString *) swaggerVersion
+- (NSString *) location
 {
-  return _swaggerVersion;
+  return _location;
 }
 
 /**
  * (no documentation provided)
  */
-- (void) setSwaggerVersion: (NSString *) newSwaggerVersion
+- (void) setLocation: (NSString *) newLocation
 {
-  [newSwaggerVersion retain];
-  [_swaggerVersion release];
-  _swaggerVersion = newSwaggerVersion;
+  [newLocation retain];
+  [_location release];
+  _location = newLocation;
 }
 
 - (void) dealloc
 {
-  [self setLocation: nil];
-  [self setName: nil];
   [self setSwaggerVersion: nil];
+  [self setName: nil];
+  [self setLocation: nil];
   [super dealloc];
 }
 @end /* implementation ADMIN_CORENS0SwaggerResource */
@@ -308,18 +308,18 @@
     return YES;
   }
   if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
-    && xmlStrcmp(BAD_CAST "location", xmlTextReaderConstLocalName(reader)) == 0
+    && xmlStrcmp(BAD_CAST "swaggerVersion", xmlTextReaderConstLocalName(reader)) == 0
     && xmlTextReaderConstNamespaceUri(reader) == NULL) {
 
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"Attempting to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
+    NSLog(@"Attempting to read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.");
 #endif
     __child = [NSString readXMLType: reader];
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"successfully read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
+    NSLog(@"successfully read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.");
 #endif
 
-    [self setLocation: __child];
+    [self setSwaggerVersion: __child];
     return YES;
   } //end "if choice"
 
@@ -340,18 +340,18 @@
   } //end "if choice"
 
   if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
-    && xmlStrcmp(BAD_CAST "swaggerVersion", xmlTextReaderConstLocalName(reader)) == 0
+    && xmlStrcmp(BAD_CAST "location", xmlTextReaderConstLocalName(reader)) == 0
     && xmlTextReaderConstNamespaceUri(reader) == NULL) {
 
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"Attempting to read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.");
+    NSLog(@"Attempting to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
 #endif
     __child = [NSString readXMLType: reader];
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"successfully read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.");
+    NSLog(@"successfully read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.");
 #endif
 
-    [self setSwaggerVersion: __child];
+    [self setLocation: __child];
     return YES;
   } //end "if choice"
 
@@ -400,25 +400,25 @@
 
   [super writeJAXBChildElements: writer];
 
-  if ([self location]) {
-    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "location", NULL);
+  if ([self swaggerVersion]) {
+    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "swaggerVersion", NULL);
     if (status < 0) {
       [NSException raise: @"XMLWriteError"
-                   format: @"Error writing start child element {}location."];
+                   format: @"Error writing start child element {}swaggerVersion."];
     }
 
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"writing element {}location...");
+    NSLog(@"writing element {}swaggerVersion...");
 #endif
-    [[self location] writeXMLType: writer];
+    [[self swaggerVersion] writeXMLType: writer];
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"successfully wrote element {}location...");
+    NSLog(@"successfully wrote element {}swaggerVersion...");
 #endif
 
     status = xmlTextWriterEndElement(writer);
     if (status < 0) {
       [NSException raise: @"XMLWriteError"
-                   format: @"Error writing end child element {}location."];
+                   format: @"Error writing end child element {}swaggerVersion."];
     }
   }
   if ([self name]) {
@@ -442,25 +442,25 @@
                    format: @"Error writing end child element {}name."];
     }
   }
-  if ([self swaggerVersion]) {
-    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "swaggerVersion", NULL);
+  if ([self location]) {
+    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "location", NULL);
     if (status < 0) {
       [NSException raise: @"XMLWriteError"
-                   format: @"Error writing start child element {}swaggerVersion."];
+                   format: @"Error writing start child element {}location."];
     }
 
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"writing element {}swaggerVersion...");
+    NSLog(@"writing element {}location...");
 #endif
-    [[self swaggerVersion] writeXMLType: writer];
+    [[self location] writeXMLType: writer];
 #if DEBUG_ENUNCIATE > 1
-    NSLog(@"successfully wrote element {}swaggerVersion...");
+    NSLog(@"successfully wrote element {}location...");
 #endif
 
     status = xmlTextWriterEndElement(writer);
     if (status < 0) {
       [NSException raise: @"XMLWriteError"
-                   format: @"Error writing end child element {}swaggerVersion."];
+                   format: @"Error writing end child element {}location."];
     }
   }
 }
