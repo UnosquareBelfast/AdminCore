@@ -23,7 +23,7 @@ class UserModal extends Component {
           </div>
           <Button
             label="Edit Client"
-            onClick={() => history.push(`admin/clients/${client.clientId}`)}
+            onClick={() => history.push(`clients/${client.clientId}`)}
           />
         </StyleContainer>
       </Modal>

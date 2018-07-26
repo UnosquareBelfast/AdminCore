@@ -3,11 +3,22 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Button } from '../common';
 import { HeaderButton } from './styled';
-import { ClientList } from '../';
+import { ClientList, ClientModal } from '../';
 
-export const AllClients = ({ clients, history }) => {
+export const AllClients = ({
+  clients,
+  history,
+  selectClient,
+  selectedClient,
+}) => {
   return (
     <Fragment>
+      <ClientModal
+        client={selectedClient}
+        visible={selectedClient}
+        history={history}
+        closeModal={() => selectClient(null)}
+      />
       <HeaderButton>
         <Button
           onClick={() => history.replace('/admin/clients/new')}
@@ -15,7 +26,11 @@ export const AllClients = ({ clients, history }) => {
         />
       </HeaderButton>
       <h2>All Clients</h2>
-      <ClientList clients={clients} columns={['clientName']} />
+      <ClientList
+        clients={clients}
+        columns={['clientName']}
+        onRowClick={data => selectClient(data)}
+      />
     </Fragment>
   );
 };
@@ -23,6 +38,8 @@ export const AllClients = ({ clients, history }) => {
 AllClients.propTypes = {
   history: PT.object.isRequired,
   clients: PT.array.isRequired,
+  selectClient: PT.func.isRequired,
+  selectedClient: PT.object,
 };
 
 export default container(AllClients);

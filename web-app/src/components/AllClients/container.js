@@ -10,7 +10,7 @@ export default Wrapped =>
     };
     constructor(props) {
       super(props);
-      this.state = { clients: [] };
+      this.state = { clients: [], selectedClient: null };
     }
 
     componentDidMount() {
@@ -24,12 +24,16 @@ export default Wrapped =>
         });
     }
 
+    selectClient = selectedClient => this.setState({ selectedClient });
+
     render() {
       return (
         <Wrapped
           {...this.props}
           clients={this.state.clients}
           createNewClient={this.onCreateNewClient}
+          selectedClient={this.state.selectedClient}
+          selectClient={this.selectClient}
         />
       );
     }
