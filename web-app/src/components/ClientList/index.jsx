@@ -15,6 +15,7 @@ const renderTable = (clients, columns, onRowClick) => {
   const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
+      filterable
       data={clients}
       columns={formattedColumns}
       defaultPageSize={10}
