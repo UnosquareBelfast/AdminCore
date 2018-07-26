@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getUserByName } from '../../../services/userService';
+import { getUserByName } from '../../../../services/userService';
 
 export default Wrapped =>
   class extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getAllClients } from '../../../services/clientService';
-import { getTeamsFromClient } from '../../../services/teamService';
+import { getAllClients } from '../../../../services/clientService';
+import { getTeamsFromClient } from '../../../../services/teamService';
 
 export default Wrapped =>
   class extends Component {

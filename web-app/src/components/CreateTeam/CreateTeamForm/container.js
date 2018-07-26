@@ -57,6 +57,7 @@ export default Wrapped =>
 
     handleFormSubmit = event => {
       event.preventDefault();
+      this.setState({ formData: { ...this.state.formData, teamName: '' } });
       this.props.onSuccess(this.state.formData);
     };
 

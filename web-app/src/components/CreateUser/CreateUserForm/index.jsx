@@ -1,8 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import employeeStatus from '../../utilities/employeeStatus';
-import { Form, Input } from '../common';
+import employeeStatus from '../../../utilities/employeeStatus';
+import { Form, Input } from '../../common';
 import { FormContainer } from './styled';
 
 export const CreateUserForm = props => {

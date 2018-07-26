@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import { createTeam } from '../../services/teamService';
 import swal from 'sweetalert2';
+import { Toast } from '../../utilities/Notifications';
 
 export default Wrapped =>
   class extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        success: false,
-      };
-    }
-
     submitRequest = data => {
       const request = {
         clientId: data.selectedClient,
@@ -18,7 +12,10 @@ export default Wrapped =>
       };
       createTeam(request)
         .then(() => {
-          this.setState({ success: true });
+          Toast({
+            type: 'success',
+            title: 'Team created successfully! 👍',
+          });
         })
         .catch(error => {
           swal('Error', `Error creating team: ${error.message}`, 'error');
@@ -26,11 +23,6 @@ export default Wrapped =>
     };
 
     render() {
-      return (
-        <Wrapped
-          submitRequest={this.submitRequest}
-          success={this.state.success}
-        />
-      );
+      return <Wrapped submitRequest={this.submitRequest} />;
     }
   };

@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
-import employeeStatus from '../../utilities/employeeStatus';
-import { createUser } from '../../services/userService';
+import employeeStatus from '../../../utilities/employeeStatus';
+import { createUser } from '../../../services/userService';
+import swal from 'sweetalert2';
+import { Toast } from '../../../utilities/Notifications';
+
+const initialFormState = {
+  forename: '',
+  surname: '',
+  email: '',
+  password: '',
+  country: 1,
+  status: employeeStatus.ACTIVE,
+  employeeRole: 3,
+  startDate: moment(),
+};
 
 export default Wrapped =>
   class extends Component {
@@ -14,16 +27,7 @@ export default Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        formData: {
-          forename: '',
-          surname: '',
-          email: '',
-          password: '',
-          country: 1,
-          status: employeeStatus.ACTIVE,
-          employeeRole: 3,
-          startDate: moment(),
-        },
+        formData: { ...initialFormState },
         formIsValid: false,
       };
     }
@@ -43,10 +47,16 @@ export default Wrapped =>
       formData.startDate = formData.startDate.toISOString();
       return createUser(formData)
         .then(() => {
-          this.props.onSuccess();
+          this.setState({
+            formData: { ...initialFormState },
+          });
+          Toast({
+            type: 'success',
+            title: 'Employee created successfully! 👍',
+          });
         })
         .catch(error => {
-          this.props.onFailed(error);
+          swal('Error', `Error creating user: ${error.message}`, 'error');
         });
     };
 
