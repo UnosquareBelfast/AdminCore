@@ -37,6 +37,10 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
+            "clientSecret" : {
+"description" : "",
+"type" : "string"
+            },
             "apiKeyName" : {
 "description" : "",
 "type" : "string"
@@ -45,23 +49,19 @@
 "description" : "",
 "type" : "string"
             },
-            "realm" : {
-"description" : "",
-"type" : "string"
-            },
             "apiKeyVehicle" : {
 "description" : "",
 "type" : "string"
             },
-            "clientSecret" : {
+            "appName" : {
+"description" : "",
+"type" : "string"
+            },
+            "realm" : {
 "description" : "",
 "type" : "string"
             },
             "apiKey" : {
-"description" : "",
-"type" : "string"
-            },
-            "appName" : {
 "description" : "",
 "type" : "string"
             }
@@ -73,15 +73,15 @@
       "type" : "object",
       "title" : "SwaggerResource",
           "properties" : {
-            "location" : {
-"description" : "",
-"type" : "string"
-            },
             "name" : {
 "description" : "",
 "type" : "string"
             },
             "swaggerVersion" : {
+"description" : "",
+"type" : "string"
+            },
+            "location" : {
 "description" : "",
 "type" : "string"
             }
@@ -93,11 +93,15 @@
       "type" : "object",
       "title" : "UiConfiguration",
           "properties" : {
-            "validatorUrl" : {
+            "jsonEditor" : {
+"description" : "",
+"type" : "boolean"
+            },
+            "apisSorter" : {
 "description" : "",
 "type" : "string"
             },
-            "apisSorter" : {
+            "defaultModelRendering" : {
 "description" : "",
 "type" : "string"
             },
@@ -105,15 +109,11 @@
 "description" : "",
 "type" : "boolean"
             },
-            "jsonEditor" : {
-"description" : "",
-"type" : "boolean"
-            },
-            "defaultModelRendering" : {
+            "docExpansion" : {
 "description" : "",
 "type" : "string"
             },
-            "docExpansion" : {
+            "validatorUrl" : {
 "description" : "",
 "type" : "string"
             }

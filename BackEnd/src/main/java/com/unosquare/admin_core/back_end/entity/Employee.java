@@ -49,7 +49,6 @@ public class Employee {
     private Set<Contract> contracts = new HashSet();
 
     @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
-    @Setter(AccessLevel.PUBLIC)
     private Set<Event> events = new HashSet<>();
 
     public Employee(int employeeId){
