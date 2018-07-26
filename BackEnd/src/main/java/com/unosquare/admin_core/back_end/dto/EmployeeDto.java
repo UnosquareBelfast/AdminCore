@@ -1,9 +1,5 @@
 package com.unosquare.admin_core.back_end.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.unosquare.admin_core.back_end.enums.Countries;
-import com.unosquare.admin_core.back_end.enums.EmployeeRoles;
-import com.unosquare.admin_core.back_end.enums.EmployeeStatuses;
 import lombok.Data;
 
 import java.time.LocalDate;

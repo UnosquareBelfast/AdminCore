@@ -4,7 +4,6 @@ import com.unosquare.admin_core.back_end.ViewModels.HolidayViewModel;
 import com.unosquare.admin_core.back_end.ViewModels.SaveHolidayViewModel;
 import com.unosquare.admin_core.back_end.ViewModels.DateViewModel;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
-import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
@@ -35,19 +34,22 @@ public class HolidayController {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findAll() {
-        return mapEventDtosToHolidays(eventService.findByType(EventTypes.ANNUAL_LEAVE));
+        List holidays = eventService.findByType(EventTypes.ANNUAL_LEAVE);
+        return mapEventDtosToHolidays(holidays);
     }
 
     @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public HolidayViewModel findholidayById(@PathVariable("holidayId") int eventId) {
-        return modelMapper.map(eventService.findById(eventId), HolidayViewModel.class);
+        EventDTO holiday = eventService.findById(eventId);
+        return modelMapper.map(holiday, HolidayViewModel.class);
     }
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findHolidaysByEmployeeId(@PathVariable("employeeId") int employeeId) {
-        return mapEventDtosToHolidays(eventService.findByEmployee(employeeId));
+        List holidays = eventService.findByEmployee(employeeId);
+        return mapEventDtosToHolidays(holidays);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

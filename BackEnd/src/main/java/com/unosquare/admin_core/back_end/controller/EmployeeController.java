@@ -1,8 +1,8 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.ViewModels.EmployeeViewModel;
 import com.unosquare.admin_core.back_end.ViewModels.FindEmployeeViewModel;
 import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
-import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.enums.Countries;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -34,16 +34,15 @@ public class EmployeeController {
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public FindEmployeeViewModel findEmployeeById(@PathVariable("employeeId") int id) {
-        return modelMapper.map(employeeService.findById(id), FindEmployeeViewModel.class);
+        EmployeeDTO employee = employeeService.findById(id);
+        return modelMapper.map(employee, FindEmployeeViewModel.class);
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateEmployee(@RequestBody FindEmployeeViewModel findEmployeeViewModel) {
-        EmployeeDTO employee = modelMapper.map(findEmployeeViewModel, EmployeeDTO.class);
-
-      //  FindEmployeeViewModel emp = modelMapper.map(findEmployeeViewModel, FindEmployeeViewModel.class);
-        employeeService.updateEmployee(employee);
+    public void updateEmployee(@RequestBody EmployeeViewModel employeeViewModel) {
+        EmployeeDTO employee = modelMapper.map(employeeViewModel, EmployeeDTO.class);
+        employeeService.save(employee);
     }
 
     @GetMapping(value = "/findByForenameAndSurname/{forename}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +57,7 @@ public class EmployeeController {
         return mapEmployeesToViewModel(employeeService.findByCountry(Countries.fromId(countryId)));
     }
 
-    private List<FindEmployeeViewModel> mapEmployeesToViewModel(List<Employee> employees) {
+    private List<FindEmployeeViewModel> mapEmployeesToViewModel(List<EmployeeDTO> employees) {
         return employees.stream().map(employee -> modelMapper.map(employee, FindEmployeeViewModel.class)).collect(Collectors.toList());
     }
 }

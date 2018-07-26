@@ -1,7 +1,6 @@
 package com.unosquare.admin_core.back_end.dto;
 
 import lombok.Data;
-import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 
@@ -9,14 +8,14 @@ import java.time.LocalDate;
 public class ContractDTO {
 
     private int contractId;
+
     private int teamId;
+
     private int employeeId;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
-
-    public ContractDTO() {
-
-    }
 }
 
 

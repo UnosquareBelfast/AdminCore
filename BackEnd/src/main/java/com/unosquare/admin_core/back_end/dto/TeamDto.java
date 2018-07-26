@@ -6,10 +6,8 @@ import lombok.Data;
 public class TeamDTO implements java.io.Serializable {
 
     private int clientId;
+
     private int teamId;
+
     private String teamName;
-
-    public TeamDTO() {
-
-    }
 }

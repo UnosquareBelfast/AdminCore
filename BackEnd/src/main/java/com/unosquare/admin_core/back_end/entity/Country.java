@@ -2,14 +2,12 @@ package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
 @Data
-@ToString
+@NoArgsConstructor
 @Table(name = "Country")
 @Embeddable
 public class Country implements java.io.Serializable {

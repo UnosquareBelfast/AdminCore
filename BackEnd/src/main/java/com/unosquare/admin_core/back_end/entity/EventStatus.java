@@ -2,14 +2,13 @@ package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
+@Embeddable
 @Data
-@ToString
+@NoArgsConstructor
 @Table(name = "Event_Status")
 public class EventStatus implements java.io.Serializable {
 

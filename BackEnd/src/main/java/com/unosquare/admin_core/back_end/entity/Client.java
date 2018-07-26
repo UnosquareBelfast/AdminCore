@@ -8,9 +8,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "Client")
 public class Client implements java.io.Serializable {
 
@@ -29,9 +29,4 @@ public class Client implements java.io.Serializable {
     public Client(int clientId){
         this.clientId = clientId;
     }
-
-    public Client(String clientName) {
-        this.clientName = clientName;
-    }
-
 }

@@ -27,19 +27,19 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<JwtAuthenticationResponseViewModel> authenticateEmployee(@Valid @RequestBody LoginRequestViewModel loginRequest) {
 
-        String jwt = employeeService.jwtSignIn(loginRequest.getEmail(), loginRequest.getPassword());
-        return ResponseEntity.ok(new JwtAuthenticationResponseViewModel(jwt));
+        String authorizationToken = employeeService.jwtSignIn(loginRequest.getEmail(), loginRequest.getPassword());
+        return ResponseEntity.ok(new JwtAuthenticationResponseViewModel(authorizationToken));
     }
 
     @PostMapping("/register")
     public ResponseEntity registerEmployee(@RequestBody RegisterEmployeeViewModel registerEmployee) {
         if (employeeService.findByEmail(registerEmployee.getEmail()) != null) {
-            return ResponseEntity.badRequest().body("Username is already taken.");
+            return ResponseEntity.badRequest().body("Email already exists.");
         }
 
-        EmployeeDTO employee = modelMapper.map(registerEmployee, EmployeeDTO.class);
-        EmployeeDTO user = employeeService.createNewEmployee(employee);
+        EmployeeDTO registerEmployeeDto = modelMapper.map(registerEmployee, EmployeeDTO.class);
+        EmployeeDTO newEmployee = employeeService.createNewEmployee(registerEmployeeDto);
 
-        return ResponseEntity.ok(String.format("Employee registered:%s", user.getEmail()));
+        return ResponseEntity.ok(String.format("Employee registered:%s", newEmployee.getEmail()));
     }
 }

@@ -5,12 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@NoArgsConstructor
+@Data
 @Entity
-@Getter
-@Setter
+@NoArgsConstructor
 @Table(name = "Event")
-@ToString
 public class Event {
 
     @Id
@@ -49,15 +47,5 @@ public class Event {
 
     public Event(int eventId) {
         this.eventId = eventId;
-    }
-
-    public Event(LocalDate startDate, LocalDate endDate, int employeeId, int statusId,
-                   boolean isHalfDay) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.employee = new Employee(employeeId);
-        this.lastModified = LocalDate.now();
-        this.dateCreated = LocalDate.now();
-        this.isHalfDay = isHalfDay;
     }
 }

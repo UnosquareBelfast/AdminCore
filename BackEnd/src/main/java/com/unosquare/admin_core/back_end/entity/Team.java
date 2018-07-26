@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "Team")
 public class Team implements java.io.Serializable {
 

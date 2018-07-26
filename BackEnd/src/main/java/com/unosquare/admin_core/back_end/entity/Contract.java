@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@NoArgsConstructor
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "Contract")
 public class Contract implements java.io.Serializable{
 

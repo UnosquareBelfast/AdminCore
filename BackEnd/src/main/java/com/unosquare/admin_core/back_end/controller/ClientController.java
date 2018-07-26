@@ -2,7 +2,6 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.ViewModels.ClientViewModel;
 import com.unosquare.admin_core.back_end.dto.ClientDTO;
-import com.unosquare.admin_core.back_end.entity.Client;
 import com.unosquare.admin_core.back_end.service.ClientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,7 @@ public class ClientController {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<ClientViewModel> findAllClients() {
-        //return mapClientsToDtos(clientService.findAll());
-        return null;
+        return mapClientsToDtos(clientService.findAll());
     }
 
     @GetMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,21 +40,21 @@ public class ClientController {
     @ResponseBody
     public void createClient(@RequestBody ClientViewModel clientViewModel) {
         ClientDTO client = modelMapper.map(clientViewModel, ClientDTO.class);
-        clientService.save(modelMapper.map(client, Client.class));
+        clientService.save(client);
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateClient(@RequestBody ClientViewModel clientViewModel) {
         ClientDTO client = modelMapper.map(clientViewModel, ClientDTO.class);
-        clientService.save(modelMapper.map(client, Client.class));
+        clientService.save(client);
     }
 
     @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<ClientViewModel> findByClientNameContaining(@PathVariable("clientName") String clientName) {
-      //  return mapClientsToDtos(clientService.findByClientNameContaining(clientName));
-        return null;
+      List clients = clientService.findByClientNameContaining(clientName);
+      return mapClientsToDtos(clients);
     }
 
     private List<ClientViewModel> mapClientsToDtos(List<ClientDTO> clients) {

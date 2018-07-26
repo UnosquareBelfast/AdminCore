@@ -7,14 +7,14 @@ import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.entity.EventStatus;
 import com.unosquare.admin_core.back_end.entity.EventType;
 
+import lombok.NoArgsConstructor;
 import org.modelmapper.PropertyMap;
 
-import java.time.LocalDate;
-
-public class HolidayMappings extends BaseMappings<EventDTO, HolidayViewModel> {
+@NoArgsConstructor
+public class HolidayMappings implements BaseMappings<EventDTO, HolidayViewModel> {
 
     @Override
-    public PropertyMap<EventDTO, HolidayViewModel> MapFromDtoToTarget() {
+    public PropertyMap<EventDTO, HolidayViewModel> MapFromSourceToTarget() {
         return new PropertyMap <EventDTO, HolidayViewModel>() {
             protected void configure() {
 
@@ -32,7 +32,7 @@ public class HolidayMappings extends BaseMappings<EventDTO, HolidayViewModel> {
     }
 
     @Override
-    public PropertyMap<HolidayViewModel, EventDTO> MapFromTargetToDto() {
+    public PropertyMap<HolidayViewModel, EventDTO> MapFromTargetToSource() {
         return  new PropertyMap <HolidayViewModel, EventDTO>() {
             protected void configure() {
             }

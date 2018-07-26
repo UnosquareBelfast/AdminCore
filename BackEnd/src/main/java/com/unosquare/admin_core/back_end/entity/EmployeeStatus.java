@@ -6,10 +6,10 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Entity
+@Embeddable
 @Data
-@ToString
+@NoArgsConstructor
 @Table(name = "Employee_Status")
 public class EmployeeStatus implements java.io.Serializable {
 

@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.ViewModels;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -20,10 +21,15 @@ public class RegisterEmployeeViewModel {
     private String surname;
 
     @NotBlank
+    @JsonProperty("country")
     private int countryId;
 
-    private int roleId;
+    @NotBlank
+    @JsonProperty("employeeRole")
+    private int employeeRoleId;
 
+    @NotBlank
+    @JsonProperty("status")
     private int statusId;
 
     private LocalDate startDate;

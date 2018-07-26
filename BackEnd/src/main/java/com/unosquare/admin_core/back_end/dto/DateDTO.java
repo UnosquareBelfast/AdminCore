@@ -1,6 +1,5 @@
 package com.unosquare.admin_core.back_end.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;

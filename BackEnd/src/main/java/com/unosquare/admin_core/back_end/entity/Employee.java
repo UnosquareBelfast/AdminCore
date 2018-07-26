@@ -7,11 +7,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
 @Entity
-@Getter
-@Setter
-//@ToString
+@Data
+@NoArgsConstructor
 @Table(name = "Employee")
 public class Employee {
 
@@ -22,7 +20,9 @@ public class Employee {
     private int employeeId;
 
     private String forename;
+
     private String surname;
+
     private String email;
 
     @Column(name = "total_holidays")
@@ -47,7 +47,6 @@ public class Employee {
 
     @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
     private Set<Contract> contracts = new HashSet();
-
 
     @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
     @Setter(AccessLevel.PUBLIC)

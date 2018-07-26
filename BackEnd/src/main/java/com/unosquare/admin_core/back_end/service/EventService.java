@@ -60,7 +60,6 @@ public class EventService {
         Preconditions.checkNotNull(event);
         event.setDateCreated(LocalDate.now());
         event.setLastModified(LocalDate.now());
-        event.setEmployee(entityManager.find(Employee.class, event.getEmployee().getEmployeeId()));
 
         eventRepository.save(event);
     }
