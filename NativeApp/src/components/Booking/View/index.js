@@ -49,14 +49,8 @@ const BookingView = (props) => {
       />
     );
 
-  return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text>
-        I would like to
-        {booked ? ' update ' : ' request '}
-        the following holiday/s:
-      </Text>
-
+  const renderStatusBar = booked
+    ? (
       <View style={styles.holidayStatus}>
         <Text>
           {status}
@@ -65,6 +59,17 @@ const BookingView = (props) => {
           {startDate} to {endDate}
         </Text>
       </View>
+    ) : null;
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text>
+        I would like to
+        {booked ? ' update ' : ' request '}
+        the following holiday/s:
+      </Text>
+
+      {renderStatusBar}
 
       <View style={styles.dateForm}>
         <View>
