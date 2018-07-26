@@ -1,17 +1,37 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Container, Content } from './styled';
+import Rodal from 'rodal';
 
-const Modal = ({children}) => (
-  <Container>
-    <Content>  
+const Modal = props => {
+  const { children, visible, closeModal } = props;
+  return (
+    <Rodal
+      visible={visible}
+      onClose={closeModal}
+      customStyles={{
+        width: '50%',
+        minWidth: '250px',
+        height: 'auto',
+        bottom: 'auto',
+        top: '50%',
+        transform: 'translateY(-50%)',
+      }}
+      {...props}
+    >
       {children}
-    </Content>
-  </Container>
-);
+    </Rodal>
+  );
+};
 
 Modal.propTypes = {
-  children: PT.node,
+  children: PT.node.isRequired,
+  closeModal: PT.func,
+  visible: PT.bool,
+};
+
+Modal.defaultProps = {
+  closeModal: () => {},
+  visible: true,
 };
 
 export default Modal;

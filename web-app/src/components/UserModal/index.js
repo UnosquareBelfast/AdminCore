@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Modal, Button } from '../../components/common';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/fontawesome-free-solid';
 import { StyleContainer, Stat, StatWrap } from './styled';
 import { getHolidays } from '../../services/holidayService';
 import swal from 'sweetalert2';
@@ -56,17 +54,14 @@ class UserModal extends Component {
 
   render() {
     const { user, closeModal, history } = this.props;
-    if (!user) return null;
 
+    if (!user) return null;
     const approvedDays = this.getTotalApprovedDays();
     const pendingDays = this.getTotalPendingDays();
 
     return (
-      <Modal>
+      <Modal closeModal={closeModal}>
         <StyleContainer>
-          <span id="closeModal" onClick={closeModal}>
-            <FontAwesomeIcon icon={faTimes} /> Close
-          </span>
           <div>
             <h2>
               {user.forename} {user.surname}

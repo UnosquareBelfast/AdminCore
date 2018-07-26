@@ -2,8 +2,6 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/fontawesome-free-solid';
 import {
   StyleContainer,
   BookingStatus,
@@ -24,11 +22,8 @@ const BookingModal = props => {
 
   return (
     showModal && (
-      <Modal>
+      <Modal closeModal={closeModal}>
         <StyleContainer>
-          <span id="closeBookingModal" onClick={closeModal}>
-            <FontAwesomeIcon icon={faTimes} /> Close
-          </span>
           <h1>
             {booking.isEventBeingUpdated
               ? 'Update Booking'

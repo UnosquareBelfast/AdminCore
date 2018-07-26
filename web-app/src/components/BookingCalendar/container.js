@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
+import { Toast } from '../../utilities/Notifications';
 import moment from 'moment';
 
 const BookingCalendarContainer = Wrapped =>
@@ -28,9 +29,9 @@ const BookingCalendarContainer = Wrapped =>
         };
         this.props.updateBookingAndDuration(booking);
       } else {
-        Swal({
-          text: 'Unable to select past dates',
-          title: 'Sorry',
+        Toast({
+          type: 'Sorry',
+          title: 'Unable to select past dates',
         });
       }
     };
@@ -43,8 +44,8 @@ const BookingCalendarContainer = Wrapped =>
         };
         this.props.updateBookingAndDuration(updatedBooking);
       } else {
-        Swal({
-          text: `Unable to update ${booking.employee.forename}'s events`,
+        Toast({
+          type: `Unable to update ${booking.employee.forename}'s events`,
           title: 'Sorry',
         });
       }

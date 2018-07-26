@@ -10,19 +10,19 @@ const AdminDashboard = () => {
         <div>
           <h3>Employees</h3>
           <Link to="/admin/employees">View Employees</Link>
-          <Link to="/admin/createEmployee">Create Employee</Link>
+          <Link to="/admin/employees/new">Create Employee</Link>
         </div>
         <div>
           <h3>Holidays</h3>
           <Link to="/admin/holidays">View All Holidays</Link>
-          <Link to="/admin/pendingHolidays">View Pending Holidays</Link>
+          <Link to="/admin/holidays/pending">View Pending Holidays</Link>
         </div>
       </div>
       <div className="columnWrap">
         <div>
           <h3>Clients</h3>
           <Link to="/admin/clients">View All Clients</Link>
-          <Link to="/admin/createClient">Create Client</Link>
+          <Link to="/admin/clients/new">Create Client</Link>
         </div>
         <div>
           <h3>Teams</h3>

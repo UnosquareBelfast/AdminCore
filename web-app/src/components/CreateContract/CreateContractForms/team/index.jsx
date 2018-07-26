@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Form, Input, Errorbox } from '../../common';
+import { Form, Input, Errorbox } from '../../../common';
 import { FormContainer } from '../styled';
 
 export const TeamForm = props => {
