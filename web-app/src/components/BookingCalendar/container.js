@@ -44,7 +44,7 @@ const BookingCalendarContainer = Wrapped =>
         this.props.updateBookingAndDuration(updatedBooking);
       } else {
         Swal({
-          text: 'Unable to update other peoples events',
+          text: `Unable to update ${booking.employee.forename}'s events`,
           title: 'Sorry',
         });
       }

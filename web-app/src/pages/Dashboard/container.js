@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import { getAllHolidays } from '../../services/holidayService';
+import { getAllHolidays, getHolidays } from '../../services/holidayService';
 import { getDurationNotice } from '../../utilities/dates';
 
 const DashboardContainer = Wrapped =>
@@ -72,6 +72,30 @@ const DashboardContainer = Wrapped =>
         });
     };
 
+    getTakenHolidaysById = id => {
+      if (id === 'all') {
+        this.getTakenHolidays();
+      } else {
+        getHolidays(id)
+          .then(response => {
+            const usersHolidays = response.data;
+            this.setState(
+              {
+                takenHolidays: this.formatDates(usersHolidays),
+              },
+              () => this.onFilterEvents(),
+            );
+          })
+          .catch(error => {
+            Swal({
+              text: error.message,
+              title: 'Could not get taken holidays',
+              type: 'error',
+            });
+          });
+      }
+    };
+
     formatDates(events) {
       const eventsForCalendar = events.map(event => {
         return {
@@ -108,14 +132,20 @@ const DashboardContainer = Wrapped =>
       });
     };
 
+    onFilterEmployee = employee => {
+      this.getTakenHolidaysById(employee.employeeId);
+    };
+
     onFilterEvents = eventStatusId => {
       let updatedFilterEvents = [...this.state.filterEvents];
-      if (updatedFilterEvents.includes(eventStatusId)) {
-        updatedFilterEvents = updatedFilterEvents.filter(
-          item => item !== eventStatusId,
-        );
-      } else {
-        updatedFilterEvents.push(eventStatusId);
+      if (eventStatusId !== undefined) {
+        if (updatedFilterEvents.includes(eventStatusId)) {
+          updatedFilterEvents = updatedFilterEvents.filter(
+            item => item !== eventStatusId,
+          );
+        } else {
+          updatedFilterEvents.push(eventStatusId);
+        }
       }
 
       let takenHolidaysUpdated = null;
@@ -148,6 +178,7 @@ const DashboardContainer = Wrapped =>
             updateTakenHolidays={this.getTakenHolidays}
             userDetails={this.state.userDetails}
             onUpdateEvents={this.onFilterEvents}
+            onUpdateEmployee={this.onFilterEmployee}
           />
         )
       );

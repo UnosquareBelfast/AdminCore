@@ -5,6 +5,8 @@ import holidayStatus from '../../utilities/holidayStatus';
 const LengendContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      takenHolidays: PT.array.isRequired,
+      updateEmployee: PT.func.isRequired,
       updateCalendarEvents: PT.func.isRequired,
     };
 
@@ -12,6 +14,10 @@ const LengendContainer = Wrapped =>
       super(props);
       const { PENDING, APPROVED, REJECTED, WFH, SICK } = holidayStatus;
       this.state = {
+        employees: [],
+        selectedEmployee: {
+          employeeId: 'all',
+        },
         eventsKeys: [
           {
             eventStatusId: 1,
@@ -44,8 +50,52 @@ const LengendContainer = Wrapped =>
             active: false,
           },
         ],
+        selectedEventStatusID: 1,
       };
     }
+
+    componentWillMount = () => {
+      this.createEmployeesList();
+    };
+
+    sortEmployeeList = objArray => {
+      return objArray.sort(function(a, b) {
+        if (a.displayName < b.displayName) return -1;
+        if (a.displayName > b.displayName) return 1;
+        return 0;
+      });
+    };
+
+    createEmployeeObject = hol => {
+      let { employeeId, forename, surname } = hol.employee;
+      return {
+        value: employeeId,
+        displayValue: `${forename} ${surname}`,
+      };
+    };
+
+    removeDuplicateEmployees = employees => {
+      return employees.reduce((unique, o) => {
+        if (
+          !unique.some(
+            obj => obj.value === o.value && obj.displayValue === o.displayValue,
+          )
+        ) {
+          unique.push(o);
+        }
+        return unique;
+      }, []);
+    };
+
+    createEmployeesList = () => {
+      const { takenHolidays } = this.props;
+      let employees = takenHolidays.map(hol => {
+        return this.createEmployeeObject(hol);
+      });
+      employees = this.removeDuplicateEmployees(employees);
+      employees.unshift({ value: 'all', displayValue: 'All' });
+      this.setState({ employees: this.sortEmployeeList(employees) });
+    };
 
     setKeyActiveState = eventStatusId => {
       let updatedList = [...this.state.eventsKeys];
@@ -54,12 +104,33 @@ const LengendContainer = Wrapped =>
           key.active = !key.active;
         }
       }
+      this.setState({
+        selectedEventStatusID: eventStatusId,
+      });
       this.props.updateCalendarEvents(eventStatusId);
     };
+
+    handleFormStatus(name, value) {
+      this.setState(
+        {
+          selectedEmployee: {
+            employeeId: value,
+          },
+        },
+        () => {
+          this.props.updateEmployee(this.state.selectedEmployee);
+        },
+      );
+    }
 
     render() {
       return (
         <Wrapped
+          employees={this.state.employees}
+          selectedEmployee={this.state.selectedEmployee}
+          formStatus={(name, value, formIsValid) =>
+            this.handleFormStatus(name, value, formIsValid)
+          }
           eventsKeyList={this.state.eventsKeys}
           onToggleKey={this.setKeyActiveState}
         />

@@ -11,8 +11,6 @@ export const StyleContainer = styled.div`
   display: block;
   @media (min-width: 1300px) {
     display: flex;
-    max-width: 720px;
-    margin-left: calc(100% - 720px);
   }
 
   svg {
@@ -29,10 +27,21 @@ export const Column = styled.div`
   margin-bottom: 20px;
   @media (min-width: 768px) {
     display: flex;
+    align-items: flex-start;
   }
   @media (min-width: 1300px) {
-    width: 50%;
     margin-bottom: 0;
+  }
+
+  :nth-child(1) {
+    padding-top: 0;
+    flex: 0 1 20%;
+  }
+  :nth-child(2) {
+    flex: 0 1 40%;
+  }
+  :nth-child(3) {
+    flex: 0 1 40%;
   }
 
   h4 {
@@ -42,6 +51,17 @@ export const Column = styled.div`
     position: absolute;
     left: 10px;
     top: 0;
+  }
+
+  form {
+    display: block;
+    width: 100%;
+  }
+
+  label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-family: Oswald, sans-serif;
   }
 `;
 
@@ -53,9 +73,8 @@ export const Key = styled.div`
   font-size: 14px;
   font-weight: 400;
   margin: 4px 4px 4px 0;
-  padding-left: 5px;
   border-radius: 3px;
-  padding: 3px 5px;
+  padding: 10px;
   align-self: auto;
   cursor: pointer;
   transition: all 300ms;

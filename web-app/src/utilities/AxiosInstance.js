@@ -20,18 +20,40 @@ instance.interceptors.response.use(function(response) {
 
   if (response.config.url.includes(`${baseURL}/holidays`)) {
     const holidays = [...response.data];
+    const employeeOne = {
+      employeeId: 1,
+      forename: 'Fred',
+      surname: 'Flintstone',
+      email: 'fred@user.com',
+      totalHolidays: 33,
+      startDate: [2014, 1, 1],
+      countryId: 1,
+      employeeRoleId: 2,
+      employeeStatusId: 2,
+    };
+    const employeeTwo = {
+      employeeId: 2,
+      forename: 'Barney',
+      surname: 'Rubble',
+      email: 'barney@user.com',
+      totalHolidays: 33,
+      startDate: [2014, 1, 1],
+      countryId: 1,
+      employeeRoleId: 2,
+      employeeStatusId: 2,
+    };
     for (const index in holidays) {
-      holidays[index].employee = {
-        employeeId: holidays[index].employeeId,
-        forename: 'Test',
-        surname: 'User',
-        email: 'test@user.com',
-        totalHolidays: 33,
-        startDate: [2014, 1, 1],
-        countryId: 1,
-        employeeRoleId: 2,
-        employeeStatusId: 2,
-      };
+      if (holidays[index].employeeId === 1) {
+        holidays[index].employee = {
+          ...employeeOne,
+          employeeId: holidays[index].employeeId,
+        };
+      } else {
+        holidays[index].employee = {
+          ...employeeTwo,
+          employeeId: holidays[index].employeeId,
+        };
+      }
 
       holidays[index].start = new moment(
         holidays[index].startDate,

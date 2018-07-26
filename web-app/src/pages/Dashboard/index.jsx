@@ -14,6 +14,7 @@ export const Dashboard = props => {
     updateTakenHolidays,
     userDetails,
     onUpdateEvents,
+    onUpdateEmployee,
   } = props;
 
   return (
@@ -32,7 +33,11 @@ export const Dashboard = props => {
           takenHolidays={takenHolidays}
           updateBookingAndDuration={updateBookingAndDuration}
         />
-        <Legend updateCalendarEvents={onUpdateEvents} />
+        <Legend
+          updateCalendarEvents={onUpdateEvents}
+          updateEmployee={onUpdateEmployee}
+          takenHolidays={takenHolidays}
+        />
       </InnerLayout>
     </Fragment>
   );
@@ -42,6 +47,7 @@ Dashboard.propTypes = {
   booking: PT.object.isRequired,
   closeModal: PT.func.isRequired,
   onUpdateEvents: PT.func.isRequired,
+  onUpdateEmployee: PT.func.isRequired,
   showModal: PT.bool.isRequired,
   takenHolidays: PT.array.isRequired,
   updateBookingAndDuration: PT.func.isRequired,
