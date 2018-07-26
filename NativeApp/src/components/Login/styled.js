@@ -1,22 +1,5 @@
 import styled, { css } from 'styled-components';
 
-export const TextInput = styled.TextInput`
-  height: 40;
-  marginTop: 20;
-  paddingHorizontal: 5;
-  fontSize: 20;
-`;
-
-export const TouchableOpacity = styled.TouchableOpacity`
-  backgroundColor: ${props => props.theme.colours.unoBlue};
-  height: 48;
-  borderRadius: 5;
-  alignItems: center;
-  paddingTop: 8;
-  paddingBottom: 8;
-  marginTop: 30;
-`;
-
 export const View = styled.View`
   paddingTop: 20;
 

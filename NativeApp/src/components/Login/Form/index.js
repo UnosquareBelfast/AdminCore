@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { TextInput, TouchableOpacity, View } from '../styled';
-import { H1 } from '../../Common';
-
+import { View } from '../styled';
+import { P, TextInput, Button } from '../../Common';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -64,18 +63,18 @@ class LoginForm extends Component {
         />
         {
           hasError && (
-            <H1 validationText>
+            <P validationText>
               Incorrect email or password
-            </H1>
+            </P>
           )
         }
-        <TouchableOpacity
+        <Button
           onPress={() => handleLogin(email, password)}
         >
-          <H1>
+          <P>
             Log in to Holiday Tracker
-          </H1>
-        </TouchableOpacity>
+          </P>
+        </Button>
       </View>
     );
   }
