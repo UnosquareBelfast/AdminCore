@@ -11,8 +11,8 @@ public enum EventTypes {
     WORK_RELATED_TRAVEL(4, "Work Related Travel");
 
 
-    private final String description;
-    private final int eventTypeId;
+    private String description;
+    private int eventTypeId;
 
     EventTypes(int eventTypeId, String description) {
         this.eventTypeId = eventTypeId;

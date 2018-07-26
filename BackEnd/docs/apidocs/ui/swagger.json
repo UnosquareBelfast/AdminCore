@@ -17,62 +17,7 @@
     }
     ,
     {
-      "name" : "AuthenticationController",
-      "description" : ""
-    }
-    ,
-    {
       "name" : "BasicErrorController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "ClientController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "ClientStatusController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "ContractController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "ContractStatusController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "CountryController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "EmployeeController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "EmployeeStatusController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "HolidayController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "HolidayStatusController",
-      "description" : ""
-    }
-    ,
-    {
-      "name" : "MandatoryHolidayController",
       "description" : ""
     }
     ,
@@ -92,22 +37,6 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
-            "realm" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKey" : {
-"description" : "",
-"type" : "string"
-            },
-            "appName" : {
-"description" : "",
-"type" : "string"
-            },
-            "clientId" : {
-"description" : "",
-"type" : "string"
-            },
             "clientSecret" : {
 "description" : "",
 "type" : "string"
@@ -116,7 +45,23 @@
 "description" : "",
 "type" : "string"
             },
+            "clientId" : {
+"description" : "",
+"type" : "string"
+            },
             "apiKeyVehicle" : {
+"description" : "",
+"type" : "string"
+            },
+            "appName" : {
+"description" : "",
+"type" : "string"
+            },
+            "realm" : {
+"description" : "",
+"type" : "string"
+            },
+            "apiKey" : {
 "description" : "",
 "type" : "string"
             }
@@ -128,15 +73,15 @@
       "type" : "object",
       "title" : "SwaggerResource",
           "properties" : {
-            "location" : {
-"description" : "",
-"type" : "string"
-            },
             "name" : {
 "description" : "",
 "type" : "string"
             },
             "swaggerVersion" : {
+"description" : "",
+"type" : "string"
+            },
+            "location" : {
 "description" : "",
 "type" : "string"
             }
@@ -148,29 +93,29 @@
       "type" : "object",
       "title" : "UiConfiguration",
           "properties" : {
-            "docExpansion" : {
+            "jsonEditor" : {
 "description" : "",
-"type" : "string"
+"type" : "boolean"
             },
             "apisSorter" : {
 "description" : "",
 "type" : "string"
             },
-            "jsonEditor" : {
-"description" : "",
-"type" : "boolean"
-            },
             "defaultModelRendering" : {
-"description" : "",
-"type" : "string"
-            },
-            "validatorUrl" : {
 "description" : "",
 "type" : "string"
             },
             "showRequestHeaders" : {
 "description" : "",
 "type" : "boolean"
+            },
+            "docExpansion" : {
+"description" : "",
+"type" : "string"
+            },
+            "validatorUrl" : {
+"description" : "",
+"type" : "string"
             }
           },
       "description" : ""
@@ -812,31 +757,6 @@
       }
     }
     ,
-    "\/authentication/*" : {
-      "options" : {
-        "tags" : [ "AuthenticationController" ],
-        "description" : "",
-        "operationId" : "resource_AuthenticationController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
     "\/${server.error.path}" : {
       "delete" : {
         "tags" : [ "BasicErrorController" ],
@@ -1203,256 +1123,6 @@
         "tags" : [ "BasicErrorController" ],
         "description" : "",
         "operationId" : "resource_BasicErrorController_error_TRACE",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/clients/*" : {
-      "options" : {
-        "tags" : [ "ClientController" ],
-        "description" : "",
-        "operationId" : "resource_ClientController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/clientStatuses/*" : {
-      "options" : {
-        "tags" : [ "ClientStatusController" ],
-        "description" : "",
-        "operationId" : "resource_ClientStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/contracts/*" : {
-      "options" : {
-        "tags" : [ "ContractController" ],
-        "description" : "",
-        "operationId" : "resource_ContractController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/contractStatuses/*" : {
-      "options" : {
-        "tags" : [ "ContractStatusController" ],
-        "description" : "",
-        "operationId" : "resource_ContractStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/countries/*" : {
-      "options" : {
-        "tags" : [ "CountryController" ],
-        "description" : "",
-        "operationId" : "resource_CountryController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/employees/*" : {
-      "options" : {
-        "tags" : [ "EmployeeController" ],
-        "description" : "",
-        "operationId" : "resource_EmployeeController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/employeeStatuses/*" : {
-      "options" : {
-        "tags" : [ "EmployeeStatusController" ],
-        "description" : "",
-        "operationId" : "resource_EmployeeStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/holidays/*" : {
-      "options" : {
-        "tags" : [ "HolidayController" ],
-        "description" : "",
-        "operationId" : "resource_HolidayController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/holidayStatuses/*" : {
-      "options" : {
-        "tags" : [ "HolidayStatusController" ],
-        "description" : "",
-        "operationId" : "resource_HolidayStatusController_handleOptions_OPTIONS",
-        "produces" : [ "application/json", "application/xml" ],
-        "parameters" : [
-        ],
-        "responses" : {
-          "200" : {
-            "schema" : {
-"description" : "",
-"type" : "object"
-            },
-            "headers" : {
-            },
-            "description" : "Success"
-          },
-          "default" : {
-            "description" : "Unexpected error."
-          }
-        }
-      }
-    }
-    ,
-    "\/mandatoryHolidays/*" : {
-      "options" : {
-        "tags" : [ "MandatoryHolidayController" ],
-        "description" : "",
-        "operationId" : "resource_MandatoryHolidayController_handleOptions_OPTIONS",
         "produces" : [ "application/json", "application/xml" ],
         "parameters" : [
         ],

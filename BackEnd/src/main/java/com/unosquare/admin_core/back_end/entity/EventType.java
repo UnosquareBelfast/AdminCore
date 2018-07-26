@@ -1,13 +1,14 @@
 package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@ToString
+@NoArgsConstructor
+@Embeddable
 @Table(name = "Event_Type")
 public class EventType implements java.io.Serializable {
 
@@ -19,10 +20,6 @@ public class EventType implements java.io.Serializable {
 
     @Column(name = "description")
     private String description;
-
-    public EventType(){
-
-    }
 
     public EventType(int eventTypeId){
         this.eventTypeId = eventTypeId;
