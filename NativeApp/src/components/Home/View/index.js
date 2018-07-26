@@ -1,7 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { View, Button, StyleSheet } from 'react-native';
-import { CalendarList } from 'react-native-calendars';
+import { View, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { Calendar } from 'react-native-calendars';
+import Icon from 'react-native-vector-icons/Entypo';
+
 
 const HomeView = (props) => {
   const {
@@ -12,12 +14,7 @@ const HomeView = (props) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        onPress={handleLogout}
-        title="Logout"
-      />
-
-      <CalendarList
+      <Calendar
         style={styles.calendar}
         markedDates={takenHolidays}
         markingType="period"
@@ -26,6 +23,18 @@ const HomeView = (props) => {
         }}
         onDayPress={(day) => { onDayPress(day); }}
       />
+
+      <Button
+        onPress={handleLogout}
+        title="Logout"
+      />
+
+      <TouchableOpacity
+        style={styles.circleButton}
+        // onPress={() => {  }}
+      >
+        <Icon name="plus" size={30} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -43,11 +52,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    paddingTop: 50,
+    paddingTop: 150,
     backgroundColor: '#fff',
   },
   calendar: {
     paddingHorizontal: 10,
+  },
+  circleButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    height: 70,
+    backgroundColor: 'red',
+    borderRadius: 70,
+    alignSelf: 'flex-end',
+    marginRight: 20,
   },
 });
 

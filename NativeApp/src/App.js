@@ -1,11 +1,15 @@
 import React from 'react';
+import { ThemeProvider } from 'styled-components';
 import RootNavigator from './utilities/navigationConfig';
 import { AuthProvider } from './utilities/AuthContext';
+import { theme } from '../theme';
 
 const App = () => (
-  <AuthProvider>
-    <RootNavigator />
-  </AuthProvider>
+  <ThemeProvider theme={theme}>
+    <AuthProvider>
+      <RootNavigator />
+    </AuthProvider>
+  </ThemeProvider>
 );
 
 export default App;

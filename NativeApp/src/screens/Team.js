@@ -6,8 +6,7 @@ import Team from '../components/Team';
 export default class TeamScreen extends Component {
   static navigationOptions = {
     title: 'Team',
-    tabBarIcon: <Icon name="group" size={25} color="#fff" />,
-    tabBarColor: '#2ABDBD',
+    tabBarIcon: ({ tintColor }) => <Icon name="group" size={25} color={tintColor} />,
   }
 
   static propTypes = {

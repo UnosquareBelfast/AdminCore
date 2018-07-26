@@ -1,38 +1,52 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import {
-  ScrollView,
   View,
-  Text,
   StyleSheet,
   FlatList,
 } from 'react-native';
 import ListItem from './ListItem';
+import { ScrollView, Text, HeaderContainer, HolidayContainer, HolidayText } from './styled';
 
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-    >
+    <ScrollView>
+      <HeaderContainer>
+        <HolidayContainer divider>
+          <Text>
+            Taken
+          </Text>
+          <HolidayText>
+            <Text largeText>
+              {takenHolidays.length}
+            </Text>
+            <Text smallText>
+              DAYS
+            </Text>
+          </HolidayText>
+        </HolidayContainer>
+        <HolidayContainer>
+          <Text>
+            Remaining
+          </Text>
+          <HolidayText>
+            <Text largeText>
+              {remainingHolidays}
+            </Text>
+            <Text smallText>
+              DAYS
+            </Text>
+          </HolidayText>
+        </HolidayContainer>
+      </HeaderContainer>
+
       <View style={styles.holsDate}>
         <Text>
           {employee.forename}
           {employee.surname}
-        </Text>
-        <Text>
-          Holidays taken
-        </Text>
-        <Text>
-          {takenHolidays.length}
-        </Text>
-        <Text>
-          Holidays remaining
-        </Text>
-        <Text>
-          {remainingHolidays}
         </Text>
       </View>
 
@@ -66,8 +80,7 @@ UserView.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    paddingTop: 50,
+    paddingTop: 23,
     backgroundColor: '#fff',
   },
   holsDate: {
