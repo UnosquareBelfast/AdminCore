@@ -62,7 +62,7 @@ const BookingModalForm = props => {
         };
       } else {
         error = {
-          message: `You need to give ${daysNotice} working/business days notice to request ${daysRequested} ${
+          message: `You should give ${daysNotice} working/business days notice to request ${daysRequested} ${
             daysRequested > 1 ? 'days' : 'day'
           } off, and therefore your request might be declined.`,
         };
