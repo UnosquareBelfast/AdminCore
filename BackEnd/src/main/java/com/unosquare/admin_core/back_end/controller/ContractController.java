@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.ViewModels.ContractViewModel;
 import com.unosquare.admin_core.back_end.dto.ContractDTO;
 import com.unosquare.admin_core.back_end.entity.Contract;
 import com.unosquare.admin_core.back_end.service.ContractService;
@@ -26,36 +27,38 @@ public class ContractController {
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void createContract(@RequestBody ContractDTO contract) {
-        contractService.save(modelMapper.map(contract, Contract.class));
+    public void createContract(@RequestBody ContractViewModel contract) {
+        ContractDTO contractDto = modelMapper.map(contract, ContractDTO.class);
+        contractService.save(contractDto);
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateContract(@RequestBody ContractDTO contract) {
-        contractService.save(modelMapper.map(contract, Contract.class));
+    public void updateContract(@RequestBody ContractViewModel contract) {
+        ContractDTO contractDto = modelMapper.map(contract, ContractDTO.class);
+        contractService.save(contractDto);
     }
 
     @DeleteMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void deleteContract(@RequestBody ContractDTO contract) {
-        contractService.delete(modelMapper.map(contract, Contract.class));
+    public void deleteContract(@RequestBody ContractViewModel contract) {
+        ContractDTO contractDto = modelMapper.map(contract, ContractDTO.class);
+        contractService.delete(contractDto);
     }
 
     @GetMapping(value = "/findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDTO> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
-        return mapContractsToDtos(contractService.findByEmployeeId(employeeId));
+    public List<ContractViewModel> findByEmployeeId(@PathVariable("employeeId") int employeeId) {
+        return mapContractsToViewModel(contractService.findByEmployeeId(employeeId));
     }
 
     @GetMapping(value = "/findByEmployeeIdAndTeamId/{employeeId}/{teamID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<ContractDTO> findByEmployeeIdAndTeamId(@PathVariable("employeeId") int employeeId, @PathVariable("teamId") int teamId) {
-        return mapContractsToDtos(contractService.findByEmployeeIdAndTeamId(employeeId, teamId));
+    public List<ContractViewModel> findByEmployeeIdAndTeamId(@PathVariable("employeeId") int employeeId, @PathVariable("teamId") int teamId) {
+        return mapContractsToViewModel(contractService.findByEmployeeIdAndTeamId(employeeId, teamId));
     }
 
-    private List<ContractDTO> mapContractsToDtos(List<Contract> contracts) {
-
-        return contracts.stream().map(contract -> modelMapper.map(contract, ContractDTO.class)).collect(Collectors.toList());
+    private List<ContractViewModel> mapContractsToViewModel(List<ContractDTO> contracts) {
+        return contracts.stream().map(contract -> modelMapper.map(contract, ContractViewModel.class)).collect(Collectors.toList());
     }
 }
