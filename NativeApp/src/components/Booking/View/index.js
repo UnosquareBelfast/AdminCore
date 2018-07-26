@@ -58,6 +58,7 @@ const BookingView = (props) => {
             chosenDate={startDate}
             setDate={changeStartDate}
           />
+
           <Text>
             End Date:
           </Text>
@@ -66,6 +67,7 @@ const BookingView = (props) => {
             setDate={changeEndDate}
             minimumDate={startDate}
           />
+
           <CheckBox
             title="Request half day"
             containerStyle={styles.checkBox}
