@@ -1,8 +1,6 @@
 package com.unosquare.admin_core.back_end.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,9 +9,9 @@ import java.util.Set;
 
 @Entity
 @Data
-@ToString
+@NoArgsConstructor
 @Table(name = "Employee")
-public class Employee implements java.io.Serializable {
+public class Employee {
 
     @Id
     @SequenceGenerator(name="employeeSeq",sequenceName="employee_employee_id_seq", allocationSize = 1)
@@ -22,7 +20,9 @@ public class Employee implements java.io.Serializable {
     private int employeeId;
 
     private String forename;
+
     private String surname;
+
     private String email;
 
     @Column(name = "total_holidays")
@@ -45,35 +45,14 @@ public class Employee implements java.io.Serializable {
     @JoinColumn(name = "employee_status_id")
     private EmployeeStatus employeeStatus;
 
-    @OneToMany(mappedBy = "employee")
-    @JsonIgnore
+    @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
     private Set<Contract> contracts = new HashSet();
 
-    @OneToMany(mappedBy = "employee")
-    @JsonIgnore
+    @OneToMany(mappedBy = "employee", fetch=FetchType.LAZY)
+    @Setter(AccessLevel.PUBLIC)
     private Set<Event> events = new HashSet<>();
-
-    public Employee() {
-
-    }
 
     public Employee(int employeeId){
         this.employeeId = employeeId;
-    }
-
-    public Employee(String forename, String surname, String email,
-                    EmployeeRole employeeRole,
-                    EmployeeStatus status,
-                    LocalDate startDate,
-                    Country country,
-                    String password) {
-        this.forename = forename;
-        this.surname = surname;
-        this.email = email;
-        this.employeeRole = employeeRole;
-        this.employeeStatus = status;
-        this.startDate = startDate;
-        this.country = country;
-        this.password = password;
     }
 }

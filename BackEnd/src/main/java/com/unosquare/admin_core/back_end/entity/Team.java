@@ -1,11 +1,13 @@
 package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "Team")
 public class Team implements java.io.Serializable {
 
@@ -24,10 +26,6 @@ public class Team implements java.io.Serializable {
     private String contactName;
 
     private String contactEmail;
-
-    public Team() {
-
-    }
 
     public Team(int teamId){
         this.teamId = teamId;

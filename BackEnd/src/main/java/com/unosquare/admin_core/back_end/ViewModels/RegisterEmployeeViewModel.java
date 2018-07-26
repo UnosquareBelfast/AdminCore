@@ -1,4 +1,4 @@
-package com.unosquare.admin_core.back_end.dto;
+package com.unosquare.admin_core.back_end.ViewModels;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -6,10 +6,11 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 @Data
-public class SignUpRequestDto {
+public class RegisterEmployeeViewModel {
 
     @NotBlank
     @Size(min = 4, max = 40)

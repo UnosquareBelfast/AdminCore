@@ -1,14 +1,15 @@
 package com.unosquare.admin_core.back_end.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
 @Data
+@Entity
+@NoArgsConstructor
 @Table(name = "Event")
-public class Event implements java.io.Serializable {
+public class Event {
 
     @Id
     @SequenceGenerator(name="eventSeq",sequenceName="event_event_id_seq", allocationSize = 1)
@@ -24,7 +25,7 @@ public class Event implements java.io.Serializable {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @OneToOne(cascade=CascadeType.DETACH)
+    @OneToOne()
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
@@ -44,19 +45,7 @@ public class Event implements java.io.Serializable {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
-    public Event() {
-
-    }
-
-    public Event(LocalDate startDate, LocalDate endDate, int employeeId,
-                 int eventTypeId, int statusId, boolean isHalfDay) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.employee = new Employee(employeeId);
-        this.eventType = new EventType(eventTypeId);
-        this.eventStatus = new EventStatus(statusId);
-        this.lastModified = LocalDate.now();
-        this.dateCreated = LocalDate.now();
-        this.isHalfDay = isHalfDay;
+    public Event(int eventId) {
+        this.eventId = eventId;
     }
 }
