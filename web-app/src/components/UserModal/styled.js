@@ -1,17 +1,6 @@
 import styled from 'styled-components';
 
 export const StyleContainer = styled.div`
-  margin: 20px;
-  @media (min-width: 920px) {
-    margin: 40px;
-  }
-  #closeModal {
-    position: absolute;
-    cursor: pointer;
-    top: 5px;
-    font-weight: bold;
-  }
-
   p {
     margin: 0;
   }
@@ -22,6 +11,9 @@ export const StyleContainer = styled.div`
 
   > div {
     margin-bottom: 20px;
+  }
+  button: {
+    align-self: flex-end;
   }
 `;
 

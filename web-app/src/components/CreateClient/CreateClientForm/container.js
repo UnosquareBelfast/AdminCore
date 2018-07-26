@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import employeeStatus from '../../utilities/employeeStatus';
+import employeeStatus from '../../../utilities/employeeStatus';
 import {
   getClientById,
   createClient,
   updateClient,
-} from '../../services/clientService';
+} from '../../../services/clientService';
 
 export default Wrapped =>
   class extends Component {

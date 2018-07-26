@@ -10,6 +10,7 @@ import '!style-loader!css-loader!react-big-calendar/lib/css/react-big-calendar.c
 import '!style-loader!css-loader!react-datepicker/dist/react-datepicker.css';
 import '!style-loader!css-loader!react-day-picker/lib/style.css';
 import '!style-loader!css-loader!react-table/react-table.css';
+import '!style-loader!css-loader!rodal/lib/rodal.css';
 
 const app = (
   <Provider store={store}>

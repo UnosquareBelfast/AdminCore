@@ -10,6 +10,7 @@ import {
 } from '../../utilities/currentUser';
 import { getUserProfile } from '../../services/userService';
 import swal from 'sweetalert2';
+import { Toast } from '../../utilities/Notifications';
 
 class AuthUserAndStore extends Component {
   componentWillMount() {
@@ -19,6 +20,12 @@ class AuthUserAndStore extends Component {
       getUserProfile(userId)
         .then(({ data }) => {
           store.dispatch(updateUser(data));
+          Toast({
+            type: 'success',
+            title: `Welcome, ${tokenProfile.name}`,
+            position: 'top-end',
+            timer: 2000,
+          });
         })
         .catch(error => {
           swal('Couldn\'t retrieve profile', error.message, 'error');
