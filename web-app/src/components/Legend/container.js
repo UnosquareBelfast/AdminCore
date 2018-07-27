@@ -20,13 +20,13 @@ const LengendContainer = Wrapped =>
         },
         eventsKeys: [
           {
-            eventStatusId: 1,
+            eventStatusId: 2,
             key: APPROVED,
             type: 'holiday',
             active: false,
           },
           {
-            eventStatusId: 2,
+            eventStatusId: 1,
             key: PENDING,
             type: 'holiday',
             active: false,

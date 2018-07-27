@@ -8,7 +8,7 @@ import {
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      employeeId: PT.string.isRequired,
+      employeeId: PT.any.isRequired,
       updateTakenHolidays: PT.func.isRequired,
       updateBookingAndDuration: PT.func.isRequired,
       closeModal: PT.func.isRequired,
@@ -20,8 +20,8 @@ export default Wrapped =>
       this.state = {
         formData: {
           end: props.booking.end,
-          eventStatusId: props.booking.eventStatusId,
-          isHalfday: props.booking.isHalfday,
+          eventTypeId: props.booking.eventType.eventTypeId,
+          isHalfday: props.booking.halfDay || false,
           start: props.booking.start,
         },
         formIsValid: true,
@@ -30,7 +30,7 @@ export default Wrapped =>
 
     handleMakeHolidayRequest = event => {
       event.preventDefault();
-      const { start, end, isHalfday, eventStatusId } = this.state.formData;
+      const { start, end, isHalfday, eventTypeId } = this.state.formData;
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
@@ -41,7 +41,7 @@ export default Wrapped =>
             halfDay: isHalfday,
           },
         ],
-        eventStatusId: eventStatusId,
+        eventTypeId: eventTypeId,
         employeeId: this.props.employeeId,
       };
 
@@ -53,14 +53,19 @@ export default Wrapped =>
 
     handleUpdateHolidayRequest = (event, cancel) => {
       event.preventDefault();
-      const { start, end, isHalfday } = this.state.formData;
+      const { start, end, isHalfday, eventTypeId } = this.state.formData;
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
-        startDate: start.format(dateFormat),
-        endDate: end.format(dateFormat),
-        halfDay: isHalfday,
-        eventId: this.props.booking.id,
+        dates: [
+          {
+            startDate: start.format(dateFormat),
+            endDate: end.format(dateFormat),
+            halfDay: isHalfday,
+          },
+        ],
+        holidayId: this.props.booking.holidayId,
+        eventTypeId: eventTypeId,
         eventStatusId: cancel ? 3 : 1,
         employeeId: this.props.employeeId,
       };
@@ -93,7 +98,7 @@ export default Wrapped =>
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.end = formData.start;
-        formData.eventStatusId = 1;
+        formData.eventTypeId = 1;
       }
 
       this.setState(

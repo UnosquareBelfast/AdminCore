@@ -1,7 +1,8 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.EmployeeDto;
-import com.unosquare.admin_core.back_end.entity.Employee;
+import com.unosquare.admin_core.back_end.ViewModels.EmployeeViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.FindEmployeeViewModel;
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import com.unosquare.admin_core.back_end.enums.Countries;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.ModelMapper;
@@ -26,35 +27,37 @@ public class EmployeeController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EmployeeDto> findAllEmployees() {
-        return mapEployeessToDtos(employeeService.findAll());
+    public List<FindEmployeeViewModel> findAllEmployees() {
+        return mapEmployeesToViewModel(employeeService.findAll());
     }
 
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EmployeeDto findEmployeeById(@PathVariable("employeeId") int id) {
-        return modelMapper.map(employeeService.findById(id), EmployeeDto.class);
+    public FindEmployeeViewModel findEmployeeById(@PathVariable("employeeId") int id) {
+        EmployeeDTO employee = employeeService.findById(id);
+        return modelMapper.map(employee, FindEmployeeViewModel.class);
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateEmployee(@RequestBody EmployeeDto employee) {
-        employeeService.updateEmployee(employee);
+    public void updateEmployee(@RequestBody EmployeeViewModel employeeViewModel) {
+        EmployeeDTO employee = modelMapper.map(employeeViewModel, EmployeeDTO.class);
+        employeeService.save(employee);
     }
 
     @GetMapping(value = "/findByForenameAndSurname/{forename}/{surname}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeDto> findByForenameAndSurname(@PathVariable("forename") String forename, @PathVariable("surname") String surname) {
-        return mapEployeessToDtos(employeeService.findByForenameAndSurname(forename, surname));
+    public List<FindEmployeeViewModel> findByForenameAndSurname(@PathVariable("forename") String forename, @PathVariable("surname") String surname) {
+        return mapEmployeesToViewModel(employeeService.findByForenameAndSurname(forename, surname));
     }
 
     @GetMapping(value = "/findByCountry/{countryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeDto> findByCountry(@PathVariable("countryId") int countryId) {
-        return mapEployeessToDtos(employeeService.findByCountry(Countries.fromId(countryId)));
+    public List<FindEmployeeViewModel> findByCountry(@PathVariable("countryId") int countryId) {
+        return mapEmployeesToViewModel(employeeService.findByCountry(Countries.fromId(countryId)));
     }
 
-    private List<EmployeeDto> mapEployeessToDtos(List<Employee> employees) {
-        return employees.stream().map(employee -> modelMapper.map(employee, EmployeeDto.class)).collect(Collectors.toList());
+    private List<FindEmployeeViewModel> mapEmployeesToViewModel(List<EmployeeDTO> employees) {
+        return employees.stream().map(employee -> modelMapper.map(employee, FindEmployeeViewModel.class)).collect(Collectors.toList());
     }
 }

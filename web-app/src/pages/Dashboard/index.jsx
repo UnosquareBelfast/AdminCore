@@ -12,7 +12,7 @@ export const Dashboard = props => {
     showModal,
     takenHolidays,
     updateTakenHolidays,
-    userDetails,
+    employeeId,
     onUpdateEvents,
     onUpdateEmployee,
   } = props;
@@ -22,14 +22,14 @@ export const Dashboard = props => {
       <BookingModal
         booking={booking}
         closeModal={closeModal}
-        employeeId={userDetails.employeeId.toString()}
+        employeeId={employeeId}
         updateBookingAndDuration={updateBookingAndDuration}
         showModal={showModal}
         updateTakenHolidays={updateTakenHolidays}
       />
       <InnerLayout>
         <BookingCalendar
-          userDetails={userDetails}
+          employeeId={employeeId}
           takenHolidays={takenHolidays}
           updateBookingAndDuration={updateBookingAndDuration}
         />
@@ -52,7 +52,11 @@ Dashboard.propTypes = {
   takenHolidays: PT.array.isRequired,
   updateBookingAndDuration: PT.func.isRequired,
   updateTakenHolidays: PT.func.isRequired,
-  userDetails: PT.object.isRequired,
+  employeeId: PT.any.isRequired,
+};
+
+Dashboard.defaultProps = {
+  booking: {},
 };
 
 export default container(Dashboard);

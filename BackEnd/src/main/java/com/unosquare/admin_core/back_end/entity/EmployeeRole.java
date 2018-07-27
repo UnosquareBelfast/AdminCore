@@ -1,13 +1,14 @@
 package com.unosquare.admin_core.back_end.entity;
 
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Embeddable
 @Data
-@ToString
+@NoArgsConstructor
 @Table(name = "Employee_Role")
 public class EmployeeRole implements java.io.Serializable {
 
@@ -19,10 +20,6 @@ public class EmployeeRole implements java.io.Serializable {
 
     @Column(name = "description")
     private String description;
-
-    public EmployeeRole(){
-
-    }
 
     public EmployeeRole(int employeeRoleId){
         this.employeeRoleId = employeeRoleId;
