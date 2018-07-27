@@ -25,23 +25,36 @@ export const Column = styled.div`
   display: block;
   position: relative;
   margin-bottom: 20px;
-  @media (min-width: 1220px) {
+  @media (min-width: 1520px) {
     display: flex;
     align-items: flex-start;
-  }
-  @media (min-width: 1520px) {
     margin-bottom: 0;
   }
 
   :nth-child(1) {
     padding-top: 0;
     flex: 0 1 20%;
+    @media (min-width: 1520px) {
+      flex: 0 1 20%;
+    }
   }
   :nth-child(2) {
-    flex: 0 1 30%;
+    flex: 0 1 50%;
+    @media (min-width: 1220px) {
+      flex: 0 1 40%;
+    }
+    @media (min-width: 1520px) {
+      flex: 0 1 33%;
+    }
   }
   :nth-child(3) {
     flex: 0 1 50%;
+    @media (min-width: 1220px) {
+      flex: 0 1 40%;
+    }
+    @media (min-width: 1520px) {
+      flex: 0 1 47%;
+    }
   }
 
   h4 {
