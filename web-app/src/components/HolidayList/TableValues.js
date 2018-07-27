@@ -7,13 +7,13 @@ const status = {
   sortable: false,
   filterable: false,
   width: 110,
-  accessor: holiday => statusText[holiday.holidayStatusId],
+  accessor: holiday => statusText[holiday.eventStatus.eventStatusId],
   getProps: (state, rowInfo) => {
     if (!rowInfo) return {};
     return {
       style: {
-        backgroundColor: theme.holidayStatus[rowInfo.original.holidayStatusId],
-        color: 'white',
+        color: theme.holidayStatus[rowInfo.original.eventStatus.eventStatusId],
+        fontWeight: 600,
       },
     };
   },
