@@ -9,8 +9,8 @@ import {
 } from '@fortawesome/fontawesome-free-solid';
 
 export default {
-  APPROVED: 1,
-  PENDING: 2,
+  PENDING: 1,
+  APPROVED: 2,
   REJECTED: 3,
   WFH: 4,
   SICK: 5,
@@ -18,17 +18,17 @@ export default {
 
 export const statusText = [
   null,
-  'Approved',
   'Pending',
+  'Approved',
   'Rejected',
-  'Working Remotely',
+  'Working from home',
   'Sick',
 ];
 
 export const statusIcons = [
   null,
-  <FontAwesomeIcon icon={faThumbsUp} />,
   <FontAwesomeIcon icon={faClock} />,
+  <FontAwesomeIcon icon={faThumbsUp} />,
   <FontAwesomeIcon icon={faThumbsDown} />,
   <FontAwesomeIcon icon={faHome} />,
   <FontAwesomeIcon icon={faProcedures} />,
