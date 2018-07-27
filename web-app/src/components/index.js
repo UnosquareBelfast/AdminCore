@@ -8,6 +8,8 @@ export { default as BookingModal } from './BookingModal';
 export { default as ContractList } from './ContractList';
 export { default as CreateClient } from './CreateClient';
 export { default as CreateContract } from './CreateContract';
+export { default as ClientList } from './ClientList';
+export { default as ClientModal } from './ClientModal';
 export { default as CreateTeam } from './CreateTeam';
 export { default as CreateUser } from './CreateUser';
 export { default as HolidayList } from './HolidayList';
