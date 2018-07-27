@@ -55,7 +55,7 @@ const Legend = ({
               options: employees,
             }}
             value={selectedEmployee.employeeId}
-            label="FILITER BY EMPLOYEE:"
+            label="FILTER BY EMPLOYEE:"
           />
         </Form>
       </Column>
