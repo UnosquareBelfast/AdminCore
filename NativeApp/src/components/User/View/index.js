@@ -6,8 +6,8 @@ import {
   FlatList,
 } from 'react-native';
 import ListItem from './ListItem';
-import { ScrollView, Text, HeaderContainer, HolidayContainer, HolidayText } from './styled';
-
+import { HeaderContainer, HolidayContainer, HolidayText } from './styled';
+import { ScrollView, H1, H2, P } from '../../Common';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
@@ -16,38 +16,38 @@ const UserView = (props) => {
     <ScrollView>
       <HeaderContainer>
         <HolidayContainer divider>
-          <Text>
+          <H2>
             Taken
-          </Text>
+          </H2>
           <HolidayText>
-            <Text largeText>
+            <H1>
               {takenHolidays.length}
-            </Text>
-            <Text smallText>
+            </H1>
+            <P dayText>
               DAYS
-            </Text>
+            </P>
           </HolidayText>
         </HolidayContainer>
         <HolidayContainer>
-          <Text>
+          <H2>
             Remaining
-          </Text>
+          </H2>
           <HolidayText>
-            <Text largeText>
+            <H1>
               {remainingHolidays}
-            </Text>
-            <Text smallText>
+            </H1>
+            <P dayText>
               DAYS
-            </Text>
+            </P>
           </HolidayText>
         </HolidayContainer>
       </HeaderContainer>
 
       <View style={styles.holsDate}>
-        <Text>
+        <P>
           {employee.forename}
           {employee.surname}
-        </Text>
+        </P>
       </View>
 
       <View>

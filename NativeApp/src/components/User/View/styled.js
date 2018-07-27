@@ -1,31 +1,5 @@
 import styled, { css } from 'styled-components';
 
-export const ScrollView = styled.ScrollView.attrs({
-  contentContainerStyle: props => {
-    return {
-      flex: 1,
-      paddingTop: 23,
-      backgroundColor: '#fff',
-    }
-  }
-})``
-
-export const Text = styled.Text`
-  fontSize: 26;
-  fontWeight: bold;
-  color: ${props => props.theme.colours.darkGrey};
-
-  ${props => props.largeText && css`
-  fontSize: 30;
-  `}
-
-  ${props => props.smallText && css`
-  fontSize: 17;
-  paddingBottom: 3;
-  paddingLeft: 2;
-  `}
-`;
-
 export const HeaderContainer = styled.View`
   flex: 1;
   flexDirection: row;

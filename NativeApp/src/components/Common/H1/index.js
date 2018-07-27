@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Text } from './styles';
 
-const P = (props) => {
+const H1 = (props) => {
   const { children } = props;
 
   return (
@@ -10,11 +10,11 @@ const P = (props) => {
   );
 };
 
-P.propTypes = {
+H1.propTypes = {
   children: PT.oneOfType([
     PT.string,
-    PT.array,
+    PT.number,
   ]).isRequired,
 };
 
-export default P;
+export default H1;

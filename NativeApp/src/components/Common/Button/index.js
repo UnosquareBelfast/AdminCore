@@ -11,7 +11,10 @@ const Button = (props) => {
 };
 
 Button.propTypes = {
-  children: PT.string.isRequired,
+  children: PT.oneOfType([
+    PT.string,
+    PT.element,
+  ]).isRequired,
 };
 
 export default Button;

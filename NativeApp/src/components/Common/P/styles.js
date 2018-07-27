@@ -1,14 +1,12 @@
 import styled, { css } from 'styled-components';
 
 export const Text = styled.Text`
-  color: #fff;
-  fontSize: 20;
-  fontWeight: bold;
+  fontSize: 17;
+  color: black;
 
-  ${props => props.validationText && css`
-    color: red;
-    fontSize: 18;
-    paddingHorizontal: 5;
-    fontWeight: normal;
+  ${props => props.dayText && css`
+    paddingBottom: 5;
+    color: ${props => props.theme.colours.darkGrey};
+    paddingLeft: 2;
   `}
 `;
