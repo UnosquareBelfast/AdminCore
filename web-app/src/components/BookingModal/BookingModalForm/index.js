@@ -47,8 +47,8 @@ const BookingModalForm = props => {
   };
 
   const composeErrorMessage = () => {
-    const { eventStatusId, start } = formData;
-    if (isEventBeingUpdated || eventStatusId == 4 || eventStatusId == 5) {
+    const { eventTypeId, start } = formData;
+    if (isEventBeingUpdated || eventTypeId !== 1) {
       return null;
     } else {
       const today = new moment();
@@ -80,14 +80,15 @@ const BookingModalForm = props => {
         <Input
           type="select"
           htmlAttrs={{
-            name: 'eventStatusId',
+            name: 'eventTypeId',
             options: [
               { value: 1, displayValue: 'Annual Leave' },
-              { value: 4, displayValue: 'Working Remotely' },
-              { value: 5, displayValue: 'Sick Leave' },
+              { value: 2, displayValue: 'Working from home' },
+              { value: 3, displayValue: 'Sick Leave' },
+              { value: 4, displayValue: 'Work Related travel' },
             ],
           }}
-          value={formData.eventStatusId}
+          value={formData.eventTypeId}
           label="Reason:"
         />
         <Input

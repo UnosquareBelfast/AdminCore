@@ -1,13 +1,12 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import Swal from 'sweetalert2';
 import { Toast } from '../../utilities/Notifications';
 import moment from 'moment';
 
 const BookingCalendarContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      userDetails: PT.object,
+      employeeId: PT.any,
       takenHolidays: PT.array,
       updateBookingAndDuration: PT.func,
     };
@@ -20,24 +19,31 @@ const BookingCalendarContainer = Wrapped =>
       const today = new moment();
       if (moment(start).isAfter(today.add(-1, 'days'))) {
         let booking = {
+          title: null,
           end: moment(end),
-          eventStatusId: 1,
+          eventType: {
+            eventTypeId: 1,
+            description: 'annual leave',
+          },
+          eventStatus: {
+            eventStatusId: 1,
+            description: 'Awaiting Approval',
+          },
           isEventBeingUpdated: false,
           isHalfday: false,
-          isWFH: false,
           start: moment(start),
         };
         this.props.updateBookingAndDuration(booking);
       } else {
         Toast({
-          type: 'Sorry',
+          type: 'warning',
           title: 'Unable to select past dates',
         });
       }
     };
 
     onSelectEvent = booking => {
-      if (booking.employeeId == this.props.userDetails.employeeId) {
+      if (booking.employee.employeeId == this.props.employeeId) {
         const updatedBooking = {
           ...booking,
           isEventBeingUpdated: true,
@@ -45,22 +51,21 @@ const BookingCalendarContainer = Wrapped =>
         this.props.updateBookingAndDuration(updatedBooking);
       } else {
         Toast({
-          type: 'Unable to update other peoples events',
-          title: 'Sorry',
+          type: 'warning',
+          title: 'Unable to update other peoples events',
         });
       }
     };
 
     render() {
       return (
-        this.props.userDetails &&
+        this.props.employeeId &&
         this.props.takenHolidays && (
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
             takenHolidays={this.props.takenHolidays}
             updateTakenHolidays={this.getTakenHolidays}
-            userDetails={this.props.userDetails}
           />
         )
       );

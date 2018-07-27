@@ -8,7 +8,6 @@ import {
   StatusDot,
   FormContainer,
 } from './styled';
-import { statusText } from '../../utilities/holidayStatus';
 
 const BookingModal = props => {
   const {
@@ -34,8 +33,8 @@ const BookingModal = props => {
             <BookingStatus>
               <h4>{booking.title}</h4>
               <span>
-                <StatusDot status={booking.eventStatusId} />
-                {statusText[booking.eventStatusId]}
+                <StatusDot status={booking.eventStatus.eventStatusId} />
+                {booking.eventStatus.description}
               </span>
             </BookingStatus>
           )}
@@ -58,7 +57,7 @@ BookingModal.propTypes = {
   closeModal: PT.func.isRequired,
   showModal: PT.bool.isRequired,
   booking: PT.object.isRequired,
-  employeeId: PT.string.isRequired,
+  employeeId: PT.any.isRequired,
   updateTakenHolidays: PT.func.isRequired,
   updateBookingAndDuration: PT.func.isRequired,
 };

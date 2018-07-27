@@ -15,15 +15,7 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        booking: {
-          duration: 0,
-          end: moment(),
-          eventType: 'Holiday',
-          isEventBeingUpdated: false,
-          isHalfday: false,
-          isWFH: false,
-          start: moment(),
-        },
+        booking: {},
         requestModalOpen: false,
         showModal: false,
         takenHolidays: null,
@@ -55,12 +47,42 @@ const DashboardContainer = Wrapped =>
         );
     }
 
+    createBookingObj = event => {
+      const startDate = moment(event.startDate);
+      const endDate = moment(event.endDate);
+
+      const eventType = {
+        eventTypeId: 1,
+        description: 'annual leave',
+      };
+
+      const eventStatus = {
+        eventStatusId: 1,
+        description: 'Awaiting Approval',
+      };
+
+      return {
+        holidayId: event.holidayId,
+        title: `${event.employee.forename} ${event.employee.surname}`,
+        duration: getDurationNotice(startDate, endDate),
+        allDay: !event.halfDay,
+        start: startDate,
+        end: endDate,
+        halfDay: event.halfDay,
+        employee: event.employee,
+        eventStatus: eventStatus, //event.eventStatus,
+        eventType: eventType, //event.eventType,
+      };
+    };
+
     getTakenHolidays = () => {
       getAllHolidays()
         .then(response => {
-          const usersHolidays = response.data;
+          const eventsForCalendar = response.data.map(event => {
+            return this.createBookingObj(event);
+          });
           this.setState({
-            takenHolidays: this.formatDates(usersHolidays),
+            takenHolidays: eventsForCalendar,
           });
         })
         .catch(error => {
@@ -72,31 +94,16 @@ const DashboardContainer = Wrapped =>
         });
     };
 
-    formatDates(events) {
-      const eventsForCalendar = events.map(event => {
-        return {
-          ...event,
-          allDay: !event.halfDay,
-          eventStatusId: event.eventStatusId,
-          id: event.eventId,
-          isHalfday: event.halfDay,
-          isWFH: false,
-          title: `${event.employee.forename} ${event.employee.surname}`,
-        };
-      });
-      return eventsForCalendar;
-    }
-
     closeModal = () => {
       this.setState({ showModal: false });
     };
 
     updateBookingAndDuration = booking => {
-      const { isHalfday, isWFH, start, end } = booking;
+      const { isHalfday, eventType, start, end } = booking;
       booking.duration = 1;
       if (isHalfday) {
         booking.duration = 0.5;
-      } else if (isWFH) {
+      } else if (eventType.eventTypeId !== 1) {
         booking.duration = 0;
       } else {
         booking.duration = getDurationNotice(start, end);
@@ -121,7 +128,7 @@ const DashboardContainer = Wrapped =>
       let takenHolidaysUpdated = null;
       if (updatedFilterEvents.length > 0) {
         takenHolidaysUpdated = this.state.takenHolidays.filter(hol =>
-          updatedFilterEvents.includes(hol.eventStatusId),
+          updatedFilterEvents.includes(hol.eventStatus.eventStatusId),
         );
       }
 
@@ -146,7 +153,7 @@ const DashboardContainer = Wrapped =>
                 : this.state.takenHolidaysFiltered
             }
             updateTakenHolidays={this.getTakenHolidays}
-            userDetails={this.state.userDetails}
+            employeeId={this.state.userDetails.employeeId}
             onUpdateEvents={this.onFilterEvents}
           />
         )

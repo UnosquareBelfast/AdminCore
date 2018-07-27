@@ -4,7 +4,22 @@ import { Container } from './styled';
 import { statusIcons } from '../../../utilities/holidayStatus';
 
 const Event = ({ children, event }) => {
-  let id = event.eventStatusId;
+  let id = event.eventType.eventTypeId;
+  const { eventStatusId } = event.eventStatus;
+  const { eventTypeId } = event.eventType;
+
+  if (event.eventType.eventTypeId === 1) {
+    id = eventStatusId;
+  } else if (eventTypeId === 2) {
+    // working from home
+    id = 4;
+  } else if (eventTypeId === 3) {
+    // sick leave
+    id = 5;
+  } else if (eventTypeId === 4) {
+    // work related travel
+    id = 4;
+  }
   return (
     <Container status={id} onClick={children.props.onClick}>
       {statusIcons[id]}
