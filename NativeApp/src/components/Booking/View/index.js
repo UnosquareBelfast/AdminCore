@@ -4,64 +4,23 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import { CheckBox, Button } from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import styles from './styles';
 import { CustomDatePicker } from '../../Common';
-import holidayStatusColor from '../../../utilities/holidayStatus';
+import StatusBar from '../StatusBar';
+import RequestButton from '../RequestButton';
 
 const BookingView = (props) => {
   const {
-    startDate,
     changeStartDate,
-    endDate,
+    booking,
     booked,
     updateHoliday,
     changeEndDate,
     submitRequest,
-    halfDay,
     updateHalfDay,
-    statusId,
-    status,
   } = props;
-
-  const renderButton = booked
-    ? (
-      <View style={styles.buttonContainer}>
-        <Button
-          onPress={() => updateHoliday(false)}
-          title="Update Holiday"
-          backgroundColor="#00DCFA"
-          borderRadius={5}
-        />
-        <Button
-          onPress={() => updateHoliday(true)}
-          title="Cancel Holiday"
-          containerViewStyle={{ marginTop: 20 }}
-          borderRadius={5}
-        />
-      </View>
-    )
-    : (
-      <Button
-        onPress={submitRequest}
-        title="Request"
-        backgroundColor="#00DCFA"
-        borderRadius={5}
-      />
-    );
-
-  const renderStatusBar = booked
-    ? (
-      <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
-        <Text>
-          {status}
-        </Text>
-        <Text>
-          {startDate} to {endDate}
-        </Text>
-      </View>
-    ) : null;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -71,7 +30,7 @@ const BookingView = (props) => {
         the following holiday/s:
       </Text>
 
-      {renderStatusBar}
+      {booked && <StatusBar booking={booking} />}
 
       <View style={styles.dateForm}>
         <View>
@@ -79,53 +38,55 @@ const BookingView = (props) => {
             Start Date:
           </Text>
           <CustomDatePicker
-            chosenDate={startDate}
+            chosenDate={booking.startDate}
             setDate={changeStartDate}
           />
 
-          { !halfDay && (
+          { !booking.halfDay && (
             <Fragment>
               <Text>
                 End Date:
               </Text>
               <CustomDatePicker
-                chosenDate={endDate}
+                chosenDate={booking.endDate}
                 setDate={changeEndDate}
-                minimumDate={startDate}
+                minimumDate={booking.startDate}
               />
             </Fragment>
           )}
 
           <CheckBox
             title="Request half day"
-            checked={halfDay}
+            checked={booking.halfDay}
             onPress={updateHalfDay}
             containerStyle={styles.checkBox}
           />
         </View>
-        {renderButton}
+        <RequestButton
+          updateHoliday={updateHoliday}
+          submitRequest={submitRequest}
+          booked={booked}
+        />
       </View>
     </ScrollView>
   );
 };
 
 BookingView.propTypes = {
-  startDate: PT.string.isRequired,
-  endDate: PT.string.isRequired,
   changeStartDate: PT.func.isRequired,
   changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
   updateHoliday: PT.func.isRequired,
   booked: PT.bool.isRequired,
-  halfDay: PT.bool.isRequired,
   updateHalfDay: PT.func.isRequired,
-  statusId: PT.number,
-  status: PT.string,
-};
-
-BookingView.defaultProps = {
-  status: '',
-  statusId: 0,
+  booking: PT.shape({
+    holId: PT.number,
+    statusId: PT.number,
+    status: PT.string,
+    startDate: PT.string,
+    endDate: PT.string,
+    halfDay: PT.bool,
+  }).isRequired,
 };
 
 export default BookingView;

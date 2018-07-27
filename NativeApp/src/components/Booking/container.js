@@ -150,13 +150,9 @@ export default Container => class extends Component {
 
     return (
       <Container
-        startDate={booking.startDate}
-        endDate={booking.endDate}
-        halfDay={booking.halfDay}
         updateHalfDay={this.updateHalfDay}
         booked={booked}
-        statusId={booking.statusId}
-        status={booking.status}
+        booking={booking}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}
         changeStartDate={this.changeStartDate}
