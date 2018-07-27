@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Button } from '../common';
-import { HeaderButton } from './styled';
+import { CornerButton } from '../common_styled';
 import { ClientList, ClientModal } from '../';
 
 export const AllClients = ({
@@ -19,12 +19,12 @@ export const AllClients = ({
         history={history}
         closeModal={() => selectClient(null)}
       />
-      <HeaderButton>
+      <CornerButton>
         <Button
           onClick={() => history.replace('/admin/clients/new')}
           label="New Client"
         />
-      </HeaderButton>
+      </CornerButton>
       <h2>All Clients</h2>
       <ClientList
         clients={clients}
