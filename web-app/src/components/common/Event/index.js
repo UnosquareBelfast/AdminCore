@@ -18,7 +18,7 @@ const Event = ({ children, event }) => {
     id = 5;
   } else if (eventTypeId === 4) {
     // work related travel
-    id = 4;
+    id = 6;
   }
   return (
     <Container status={id} onClick={children.props.onClick}>

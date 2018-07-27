@@ -12,7 +12,7 @@ const LengendContainer = Wrapped =>
 
     constructor(props) {
       super(props);
-      const { PENDING, APPROVED, REJECTED, WFH, SICK } = holidayStatus;
+      const { PENDING, APPROVED, REJECTED, WFH, SICK, WRT } = holidayStatus;
       this.state = {
         employees: [],
         selectedEmployee: {
@@ -46,6 +46,12 @@ const LengendContainer = Wrapped =>
           {
             eventStatusId: 5,
             key: SICK,
+            type: 'status',
+            active: false,
+          },
+          {
+            eventStatusId: 6,
+            key: WRT,
             type: 'status',
             active: false,
           },

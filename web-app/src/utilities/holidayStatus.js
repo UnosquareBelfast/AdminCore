@@ -6,6 +6,7 @@ import {
   faClock,
   faHome,
   faProcedures,
+  faPlane,
 } from '@fortawesome/fontawesome-free-solid';
 
 export default {
@@ -14,6 +15,7 @@ export default {
   REJECTED: 3,
   WFH: 4,
   SICK: 5,
+  WRT: 6,
 };
 
 export const statusText = [
@@ -21,8 +23,9 @@ export const statusText = [
   'Pending',
   'Approved',
   'Rejected',
-  'Working from home',
+  'Working remotely',
   'Sick',
+  'Work related travel',
 ];
 
 export const statusIcons = [
@@ -32,4 +35,5 @@ export const statusIcons = [
   <FontAwesomeIcon icon={faThumbsDown} />,
   <FontAwesomeIcon icon={faHome} />,
   <FontAwesomeIcon icon={faProcedures} />,
+  <FontAwesomeIcon icon={faPlane} />,
 ];

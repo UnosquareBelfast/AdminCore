@@ -9,7 +9,7 @@ export const StyleContainer = styled.div`
   padding: 20px 10px;
   margin: 10px 0 100px 0;
   display: block;
-  @media (min-width: 1300px) {
+  @media (min-width: 1220px) {
     display: flex;
   }
 
@@ -25,11 +25,11 @@ export const Column = styled.div`
   display: block;
   position: relative;
   margin-bottom: 20px;
-  @media (min-width: 768px) {
+  @media (min-width: 1220px) {
     display: flex;
     align-items: flex-start;
   }
-  @media (min-width: 1300px) {
+  @media (min-width: 1520px) {
     margin-bottom: 0;
   }
 
@@ -38,10 +38,10 @@ export const Column = styled.div`
     flex: 0 1 20%;
   }
   :nth-child(2) {
-    flex: 0 1 40%;
+    flex: 0 1 30%;
   }
   :nth-child(3) {
-    flex: 0 1 40%;
+    flex: 0 1 50%;
   }
 
   h4 {
@@ -79,7 +79,7 @@ export const Key = styled.div`
   cursor: pointer;
   transition: all 300ms;
   box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 1);
-  @media (min-width: 768px) {
+  @media (min-width: 920px) {
     flex: 1 0 25%;
   }
 
