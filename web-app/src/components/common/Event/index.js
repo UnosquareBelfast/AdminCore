@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
-import { statusIcons } from '../../../utilities/holidayStatus';
+import holidayStatus, { statusIcons } from '../../../utilities/holidayStatus';
 
 const Event = ({ children, event }) => {
   let id = event.eventType.eventTypeId;
@@ -11,14 +11,11 @@ const Event = ({ children, event }) => {
   if (event.eventType.eventTypeId === 1) {
     id = eventStatusId;
   } else if (eventTypeId === 2) {
-    // working from home
-    id = 4;
+    id = holidayStatus.WFH;
   } else if (eventTypeId === 3) {
-    // sick leave
-    id = 5;
+    id = holidayStatus.SICK;
   } else if (eventTypeId === 4) {
-    // work related travel
-    id = 6;
+    id = holidayStatus.WRT;
   }
   return (
     <Container status={id} onClick={children.props.onClick}>
