@@ -1,5 +1,7 @@
-import { statusText } from '../../utilities/holidayStatus';
+import React from 'react';
+import holidayStatus, { statusText } from '../../utilities/holidayStatus';
 import { theme } from '../../styled';
+import moment from 'moment';
 
 const status = {
   id: 'status',
@@ -54,7 +56,19 @@ const endDate = {
 const requestedDate = {
   id: 'requestedDate',
   Header: 'Requested',
-  accessor: holiday => holiday.requested.fromNow(),
+  accessor: holiday => {
+    const today = moment();
+    const diff = today.diff(holiday.requested, 'days');
+    if (
+      diff >= 5 &&
+      holiday.eventStatus.eventStatusId === holidayStatus.PENDING
+    ) {
+      return (
+        <span style={{ color: 'red', fontWeight: 600 }}>{diff} Days Ago</span>
+      );
+    }
+    return diff > 0 ? `${diff} Days Ago` : 'Today';
+  },
 };
 
 export default {
