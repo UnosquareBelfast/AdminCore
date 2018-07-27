@@ -48,18 +48,8 @@ const DashboardContainer = Wrapped =>
     }
 
     createBookingObj = event => {
-      const startDate = moment(event.startDate);
-      const endDate = moment(event.endDate);
-
-      const eventType = {
-        eventTypeId: 1,
-        description: 'annual leave',
-      };
-
-      const eventStatus = {
-        eventStatusId: 1,
-        description: 'Awaiting Approval',
-      };
+      const startDate = moment(event.startDate, 'YYYY-MM-DD');
+      const endDate = moment(event.endDate, 'YYYY-MM-DD');
 
       return {
         holidayId: event.holidayId,
@@ -70,8 +60,8 @@ const DashboardContainer = Wrapped =>
         end: endDate,
         halfDay: event.halfDay,
         employee: event.employee,
-        eventStatus: eventStatus, //event.eventStatus,
-        eventType: eventType, //event.eventType,
+        eventStatus: event.eventStatus,
+        eventType: event.eventType,
       };
     };
 
