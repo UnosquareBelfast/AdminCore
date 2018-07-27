@@ -4,6 +4,7 @@ import moment from 'moment';
 import { has, get } from 'lodash';
 import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
+import holidayStatusColor from '../../utilities/holidayStatus';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -44,7 +45,11 @@ export default Container => class extends Component {
       if (day) {
         const booked = has(takenHolidays, day.dateString);
         const holiday = get(takenHolidays, day.dateString, 0);
-        navigation.push('Booking', { date: day.dateString, status: holiday.status, holId: holiday.holId, booked });
+        navigation.push('Booking', {
+          date: day.dateString,
+          holiday,
+          booked,
+        });
       }
     }
 
@@ -69,30 +74,20 @@ export default Container => class extends Component {
     }
 
     formatDate = data => data.reduce((obj, item) => {
-      const holidayStatus = this.holidayStatus(item.eventStatus.eventStatusId);
+      const holidayStatus = holidayStatusColor[item.eventStatus.eventStatusId];
       const dates = this.enumerateDaysBetweenDates(item.start, item.end);
       dates.forEach((date) => {
-        obj[date] = { textColor: 'white', color: holidayStatus, status: item.eventStatus.description, holId: item.holidayId };
+        obj[date] = {
+          textColor: 'white',
+          color: holidayStatus,
+          statusId: item.eventStatus.eventStatusId,
+          status: item.eventStatus.description,
+          holId: item.holidayId,
+        };
       });
 
       return obj;
     }, {});
-
-
-    holidayStatus = (status) => {
-      switch (status) {
-        case 1:
-          return '#ff9b34';
-        case 2:
-          return '#35c375';
-        case 3:
-          return '#ff3434';
-        case 4:
-          return '#3469ff';
-        default:
-          return '#35c375';
-      }
-    }
 
     handleLogout = () => {
       const { navigation } = this.props;

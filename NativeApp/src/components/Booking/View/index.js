@@ -3,11 +3,12 @@ import {
   View,
   ScrollView,
   Text,
-  StyleSheet,
 } from 'react-native';
 import { CheckBox, Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
+import styles from './styles';
 import { CustomDatePicker } from '../../Common';
+import holidayStatusColor from '../../../utilities/holidayStatus';
 
 const BookingView = (props) => {
   const {
@@ -20,6 +21,7 @@ const BookingView = (props) => {
     submitRequest,
     halfDay,
     updateHalfDay,
+    statusId,
     status,
   } = props;
 
@@ -51,7 +53,7 @@ const BookingView = (props) => {
 
   const renderStatusBar = booked
     ? (
-      <View style={styles.holidayStatus}>
+      <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
         <Text>
           {status}
         </Text>
@@ -117,36 +119,13 @@ BookingView.propTypes = {
   booked: PT.bool.isRequired,
   halfDay: PT.bool.isRequired,
   updateHalfDay: PT.func.isRequired,
-  status: PT.string.isRequired,
+  statusId: PT.number,
+  status: PT.string,
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingVertical: 50,
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
-  },
-  dateForm: {
-    flex: 1,
-    justifyContent: 'space-between',
-    paddingTop: 20,
-  },
-  checkBox: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    margin: 0,
-    marginRight: 0,
-    marginLeft: 0,
-  },
-  holidayStatus: {
-    backgroundColor: '#f7f7f7',
-    borderLeftWidth: 10,
-    borderLeftColor: '#00DCFA',
-    padding: 10,
-    marginTop: 20,
-  },
-});
+BookingView.defaultProps = {
+  status: '',
+  statusId: 0,
+};
 
 export default BookingView;
