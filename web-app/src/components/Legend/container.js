@@ -16,7 +16,7 @@ const LengendContainer = Wrapped =>
       this.state = {
         employees: [],
         selectedEmployee: {
-          employeeId: 'all',
+          employeeId: -1,
         },
         eventsKeys: [
           {
@@ -99,7 +99,7 @@ const LengendContainer = Wrapped =>
         return this.createEmployeeObject(hol);
       });
       employees = this.removeDuplicateEmployees(employees);
-      employees.unshift({ value: 'all', displayValue: 'All' });
+      employees.unshift({ value: -1, displayValue: 'All' });
       this.setState({ employees: this.sortEmployeeList(employees) });
     };
 

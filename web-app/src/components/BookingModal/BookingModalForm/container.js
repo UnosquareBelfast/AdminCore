@@ -8,7 +8,7 @@ import {
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      employeeId: PT.any.isRequired,
+      employeeId: PT.number.isRequired,
       updateTakenHolidays: PT.func.isRequired,
       updateBookingAndDuration: PT.func.isRequired,
       closeModal: PT.func.isRequired,

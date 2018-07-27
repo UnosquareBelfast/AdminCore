@@ -57,7 +57,7 @@ BookingModal.propTypes = {
   closeModal: PT.func.isRequired,
   showModal: PT.bool.isRequired,
   booking: PT.object.isRequired,
-  employeeId: PT.any.isRequired,
+  employeeId: PT.number.isRequired,
   updateTakenHolidays: PT.func.isRequired,
   updateBookingAndDuration: PT.func.isRequired,
 };

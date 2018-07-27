@@ -85,7 +85,7 @@ const DashboardContainer = Wrapped =>
     };
 
     getTakenHolidaysById = id => {
-      if (id === 'all') {
+      if (id === -1) {
         this.getTakenHolidays();
       } else {
         getHolidays(id)

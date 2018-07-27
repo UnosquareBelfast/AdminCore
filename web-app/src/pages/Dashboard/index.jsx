@@ -52,7 +52,7 @@ Dashboard.propTypes = {
   takenHolidays: PT.array.isRequired,
   updateBookingAndDuration: PT.func.isRequired,
   updateTakenHolidays: PT.func.isRequired,
-  employeeId: PT.any.isRequired,
+  employeeId: PT.number.isRequired,
 };
 
 Dashboard.defaultProps = {

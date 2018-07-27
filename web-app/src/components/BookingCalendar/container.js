@@ -6,7 +6,7 @@ import moment from 'moment';
 const BookingCalendarContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      employeeId: PT.any,
+      employeeId: PT.number,
       takenHolidays: PT.array,
       updateBookingAndDuration: PT.func,
     };
@@ -23,7 +23,7 @@ const BookingCalendarContainer = Wrapped =>
           end: moment(end),
           eventType: {
             eventTypeId: 1,
-            description: 'annual leave',
+            description: 'Annual Leave',
           },
           eventStatus: {
             eventStatusId: 1,
