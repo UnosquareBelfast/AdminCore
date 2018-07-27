@@ -1,13 +1,16 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { updateHoliday, requestHoliday } from '../../services/holidayService';
+import {
+  updateHoliday,
+  requestHoliday,
+} from '../../../services/holidayService';
 
 export default Wrapped =>
   class extends React.Component {
     static propTypes = {
-      employeeId: PT.string.isRequired,
+      employeeId: PT.number.isRequired,
       updateTakenHolidays: PT.func.isRequired,
-      getDuration: PT.func.isRequired,
+      updateBookingAndDuration: PT.func.isRequired,
       closeModal: PT.func.isRequired,
       booking: PT.object.isRequired,
     };
@@ -16,10 +19,10 @@ export default Wrapped =>
       super(props);
       this.state = {
         formData: {
-          start: props.booking.start,
           end: props.booking.end,
-          isHalfday: props.booking.isHalfday,
-          isWFH: props.booking.isWFH,
+          eventTypeId: props.booking.eventType.eventTypeId,
+          isHalfday: props.booking.halfDay || false,
+          start: props.booking.start,
         },
         formIsValid: true,
       };
@@ -27,7 +30,7 @@ export default Wrapped =>
 
     handleMakeHolidayRequest = event => {
       event.preventDefault();
-      const { start, end, isHalfday } = this.state.formData;
+      const { start, end, isHalfday, eventTypeId } = this.state.formData;
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
@@ -38,31 +41,37 @@ export default Wrapped =>
             halfDay: isHalfday,
           },
         ],
+        eventTypeId: eventTypeId,
         employeeId: this.props.employeeId,
       };
 
       requestHoliday(request).then(() => {
-        this.props.updateTakenHolidays(this.props.employeeId);
+        this.props.updateTakenHolidays();
         this.props.closeModal();
       });
     };
 
     handleUpdateHolidayRequest = (event, cancel) => {
       event.preventDefault();
-      const { start, end, isHalfday } = this.state.formData;
+      const { start, end, isHalfday, eventTypeId } = this.state.formData;
       const dateFormat = 'YYYY-MM-DD';
 
       const request = {
-        startDate: start.format(dateFormat),
-        endDate: end.format(dateFormat),
-        halfDay: isHalfday,
-        holidayId: this.props.booking.id,
-        holidayStatusId: cancel ? 3 : 1,
+        dates: [
+          {
+            startDate: start.format(dateFormat),
+            endDate: end.format(dateFormat),
+            halfDay: isHalfday,
+          },
+        ],
+        holidayId: this.props.booking.holidayId,
+        eventTypeId: eventTypeId,
+        eventStatusId: cancel ? 3 : 1,
         employeeId: this.props.employeeId,
       };
 
       updateHoliday(request).then(() => {
-        this.props.updateTakenHolidays(this.props.employeeId);
+        this.props.updateTakenHolidays();
         this.props.closeModal();
       });
     };
@@ -72,27 +81,24 @@ export default Wrapped =>
       formData[name] = value;
 
       if (name == 'start') {
-        if (formData.isHalfday || formData.isWFH) {
+        if (formData.isHalfday) {
           formData.end = formData.start;
         } else {
-          formData.isHalfday = false;
-          formData.isWFH = false;
           if (formData.start.isAfter(formData.end)) {
             formData.end = formData.start;
           }
         }
       } else if (name == 'end') {
-        formData.isHalfday = false;
-        formData.isWFH = false;
-        if (formData.end.isBefore(formData.start)) {
+        if (formData.isHalfday) {
           formData.start = formData.end;
+        } else {
+          if (formData.end.isBefore(formData.start)) {
+            formData.start = formData.end;
+          }
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
-        formData.isWFH = false;
         formData.end = formData.start;
-      } else if (name === 'isWFH' && formData.isWFH) {
-        formData.isHalfday = false;
-        formData.end = formData.start;
+        formData.eventTypeId = 1;
       }
 
       this.setState(
@@ -101,19 +107,19 @@ export default Wrapped =>
           formIsValid,
         },
         () => {
-          this.updateDuration(formData);
+          this.updateBookingObj(formData);
         },
       );
     }
 
-    updateDuration(formData) {
+    updateBookingObj(formData) {
       const { isEventBeingUpdated } = this.props.booking;
       const updatedBooking = {
         ...this.props.booking,
         ...formData,
         isEventBeingUpdated: isEventBeingUpdated,
       };
-      this.props.getDuration(updatedBooking);
+      this.props.updateBookingAndDuration(updatedBooking);
     }
 
     render() {
@@ -121,10 +127,12 @@ export default Wrapped =>
         <Wrapped
           formData={this.state.formData}
           isEventBeingUpdated={this.props.booking.isEventBeingUpdated}
+          daysRequested={this.props.booking.duration}
+          formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>
             this.handleFormStatus(name, value, formIsValid)
           }
-          getDuration={this.props.getDuration}
+          updateBookingAndDuration={this.props.updateBookingAndDuration}
           submitHolidayRequest={e => this.handleMakeHolidayRequest(e)}
           updateHolidayRequest={e => this.handleUpdateHolidayRequest(e, true)}
           deleteHolidayRequest={e => this.handleUpdateHolidayRequest(e, false)}
