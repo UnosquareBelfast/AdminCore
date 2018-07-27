@@ -16,6 +16,7 @@ export default Wrapped =>
     render() {
       return (
         <Wrapped
+          {...this.props}
           contracts={this.state.contracts}
           updateContracts={this.updateContracts}
         />
