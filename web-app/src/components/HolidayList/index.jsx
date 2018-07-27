@@ -42,7 +42,7 @@ export const HolidayList = props => {
 };
 
 HolidayList.propTypes = {
-  holidays: PT.array,
+  holidays: PT.array.isRequired,
   columns: PT.array.isRequired,
   onRowClick: PT.func,
 };
