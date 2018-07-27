@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import employeeStatus from '../../../utilities/employeeStatus';
-import {
-  getClientById,
-  createClient,
-  updateClient,
-} from '../../../services/clientService';
+import { getClientById } from '../../../services/clientService';
 
 export default Wrapped =>
   class extends Component {
     static propTypes = {
       clientId: PT.number.isRequired,
-      onSuccess: PT.func.isRequired,
-      onFailed: PT.func.isRequired,
+      onRequestCreate: PT.func.isRequired,
+      onRequestUpdate: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -20,12 +15,6 @@ export default Wrapped =>
       this.state = {
         formData: {
           clientName: '',
-          clientStatusDescription: '',
-          clientStatusId: employeeStatus.ACTIVE,
-          contactEmail: '',
-          contactName: '',
-          minimumEmployeesForTeam: 1,
-          teamName: '',
         },
         formIsValid: false,
       };
@@ -58,25 +47,14 @@ export default Wrapped =>
     handleClientCreate = event => {
       event.preventDefault();
       const formData = { ...this.state.formData };
-      return createClient(formData)
-        .then(() => {
-          this.props.onSuccess();
-        })
-        .catch(error => {
-          this.props.onFailed(error);
-        });
+      this.props.onRequestCreate(formData);
+      this.setState({ formData: { clientName: '' } });
     };
 
     handleClientUpdate = event => {
       event.preventDefault();
       const formData = { ...this.state.formData };
-      return updateClient(formData)
-        .then(() => {
-          this.props.onSuccess();
-        })
-        .catch(error => {
-          this.props.onFailed(error);
-        });
+      this.props.onRequestUpdate(formData);
     };
 
     render() {
