@@ -1,7 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
-import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
 import { getAllHolidays, getHolidays } from '../../services/holidayService';
 import { getDurationNotice } from '../../utilities/dates';
@@ -48,16 +47,13 @@ const DashboardContainer = Wrapped =>
     }
 
     createBookingObj = event => {
-      const startDate = moment(event.startDate, 'YYYY-MM-DD');
-      const endDate = moment(event.endDate, 'YYYY-MM-DD');
-
       return {
         holidayId: event.holidayId,
         title: `${event.employee.forename} ${event.employee.surname}`,
-        duration: getDurationNotice(startDate, endDate),
+        duration: getDurationNotice(event.start, event.end),
         allDay: !event.halfDay,
-        start: startDate,
-        end: endDate,
+        start: event.start,
+        end: event.end,
         halfDay: event.halfDay,
         employee: event.employee,
         eventStatus: event.eventStatus,

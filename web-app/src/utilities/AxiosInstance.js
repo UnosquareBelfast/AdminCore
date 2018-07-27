@@ -18,6 +18,21 @@ instance.interceptors.response.use(function(response) {
     return response;
   }
 
+  if (response.config.url.includes(`${baseURL}/holidays`)) {
+    const holidays = [...response.data];
+    for (const index in holidays) {
+      holidays[index].start = new moment(
+        holidays[index].startDate,
+        'YYYY-MM-DD',
+      );
+      holidays[index].end = new moment(holidays[index].endDate, 'YYYY-MM-DD');
+    }
+    return {
+      ...response,
+      data: holidays,
+    };
+  }
+
   return response;
 });
 
