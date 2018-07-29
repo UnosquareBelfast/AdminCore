@@ -3,16 +3,16 @@ import { View, Text, StyleSheet } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import holidayStatusColor from '../../../utilities/holidayStatus';
 
-const StatusBar = (props) => {
-  const { booking } = props;
+const StatusBar = ({ booking }) => {
+  const { status, statusId, startDate, endDate } = booking;
 
   return (
-    <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[booking.statusId] }]}>
+    <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
       <Text>
-        {booking.status}
+        {status}
       </Text>
       <Text>
-        {booking.startDate} to {booking.endDate}
+        {startDate} to {endDate}
       </Text>
     </View>
   );

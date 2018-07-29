@@ -21,6 +21,7 @@ const BookingView = (props) => {
     submitRequest,
     updateHalfDay,
   } = props;
+  const { startDate, endDate, halfDay } = booking;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -38,26 +39,26 @@ const BookingView = (props) => {
             Start Date:
           </Text>
           <CustomDatePicker
-            chosenDate={booking.startDate}
+            chosenDate={startDate}
             setDate={changeStartDate}
           />
 
-          { !booking.halfDay && (
+          { !halfDay && (
             <Fragment>
               <Text>
                 End Date:
               </Text>
               <CustomDatePicker
-                chosenDate={booking.endDate}
+                chosenDate={endDate}
                 setDate={changeEndDate}
-                minimumDate={booking.startDate}
+                minimumDate={startDate}
               />
             </Fragment>
           )}
 
           <CheckBox
             title="Request half day"
-            checked={booking.halfDay}
+            checked={halfDay}
             onPress={updateHalfDay}
             containerStyle={styles.checkBox}
           />
