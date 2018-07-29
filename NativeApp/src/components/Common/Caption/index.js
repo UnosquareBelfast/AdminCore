@@ -1,17 +1,25 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import { ErrorText } from './styles';
+import styles from './styles';
+
 
 const Caption = (props) => {
-  const { children } = props;
+  const { children, styleProp, type } = props;
 
   return (
-    <ErrorText {...props}>{children}</ErrorText>
+    <Text style={[styles[type], styleProp]} {...props}>{children}</Text>
   );
 };
 
 Caption.propTypes = {
-  children: PT.string.isRequired,
+  children: PT.node.isRequired,
+  type: PT.string.isRequired,
+  styleProp: PT.oneOfType([
+    PT.number,
+    PT.object,
+    PT.array,
+  ]),
 };
 
 export default Caption;

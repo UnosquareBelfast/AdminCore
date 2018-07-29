@@ -1,8 +1,9 @@
-import styled from 'styled-components';
+import { StyleSheet } from 'react-native';
 
-export const ErrorText = styled.Text`
-  color: red;
-  fontSize: 14;
-  paddingHorizontal: 5;
-  fontWeight: normal;
-`;
+const styles = StyleSheet.create({
+  base: {
+    fontSize: 14,
+  },
+});
+
+export default styles;

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import colours from '../../../utilities/globalStyles/theme';
 
 export const HeaderContainer = styled.View`
   flex: 1;
@@ -20,7 +21,7 @@ export const HolidayContainer = styled.View`
   flex: 1;
 
   ${props => props.divider && css`
-  borderColor: ${props => props.theme.colours.grey};
+  borderColor: ${colours.grey};
   borderRightWidth: 3;
   `}
 `;

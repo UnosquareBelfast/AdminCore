@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
-import { View } from 'react-native';
-import { TextInput, Button, Caption, H4 } from '../../Common';
+import { View, StyleSheet } from 'react-native';
+import { TextInput, Caption } from '../../Common';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -63,21 +64,29 @@ class LoginForm extends Component {
         />
         {
           hasError && (
-            <Caption>
+            <Caption type="base" styleProps={styles.red}>
               Incorrect email or password
             </Caption>
           )
         }
         <Button
           onPress={() => handleLogin(email, password)}
-        >
-          <H4>
-            Log in to Holiday Tracker
-          </H4>
-        </Button>
+          title="Log in to Holiday Tracker"
+          textStyle={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}
+          backgroundColor="#00DCFA"
+          containerViewStyle={{ marginTop: 30 }}
+          borderRadius={5}
+        />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  red: {
+    color: 'red',
+    paddingHorizontal: 5,
+  },
+});
 
 export default LoginForm;

@@ -8,6 +8,7 @@ import {
 import ListItem from './ListItem';
 import { HeaderContainer, HolidayContainer, HolidayText } from './styled';
 import { ScrollView, H1, H2, P } from '../../Common';
+import colours from '../../../utilities/globalStyles/theme';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
@@ -16,27 +17,27 @@ const UserView = (props) => {
     <ScrollView>
       <HeaderContainer>
         <HolidayContainer divider>
-          <H2>
+          <H2 type="base" styleProp={styles.boldDarkGrey}>
             Taken
           </H2>
           <HolidayText>
-            <H1>
+            <H1 type="base" styleProp={styles.darkGrey}>
               {takenHolidays.length}
             </H1>
-            <P dayText>
+            <P type="base" styleProp={styles.darkGreyPadding}>
               DAYS
             </P>
           </HolidayText>
         </HolidayContainer>
         <HolidayContainer>
-          <H2>
+          <H2 type="base" styleProp={styles.boldDarkGrey}>
             Remaining
           </H2>
           <HolidayText>
-            <H1>
+            <H1 type="base" styleProp={styles.darkGrey}>
               {remainingHolidays}
             </H1>
-            <P dayText>
+            <P type="base" styleProp={styles.darkGreyPadding}>
               DAYS
             </P>
           </HolidayText>
@@ -44,7 +45,7 @@ const UserView = (props) => {
       </HeaderContainer>
 
       <View style={styles.holsDate}>
-        <P>
+        <P type="base">
           {employee.forename}
           {employee.surname}
         </P>
@@ -85,6 +86,18 @@ const styles = StyleSheet.create({
   },
   holsDate: {
     paddingBottom: 10,
+  },
+  boldDarkGrey: {
+    fontWeight: 'bold',
+    color: colours.darkGrey,
+  },
+  darkGrey: {
+    color: colours.darkGrey,
+  },
+  darkGreyPadding: {
+    color: colours.darkGrey,
+    paddingBottom: 5,
+    paddingLeft: 2,
   },
 });
 

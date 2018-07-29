@@ -1,6 +1,9 @@
-import styled from 'styled-components';
+import { StyleSheet } from 'react-native';
 
-export const Text = styled.Text`
-  fontSize: 34;
-  color: ${props => props.theme.colours.darkGrey};
-`;
+const styles = StyleSheet.create({
+  base: {
+    fontSize: 34,
+  },
+});
+
+export default styles;

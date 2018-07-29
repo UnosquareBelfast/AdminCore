@@ -11,7 +11,7 @@ const H4 = (props) => {
 };
 
 H4.propTypes = {
-  children: PT.string.isRequired,
+  children: PT.node.isRequired,
 };
 
 export default H4;

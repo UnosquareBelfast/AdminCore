@@ -1,12 +1,13 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import { Text } from './styles';
+import styles from './styles';
 
 const P = (props) => {
-  const { children } = props;
+  const { children, type, styleProp } = props;
 
   return (
-    <Text {...props}>{children}</Text>
+    <Text style={[styles[type], styleProp]} {...props}>{children}</Text>
   );
 };
 
@@ -15,6 +16,12 @@ P.propTypes = {
     PT.string,
     PT.array,
   ]).isRequired,
+  type: PT.string.isRequired,
+  styleProp: PT.oneOfType([
+    PT.number,
+    PT.object,
+    PT.array,
+  ]),
 };
 
 export default P;

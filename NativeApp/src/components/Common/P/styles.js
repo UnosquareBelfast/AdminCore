@@ -1,12 +1,9 @@
-import styled, { css } from 'styled-components';
+import { StyleSheet } from 'react-native';
 
-export const Text = styled.Text`
-  fontSize: 17;
-  color: black;
+const styles = StyleSheet.create({
+  base: {
+    fontSize: 17,
+  },
+});
 
-  ${props => props.dayText && css`
-    paddingBottom: 5;
-    color: ${props => props.theme.colours.darkGrey};
-    paddingLeft: 2;
-  `}
-`;
+export default styles;
