@@ -62,31 +62,31 @@ const DashboardContainer = Wrapped =>
       };
     };
 
-    setManditoryEvents = () => {
+    setMandatoryEvents = () => {
       const currYear = new Date().getFullYear();
-      const manditoryEvent = [
+      const mandatoryEvent = [
         {
           title: 'Christmas Day',
-          manditoryDate: `${currYear}-12-25`,
+          mandatoryDate: `${currYear}-12-25`,
         },
         {
           title: 'New Years Day',
-          manditoryDate: `${currYear}-12-31`,
+          mandatoryDate: `${currYear}-12-31`,
         },
         {
           title: 'Memorial Day',
-          manditoryDate: `${currYear}-05-28`,
+          mandatoryDate: `${currYear}-05-28`,
         },
       ];
 
-      const events = manditoryEvent.map(function(event) {
+      const events = mandatoryEvent.map(function(event) {
         return {
           holidayId: -1,
           title: event.title,
           duration: 1,
           allDay: true,
-          start: new moment([event.manditoryDate], 'YYYY-MM-DD'),
-          end: new moment([event.manditoryDate], 'YYYY-MM-DD'),
+          start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+          end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
           halfDay: false,
           employee: null,
           eventStatus: { eventStatusId: 4, description: 'Mandatory' },
@@ -98,7 +98,7 @@ const DashboardContainer = Wrapped =>
     };
 
     setTakenHolidayState = data => {
-      const mandatoryEvents = this.setManditoryEvents();
+      const mandatoryEvents = this.setMandatoryEvents();
       const usersEvents = data.map(event => {
         return this.createBookingObj(event);
       });

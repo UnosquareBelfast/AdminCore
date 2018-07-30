@@ -16,7 +16,7 @@ const LengendContainer = Wrapped =>
         PENDING,
         APPROVED,
         REJECTED,
-        MANDITORY,
+        MANDATORY,
         WFH,
         SICK,
         WRT,
@@ -47,7 +47,7 @@ const LengendContainer = Wrapped =>
           },
           {
             eventStatusId: 4,
-            key: MANDITORY,
+            key: MANDATORY,
             type: 'event',
             active: false,
           },
