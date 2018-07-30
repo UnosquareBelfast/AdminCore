@@ -5,7 +5,7 @@ export default Wrapped =>
   class extends Component {
     constructor(props) {
       super(props);
-      this.state = { holidays: [] };
+      this.state = { holidays: [], selectedHoliday: {} };
     }
 
     componentDidMount() {
@@ -19,7 +19,16 @@ export default Wrapped =>
       });
     };
 
+    selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
+
     render() {
-      return <Wrapped {...this.props} holidays={this.state.holidays} />;
+      return (
+        <Wrapped
+          {...this.props}
+          holidays={this.state.holidays}
+          selectedHoliday={this.state.selectedHoliday}
+          selectHoliday={this.selectHoliday}
+        />
+      );
     }
   };
