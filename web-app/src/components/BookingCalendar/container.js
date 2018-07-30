@@ -43,17 +43,19 @@ const BookingCalendarContainer = Wrapped =>
     };
 
     onSelectEvent = booking => {
-      if (booking.employee.employeeId == this.props.employeeId) {
-        const updatedBooking = {
-          ...booking,
-          isEventBeingUpdated: true,
-        };
-        this.props.updateBookingAndDuration(updatedBooking);
-      } else {
-        Toast({
-          type: 'warning',
-          title: `Unable to update ${booking.employee.forename}'s events`,
-        });
+      if (booking.employee) {
+        if (booking.employee.employeeId == this.props.employeeId) {
+          const updatedBooking = {
+            ...booking,
+            isEventBeingUpdated: true,
+          };
+          this.props.updateBookingAndDuration(updatedBooking);
+        } else {
+          Toast({
+            type: 'warning',
+            title: `Unable to update ${booking.employee.forename}'s events`,
+          });
+        }
       }
     };
 
