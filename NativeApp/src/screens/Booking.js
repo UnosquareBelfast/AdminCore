@@ -5,10 +5,10 @@ import Booking from '../components/Booking';
 export default class BookingScreen extends Component {
   static navigationOptions = {
     title: 'Request Holidays',
-    headerStyle: {
-      backgroundColor: 'white',
-      borderBottomWidth: 0,
-    },
+    // headerStyle: {
+    //   backgroundColor: 'white',
+    //   borderBottomWidth: 0,
+    // },
   }
 
   static propTypes = {
