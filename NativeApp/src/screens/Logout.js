@@ -40,7 +40,7 @@ export default class LogoutScreen extends Component {
   handleLogout = () => {
     const { navigation } = this.props;
     userLogout()
-      .then(navigation.navigate('Auth'));
+      .then(() => navigation.navigate('Auth'));
   }
 
   render() {
