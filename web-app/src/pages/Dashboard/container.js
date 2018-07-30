@@ -64,7 +64,8 @@ const DashboardContainer = Wrapped =>
     };
 
     setMandatoryEvents = () => {
-      const events = getMandatoryCalendarEvents.map(function(event) {
+      const mandatoryEvents = getMandatoryCalendarEvents();
+      const events = mandatoryEvents.map(function(event) {
         return {
           holidayId: -1,
           title: event.title,
