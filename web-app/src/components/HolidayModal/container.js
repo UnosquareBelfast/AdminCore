@@ -6,6 +6,7 @@ export default Wrapped =>
   class extends Component {
     static propTypes = {
       holiday: PT.object.isRequired,
+      closeModal: PT.func.isRequired,
     };
 
     constructor(props) {
@@ -22,12 +23,12 @@ export default Wrapped =>
     };
 
     render() {
-      const { holiday } = this.props;
+      const { closeModal, holiday } = this.props;
       if (isEmpty(holiday)) return null;
       return (
         <Wrapped
-          {...this.props}
-          {...this.state}
+          holiday={holiday}
+          closeModal={closeModal}
           approveHoliday={this.approveHoliday}
           rejectHoliday={this.rejectHoliday}
         />
