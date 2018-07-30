@@ -147,8 +147,8 @@ const DashboardContainer = Wrapped =>
       });
     };
 
-    onFilterEmployee = employee => {
-      this.getTakenHolidaysById(employee.employeeId);
+    onFilterEmployee = ({ employeeId }) => {
+      this.getTakenHolidaysById(parseInt(employeeId));
     };
 
     onFilterEvents = eventStatusId => {
