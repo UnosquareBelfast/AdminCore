@@ -9,9 +9,12 @@ import {
   Button,
   Platform,
   TouchableHighlight,
+  Animated,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
+
 
 class CustomDatePicker extends Component {
   static propTypes = {
@@ -28,6 +31,7 @@ class CustomDatePicker extends Component {
     super(props);
     this.state = {
       modalVisable: false,
+      fadeAnim: new Animated.Value(0),
     };
   }
 
@@ -58,9 +62,25 @@ class CustomDatePicker extends Component {
 
   setModalVisible(visible) {
     this.setState({ modalVisable: visible });
+    this.animateOverlay(visible ? 1 : 0);
   }
 
   formatDate = date => moment(date).toDate();
+
+  animateOverlay = (value) => {
+    const { fadeAnim } = this.state;
+    Animated.sequence([
+      Animated.delay(300),
+      Animated.timing(
+        fadeAnim,
+        {
+          toValue: value,
+          duration: 300,
+          useNativeDriver: true,
+        }
+      ),
+    ]).start();
+  }
 
   render() {
     const {
@@ -69,11 +89,10 @@ class CustomDatePicker extends Component {
       minimumDate,
     } = this.props;
 
-    const { modalVisable } = this.state;
+    const { modalVisable, fadeAnim } = this.state;
 
     return (
       <Fragment>
-        {modalVisable && <View style={styles.overlay} />}
         <TouchableHighlight
           underlayColor="transparent"
           onPress={() => this.onDatePress()}
@@ -84,6 +103,11 @@ class CustomDatePicker extends Component {
               <Text>
                 {chosenDate}
               </Text>
+              <Icon
+                name="calendar"
+                type="entypo"
+                color="#00DCFA"
+              />
             </View>
 
             <Modal
@@ -93,6 +117,7 @@ class CustomDatePicker extends Component {
               onRequestClose={() => this.setModalVisible(false)}
             >
               <View style={styles.dateContainer}>
+                <Animated.View style={[styles.overlay, { opacity: fadeAnim }]} />
                 <View style={styles.background}>
                   <DatePickerIOS
                     date={this.formatDate(chosenDate)}
@@ -117,13 +142,16 @@ class CustomDatePicker extends Component {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
+    marginTop: 10,
   },
   dateInput: {
-    paddingVertical: 10,
+    padding: 10,
     borderWidth: 1,
+    borderRadius: 10,
     borderColor: '#aaa',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   dateContainer: {
     flex: 1,

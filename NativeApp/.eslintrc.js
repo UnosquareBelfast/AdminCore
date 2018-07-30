@@ -76,5 +76,6 @@ module.exports = {
       "react/react-in-jsx-scope": 2,
       "react/self-closing-comp": 2,
       "react/sort-comp": 2,
+      "react/jsx-one-expression-per-line": 0
     }
   };

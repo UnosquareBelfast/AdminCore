@@ -1,74 +1,93 @@
 import React, { Fragment } from 'react';
 import {
   View,
-  Button,
+  ScrollView,
   Text,
-  StyleSheet,
 } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
+import styles from './styles';
 import { CustomDatePicker } from '../../Common';
+import StatusBar from '../StatusBar';
+import RequestButton from '../RequestButton';
 
 const BookingView = (props) => {
   const {
-    startDate,
     changeStartDate,
-    endDate,
+    booking,
     booked,
     updateHoliday,
     changeEndDate,
     submitRequest,
+    updateHalfDay,
   } = props;
-
-  const renderButton = booked
-    ? (
-      <Fragment>
-        <Button onPress={() => updateHoliday(false)} title="Update Holiday" />
-        <Button onPress={() => updateHoliday(true)} title="Cancel Holiday" />
-      </Fragment>
-    )
-    : <Button onPress={submitRequest} title="Request Holiday" />;
-
+  const { startDate, endDate, halfDay } = booking;
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text>
-        Start date
+        I would like to
+        {booked ? ' update ' : ' request '}
+        the following holiday/s:
       </Text>
-      <CustomDatePicker
-        chosenDate={startDate}
-        setDate={changeStartDate}
-      />
-      <Text>
-        End date
-      </Text>
-      <CustomDatePicker
-        chosenDate={endDate}
-        setDate={changeEndDate}
-        minimumDate={startDate}
-      />
-      {renderButton}
-    </View>
+
+      {booked && <StatusBar booking={booking} />}
+
+      <View style={styles.dateForm}>
+        <View>
+          <Text>
+            Start Date:
+          </Text>
+          <CustomDatePicker
+            chosenDate={startDate}
+            setDate={changeStartDate}
+          />
+
+          { !halfDay && (
+            <Fragment>
+              <Text>
+                End Date:
+              </Text>
+              <CustomDatePicker
+                chosenDate={endDate}
+                setDate={changeEndDate}
+                minimumDate={startDate}
+              />
+            </Fragment>
+          )}
+
+          <CheckBox
+            title="Request half day"
+            checked={halfDay}
+            onPress={updateHalfDay}
+            containerStyle={styles.checkBox}
+          />
+        </View>
+        <RequestButton
+          updateHoliday={updateHoliday}
+          submitRequest={submitRequest}
+          booked={booked}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 BookingView.propTypes = {
-  startDate: PT.string.isRequired,
-  endDate: PT.string.isRequired,
   changeStartDate: PT.func.isRequired,
   changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
   updateHoliday: PT.func.isRequired,
   booked: PT.bool.isRequired,
+  updateHalfDay: PT.func.isRequired,
+  booking: PT.shape({
+    holId: PT.number,
+    statusId: PT.number,
+    status: PT.string,
+    startDate: PT.string,
+    endDate: PT.string,
+    halfDay: PT.bool,
+  }).isRequired,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingTop: 50,
-    backgroundColor: '#fff',
-  },
-});
 
 export default BookingView;
