@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
-//import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Home,
@@ -50,7 +49,6 @@ const AppStack = createBottomTabNavigator(
         backgroundColor: '#00DCFA',
       },
     },
-    // tabBarComponent: props => <Logout {...props} />,
   }
 );
 
