@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
 import { getUserProfile } from '../../services/userService';
 import { getAllHolidays, getHolidays } from '../../services/holidayService';
-import { getDurationNotice } from '../../utilities/dates';
+import { getDurationBetweenDates } from '../../utilities/dates';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -50,7 +50,7 @@ const DashboardContainer = Wrapped =>
       return {
         holidayId: event.holidayId,
         title: `${event.employee.forename} ${event.employee.surname}`,
-        duration: getDurationNotice(event.start, event.end),
+        duration: getDurationBetweenDates(event.start, event.end),
         allDay: !event.halfDay,
         start: event.start,
         end: event.end,
@@ -118,7 +118,7 @@ const DashboardContainer = Wrapped =>
       } else if (eventType.eventTypeId !== 1) {
         booking.duration = 0;
       } else {
-        booking.duration = getDurationNotice(start, end);
+        booking.duration = getDurationBetweenDates(start, end);
       }
 
       this.setState({
