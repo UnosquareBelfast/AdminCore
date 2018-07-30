@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { has, get } from 'lodash';
-import { userLogout } from '../../utilities/currentUser';
 import { getTakenHolidays } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
 
@@ -89,18 +88,11 @@ export default Container => class extends Component {
       return obj;
     }, {});
 
-    handleLogout = () => {
-      const { navigation } = this.props;
-      userLogout()
-        .then(navigation.navigate('Auth'));
-    }
-
     render() {
       const { takenHolidays } = this.state;
 
       return (
         <Container
-          handleLogout={this.handleLogout}
           takenHolidays={takenHolidays}
           onDayPress={this.onDayPress}
         />

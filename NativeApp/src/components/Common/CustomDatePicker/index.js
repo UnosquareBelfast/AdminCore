@@ -105,7 +105,7 @@ class CustomDatePicker extends Component {
               </Text>
               <Icon
                 name="calendar"
-                type="entypo"
+                type="font-awesome"
                 color="#00DCFA"
               />
             </View>

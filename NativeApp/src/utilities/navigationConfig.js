@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+//import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Home,
@@ -8,6 +9,7 @@ import {
   Team,
   User,
   Booking,
+  Logout,
 } from '../screens';
 
 const HomeStack = createStackNavigator(
@@ -28,12 +30,13 @@ HomeStack.navigationOptions = () => {
   };
 };
 
+
 const AppStack = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
     User: { screen: User },
     Team: { screen: Team },
-    Logout: { screen: Login },
+    Logout: { screen: Logout },
   }, {
     initialRouteName: 'HomeStack',
     order: ['HomeStack', 'User', 'Team', 'Logout'],
@@ -47,6 +50,7 @@ const AppStack = createBottomTabNavigator(
         backgroundColor: '#00DCFA',
       },
     },
+    // tabBarComponent: props => <Logout {...props} />,
   }
 );
 
