@@ -15,7 +15,7 @@ export default Wrapped =>
         teamHolidays: [],
         selectedUser: null,
         userModalVisible: false,
-        holidayModalVisible: false,
+        selectedHoliday: {},
       };
     }
 
@@ -42,6 +42,8 @@ export default Wrapped =>
 
     handleHideUserModal = () => this.setState({ userModalVisible: false });
 
+    selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
+
     render() {
       return (
         <Wrapped
@@ -52,6 +54,8 @@ export default Wrapped =>
           selectedUser={this.state.selectedUser}
           userModalVisible={this.state.userModalVisible}
           hideUserModal={this.handleHideUserModal}
+          selectHoliday={this.selectHoliday}
+          selectedHoliday={this.state.selectedHoliday}
         />
       );
     }

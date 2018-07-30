@@ -44,13 +44,13 @@ const employee = {
 const startDate = {
   id: 'startDate',
   Header: 'Start Date',
-  accessor: holiday => holiday.start.format('D MMM YYYY'),
+  accessor: holiday => holiday.start.format('Do MMM YYYY'),
 };
 
 const endDate = {
   id: 'endDate',
   Header: 'End Date',
-  accessor: holiday => holiday.end.format('D MMM YYYY'),
+  accessor: holiday => holiday.end.format('Do MMM YYYY'),
 };
 
 const requestedDate = {
