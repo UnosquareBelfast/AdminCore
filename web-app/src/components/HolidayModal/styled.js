@@ -45,13 +45,20 @@ export const ButtonWrap = styled.div`
   display: flex;
 
   button {
+    flex: 1;
     margin-right: 5px;
     margin-left: 5px;
     :first-of-type {
       margin-left: 0;
+      flex: 2;
     }
     :last-of-type {
       margin-right: 0;
+      background-color: ${({ theme }) => theme.colours.red};
     }
   }
+`;
+
+export const StatusH2 = styled.h2`
+  color: ${({ theme, status }) => theme.holidayStatus[status]} !important;
 `;
