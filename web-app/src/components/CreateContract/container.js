@@ -73,6 +73,7 @@ export default Wrapped =>
     render() {
       return (
         <Wrapped
+          {...this.props}
           step={this.state.step}
           nextStep={this.nextStep}
           submit={this.submitContract}

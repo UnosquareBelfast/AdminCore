@@ -23,6 +23,6 @@ export default Wrapped =>
     };
 
     render() {
-      return <Wrapped submitRequest={this.submitRequest} />;
+      return <Wrapped {...this.props} submitRequest={this.submitRequest} />;
     }
   };
