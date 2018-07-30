@@ -1,86 +1,54 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import container from './container';
 import ReactTable from 'react-table';
-import TableValues  from './TableValues';
-import ActionButton from './ActionButton';
-import { theme } from '../../styled';
-import { ActionWrap } from './styled';
-import moment from 'moment';
-import { isEmpty } from 'lodash';
+import TableValues from './TableValues';
 
-const buildActions = (holiday, actions) => {
-  const actionComponents = [];
-
-  for (const action in actions) {
-    actionComponents.push(
-      <ActionButton
-        key={action}
-        holiday={holiday}
-        action={actions[action]}
-        label={action}
-        color={action === 'reject' ? theme.colours.red : null}
-        hoverColor={action === 'reject' ? theme.colours.darkRed : null}
-      />
-    );
-  }
-
-  return <ActionWrap>{actionComponents}</ActionWrap>;
-};
-
-
-const buildColumns = (columns, actions) => {
-  const formattedColumns =  columns.reduce((acc, column) => {
+const buildColumns = columns => {
+  const formattedColumns = columns.reduce((acc, column) => {
     return acc.concat(TableValues[column]);
   }, []);
-
-  if (isEmpty(actions)) return formattedColumns;
-
-  formattedColumns.push({
-    id: 'actions',
-    sortable: false,
-    filterable: false,
-    'accessor': holiday => buildActions(holiday, actions),
-  });
 
   return formattedColumns;
 };
 
-
-const renderTable = (holidays, columns, actions) => {
-  const formattedColumns = buildColumns(columns, actions);
+const renderTable = (holidays, columns, onRowClick) => {
+  const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
+      filterable
       data={holidays}
       columns={formattedColumns}
       defaultPageSize={10}
-      filterable
       className="-striped -highlight"
-      defaultFilterMethod={(filter, row) =>
-        String(row[filter.id]).includes(filter.value)}
-      defaultSortMethod={(a, b) => {
-        const aMoment = new moment(`${a} 00:00:00 GMT`);
-        const bMoment = new moment(`${b} 00:00:00 GMT`);
-        return aMoment.isBefore(bMoment) ? 1 : -1;
+      getTrProps={(state, rowInfo) => {
+        return {
+          onClick: () => onRowClick(rowInfo.original),
+          style: {
+            cursor: rowInfo ? 'pointer' : 'null',
+          },
+        };
       }}
     />
   );
 };
 
-
-export const HolidayList = (props) => {
-  const {holidays, columns, actions} = props;
-  return (
-    !holidays || holidays.length === 0
-      ? <p>There are no holidays to show</p>
-      : renderTable(holidays, columns, actions)
+export const HolidayList = props => {
+  const { holidays, columns, onRowClick } = props;
+  return !holidays || holidays.length === 0 ? (
+    <p>There are no holidays to show</p>
+  ) : (
+    renderTable(holidays, columns, onRowClick)
   );
 };
 
 HolidayList.propTypes = {
-  holidays: PT.array,
+  holidays: PT.array.isRequired,
   columns: PT.array.isRequired,
-  actions: PT.object,
+  onRowClick: PT.func,
 };
 
-export default container(HolidayList);
+HolidayList.defaultProps = {
+  onRowClick: () => {},
+};
+
+export default HolidayList;

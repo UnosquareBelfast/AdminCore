@@ -1,2 +1,10 @@
 export { default as ModalWrapper } from './ModalWrapper';
 export { default as CustomDatePicker } from './CustomDatePicker';
+export { default as P } from './P';
+export { default as Caption } from './Caption';
+export { default as TextInput } from './TextInput';
+export { default as ScrollView } from './ScrollView';
+export { default as CardContainer } from './CardContainer';
+export { default as H1 } from './H1';
+export { default as H2 } from './H2';
+export { default as H4 } from './H4';
