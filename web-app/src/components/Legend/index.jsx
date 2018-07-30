@@ -13,7 +13,7 @@ const Legend = ({
   onToggleKey,
 }) => {
   const holidayEvents = eventsKeyList.map(event => {
-    if (event.type === 'holiday') {
+    if (event.type === 'event') {
       return (
         <Key
           className={event.active ? 'selected' : ''}
@@ -61,11 +61,11 @@ const Legend = ({
       </Column>
       <Column>
         <h4>Filter by Holiday Events</h4>
-        {holidayEvents},
+        {holidayEvents}
       </Column>
       <Column>
         <h4>Filter by Status Events</h4>
-        {statusEvents},
+        {statusEvents}
       </Column>
     </StyleContainer>
   );

@@ -4,11 +4,11 @@ import { Container } from './styled';
 import holidayStatus, { statusIcons } from '../../../utilities/holidayStatus';
 
 const Event = ({ children, event }) => {
-  let id = event.eventType.eventTypeId;
   const { eventStatusId } = event.eventStatus;
   const { eventTypeId } = event.eventType;
+  let id = eventTypeId;
 
-  if (event.eventType.eventTypeId === 1) {
+  if (eventTypeId === 1) {
     id = eventStatusId;
   } else if (eventTypeId === 2) {
     id = holidayStatus.WFH;
@@ -17,10 +17,10 @@ const Event = ({ children, event }) => {
   } else if (eventTypeId === 4) {
     id = holidayStatus.WRT;
   }
+
   return (
     <Container status={id} onClick={children.props.onClick}>
-      {statusIcons[id]}
-      {`    ${event.employee.forename} ${event.employee.surname}`}
+      {statusIcons[id]} {event.title}
     </Container>
   );
 };
