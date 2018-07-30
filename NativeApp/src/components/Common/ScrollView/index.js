@@ -11,10 +11,7 @@ const ScrollView = (props) => {
 };
 
 ScrollView.propTypes = {
-  children: PT.oneOfType([
-    PT.element,
-    PT.array,
-  ]).isRequired,
+  children: PT.node.isRequired,
 };
 
 export default ScrollView;

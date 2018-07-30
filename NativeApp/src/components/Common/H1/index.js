@@ -12,10 +12,7 @@ const H1 = (props) => {
 };
 
 H1.propTypes = {
-  children: PT.oneOfType([
-    PT.string,
-    PT.number,
-  ]).isRequired,
+  children: PT.node.isRequired,
   type: PT.string.isRequired,
   styleProp: PT.oneOfType([
     PT.number,
