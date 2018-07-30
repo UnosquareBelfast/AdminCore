@@ -6,8 +6,9 @@ import {
   FlatList,
 } from 'react-native';
 import ListItem from './ListItem';
-import { ScrollView, Text, HeaderContainer, HolidayContainer, HolidayText } from './styled';
-
+import { HeaderContainer, HolidayContainer, HolidayText } from './styled';
+import { ScrollView, H1, H2, P } from '../../Common';
+import colours from '../../../utilities/globalStyles/theme';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
@@ -16,38 +17,38 @@ const UserView = (props) => {
     <ScrollView>
       <HeaderContainer>
         <HolidayContainer divider>
-          <Text>
+          <H2 type="base" styleProp={styles.boldDarkGrey}>
             Taken
-          </Text>
+          </H2>
           <HolidayText>
-            <Text largeText>
+            <H1 type="base" styleProp={styles.darkGrey}>
               {takenHolidays.length}
-            </Text>
-            <Text smallText>
+            </H1>
+            <P type="base" styleProp={styles.darkGreyPadding}>
               DAYS
-            </Text>
+            </P>
           </HolidayText>
         </HolidayContainer>
         <HolidayContainer>
-          <Text>
+          <H2 type="base" styleProp={styles.boldDarkGrey}>
             Remaining
-          </Text>
+          </H2>
           <HolidayText>
-            <Text largeText>
+            <H1 type="base" styleProp={styles.darkGrey}>
               {remainingHolidays}
-            </Text>
-            <Text smallText>
+            </H1>
+            <P type="base" styleProp={styles.darkGreyPadding}>
               DAYS
-            </Text>
+            </P>
           </HolidayText>
         </HolidayContainer>
       </HeaderContainer>
 
       <View style={styles.holsDate}>
-        <Text>
+        <P type="base">
           {employee.forename}
           {employee.surname}
-        </Text>
+        </P>
       </View>
 
       <View>
@@ -85,6 +86,18 @@ const styles = StyleSheet.create({
   },
   holsDate: {
     paddingBottom: 10,
+  },
+  boldDarkGrey: {
+    fontWeight: 'bold',
+    color: colours.darkGrey,
+  },
+  darkGrey: {
+    color: colours.darkGrey,
+  },
+  darkGreyPadding: {
+    color: colours.darkGrey,
+    paddingBottom: 5,
+    paddingLeft: 2,
   },
 });
 

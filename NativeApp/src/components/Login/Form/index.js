@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
-import { Text, TextInput, TouchableOpacity, View } from '../styled';
-
+import { View, StyleSheet } from 'react-native';
+import { TextInput, Caption } from '../../Common';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -45,8 +46,9 @@ class LoginForm extends Component {
           onChangeText={text => this.setState({ email: text })}
           value={email}
           autoCapitalize="none"
-          underlineColorAndroid={hasError ? 'red' : underlineColor1}
+          underlineColorAndroid="transparent"
           selectionColor="#00DCFA"
+          style={{ borderBottomWidth: 1, borderColor: hasError ? 'red' : underlineColor1 }}
         />
         <TextInput
           id="input-2"
@@ -56,26 +58,35 @@ class LoginForm extends Component {
           onChangeText={text => this.setState({ password: text })}
           value={password}
           secureTextEntry
-          underlineColorAndroid={hasError ? 'red' : underlineColor2}
+          underlineColorAndroid="transparent"
+          style={{ borderBottomWidth: 1, borderColor: hasError ? 'red' : underlineColor2 }}
           selectionColor="#00DCFA"
         />
         {
           hasError && (
-            <Text validationText>
+            <Caption type="base" styleProps={styles.red}>
               Incorrect email or password
-            </Text>
+            </Caption>
           )
         }
-        <TouchableOpacity
+        <Button
           onPress={() => handleLogin(email, password)}
-        >
-          <Text>
-            Log in to Holiday Tracker
-          </Text>
-        </TouchableOpacity>
+          title="Log in to Holiday Tracker"
+          textStyle={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}
+          backgroundColor="#00DCFA"
+          containerViewStyle={{ marginTop: 30 }}
+          borderRadius={5}
+        />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  red: {
+    color: 'red',
+    paddingHorizontal: 5,
+  },
+});
 
 export default LoginForm;

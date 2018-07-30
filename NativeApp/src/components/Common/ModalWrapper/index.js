@@ -34,10 +34,7 @@ ModalWrapper.defaultProps = {
 
 ModalWrapper.propTypes = {
   showModal: PT.bool,
-  children: PT.oneOfType([
-    PT.element,
-    PT.array,
-  ]).isRequired,
+  children: PT.node.isRequired,
   closeModal: PT.func.isRequired,
 };
 
