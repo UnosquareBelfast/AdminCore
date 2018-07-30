@@ -4,7 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 import { userLogin } from '../../services/userService';
 
 
-export default Container => class extends Component {  
+export default Container => class extends Component {
   static propTypes = {
     navigation: PT.shape({
       navigate: PT.func,
@@ -24,9 +24,6 @@ export default Container => class extends Component {
     userLogin(email, password)
       .then(() => {
         navigation.navigate('App');
-        this.setState({
-          hasError: false,
-        });
       })
       .catch((e) => {
         Alert.alert(
