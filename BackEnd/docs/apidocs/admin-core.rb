@@ -78,25 +78,25 @@ module Web
     # (no documentation provided)
     attr_accessor :enableJsonEditor
     # (no documentation provided)
-    attr_accessor :apiSorter
+    attr_accessor :validatorUrl
     # (no documentation provided)
-    attr_accessor :defaultModelRendering
+    attr_accessor :apiSorter
     # (no documentation provided)
     attr_accessor :showRequestHeaders
     # (no documentation provided)
-    attr_accessor :docExpansion
+    attr_accessor :defaultModelRendering
     # (no documentation provided)
-    attr_accessor :validatorUrl
+    attr_accessor :docExpansion
 
     # the json hash for this UiConfiguration
     def to_jaxb_json_hash
       _h = {}
       _h['jsonEditor'] = enableJsonEditor.to_jaxb_json_hash unless enableJsonEditor.nil?
-      _h['apisSorter'] = apiSorter.to_jaxb_json_hash unless apiSorter.nil?
-      _h['defaultModelRendering'] = defaultModelRendering.to_jaxb_json_hash unless defaultModelRendering.nil?
-      _h['showRequestHeaders'] = showRequestHeaders.to_jaxb_json_hash unless showRequestHeaders.nil?
-      _h['docExpansion'] = docExpansion.to_jaxb_json_hash unless docExpansion.nil?
       _h['validatorUrl'] = validatorUrl.to_jaxb_json_hash unless validatorUrl.nil?
+      _h['apisSorter'] = apiSorter.to_jaxb_json_hash unless apiSorter.nil?
+      _h['showRequestHeaders'] = showRequestHeaders.to_jaxb_json_hash unless showRequestHeaders.nil?
+      _h['defaultModelRendering'] = defaultModelRendering.to_jaxb_json_hash unless defaultModelRendering.nil?
+      _h['docExpansion'] = docExpansion.to_jaxb_json_hash unless docExpansion.nil?
       return _h
     end
 
@@ -108,11 +108,11 @@ module Web
     #initializes this UiConfiguration with a json hash
     def init_jaxb_json_hash(_o)
       @enableJsonEditor = Boolean.from_json(_o['jsonEditor']) unless _o['jsonEditor'].nil?
-      @apiSorter = String.from_json(_o['apisSorter']) unless _o['apisSorter'].nil?
-      @defaultModelRendering = String.from_json(_o['defaultModelRendering']) unless _o['defaultModelRendering'].nil?
-      @showRequestHeaders = Boolean.from_json(_o['showRequestHeaders']) unless _o['showRequestHeaders'].nil?
-      @docExpansion = String.from_json(_o['docExpansion']) unless _o['docExpansion'].nil?
       @validatorUrl = String.from_json(_o['validatorUrl']) unless _o['validatorUrl'].nil?
+      @apiSorter = String.from_json(_o['apisSorter']) unless _o['apisSorter'].nil?
+      @showRequestHeaders = Boolean.from_json(_o['showRequestHeaders']) unless _o['showRequestHeaders'].nil?
+      @defaultModelRendering = String.from_json(_o['defaultModelRendering']) unless _o['defaultModelRendering'].nil?
+      @docExpansion = String.from_json(_o['docExpansion']) unless _o['docExpansion'].nil?
     end
 
     # constructs a UiConfiguration from a (parsed) JSON hash
@@ -147,15 +147,15 @@ module Web
   class SecurityConfiguration 
 
     # (no documentation provided)
-    attr_accessor :clientSecret
+    attr_accessor :apiKeyVehicle
     # (no documentation provided)
     attr_accessor :apiKeyName
     # (no documentation provided)
-    attr_accessor :clientId
-    # (no documentation provided)
-    attr_accessor :apiKeyVehicle
-    # (no documentation provided)
     attr_accessor :appName
+    # (no documentation provided)
+    attr_accessor :clientSecret
+    # (no documentation provided)
+    attr_accessor :clientId
     # (no documentation provided)
     attr_accessor :realm
     # (no documentation provided)
@@ -164,11 +164,11 @@ module Web
     # the json hash for this SecurityConfiguration
     def to_jaxb_json_hash
       _h = {}
-      _h['clientSecret'] = clientSecret.to_jaxb_json_hash unless clientSecret.nil?
-      _h['apiKeyName'] = apiKeyName.to_jaxb_json_hash unless apiKeyName.nil?
-      _h['clientId'] = clientId.to_jaxb_json_hash unless clientId.nil?
       _h['apiKeyVehicle'] = apiKeyVehicle.to_jaxb_json_hash unless apiKeyVehicle.nil?
+      _h['apiKeyName'] = apiKeyName.to_jaxb_json_hash unless apiKeyName.nil?
       _h['appName'] = appName.to_jaxb_json_hash unless appName.nil?
+      _h['clientSecret'] = clientSecret.to_jaxb_json_hash unless clientSecret.nil?
+      _h['clientId'] = clientId.to_jaxb_json_hash unless clientId.nil?
       _h['realm'] = realm.to_jaxb_json_hash unless realm.nil?
       _h['apiKey'] = apiKeyValue.to_jaxb_json_hash unless apiKeyValue.nil?
       return _h
@@ -181,11 +181,11 @@ module Web
 
     #initializes this SecurityConfiguration with a json hash
     def init_jaxb_json_hash(_o)
-      @clientSecret = String.from_json(_o['clientSecret']) unless _o['clientSecret'].nil?
-      @apiKeyName = String.from_json(_o['apiKeyName']) unless _o['apiKeyName'].nil?
-      @clientId = String.from_json(_o['clientId']) unless _o['clientId'].nil?
       @apiKeyVehicle = String.from_json(_o['apiKeyVehicle']) unless _o['apiKeyVehicle'].nil?
+      @apiKeyName = String.from_json(_o['apiKeyName']) unless _o['apiKeyName'].nil?
       @appName = String.from_json(_o['appName']) unless _o['appName'].nil?
+      @clientSecret = String.from_json(_o['clientSecret']) unless _o['clientSecret'].nil?
+      @clientId = String.from_json(_o['clientId']) unless _o['clientId'].nil?
       @realm = String.from_json(_o['realm']) unless _o['realm'].nil?
       @apiKeyValue = String.from_json(_o['apiKey']) unless _o['apiKey'].nil?
     end

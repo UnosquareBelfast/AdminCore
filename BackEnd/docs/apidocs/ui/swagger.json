@@ -37,7 +37,7 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
-            "clientSecret" : {
+            "apiKeyVehicle" : {
 "description" : "",
 "type" : "string"
             },
@@ -45,15 +45,15 @@
 "description" : "",
 "type" : "string"
             },
-            "clientId" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKeyVehicle" : {
-"description" : "",
-"type" : "string"
-            },
             "appName" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientSecret" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientId" : {
 "description" : "",
 "type" : "string"
             },
@@ -97,11 +97,11 @@
 "description" : "",
 "type" : "boolean"
             },
-            "apisSorter" : {
+            "validatorUrl" : {
 "description" : "",
 "type" : "string"
             },
-            "defaultModelRendering" : {
+            "apisSorter" : {
 "description" : "",
 "type" : "string"
             },
@@ -109,11 +109,11 @@
 "description" : "",
 "type" : "boolean"
             },
-            "docExpansion" : {
+            "defaultModelRendering" : {
 "description" : "",
 "type" : "string"
             },
-            "validatorUrl" : {
+            "docExpansion" : {
 "description" : "",
 "type" : "string"
             }

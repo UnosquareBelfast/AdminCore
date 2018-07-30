@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.repository;
 
+import com.sun.java.accessibility.util.EventID;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.entity.EventStatus;
@@ -22,4 +23,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByEventStatusAndEventType(EventStatus eventStatus, EventType eventType);
 
     List<Event> findByEventType(EventType eventType);
+
+    Event findByEventId(Event event);
 }

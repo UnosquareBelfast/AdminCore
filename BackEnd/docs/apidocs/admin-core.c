@@ -46,7 +46,7 @@ struct admin_core_ns0_swaggerResource {
   /**
    * (no documentation provided)
    */
-  xmlChar *swaggerVersion;
+  xmlChar *location;
 
   /**
    * (no documentation provided)
@@ -56,7 +56,7 @@ struct admin_core_ns0_swaggerResource {
   /**
    * (no documentation provided)
    */
-  xmlChar *location;
+  xmlChar *swaggerVersion;
 };
 
 /**
@@ -191,16 +191,16 @@ static struct admin_core_ns0_swaggerResource *xmlTextReaderReadNs0SwaggerResourc
         return NULL;
       }
       else if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
-        && xmlStrcmp(BAD_CAST "swaggerVersion", xmlTextReaderConstLocalName(reader)) == 0
+        && xmlStrcmp(BAD_CAST "location", xmlTextReaderConstLocalName(reader)) == 0
         && xmlTextReaderConstNamespaceUri(reader) == NULL) {
 
 #if DEBUG_ENUNCIATE > 1
-        printf("Attempting to read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.\n");
+        printf("Attempting to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.\n");
 #endif
         _child_accessor = xmlTextReaderReadXsStringType(reader);
         if (_child_accessor == NULL) {
 #if DEBUG_ENUNCIATE
-          printf("Failed to read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.\n");
+          printf("Failed to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.\n");
 #endif
           //panic: unable to read the child element for some reason.
           freeNs0SwaggerResourceType(_swaggerResource);
@@ -208,7 +208,7 @@ static struct admin_core_ns0_swaggerResource *xmlTextReaderReadNs0SwaggerResourc
           return NULL;
         }
 
-        _swaggerResource->swaggerVersion = ((xmlChar*)_child_accessor);
+        _swaggerResource->location = ((xmlChar*)_child_accessor);
         status = xmlTextReaderAdvanceToNextStartOrEndElement(reader);
       }
       else if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
@@ -233,16 +233,16 @@ static struct admin_core_ns0_swaggerResource *xmlTextReaderReadNs0SwaggerResourc
         status = xmlTextReaderAdvanceToNextStartOrEndElement(reader);
       }
       else if (xmlTextReaderNodeType(reader) == XML_READER_TYPE_ELEMENT
-        && xmlStrcmp(BAD_CAST "location", xmlTextReaderConstLocalName(reader)) == 0
+        && xmlStrcmp(BAD_CAST "swaggerVersion", xmlTextReaderConstLocalName(reader)) == 0
         && xmlTextReaderConstNamespaceUri(reader) == NULL) {
 
 #if DEBUG_ENUNCIATE > 1
-        printf("Attempting to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.\n");
+        printf("Attempting to read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.\n");
 #endif
         _child_accessor = xmlTextReaderReadXsStringType(reader);
         if (_child_accessor == NULL) {
 #if DEBUG_ENUNCIATE
-          printf("Failed to read choice {}location of type {http://www.w3.org/2001/XMLSchema}string.\n");
+          printf("Failed to read choice {}swaggerVersion of type {http://www.w3.org/2001/XMLSchema}string.\n");
 #endif
           //panic: unable to read the child element for some reason.
           freeNs0SwaggerResourceType(_swaggerResource);
@@ -250,7 +250,7 @@ static struct admin_core_ns0_swaggerResource *xmlTextReaderReadNs0SwaggerResourc
           return NULL;
         }
 
-        _swaggerResource->location = ((xmlChar*)_child_accessor);
+        _swaggerResource->swaggerVersion = ((xmlChar*)_child_accessor);
         status = xmlTextReaderAdvanceToNextStartOrEndElement(reader);
       }
       else {
@@ -280,22 +280,22 @@ static struct admin_core_ns0_swaggerResource *xmlTextReaderReadNs0SwaggerResourc
 static int xmlTextWriterWriteNs0SwaggerResourceType(xmlTextWriterPtr writer, struct admin_core_ns0_swaggerResource *_swaggerResource) {
   int status, totalBytes = 0, i;
   xmlChar *binaryData;
-  if (_swaggerResource->swaggerVersion != NULL) {
-    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "swaggerVersion", NULL);
+  if (_swaggerResource->location != NULL) {
+    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "location", NULL);
     if (status < 0) {
 #if DEBUG_ENUNCIATE
-      printf("Failed to write start element {}swaggerVersion. status: %i\n", status);
+      printf("Failed to write start element {}location. status: %i\n", status);
 #endif
       return status;
     }
     totalBytes += status;
 #if DEBUG_ENUNCIATE > 1
-    printf("writing type {http://www.w3.org/2001/XMLSchema}string for element {}swaggerVersion...\n");
+    printf("writing type {http://www.w3.org/2001/XMLSchema}string for element {}location...\n");
 #endif
-    status = xmlTextWriterWriteXsStringType(writer, (_swaggerResource->swaggerVersion));
+    status = xmlTextWriterWriteXsStringType(writer, (_swaggerResource->location));
     if (status < 0) {
 #if DEBUG_ENUNCIATE
-      printf("Failed to write type {http://www.w3.org/2001/XMLSchema}string for element {}swaggerVersion. status: %i\n", status);
+      printf("Failed to write type {http://www.w3.org/2001/XMLSchema}string for element {}location. status: %i\n", status);
 #endif
       return status;
     }
@@ -304,7 +304,7 @@ static int xmlTextWriterWriteNs0SwaggerResourceType(xmlTextWriterPtr writer, str
     status = xmlTextWriterEndElement(writer);
     if (status < 0) {
 #if DEBUG_ENUNCIATE
-      printf("Failed to write end element {}swaggerVersion. status: %i\n", status);
+      printf("Failed to write end element {}location. status: %i\n", status);
 #endif
       return status;
     }
@@ -340,22 +340,22 @@ static int xmlTextWriterWriteNs0SwaggerResourceType(xmlTextWriterPtr writer, str
     }
     totalBytes += status;
   }
-  if (_swaggerResource->location != NULL) {
-    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "location", NULL);
+  if (_swaggerResource->swaggerVersion != NULL) {
+    status = xmlTextWriterStartElementNS(writer, NULL, BAD_CAST "swaggerVersion", NULL);
     if (status < 0) {
 #if DEBUG_ENUNCIATE
-      printf("Failed to write start element {}location. status: %i\n", status);
+      printf("Failed to write start element {}swaggerVersion. status: %i\n", status);
 #endif
       return status;
     }
     totalBytes += status;
 #if DEBUG_ENUNCIATE > 1
-    printf("writing type {http://www.w3.org/2001/XMLSchema}string for element {}location...\n");
+    printf("writing type {http://www.w3.org/2001/XMLSchema}string for element {}swaggerVersion...\n");
 #endif
-    status = xmlTextWriterWriteXsStringType(writer, (_swaggerResource->location));
+    status = xmlTextWriterWriteXsStringType(writer, (_swaggerResource->swaggerVersion));
     if (status < 0) {
 #if DEBUG_ENUNCIATE
-      printf("Failed to write type {http://www.w3.org/2001/XMLSchema}string for element {}location. status: %i\n", status);
+      printf("Failed to write type {http://www.w3.org/2001/XMLSchema}string for element {}swaggerVersion. status: %i\n", status);
 #endif
       return status;
     }
@@ -364,7 +364,7 @@ static int xmlTextWriterWriteNs0SwaggerResourceType(xmlTextWriterPtr writer, str
     status = xmlTextWriterEndElement(writer);
     if (status < 0) {
 #if DEBUG_ENUNCIATE
-      printf("Failed to write end element {}location. status: %i\n", status);
+      printf("Failed to write end element {}swaggerVersion. status: %i\n", status);
 #endif
       return status;
     }
@@ -381,15 +381,15 @@ static int xmlTextWriterWriteNs0SwaggerResourceType(xmlTextWriterPtr writer, str
  */
 static void freeNs0SwaggerResourceType(struct admin_core_ns0_swaggerResource *_swaggerResource) {
   int i;
-  if (_swaggerResource->swaggerVersion != NULL) {
+  if (_swaggerResource->location != NULL) {
 #if DEBUG_ENUNCIATE > 1
-    printf("Freeing type of accessor swaggerVersion of type admin_core_ns0_swaggerResource...\n");
+    printf("Freeing type of accessor location of type admin_core_ns0_swaggerResource...\n");
 #endif
-    freeXsStringType(_swaggerResource->swaggerVersion);
+    freeXsStringType(_swaggerResource->location);
 #if DEBUG_ENUNCIATE > 1
-    printf("Freeing accessor swaggerVersion of type admin_core_ns0_swaggerResource...\n");
+    printf("Freeing accessor location of type admin_core_ns0_swaggerResource...\n");
 #endif
-    free(_swaggerResource->swaggerVersion);
+    free(_swaggerResource->location);
   }
   if (_swaggerResource->name != NULL) {
 #if DEBUG_ENUNCIATE > 1
@@ -401,15 +401,15 @@ static void freeNs0SwaggerResourceType(struct admin_core_ns0_swaggerResource *_s
 #endif
     free(_swaggerResource->name);
   }
-  if (_swaggerResource->location != NULL) {
+  if (_swaggerResource->swaggerVersion != NULL) {
 #if DEBUG_ENUNCIATE > 1
-    printf("Freeing type of accessor location of type admin_core_ns0_swaggerResource...\n");
+    printf("Freeing type of accessor swaggerVersion of type admin_core_ns0_swaggerResource...\n");
 #endif
-    freeXsStringType(_swaggerResource->location);
+    freeXsStringType(_swaggerResource->swaggerVersion);
 #if DEBUG_ENUNCIATE > 1
-    printf("Freeing accessor location of type admin_core_ns0_swaggerResource...\n");
+    printf("Freeing accessor swaggerVersion of type admin_core_ns0_swaggerResource...\n");
 #endif
-    free(_swaggerResource->location);
+    free(_swaggerResource->swaggerVersion);
   }
 }
 #endif /* DEF_admin_core_ns0_swaggerResource_M */

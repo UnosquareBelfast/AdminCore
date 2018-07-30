@@ -1,14 +1,13 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.HolidayViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.SaveHolidayViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.DateViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -90,13 +89,40 @@ public class HolidayController {
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+
+   /* @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody SaveHolidayViewModel saveHolidayViewModel) {
 
         EventDTO event = modelMapper.map(saveHolidayViewModel, EventDTO.class);
         eventService.saveEvents(event);
+    }*/
+
+    @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateHoliday(@RequestBody UpdateHolidayViewModel updateHolidayViewModel) {
+        for(DateViewModel date : updateHolidayViewModel.getDates()){
+            EventDTO event = modelMapper.map(date, EventDTO.class);
+            event.setEventId(updateHolidayViewModel.getHolidayId());
+            eventService.updateEvent(event);
+
+        }
     }
+
+
+    @PutMapping(value = "/approveHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel){
+        EventDTO event = modelMapper.map(approveHolidayViewModel, EventDTO.class);
+        eventService.approveEvent(event);
+    }
+
+    @PutMapping(value = "/cancelHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel){
+        EventDTO event = modelMapper.map(cancelHolidayViewModel, EventDTO.class);
+        eventService.cancelEvent(event);
+        }
 
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
