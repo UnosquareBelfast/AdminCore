@@ -12,7 +12,15 @@ const LengendContainer = Wrapped =>
 
     constructor(props) {
       super(props);
-      const { PENDING, APPROVED, REJECTED, WFH, SICK, WRT } = holidayStatus;
+      const {
+        PENDING,
+        APPROVED,
+        REJECTED,
+        MANDATORY,
+        WFH,
+        SICK,
+        WRT,
+      } = holidayStatus;
       this.state = {
         employees: [],
         selectedEmployee: {
@@ -20,38 +28,44 @@ const LengendContainer = Wrapped =>
         },
         eventsKeys: [
           {
-            eventStatusId: 2,
-            key: APPROVED,
-            type: 'holiday',
+            eventStatusId: 1,
+            key: PENDING,
+            type: 'event',
             active: false,
           },
           {
-            eventStatusId: 1,
-            key: PENDING,
-            type: 'holiday',
+            eventStatusId: 2,
+            key: APPROVED,
+            type: 'event',
             active: false,
           },
           {
             eventStatusId: 3,
             key: REJECTED,
-            type: 'holiday',
+            type: 'event',
             active: false,
           },
           {
             eventStatusId: 4,
-            key: WFH,
-            type: 'status',
+            key: MANDATORY,
+            type: 'event',
             active: false,
           },
           {
             eventStatusId: 5,
-            key: SICK,
+            key: WFH,
             type: 'status',
             active: false,
           },
           {
             eventStatusId: 6,
             key: WRT,
+            type: 'status',
+            active: false,
+          },
+          {
+            eventStatusId: 7,
+            key: SICK,
             type: 'status',
             active: false,
           },
@@ -95,7 +109,7 @@ const LengendContainer = Wrapped =>
 
     createEmployeesList = () => {
       const { takenHolidays } = this.props;
-      let employees = takenHolidays.map(hol => {
+      let employees = takenHolidays.filter(hol => hol.employee).map(hol => {
         return this.createEmployeeObject(hol);
       });
       employees = this.removeDuplicateEmployees(employees);

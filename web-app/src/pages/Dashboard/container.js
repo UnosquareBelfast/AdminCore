@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import { getUserProfile } from '../../services/userService';
 import { getAllHolidays, getHolidays } from '../../services/holidayService';
 import { getDurationNotice } from '../../utilities/dates';
+import { getMandatoryCalendarEvents } from '../../utilities/mandatoryEventConfig';
+import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -61,15 +63,41 @@ const DashboardContainer = Wrapped =>
       };
     };
 
+    setMandatoryEvents = () => {
+      const mandatoryEvents = getMandatoryCalendarEvents();
+      const events = mandatoryEvents.map(function(event) {
+        return {
+          holidayId: -1,
+          title: event.title,
+          duration: 1,
+          allDay: true,
+          start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+          end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+          halfDay: false,
+          employee: null,
+          eventStatus: { eventStatusId: 4, description: 'Mandatory' },
+          eventType: { eventTypeId: 1, description: 'Annual leave' },
+        };
+      });
+      return events;
+    };
+
+    setTakenHolidayState = data => {
+      const mandatoryEvents = this.setMandatoryEvents();
+      const usersEvents = data.map(event => {
+        return this.createBookingObj(event);
+      });
+      usersEvents.concat(mandatoryEvents);
+      const allEvents = [...mandatoryEvents, ...usersEvents];
+      this.setState({
+        takenHolidays: allEvents,
+      });
+    };
+
     getTakenHolidays = () => {
       getAllHolidays()
         .then(response => {
-          const eventsForCalendar = response.data.map(event => {
-            return this.createBookingObj(event);
-          });
-          this.setState({
-            takenHolidays: eventsForCalendar,
-          });
+          this.setTakenHolidayState(response.data);
         })
         .catch(error => {
           Swal({
@@ -86,15 +114,7 @@ const DashboardContainer = Wrapped =>
       } else {
         getHolidays(id)
           .then(response => {
-            const eventsForCalendar = response.data.map(event => {
-              return this.createBookingObj(event);
-            });
-            this.setState(
-              {
-                takenHolidays: eventsForCalendar,
-              },
-              () => this.onFilterEvents(),
-            );
+            this.setTakenHolidayState(response.data);
           })
           .catch(error => {
             Swal({

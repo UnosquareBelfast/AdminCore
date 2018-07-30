@@ -33,28 +33,10 @@ export const Column = styled.div`
 
   :nth-child(1) {
     padding-top: 0;
-    flex: 0 1 20%;
-    @media (min-width: 1520px) {
-      flex: 0 1 20%;
-    }
   }
-  :nth-child(2) {
-    flex: 0 1 50%;
-    @media (min-width: 1220px) {
-      flex: 0 1 40%;
-    }
-    @media (min-width: 1520px) {
-      flex: 0 1 33%;
-    }
-  }
-  :nth-child(3) {
-    flex: 0 1 50%;
-    @media (min-width: 1220px) {
-      flex: 0 1 40%;
-    }
-    @media (min-width: 1520px) {
-      flex: 0 1 47%;
-    }
+
+  > div {
+    flex: 1 1 auto;
   }
 
   h4 {
@@ -83,7 +65,7 @@ export const Key = styled.div`
   background-color: ${props => props.theme.holidayStatus[props.status]};
   border: 1px solid ${props => props.theme.holidayStatus[props.status]};
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   margin: 4px 4px 4px 0;
   border-radius: 3px;
@@ -92,9 +74,6 @@ export const Key = styled.div`
   cursor: pointer;
   transition: all 300ms;
   box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 1);
-  @media (min-width: 920px) {
-    flex: 1 0 25%;
-  }
 
   &:hover {
     opacity: 0.9;
