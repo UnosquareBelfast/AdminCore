@@ -13,6 +13,7 @@ const AllEmployeesContainer = Wrapped =>
       super(props);
       this.state = {
         users: [],
+        selectedUser: {},
       };
     }
 
@@ -24,8 +25,17 @@ const AllEmployeesContainer = Wrapped =>
         );
     }
 
+    selectUser = user => this.setState({ selectedUser: user });
+
     render() {
-      return <Wrapped history={this.props.history} users={this.state.users} />;
+      return (
+        <Wrapped
+          history={this.props.history}
+          users={this.state.users}
+          selectedUser={this.state.selectedUser}
+          selectUser={this.selectUser}
+        />
+      );
     }
   };
 
