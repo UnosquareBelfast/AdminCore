@@ -1,16 +1,13 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import BookingModalForm from '../BookingModalForm';
+import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/fontawesome-free-solid';
 import {
   StyleContainer,
   BookingStatus,
   StatusDot,
   FormContainer,
 } from './styled';
-import { statusText } from '../../utilities/holidayStatus';
 
 const BookingModal = props => {
   const {
@@ -19,16 +16,13 @@ const BookingModal = props => {
     booking,
     employeeId,
     updateTakenHolidays,
-    getDuration,
+    updateBookingAndDuration,
   } = props;
 
   return (
     showModal && (
-      <Modal>
+      <Modal closeModal={closeModal}>
         <StyleContainer>
-          <span id="closeBookingModal" onClick={closeModal}>
-            <FontAwesomeIcon icon={faTimes} /> Close
-          </span>
           <h1>
             {booking.isEventBeingUpdated
               ? 'Update Booking'
@@ -39,8 +33,8 @@ const BookingModal = props => {
             <BookingStatus>
               <h4>{booking.title}</h4>
               <span>
-                <StatusDot status={booking.holidayStatusId} />
-                {statusText[booking.holidayStatusId]}
+                <StatusDot status={booking.eventStatus.eventStatusId} />
+                {booking.eventStatus.description}
               </span>
             </BookingStatus>
           )}
@@ -50,7 +44,7 @@ const BookingModal = props => {
               employeeId={employeeId}
               booking={booking}
               closeModal={closeModal}
-              getDuration={getDuration}
+              updateBookingAndDuration={updateBookingAndDuration}
             />
           </FormContainer>
         </StyleContainer>
@@ -63,9 +57,9 @@ BookingModal.propTypes = {
   closeModal: PT.func.isRequired,
   showModal: PT.bool.isRequired,
   booking: PT.object.isRequired,
-  employeeId: PT.string.isRequired,
+  employeeId: PT.number.isRequired,
   updateTakenHolidays: PT.func.isRequired,
-  getDuration: PT.func.isRequired,
+  updateBookingAndDuration: PT.func.isRequired,
 };
 
 export default BookingModal;

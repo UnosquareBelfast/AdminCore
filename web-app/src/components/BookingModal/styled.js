@@ -71,6 +71,13 @@ export const FormContainer = styled.div`
       }
     }
 
+    .select {
+      @media (min-width: 992px) {
+        margin: 20px 10px;
+        width: calc(100% - 20px);
+      }
+    }
+
     .checkbox {
       @media (min-width: 992px) {
         margin: 20px 10px;
@@ -82,21 +89,6 @@ export const FormContainer = styled.div`
         width: calc(50% - 10px);
         box-sizing: border-box;
         margin-left: calc(50% + 10px);
-      }
-    }
-
-    &.bookingHalfDay {
-      > div:nth-child(2) {
-        visibility: hidden;
-      }
-    }
-
-    &.workingFromHome {
-      > div:nth-child(2) {
-        visibility: hidden;
-      }
-      h4#totalDaysToBook {
-        opacity: 0.4;
       }
     }
   }

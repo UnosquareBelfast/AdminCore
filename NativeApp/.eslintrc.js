@@ -77,5 +77,6 @@ module.exports = {
       "react/self-closing-comp": 2,
       "react/sort-comp": 2,
       "react/require-default-props": 0,
+      "react/jsx-one-expression-per-line": 0
     }
   };

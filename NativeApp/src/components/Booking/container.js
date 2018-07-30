@@ -18,6 +18,8 @@ export default Container => class extends Component {
     this.state = {
       booking: {
         holId: 0,
+        statusId: 0,
+        status: '',
         startDate: '',
         endDate: '',
         halfDay: false,
@@ -29,16 +31,20 @@ export default Container => class extends Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    const chosenDate = navigation.getParam('date', '');
+    const { booking } = this.state;
+    const chosenDate = navigation.getParam('date');
     const booked = navigation.getParam('booked', '');
-    const holId = navigation.getParam('holId', '');
+    const holiday = navigation.getParam('holiday', {});
 
     userProfile()
       .then(user => this.setState({ user }));
 
     this.setState({
       booking: {
-        holId,
+        ...booking,
+        holId: holiday.holId,
+        statusId: holiday.statusId,
+        status: holiday.status,
         startDate: chosenDate,
         endDate: chosenDate,
       },
@@ -86,7 +92,7 @@ export default Container => class extends Component {
       dates: [
         {
           endDate: booking.endDate,
-          halfDay: false,
+          halfDay: booking.halfDay,
           startDate: booking.startDate,
         },
       ],
@@ -110,7 +116,7 @@ export default Container => class extends Component {
     const request = {
       employeeId: user.employeeId,
       endDate: booking.endDate,
-      halfDay: false,
+      halfDay: booking.halfDay,
       holidayId: booking.holId,
       holidayStatusId: cancel ? 3 : 1,
       startDate: booking.startDate,
@@ -126,14 +132,27 @@ export default Container => class extends Component {
       ));
   }
 
+  updateHalfDay = () => {
+    const { booking } = this.state;
+    const { halfDay, startDate } = booking;
+
+    this.setState({
+      booking: {
+        ...booking,
+        endDate: startDate,
+        halfDay: !halfDay,
+      },
+    });
+  }
+
   render() {
     const { booking, booked } = this.state;
 
     return (
       <Container
-        startDate={booking.startDate}
-        endDate={booking.endDate}
+        updateHalfDay={this.updateHalfDay}
         booked={booked}
+        booking={booking}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}
         changeStartDate={this.changeStartDate}

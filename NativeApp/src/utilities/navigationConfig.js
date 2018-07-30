@@ -43,6 +43,9 @@ const AppStack = createBottomTabNavigator(
       showLabel: false,
       inactiveBackgroundColor: '#00DCFA',
       activeBackgroundColor: '#00DCFA',
+      style: {
+        backgroundColor: '#00DCFA',
+      },
     },
   }
 );

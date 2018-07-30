@@ -50,7 +50,7 @@ export default Wrapped =>
               },
               {
                 name: 'Pending Holidays',
-                route: '/admin/pendingHolidays',
+                route: '/admin/holidays/pending',
               },
               {
                 name: 'Clients',

@@ -34,10 +34,6 @@ const Input = props => {
     inputClasses.push('invalid');
   }
 
-  if (htmlAttrs.disabled) {
-    inputClasses.push('disabled');
-  }
-
   switch (type) {
     case 'input':
       inputElement = (
@@ -126,6 +122,11 @@ const Input = props => {
 
     if (htmlAttrs.disabled) {
       styles.push('isDisabled');
+    } else {
+      let index = styles.indexOf('isDisabled');
+      if (index !== -1) {
+        styles.splice(index, 1);
+      }
     }
 
     return styles.join(' ');

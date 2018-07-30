@@ -1,13 +1,10 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
-import com.unosquare.admin_core.back_end.dto.EmployeeDto;
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import com.unosquare.admin_core.back_end.entity.Country;
 import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.entity.EmployeeRole;
-import com.unosquare.admin_core.back_end.entity.EmployeeStatus;
-import com.unosquare.admin_core.back_end.payload.LoginRequest;
-import com.unosquare.admin_core.back_end.payload.SignUpRequest;
+import com.unosquare.admin_core.back_end.enums.Countries;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.security.JwtTokenProvider;
 import org.modelmapper.ModelMapper;
@@ -18,20 +15,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class EmployeeService {
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -48,49 +39,70 @@ public class EmployeeService {
     @Autowired
     ModelMapper modelMapper;
 
-    public List<Employee> findAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> findAll() {
+        List employees = employeeRepository.findAll();
+        return mapEmployeesToDtos(employees);
     }
 
-    public Employee findById(int id) {
+    public EmployeeDTO findById(int id) {
         Optional<Employee> searchResult = employeeRepository.findById(id);
-
         if (searchResult.isPresent()) {
-            return searchResult.get();
+            return modelMapper.map(searchResult.get(), EmployeeDTO.class);
         }
         return null;
     }
 
-    public Employee save(Employee employee) {
-        Preconditions.checkNotNull(employee);
-        return employeeRepository.save(employee);
+    public EmployeeDTO save(EmployeeDTO employeeDto) {
+        Preconditions.checkNotNull(employeeDto);
+        Employee savedEmployee = null;
+
+        Optional<Employee> existingEmployee = employeeRepository.findById(employeeDto.getEmployeeId());
+        if (existingEmployee.isPresent()) {
+
+            Employee currentDetails = existingEmployee.get();
+            modelMapper.map(employeeDto, currentDetails);
+            savedEmployee = employeeRepository.save(currentDetails);
+        }
+        else {
+            Employee employee = modelMapper.map(employeeDto, Employee.class);
+            savedEmployee = employeeRepository.save(employee);
+        }
+
+        return modelMapper.map(savedEmployee, EmployeeDTO.class);
     }
 
-    public Employee updateEmployee(EmployeeDto employeeDto){
-        Employee employee = entityManager.find(Employee.class, employeeDto.getEmployeeId());
-
-        Country country = entityManager.find(Country.class, employeeDto.getCountryId());
-        EmployeeRole role = entityManager.find(EmployeeRole.class, employeeDto.getEmployeeRoleId());
-        EmployeeStatus status = entityManager.find(EmployeeStatus.class, employeeDto.getEmployeeStatusId());
-
-        employee.setCountry(country);
-        employee.setEmployeeRole(role);
-        employee.setEmployeeStatus(status);
-
-        entityManager.detach(employee.getCountry());
-        entityManager.detach(employee.getEmployeeRole());
-        entityManager.detach(employee.getEmployeeStatus());
-
-        modelMapper.map(employeeDto, employee);
-
-        return save(employee);
+    public List<EmployeeDTO> findByForenameAndSurname(String forename, String surname) {
+        List employees = employeeRepository.findByForenameIgnoreCaseAndSurnameIgnoreCase(forename, surname);
+        return mapEmployeesToDtos(employees);
     }
 
+    public List<EmployeeDTO> findByCountry(Countries country) {
+        List employees = employeeRepository.findByCountry(new Country(country.getCountryId()));
+        return mapEmployeesToDtos(employees);
+    }
 
-    public void updateTotalHolidayForNewEmployee(Employee employee) {
-        int maxHolidays = 33;
-        employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, maxHolidays));
-        save(employee);
+    public EmployeeDTO findByEmail(String email) {
+        Employee employee = employeeRepository.findByEmailIgnoreCase(email);
+        return employee != null ? modelMapper.map(employee, EmployeeDTO.class) : null;
+    }
+
+    public EmployeeDTO createNewEmployee(EmployeeDTO newEmployeeDTO) {
+        Employee employee = modelMapper.map(newEmployeeDTO, Employee.class);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employee.setTotalHolidays(calculateTotalHolidaysFromStartDate(employee, 33));
+        Employee newEmployee = employeeRepository.save(employee);
+
+        return modelMapper.map(newEmployee, EmployeeDTO.class);
+    }
+
+    public String jwtSignIn(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(email, password)
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return tokenProvider.generateToken(authentication);
     }
 
     private short calculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays) {
@@ -103,46 +115,7 @@ public class EmployeeService {
         return totalHolidays;
     }
 
-    public List<Employee> findByForenameAndSurname(String forename, String surname) {
-        return employeeRepository.findByForenameIgnoreCaseAndSurnameIgnoreCase(forename, surname);
-    }
-
-    public List<Employee> findByCountry(com.unosquare.admin_core.back_end.enums.Countries country) {
-        return employeeRepository.findByCountry(new com.unosquare.admin_core.back_end.entity.Country(country.getCountryId()));
-    }
-
-    public Employee findByEmail(String email) {
-        return employeeRepository.findByEmailIgnoreCase(email);
-    }
-
-    public Employee createNewEmployeeUser(SignUpRequest signUpRequest) {
-
-        Country country = entityManager.find(Country.class, signUpRequest.getCountryId());
-        EmployeeRole employeeRole = entityManager.find(EmployeeRole.class, signUpRequest.getEmployeeRoleId());
-        EmployeeStatus employeeStatus = entityManager.find(EmployeeStatus.class, signUpRequest.getStatusId());
-
-        Employee employee = new Employee(signUpRequest.getForename(), signUpRequest.getSurname(),
-                signUpRequest.getEmail(), employeeRole, employeeStatus,
-                signUpRequest.getStartDate(), country, signUpRequest.getPassword());
-
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-        employee = save(employee);
-
-        updateTotalHolidayForNewEmployee(employee);
-
-        return employee;
-    }
-
-    public String jwtSignIn(LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return tokenProvider.generateToken(authentication);
+    private List<EmployeeDTO> mapEmployeesToDtos(List<Employee> events) {
+        return events.stream().map(event -> modelMapper.map(event, EmployeeDTO.class)).collect(Collectors.toList());
     }
 }

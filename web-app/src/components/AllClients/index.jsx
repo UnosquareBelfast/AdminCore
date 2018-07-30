@@ -1,73 +1,45 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Table, Button } from '../common';
-import { ActiveDot, CTA } from './styled';
-import employeeStatus from '../../utilities/employeeStatus';
+import { Button } from '../common';
+import { HeaderButton } from './styled';
+import { ClientList, ClientModal } from '../';
 
 export const AllClients = ({
   clients,
-  viewClient,
-  archive,
-  createNewClient,
+  history,
+  selectClient,
+  selectedClient,
 }) => {
-  let clientList;
-  if (clients.length > 0) {
-    clientList = clients.map(client => (
-      <tr key={client.clientId}>
-        <td>{client.clientName}</td>
-        <td>{client.clientStatusDescription}</td>
-        <td>
-          <ActiveDot active={client.clientStatusId === employeeStatus.ACTIVE} />
-          {client.clientStatusId === employeeStatus.ACTIVE
-            ? 'Active'
-            : 'Inactive'}
-        </td>
-        <td>
-          <button onClick={() => viewClient(client.clientId)}>
-            Edit Client
-          </button>
-          {client.clientStatusId === employeeStatus.ACTIVE ? (
-            <button className="success" onClick={() => archive(client)}>
-              Archive
-            </button>
-          ) : (
-            <button className="error" onClick={() => archive(client, true)}>
-              Activate
-            </button>
-          )}
-        </td>
-      </tr>
-    ));
-  } else {
-    clientList = (
-      <tr>
-        <td>There are no Clients available</td>
-        <td />
-        <td />
-        <td />
-      </tr>
-    );
-  }
   return (
     <Fragment>
-      <h2>All Clients</h2>
-      <Table
-        tableHeaders={['Name', 'Description', 'Status', ' ']}
-        tableRows={clientList}
+      <ClientModal
+        client={selectedClient}
+        visible={selectedClient}
+        history={history}
+        closeModal={() => selectClient(null)}
       />
-      <CTA>
-        <Button onClick={() => createNewClient()} label="New Client" />
-      </CTA>
+      <HeaderButton>
+        <Button
+          onClick={() => history.replace('/admin/clients/new')}
+          label="New Client"
+        />
+      </HeaderButton>
+      <h2>All Clients</h2>
+      <ClientList
+        clients={clients}
+        columns={['clientName']}
+        onRowClick={data => selectClient(data)}
+      />
     </Fragment>
   );
 };
 
 AllClients.propTypes = {
-  createNewClient: PT.func.isRequired,
+  history: PT.object.isRequired,
   clients: PT.array.isRequired,
-  archive: PT.func.isRequired,
-  viewClient: PT.func.isRequired,
+  selectClient: PT.func.isRequired,
+  selectedClient: PT.object,
 };
 
 export default container(AllClients);

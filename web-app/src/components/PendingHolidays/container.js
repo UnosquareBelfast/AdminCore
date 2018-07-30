@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAllHolidays } from '../../services/holidayService';
+import { getHolidaysByStatus } from '../../services/holidayService';
 import holidayStatus from '../../utilities/holidayStatus';
 
 export default Wrapped =>
@@ -14,25 +14,14 @@ export default Wrapped =>
     }
 
     getPendingHolidays = () => {
-      getAllHolidays().then(response => {
-        const allHolidays = response.data;
-        const pendingOnly = this.filterPending(allHolidays);
-        this.setState({ pendingHolidays: pendingOnly });
+      getHolidaysByStatus(holidayStatus.PENDING).then(response => {
+        this.setState({ pendingHolidays: response.data });
       });
-    };
-
-    filterPending = holidays => {
-      return holidays.filter(
-        holiday => holiday.holidayStatusId === holidayStatus.PENDING,
-      );
     };
 
     render() {
       return (
-        <Wrapped
-          {...this.props}
-          pendingHolidays={this.state.pendingHolidays}
-        />
+        <Wrapped {...this.props} pendingHolidays={this.state.pendingHolidays} />
       );
     }
   };

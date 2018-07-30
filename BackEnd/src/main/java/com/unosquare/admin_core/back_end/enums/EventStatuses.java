@@ -10,8 +10,8 @@ public enum EventStatuses {
     DENIED(3, "Denied"),
     TAKEN(5, "Taken");
 
-    private final String description;
-    private final int eventStatusId;
+    private String description;
+    private int eventStatusId;
 
     EventStatuses(int holidayStatusId, String description) {
         this.eventStatusId = holidayStatusId;
@@ -29,13 +29,13 @@ public enum EventStatuses {
     @Override
     public String toString() {
         return String.format(
-                "{holidayStatusId='%s', description='%s'}",
+                "{eventStatusId='%s', description='%s'}",
                 eventStatusId, description);
     }
 
-    public static EventStatuses fromId(int holidayStatusId) {
+    public static EventStatuses fromId(int eventStatusId) {
         for (EventStatuses status : EventStatuses.values()) {
-            if (status.eventStatusId == holidayStatusId) {
+            if (status.eventStatusId == eventStatusId) {
                 return status;
             }
         }
