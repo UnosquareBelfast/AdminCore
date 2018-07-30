@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getAllHolidays } from '../../services/holidayService';
+import { getHolidaysByStatus } from '../../services/holidayService';
+import holidayStatus from '../../utilities/holidayStatus';
 import { getAllUsers } from '../../services/userService';
 
 export default Wrapped =>
@@ -25,7 +26,7 @@ export default Wrapped =>
     }
 
     getHolidays = () => {
-      getAllHolidays().then(response => {
+      getHolidaysByStatus(holidayStatus.PENDING).then(response => {
         this.setState({ teamHolidays: response.data });
       });
     };
