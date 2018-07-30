@@ -50,14 +50,8 @@ const HolidayModal = ({
           </Stat>
         </StatWrap>
         <ButtonWrap>
-          <Button
-            label={['Approve', 'Are you sure?']}
-            onClick={() => approveHoliday(holidayId)}
-          />
-          <Button
-            label={['Reject', 'Are you sure?']}
-            onClick={() => rejectHoliday(holidayId)}
-          />
+          <Button label="Approve" onClick={() => approveHoliday(holidayId)} />
+          <Button label="Reject" onClick={() => rejectHoliday(holidayId)} />
         </ButtonWrap>
       </StyleContainer>
     </Modal>

@@ -24,7 +24,6 @@ export const PendingHolidays = ({
           'endDate',
           'requestedDate',
         ]}
-        actions={['approve', 'reject']}
         onRowClick={holiday => selectHoliday(holiday)}
       />
     </Fragment>
