@@ -26,3 +26,4 @@ export { default as UserListing } from './UserListing';
 export { default as UserModal } from './UserModal';
 export { default as ViewContracts } from './ViewContracts';
 export { default as ViewTeams } from './ViewTeams';
+export { default as HolidayModal } from './HolidayModal';

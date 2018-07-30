@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const HeaderButton = styled.div`
+export default styled.div`
   position: absolute;
   right: 20px;
   top: 20px;
