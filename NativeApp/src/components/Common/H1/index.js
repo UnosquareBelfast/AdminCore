@@ -4,17 +4,17 @@ import { PropTypes as PT } from 'prop-types';
 import styles from './styles';
 
 const H1 = (props) => {
-  const { children, type, styleProp } = props;
+  const { children, type, customStyle } = props;
 
   return (
-    <Text style={[styles[type], styleProp]} {...props}>{children}</Text>
+    <Text style={[styles[type], customStyle]} {...props}>{children}</Text>
   );
 };
 
 H1.propTypes = {
   children: PT.node.isRequired,
   type: PT.string.isRequired,
-  styleProp: PT.oneOfType([
+  customStyle: PT.oneOfType([
     PT.number,
     PT.object,
     PT.array,

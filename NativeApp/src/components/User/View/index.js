@@ -7,58 +7,33 @@ import {
 } from 'react-native';
 import ListItem from './ListItem';
 import ListHeader from './ListHeader';
-import { HeaderContainer, HolidayContainer, HolidayText } from './styled';
-import { ScrollView, H1, H2, P } from '../../Common';
-import colours from '../../../utilities/globalStyles/theme';
+import { ScrollView, H2, HeaderDays } from '../../Common';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
     <ScrollView>
-      <HeaderContainer>
-        <HolidayContainer divider>
-          <H2 type="base" styleProp={styles.boldDarkGrey}>
-            Taken
-          </H2>
-          <HolidayText>
-            <H1 type="base" styleProp={styles.darkGrey}>
-              {takenHolidays.length}
-            </H1>
-            <P type="base" styleProp={styles.darkGreyPadding}>
-              DAYS
-            </P>
-          </HolidayText>
-        </HolidayContainer>
-        <HolidayContainer>
-          <H2 type="base" styleProp={styles.boldDarkGrey}>
-            Remaining
-          </H2>
-          <HolidayText>
-            <H1 type="base" styleProp={styles.darkGrey}>
-              {remainingHolidays}
-            </H1>
-            <P type="base" styleProp={styles.darkGreyPadding}>
-              DAYS
-            </P>
-          </HolidayText>
-        </HolidayContainer>
-      </HeaderContainer>
-
-      <View style={styles.holsDate}>
-        <P type="base">
-          {employee.forename}
-          {employee.surname}
-        </P>
+    
+      <HeaderDays
+        takenHolidays={takenHolidays}
+        remainingHolidays={remainingHolidays}
+      />
+      <View style={styles.profileName}>
+        <H2 type="base" styleProp={styles.H2Bold}>
+          {employee.forename}&nbsp;
+          {employee.surname}'s Holidays
+        </H2>
       </View>
 
-      <View>
+      <View style={styles.flatListView}>
         <FlatList
           keyExtractor={item => item.holidayId.toString()}
           data={takenHolidays}
           ListHeaderComponent={<ListHeader />}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <ListItem
+              listId={index}
               statusId={item.eventStatus.eventStatusId}
               status={item.eventStatus.description}
               startDate={item.start}
@@ -86,20 +61,17 @@ const styles = StyleSheet.create({
     paddingTop: 23,
     backgroundColor: '#fff',
   },
-  holsDate: {
+  profileName: {
     paddingBottom: 10,
+    paddingTop: 10,
+    alignSelf: 'center',
+    flexDirection: 'row',
   },
-  boldDarkGrey: {
+  flatListView: {
+    flex: 1,
+  },
+  H2Bold: {
     fontWeight: 'bold',
-    color: colours.darkGrey,
-  },
-  darkGrey: {
-    color: colours.darkGrey,
-  },
-  darkGreyPadding: {
-    color: colours.darkGrey,
-    paddingBottom: 5,
-    paddingLeft: 2,
   },
 });
 
