@@ -56,8 +56,8 @@ const UserView = (props) => {
           data={takenHolidays}
           renderItem={({ item }) => (
             <ListItem
-              statusId={item.holidayStatusId}
-              status={item.holidayStatusDescription}
+              statusId={item.eventStatus.eventStatusId}
+              status={item.eventStatus.description}
               startDate={item.start}
               endDate={item.end}
             />
