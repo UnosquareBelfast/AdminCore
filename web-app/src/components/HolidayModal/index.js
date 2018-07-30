@@ -65,9 +65,10 @@ const HolidayModal = ({
 };
 
 HolidayModal.propTypes = {
-  user: PT.object,
   closeModal: PT.func.isRequired,
   holiday: PT.object.isRequired,
+  approveHoliday: PT.func.isRequired,
+  rejectHoliday: PT.func.isRequired,
 };
 
 export default container(HolidayModal);
