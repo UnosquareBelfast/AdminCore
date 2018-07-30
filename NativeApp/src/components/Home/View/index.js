@@ -1,12 +1,11 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Button, Icon } from 'react-native-elements';
+// import { Icon } from 'react-native-elements';
 import { View, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
 const HomeView = (props) => {
   const {
-    handleLogout,
     takenHolidays,
     onDayPress,
   } = props;
@@ -23,22 +22,17 @@ const HomeView = (props) => {
         onDayPress={(day) => { onDayPress(day); }}
       />
 
-      <Button
-        onPress={handleLogout}
-        title="Logout"
-      />
-      <Icon
+      {/* <Icon
         name="add"
         reverse
         color="red"
         size={30}
-      />
+      /> */}
     </View>
   );
 };
 
 HomeView.propTypes = {
-  handleLogout: PT.func.isRequired,
   takenHolidays: PT.shape({
     text: PT.string,
     color: PT.string,
