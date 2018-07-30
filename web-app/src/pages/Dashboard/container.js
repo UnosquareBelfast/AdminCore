@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { getUserProfile } from '../../services/userService';
 import { getAllHolidays, getHolidays } from '../../services/holidayService';
 import { getDurationNotice } from '../../utilities/dates';
+import { getMandatoryCalendarEvents } from '../../utilities/mandatoryEventConfig';
 import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
@@ -63,23 +64,7 @@ const DashboardContainer = Wrapped =>
     };
 
     setMandatoryEvents = () => {
-      const currYear = new Date().getFullYear();
-      const mandatoryEvent = [
-        {
-          title: 'Christmas Day',
-          mandatoryDate: `${currYear}-12-25`,
-        },
-        {
-          title: 'New Years Day',
-          mandatoryDate: `${currYear}-12-31`,
-        },
-        {
-          title: 'Memorial Day',
-          mandatoryDate: `${currYear}-05-28`,
-        },
-      ];
-
-      const events = mandatoryEvent.map(function(event) {
+      const events = getMandatoryCalendarEvents.map(function(event) {
         return {
           holidayId: -1,
           title: event.title,
@@ -93,7 +78,6 @@ const DashboardContainer = Wrapped =>
           eventType: { eventTypeId: 1, description: 'Annual leave' },
         };
       });
-
       return events;
     };
 
