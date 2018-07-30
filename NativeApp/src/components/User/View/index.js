@@ -6,6 +6,7 @@ import {
   FlatList,
 } from 'react-native';
 import ListItem from './ListItem';
+import ListHeader from './ListHeader';
 import { HeaderContainer, HolidayContainer, HolidayText } from './styled';
 import { ScrollView, H1, H2, P } from '../../Common';
 import colours from '../../../utilities/globalStyles/theme';
@@ -55,6 +56,7 @@ const UserView = (props) => {
         <FlatList
           keyExtractor={item => item.holidayId.toString()}
           data={takenHolidays}
+          ListHeaderComponent={<ListHeader />}
           renderItem={({ item }) => (
             <ListItem
               statusId={item.eventStatus.eventStatusId}

@@ -64,7 +64,7 @@ class LoginForm extends Component {
         />
         {
           hasError && (
-            <Caption type="base" styleProps={styles.red}>
+            <Caption type="base" styleProp={styles.red}>
               Incorrect email or password
             </Caption>
           )
