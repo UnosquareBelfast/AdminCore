@@ -3,7 +3,7 @@ import Moment from 'moment';
 import deviceStorage from '../services/deviceStorage';
 
 
-const baseURL = 'http://192.168.99.100:8081';
+const baseURL = process.env.DOMAIN;
 
 const instance = axios.create({
   baseURL,
