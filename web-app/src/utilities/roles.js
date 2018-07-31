@@ -1,6 +1,6 @@
 export default {
-  ADMIN: 2,
   SUPER: 1,
+  ADMIN: 2,
   STANDARD: 3,
 };
 
