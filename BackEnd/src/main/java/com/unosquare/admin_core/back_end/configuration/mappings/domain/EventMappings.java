@@ -15,7 +15,8 @@ public class EventMappings implements BaseMappings<EventDTO, Event> {
                 map().setHalfDay(source.isHalfDay());
                 map().setEventStatus(new EventStatus(source.getEventStatusId()));
                 map().setEventType(new EventType(source.getEventTypeId()));
-
+                map().setStartDate(source.getStartDate());
+                map().setEndDate(source.getEndDate());
             }
         };
     }
