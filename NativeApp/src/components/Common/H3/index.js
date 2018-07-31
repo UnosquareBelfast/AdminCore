@@ -7,7 +7,7 @@ const H3 = (props) => {
   const { children, customStyle, type } = props;
 
   return (
-    <Text style={[styles[type], customStyle]} {...props}>{children}</Text>
+    <Text {...props} style={[styles[type], customStyle]}>{children}</Text>
   );
 };
 
