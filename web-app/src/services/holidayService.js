@@ -23,3 +23,11 @@ export const requestHoliday = holidays => {
 export const updateHoliday = holiday => {
   return axios.put('/holidays/', holiday);
 };
+
+export const approveHoliday = holidayId => {
+  return axios.put('/holidays/approveHoliday', { holidayId });
+};
+
+export const rejectHoliday = holidayId => {
+  return axios.put('/holidays/cancelHoliday', { holidayId });
+};
