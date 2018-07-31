@@ -1,7 +1,7 @@
 
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
 
-import com.unosquare.admin_core.back_end.ViewModels.SaveHolidayViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.CreateHolidayViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventStatusesConverter;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventTypesConverter;
@@ -14,19 +14,19 @@ import org.modelmapper.PropertyMap;
 import java.time.LocalDate;
 
 @NoArgsConstructor
-public class SaveHolidayMappings implements BaseMappings<EventDTO, SaveHolidayViewModel> {
+public class SaveHolidayMappings implements BaseMappings<EventDTO, CreateHolidayViewModel> {
 
     @Override
-    public PropertyMap<EventDTO, SaveHolidayViewModel> MapFromSourceToTarget() {
-        return new PropertyMap<EventDTO, SaveHolidayViewModel>() {
+    public PropertyMap<EventDTO, CreateHolidayViewModel> MapFromSourceToTarget() {
+        return new PropertyMap<EventDTO, CreateHolidayViewModel>() {
             protected void configure() {
             }
         };
     }
 
     @Override
-    public PropertyMap<SaveHolidayViewModel, EventDTO> MapFromTargetToSource() {
-        return new PropertyMap <SaveHolidayViewModel, EventDTO>() {
+    public PropertyMap<CreateHolidayViewModel, EventDTO> MapFromTargetToSource() {
+        return new PropertyMap <CreateHolidayViewModel, EventDTO>() {
             protected void configure() {
 
                 EventTypesConverter eventTypesConverter = new EventTypesConverter();

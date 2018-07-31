@@ -37,11 +37,19 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
-            "apiKeyVehicle" : {
+            "apiKeyName" : {
 "description" : "",
 "type" : "string"
             },
-            "apiKeyName" : {
+            "apiKey" : {
+"description" : "",
+"type" : "string"
+            },
+            "realm" : {
+"description" : "",
+"type" : "string"
+            },
+            "clientId" : {
 "description" : "",
 "type" : "string"
             },
@@ -53,15 +61,7 @@
 "description" : "",
 "type" : "string"
             },
-            "clientId" : {
-"description" : "",
-"type" : "string"
-            },
-            "realm" : {
-"description" : "",
-"type" : "string"
-            },
-            "apiKey" : {
+            "apiKeyVehicle" : {
 "description" : "",
 "type" : "string"
             }
@@ -73,15 +73,15 @@
       "type" : "object",
       "title" : "SwaggerResource",
           "properties" : {
+            "location" : {
+"description" : "",
+"type" : "string"
+            },
             "name" : {
 "description" : "",
 "type" : "string"
             },
             "swaggerVersion" : {
-"description" : "",
-"type" : "string"
-            },
-            "location" : {
 "description" : "",
 "type" : "string"
             }
@@ -97,18 +97,6 @@
 "description" : "",
 "type" : "boolean"
             },
-            "validatorUrl" : {
-"description" : "",
-"type" : "string"
-            },
-            "apisSorter" : {
-"description" : "",
-"type" : "string"
-            },
-            "showRequestHeaders" : {
-"description" : "",
-"type" : "boolean"
-            },
             "defaultModelRendering" : {
 "description" : "",
 "type" : "string"
@@ -116,6 +104,18 @@
             "docExpansion" : {
 "description" : "",
 "type" : "string"
+            },
+            "apisSorter" : {
+"description" : "",
+"type" : "string"
+            },
+            "validatorUrl" : {
+"description" : "",
+"type" : "string"
+            },
+            "showRequestHeaders" : {
+"description" : "",
+"type" : "boolean"
             }
           },
       "description" : ""

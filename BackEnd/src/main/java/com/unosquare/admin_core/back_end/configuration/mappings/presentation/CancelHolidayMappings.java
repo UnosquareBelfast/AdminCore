@@ -4,9 +4,13 @@ import com.unosquare.admin_core.back_end.ViewModels.ApproveHolidayViewModel;
 import com.unosquare.admin_core.back_end.ViewModels.CancelHolidayViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventStatusesConverter;
+import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventTypesConverter;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
+import com.unosquare.admin_core.back_end.enums.EventTypes;
 import org.modelmapper.PropertyMap;
+
+import java.time.LocalDate;
 
 public class CancelHolidayMappings implements BaseMappings<EventDTO, CancelHolidayViewModel> {
 
@@ -23,8 +27,14 @@ public class CancelHolidayMappings implements BaseMappings<EventDTO, CancelHolid
     public PropertyMap<CancelHolidayViewModel, EventDTO> MapFromTargetToSource() {
         return  new PropertyMap <CancelHolidayViewModel, EventDTO>() {
             protected void configure() {
-                map().setEventId(source.getHolidayId());
+                EventTypesConverter eventTypesConverter = new EventTypesConverter();
+                EventStatusesConverter eventStatusConverter = new EventStatusesConverter();
 
+                using(eventTypesConverter.MapFromSourceToTarget()).map(EventTypes.ANNUAL_LEAVE, destination.getEventTypeId());
+                using(eventStatusConverter.MapFromSourceToTarget()).map(EventStatuses.DENIED, destination.getEventStatusId());
+                map().setEventId(source.getHolidayId());
+                map().setLastModified(LocalDate.now());
+                skip().setEmployee(null);
             }
         };
     }

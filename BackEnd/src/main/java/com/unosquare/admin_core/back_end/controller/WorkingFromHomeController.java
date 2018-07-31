@@ -1,29 +1,31 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.DateViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.SaveHolidayViewModel;
-import com.unosquare.admin_core.back_end.dto.EventDTO;
-import org.springframework.http.HttpStatus;
+import com.unosquare.admin_core.back_end.ViewModels.HolidayViewModel;
+import com.unosquare.admin_core.back_end.enums.EventTypes;
+import com.unosquare.admin_core.back_end.service.EventService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@RestController
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
+@RequestMapping("/workingFromHome")
 public class WorkingFromHomeController {
-/*
 
+    @Autowired
+    EventService eventService;
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createWorkingFromHome(@RequestBody SaveHolidayViewModel saveHolidayViewModel) {
+    @Autowired
+    ModelMapper modelMapper;
 
-
-
-      //  return ResponseEntity.ok(responses);
+    /*@GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<HolidayViewModel> findAll() {
+        List holidays = eventService.findByType(EventTypes.ANNUAL_LEAVE);
+        return mapEventDtosToHolidays(holidays);
     }
 */
 

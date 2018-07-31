@@ -1,7 +1,9 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
+import com.unosquare.admin_core.back_end.ViewModels.UpdateHolidayViewModel;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
+import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.entity.EventStatus;
@@ -27,11 +29,9 @@ public class EventService {
 
     @Autowired
     EventRepository eventRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Autowired
-    private ModelMapper modelMapper;
+    ModelMapper modelMapper;
 
     public List<EventDTO> findByType(EventTypes eventType) {
         return mapEventsToDtos(eventRepository.findByEventType(new EventType(eventType.getEventTypeId())));
@@ -58,7 +58,10 @@ public class EventService {
 
     private void save(Event event) {
         Preconditions.checkNotNull(event);
-        event.setDateCreated(LocalDate.now());
+
+        if (event.getEventId() > 0) {
+            event.setDateCreated(LocalDate.now());
+        }
         event.setLastModified(LocalDate.now());
         eventRepository.save(event);
     }
@@ -67,34 +70,37 @@ public class EventService {
     public void saveEvents(EventDTO... eventDtos){
         Preconditions.checkNotNull(eventDtos);
         for(EventDTO eventDto : eventDtos) {
-            Event event = modelMapper.map(eventDto,Event.class);
+            Event event = modelMapper.map(eventDto, Event.class);
             save(event);
         }
     }
 
-    public  void updateEvent(EventDTO eventDTO){
-        Preconditions.checkNotNull(eventDTO);
-        EventDTO temp = findById(eventDTO.getEventId());
-        Event event = modelMapper.map(temp, Event.class);
-        event.setStartDate(eventDTO.getStartDate());
-        event.setEndDate(eventDTO.getEndDate());
-        save(event);
+    public  void updateEvent(UpdateEventDTO updateEventDTO){
+        Preconditions.checkNotNull(updateEventDTO);
+        Optional<Event> retrievedEvent = eventRepository.findById(updateEventDTO.getEventId());
+        if(retrievedEvent.isPresent()){
+            Event event = retrievedEvent.get();
+            modelMapper.map(updateEventDTO, event);
+            save(event);
+        }
     }
 
-    public void approveEvent(EventDTO eventDTO){
-        Preconditions.checkNotNull(eventDTO);
-        EventDTO temp = findById(eventDTO.getEventId());
-        Event event = modelMapper.map(temp,Event.class);
-        event.getEventStatus().setEventStatusId(EventStatuses.APPROVED.getEventStatusId());
-        save(event);
+    public void approveEvent(int eventId){
+        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+        if (retrievedEvent.isPresent()) {
+            Event event = retrievedEvent.get();
+            event.setEventStatus(new EventStatus(EventStatuses.APPROVED.getEventStatusId()));
+            save(event);
+        }
     }
 
-    public void cancelEvent(EventDTO eventDTO){
-        Preconditions.checkNotNull(eventDTO);
-        EventDTO temp = findById(eventDTO.getEventId());
-        Event event = modelMapper.map(temp,Event.class);
-        event.getEventStatus().setEventStatusId(EventStatuses.DENIED.getEventStatusId());
-        save(event);
+    public void cancelEvent(int eventId){
+        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+        if (retrievedEvent.isPresent()) {
+            Event event = retrievedEvent.get();
+            event.setEventStatus(new EventStatus(EventStatuses.DENIED.getEventStatusId()));
+            save(event);
+        }
     }
 
     private EventDTO checkForEventWithSameDate(EventDTO event) {
@@ -106,9 +112,6 @@ public class EventService {
 
         return modelMapper.map(holidayWithSameDate.get(0), EventDTO.class);
     }
-
-
-
 
     public List<EventDTO> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd,EventTypes eventType) {//Pass in event type
         return mapEventsToDtos(eventRepository.findByStartDateBetweenAndEventType(rangeStart, rangeEnd,new EventType(eventType.getEventTypeId())));

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
-public class SaveHolidayViewModel {
+public class CreateHolidayViewModel {
 
     @NotBlank
     private List<DateViewModel> dates;
