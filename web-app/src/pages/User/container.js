@@ -83,6 +83,11 @@ const UserContainer = Wrapped =>
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
+    closeModal = () => {
+      this.selectHoliday({});
+      this.getUserHolidays(this.state.profileUser.employeeId);
+    };
+
     render() {
       return (
         this.state.userDetails && (
@@ -90,6 +95,7 @@ const UserContainer = Wrapped =>
             {...this.state}
             history={this.props.history}
             selectHoliday={this.selectHoliday}
+            closeModal={this.closeModal}
           />
         )
       );

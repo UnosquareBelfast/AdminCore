@@ -9,6 +9,7 @@ import {
   getTotalDaysInEventArrayWithStatus,
 } from '../../utilities/dates';
 import holidayStatus from '../../utilities/holidayStatus';
+import { isEmpty } from 'lodash';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {
@@ -31,10 +32,17 @@ const ProfileContainer = Wrapped =>
       this.setState({ holidays: null });
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
+      let selectedHolidayCleared = false;
+      if (
+        !isEmpty(prevState.selectedHoliday) &&
+        isEmpty(this.state.selectedHoliday)
+      ) {
+        selectedHolidayCleared = true;
+      }
       if (
         this.props.userDetails.forename !== null &&
-        this.state.holidays === null
+        (this.state.holidays === null || selectedHolidayCleared)
       ) {
         getHolidays(this.props.userDetails.employeeId).then(response => {
           const holidays = response.data;
@@ -53,6 +61,10 @@ const ProfileContainer = Wrapped =>
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
+    closeModal = () => {
+      this.selectHoliday({});
+    };
+
     render() {
       return (
         <Wrapped
@@ -61,6 +73,7 @@ const ProfileContainer = Wrapped =>
           userHolidays={this.state.holidays || []}
           selectHoliday={this.selectHoliday}
           selectedHoliday={this.state.selectedHoliday}
+          closeModal={this.closeModal}
         />
       );
     }
