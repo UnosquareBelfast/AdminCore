@@ -10,13 +10,13 @@ const RequestButton = (props) => {
     booked ? (
       <View>
         <Button
-          onPress={() => updateHoliday()}
+          onPress={updateHoliday}
           title="Update Holiday"
           backgroundColor="#00DCFA"
           borderRadius={5}
         />
         <Button
-          onPress={() => cancelHoliday()}
+          onPress={cancelHoliday}
           title="Cancel Holiday"
           containerViewStyle={{ marginTop: 20 }}
           borderRadius={5}

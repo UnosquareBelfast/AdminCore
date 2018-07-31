@@ -110,8 +110,7 @@ export default Container => class extends Component {
   }
 
   updateHoliday = () => {
-    const { booking } = this.state;
-    const { endDate, halfDay, startDate, holId } = booking;
+    const { booking: { endDate, halfDay, startDate, holId } } = this.state;
     const { navigation } = this.props;
 
     const request = {
@@ -132,8 +131,7 @@ export default Container => class extends Component {
   }
 
   cancelHoliday = () => {
-    const { booking } = this.state;
-    const { holId } = booking;
+    const { booking: { holId } } = this.state;
     const { navigation } = this.props;
 
     const request = {
