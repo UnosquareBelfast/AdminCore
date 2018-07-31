@@ -21,6 +21,7 @@ const BookingView = (props) => {
     changeEndDate,
     submitRequest,
     updateHalfDay,
+    loading,
   } = props;
   const { startDate, endDate, halfDay } = booking;
 
@@ -69,6 +70,7 @@ const BookingView = (props) => {
           cancelHoliday={cancelHoliday}
           submitRequest={submitRequest}
           booked={booked}
+          loading={loading}
         />
       </View>
     </ScrollView>
@@ -91,6 +93,7 @@ BookingView.propTypes = {
     endDate: PT.string,
     halfDay: PT.bool,
   }).isRequired,
+  loading: PT.bool.isRequired,
 };
 
 export default BookingView;

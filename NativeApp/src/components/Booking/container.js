@@ -26,6 +26,7 @@ export default Container => class extends Component {
       },
       booked: false,
       user: {},
+      loading: false,
     };
   }
 
@@ -87,6 +88,7 @@ export default Container => class extends Component {
   submitRequest = () => {
     const { booking, user } = this.state;
     const { navigation } = this.props;
+    this.setState({ loading: true });
 
     const request = {
       dates: [
@@ -101,12 +103,16 @@ export default Container => class extends Component {
 
     requestHolidays(request)
       .then(() => {
+        this.setState({ loading: false });
         navigation.pop();
       })
-      .catch(e => Alert.alert(
-        'Could not request holidays',
-        e.message,
-      ));
+      .catch((e) => {
+        this.setState({ loading: false });
+        Alert.alert(
+          'Could not request holidays',
+          e.message,
+        );
+      });
   }
 
   updateHoliday = () => {
@@ -164,12 +170,13 @@ export default Container => class extends Component {
   }
 
   render() {
-    const { booking, booked } = this.state;
+    const { booking, booked, loading } = this.state;
 
     return (
       <Container
         updateHalfDay={this.updateHalfDay}
         booked={booked}
+        loading={loading}
         booking={booking}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}

@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 
 const RequestButton = (props) => {
-  const { updateHoliday, cancelHoliday, booked, submitRequest } = props;
+  const { updateHoliday, booked, submitRequest, loading } = props;
 
   return (
     booked ? (
@@ -14,12 +14,16 @@ const RequestButton = (props) => {
           title="Update Holiday"
           backgroundColor="#00DCFA"
           borderRadius={5}
+          loading={loading}
+          loadingRight
         />
         <Button
           onPress={() => cancelHoliday()}
           title="Cancel Holiday"
           containerViewStyle={{ marginTop: 20 }}
           borderRadius={5}
+          loading={loading}
+          loadingRight
         />
       </View>
     ) : (
@@ -28,6 +32,8 @@ const RequestButton = (props) => {
         title="Request"
         backgroundColor="#00DCFA"
         borderRadius={5}
+        loading={loading}
+        loadingRight
       />
     )
   );
@@ -40,4 +46,5 @@ RequestButton.propTypes = {
   cancelHoliday: PT.func.isRequired,
   booked: PT.bool.isRequired,
   submitRequest: PT.func.isRequired,
+  loading: PT.bool.isRequired,
 };
