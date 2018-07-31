@@ -12,7 +12,7 @@ const HolidayModal = ({
   approveHoliday,
   rejectHoliday,
 }) => {
-  const { start, end, employee, eventStatus, holidayId } = holiday;
+  const { start, end, employee, eventStatus } = holiday;
   const { forename, surname, email } = employee;
 
   const duration = getEventDayAmount(holiday);
@@ -50,8 +50,8 @@ const HolidayModal = ({
           </Stat>
         </StatWrap>
         <ButtonWrap>
-          <Button label="Approve" onClick={() => approveHoliday(holidayId)} />
-          <Button label="Reject" onClick={() => rejectHoliday(holidayId)} />
+          <Button label="Approve" onClick={approveHoliday} />
+          <Button label="Reject" onClick={rejectHoliday} />
         </ButtonWrap>
       </StyleContainer>
     </Modal>
