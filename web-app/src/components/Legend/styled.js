@@ -28,6 +28,7 @@ export const Column = styled.div`
   @media (min-width: 1520px) {
     display: flex;
     align-items: flex-start;
+    flex-wrap: wrap;
     margin-bottom: 0;
   }
 
@@ -36,7 +37,12 @@ export const Column = styled.div`
   }
 
   > div {
-    flex: 1 1 auto;
+    flex: 1 1 40%;
+
+    span {
+      display: inline-block;
+      vertical-align: sub;
+    }
   }
 
   h4 {
