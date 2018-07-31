@@ -12,15 +12,13 @@ const Profile = props => {
     daysPending,
     selectedHoliday,
     selectHoliday,
+    closeModal,
   } = props;
   const { forename, surname, totalHolidays } = userDetails;
 
   return (
     <Fragment>
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={() => selectHoliday({})}
-      />
+      <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
       <MainContentContainer>
         <div>
           <h2>
