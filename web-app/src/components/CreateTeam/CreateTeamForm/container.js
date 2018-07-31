@@ -25,24 +25,25 @@ export default Wrapped =>
     componentDidMount() {
       getAllClients()
         .then(response => {
-          const clients = response.data;
-          const formattedClients = clients.reduce((acc, client) => {
+          const formattedClients = response.data.reduce((acc, client) => {
             acc.push({
               value: client.clientId,
               displayValue: client.clientName,
             });
             return acc;
           }, []);
-          this.setState({
-            clients: formattedClients,
-            formData: {
-              ...this.state.formData,
-              selectedClient: formattedClients[0].value,
-            },
+          formattedClients.unshift({
+            value: -1,
+            displayValue: 'Please select a client',
           });
+          this.setState({ clients: formattedClients });
         })
         .catch(error =>
-          swal('Error', `Could not retreive clients: ${error.message}`, 'error')
+          swal(
+            'Error',
+            `Could not retreive clients: ${error.message}`,
+            'error',
+          ),
         );
     }
 

@@ -16,7 +16,7 @@ export const CreateTeamForm = props => {
           {
             label: 'Create Team',
             event: submitForm,
-            disabled: !formIsValid,
+            disabled: !formIsValid || formData.selectedClient == -1,
           },
         ]}
       >
@@ -26,7 +26,6 @@ export const CreateTeamForm = props => {
           htmlAttrs={{
             name: 'selectedClient',
             options: clients,
-            disabled: clients.length === 0,
           }}
           value={formData.selectedClient}
         />
@@ -37,11 +36,12 @@ export const CreateTeamForm = props => {
             type: 'input',
             name: 'teamName',
             placeholder: 'Enter a team name',
-            disabled: clients.length === 0,
+            disabled: formData.selectedClient == -1,
           }}
           value={formData.teamName}
           rules={{
             required: true,
+            minLength: 3,
           }}
         />
       </Form>
