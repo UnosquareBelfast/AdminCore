@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import container from './container';
 import {
   CreateUser,
   CreateClient,
-  UserListing,
+  AllEmployees,
   PendingHolidays,
   AllHolidays,
   AdminDashboard,
@@ -15,7 +15,7 @@ import {
   CreateTeam,
   ViewTeams,
 } from '../../components';
-import { Container, MainContentContainer, Refresh } from './styled';
+import { Container, MainContentContainer } from './styled';
 
 export const Admin = props => (
   <Container>
@@ -26,17 +26,7 @@ export const Admin = props => (
         <Route exact path="/admin/contracts/" component={ViewContracts} />
         <Route path="/admin/contracts/new/" component={CreateContract} />
         <Route path="/admin/employees/new/" component={CreateUser} />
-        <Route
-          exact
-          path="/admin/employees/"
-          render={() => (
-            <Fragment>
-              <h2>Employees</h2>
-              <Refresh onClick={props.refreshUsers}>Refresh</Refresh>
-              <UserListing history={props.history} users={props.users} />
-            </Fragment>
-          )}
-        />
+        <Route exact path="/admin/employees/" component={AllEmployees} />
         <Route path="/admin/holidays/pending/" component={PendingHolidays} />
         <Route path="/admin/holidays/" component={AllHolidays} />
         <Route
@@ -54,8 +44,6 @@ export const Admin = props => (
 
 Admin.propTypes = {
   userDetails: PT.object,
-  users: PT.array,
-  refreshUsers: PT.func,
   history: PT.object,
 };
 

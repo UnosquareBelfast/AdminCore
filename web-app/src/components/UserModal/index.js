@@ -6,6 +6,7 @@ import { getHolidays } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
 import HolidayStatus from '../../utilities/holidayStatus';
+import { isEmpty } from 'lodash';
 
 class UserModal extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ class UserModal extends Component {
 
   componentDidMount() {
     const { user } = this.props;
-    if (!user) return null;
+    if (isEmpty(user)) return null;
 
     getHolidays(user.employeeId)
       .then(response => {
@@ -55,7 +56,7 @@ class UserModal extends Component {
   render() {
     const { user, closeModal, history } = this.props;
 
-    if (!user) return null;
+    if (isEmpty(user)) return null;
     const approvedDays = this.getTotalApprovedDays();
     const pendingDays = this.getTotalPendingDays();
 

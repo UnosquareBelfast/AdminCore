@@ -26,7 +26,7 @@ export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   let totalDays = 0;
   events.forEach(event => {
     totalDays +=
-      event.holidayStatusId === status ? getEventDayAmount(event) : 0;
+      event.eventStatus.eventStatusId === status ? getEventDayAmount(event) : 0;
   });
   return totalDays;
 };

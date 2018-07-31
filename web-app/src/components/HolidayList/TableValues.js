@@ -58,7 +58,7 @@ const requestedDate = {
   Header: 'Requested',
   accessor: holiday => {
     const today = moment();
-    const diff = today.diff(holiday.requested, 'days');
+    const diff = today.diff(holiday.created, 'days');
     if (
       diff >= 5 &&
       holiday.eventStatus.eventStatusId === holidayStatus.PENDING
