@@ -98,7 +98,7 @@ const BookingModalForm = props => {
           rules={{
             dateNotInPast: true,
           }}
-          label="Start Date:"
+          label={formData.isHalfday ? 'Date' : 'Start Date:'}
         />
         <Input
           type="date"
@@ -106,6 +106,7 @@ const BookingModalForm = props => {
             type: 'input',
             name: 'end',
             placeholder: 'Enter an end date',
+            disabled: formData.isHalfday,
           }}
           value={formData.end}
           rules={{
