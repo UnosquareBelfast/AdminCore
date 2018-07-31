@@ -22,7 +22,7 @@ const UserView = (props) => {
         />
         <ScrollView>
           <View style={styles.profileName}>
-            <H3 type="base" customStyle={styles.H3Bold}>
+            <H3 type="base" style={styles.H3Bold}>
               {employee.forename}&nbsp;
               {`${employee.surname}'s Holidays`}
             </H3>

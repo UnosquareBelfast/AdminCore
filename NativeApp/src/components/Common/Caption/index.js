@@ -5,17 +5,17 @@ import styles from './styles';
 
 
 const Caption = (props) => {
-  const { children, customStyle, type } = props;
+  const { children, style, type } = props;
 
   return (
-    <Text {...props} style={[styles[type], customStyle]}>{children}</Text>
+    <Text {...props} style={[styles[type], style]}>{children}</Text>
   );
 };
 
 Caption.propTypes = {
   children: PT.node.isRequired,
   type: PT.string.isRequired,
-  customStyle: PT.oneOfType([
+  style: PT.oneOfType([
     PT.number,
     PT.object,
     PT.array,

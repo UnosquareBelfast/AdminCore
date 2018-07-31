@@ -13,27 +13,27 @@ const HeaderDays = (props) => {
   return (
     <HeaderContainer>
       <HolidayContainer divider>
-        <H2 type="base" customStyle={styles.boldDarkGrey}>
+        <H2 type="base" style={styles.boldDarkGrey}>
           Taken
         </H2>
         <HolidayText>
-          <H1 type="base" customStyle={styles.darkGrey}>
+          <H1 type="base" style={styles.darkGrey}>
             {takenHolidays.length}
           </H1>
-          <P type="base" customStyle={styles.darkGreyPadding}>
+          <P type="base" style={styles.darkGreyPadding}>
             DAYS
           </P>
         </HolidayText>
       </HolidayContainer>
       <HolidayContainer>
-        <H2 type="base" customStyle={styles.boldDarkGrey}>
+        <H2 type="base" style={styles.boldDarkGrey}>
           Remaining
         </H2>
         <HolidayText>
-          <H1 type="base" customStyle={styles.darkGrey}>
+          <H1 type="base" style={styles.darkGrey}>
             {remainingHolidays}
           </H1>
-          <P type="base" customStyle={styles.darkGreyPadding}>
+          <P type="base" style={styles.darkGreyPadding}>
             DAYS
           </P>
         </HolidayText>
