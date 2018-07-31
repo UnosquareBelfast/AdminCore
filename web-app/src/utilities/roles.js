@@ -1,12 +1,7 @@
 export default {
-  ADMIN: 1,
-  SUPER: 2,
+  ADMIN: 2,
+  SUPER: 1,
   STANDARD: 3,
 };
 
-export const roleText = [
-  null,
-  'Administrator',
-  'Team Leader',
-  'Employee',
-];
+export const roleText = [null, 'Team Leader', 'Administrator', 'Employee'];
