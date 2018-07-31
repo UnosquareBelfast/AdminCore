@@ -127,9 +127,7 @@ export default Container => class extends Component {
     };
 
     updateHolidayRequest(request)
-      .then(() => {
-        navigation.pop();
-      })
+      .then(() => navigation.pop())
       .catch(e => Alert.alert(
         'Could not update holiday',
         e.message,
@@ -145,9 +143,7 @@ export default Container => class extends Component {
     };
 
     cancelHolidayRequest(request)
-      .then(() => {
-        navigation.pop();
-      })
+      .then(() => navigation.pop())
       .catch(e => Alert.alert(
         'Could not cancel holiday',
         e.message,

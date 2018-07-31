@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 
 const RequestButton = (props) => {
-  const { updateHoliday, booked, submitRequest, loading } = props;
+  const { updateHoliday, booked, submitRequest, loading, cancelHoliday } = props;
 
   return (
     booked ? (
