@@ -109,17 +109,16 @@ export default Container => class extends Component {
       ));
   }
 
-  updateHoliday = (cancel) => {
-    const { booking, user } = this.state;
+  updateHoliday = () => {
+    const { booking } = this.state;
+    const { endDate, halfDay, startDate, holId } = booking;
     const { navigation } = this.props;
 
     const request = {
-      employeeId: user.employeeId,
-      endDate: booking.endDate,
-      halfDay: booking.halfDay,
-      holidayId: booking.holId,
-      holidayStatusId: cancel ? 3 : 1,
-      startDate: booking.startDate,
+      endDate,
+      halfDay,
+      startDate,
+      holidayId: holId,
     };
 
     updateHolidayRequest(request)
