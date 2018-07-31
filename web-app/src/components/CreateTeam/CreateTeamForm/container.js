@@ -25,7 +25,8 @@ export default Wrapped =>
     componentDidMount() {
       getAllClients()
         .then(response => {
-          const formattedClients = response.data.reduce((acc, client) => {
+          const clients = response.data;
+          const formattedClients = clients.reduce((acc, client) => {
             acc.push({
               value: client.clientId,
               displayValue: client.clientName,
