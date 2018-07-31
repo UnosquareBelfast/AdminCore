@@ -8,6 +8,7 @@ class LoginForm extends Component {
   static propTypes = {
     handleLogin: PT.func.isRequired,
     hasError: PT.bool.isRequired,
+    loading: PT.bool.isRequired,
   }
 
   constructor(props) {
@@ -34,7 +35,7 @@ class LoginForm extends Component {
 
   render() {
     const { email, password, underlineColor1, underlineColor2 } = this.state;
-    const { handleLogin, hasError } = this.props;
+    const { handleLogin, hasError, loading } = this.props;
     const { changeColor } = this;
     return (
       <View>
@@ -71,11 +72,13 @@ class LoginForm extends Component {
         }
         <Button
           onPress={() => handleLogin(email, password)}
-          title="Log in to Holiday Tracker"
+          title="Login"
           textStyle={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}
           backgroundColor="#00DCFA"
           containerViewStyle={{ marginTop: 30 }}
           borderRadius={5}
+          loading={loading}
+          loadingRight
         />
       </View>
     );

@@ -18,14 +18,22 @@ const HomeStack = createStackNavigator(
   },
   {
     initialRouteName: 'Home',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: 'white',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(192,192,192,0.3)',
+      },
+    },
   }
 );
 
 HomeStack.navigationOptions = () => {
-  const tabBarIcon = ({ tintColor }) => (<Icon name="home" size={25} color={tintColor} />);
+  const tabBarIcon = ({ tintColor }) => (<Icon name="calendar" size={25} color={tintColor} />);
 
   return {
     tabBarIcon,
+    title: 'Calendar',
   };
 };
 
@@ -42,10 +50,10 @@ const AppStack = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: '#FFFFFF',
       inactiveTintColor: 'rgba(2,157,178,0.7)',
-      showLabel: false,
       inactiveBackgroundColor: '#00DCFA',
       activeBackgroundColor: '#00DCFA',
       style: {
+        paddingTop: 5,
         backgroundColor: '#00DCFA',
       },
     },

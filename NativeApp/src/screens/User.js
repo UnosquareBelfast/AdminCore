@@ -5,7 +5,7 @@ import User from '../components/User';
 
 export default class UserScreen extends Component {
   static navigationOptions = {
-    title: 'User Info',
+    title: 'Profile',
     tabBarIcon: ({ tintColor }) => <Icon name="user" size={25} color={tintColor} />,
   }
 
