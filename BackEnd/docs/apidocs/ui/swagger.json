@@ -37,15 +37,23 @@
       "type" : "object",
       "title" : "SecurityConfiguration",
           "properties" : {
+<<<<<<< HEAD
             "clientId" : {
 "description" : "",
 "type" : "string"
             },
             "clientSecret" : {
+=======
+            "clientSecret" : {
 "description" : "",
 "type" : "string"
             },
-            "realm" : {
+            "apiKeyName" : {
+>>>>>>> develop
+"description" : "",
+"type" : "string"
+            },
+            "clientId" : {
 "description" : "",
 "type" : "string"
             },
@@ -53,11 +61,19 @@
 "description" : "",
 "type" : "string"
             },
+<<<<<<< HEAD
             "apiKeyVehicle" : {
 "description" : "",
 "type" : "string"
             },
             "apiKeyName" : {
+=======
+            "appName" : {
+"description" : "",
+"type" : "string"
+            },
+            "realm" : {
+>>>>>>> develop
 "description" : "",
 "type" : "string"
             },
@@ -73,11 +89,15 @@
       "type" : "object",
       "title" : "SwaggerResource",
           "properties" : {
+<<<<<<< HEAD
             "swaggerVersion" : {
+=======
+            "name" : {
+>>>>>>> develop
 "description" : "",
 "type" : "string"
             },
-            "name" : {
+            "swaggerVersion" : {
 "description" : "",
 "type" : "string"
             },
@@ -101,15 +121,19 @@
 "description" : "",
 "type" : "string"
             },
-            "showRequestHeaders" : {
-"description" : "",
-"type" : "boolean"
-            },
-            "docExpansion" : {
+            "defaultModelRendering" : {
 "description" : "",
 "type" : "string"
             },
-            "defaultModelRendering" : {
+<<<<<<< HEAD
+            "docExpansion" : {
+=======
+            "showRequestHeaders" : {
+>>>>>>> develop
+"description" : "",
+"type" : "string"
+            },
+            "docExpansion" : {
 "description" : "",
 "type" : "string"
             },

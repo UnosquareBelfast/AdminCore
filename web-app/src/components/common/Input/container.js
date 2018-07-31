@@ -50,24 +50,23 @@ export default Wrapped =>
         {
           touched: true,
         },
-        this.handleValidation(value),
+        () => {
+          this.handleValidation(value);
+        },
       );
     };
 
     handleValidation = value => {
-      if (!this.props.rules) {
-        this.props.validateForm(this.props.htmlAttrs.name, value, true);
-      } else {
-        const valid = checkValidity(value, this.props.rules);
-        this.setState(
-          {
-            valid,
-          },
-          () => {
-            this.props.validateForm(this.props.htmlAttrs.name, value, valid);
-          },
-        );
-      }
+      const { rules, validateForm, htmlAttrs } = this.props;
+      const valid = rules ? checkValidity(value, rules) : true;
+      this.setState(
+        {
+          valid,
+        },
+        () => {
+          validateForm(htmlAttrs.name, value, valid);
+        },
+      );
     };
 
     render() {

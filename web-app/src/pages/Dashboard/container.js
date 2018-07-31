@@ -1,9 +1,11 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import Swal from 'sweetalert2';
-import moment from 'moment';
 import { getUserProfile } from '../../services/userService';
-import { getHolidays } from '../../services/holidayService';
+import { getAllHolidays, getHolidays } from '../../services/holidayService';
+import { getDurationBetweenDates } from '../../utilities/dates';
+import { getMandatoryCalendarEvents } from '../../utilities/mandatoryEventConfig';
+import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -14,17 +16,12 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidays: null,
-        showModal: false,
-        booking: {
-          start: moment(),
-          end: moment(),
-          isHalfday: false,
-          isWFH: false,
-          isEventBeingUpdated: false,
-          duration: 0,
-        },
+        booking: {},
         requestModalOpen: false,
+        showModal: false,
+        takenHolidays: null,
+        takenHolidaysFiltered: null,
+        filterEvents: [],
         userDetails: null,
       };
     }
@@ -33,91 +30,150 @@ const DashboardContainer = Wrapped =>
       const userId = localStorage.getItem('user_id');
       getUserProfile(userId)
         .then(response => {
-          this.setState({
-            userDetails: response.data,
-          });
-          this.getTakenHolidays(userId);
+          this.setState(
+            {
+              userDetails: response.data,
+            },
+            () => {
+              this.getTakenHolidays();
+            },
+          );
         })
         .catch(error =>
           Swal({
-            title: 'Could not get user profile',
             text: error.message,
+            title: 'Could not get user profile',
             type: 'error',
           }),
         );
     }
 
-    getTakenHolidays = userId => {
-      getHolidays(userId)
+    createBookingObj = event => {
+      return {
+        holidayId: event.holidayId,
+        title: `${event.employee.forename} ${event.employee.surname}`,
+        duration: getDurationBetweenDates(event.start, event.end),
+        allDay: !event.halfDay,
+        start: event.start,
+        end: event.end,
+        halfDay: event.halfDay,
+        employee: event.employee,
+        eventStatus: event.eventStatus,
+        eventType: event.eventType,
+      };
+    };
+
+    setMandatoryEvents = () => {
+      const mandatoryEvents = getMandatoryCalendarEvents();
+      const events = mandatoryEvents.map(function(event) {
+        return {
+          holidayId: -1,
+          title: event.title,
+          duration: 1,
+          allDay: true,
+          start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+          end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+          halfDay: false,
+          employee: null,
+          eventStatus: { eventStatusId: 4, description: 'Mandatory' },
+          eventType: { eventTypeId: 1, description: 'Annual leave' },
+        };
+      });
+      return events;
+    };
+
+    setTakenHolidayState = data => {
+      const mandatoryEvents = this.setMandatoryEvents();
+      const usersEvents = data.map(event => {
+        return this.createBookingObj(event);
+      });
+      usersEvents.concat(mandatoryEvents);
+      const allEvents = [...mandatoryEvents, ...usersEvents];
+      this.setState({
+        takenHolidays: allEvents,
+      });
+    };
+
+    getTakenHolidays = () => {
+      getAllHolidays()
         .then(response => {
-          this.setState({
-            takenHolidays: this.formatDates(response.data),
-          });
+          this.setTakenHolidayState(response.data);
         })
         .catch(error => {
           Swal({
-            title: 'Could not get taken holidays',
             text: error.message,
+            title: 'Could not get taken holidays',
             type: 'error',
           });
         });
     };
 
-    formatDates(events) {
-      var eventsForCalendar = events.map(hol => {
-        return {
-          id: hol.holidayId,
-          title: `${hol.employee.forename} ${hol.employee.surname}`,
-          allDay: !hol.halfDay,
-          isHalfday: hol.halfDay,
-          isWFH: false,
-          ...hol,
-          holidayStatusId: hol.holidayStatusId,
-        };
-      });
-      return eventsForCalendar;
-    }
+    getTakenHolidaysById = id => {
+      if (id === -1) {
+        this.getTakenHolidays();
+      } else {
+        getHolidays(id)
+          .then(response => {
+            this.setTakenHolidayState(response.data);
+          })
+          .catch(error => {
+            Swal({
+              text: error.message,
+              title: 'Could not get taken holidays',
+              type: 'error',
+            });
+          });
+      }
+    };
 
     closeModal = () => {
       this.setState({ showModal: false });
     };
 
-    getDuration = booking => {
-      const { isHalfday, isWFH, start, end } = booking;
+    updateBookingAndDuration = booking => {
+      const { isHalfday, eventType, start, end } = booking;
       booking.duration = 1;
       if (isHalfday) {
         booking.duration = 0.5;
-      } else if (isWFH) {
+      } else if (eventType.eventTypeId !== 1) {
         booking.duration = 0;
       } else {
-        booking.duration = Math.floor(
-          moment.duration(end.diff(start)).asDays() + 1,
+        booking.duration = getDurationBetweenDates(start, end);
+      }
+
+      this.setState({
+        booking: booking,
+        showModal: true,
+      });
+    };
+
+    onFilterEmployee = ({ employeeId }) => {
+      this.getTakenHolidaysById(parseInt(employeeId));
+    };
+
+    onFilterEvents = eventStatusId => {
+      let updatedFilterEvents = [...this.state.filterEvents];
+      if (eventStatusId !== undefined) {
+        if (updatedFilterEvents.includes(eventStatusId)) {
+          updatedFilterEvents = updatedFilterEvents.filter(
+            item => item !== eventStatusId,
+          );
+        } else {
+          updatedFilterEvents.push(eventStatusId);
+        }
+      }
+
+      let takenHolidaysUpdated = null;
+      if (updatedFilterEvents.length > 0) {
+        takenHolidaysUpdated = this.state.takenHolidays.filter(hol =>
+          updatedFilterEvents.includes(hol.eventStatus.eventStatusId),
         );
       }
 
       this.setState({
-        showModal: true,
-        booking: booking,
+        filterEvents: updatedFilterEvents,
+        takenHolidaysFiltered: takenHolidaysUpdated,
       });
-    };
-
-    onSelectSlot = ({ start, end }) => {
-      let booking = {
-        start: moment(start),
-        end: moment(end),
-        isHalfday: false,
-        isWFH: false,
-        isEventBeingUpdated: false,
-      };
-      this.getDuration(booking);
-    };
-
-    onSelectEvent = booking => {
-      const updatedBooking = {
-        ...booking,
-        isEventBeingUpdated: true,
-      };
-      this.getDuration(updatedBooking);
     };
 
     render() {
@@ -125,17 +181,19 @@ const DashboardContainer = Wrapped =>
         this.state.userDetails &&
         this.state.takenHolidays && (
           <Wrapped
-            onSelectSlot={this.onSelectSlot}
-            onSelectEvent={this.onSelectEvent}
-            updateTakenHolidays={this.getTakenHolidays}
-            closeModal={this.closeModal}
-            showModal={this.showModal}
             booking={this.state.booking}
-            userDetails={this.state.userDetails}
-            takenHolidays={this.state.takenHolidays}
-            getDuration={this.getDuration}
-            {...this.state}
-            {...this.props}
+            closeModal={this.closeModal}
+            updateBookingAndDuration={this.updateBookingAndDuration}
+            showModal={this.state.showModal}
+            takenHolidays={
+              this.state.takenHolidaysFiltered === null
+                ? this.state.takenHolidays
+                : this.state.takenHolidaysFiltered
+            }
+            updateTakenHolidays={this.getTakenHolidays}
+            employeeId={this.state.userDetails.employeeId}
+            onUpdateEvents={this.onFilterEvents}
+            onUpdateEmployee={this.onFilterEmployee}
           />
         )
       );

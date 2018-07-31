@@ -1,4 +1,4 @@
-export const theme = {
+const theme = {
   colours: {
     unoBlue: '#00DCFA',
     lightGrey: '#E5E5E5',
@@ -7,3 +7,4 @@ export const theme = {
   },
 };
 
+export default theme;

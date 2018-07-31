@@ -1,6 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getAllHolidays } from '../../services/holidayService';
+import { getHolidaysByStatus } from '../../services/holidayService';
+import holidayStatus from '../../utilities/holidayStatus';
 import { getAllUsers } from '../../services/userService';
 
 export default Wrapped =>
@@ -15,7 +16,7 @@ export default Wrapped =>
         teamHolidays: [],
         selectedUser: null,
         userModalVisible: false,
-        holidayModalVisible: false,
+        selectedHoliday: {},
       };
     }
 
@@ -25,7 +26,7 @@ export default Wrapped =>
     }
 
     getHolidays = () => {
-      getAllHolidays().then(response => {
+      getHolidaysByStatus(holidayStatus.PENDING).then(response => {
         this.setState({ teamHolidays: response.data });
       });
     };
@@ -42,6 +43,8 @@ export default Wrapped =>
 
     handleHideUserModal = () => this.setState({ userModalVisible: false });
 
+    selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
+
     render() {
       return (
         <Wrapped
@@ -52,6 +55,8 @@ export default Wrapped =>
           selectedUser={this.state.selectedUser}
           userModalVisible={this.state.userModalVisible}
           hideUserModal={this.handleHideUserModal}
+          selectHoliday={this.selectHoliday}
+          selectedHoliday={this.state.selectedHoliday}
         />
       );
     }

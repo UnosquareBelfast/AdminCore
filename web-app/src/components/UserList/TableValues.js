@@ -10,7 +10,21 @@ const email = {
   accessor: user => user.email,
 };
 
+const location = {
+  id: 'location',
+  Header: 'Location',
+  accessor: user => user.country.description,
+};
+
+const role = {
+  id: 'role',
+  Header: 'Role',
+  accessor: user => user.employeeRole.description,
+};
+
 export default {
   fullName,
   email,
+  location,
+  role,
 };

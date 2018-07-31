@@ -1,14 +1,29 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
-import { statusIcons } from '../../../utilities/holidayStatus';
+import holidayStatus, { statusIcons } from '../../../utilities/holidayStatus';
 
-const Event = ({ children, event }) => (
-  <Container status={event.holidayStatusId} onClick={children.props.onClick}>
-    {statusIcons[event.holidayStatusId]}
-    {`    ${event.employee.forename} ${event.employee.surname}`}
-  </Container>
-);
+const Event = ({ children, event }) => {
+  const { eventStatusId } = event.eventStatus;
+  const { eventTypeId } = event.eventType;
+  let id = eventTypeId;
+
+  if (eventTypeId === 1) {
+    id = eventStatusId;
+  } else if (eventTypeId === 2) {
+    id = holidayStatus.WFH;
+  } else if (eventTypeId === 3) {
+    id = holidayStatus.SICK;
+  } else if (eventTypeId === 4) {
+    id = holidayStatus.WRT;
+  }
+
+  return (
+    <Container status={id} onClick={children.props.onClick}>
+      {statusIcons[id]} {event.title}
+    </Container>
+  );
+};
 
 Event.propTypes = {
   children: PT.node,

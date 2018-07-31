@@ -23,6 +23,12 @@ export default Wrapped =>
     };
 
     render() {
-      return <Wrapped teamSearch={this.teamSearch} teams={this.state.teams} />;
+      return (
+        <Wrapped
+          {...this.props}
+          teamSearch={this.teamSearch}
+          teams={this.state.teams}
+        />
+      );
     }
   };

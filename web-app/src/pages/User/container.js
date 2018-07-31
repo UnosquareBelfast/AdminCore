@@ -18,13 +18,13 @@ const UserContainer = Wrapped =>
       this.state = {
         userDetails: null,
         profileUser: null,
-        profileHolidays: null,
+        profileHolidays: [],
+        selectedHoliday: {},
       };
     }
 
     componentDidMount() {
-      this.getLocalUser()
-        .then(this.getUserProfile());
+      this.getLocalUser().then(this.getUserProfile());
     }
 
     getLocalUser = () => {
@@ -43,9 +43,9 @@ const UserContainer = Wrapped =>
             title: 'Could not get your profile',
             text: error.message,
             type: 'error',
-          }),
+          })
         );
-    }
+    };
 
     getUserProfile = () => {
       const userId = this.props.match.params.userId;
@@ -61,9 +61,9 @@ const UserContainer = Wrapped =>
             title: 'Could not get the requested user profile',
             text: error.message,
             type: 'error',
-          }),
+          })
         );
-    }
+    };
 
     getUserHolidays = id => {
       return getHolidays(id)
@@ -77,9 +77,11 @@ const UserContainer = Wrapped =>
             title: 'Could not get profile\'s holidays',
             text: error.message,
             type: 'error',
-          }),
+          })
         );
-    }
+    };
+
+    selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
     render() {
       return (
@@ -87,6 +89,7 @@ const UserContainer = Wrapped =>
           <Wrapped
             {...this.state}
             history={this.props.history}
+            selectHoliday={this.selectHoliday}
           />
         )
       );

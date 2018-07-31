@@ -21,26 +21,14 @@ instance.interceptors.response.use(function(response) {
   if (response.config.url.includes(`${baseURL}/holidays`)) {
     const holidays = [...response.data];
     for (const index in holidays) {
-      holidays[index].employee = {
-        employeeId: holidays[index].employeeId,
-        forename: 'Test',
-        surname: 'User',
-        email: 'test@user.com',
-        totalHolidays: 33,
-        startDate: [2014, 1, 1],
-        countryId: 1,
-        employeeRoleId: 2,
-        employeeStatusId: 2,
-      };
-
       holidays[index].start = new moment(
         holidays[index].startDate,
-        'YYYY-MM-DD',
+        'YYYY-MM-DD'
       );
       holidays[index].end = new moment(holidays[index].endDate, 'YYYY-MM-DD');
-      holidays[index].requested = new moment(
+      holidays[index].created = new moment(
         holidays[index].dateCreated,
-        'YYYY-MM-DD',
+        'YYYY-MM-DD'
       );
     }
     return {
@@ -48,6 +36,7 @@ instance.interceptors.response.use(function(response) {
       data: holidays,
     };
   }
+
   return response;
 });
 

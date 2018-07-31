@@ -4,11 +4,12 @@ import container from './container';
 import UserForm from './CreateContractForms/user';
 import TeamForm from './CreateContractForms/team';
 import DateForm from './CreateContractForms/dates';
-import { Steps } from '../common';
+import { Steps, Button } from '../common';
+import { CornerButton } from '../common_styled';
 import { ContractStyle } from './styled';
 
 export const CreateContract = props => {
-  const { step, nextStep, submit, contract } = props;
+  const { step, nextStep, submit, contract, history } = props;
 
   const {
     selectedUser,
@@ -20,6 +21,12 @@ export const CreateContract = props => {
 
   return (
     <div>
+      <CornerButton>
+        <Button
+          onClick={() => history.replace('/admin/contracts')}
+          label="View Contracts"
+        />
+      </CornerButton>
       <h2>Create Contract</h2>
       <ContractStyle>
         <h3>Contract</h3>
@@ -79,6 +86,7 @@ CreateContract.propTypes = {
   nextStep: PT.func.isRequired,
   submit: PT.func.isRequired,
   contract: PT.object.isRequired,
+  history: PT.object.isRequired,
 };
 
 CreateContract.defaultProps = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { HolidayList } from '../../components';
+import { HolidayList, HolidayModal } from '../../components';
 import { Container, Splitter } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -13,11 +13,15 @@ import { roleText } from '../../utilities/roles';
 
 export const User = props => {
   if (!props.profileUser) return null;
-  const { profileHolidays } = props;
+  const { profileHolidays, selectedHoliday, selectHoliday } = props;
   const { forename, surname, email, employeeRoleId } = props.profileUser;
 
   return (
     <Container>
+      <HolidayModal
+        holiday={selectedHoliday}
+        closeModal={() => selectHoliday({})}
+      />
       <div>
         <p className="return" onClick={props.history.goBack}>
           <FontAwesomeIcon icon={faArrowLeft} />Return
@@ -42,7 +46,7 @@ export const User = props => {
         <HolidayList
           holidays={profileHolidays}
           columns={['status', 'startDate', 'endDate', 'requestedDate']}
-          actions={['approve', 'reject']}
+          onRowClick={holiday => selectHoliday(holiday)}
         />
       </div>
     </Container>
@@ -53,7 +57,15 @@ User.propTypes = {
   localUser: PT.object,
   profileUser: PT.object,
   profileHolidays: PT.array,
-  history: PT.object,
+  history: PT.object.isRequired,
+  selectedHoliday: PT.object.isRequired,
+  selectHoliday: PT.func.isRequired,
+};
+
+User.defaultProps = {
+  localUser: {},
+  profileUser: {},
+  profileHolidays: [],
 };
 
 export default container(User);

@@ -8,6 +8,7 @@ import {
   Team,
   User,
   Booking,
+  Logout,
 } from '../screens';
 
 const HomeStack = createStackNavigator(
@@ -28,12 +29,13 @@ HomeStack.navigationOptions = () => {
   };
 };
 
+
 const AppStack = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
     User: { screen: User },
     Team: { screen: Team },
-    Logout: { screen: Login },
+    Logout: { screen: Logout },
   }, {
     initialRouteName: 'HomeStack',
     order: ['HomeStack', 'User', 'Team', 'Logout'],
@@ -43,6 +45,9 @@ const AppStack = createBottomTabNavigator(
       showLabel: false,
       inactiveBackgroundColor: '#00DCFA',
       activeBackgroundColor: '#00DCFA',
+      style: {
+        backgroundColor: '#00DCFA',
+      },
     },
   }
 );

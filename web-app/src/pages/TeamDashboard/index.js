@@ -2,7 +2,12 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Container, Columns, Stat } from './styled';
-import { UserModal, UserList, HolidayList } from '../../components';
+import {
+  UserModal,
+  UserList,
+  HolidayList,
+  HolidayModal,
+} from '../../components';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
 
@@ -14,6 +19,8 @@ export const User = ({
   hideUserModal,
   userModalVisible,
   history,
+  selectedHoliday,
+  selectHoliday,
 }) => {
   return (
     <Container>
@@ -24,6 +31,10 @@ export const User = ({
           history={history}
         />
       )}
+      <HolidayModal
+        holiday={selectedHoliday}
+        closeModal={() => selectHoliday({})}
+      />
       <h2>My Team</h2>
       <Columns>
         <Stat>
@@ -65,6 +76,7 @@ export const User = ({
           <HolidayList
             holidays={teamHolidays}
             columns={['employee', 'startDate', 'endDate']}
+            onRowClick={holiday => selectHoliday(holiday)}
           />
         </div>
       </Columns>
@@ -77,6 +89,8 @@ User.propTypes = {
   team: PT.array,
   teamHolidays: PT.array,
   selectedUser: PT.object,
+  selectedHoliday: PT.object.isRequired,
+  selectHoliday: PT.func.isRequired,
   onUserSelect: PT.func.isRequired,
   hideUserModal: PT.func.isRequired,
   userModalVisible: PT.bool.isRequired,

@@ -26,7 +26,37 @@ export const getTotalDaysInEventArrayWithStatus = (events, status) => {
   let totalDays = 0;
   events.forEach(event => {
     totalDays +=
-      event.holidayStatusId === status ? getEventDayAmount(event) : 0;
+      event.eventStatus.eventStatusId === status ? getEventDayAmount(event) : 0;
   });
   return totalDays;
+};
+
+export const getDuration = (startDate, endDate) => {
+  return Math.floor(moment.duration(endDate.diff(startDate)).asDays() + 1);
+};
+
+export const getDurationBetweenDates = (startDate, endDate) => {
+  let days = getDuration(startDate, endDate);
+  let businessDays = 0;
+  let date = new moment(startDate);
+  while (days > 0) {
+    if (date.isoWeekday() < 6) {
+      businessDays += 1;
+    }
+    days -= 1;
+    date = date.add(1, 'days');
+  }
+  return businessDays;
+};
+
+export const calculateDaysNotice = daysRequested => {
+  if (daysRequested < 4) {
+    return 10;
+  } else if (daysRequested > 4 && daysRequested < 10) {
+    return 20;
+  } else if (daysRequested > 10) {
+    return 40;
+  } else {
+    return 0;
+  }
 };

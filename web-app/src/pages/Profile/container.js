@@ -22,6 +22,7 @@ const ProfileContainer = Wrapped =>
         holidays: null,
         daysBooked: null,
         daysPending: null,
+        selectedHoliday: {},
       };
     }
 
@@ -50,12 +51,16 @@ const ProfileContainer = Wrapped =>
       }
     }
 
+    selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
+
     render() {
       return (
         <Wrapped
           {...this.props}
           {...this.state}
           userHolidays={this.state.holidays || []}
+          selectHoliday={this.selectHoliday}
+          selectedHoliday={this.state.selectedHoliday}
         />
       );
     }
