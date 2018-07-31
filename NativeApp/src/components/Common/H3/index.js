@@ -1,17 +1,17 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
+import { Text } from 'react-native';
 import styles from './styles';
 
-const H1 = (props) => {
-  const { children, type, style } = props;
+const H3 = (props) => {
+  const { children, style, type } = props;
 
   return (
     <Text {...props} style={[styles[type], style]}>{children}</Text>
   );
 };
 
-H1.propTypes = {
+H3.propTypes = {
   children: PT.node.isRequired,
   type: PT.string.isRequired,
   style: PT.oneOfType([
@@ -21,4 +21,4 @@ H1.propTypes = {
   ]),
 };
 
-export default H1;
+export default H3;
