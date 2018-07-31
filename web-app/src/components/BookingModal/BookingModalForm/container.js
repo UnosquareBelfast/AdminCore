@@ -70,6 +70,7 @@ export default Wrapped =>
               text: error.message,
               type: 'error',
             });
+            closeModal();
           });
       } else {
         const { start, end, isHalfday } = this.state.formData;
@@ -92,6 +93,7 @@ export default Wrapped =>
               text: error.message,
               type: 'error',
             });
+            closeModal();
           });
       }
     };
