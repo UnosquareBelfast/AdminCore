@@ -41,9 +41,16 @@ export default Wrapped =>
       this.setState({ selectedUser: user, userModalVisible: true });
     };
 
-    handleHideUserModal = () => this.setState({ userModalVisible: false });
+    handleHideUserModal = () => {
+      this.setState({ userModalVisible: false });
+    };
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
+
+    handleHideHolidayModal = () => {
+      this.selectHoliday({});
+      this.getHolidays();
+    };
 
     render() {
       return (
@@ -55,6 +62,7 @@ export default Wrapped =>
           selectedUser={this.state.selectedUser}
           userModalVisible={this.state.userModalVisible}
           hideUserModal={this.handleHideUserModal}
+          hideHolidayModal={this.handleHideHolidayModal}
           selectHoliday={this.selectHoliday}
           selectedHoliday={this.state.selectedHoliday}
         />
