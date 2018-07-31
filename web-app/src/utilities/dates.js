@@ -35,7 +35,7 @@ export const getDuration = (startDate, endDate) => {
   return Math.floor(moment.duration(endDate.diff(startDate)).asDays() + 1);
 };
 
-export const getDurationNotice = (startDate, endDate) => {
+export const getDurationBetweenDates = (startDate, endDate) => {
   let days = getDuration(startDate, endDate);
   let businessDays = 0;
   let date = new moment(startDate);

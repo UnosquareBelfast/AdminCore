@@ -4,7 +4,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../common';
 import {
-  getDurationNotice,
+  getDurationBetweenDates,
   calculateDaysNotice,
 } from '../../../utilities/dates';
 import Errorbox from '../../common/Errorbox';
@@ -27,12 +27,12 @@ const BookingModalForm = props => {
         {
           label: 'Update',
           event: updateHolidayRequest,
-          disabled: !formIsValid,
+          disabled: !formIsValid || daysRequested === 0,
         },
         {
           label: 'Cancel',
           event: deleteHolidayRequest,
-          disabled: !formIsValid,
+          disabled: !formIsValid || daysRequested === 0,
         },
       ];
     } else {
@@ -40,7 +40,7 @@ const BookingModalForm = props => {
         {
           label: 'Request',
           event: submitHolidayRequest,
-          disabled: !formIsValid,
+          disabled: !formIsValid || daysRequested === 0,
         },
       ];
     }
@@ -52,21 +52,17 @@ const BookingModalForm = props => {
       return null;
     } else {
       const today = new moment();
-      const fromTodayToStartDateRequested = getDurationNotice(today, start);
+      const fromTodayToStartDateRequested = getDurationBetweenDates(
+        today,
+        start,
+      );
 
       const daysNotice = calculateDaysNotice(daysRequested);
-      let error;
-      if (daysRequested == 0) {
-        error = {
-          message: 'Are you sure you wish to request a day off over a weekend?',
-        };
-      } else {
-        error = {
-          message: `You should give ${daysNotice} working/business days notice to request ${daysRequested} ${
-            daysRequested > 1 ? 'days' : 'day'
-          } off, and therefore your request might be declined.`,
-        };
-      }
+      let error = {
+        message: `You should give ${daysNotice} working/business days notice to request ${daysRequested} ${
+          daysRequested > 1 ? 'days' : 'day'
+        } off, and therefore your request might be declined.`,
+      };
       return fromTodayToStartDateRequested < daysNotice ? (
         <Errorbox error={error} label="Warning" />
       ) : null;
