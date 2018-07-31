@@ -1,73 +1,33 @@
 import React, { Component } from 'react';
-import {
-  faSmile,
-  faCalendarAlt,
-  faUnlockAlt,
-  faUsers,
-} from '@fortawesome/fontawesome-free-solid';
+import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { getUser } from '../../reducers';
+import roles from '../../utilities/roles';
+import menuItems, { adminItems } from '../../utilities/navConfig';
 
-export default Wrapped =>
+const NavContainer = Wrapped =>
   class extends Component {
+    static propTypes = {
+      userDetails: PT.object.isRequired,
+    };
+
     constructor(props) {
       super(props);
       this.state = {
         drawerOpen: localStorage.getItem('navDrawerOpen') == 'true',
-        menuItems: [
-          {
-            name: 'Profile',
-            tooltip: 'Go to profile',
-            route: '/profile',
-            icon: faSmile,
-            subnav: null,
-          },
-          {
-            name: 'Dashboard',
-            tooltip: 'Go to dashboard',
-            route: '/',
-            icon: faCalendarAlt,
-            subnav: null,
-          },
-          {
-            name: 'My Team',
-            tooltip: 'Manage your team',
-            route: '/team',
-            icon: faUsers,
-            subnav: null,
-          },
-          {
-            name: 'Admin',
-            tooltip: 'Go to admin',
-            route: '/admin',
-            icon: faUnlockAlt,
-            subnav: [
-              {
-                name: 'Employees',
-                route: '/admin/employees',
-              },
-              {
-                name: 'Holidays',
-                route: '/admin/holidays',
-              },
-              {
-                name: 'Pending Holidays',
-                route: '/admin/holidays/pending',
-              },
-              {
-                name: 'Clients',
-                route: '/admin/clients',
-              },
-              {
-                name: 'Teams',
-                route: '/admin/teams',
-              },
-              {
-                name: 'Contracts',
-                route: '/admin/contracts',
-              },
-            ],
-          },
-        ],
+        menuItems,
       };
+    }
+
+    componentWillUpdate(nextProps) {
+      const currentRole = this.props.userDetails.employeeRoleId;
+      const newRole = nextProps.userDetails.employeeRoleId;
+
+      if (currentRole !== newRole && newRole === roles.ADMIN) {
+        const adminMenu = [...this.state.menuItems, ...adminItems];
+        this.setState({ menuItems: adminMenu });
+      }
     }
 
     toggleDrawer = () => {
@@ -86,3 +46,11 @@ export default Wrapped =>
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    userDetails: getUser(state),
+  };
+};
+
+export default compose(connect(mapStateToProps), NavContainer);

@@ -1,0 +1,19 @@
+package com.unosquare.admin_core.back_end.ViewModels;
+
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+
+
+@Data
+public class UpdateHolidayViewModel {
+    @NotBlank
+    private int holidayId;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
+    private boolean halfDay;
+}

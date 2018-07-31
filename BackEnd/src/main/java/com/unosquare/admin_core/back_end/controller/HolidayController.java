@@ -1,9 +1,8 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.HolidayViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.SaveHolidayViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.DateViewModel;
+import com.unosquare.admin_core.back_end.ViewModels.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
+import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
@@ -54,13 +53,13 @@ public class HolidayController {
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createHoliday(@RequestBody SaveHolidayViewModel saveHolidayViewModel) {
+    public ResponseEntity createHoliday(@RequestBody CreateHolidayViewModel createHolidayViewModel) {
 
         List<String> responses = new ArrayList<>();
 
-        for (DateViewModel date : saveHolidayViewModel.getDates()) {
+        for (DateViewModel date : createHolidayViewModel.getDates()) {
             EventDTO existentEvent = eventService.findByEmployeeIdStartDataEndDate(
-                    saveHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
+                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
 
             if (existentEvent != null) {
                 responses.add("Holiday already exists");
@@ -77,10 +76,10 @@ public class HolidayController {
 
             ArrayList<EventDTO> newHolidays = new ArrayList<>();
 
-            for (DateViewModel date : saveHolidayViewModel.getDates()) {
+            for (DateViewModel date : createHolidayViewModel.getDates()) {
 
                 EventDTO newHoliday = modelMapper.map(date , EventDTO.class);
-                modelMapper.map(saveHolidayViewModel, newHoliday);
+                modelMapper.map(createHolidayViewModel, newHoliday);
                 newHolidays.add(newHoliday);
             }
 
@@ -92,10 +91,22 @@ public class HolidayController {
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateHoliday(@RequestBody SaveHolidayViewModel saveHolidayViewModel) {
+    public void updateHoliday(@RequestBody UpdateHolidayViewModel updateHolidayViewModel) {
+        UpdateEventDTO event = modelMapper.map(updateHolidayViewModel, UpdateEventDTO.class);
+        eventService.updateEvent(event); }
 
-        EventDTO event = modelMapper.map(saveHolidayViewModel, EventDTO.class);
-        eventService.saveEvents(event);
+    @PutMapping(value = "/approveHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel){
+        EventDTO event = modelMapper.map(approveHolidayViewModel, EventDTO.class);
+        eventService.approveEvent(event.getEventId());
+    }
+
+    @PutMapping(value = "/cancelHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel){
+        EventDTO event = modelMapper.map(cancelHolidayViewModel, EventDTO.class);
+        eventService.cancelEvent(event.getEventId());
     }
 
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
