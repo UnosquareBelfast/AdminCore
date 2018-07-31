@@ -33,16 +33,18 @@ export default Wrapped =>
             });
             return acc;
           }, []);
-          this.setState({
-            clients: formattedClients,
-            formData: {
-              ...this.state.formData,
-              selectedClient: formattedClients[0].value,
-            },
+          formattedClients.unshift({
+            value: -1,
+            displayValue: 'Please select a client',
           });
+          this.setState({ clients: formattedClients });
         })
         .catch(error =>
-          swal('Error', `Could not retreive clients: ${error.message}`, 'error')
+          swal(
+            'Error',
+            `Could not retreive clients: ${error.message}`,
+            'error',
+          ),
         );
     }
 
