@@ -13,8 +13,8 @@ public class EventMappings implements BaseMappings<EventDTO, Event> {
         return new PropertyMap <EventDTO, Event>() {
             protected void configure() {
                 map().setHalfDay(source.isHalfDay());
-                skip().setEventStatus(new EventStatus(source.getEventStatusId()));
-                skip().setEventType(new EventType(source.getEventTypeId()));
+                map().setEventStatus(new EventStatus(source.getEventStatusId()));
+                map().setEventType(new EventType(source.getEventTypeId()));
                 map().setStartDate(source.getStartDate());
                 map().setEndDate(source.getEndDate());
             }

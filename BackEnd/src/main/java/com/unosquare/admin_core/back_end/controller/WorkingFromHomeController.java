@@ -21,12 +21,4 @@ public class WorkingFromHomeController {
     @Autowired
     ModelMapper modelMapper;
 
-    /*@GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<HolidayViewModel> findAll() {
-        List holidays = eventService.findByType(EventTypes.ANNUAL_LEAVE);
-        return mapEventDtosToHolidays(holidays);
-    }
-*/
-
 }
