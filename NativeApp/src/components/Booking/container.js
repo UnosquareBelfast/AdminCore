@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
-import { requestHolidays, updateHolidayRequest } from '../../services/holidayService';
+import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
 
 
 export default Container => class extends Component {
@@ -131,6 +131,25 @@ export default Container => class extends Component {
       ));
   }
 
+  cancelHoliday = () => {
+    const { booking } = this.state;
+    const { holId } = booking;
+    const { navigation } = this.props;
+
+    const request = {
+      holidayId: holId,
+    };
+
+    cancelHolidayRequest(request)
+      .then(() => {
+        navigation.pop();
+      })
+      .catch(e => Alert.alert(
+        'Could not cancel holiday',
+        e.message,
+      ));
+  }
+
   updateHalfDay = () => {
     const { booking } = this.state;
     const { halfDay, startDate } = booking;
@@ -154,6 +173,7 @@ export default Container => class extends Component {
         booking={booking}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}
+        cancelHoliday={this.cancelHoliday}
         changeStartDate={this.changeStartDate}
         changeEndDate={this.changeEndDate}
       />

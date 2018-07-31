@@ -17,6 +17,7 @@ const BookingView = (props) => {
     booking,
     booked,
     updateHoliday,
+    cancelHoliday,
     changeEndDate,
     submitRequest,
     updateHalfDay,
@@ -65,6 +66,7 @@ const BookingView = (props) => {
         </View>
         <RequestButton
           updateHoliday={updateHoliday}
+          cancelHoliday={cancelHoliday}
           submitRequest={submitRequest}
           booked={booked}
         />
@@ -78,6 +80,7 @@ BookingView.propTypes = {
   changeEndDate: PT.func.isRequired,
   submitRequest: PT.func.isRequired,
   updateHoliday: PT.func.isRequired,
+  cancelHoliday: PT.func.isRequired,
   booked: PT.bool.isRequired,
   updateHalfDay: PT.func.isRequired,
   booking: PT.shape({
