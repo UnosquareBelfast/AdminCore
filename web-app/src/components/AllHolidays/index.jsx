@@ -3,13 +3,15 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { HolidayList, HolidayModal } from '../';
 
-export const AllHolidays = ({ holidays, selectedHoliday, selectHoliday }) => {
+export const AllHolidays = ({
+  holidays,
+  selectedHoliday,
+  selectHoliday,
+  closeModal,
+}) => {
   return (
     <Fragment>
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={() => selectHoliday({})}
-      />
+      <HolidayModal holiday={selectedHoliday} closeModal={() => closeModal()} />
       <h2>All Holidays</h2>
       <HolidayList
         holidays={holidays}
@@ -30,6 +32,7 @@ AllHolidays.propTypes = {
   holidays: PT.array.isRequired,
   selectedHoliday: PT.object.isRequired,
   selectHoliday: PT.func.isRequired,
+  closeModal: PT.func.isRequired,
 };
 
 export default container(AllHolidays);

@@ -4,17 +4,17 @@ import { Text } from 'react-native';
 import styles from './styles';
 
 const H2 = (props) => {
-  const { children, styleProp, type } = props;
+  const { children, style, type } = props;
 
   return (
-    <Text style={[styles[type], styleProp]} {...props}>{children}</Text>
+    <Text {...props} style={[styles[type], style]}>{children}</Text>
   );
 };
 
 H2.propTypes = {
   children: PT.node.isRequired,
   type: PT.string.isRequired,
-  styleProp: PT.oneOfType([
+  style: PT.oneOfType([
     PT.number,
     PT.object,
     PT.array,

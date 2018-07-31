@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 // import { Icon } from 'react-native-elements';
 import { View, StyleSheet } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import { CalendarList } from 'react-native-calendars';
 
 const HomeView = (props) => {
   const {
@@ -12,7 +12,7 @@ const HomeView = (props) => {
 
   return (
     <View style={styles.container}>
-      <Calendar
+      <CalendarList
         style={styles.calendar}
         markedDates={takenHolidays}
         markingType="period"
@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    paddingTop: 150,
     backgroundColor: '#fff',
   },
   calendar: {

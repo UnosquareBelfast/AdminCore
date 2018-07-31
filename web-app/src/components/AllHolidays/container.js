@@ -21,6 +21,11 @@ export default Wrapped =>
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
+    closeModal = () => {
+      this.selectHoliday({});
+      this.getHolidays();
+    };
+
     render() {
       return (
         <Wrapped
@@ -28,6 +33,7 @@ export default Wrapped =>
           holidays={this.state.holidays}
           selectedHoliday={this.state.selectedHoliday}
           selectHoliday={this.selectHoliday}
+          closeModal={this.closeModal}
         />
       );
     }

@@ -13,15 +13,12 @@ import { roleText } from '../../utilities/roles';
 
 export const User = props => {
   if (!props.profileUser) return null;
-  const { profileHolidays, selectedHoliday, selectHoliday } = props;
+  const { profileHolidays, selectedHoliday, selectHoliday, closeModal } = props;
   const { forename, surname, email, employeeRoleId } = props.profileUser;
 
   return (
     <Container>
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={() => selectHoliday({})}
-      />
+      <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
       <div>
         <p className="return" onClick={props.history.goBack}>
           <FontAwesomeIcon icon={faArrowLeft} />Return
@@ -60,6 +57,7 @@ User.propTypes = {
   history: PT.object.isRequired,
   selectedHoliday: PT.object.isRequired,
   selectHoliday: PT.func.isRequired,
+  closeModal: PT.func.isRequired,
 };
 
 User.defaultProps = {
