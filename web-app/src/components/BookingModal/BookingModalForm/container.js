@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import {
   updateHoliday,
   requestHoliday,
+  rejectHoliday,
 } from '../../../services/holidayService';
 
 export default Wrapped =>
@@ -53,27 +54,28 @@ export default Wrapped =>
 
     handleUpdateHolidayRequest = (event, cancel) => {
       event.preventDefault();
-      const { start, end, isHalfday, eventTypeId } = this.state.formData;
-      const dateFormat = 'YYYY-MM-DD';
 
-      const request = {
-        dates: [
-          {
-            startDate: start.format(dateFormat),
-            endDate: end.format(dateFormat),
-            halfDay: isHalfday,
-          },
-        ],
-        holidayId: this.props.booking.holidayId,
-        eventTypeId: eventTypeId,
-        eventStatusId: cancel ? 3 : 1,
-        employeeId: this.props.employeeId,
-      };
+      const { holidayId } = this.props.booking;
+      if (cancel) {
+        rejectHoliday(holidayId).then(() => {
+          this.props.updateTakenHolidays();
+          this.props.closeModal();
+        });
+      } else {
+        const { start, end, isHalfday } = this.state.formData;
+        const dateFormat = 'YYYY-MM-DD';
+        const request = {
+          endDate: end.format(dateFormat),
+          halfDay: isHalfday,
+          holidayId: holidayId,
+          startDate: start.format(dateFormat),
+        };
 
-      updateHoliday(request).then(() => {
-        this.props.updateTakenHolidays();
-        this.props.closeModal();
-      });
+        updateHoliday(request).then(() => {
+          this.props.updateTakenHolidays();
+          this.props.closeModal();
+        });
+      }
     };
 
     handleFormStatus(name, value, formIsValid) {
@@ -134,8 +136,8 @@ export default Wrapped =>
           }
           updateBookingAndDuration={this.props.updateBookingAndDuration}
           submitHolidayRequest={e => this.handleMakeHolidayRequest(e)}
-          updateHolidayRequest={e => this.handleUpdateHolidayRequest(e, true)}
-          deleteHolidayRequest={e => this.handleUpdateHolidayRequest(e, false)}
+          updateHolidayRequest={e => this.handleUpdateHolidayRequest(e, false)}
+          deleteHolidayRequest={e => this.handleUpdateHolidayRequest(e, true)}
         />
       );
     }
