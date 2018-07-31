@@ -15,7 +15,6 @@ export const HeaderContainer = styled.View`
   alignItems: center;
 `;
 
-
 export const HolidayContainer = styled.View`
   alignItems: center;
   flex: 1;

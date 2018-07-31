@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { CAPTION_SIZE } from '../../../utilities/globalStyles/text';
+import { H3_SIZE } from '../../../utilities/globalStyles/text';
 
 
 const styles = StyleSheet.create({
   base: {
-    fontSize: CAPTION_SIZE,
+    fontSize: H3_SIZE,
   },
 });
 

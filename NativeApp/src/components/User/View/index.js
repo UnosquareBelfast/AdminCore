@@ -4,45 +4,47 @@ import {
   View,
   StyleSheet,
   FlatList,
+  SafeAreaView,
 } from 'react-native';
 import ListItem from './ListItem';
-import ListHeader from './ListHeader';
-import { ScrollView, H2, HeaderDays } from '../../Common';
+import { H3, ScrollView, HeaderDays } from '../../Common';
+import colours from '../../../utilities/globalStyles/theme';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
-    <ScrollView>
-    
-      <HeaderDays
-        takenHolidays={takenHolidays}
-        remainingHolidays={remainingHolidays}
-      />
-      <View style={styles.profileName}>
-        <H2 type="base" styleProp={styles.H2Bold}>
-          {employee.forename}&nbsp;
-          {employee.surname}'s Holidays
-        </H2>
-      </View>
-
-      <View style={styles.flatListView}>
-        <FlatList
-          keyExtractor={item => item.holidayId.toString()}
-          data={takenHolidays}
-          ListHeaderComponent={<ListHeader />}
-          renderItem={({ item, index }) => (
-            <ListItem
-              listId={index}
-              statusId={item.eventStatus.eventStatusId}
-              status={item.eventStatus.description}
-              startDate={item.start}
-              endDate={item.end}
-            />
-          )}
+    <SafeAreaView style={{ flex: 1, backgroundColor: colours.lightGrey }}>
+      <View style={styles.container}>
+        <HeaderDays
+          takenHolidays={takenHolidays}
+          remainingHolidays={remainingHolidays}
         />
+        <ScrollView>
+          <View style={styles.profileName}>
+            <H3 type="base" customStyle={styles.H3Bold}>
+              {employee.forename}&nbsp;
+              {`${employee.surname}'s Holidays`}
+            </H3>
+          </View>
+
+          <View style={styles.flatListView}>
+            <FlatList
+              keyExtractor={item => item.holidayId.toString()}
+              data={takenHolidays}
+              renderItem={({ item }) => (
+                <ListItem
+                  statusId={item.eventStatus.eventStatusId}
+                  status={item.eventStatus.description}
+                  startDate={item.start}
+                  endDate={item.end}
+                />
+              )}
+            />
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 23,
-    backgroundColor: '#fff',
+    backgroundColor: colours.lightGrey,
   },
   profileName: {
     paddingBottom: 10,
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
   flatListView: {
     flex: 1,
   },
-  H2Bold: {
+  H3Bold: {
     fontWeight: 'bold',
   },
 });
