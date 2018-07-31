@@ -13,8 +13,7 @@ const Modal = props => {
         minWidth: '400px',
         height: 'auto',
         bottom: 'auto',
-        top: '50%',
-        transform: 'translateY(-50%)',
+        top: '60px',
       }}
       {...props}
     >
