@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
-import { requestHolidays, updateHolidayRequest } from '../../services/holidayService';
+import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
 
 
 export default Container => class extends Component {
@@ -115,25 +115,37 @@ export default Container => class extends Component {
       });
   }
 
-  updateHoliday = (cancel) => {
-    const { booking, user } = this.state;
+  updateHoliday = () => {
+    const { booking: { endDate, halfDay, startDate, holId } } = this.state;
     const { navigation } = this.props;
 
     const request = {
-      employeeId: user.employeeId,
-      endDate: booking.endDate,
-      halfDay: booking.halfDay,
-      holidayId: booking.holId,
-      holidayStatusId: cancel ? 3 : 1,
-      startDate: booking.startDate,
+      endDate,
+      halfDay,
+      startDate,
+      holidayId: holId,
     };
 
     updateHolidayRequest(request)
-      .then(() => {
-        navigation.pop();
-      })
+      .then(() => navigation.pop())
       .catch(e => Alert.alert(
         'Could not update holiday',
+        e.message,
+      ));
+  }
+
+  cancelHoliday = () => {
+    const { booking: { holId } } = this.state;
+    const { navigation } = this.props;
+
+    const request = {
+      holidayId: holId,
+    };
+
+    cancelHolidayRequest(request)
+      .then(() => navigation.pop())
+      .catch(e => Alert.alert(
+        'Could not cancel holiday',
         e.message,
       ));
   }
@@ -162,6 +174,7 @@ export default Container => class extends Component {
         booking={booking}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}
+        cancelHoliday={this.cancelHoliday}
         changeStartDate={this.changeStartDate}
         changeEndDate={this.changeEndDate}
       />
