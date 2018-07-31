@@ -28,14 +28,6 @@ export default Wrapped =>
       };
     }
 
-    shouldComponentUpdate(nextProps) {
-      if (this.props.value == nextProps.value) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-
     setDefaultValidation() {
       if (this.props.type == 'select' || this.props.type == 'checkbox') {
         return true;
