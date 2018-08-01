@@ -2,7 +2,6 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { getUser } from '../../reducers';
 import * as actions from '../../actions/index';
 import { getDurationBetweenDates } from '../../utilities/dates';
 
@@ -20,7 +19,6 @@ const DashboardContainer = Wrapped =>
       super(props);
       this.state = {
         booking: {},
-        requestModalOpen: false,
         showModal: false,
         takenHolidaysFiltered: null,
         filterEvents: [],
@@ -100,7 +98,8 @@ const DashboardContainer = Wrapped =>
             updateBookingAndDuration={this.updateBookingAndDuration}
             showModal={this.state.showModal}
             loading={this.props.loading}
-            takenHolidays={
+            takenHolidays={this.props.takenHolidays}
+            takenHolidaysFiltered={
               this.state.takenHolidaysFiltered === null
                 ? this.props.takenHolidays
                 : this.state.takenHolidaysFiltered
@@ -117,7 +116,7 @@ const DashboardContainer = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-    userDetails: getUser(state),
+    userDetails: state.USER,
     loading: state.DASHBOARD.loading,
     takenHolidays: state.DASHBOARD.takenHolidays,
   };

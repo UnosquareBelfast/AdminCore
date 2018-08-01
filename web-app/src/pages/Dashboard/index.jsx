@@ -12,6 +12,7 @@ export const Dashboard = props => {
     showModal,
     loading,
     takenHolidays,
+    takenHolidaysFiltered,
     updateTakenHolidays,
     employeeId,
     onUpdateEvents,
@@ -24,7 +25,7 @@ export const Dashboard = props => {
       <InnerLayout>
         <BookingCalendar
           employeeId={employeeId}
-          takenHolidays={takenHolidays}
+          takenHolidays={takenHolidaysFiltered}
           updateBookingAndDuration={updateBookingAndDuration}
         />
         <Legend
@@ -61,6 +62,7 @@ Dashboard.propTypes = {
   loading: PT.bool,
   showModal: PT.bool.isRequired,
   takenHolidays: PT.array,
+  takenHolidaysFiltered: PT.array,
   updateBookingAndDuration: PT.func.isRequired,
   updateTakenHolidays: PT.func.isRequired,
   employeeId: PT.number,
