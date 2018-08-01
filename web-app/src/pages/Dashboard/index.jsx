@@ -10,6 +10,7 @@ export const Dashboard = props => {
     closeModal,
     updateBookingAndDuration,
     showModal,
+    loading,
     takenHolidays,
     updateTakenHolidays,
     employeeId,
@@ -17,16 +18,9 @@ export const Dashboard = props => {
     onUpdateEmployee,
   } = props;
 
-  return (
-    <Fragment>
-      <BookingModal
-        booking={booking}
-        closeModal={closeModal}
-        employeeId={employeeId}
-        updateBookingAndDuration={updateBookingAndDuration}
-        showModal={showModal}
-        updateTakenHolidays={updateTakenHolidays}
-      />
+  let events;
+  if (!loading) {
+    events = (
       <InnerLayout>
         <BookingCalendar
           employeeId={employeeId}
@@ -39,6 +33,22 @@ export const Dashboard = props => {
           takenHolidays={takenHolidays}
         />
       </InnerLayout>
+    );
+  } else {
+    events = null;
+  }
+
+  return (
+    <Fragment>
+      <BookingModal
+        booking={booking}
+        closeModal={closeModal}
+        employeeId={employeeId}
+        updateBookingAndDuration={updateBookingAndDuration}
+        showModal={showModal}
+        updateTakenHolidays={updateTakenHolidays}
+      />
+      {events}
     </Fragment>
   );
 };
@@ -48,11 +58,12 @@ Dashboard.propTypes = {
   closeModal: PT.func.isRequired,
   onUpdateEvents: PT.func.isRequired,
   onUpdateEmployee: PT.func.isRequired,
+  loading: PT.bool,
   showModal: PT.bool.isRequired,
-  takenHolidays: PT.array.isRequired,
+  takenHolidays: PT.array,
   updateBookingAndDuration: PT.func.isRequired,
   updateTakenHolidays: PT.func.isRequired,
-  employeeId: PT.number.isRequired,
+  employeeId: PT.number,
 };
 
 Dashboard.defaultProps = {

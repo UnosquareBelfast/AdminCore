@@ -1,16 +1,19 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import Swal from 'sweetalert2';
-import { getUserProfile } from '../../services/userService';
-import { getAllHolidays, getHolidays } from '../../services/holidayService';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { getUser } from '../../reducers';
+import * as actions from '../../actions/index';
 import { getDurationBetweenDates } from '../../utilities/dates';
-import { getMandatoryCalendarEvents } from '../../utilities/mandatoryEventConfig';
-import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      user: PT.object,
+      userDetails: PT.object,
+      onFetchEvents: PT.func.isRequired,
+      onFilterEventsByEmployeeId: PT.func.isRequired,
+      takenHolidays: PT.array,
+      loading: PT.bool,
     };
 
     constructor(props) {
@@ -19,110 +22,20 @@ const DashboardContainer = Wrapped =>
         booking: {},
         requestModalOpen: false,
         showModal: false,
-        takenHolidays: null,
         takenHolidaysFiltered: null,
         filterEvents: [],
-        userDetails: null,
       };
     }
 
     componentDidMount() {
-      const userId = localStorage.getItem('user_id');
-      getUserProfile(userId)
-        .then(response => {
-          this.setState(
-            {
-              userDetails: response.data,
-            },
-            () => {
-              this.getTakenHolidays();
-            },
-          );
-        })
-        .catch(error =>
-          Swal({
-            text: error.message,
-            title: 'Could not get user profile',
-            type: 'error',
-          }),
-        );
+      this.props.onFetchEvents();
     }
-
-    createBookingObj = event => {
-      return {
-        holidayId: event.holidayId,
-        title: `${event.employee.forename} ${event.employee.surname}`,
-        duration: getDurationBetweenDates(event.start, event.end),
-        allDay: !event.halfDay,
-        start: event.start,
-        end: event.end,
-        halfDay: event.halfDay,
-        employee: event.employee,
-        eventStatus: event.eventStatus,
-        eventType: event.eventType,
-      };
-    };
-
-    setMandatoryEvents = () => {
-      const mandatoryEvents = getMandatoryCalendarEvents();
-      const events = mandatoryEvents.map(function(event) {
-        return {
-          holidayId: -1,
-          title: event.title,
-          duration: 1,
-          allDay: true,
-          start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
-          end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
-          halfDay: false,
-          employee: null,
-          eventStatus: { eventStatusId: 4, description: 'Mandatory' },
-          eventType: { eventTypeId: 1, description: 'Annual leave' },
-        };
-      });
-      return events;
-    };
-
-    setTakenHolidayState = data => {
-      const mandatoryEvents = this.setMandatoryEvents();
-      const usersEvents = data.map(event => {
-        return this.createBookingObj(event);
-      });
-      usersEvents.concat(mandatoryEvents);
-      const allEvents = [...mandatoryEvents, ...usersEvents];
-      this.setState({
-        takenHolidays: allEvents,
-      });
-    };
-
-    getTakenHolidays = () => {
-      getAllHolidays()
-        .then(response => {
-          this.setTakenHolidayState(response.data);
-        })
-        .catch(error => {
-          Swal({
-            text: error.message,
-            title: 'Could not get taken holidays',
-            type: 'error',
-          });
-        });
-    };
 
     getTakenHolidaysById = id => {
       if (id === -1) {
-        this.getTakenHolidays();
+        this.props.onFetchEvents();
       } else {
-        getHolidays(id)
-          .then(response => {
-            this.setTakenHolidayState(response.data);
-          })
-          .catch(error => {
-            Swal({
-              text: error.message,
-              title: 'Could not get taken holidays',
-              type: 'error',
-            });
-          });
+        this.props.onFilterEventsByEmployeeId(id);
       }
     };
 
@@ -132,9 +45,11 @@ const DashboardContainer = Wrapped =>
 
     updateBookingAndDuration = booking => {
       const { isHalfday, eventType, start, end } = booking;
-      booking.duration = 1;
+      booking.duration = getDurationBetweenDates(start, end);
       if (isHalfday) {
-        booking.duration = 0.5;
+        if (booking.duration != 0) {
+          booking.duration = 0.5;
+        }
       } else if (eventType.eventTypeId !== 1) {
         booking.duration = 0;
       } else {
@@ -165,7 +80,7 @@ const DashboardContainer = Wrapped =>
 
       let takenHolidaysUpdated = null;
       if (updatedFilterEvents.length > 0) {
-        takenHolidaysUpdated = this.state.takenHolidays.filter(hol =>
+        takenHolidaysUpdated = this.props.takenHolidays.filter(hol =>
           updatedFilterEvents.includes(hol.eventStatus.eventStatusId),
         );
       }
@@ -178,20 +93,20 @@ const DashboardContainer = Wrapped =>
 
     render() {
       return (
-        this.state.userDetails &&
-        this.state.takenHolidays && (
+        this.props.userDetails && (
           <Wrapped
             booking={this.state.booking}
             closeModal={this.closeModal}
             updateBookingAndDuration={this.updateBookingAndDuration}
             showModal={this.state.showModal}
+            loading={this.props.loading}
             takenHolidays={
               this.state.takenHolidaysFiltered === null
-                ? this.state.takenHolidays
+                ? this.props.takenHolidays
                 : this.state.takenHolidaysFiltered
             }
-            updateTakenHolidays={this.getTakenHolidays}
-            employeeId={this.state.userDetails.employeeId}
+            updateTakenHolidays={this.props.onFetchEvents}
+            employeeId={this.props.userDetails.employeeId}
             onUpdateEvents={this.onFilterEvents}
             onUpdateEmployee={this.onFilterEmployee}
           />
@@ -200,4 +115,26 @@ const DashboardContainer = Wrapped =>
     }
   };
 
-export default DashboardContainer;
+const mapStateToProps = state => {
+  return {
+    userDetails: getUser(state),
+    loading: state.DASHBOARD.loading,
+    takenHolidays: state.DASHBOARD.takenHolidays,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchEvents: () => dispatch(actions.fetchEvents()),
+    onFilterEventsByEmployeeId: employeeId =>
+      dispatch(actions.filterEventsByEmployeeId(employeeId)),
+  };
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  DashboardContainer,
+);
