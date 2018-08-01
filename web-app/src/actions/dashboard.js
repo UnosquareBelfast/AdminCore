@@ -8,6 +8,8 @@ export const fetchEventsSuccess = events => {
   return {
     type: actionTypes.FETCH_EVENTS_SUCCESS,
     events: events,
+    loading: true,
+    error: null,
   };
 };
 
@@ -15,12 +17,14 @@ export const fetchEventsFail = error => {
   return {
     type: actionTypes.FETCH_EVENTS_FAIL,
     error: error,
+    loading: false,
   };
 };
 
 export const fetchEventsStart = () => {
   return {
     type: actionTypes.FETCH_EVENTS_START,
+    loading: false,
   };
 };
 
