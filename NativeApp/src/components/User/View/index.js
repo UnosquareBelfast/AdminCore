@@ -8,14 +8,14 @@ import {
 } from 'react-native';
 import ListItem from './ListItem';
 import { H3, HeaderDays } from '../../Common';
-import colours from '../../../utilities/globalStyles/theme';
+import { LIGHTGREY } from '../../../styles/colors';
 import styles from './styles';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colours.lightGrey }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: LIGHTGREY }}>
       <View style={styles.container}>
         <HeaderDays
           takenHolidays={takenHolidays}

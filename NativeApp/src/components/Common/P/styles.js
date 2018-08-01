@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { P_SIZE } from '../../../utilities/globalStyles/text';
+import { P_SIZE } from '../../../styles/text';
 
 const styles = StyleSheet.create({
   base: {

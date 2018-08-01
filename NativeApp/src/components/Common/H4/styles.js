@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { H4_SIZE } from '../../../utilities/globalStyles/text';
+import { H4_SIZE } from '../../../styles/text';
 
 const styles = StyleSheet.create({
   base: {

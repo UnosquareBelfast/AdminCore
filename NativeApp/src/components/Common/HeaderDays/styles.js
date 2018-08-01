@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
-import colours from '../../../utilities/globalStyles/theme';
+import {LIGHTGREY, GREY, DARKGREY } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: colours.lightGrey,
+    backgroundColor: LIGHTGREY,
     paddingTop: 8,
     paddingBottom: 8,
     maxHeight: 93,
     justifyContent: 'space-between',
-    borderColor: colours.grey,
+    borderColor: GREY,
     borderBottomWidth: 1,
     alignSelf: 'center',
     alignItems: 'center',
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   divider: {
     alignItems: 'center',
     flex: 1,
-    borderColor: colours.grey,
+    borderColor: GREY,
     borderRightWidth: 3,
   },
   holidayText: {
@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
   },
   boldDarkGrey: {
     fontWeight: 'bold',
-    color: colours.darkGrey,
+    color: DARKGREY,
   },
   darkGrey: {
-    color: colours.darkGrey,
+    color: DARKGREY,
   },
   darkGreyPadding: {
-    color: colours.darkGrey,
+    color: DARKGREY,
     paddingBottom: 5,
     paddingLeft: 2,
   },
