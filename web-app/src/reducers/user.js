@@ -1,6 +1,6 @@
-import { UPDATE_USER } from '../actionTypes';
+import { UPDATE_USER, RESET_USER } from '../actionTypes';
 
-const initialState = {
+export const initialState = {
   forename: null,
   surname: null,
   email: null,
@@ -23,6 +23,9 @@ const ACTION_HANDLERS = {
   [UPDATE_USER]: (state, action) => ({
     ...state,
     ...action.payload,
+  }),
+  [RESET_USER]: () => ({
+    ...initialState,
   }),
 };
 
