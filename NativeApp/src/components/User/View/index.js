@@ -2,13 +2,14 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import {
   View,
-  StyleSheet,
   FlatList,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import ListItem from './ListItem';
-import { H3, ScrollView, HeaderDays } from '../../Common';
+import { H3, HeaderDays } from '../../Common';
 import colours from '../../../utilities/globalStyles/theme';
+import styles from './styles';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
@@ -56,25 +57,5 @@ UserView.propTypes = {
     surname: PT.string,
   }).isRequired,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 23,
-    backgroundColor: colours.lightGrey,
-  },
-  profileName: {
-    paddingBottom: 10,
-    paddingTop: 10,
-    alignSelf: 'center',
-    flexDirection: 'row',
-  },
-  flatListView: {
-    flex: 1,
-  },
-  H3Bold: {
-    fontWeight: 'bold',
-  },
-});
 
 export default UserView;

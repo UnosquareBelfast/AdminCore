@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 import colours from '../../../utilities/globalStyles/theme';
+import { container } from '../../../styles/layout';
 
 const styles = StyleSheet.create({
+  container: { ...container},
   tableContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -30,6 +32,18 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     marginHorizontal: 20,
+  },
+  profileName: {
+    paddingBottom: 10,
+    paddingTop: 10,
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  flatListView: {
+    flex: 1,
+  },
+  H3Bold: {
+    fontWeight: 'bold',
   },
 });
 
