@@ -25,8 +25,10 @@ const NavContainer = Wrapped =>
       const newRole = nextProps.userDetails.employeeRoleId;
 
       if (currentRole !== newRole && newRole === roles.ADMIN) {
-        const adminMenu = [...this.state.menuItems, ...adminItems];
+        const adminMenu = [...menuItems, ...adminItems];
         this.setState({ menuItems: adminMenu });
+      } else if (currentRole !== newRole) {
+        this.setState({ menuItems });
       }
     }
 
