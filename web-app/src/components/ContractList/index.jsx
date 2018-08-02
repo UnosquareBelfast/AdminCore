@@ -11,13 +11,13 @@ const buildColumns = columns => {
   return formattedColumns;
 };
 
-const renderTable = (contracts, columns, onRowClick) => {
+const renderTable = (contracts, columns, onRowClick, pageSize) => {
   const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
       data={contracts}
       columns={formattedColumns}
-      defaultPageSize={10}
+      defaultPageSize={pageSize}
       className="-striped -highlight"
       getTrProps={(state, rowInfo) => {
         return {
@@ -32,11 +32,11 @@ const renderTable = (contracts, columns, onRowClick) => {
 };
 
 export const ContractList = props => {
-  const { contracts, columns, onRowClick } = props;
+  const { contracts, columns, onRowClick, pageSize } = props;
   return !contracts || contracts.length === 0 ? (
     <p>There are no contracts to show</p>
   ) : (
-    renderTable(contracts, columns, onRowClick)
+    renderTable(contracts, columns, onRowClick, pageSize)
   );
 };
 
@@ -44,10 +44,12 @@ ContractList.propTypes = {
   contracts: PT.array,
   columns: PT.array.isRequired,
   onRowClick: PT.func,
+  pageSize: PT.number,
 };
 
 ContractList.defaultProps = {
   onRowClick: () => {},
+  pageSize: 10,
 };
 
 export default ContractList;

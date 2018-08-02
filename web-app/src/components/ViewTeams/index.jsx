@@ -17,7 +17,7 @@ export const ViewTeams = ({ teamSearch, teams, history }) => {
       </CornerButton>
       <h2>View Teams</h2>
       <ViewTeamsForm onChange={teamSearch} />
-      <TeamList teams={teams} columns={['teamName']} />
+      <TeamList teams={teams} columns={['teamName']} pageSize={20} />
     </div>
   );
 };
