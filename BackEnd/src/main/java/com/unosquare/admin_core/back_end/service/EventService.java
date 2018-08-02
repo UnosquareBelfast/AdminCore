@@ -1,7 +1,6 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.google.common.base.Preconditions;
-import com.unosquare.admin_core.back_end.ViewModels.UpdateHolidayViewModel;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.entity.Employee;
@@ -16,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,9 +46,9 @@ public class EventService {
         return mapEventsToDtos(events);
     }
 
-    public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate){
+    public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType){
 
-        Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate,new EventType(EventTypes.ANNUAL_LEAVE.getEventTypeId()));
+        Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate,new EventType(eventType.getEventTypeId()));
         return (event != null ) ? modelMapper.map(event, EventDTO.class) : null;
     }
 
@@ -101,16 +97,6 @@ public class EventService {
             event.setEventStatus(new EventStatus(EventStatuses.DENIED.getEventStatusId()));
             save(event);
         }
-    }
-
-    private EventDTO checkForEventWithSameDate(EventDTO event) {
-        List<Event> holidayWithSameDate = eventRepository.findByStartDateAndEmployeeAndEventType(event.getStartDate(),
-                new Employee(event.getEmployee().getEmployeeId()),
-                new EventType(EventTypes.ANNUAL_LEAVE.getEventTypeId()));
-        if (holidayWithSameDate != null) {
-        }
-
-        return modelMapper.map(holidayWithSameDate.get(0), EventDTO.class);
     }
 
     public List<EventDTO> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd,EventTypes eventType) {//Pass in event type

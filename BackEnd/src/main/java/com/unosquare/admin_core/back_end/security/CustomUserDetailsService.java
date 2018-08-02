@@ -21,7 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     ModelMapper modelMapper;
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String email) {
         EmployeeDTO employee = employeeService.findByEmail(email);
         return UserPrincipal.create(modelMapper.map(employee, Employee.class));
@@ -29,7 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     // This method is used by JWTAuthenticationFilter
-    @Transactional
     public UserDetails loadUserById(int id) {
         EmployeeDTO employee = employeeService.findById(id);
         return UserPrincipal.create(modelMapper.map(employee, Employee.class));

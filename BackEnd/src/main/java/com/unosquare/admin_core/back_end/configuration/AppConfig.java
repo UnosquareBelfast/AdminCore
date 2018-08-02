@@ -8,10 +8,13 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.lang.*;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
+import org.springframework.web.context.annotation.RequestScope;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Configuration
@@ -39,5 +42,13 @@ public class AppConfig {
         }
 
         return modelMapper;
+    }
+
+    @Bean
+    @RequestScope
+    public UserDetails userDetails(HttpServletRequest request) {
+      //  UserDetails userDetails = customUserDetailsService.loadUserById(userId);
+
+        return (UserDetails)request.getUserPrincipal();
     }
 }

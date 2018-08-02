@@ -1,12 +1,11 @@
-package com.unosquare.admin_core.back_end.ViewModels;
+package com.unosquare.admin_core.back_end.dto;
 
-import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class ViewWorkingFromHomeViewModel {
+public class UpdateWorkingFromHomeDTO {
 
     private int eventId;
 
