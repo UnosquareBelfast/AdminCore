@@ -11,14 +11,14 @@ const buildColumns = columns => {
   return formattedColumns;
 };
 
-const renderTable = (holidays, columns, onRowClick) => {
+const renderTable = (holidays, columns, onRowClick, pageSize) => {
   const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
       filterable
       data={holidays}
       columns={formattedColumns}
-      defaultPageSize={10}
+      defaultPageSize={pageSize}
       className="-striped -highlight"
       getTrProps={(state, rowInfo) => {
         return {
@@ -28,16 +28,22 @@ const renderTable = (holidays, columns, onRowClick) => {
           },
         };
       }}
+      defaultSorted={[
+        {
+          id: 'startDate',
+          desc: true,
+        },
+      ]}
     />
   );
 };
 
 export const HolidayList = props => {
-  const { holidays, columns, onRowClick } = props;
+  const { holidays, columns, onRowClick, pageSize } = props;
   return !holidays || holidays.length === 0 ? (
     <p>There are no holidays to show</p>
   ) : (
-    renderTable(holidays, columns, onRowClick)
+    renderTable(holidays, columns, onRowClick, pageSize)
   );
 };
 
@@ -45,10 +51,12 @@ HolidayList.propTypes = {
   holidays: PT.array.isRequired,
   columns: PT.array.isRequired,
   onRowClick: PT.func,
+  pageSize: PT.number,
 };
 
 HolidayList.defaultProps = {
   onRowClick: () => {},
+  pageSize: 10,
 };
 
 export default HolidayList;
