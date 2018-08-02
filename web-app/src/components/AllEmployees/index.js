@@ -1,11 +1,19 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { UserList, UserModal } from '../';
+import { Button } from '../common';
+import { CornerButton } from '../common_styled';
 import container from './container';
 
 const AllEmployees = ({ history, users, selectUser, selectedUser }) => {
   return (
     <Fragment>
+      <CornerButton>
+        <Button
+          onClick={() => history.replace('/admin/employees/new')}
+          label="New Employee"
+        />
+      </CornerButton>
       <UserModal
         user={selectedUser}
         closeModal={() => selectUser({})}
