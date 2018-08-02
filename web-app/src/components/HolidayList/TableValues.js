@@ -34,6 +34,11 @@ const startDate = {
   accessor: holiday => holiday.start,
   Cell: cell => cell.row.startDate.format('Do MMM YYYY'),
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
+  filterMethod: ({ value }, { startDate }) =>
+    startDate
+      .format('Do MMM YYYY')
+      .toLowerCase()
+      .includes(value.toLowerCase()),
 };
 
 const endDate = {
@@ -42,6 +47,11 @@ const endDate = {
   accessor: holiday => holiday.start,
   Cell: cell => cell.row.endDate.format('Do MMM YYYY'),
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
+  filterMethod: ({ value }, { endDate }) =>
+    endDate
+      .format('Do MMM YYYY')
+      .toLowerCase()
+      .includes(value.toLowerCase()),
 };
 
 const requestedDate = {
