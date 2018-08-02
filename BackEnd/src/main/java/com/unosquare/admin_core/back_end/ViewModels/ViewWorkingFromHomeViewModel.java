@@ -27,4 +27,5 @@ public class ViewWorkingFromHomeViewModel {
     private LocalDate lastModified;
 
     private LocalDate dateCreated;
+
 }

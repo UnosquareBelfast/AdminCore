@@ -19,6 +19,7 @@ public class ViewWorkingFromHomeMappings implements BaseMappings<EventDTO, ViewW
                 map().setEndDate(source.getEndDate());
                 map().setLastModified(source.getLastModified());
                 map().setStartDate(source.getStartDate());
+
             }
         };
     }

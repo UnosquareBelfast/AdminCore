@@ -41,6 +41,7 @@ public class SaveWorkingFromHomeMappings implements BaseMappings<EventDTO,Create
                 skip().setEndDate(null);
                 map().setDateCreated(LocalDate.now());
                 map().setLastModified(LocalDate.now());
+
             }
         };
     }

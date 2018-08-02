@@ -80,7 +80,6 @@ public class WorkingFromHomeController {
                 modelMapper.map(createWorkingFromHomeViewModel, newWorkingFromHomeDay);
                 newWorkingFromHomeDays.add(newWorkingFromHomeDay);
             }
-
             eventService.saveEvents(newWorkingFromHomeDays.stream().toArray(EventDTO[]::new));
         }
 
