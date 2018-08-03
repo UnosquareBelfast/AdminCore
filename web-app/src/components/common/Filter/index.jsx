@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { FilterContainer } from './styled';
 
 class Filter extends Component {
   static propTypes = {
@@ -46,23 +47,21 @@ class Filter extends Component {
     const options = this.constructOptions();
 
     return (
-      <div>
-        <label>
-          Filter:
-          <select value={this.state.key} onChange={this.switchKey}>
-            {options.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            value={this.state.value}
-            onChange={this.handleChange}
-          />
-        </label>
-      </div>
+      <FilterContainer>
+        <label>Search</label>
+        <select value={this.state.key} onChange={this.switchKey}>
+          {options.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <input
+          type="text"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+      </FilterContainer>
     );
   }
 }
