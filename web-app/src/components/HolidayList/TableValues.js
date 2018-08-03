@@ -6,10 +6,9 @@ import moment from 'moment';
 const status = {
   id: 'status',
   Header: 'Status',
-  sortable: false,
-  filterable: false,
   width: 110,
-  accessor: holiday => statusText[holiday.eventStatus.eventStatusId],
+  accessor: holiday => holiday.eventStatus.eventStatusId,
+  Cell: cell => statusText[cell.row.status],
   getProps: (state, rowInfo) => {
     if (!rowInfo) return {};
     return {
@@ -19,38 +18,40 @@ const status = {
       },
     };
   },
+  filterMethod: ({ value }, { status }) =>
+    statusText[status].toLowerCase().includes(value.toLowerCase()),
 };
 
 const employee = {
   id: 'employee',
   Header: 'Employee',
   accessor: ({ employee }) => `${employee.forename} ${employee.surname}`,
-  sortMethod: (a, b) => {
-    if (a === b) {
-      return 0;
-    }
-    const aReverse = a
-      .split('')
-      .reverse()
-      .join('');
-    const bReverse = b
-      .split('')
-      .reverse()
-      .join('');
-    return aReverse > bReverse ? 1 : -1;
-  },
 };
 
 const startDate = {
   id: 'startDate',
   Header: 'Start Date',
-  accessor: holiday => holiday.start.format('Do MMM YYYY'),
+  accessor: holiday => holiday.start,
+  Cell: cell => cell.row.startDate.format('Do MMM YYYY'),
+  sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
+  filterMethod: ({ value }, { startDate }) =>
+    startDate
+      .format('Do MMM YYYY')
+      .toLowerCase()
+      .includes(value.toLowerCase()),
 };
 
 const endDate = {
   id: 'endDate',
   Header: 'End Date',
-  accessor: holiday => holiday.end.format('Do MMM YYYY'),
+  accessor: holiday => holiday.start,
+  Cell: cell => cell.row.endDate.format('Do MMM YYYY'),
+  sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
+  filterMethod: ({ value }, { endDate }) =>
+    endDate
+      .format('Do MMM YYYY')
+      .toLowerCase()
+      .includes(value.toLowerCase()),
 };
 
 const requestedDate = {

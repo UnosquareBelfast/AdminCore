@@ -11,14 +11,14 @@ const buildColumns = columns => {
   return formattedColumns;
 };
 
-const renderTable = (clients, columns, onRowClick) => {
+const renderTable = (clients, columns, onRowClick, pageSize) => {
   const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
       filterable
       data={clients}
       columns={formattedColumns}
-      defaultPageSize={10}
+      defaultPageSize={pageSize}
       className="-striped -highlight"
       getTrProps={(state, rowInfo) => {
         return {
@@ -33,11 +33,11 @@ const renderTable = (clients, columns, onRowClick) => {
 };
 
 export const ClientList = props => {
-  const { clients, columns, onRowClick } = props;
+  const { clients, columns, onRowClick, pageSize } = props;
   return !clients || clients.length === 0 ? (
     <p>There are no clients to show</p>
   ) : (
-    renderTable(clients, columns, onRowClick)
+    renderTable(clients, columns, onRowClick, pageSize)
   );
 };
 
@@ -45,10 +45,12 @@ ClientList.propTypes = {
   clients: PT.array,
   columns: PT.array.isRequired,
   onRowClick: PT.func,
+  pageSize: PT.number,
 };
 
 ClientList.defaultProps = {
   onRowClick: () => {},
+  pageSize: 10,
 };
 
 export default ClientList;
