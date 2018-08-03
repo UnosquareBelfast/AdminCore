@@ -26,8 +26,8 @@ const BookingCalendarContainer = Wrapped =>
         let booking = {
           holidayId: -1,
           title: null,
-          start: moment(start),
-          end: moment(end),
+          start: new moment(start),
+          end: new moment(end),
           isHalfday: false,
           eventType: {
             eventTypeId: 1,
@@ -40,9 +40,9 @@ const BookingCalendarContainer = Wrapped =>
           employee: null,
         };
         this.props.onOpenModal(true);
-        this.props.onUpdateDuration(booking);
         const isEventBeingUpdated = false;
         this.props.onUpdateBooking(booking, isEventBeingUpdated);
+        this.props.onUpdateDuration({ ...booking });
       } else {
         Toast({
           type: 'warning',
@@ -56,8 +56,8 @@ const BookingCalendarContainer = Wrapped =>
         if (event.employee.employeeId == this.props.employeeId) {
           this.props.onOpenModal(true);
           const isEventBeingUpdated = true;
-          this.props.onUpdateDuration(event);
           this.props.onUpdateBooking(event, isEventBeingUpdated);
+          this.props.onUpdateDuration({ ...event });
         } else {
           Toast({
             type: 'warning',

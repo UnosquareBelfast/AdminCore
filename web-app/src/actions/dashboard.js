@@ -83,7 +83,6 @@ const getMandatoryEvents = () => {
     return {
       holidayId: -1,
       title: event.title,
-      duration: 1,
       allDay: true,
       start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
       end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
@@ -102,7 +101,6 @@ const setEventsState = data => {
     return {
       holidayId: event.holidayId,
       title: `${event.employee.forename} ${event.employee.surname}`,
-      duration: getDurationBetweenDates(event.start, event.end),
       allDay: !event.halfDay,
       start: event.start,
       end: event.end,

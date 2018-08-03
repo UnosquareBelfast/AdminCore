@@ -47,6 +47,22 @@ const Container = Wrapped =>
       });
     };
 
+    shouldComponentUpdate(nextProps) {
+      if (this.state.formData.end !== nextProps.booking.end) {
+        this.setState({
+          formData: {
+            end: nextProps.booking.end,
+            eventTypeId: nextProps.booking.eventType.eventTypeId,
+            isHalfday: nextProps.booking.halfDay || false,
+            start: nextProps.booking.start,
+          },
+        });
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     handleMakeHolidayRequest = event => {
       event.preventDefault();
       const { start, end, isHalfday, eventTypeId } = this.state.formData;
