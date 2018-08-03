@@ -20,6 +20,7 @@ const Container = Wrapped =>
       onOpenModal: PT.func.isRequired,
       booking: PT.object.isRequired,
       isEventBeingUpdated: PT.bool,
+      onUpdateDuration: PT.func,
       bookingDuration: PT.number,
     };
 
@@ -46,22 +47,6 @@ const Container = Wrapped =>
         },
       });
     };
-
-    shouldComponentUpdate(nextProps) {
-      if (this.state.formData.end !== nextProps.booking.end) {
-        this.setState({
-          formData: {
-            end: nextProps.booking.end,
-            eventTypeId: nextProps.booking.eventType.eventTypeId,
-            isHalfday: nextProps.booking.halfDay || false,
-            start: nextProps.booking.start,
-          },
-        });
-        return true;
-      } else {
-        return false;
-      }
-    }
 
     handleMakeHolidayRequest = event => {
       event.preventDefault();
@@ -156,15 +141,18 @@ const Container = Wrapped =>
         formData.eventTypeId = 1;
       }
 
-      this.setState(
-        {
-          formData,
-          formIsValid,
+      const updatedFormData = {
+        ...formData,
+        eventType: {
+          eventTypeId: formData.eventTypeId,
         },
-        () => {
-          this.props.onUpdateBooking(formData);
-        },
-      );
+      };
+      this.props.onUpdateDuration(updatedFormData);
+
+      this.setState({
+        formData,
+        formIsValid,
+      });
     }
 
     render() {
@@ -199,6 +187,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onUpdateBooking: updatedBooking =>
       dispatch(actions.updateBooking(updatedBooking)),
+    onUpdateDuration: event => dispatch(actions.updateBookingDuration(event)),
     onOpenModal: bookingModalOpen =>
       dispatch(actions.toggleBookingModal(bookingModalOpen)),
   };
