@@ -1,14 +1,10 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
 
-import com.unosquare.admin_core.back_end.ViewModels.CreateTeamViewModel;
 import com.unosquare.admin_core.back_end.ViewModels.CreateWorkingFromHomeViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventStatusesConverter;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventTypesConverter;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
-import com.unosquare.admin_core.back_end.dto.TeamDTO;
-import com.unosquare.admin_core.back_end.dto.WorkingFromHomeDTO;
-import com.unosquare.admin_core.back_end.entity.EventType;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import org.modelmapper.PropertyMap;
@@ -41,6 +37,7 @@ public class SaveWorkingFromHomeMappings implements BaseMappings<EventDTO,Create
                 skip().setEndDate(null);
                 map().setDateCreated(LocalDate.now());
                 map().setLastModified(LocalDate.now());
+
 
             }
         };

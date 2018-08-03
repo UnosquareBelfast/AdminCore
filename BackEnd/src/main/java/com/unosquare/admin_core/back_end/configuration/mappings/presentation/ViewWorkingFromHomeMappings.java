@@ -28,6 +28,7 @@ public class ViewWorkingFromHomeMappings implements BaseMappings<EventDTO, ViewW
     public PropertyMap<ViewWorkingFromHomeViewModel, EventDTO> MapFromTargetToSource() {
         return  new PropertyMap <ViewWorkingFromHomeViewModel, EventDTO>() {
             protected void configure() {
+
             }
         };
     }
