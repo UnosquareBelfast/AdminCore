@@ -1,5 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import * as actions from '../../actions/index';
 import { Toast } from '../../utilities/Notifications';
 import moment from 'moment';
 
@@ -8,7 +11,9 @@ const BookingCalendarContainer = Wrapped =>
     static propTypes = {
       employeeId: PT.number,
       takenHolidays: PT.array,
-      updateBookingAndDuration: PT.func,
+      onUpdateBooking: PT.func,
+      onUpdateDuration: PT.func,
+      onOpenModal: PT.func,
     };
 
     constructor(props) {
@@ -19,21 +24,25 @@ const BookingCalendarContainer = Wrapped =>
       const today = new moment();
       if (moment(start).isAfter(today.add(-1, 'days'))) {
         let booking = {
+          holidayId: -1,
           title: null,
+          start: moment(start),
           end: moment(end),
+          isHalfday: false,
           eventType: {
             eventTypeId: 1,
-            description: 'Annual Leave',
+            description: 'Annual leave',
           },
           eventStatus: {
             eventStatusId: 1,
             description: 'Awaiting Approval',
           },
-          isEventBeingUpdated: false,
-          isHalfday: false,
-          start: moment(start),
+          employee: null,
         };
-        this.props.updateBookingAndDuration(booking);
+        this.props.onOpenModal(true);
+        this.props.onUpdateDuration(booking);
+        const isEventBeingUpdated = false;
+        this.props.onUpdateBooking(booking, isEventBeingUpdated);
       } else {
         Toast({
           type: 'warning',
@@ -42,18 +51,17 @@ const BookingCalendarContainer = Wrapped =>
       }
     };
 
-    onSelectEvent = booking => {
-      if (booking.employee) {
-        if (booking.employee.employeeId == this.props.employeeId) {
-          const updatedBooking = {
-            ...booking,
-            isEventBeingUpdated: true,
-          };
-          this.props.updateBookingAndDuration(updatedBooking);
+    onSelectEvent = event => {
+      if (event.employee) {
+        if (event.employee.employeeId == this.props.employeeId) {
+          this.props.onOpenModal(true);
+          const isEventBeingUpdated = true;
+          this.props.onUpdateDuration(event);
+          this.props.onUpdateBooking(event, isEventBeingUpdated);
         } else {
           Toast({
             type: 'warning',
-            title: `Unable to update ${booking.employee.forename}'s events`,
+            title: `Unable to update ${event.employee.forename}'s events`,
           });
         }
       }
@@ -74,4 +82,19 @@ const BookingCalendarContainer = Wrapped =>
     }
   };
 
-export default BookingCalendarContainer;
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdateBooking: (booking, isEventBeingUpdated) =>
+      dispatch(actions.updateBooking(booking, isEventBeingUpdated)),
+    onUpdateDuration: event => dispatch(actions.updateBookingDuration(event)),
+    onOpenModal: closeModal => dispatch(actions.toggleBookingModal(closeModal)),
+  };
+};
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
+  BookingCalendarContainer,
+);

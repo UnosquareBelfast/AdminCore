@@ -3,7 +3,6 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import * as actions from '../../actions/index';
-import { getDurationBetweenDates } from '../../utilities/dates';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -13,13 +12,12 @@ const DashboardContainer = Wrapped =>
       onFilterEventsByEmployeeId: PT.func.isRequired,
       takenHolidays: PT.array,
       loading: PT.bool,
+      isEventBeingUpdated: PT.bool,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        booking: {},
-        showModal: false,
         takenHolidaysFiltered: null,
         filterEvents: [],
       };
@@ -35,29 +33,6 @@ const DashboardContainer = Wrapped =>
       } else {
         this.props.onFilterEventsByEmployeeId(id);
       }
-    };
-
-    closeModal = () => {
-      this.setState({ showModal: false });
-    };
-
-    updateBookingAndDuration = booking => {
-      const { isHalfday, eventType, start, end } = booking;
-      booking.duration = getDurationBetweenDates(start, end);
-      if (isHalfday) {
-        if (booking.duration != 0) {
-          booking.duration = 0.5;
-        }
-      } else if (eventType.eventTypeId !== 1) {
-        booking.duration = 0;
-      } else {
-        booking.duration = getDurationBetweenDates(start, end);
-      }
-
-      this.setState({
-        booking: booking,
-        showModal: true,
-      });
     };
 
     onFilterEmployee = ({ employeeId }) => {
@@ -93,10 +68,7 @@ const DashboardContainer = Wrapped =>
       return (
         this.props.userDetails && (
           <Wrapped
-            booking={this.state.booking}
-            closeModal={this.closeModal}
-            updateBookingAndDuration={this.updateBookingAndDuration}
-            showModal={this.state.showModal}
+            employeeId={this.props.userDetails.employeeId}
             loading={this.props.loading}
             takenHolidays={this.props.takenHolidays}
             takenHolidaysFiltered={
@@ -105,7 +77,7 @@ const DashboardContainer = Wrapped =>
                 : this.state.takenHolidaysFiltered
             }
             updateTakenHolidays={this.props.onFetchEvents}
-            employeeId={this.props.userDetails.employeeId}
+            isEventBeingUpdated={this.props.isEventBeingUpdated}
             onUpdateEvents={this.onFilterEvents}
             onUpdateEmployee={this.onFilterEmployee}
           />
@@ -119,6 +91,7 @@ const mapStateToProps = state => {
     userDetails: state.USER,
     loading: state.DASHBOARD.loading,
     takenHolidays: state.DASHBOARD.takenHolidays,
+    isEventBeingUpdated: state.DASHBOARD.isEventBeingUpdated,
   };
 };
 
