@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Filter } from '../common';
 import ReactTable from 'react-table';
 import TableValues from './TableValues';
 
@@ -8,21 +9,18 @@ class HolidayList extends Component {
     holidays: PT.array.isRequired,
     columns: PT.array.isRequired,
     onRowClick: PT.func,
+    pageSize: PT.number,
   };
 
   static defaultProps = {
     onRowClick: () => {},
+    pageSize: 10,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      filtered: [
-        {
-          id: 'status',
-          value: 'appro',
-        },
-      ],
+      filter: { value: '', key: '' },
     };
   }
 
@@ -34,17 +32,15 @@ class HolidayList extends Component {
     return formattedColumns;
   };
 
-  renderTable = (holidays, columns, onRowClick) => {
-    const formattedColumns = this.buildColumns(columns);
-    console.log(this.state.filtered);
-
+  renderTable = (holidays, formattedColumns, onRowClick, pageSize) => {
     return (
       <ReactTable
-        filterable
-        filtered={this.state.filtered}
+        filtered={[
+          { id: this.state.filter.key, value: this.state.filter.value },
+        ]}
         data={holidays}
         columns={formattedColumns}
-        defaultPageSize={10}
+        defaultPageSize={pageSize}
         className="-striped -highlight"
         getTrProps={(state, rowInfo) => {
           return {
@@ -59,12 +55,25 @@ class HolidayList extends Component {
   };
 
   render() {
-    const { holidays, columns, onRowClick } = this.props;
+    const { holidays, columns, onRowClick, pageSize } = this.props;
+    const formattedColumns = this.buildColumns(columns);
+
+    const labels = formattedColumns.reduce((acc, column) => {
+      acc.push(column.Header);
+      return acc;
+    }, []);
 
     return !holidays || holidays.length === 0 ? (
       <p>There are no holidays to show</p>
     ) : (
-      this.renderTable(holidays, columns, onRowClick)
+      <Fragment>
+        <Filter
+          columns={columns}
+          labels={labels}
+          onChange={filter => this.setState({ filter })}
+        />
+        {this.renderTable(holidays, formattedColumns, onRowClick, pageSize)}
+      </Fragment>
     );
   }
 }
