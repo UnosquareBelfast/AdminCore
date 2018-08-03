@@ -14,7 +14,7 @@ const BookingModal = props => {
   const {
     booking,
     employeeId,
-    onOpenBookingModal,
+    closeBookingModal,
     bookingModalOpen,
     updateTakenHolidays,
     isEventBeingUpdated,
@@ -23,7 +23,7 @@ const BookingModal = props => {
 
   return (
     bookingModalOpen && (
-      <Modal closeModal={() => onOpenBookingModal(false)}>
+      <Modal closeModal={closeBookingModal}>
         <StyleContainer>
           <h1>
             {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
@@ -54,7 +54,7 @@ const BookingModal = props => {
 BookingModal.propTypes = {
   booking: PT.object.isRequired,
   employeeId: PT.number,
-  onOpenBookingModal: PT.func.isRequired,
+  closeBookingModal: PT.func.isRequired,
   bookingModalOpen: PT.bool,
   updateTakenHolidays: PT.func.isRequired,
   bookingDuration: PT.number,

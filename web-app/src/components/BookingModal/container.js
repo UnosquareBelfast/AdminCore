@@ -20,6 +20,10 @@ const Container = Wrapped =>
       super(props);
     }
 
+    closeBookingModal = () => {
+      this.props.onOpenModal(false);
+    };
+
     render() {
       return (
         this.props.employeeId && (
@@ -27,9 +31,7 @@ const Container = Wrapped =>
             booking={this.props.booking}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
-            onOpenBookingModal={bookingModalOpen =>
-              this.props.onOpenModal(bookingModalOpen)
-            }
+            closeBookingModal={this.closeBookingModal}
             updateTakenHolidays={this.props.updateTakenHolidays}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             bookingDuration={this.props.bookingDuration}
