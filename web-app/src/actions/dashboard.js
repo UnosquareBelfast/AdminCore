@@ -48,6 +48,35 @@ export const filterEventsStart = () => {
   };
 };
 
+export const updateBookingEvent = (booking, isEventBeingUpdated) => {
+  return {
+    type: actionTypes.UPDATE_EVENT_BOOKING,
+    booking: booking,
+    isEventBeingUpdated: isEventBeingUpdated,
+  };
+};
+
+export const updateEventDuration = duration => {
+  return {
+    type: actionTypes.UPDATE_EVENT_DURATION,
+    duration: duration,
+  };
+};
+
+export const showBookingModal = () => {
+  return {
+    type: actionTypes.SHOW_BOOKING_MODAL,
+    bookingModalOpen: true,
+  };
+};
+
+export const hideBookingModal = () => {
+  return {
+    type: actionTypes.HIDE_BOOKING_MODAL,
+    bookingModalOpen: false,
+  };
+};
+
 const getMandatoryEvents = () => {
   const mandatoryEvents = getMandatoryCalendarEvents();
   const events = mandatoryEvents.map(function(event) {
@@ -112,5 +141,35 @@ export const filterEventsByEmployeeId = employeeId => {
       .catch(error => {
         dispatch(filterEventsFail(error));
       });
+  };
+};
+
+export const updateBooking = (booking, isEventBeingUpdated) => {
+  return dispatch => {
+    dispatch(updateBookingEvent(booking, isEventBeingUpdated));
+  };
+};
+
+export const updateBookingDuration = ({ start, end, isHalfday, eventType }) => {
+  return dispatch => {
+    let duration = getDurationBetweenDates(start, end);
+    if (isHalfday) {
+      if (duration != 0) {
+        duration = 0.5;
+      }
+    } else if (eventType.eventTypeId !== 1) {
+      duration = 0;
+    }
+    dispatch(updateEventDuration(duration));
+  };
+};
+
+export const toggleBookingModal = bookingModalOpen => {
+  return dispatch => {
+    if (bookingModalOpen) {
+      dispatch(showBookingModal());
+    } else {
+      dispatch(hideBookingModal());
+    }
   };
 };

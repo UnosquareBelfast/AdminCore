@@ -1,1 +1,8 @@
-export { fetchEvents, filterEventsByEmployeeId } from './dashboard';
+export {
+  fetchEvents,
+  filterEventsByEmployeeId,
+  updateBookingAndDuration,
+  toggleBookingModal,
+  updateBooking,
+  updateBookingDuration,
+} from './dashboard';

@@ -1,4 +1,5 @@
 import React from 'react';
+import container from './container';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
@@ -11,25 +12,24 @@ import {
 
 const BookingModal = props => {
   const {
-    closeModal,
-    showModal,
     booking,
     employeeId,
+    onOpenBookingModal,
+    bookingModalOpen,
     updateTakenHolidays,
-    updateBookingAndDuration,
+    isEventBeingUpdated,
+    bookingDuration,
   } = props;
 
   return (
-    showModal && (
-      <Modal closeModal={closeModal}>
+    bookingModalOpen && (
+      <Modal closeModal={() => onOpenBookingModal(false)}>
         <StyleContainer>
           <h1>
-            {booking.isEventBeingUpdated
-              ? 'Update Booking'
-              : 'Request a Booking'}
+            {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
           </h1>
-          <h4 id="totalDaysToBook">Total days: {booking.duration}</h4>
-          {booking.isEventBeingUpdated && (
+          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
+          {isEventBeingUpdated && (
             <BookingStatus>
               <h4>{booking.title}</h4>
               <span>
@@ -43,8 +43,6 @@ const BookingModal = props => {
               updateTakenHolidays={updateTakenHolidays}
               employeeId={employeeId}
               booking={booking}
-              closeModal={closeModal}
-              updateBookingAndDuration={updateBookingAndDuration}
             />
           </FormContainer>
         </StyleContainer>
@@ -54,12 +52,12 @@ const BookingModal = props => {
 };
 
 BookingModal.propTypes = {
-  closeModal: PT.func.isRequired,
-  showModal: PT.bool.isRequired,
   booking: PT.object.isRequired,
   employeeId: PT.number,
+  onOpenBookingModal: PT.func.isRequired,
+  bookingModalOpen: PT.bool,
   updateTakenHolidays: PT.func.isRequired,
-  updateBookingAndDuration: PT.func.isRequired,
+  bookingDuration: PT.number,
 };
 
-export default BookingModal;
+export default container(BookingModal);

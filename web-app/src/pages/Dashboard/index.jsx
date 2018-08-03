@@ -6,10 +6,6 @@ import { InnerLayout } from './styled';
 
 export const Dashboard = props => {
   const {
-    booking,
-    closeModal,
-    updateBookingAndDuration,
-    showModal,
     loading,
     takenHolidays,
     takenHolidaysFiltered,
@@ -17,6 +13,7 @@ export const Dashboard = props => {
     employeeId,
     onUpdateEvents,
     onUpdateEmployee,
+    isEventBeingUpdated,
   } = props;
 
   let events;
@@ -26,7 +23,7 @@ export const Dashboard = props => {
         <BookingCalendar
           employeeId={employeeId}
           takenHolidays={takenHolidaysFiltered}
-          updateBookingAndDuration={updateBookingAndDuration}
+          isEventBeingUpdated={isEventBeingUpdated}
         />
         <Legend
           updateCalendarEvents={onUpdateEvents}
@@ -42,12 +39,9 @@ export const Dashboard = props => {
   return (
     <Fragment>
       <BookingModal
-        booking={booking}
-        closeModal={closeModal}
         employeeId={employeeId}
-        updateBookingAndDuration={updateBookingAndDuration}
-        showModal={showModal}
         updateTakenHolidays={updateTakenHolidays}
+        isEventBeingUpdated={isEventBeingUpdated}
       />
       {events}
     </Fragment>
@@ -55,21 +49,18 @@ export const Dashboard = props => {
 };
 
 Dashboard.propTypes = {
-  booking: PT.object.isRequired,
-  closeModal: PT.func.isRequired,
   onUpdateEvents: PT.func.isRequired,
   onUpdateEmployee: PT.func.isRequired,
   loading: PT.bool,
-  showModal: PT.bool.isRequired,
   takenHolidays: PT.array,
   takenHolidaysFiltered: PT.array,
-  updateBookingAndDuration: PT.func.isRequired,
   updateTakenHolidays: PT.func.isRequired,
   employeeId: PT.number,
+  isEventBeingUpdated: PT.bool,
 };
 
 Dashboard.defaultProps = {
-  booking: {},
+  bookingModalOpen: false,
 };
 
 export default container(Dashboard);
