@@ -1,11 +1,12 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, ScrollView } from 'react-native';
 import LoginForm from '../Form/index';
 import Logo from '../../../images/Logo/Logo.png';
-import { ScrollView, CardContainer } from '../../Common';
+import { CardContainer } from '../../Common';
+import { container } from '../../../styles/layout';
 
 const LoginView = props => (
-  <ScrollView>
+  <ScrollView contentContainerStyle={styles.container}>
     <Image source={Logo} style={styles.image} />
     <CardContainer>
       <LoginForm {...props} />
@@ -14,6 +15,9 @@ const LoginView = props => (
 
 );
 const styles = StyleSheet.create({
+  container: {
+    ...container,
+  },
   image: {
     height: 100,
     width: 220,
