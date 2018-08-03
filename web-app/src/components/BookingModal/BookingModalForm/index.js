@@ -131,7 +131,7 @@ const BookingModalForm = props => {
 BookingModalForm.propTypes = {
   bookingDuration: PT.number,
   formData: PT.object.isRequired,
-  isEventBeingUpdated: PT.bool.isRequired,
+  isEventBeingUpdated: PT.bool,
   formStatus: PT.func.isRequired,
   formIsValid: PT.bool.isRequired,
   submitHolidayRequest: PT.func.isRequired,

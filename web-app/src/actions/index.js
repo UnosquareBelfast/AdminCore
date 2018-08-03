@@ -5,4 +5,5 @@ export {
   toggleBookingModal,
   updateBooking,
   updateBookingDuration,
+  eventBeingUpdated,
 } from './dashboard';

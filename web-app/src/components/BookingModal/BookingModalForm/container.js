@@ -162,7 +162,7 @@ const Container = Wrapped =>
           formIsValid,
         },
         () => {
-          this.props.onUpdateBooking(formData, false);
+          this.props.onUpdateBooking(formData);
         },
       );
     }

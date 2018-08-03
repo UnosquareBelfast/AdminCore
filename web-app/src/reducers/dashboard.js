@@ -73,6 +73,12 @@ const toggleBookingModal = (state, action) => {
   });
 };
 
+const toggleEventUpdatedState = (state, action) => {
+  return updateObject(state, {
+    isEventBeingUpdated: action.isEventBeingUpdated,
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_EVENTS_START:
@@ -91,6 +97,10 @@ const reducer = (state = initialState, action) => {
       return toggleBookingModal(state, action);
     case actionTypes.HIDE_BOOKING_MODAL:
       return toggleBookingModal(state, action);
+    case actionTypes.EVENT_BEING_UPDATED:
+      return toggleEventUpdatedState(state, action);
+    case actionTypes.EVENT_NOT_BEING_UPDATED:
+      return toggleEventUpdatedState(state, action);
     default:
       return state;
   }

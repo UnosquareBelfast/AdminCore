@@ -48,11 +48,10 @@ export const filterEventsStart = () => {
   };
 };
 
-export const updateBookingEvent = (booking, isEventBeingUpdated) => {
+export const updateBookingEvent = booking => {
   return {
     type: actionTypes.UPDATE_EVENT_BOOKING,
     booking: booking,
-    isEventBeingUpdated: isEventBeingUpdated,
   };
 };
 
@@ -74,6 +73,20 @@ export const hideBookingModal = () => {
   return {
     type: actionTypes.HIDE_BOOKING_MODAL,
     bookingModalOpen: false,
+  };
+};
+
+export const eventIsBeingUpdated = () => {
+  return {
+    type: actionTypes.EVENT_BEING_UPDATED,
+    isEventBeingUpdated: true,
+  };
+};
+
+export const eventIsNotBeingUpdated = () => {
+  return {
+    type: actionTypes.EVENT_NOT_BEING_UPDATED,
+    isEventBeingUpdated: false,
   };
 };
 
@@ -142,23 +155,50 @@ export const filterEventsByEmployeeId = employeeId => {
   };
 };
 
-export const updateBooking = (booking, isEventBeingUpdated) => {
+export const updateBooking = booking => {
   return dispatch => {
-    dispatch(updateBookingEvent(booking, isEventBeingUpdated));
+    if (booking.holidayId === -1) {
+      booking = {
+        ...booking,
+        title: null,
+        isHalfday: false,
+        eventType: {
+          eventTypeId: 1,
+          description: 'Annual leave',
+        },
+        eventStatus: {
+          eventStatusId: 1,
+          description: 'Awaiting Approval',
+        },
+        employee: null,
+      };
+    }
+    dispatch(updateBookingEvent(booking));
   };
 };
 
 export const updateBookingDuration = ({ start, end, isHalfday, eventType }) => {
   return dispatch => {
     let duration = getDurationBetweenDates(start, end);
+    const eventTypeId = eventType ? eventType.eventTypeId : 1;
     if (isHalfday) {
       if (duration != 0) {
         duration = 0.5;
       }
-    } else if (eventType.eventTypeId !== 1) {
+    } else if (eventTypeId !== 1) {
       duration = 0;
     }
     dispatch(updateEventDuration(duration));
+  };
+};
+
+export const eventBeingUpdated = isUpdated => {
+  return dispatch => {
+    if (isUpdated) {
+      dispatch(eventIsBeingUpdated());
+    } else {
+      dispatch(eventIsNotBeingUpdated());
+    }
   };
 };
 
