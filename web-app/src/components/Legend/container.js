@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import holidayStatus from '../../utilities/holidayStatus';
 
-const LengendContainer = Wrapped =>
+const LegendContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       takenHolidays: PT.array.isRequired,
@@ -74,8 +74,15 @@ const LengendContainer = Wrapped =>
       };
     }
 
-    componentWillMount = () => {
-      this.createEmployeesList();
+    componentWillUpdate = (nextProps, nextState) => {
+      if (nextProps.takenHolidays.length > 0) {
+        if (
+          this.state.employees.length === nextState.employees.length &&
+          this.state.employees.length === 0
+        ) {
+          this.createEmployeesList(nextProps.takenHolidays);
+        }
+      }
     };
 
     sortEmployeeList = objArray => {
@@ -107,8 +114,7 @@ const LengendContainer = Wrapped =>
       }, []);
     };
 
-    createEmployeesList = () => {
-      const { takenHolidays } = this.props;
+    createEmployeesList = takenHolidays => {
       let employees = takenHolidays.filter(hol => hol.employee).map(hol => {
         return this.createEmployeeObject(hol);
       });
@@ -158,4 +164,4 @@ const LengendContainer = Wrapped =>
     }
   };
 
-export default LengendContainer;
+export default LegendContainer;
