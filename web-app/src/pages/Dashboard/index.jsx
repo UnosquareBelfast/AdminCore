@@ -6,7 +6,6 @@ import { InnerLayout } from './styled';
 
 export const Dashboard = props => {
   const {
-    loading,
     takenHolidays,
     takenHolidaysFiltered,
     updateTakenHolidays,
@@ -16,9 +15,13 @@ export const Dashboard = props => {
     isEventBeingUpdated,
   } = props;
 
-  let events;
-  if (!loading) {
-    events = (
+  return (
+    <Fragment>
+      <BookingModal
+        employeeId={employeeId}
+        updateTakenHolidays={updateTakenHolidays}
+        isEventBeingUpdated={isEventBeingUpdated}
+      />
       <InnerLayout>
         <BookingCalendar
           employeeId={employeeId}
@@ -31,19 +34,6 @@ export const Dashboard = props => {
           takenHolidays={takenHolidays}
         />
       </InnerLayout>
-    );
-  } else {
-    events = null;
-  }
-
-  return (
-    <Fragment>
-      <BookingModal
-        employeeId={employeeId}
-        updateTakenHolidays={updateTakenHolidays}
-        isEventBeingUpdated={isEventBeingUpdated}
-      />
-      {events}
     </Fragment>
   );
 };
@@ -51,7 +41,6 @@ export const Dashboard = props => {
 Dashboard.propTypes = {
   onUpdateEvents: PT.func.isRequired,
   onUpdateEmployee: PT.func.isRequired,
-  loading: PT.bool,
   takenHolidays: PT.array,
   takenHolidaysFiltered: PT.array,
   updateTakenHolidays: PT.func.isRequired,

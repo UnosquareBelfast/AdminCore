@@ -19,7 +19,7 @@ const DashboardContainer = Wrapped =>
       super(props);
       this.state = {
         takenHolidaysFiltered: null,
-        filterEvents: [],
+        eventKeysFilter: [],
       };
     }
 
@@ -40,26 +40,24 @@ const DashboardContainer = Wrapped =>
     };
 
     onFilterEvents = eventStatusId => {
-      let updatedFilterEvents = [...this.state.filterEvents];
+      let eventKeys = [...this.state.eventKeysFilter];
       if (eventStatusId !== undefined) {
-        if (updatedFilterEvents.includes(eventStatusId)) {
-          updatedFilterEvents = updatedFilterEvents.filter(
-            item => item !== eventStatusId,
-          );
+        if (eventKeys.includes(eventStatusId)) {
+          eventKeys = eventKeys.filter(item => item !== eventStatusId);
         } else {
-          updatedFilterEvents.push(eventStatusId);
+          eventKeys.push(eventStatusId);
         }
       }
 
       let takenHolidaysUpdated = null;
-      if (updatedFilterEvents.length > 0) {
+      if (eventKeys.length > 0) {
         takenHolidaysUpdated = this.props.takenHolidays.filter(hol =>
-          updatedFilterEvents.includes(hol.eventStatus.eventStatusId),
+          eventKeys.includes(hol.eventStatus.eventStatusId),
         );
       }
 
       this.setState({
-        filterEvents: updatedFilterEvents,
+        eventKeysFilter: eventKeys,
         takenHolidaysFiltered: takenHolidaysUpdated,
       });
     };
