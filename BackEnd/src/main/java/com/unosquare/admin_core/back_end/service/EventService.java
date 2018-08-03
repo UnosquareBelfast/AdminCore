@@ -113,6 +113,6 @@ public class EventService {
     private List<EventDTO> mapEventsToDtos(List<Event> events) {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
-    
+
 }
 
