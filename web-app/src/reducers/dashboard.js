@@ -9,7 +9,6 @@ const updateObject = (oldObject, updatedProperties) => {
 };
 
 const initialState = {
-  loading: false,
   takenHolidays: [],
   booking: {
     holidayId: -1,
@@ -33,12 +32,12 @@ const initialState = {
   error: null,
 };
 
-const fetchEventsFailed = state => {
-  return updateObject(state, { loading: false });
+const fetchEventsFailed = (state, action) => {
+  return updateObject(state, { error: action.error });
 };
 
 const fetchEventsStart = state => {
-  return updateObject(state, { loading: true });
+  return state;
 };
 
 const fetchEventsSuccess = (state, action) => {
@@ -57,7 +56,6 @@ const filterEventsSuccess = (state, action) => {
 const updateEventBooking = (state, action) => {
   return updateObject(state, {
     booking: action.booking,
-    isEventBeingUpdated: action.isEventBeingUpdated,
   });
 };
 

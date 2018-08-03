@@ -4,11 +4,14 @@ import { getAllHolidays, getHolidays } from '../services/holidayService';
 import { getMandatoryCalendarEvents } from '../utilities/mandatoryEventConfig';
 import { getDurationBetweenDates } from '../utilities/dates';
 
+/*
+  Action Types and Data
+*/
+
 export const fetchEventsSuccess = events => {
   return {
     type: actionTypes.FETCH_EVENTS_SUCCESS,
     events: events,
-    loading: true,
     error: null,
   };
 };
@@ -17,14 +20,12 @@ export const fetchEventsFail = error => {
   return {
     type: actionTypes.FETCH_EVENTS_FAIL,
     error: error,
-    loading: false,
   };
 };
 
 export const fetchEventsStart = () => {
   return {
     type: actionTypes.FETCH_EVENTS_START,
-    loading: false,
   };
 };
 
@@ -89,6 +90,10 @@ export const eventIsNotBeingUpdated = () => {
     isEventBeingUpdated: false,
   };
 };
+
+/*
+  Actions
+*/
 
 const getMandatoryEvents = () => {
   const mandatoryEvents = getMandatoryCalendarEvents();
@@ -180,13 +185,15 @@ export const updateBooking = booking => {
 export const updateBookingDuration = ({ start, end, isHalfday, eventType }) => {
   return dispatch => {
     let duration = getDurationBetweenDates(start, end);
-    const eventTypeId = eventType ? eventType.eventTypeId : 1;
+    const eventTypeId = eventType ? parseInt(eventType.eventTypeId) : 1;
     if (isHalfday) {
       if (duration != 0) {
         duration = 0.5;
       }
     } else if (eventTypeId !== 1) {
       duration = 0;
+    } else {
+      duration = getDurationBetweenDates(start, end);
     }
     dispatch(updateEventDuration(duration));
   };
