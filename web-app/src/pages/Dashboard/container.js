@@ -18,14 +18,21 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidaysFiltered: null,
+        takenHolidaysFiltered: [],
         eventKeysFilter: [],
+        selectedEmployeeId: -1,
       };
     }
 
     componentDidMount() {
       this.props.onFetchEvents();
     }
+
+    componentWillUpdate = (nextProps, nextState) => {
+      if (nextState.selectedEmployeeId !== this.state.selectedEmployeeId) {
+        this.updateFilterEvents();
+      }
+    };
 
     getTakenHolidaysById = id => {
       if (id === -1) {
@@ -36,7 +43,22 @@ const DashboardContainer = Wrapped =>
     };
 
     onFilterEmployee = ({ employeeId }) => {
+      this.setState({ selectedEmployeeId: employeeId });
       this.getTakenHolidaysById(parseInt(employeeId));
+    };
+
+    updateFilterEvents = () => {
+      let eventKeys = [...this.state.eventKeysFilter];
+      let takenHolidaysUpdated = [];
+      if (eventKeys.length > 0) {
+        takenHolidaysUpdated = this.props.takenHolidays.filter(hol =>
+          eventKeys.includes(hol.eventStatus.eventStatusId),
+        );
+      }
+
+      this.setState({
+        takenHolidaysFiltered: takenHolidaysUpdated,
+      });
     };
 
     onFilterEvents = eventStatusId => {
@@ -48,18 +70,14 @@ const DashboardContainer = Wrapped =>
           eventKeys.push(eventStatusId);
         }
       }
-
-      let takenHolidaysUpdated = null;
-      if (eventKeys.length > 0) {
-        takenHolidaysUpdated = this.props.takenHolidays.filter(hol =>
-          eventKeys.includes(hol.eventStatus.eventStatusId),
-        );
-      }
-
-      this.setState({
-        eventKeysFilter: eventKeys,
-        takenHolidaysFiltered: takenHolidaysUpdated,
-      });
+      this.setState(
+        {
+          eventKeysFilter: eventKeys,
+        },
+        () => {
+          this.updateFilterEvents();
+        },
+      );
     };
 
     render() {
@@ -70,7 +88,7 @@ const DashboardContainer = Wrapped =>
             loading={this.props.loading}
             takenHolidays={this.props.takenHolidays}
             takenHolidaysFiltered={
-              this.state.takenHolidaysFiltered === null
+              this.state.takenHolidaysFiltered.length === 0
                 ? this.props.takenHolidays
                 : this.state.takenHolidaysFiltered
             }
