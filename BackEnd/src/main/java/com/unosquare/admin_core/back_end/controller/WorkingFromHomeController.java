@@ -89,5 +89,7 @@ public class WorkingFromHomeController {
     private List<ViewWorkingFromHomeViewModel> mapEventDtosToWorkingFromHome(List<EventDTO> events) {
         return events.stream().map(event -> modelMapper.map(event, ViewWorkingFromHomeViewModel.class)).collect(Collectors.toList());
     }
+
+
 }
 

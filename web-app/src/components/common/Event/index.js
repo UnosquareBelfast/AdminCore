@@ -19,8 +19,12 @@ const Event = ({ children, event }) => {
   }
 
   return (
-    <Container status={id} onClick={children.props.onClick}>
-      {statusIcons[id]} {event.title}
+    <Container
+      className={event.halfDay ? 'ishalfday' : ''}
+      status={id}
+      onClick={children.props.onClick}
+    >
+      {statusIcons[id]} <span>{event.title}</span>
     </Container>
   );
 };

@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { H2_SIZE } from '../../../styles/text';
+import { H3_SIZE } from '../../../styles/text';
 
 
 const styles = StyleSheet.create({
   base: {
-    fontSize: H2_SIZE,
+    fontSize: H3_SIZE,
   },
 });
 

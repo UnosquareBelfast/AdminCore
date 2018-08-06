@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { userProfile } from '../../utilities/currentUser';
-import { requestHolidays, updateHolidayRequest } from '../../services/holidayService';
+import { requestHolidays, updateHolidayRequest, cancelHolidayRequest } from '../../services/holidayService';
 
 
 export default Container => class extends Component {
@@ -26,6 +26,7 @@ export default Container => class extends Component {
       },
       booked: false,
       user: {},
+      loading: false,
     };
   }
 
@@ -87,6 +88,7 @@ export default Container => class extends Component {
   submitRequest = () => {
     const { booking, user } = this.state;
     const { navigation } = this.props;
+    this.setState({ loading: true });
 
     const request = {
       dates: [
@@ -101,33 +103,49 @@ export default Container => class extends Component {
 
     requestHolidays(request)
       .then(() => {
+        this.setState({ loading: false });
         navigation.pop();
       })
+      .catch((e) => {
+        this.setState({ loading: false });
+        Alert.alert(
+          'Could not request holidays',
+          e.message,
+        );
+      });
+  }
+
+  updateHoliday = () => {
+    const { booking: { endDate, halfDay, startDate, holId } } = this.state;
+    const { navigation } = this.props;
+
+    const request = {
+      endDate,
+      halfDay,
+      startDate,
+      holidayId: holId,
+    };
+
+    updateHolidayRequest(request)
+      .then(() => navigation.pop())
       .catch(e => Alert.alert(
-        'Could not request holidays',
+        'Could not update holiday',
         e.message,
       ));
   }
 
-  updateHoliday = (cancel) => {
-    const { booking, user } = this.state;
+  cancelHoliday = () => {
+    const { booking: { holId } } = this.state;
     const { navigation } = this.props;
 
     const request = {
-      employeeId: user.employeeId,
-      endDate: booking.endDate,
-      halfDay: booking.halfDay,
-      holidayId: booking.holId,
-      holidayStatusId: cancel ? 3 : 1,
-      startDate: booking.startDate,
+      holidayId: holId,
     };
 
-    updateHolidayRequest(request)
-      .then(() => {
-        navigation.pop();
-      })
+    cancelHolidayRequest(request)
+      .then(() => navigation.pop())
       .catch(e => Alert.alert(
-        'Could not update holiday',
+        'Could not cancel holiday',
         e.message,
       ));
   }
@@ -146,15 +164,17 @@ export default Container => class extends Component {
   }
 
   render() {
-    const { booking, booked } = this.state;
+    const { booking, booked, loading } = this.state;
 
     return (
       <Container
         updateHalfDay={this.updateHalfDay}
         booked={booked}
+        loading={loading}
         booking={booking}
         submitRequest={this.submitRequest}
         updateHoliday={this.updateHoliday}
+        cancelHoliday={this.cancelHoliday}
         changeStartDate={this.changeStartDate}
         changeEndDate={this.changeEndDate}
       />

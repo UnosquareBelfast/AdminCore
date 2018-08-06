@@ -1,20 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
+import { P } from '../../Common';
+import styles from './styles';
+import holidayStatusColor from '../../../utilities/holidayStatus';
 
 const ListItem = (props) => {
-  const { status, startDate, endDate } = props;
+  const { status, statusId, startDate, endDate } = props;
+
   return (
-    <View>
-      <Text>
+
+    <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
+      <P type="base">
         {status}
-      </Text>
-      <Text>
-        {startDate}
-      </Text>
-      <Text>
-        {endDate}
-      </Text>
+      </P>
+      <P type="base">
+        {startDate} to {endDate}
+      </P>
     </View>
   );
 };
@@ -22,6 +24,7 @@ const ListItem = (props) => {
 ListItem.propTypes = {
   status: PT.string.isRequired,
   startDate: PT.string.isRequired,
+  statusId: PT.number.isRequired,
   endDate: PT.string.isRequired,
 };
 

@@ -11,13 +11,13 @@ const buildColumns = columns => {
   return formattedColumns;
 };
 
-const renderTable = (teams, columns, onRowClick) => {
+const renderTable = (teams, columns, onRowClick, pageSize) => {
   const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
       data={teams}
       columns={formattedColumns}
-      defaultPageSize={10}
+      defaultPageSize={pageSize}
       className="-striped -highlight"
       getTrProps={(state, rowInfo) => {
         return {
@@ -32,11 +32,11 @@ const renderTable = (teams, columns, onRowClick) => {
 };
 
 export const TeamList = props => {
-  const { teams, columns, onRowClick } = props;
+  const { teams, columns, onRowClick, pageSize } = props;
   return !teams || teams.length === 0 ? (
     <p>There are no teams to show</p>
   ) : (
-    renderTable(teams, columns, onRowClick)
+    renderTable(teams, columns, onRowClick, pageSize)
   );
 };
 
@@ -44,10 +44,12 @@ TeamList.propTypes = {
   teams: PT.array,
   columns: PT.array.isRequired,
   onRowClick: PT.func,
+  pageSize: PT.number,
 };
 
 TeamList.defaultProps = {
   onRowClick: () => {},
+  pageSize: 10,
 };
 
 export default TeamList;
