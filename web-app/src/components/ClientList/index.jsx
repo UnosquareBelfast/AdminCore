@@ -1,56 +1,81 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Filter } from '../common';
 import ReactTable from 'react-table';
 import TableValues from './TableValues';
 
-const buildColumns = columns => {
-  const formattedColumns = columns.reduce((acc, column) => {
-    return acc.concat(TableValues[column]);
-  }, []);
+class ClientList extends Component {
+  static propTypes = {
+    clients: PT.array.isRequired,
+    columns: PT.array.isRequired,
+    onRowClick: PT.func,
+    pageSize: PT.number,
+  };
 
-  return formattedColumns;
-};
+  static defaultProps = {
+    onRowClick: () => {},
+    pageSize: 10,
+  };
 
-const renderTable = (clients, columns, onRowClick, pageSize) => {
-  const formattedColumns = buildColumns(columns);
-  return (
-    <ReactTable
-      filterable
-      data={clients}
-      columns={formattedColumns}
-      defaultPageSize={pageSize}
-      className="-striped -highlight"
-      getTrProps={(state, rowInfo) => {
-        return {
-          onClick: () => onRowClick(rowInfo.original),
-          style: {
-            cursor: rowInfo ? 'pointer' : 'null',
-          },
-        };
-      }}
-    />
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: { value: '', key: '' },
+    };
+  }
 
-export const ClientList = props => {
-  const { clients, columns, onRowClick, pageSize } = props;
-  return !clients || clients.length === 0 ? (
-    <p>There are no clients to show</p>
-  ) : (
-    renderTable(clients, columns, onRowClick, pageSize)
-  );
-};
+  buildColumns = columns => {
+    const formattedColumns = columns.reduce((acc, column) => {
+      return acc.concat(TableValues[column]);
+    }, []);
 
-ClientList.propTypes = {
-  clients: PT.array,
-  columns: PT.array.isRequired,
-  onRowClick: PT.func,
-  pageSize: PT.number,
-};
+    return formattedColumns;
+  };
 
-ClientList.defaultProps = {
-  onRowClick: () => {},
-  pageSize: 10,
-};
+  renderTable = (clients, formattedColumns, onRowClick, pageSize) => {
+    return (
+      <ReactTable
+        filtered={[
+          { id: this.state.filter.key, value: this.state.filter.value },
+        ]}
+        data={clients}
+        columns={formattedColumns}
+        defaultPageSize={pageSize}
+        className="-striped -highlight"
+        getTrProps={(state, rowInfo) => {
+          return {
+            onClick: () => onRowClick(rowInfo.original),
+            style: {
+              cursor: rowInfo ? 'pointer' : 'null',
+            },
+          };
+        }}
+      />
+    );
+  };
+
+  render() {
+    const { clients, columns, onRowClick, pageSize } = this.props;
+    const formattedColumns = this.buildColumns(columns);
+
+    const labels = formattedColumns.reduce((acc, column) => {
+      acc.push(column.Header);
+      return acc;
+    }, []);
+
+    return !clients || clients.length === 0 ? (
+      <p>There are no clients to show</p>
+    ) : (
+      <Fragment>
+        <Filter
+          columns={columns}
+          labels={labels}
+          onChange={filter => this.setState({ filter })}
+        />
+        {this.renderTable(clients, formattedColumns, onRowClick, pageSize)}
+      </Fragment>
+    );
+  }
+}
 
 export default ClientList;
