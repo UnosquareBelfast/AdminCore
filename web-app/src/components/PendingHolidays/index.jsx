@@ -15,6 +15,7 @@ export const PendingHolidays = ({
       <h2>Manage Pending Holidays</h2>
       <HolidayList
         holidays={pendingHolidays}
+        pageSize={20}
         columns={[
           'status',
           'employee',

@@ -17,7 +17,11 @@ export const ViewContracts = ({ contracts, updateContracts, history }) => {
       </CornerButton>
       <h2>View Contracts</h2>
       <SearchUserForm onSuccess={updateContracts} />
-      <ContractList contracts={contracts} columns={['startDate', 'endDate']} />
+      <ContractList
+        contracts={contracts}
+        columns={['startDate', 'endDate']}
+        pageSize={20}
+      />
     </div>
   );
 };

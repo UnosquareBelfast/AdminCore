@@ -12,13 +12,13 @@ const buildColumns = columns => {
   return formattedColumns;
 };
 
-const renderTable = (users, columns, onRowClick) => {
+const renderTable = (users, columns, onRowClick, pageSize) => {
   const formattedColumns = buildColumns(columns);
   return (
     <ReactTable
       data={users}
       columns={formattedColumns}
-      defaultPageSize={10}
+      defaultPageSize={pageSize}
       filterable
       className="-striped -highlight"
       defaultFilterMethod={(filter, row) =>
@@ -37,11 +37,11 @@ const renderTable = (users, columns, onRowClick) => {
 };
 
 export const UserList = props => {
-  const { users, columns, onRowClick } = props;
+  const { users, columns, onRowClick, pageSize } = props;
   return !users || users.length === 0 ? (
     <p>There are no users to show</p>
   ) : (
-    renderTable(users, columns, onRowClick)
+    renderTable(users, columns, onRowClick, pageSize)
   );
 };
 
@@ -49,10 +49,12 @@ UserList.propTypes = {
   users: PT.array,
   columns: PT.array.isRequired,
   onRowClick: PT.func,
+  pageSize: PT.number,
 };
 
 UserList.defaultProps = {
   onRowClick: () => {},
+  pageSize: 10,
 };
 
 export default container(UserList);

@@ -15,6 +15,7 @@ export const AllHolidays = ({
       <h2>All Holidays</h2>
       <HolidayList
         holidays={holidays}
+        pageSize={20}
         columns={[
           'status',
           'employee',
