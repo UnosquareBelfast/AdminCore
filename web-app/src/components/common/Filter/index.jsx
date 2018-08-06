@@ -15,6 +15,12 @@ class Filter extends Component {
       value: '',
       key: '',
     };
+
+    this.options = [];
+  }
+
+  componentWillMount() {
+    this.options = this.constructOptions();
   }
 
   handleChange = event => {
@@ -29,28 +35,28 @@ class Filter extends Component {
 
   constructOptions = () => {
     const { columns, labels } = this.props;
-    return columns.reduce((acc, column, index) => {
+    const options = columns.reduce((acc, column, index) => {
       acc.push({
         value: column,
         label: labels[index],
       });
       return acc;
     }, []);
+    this.setState({ key: options[0].value });
+    return options;
   };
 
   switchKey = event => {
     const { value } = event.target;
-    this.setState({ key: value });
+    this.setState({ key: value, value: '' });
   };
 
   render() {
-    const options = this.constructOptions();
-
     return (
       <FilterContainer>
         <label>Search</label>
         <select value={this.state.key} onChange={this.switchKey}>
-          {options.map(option => (
+          {this.options.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
