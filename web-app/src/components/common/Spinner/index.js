@@ -1,7 +1,13 @@
 import React from 'react';
+import { SpinnerContainer } from './styled';
 
 const Spinner = () => {
-  return <p>Loading</p>;
+  return (
+    <SpinnerContainer>
+      <div />
+      <div />
+    </SpinnerContainer>
+  );
 };
 
 export default Spinner;
