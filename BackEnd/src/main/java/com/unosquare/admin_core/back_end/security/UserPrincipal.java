@@ -72,8 +72,6 @@ public class UserPrincipal implements UserDetails {
         roles.add(SecurityRoles.USER.toString());
     }
 
-    @Bean
-    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     @Override
     public String getUsername() {
         return email;
