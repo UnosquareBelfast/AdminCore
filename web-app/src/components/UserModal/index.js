@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Modal, Button } from '../../components/common';
+import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, StatWrap } from './styled';
 import { getHolidays } from '../../services/holidayService';
 import swal from 'sweetalert2';
@@ -67,7 +67,7 @@ class UserModal extends Component {
             <h2>
               {user.forename} {user.surname}
             </h2>
-            <p>{user.email}</p>
+            <Email>{user.email}</Email>
           </div>
           <StatWrap>
             <Stat>
