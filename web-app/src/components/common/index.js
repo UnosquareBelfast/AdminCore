@@ -8,5 +8,6 @@ export { default as Input } from './Input';
 export { default as Form } from './Form';
 export { default as Steps } from './Steps';
 export { default as Table } from './Table';
+export { default as Spinner } from './Spinner';
 export { default as Filter } from './Filter';
 export { default as Email } from './Email';
