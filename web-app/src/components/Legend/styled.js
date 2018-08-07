@@ -4,6 +4,7 @@ export const StyleContainer = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme.colours.lightgrey};
   border: 1px solid ${props => props.theme.colours.grey};
+  border-radius: 0 0 6px 6px;
   border-top: none;
   width: 100%;
   padding: 20px 10px 0 10px;
@@ -28,7 +29,6 @@ export const Column = styled.div`
     display: flex;
     align-items: flex-start;
     flex-wrap: wrap;
-    margin-bottom: 0;
   }
 
   :nth-child(1) {
@@ -73,7 +73,7 @@ export const Key = styled.div`
   color: white;
   font-size: 12px;
   font-weight: 400;
-  margin: 4px 4px 4px 0;
+  margin: 0px 4px 4px 0;
   border-radius: 3px;
   padding: 8px;
   align-self: auto;
