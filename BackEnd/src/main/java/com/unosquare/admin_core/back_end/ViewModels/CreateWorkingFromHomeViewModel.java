@@ -13,8 +13,4 @@ public class CreateWorkingFromHomeViewModel  {
 
     @NotBlank
     private int employeeId;
-
-    @NotBlank
-    private int eventTypeId;
-
 }

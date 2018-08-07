@@ -14,8 +14,6 @@ public class ViewWorkingFromHomeViewModel {
 
     private LocalDate endDate;
 
-    private int eventTypeId;
-
     private String eventTypeDescription;
 
     private int eventStatusId;
