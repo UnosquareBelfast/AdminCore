@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     marginLeft: -1,
   },
   halfDay: {
-    width: 20,
-    height: 32,
+    width: '50%',
+    height: '100%',
     left: 0,
     position: 'absolute',
   },
