@@ -44,7 +44,7 @@ const startDate = {
 const endDate = {
   id: 'endDate',
   Header: 'End Date',
-  accessor: holiday => holiday.start,
+  accessor: holiday => holiday.end,
   Cell: cell => cell.row.endDate.format('Do MMM YYYY'),
   sortMethod: (a, b) => (a.isBefore(b) ? 1 : -1),
   filterMethod: ({ value }, { endDate }) =>
