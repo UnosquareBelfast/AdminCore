@@ -3,11 +3,10 @@ import styled from 'styled-components';
 export const StyleContainer = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme.colours.lightgrey};
-  border: 2px solid ${props => props.theme.colours.grey};
-  border-radius: 6px;
+  border: 1px solid ${props => props.theme.colours.grey};
+  border-top: none;
   width: 100%;
-  padding: 20px 10px;
-  margin: 10px 0 100px 0;
+  padding: 20px 10px 0 10px;
   display: block;
   @media (min-width: 1220px) {
     display: flex;
@@ -67,25 +66,24 @@ export const Column = styled.div`
 `;
 
 export const Key = styled.div`
+  box-sizing: border-box;
   background-color: white;
   background-color: ${props => props.theme.holidayStatus[props.status]};
-  border: 1px solid ${props => props.theme.holidayStatus[props.status]};
+  border: 2px solid ${props => props.theme.holidayStatus[props.status]};
   color: white;
   font-size: 12px;
   font-weight: 400;
   margin: 4px 4px 4px 0;
   border-radius: 3px;
-  padding: 10px;
+  padding: 8px;
   align-self: auto;
   cursor: pointer;
-  transition: all 300ms;
-  box-shadow: 1px 1px 6px 0px rgba(50, 50, 50, 1);
-
+  transition: all 150ms;
   &:hover {
     opacity: 0.9;
   }
 
   &.selected {
-    box-shadow: inset 1px 1px 6px 0px rgba(50, 50, 50, 0.6);
+    box-shadow: inset 0 0 0 2px white;
   }
 `;
