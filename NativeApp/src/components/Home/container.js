@@ -77,8 +77,16 @@ export default Container => class extends Component {
       const dates = this.enumerateDaysBetweenDates(item.start, item.end);
       dates.forEach((date) => {
         obj[date] = {
-          textColor: 'white',
-          color: holidayStatus,
+          customStyles: {
+            container: {
+              backgroundColor: item.halfDay ? 'transparent' : holidayStatus,
+              borderRadius: 0,
+            },
+            text: {
+              color: item.halfDay ? 'grey' : 'white',
+            },
+          },
+          halfDay: item.halfDay,
           statusId: item.eventStatus.eventStatusId,
           status: item.eventStatus.description,
           holId: item.holidayId,
