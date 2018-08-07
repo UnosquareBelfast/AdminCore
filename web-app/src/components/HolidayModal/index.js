@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Modal, Button } from '../../components/common';
+import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, StatWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../utilities/holidayStatus';
@@ -22,7 +22,7 @@ const HolidayModal = ({
         <div>
           <h2>Manage Holiday</h2>
           <p>
-            {forename} {surname} - {email}
+            {forename} {surname} - <Email>{email}</Email>
           </p>
         </div>
         <StatWrap>
