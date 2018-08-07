@@ -17,10 +17,12 @@ export default Container => class extends Component {
 
   state = {
     hasError: false,
+    loading: false
   }
 
   handleLogin = (email, password) => {
     const { navigation } = this.props;
+    this.setState({ loading: true });
     userLogin(email, password)
       .then(() => {
         navigation.navigate('App');
@@ -32,6 +34,7 @@ export default Container => class extends Component {
         );
         this.setState({
           hasError: true,
+          loading: false,
         });
       });
   }
@@ -39,11 +42,13 @@ export default Container => class extends Component {
   render() {
     const {
       hasError,
+      loading,
     } = this.state;
 
     return (
       <Container
         hasError={hasError}
+        loading={loading}
         handleLogin={this.handleLogin}
       />
     );

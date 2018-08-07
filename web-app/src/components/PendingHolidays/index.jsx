@@ -7,16 +7,15 @@ export const PendingHolidays = ({
   pendingHolidays,
   selectedHoliday,
   selectHoliday,
+  closeModal,
 }) => {
   return (
     <Fragment>
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={() => selectHoliday({})}
-      />
+      <HolidayModal holiday={selectedHoliday} closeModal={() => closeModal()} />
       <h2>Manage Pending Holidays</h2>
       <HolidayList
         holidays={pendingHolidays}
+        pageSize={20}
         columns={[
           'status',
           'employee',
@@ -34,6 +33,7 @@ PendingHolidays.propTypes = {
   pendingHolidays: PT.array.isRequired,
   selectedHoliday: PT.object,
   selectHoliday: PT.func.isRequired,
+  closeModal: PT.func.isRequired,
 };
 
 export default container(PendingHolidays);

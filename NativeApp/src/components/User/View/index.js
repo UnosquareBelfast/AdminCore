@@ -2,70 +2,50 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import {
   View,
-  StyleSheet,
   FlatList,
+  SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import ListItem from './ListItem';
-import { HeaderContainer, HolidayContainer, HolidayText } from './styled';
-import { ScrollView, H1, H2, P } from '../../Common';
-import colours from '../../../utilities/globalStyles/theme';
+import { H3, HeaderDays } from '../../Common';
+import { LIGHTGREY } from '../../../styles/colors';
+import styles from './styles';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
-    <ScrollView>
-      <HeaderContainer>
-        <HolidayContainer divider>
-          <H2 type="base" styleProp={styles.boldDarkGrey}>
-            Taken
-          </H2>
-          <HolidayText>
-            <H1 type="base" styleProp={styles.darkGrey}>
-              {takenHolidays.length}
-            </H1>
-            <P type="base" styleProp={styles.darkGreyPadding}>
-              DAYS
-            </P>
-          </HolidayText>
-        </HolidayContainer>
-        <HolidayContainer>
-          <H2 type="base" styleProp={styles.boldDarkGrey}>
-            Remaining
-          </H2>
-          <HolidayText>
-            <H1 type="base" styleProp={styles.darkGrey}>
-              {remainingHolidays}
-            </H1>
-            <P type="base" styleProp={styles.darkGreyPadding}>
-              DAYS
-            </P>
-          </HolidayText>
-        </HolidayContainer>
-      </HeaderContainer>
-
-      <View style={styles.holsDate}>
-        <P type="base">
-          {employee.forename}
-          {employee.surname}
-        </P>
-      </View>
-
-      <View>
-        <FlatList
-          keyExtractor={item => item.holidayId.toString()}
-          data={takenHolidays}
-          renderItem={({ item }) => (
-            <ListItem
-              statusId={item.eventStatus.eventStatusId}
-              status={item.eventStatus.description}
-              startDate={item.start}
-              endDate={item.end}
-            />
-          )}
+    <SafeAreaView style={{ flex: 1, backgroundColor: LIGHTGREY }}>
+      <View style={styles.container}>
+        <HeaderDays
+          takenHolidays={takenHolidays}
+          remainingHolidays={remainingHolidays}
         />
+        <ScrollView>
+          <View style={styles.profileName}>
+            <H3 type="base" style={styles.H3Bold}>
+              {employee.forename}&nbsp;
+              {`${employee.surname}'s Holidays`}
+            </H3>
+          </View>
+
+          <View style={styles.flatListView}>
+            <FlatList
+              keyExtractor={item => item.holidayId.toString()}
+              data={takenHolidays}
+              renderItem={({ item }) => (
+                <ListItem
+                  statusId={item.eventStatus.eventStatusId}
+                  status={item.eventStatus.description}
+                  startDate={item.start}
+                  endDate={item.end}
+                />
+              )}
+            />
+          </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -77,28 +57,5 @@ UserView.propTypes = {
     surname: PT.string,
   }).isRequired,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 23,
-    backgroundColor: '#fff',
-  },
-  holsDate: {
-    paddingBottom: 10,
-  },
-  boldDarkGrey: {
-    fontWeight: 'bold',
-    color: colours.darkGrey,
-  },
-  darkGrey: {
-    color: colours.darkGrey,
-  },
-  darkGreyPadding: {
-    color: colours.darkGrey,
-    paddingBottom: 5,
-    paddingLeft: 2,
-  },
-});
 
 export default UserView;

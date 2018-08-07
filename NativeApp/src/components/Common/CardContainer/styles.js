@@ -1,13 +1,16 @@
-import styled from 'styled-components';
+import { StyleSheet } from 'react-native';
 
-export const View = styled.View`
-  paddingTop: 20;
-  borderWidth: 1;
-  borderColor: #fff;
-  marginHorizontal: 20;
-  paddingLeft: 20;
-  paddingRight: 20;
-  backgroundColor: #fff;
-  borderRadius: 15;
-`;
+const styles = StyleSheet.create({
+  card: {
+    paddingTop: 20,
+    borderWidth: 1,
+    borderColor: '#fff',
+    marginHorizontal: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+  },
+});
 
+export default styles;

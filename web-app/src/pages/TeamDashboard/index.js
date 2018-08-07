@@ -17,6 +17,7 @@ export const User = ({
   selectedUser,
   onUserSelect,
   hideUserModal,
+  hideHolidayModal,
   userModalVisible,
   history,
   selectedHoliday,
@@ -31,10 +32,7 @@ export const User = ({
           history={history}
         />
       )}
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={() => selectHoliday({})}
-      />
+      <HolidayModal holiday={selectedHoliday} closeModal={hideHolidayModal} />
       <h2>My Team</h2>
       <Columns>
         <Stat>
@@ -93,6 +91,7 @@ User.propTypes = {
   selectHoliday: PT.func.isRequired,
   onUserSelect: PT.func.isRequired,
   hideUserModal: PT.func.isRequired,
+  hideHolidayModal: PT.func.isRequired,
   userModalVisible: PT.bool.isRequired,
 };
 

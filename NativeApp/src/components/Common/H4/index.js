@@ -1,17 +1,24 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Text } from './styles';
+import { Text } from 'react-native';
+import styles from './styles';
 
 const H4 = (props) => {
-  const { children } = props;
+  const { children, style, type } = props;
 
   return (
-    <Text {...props}>{children}</Text>
+    <Text {...props} style={[styles[type], style]}>{children}</Text>
   );
 };
 
 H4.propTypes = {
   children: PT.node.isRequired,
+  type: PT.string.isRequired,
+  style: PT.oneOfType([
+    PT.number,
+    PT.object,
+    PT.array,
+  ]),
 };
 
 export default H4;

@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { CAPTION_SIZE } from '../../../styles/text';
+
 
 const styles = StyleSheet.create({
   base: {
-    fontSize: 14,
+    fontSize: CAPTION_SIZE,
   },
 });
 
