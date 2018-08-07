@@ -111,7 +111,8 @@ export const LayoutContainer = styled.div`
   min-height: calc(100vh - 40px);
   background-color: white;
   box-sizing: border-box;
-  padding: ${props => (props.history == '/login' ? '0' : '60px 40px')};
+  padding: ${props => (props.history == '/login' ? '0' : '20px')};
+  padding-bottom: none;
   width: calc(100% - 40px);
   transform: ${props =>
     props.history == '/login' ? 'none' : 'translateX(40px)'};

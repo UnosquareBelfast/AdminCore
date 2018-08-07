@@ -18,7 +18,7 @@ const BigCalendarToolbar = props => {
   return (
     <StyleContainer>
       <div>
-        <h2>Team Holidays</h2>
+        <h2>Booking Dashboard</h2>
         <p className="date">{props.label}</p>
       </div>
       <div>

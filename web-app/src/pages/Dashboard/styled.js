@@ -12,11 +12,11 @@ export const InnerLayout = styled.div`
     padding: 10px 3px;
     background: ${props => props.theme.colours.unoBlue};
     color: white;
+    border: none !important;
   }
 
   .rbc-off-range-bg {
-    background: ${props => props.theme.colours.grey};
-    border-left: 1px solid transparent !important;
+    background: ${props => props.theme.colours.lightgrey};
     cursor: not-allowed;
   }
 
