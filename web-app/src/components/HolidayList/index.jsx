@@ -1,62 +1,81 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Filter } from '../common';
 import ReactTable from 'react-table';
 import TableValues from './TableValues';
 
-const buildColumns = columns => {
-  const formattedColumns = columns.reduce((acc, column) => {
-    return acc.concat(TableValues[column]);
-  }, []);
+class HolidayList extends Component {
+  static propTypes = {
+    holidays: PT.array.isRequired,
+    columns: PT.array.isRequired,
+    onRowClick: PT.func,
+    pageSize: PT.number,
+  };
 
-  return formattedColumns;
-};
+  static defaultProps = {
+    onRowClick: () => {},
+    pageSize: 10,
+  };
 
-const renderTable = (holidays, columns, onRowClick, pageSize) => {
-  const formattedColumns = buildColumns(columns);
-  return (
-    <ReactTable
-      filterable
-      data={holidays}
-      columns={formattedColumns}
-      defaultPageSize={pageSize}
-      className="-striped -highlight"
-      getTrProps={(state, rowInfo) => {
-        return {
-          onClick: () => onRowClick(rowInfo.original),
-          style: {
-            cursor: rowInfo ? 'pointer' : 'null',
-          },
-        };
-      }}
-      defaultSorted={[
-        {
-          id: 'startDate',
-          desc: true,
-        },
-      ]}
-    />
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: { value: '', key: '' },
+    };
+  }
 
-export const HolidayList = props => {
-  const { holidays, columns, onRowClick, pageSize } = props;
-  return !holidays || holidays.length === 0 ? (
-    <p>There are no holidays to show</p>
-  ) : (
-    renderTable(holidays, columns, onRowClick, pageSize)
-  );
-};
+  buildColumns = columns => {
+    const formattedColumns = columns.reduce((acc, column) => {
+      return acc.concat(TableValues[column]);
+    }, []);
 
-HolidayList.propTypes = {
-  holidays: PT.array.isRequired,
-  columns: PT.array.isRequired,
-  onRowClick: PT.func,
-  pageSize: PT.number,
-};
+    return formattedColumns;
+  };
 
-HolidayList.defaultProps = {
-  onRowClick: () => {},
-  pageSize: 10,
-};
+  renderTable = (holidays, formattedColumns, onRowClick, pageSize) => {
+    return (
+      <ReactTable
+        filtered={[
+          { id: this.state.filter.key, value: this.state.filter.value },
+        ]}
+        data={holidays}
+        columns={formattedColumns}
+        defaultPageSize={pageSize}
+        className="-striped -highlight"
+        getTrProps={(state, rowInfo) => {
+          return {
+            onClick: () => onRowClick(rowInfo.original),
+            style: {
+              cursor: rowInfo ? 'pointer' : 'null',
+            },
+          };
+        }}
+      />
+    );
+  };
+
+  render() {
+    const { holidays, columns, onRowClick, pageSize } = this.props;
+    const formattedColumns = this.buildColumns(columns);
+
+    const labels = formattedColumns.reduce((acc, column) => {
+      acc.push(column.Header);
+      return acc;
+    }, []);
+
+    return !holidays || holidays.length === 0 ? (
+      <p>There are no holidays to show</p>
+    ) : (
+      <Fragment>
+        <Filter
+          columns={columns}
+          labels={labels}
+          onChange={filter => this.setState({ filter })}
+        />
+        {this.renderTable(holidays, formattedColumns, onRowClick, pageSize)}
+      </Fragment>
+    );
+  }
+}
 
 export default HolidayList;
