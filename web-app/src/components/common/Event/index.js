@@ -20,7 +20,6 @@ const Event = ({ children, event }) => {
   }
 
   const today = new moment();
-
   const eventPast = event.end.endOf().isBefore(today);
 
   return (
