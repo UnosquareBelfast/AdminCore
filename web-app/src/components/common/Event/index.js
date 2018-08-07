@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
 import holidayStatus, { statusIcons } from '../../../utilities/holidayStatus';
+import moment from 'moment';
 
 const Event = ({ children, event }) => {
   const { eventStatusId } = event.eventStatus;
@@ -18,8 +19,13 @@ const Event = ({ children, event }) => {
     id = holidayStatus.WRT;
   }
 
+  const today = new moment();
+
+  const eventPast = event.end.endOf().isBefore(today);
+
   return (
     <Container
+      fade={eventPast}
       className={event.halfDay ? 'ishalfday' : ''}
       status={id}
       onClick={children.props.onClick}
