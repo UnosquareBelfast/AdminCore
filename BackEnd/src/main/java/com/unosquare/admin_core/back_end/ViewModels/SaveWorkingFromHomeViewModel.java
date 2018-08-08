@@ -13,8 +13,6 @@ public class SaveWorkingFromHomeViewModel {
 
     private LocalDate endDate;
 
-    private String eventTypeDescription;
-
     private int eventStatusId;
 
     private String eventStatusDescription;
