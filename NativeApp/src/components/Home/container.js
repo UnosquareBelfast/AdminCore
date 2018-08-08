@@ -4,6 +4,7 @@ import moment from 'moment';
 import { has, get } from 'lodash';
 import { getTakenHolidays } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
+import { BLACK, WHITE } from '../../styles/colors';
 
 export default Container => class extends Component {
     static propTypes = {
@@ -67,7 +68,9 @@ export default Container => class extends Component {
         dates.push(currDate.clone().format('YYYY-MM-DD'));
       }
 
-      dates.push(endDate);
+      if (!moment(startDate).isSame(endDate)) {
+        dates.push(endDate);
+      }
 
       return dates;
     }
@@ -75,17 +78,19 @@ export default Container => class extends Component {
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = holidayStatusColor[item.eventStatus.eventStatusId];
       const dates = this.enumerateDaysBetweenDates(item.start, item.end);
+      const sameDate = moment(item.start).isSame(item.end);
       dates.forEach((date) => {
         obj[date] = {
           customStyles: {
             container: {
               backgroundColor: item.halfDay ? 'transparent' : holidayStatus,
-              borderRadius: 0,
             },
             text: {
-              color: item.halfDay ? 'grey' : 'white',
+              color: item.halfDay ? BLACK : WHITE,
             },
           },
+          startingDate: item.start === date && !sameDate,
+          endingDate: item.end === date && !sameDate,
           halfDay: item.halfDay,
           statusId: item.eventStatus.eventStatusId,
           status: item.eventStatus.description,

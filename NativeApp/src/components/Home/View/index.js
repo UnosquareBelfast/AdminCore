@@ -3,6 +3,8 @@ import { PropTypes as PT } from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
 import CustomDay from '../CustomDay';
+import { LIGHTGREY, BLACK } from '../../../styles/colors';
+import { H3_SIZE } from '../../../styles/text';
 
 const HomeView = (props) => {
   const {
@@ -18,21 +20,18 @@ const HomeView = (props) => {
         markingType="period"
         dayComponent={dayProps => <CustomDay {...dayProps} />}
         theme={{
-          todayTextColor: '#00adf5',
+          monthTextColor: BLACK,
+          textMonthFontSize: H3_SIZE,
+          textMonthFontWeight: 'bold',
+          dayTextColor: BLACK,
+          textSectionTitleColor: BLACK,
           'stylesheet.calendar.header': {
             week: {
               marginTop: 7,
               flexDirection: 'row',
               justifyContent: 'space-around',
-              backgroundColor: 'white',
-              shadowRadius: 2,
-              shadowOffset: {
-                width: 0,
-                height: -6 ,
-              },
-              shadowColor: 'grey',
-              shadowOpacity: 1.0,
-              elevation: 4,
+              borderBottomWidth: 1,
+              borderColor: LIGHTGREY,
             },
           },
         }}
