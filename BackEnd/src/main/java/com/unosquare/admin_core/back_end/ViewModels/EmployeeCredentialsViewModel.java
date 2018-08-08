@@ -3,9 +3,9 @@ package com.unosquare.admin_core.back_end.ViewModels;
 import lombok.Data;
 
 @Data
-public class UserCredentialsViewModel {
+public class EmployeeCredentialsViewModel {
 
-    private String Email;
+    private String Emai;
 
     private int userId;
 }
