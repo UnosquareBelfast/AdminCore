@@ -59,7 +59,7 @@ public class HolidayController {
 
         for (DateViewModel date : createHolidayViewModel.getDates()) {
             EventDTO existentEvent = eventService.findByEmployeeIdStartDataEndDate(
-                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
+                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate(), EventTypes.ANNUAL_LEAVE);
 
             if (existentEvent != null) {
                 responses.add("Holiday already exists");

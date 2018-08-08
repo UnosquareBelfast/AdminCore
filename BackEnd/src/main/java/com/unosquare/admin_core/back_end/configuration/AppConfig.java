@@ -1,17 +1,22 @@
 package com.unosquare.admin_core.back_end.configuration;
 
+import com.unosquare.admin_core.back_end.ViewModels.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.domain.EmployeeMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.presentation.RegisterEmployeeMappings;
+import com.unosquare.admin_core.back_end.security.UserPrincipal;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.lang.*;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
+import org.springframework.web.context.annotation.RequestScope;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Configuration
@@ -39,5 +44,13 @@ public class AppConfig {
         }
 
         return modelMapper;
+    }
+
+    @Bean
+    @RequestScope
+    public EmployeeCredentialsViewModel userCredentials(HttpServletRequest request, ModelMapper modelMapper) {
+        UserPrincipal user = (UserPrincipal)((UsernamePasswordAuthenticationToken)request.getUserPrincipal()).getPrincipal();
+
+        return modelMapper.map(user, EmployeeCredentialsViewModel.class);
     }
 }

@@ -5,6 +5,7 @@ import com.unosquare.admin_core.back_end.security.JwtAuthenticationEntryPoint;
 import com.unosquare.admin_core.back_end.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -87,7 +88,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authentication/**", "/swaggerLogin/**")
                 .permitAll()
                 .antMatchers("/clients/**", "/employees/**", "/contracts/**",
-                        "/holidays/**", "/teams/**")
+                        "/holidays/**", "/teams/**", "/dashboard/**")
 //                .hasRole("USER")
 //                .anyRequest()
                 .authenticated();
