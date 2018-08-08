@@ -10,6 +10,7 @@ import {
   faArrowLeft,
 } from '@fortawesome/fontawesome-free-solid';
 import { roleText } from '../../utilities/roles';
+import { Email } from '../../components/common';
 
 export const User = props => {
   if (!props.profileUser) return null;
@@ -30,7 +31,7 @@ export const User = props => {
         </h1>
         <p>
           <FontAwesomeIcon icon={faEnvelope} />
-          {email}
+          <Email>{email}</Email>
         </p>
         <p>
           <FontAwesomeIcon icon={faIdCard} />

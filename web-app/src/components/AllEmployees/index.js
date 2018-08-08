@@ -25,6 +25,7 @@ const AllEmployees = ({ history, users, selectUser, selectedUser }) => {
         users={users}
         columns={['fullName', 'email', 'role', 'location']}
         onRowClick={employee => selectUser(employee)}
+        pageSize={20}
       />
     </Fragment>
   );

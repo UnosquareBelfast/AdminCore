@@ -30,6 +30,7 @@ export const AllClients = ({
         clients={clients}
         columns={['clientName']}
         onRowClick={data => selectClient(data)}
+        pageSize={20}
       />
     </Fragment>
   );

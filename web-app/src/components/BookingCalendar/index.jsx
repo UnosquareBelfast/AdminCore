@@ -24,6 +24,9 @@ export const BookingCalendar = props => {
       showMultiDayTimes
       selectable
       views={{ month: true }}
+      formats={{
+        weekdayFormat: 'dddd',
+      }}
     />
   );
 };

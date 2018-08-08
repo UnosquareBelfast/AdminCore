@@ -10,6 +10,7 @@ export const Container = styled.div`
   font-size: 12px;
   border-radius: 2px;
   background: ${props => props.theme.holidayStatus[props.status]};
+  opacity: ${({ fade }) => (fade ? 0.4 : 1)};
 
   span {
     padding: 0 10px 0 2px;
