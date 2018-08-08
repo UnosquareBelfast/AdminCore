@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { View, StyleSheet } from 'react-native';
-import { CalendarList } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import CustomDay from '../CustomDay';
 import { LIGHTGREY, BLACK } from '../../../styles/colors';
 import { H3_SIZE } from '../../../styles/text';
@@ -14,8 +14,8 @@ const HomeView = (props) => {
 
   return (
     <View style={styles.container}>
-      <CalendarList
-        style={[styles.calendar, { height: 300 }]}
+      <Calendar
+        style={[styles.calendar]}
         markedDates={takenHolidays}
         markingType="period"
         dayComponent={dayProps => <CustomDay {...dayProps} />}
@@ -37,13 +37,6 @@ const HomeView = (props) => {
         }}
         onDayPress={(day) => { onDayPress(day); }}
       />
-
-      {/* <Icon
-        name="add"
-        reverse
-        color="red"
-        size={30}
-      /> */}
     </View>
   );
 };
