@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native-elements';
+import { Button, FormValidationMessage, FormInput, FormLabel } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, Caption } from '../../Common';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -21,6 +20,7 @@ class LoginForm extends Component {
     };
   }
 
+
   changeColor = (id, color) => {
     if (id === 'input-1') {
       this.setState({
@@ -38,45 +38,68 @@ class LoginForm extends Component {
     const { handleLogin, hasError, loading } = this.props;
     const { changeColor } = this;
     return (
-      <View>
-        <TextInput
-          id="input-1"
-          onFocus={() => changeColor('input-1', '#00DCFA')}
-          onBlur={() => changeColor('input-1', 'gray')}
-          placeholder="Email"
-          onChangeText={text => this.setState({ email: text })}
-          value={email}
-          autoCapitalize="none"
-          underlineColorAndroid="transparent"
-          selectionColor="#00DCFA"
-          style={{ borderBottomWidth: 1, borderColor: hasError ? 'red' : underlineColor1 }}
-        />
-        <TextInput
-          id="input-2"
-          onFocus={() => changeColor('input-2', '#00DCFA')}
-          onBlur={() => changeColor('input-2', 'gray')}
-          placeholder="Password"
-          onChangeText={text => this.setState({ password: text })}
-          value={password}
-          secureTextEntry
-          underlineColorAndroid="transparent"
-          style={{ borderBottomWidth: 1, borderColor: hasError ? 'red' : underlineColor2 }}
-          selectionColor="#00DCFA"
-        />
-        {
-          hasError && (
-            <Caption type="base" style={styles.red}>
-              Incorrect email or password
-            </Caption>
-          )
-        }
+      <View style={styles.view}>
+        <View>
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            id="input-1"
+            onChangeText={text => this.setState({ email: text })}
+            inputStyle={{
+              fontSize: 20,
+              color: 'black',
+              padding: 8,
+              borderColor: hasError ? 'red' : underlineColor1,
+              borderBottomWidth: 1,
+              width: '100%',
+            }}
+            underlineColorAndroid="transparent"
+            selectionColor="#00DCFA"
+            placeholder="you@email.com"
+            autoCapitalize="none"
+            value={email}
+            returnKeyType="next"
+            onSubmitEditing={() => this.secondInput.focus()}
+            onFocus={() => changeColor('input-1', '#00DCFA')}
+            onBlur={() => changeColor('input-1', 'gray')}
+            blurOnSubmit={false}
+          />
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            id="input-2"
+            textInputRef={(el) => { this.secondInput = el; }}
+            onChangeText={text => this.setState({ password: text })}
+            inputStyle={{
+              fontSize: 20,
+              color: 'black',
+              padding: 8,
+              borderColor: hasError ? 'red' : underlineColor2,
+              borderBottomWidth: 1,
+              width: '100%',
+            }}
+            underlineColorAndroid="transparent"
+            selectionColor="#00DCFA"
+            placeholder="*******"
+            autoCapitalize="none"
+            value={password}
+            secureTextEntry
+            returnKeyType="done"
+            onFocus={() => changeColor('input-2', '#00DCFA')}
+            onBlur={() => changeColor('input-2', 'gray')}
+            onSubmitEditing={() => handleLogin(email, password)}
+          />
+          {
+            hasError && (
+              <FormValidationMessage>Incorrect email or password</FormValidationMessage>
+            )
+          }
+        </View>
         <Button
           onPress={() => handleLogin(email, password)}
-          title="Login"
+          title="Log In"
           textStyle={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}
           backgroundColor="#00DCFA"
-          containerViewStyle={{ marginTop: 30 }}
           borderRadius={5}
+          containerViewStyle={{ marginVertical: 20 }}
           loading={loading}
           loadingRight
         />
@@ -86,9 +109,9 @@ class LoginForm extends Component {
 }
 
 const styles = StyleSheet.create({
-  red: {
-    color: 'red',
-    paddingHorizontal: 5,
+  view: {
+    flex: 1,
+    justifyContent: 'space-around',
   },
 });
 
