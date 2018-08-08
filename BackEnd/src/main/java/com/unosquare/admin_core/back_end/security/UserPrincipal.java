@@ -42,7 +42,7 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
-    @Bean
+
     public static UserPrincipal create(Employee employee) {
 
         List<String> roles = new ArrayList();
