@@ -18,6 +18,22 @@ const HomeView = (props) => {
         markingType="period"
         theme={{
           todayTextColor: '#00adf5',
+          'stylesheet.calendar.header': {
+            week: {
+              marginTop: 7,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              backgroundColor: 'white',
+              shadowRadius: 2,
+              shadowOffset: {
+                width: 0,
+                height: -6 ,
+              },
+              shadowColor: 'grey',
+              shadowOpacity: 1.0,
+              elevation: 4,
+            },
+          },
         }}
         onDayPress={(day) => { onDayPress(day); }}
       />
