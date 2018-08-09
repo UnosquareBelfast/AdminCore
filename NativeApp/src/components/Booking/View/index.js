@@ -10,6 +10,7 @@ import styles from './styles';
 import { CustomDatePicker } from '../../Common';
 import StatusBar from '../StatusBar';
 import RequestButton from '../RequestButton';
+import EventTypeGroup from '../EventTypeGroup';
 
 const BookingView = (props) => {
   const {
@@ -27,15 +28,16 @@ const BookingView = (props) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text>
+      {/* <Text>
         I would like to
         {booked ? ' update ' : ' request '}
         the following holiday/s:
-      </Text>
+      </Text> */}
 
       {booked && <StatusBar booking={booking} />}
 
       <View style={styles.dateForm}>
+        <EventTypeGroup />
         <View>
           <Text>
             Start Date:
