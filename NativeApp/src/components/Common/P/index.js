@@ -11,9 +11,13 @@ const P = (props) => {
   );
 };
 
+P.defaultProps = {
+  type: 'base',
+};
+
 P.propTypes = {
   children: PT.node.isRequired,
-  type: PT.string.isRequired,
+  type: PT.string,
   style: PT.oneOfType([
     PT.number,
     PT.object,

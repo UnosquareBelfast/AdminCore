@@ -25,14 +25,14 @@ class EventTypeGroup extends Component {
 
       return (
         <TouchableOpacity
-          key={event.key}
+          key={index}
           onPress={() => this.selected(index)}
           style={[styles.box, { backgroundColor: isSelected ? event.color : 'white' }]}
         >
           <Icon
             name={event.icon}
             type="font-awesome"
-            size={35}
+            size={20}
             color={isSelected ? 'white' : event.color}
             containerStyle={{ paddingBottom: 10 }}
           />
@@ -51,20 +51,18 @@ class EventTypeGroup extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    padding: 10,
   },
   box: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 10,
     padding: 10,
-    minWidth: 100,
-    maxWidth: 150,
+    width: 100,
     height: 100,
-    maxHeight: 150,
     borderRadius: 10,
     shadowRadius: 2,
     shadowColor: 'lightgrey',
@@ -76,7 +74,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 12,
     color: 'grey',
   },
 });

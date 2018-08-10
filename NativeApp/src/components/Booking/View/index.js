@@ -4,7 +4,7 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, FormLabel } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import styles from './styles';
 import { CustomDatePicker } from '../../Common';
@@ -28,20 +28,23 @@ const BookingView = (props) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* <Text>
-        I would like to
-        {booked ? ' update ' : ' request '}
-        the following holiday/s:
-      </Text> */}
-
       {booked && <StatusBar booking={booking} />}
-
+      <EventTypeGroup />
       <View style={styles.dateForm}>
-        <EventTypeGroup />
+        <CheckBox
+          title="Request half day"
+          checked={halfDay}
+          size={20}
+          checkedIcon="check-circle"
+          uncheckedIcon="circle-o"
+          onPress={updateHalfDay}
+          containerStyle={styles.checkBox}
+          textStyle={styles.checkText}
+        />
         <View>
-          <Text>
-            Start Date:
-          </Text>
+          <FormLabel labelStyle={styles.formLabel}>
+            Start Date
+          </FormLabel>
           <CustomDatePicker
             chosenDate={startDate}
             setDate={changeStartDate}
@@ -49,9 +52,9 @@ const BookingView = (props) => {
 
           { !halfDay && (
             <Fragment>
-              <Text>
-                End Date:
-              </Text>
+              <FormLabel labelStyle={styles.formLabel}>
+                End Date
+              </FormLabel>
               <CustomDatePicker
                 chosenDate={endDate}
                 setDate={changeEndDate}
@@ -59,13 +62,6 @@ const BookingView = (props) => {
               />
             </Fragment>
           )}
-
-          <CheckBox
-            title="Request half day"
-            checked={halfDay}
-            onPress={updateHalfDay}
-            containerStyle={styles.checkBox}
-          />
         </View>
         <RequestButton
           updateHoliday={updateHoliday}

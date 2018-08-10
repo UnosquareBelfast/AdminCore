@@ -2,29 +2,30 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import holidayStatusColor from '../../../utilities/holidayStatus';
+import { H3 } from '../../Common';
+import { LIGHTGREY } from '../../../styles/colors';
 
 const StatusBar = ({ booking }) => {
   const { status, statusId, startDate, endDate } = booking;
 
   return (
-    <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
-      <Text>
+    <View style={[styles.holidayStatus, { backgroundColor: holidayStatusColor[statusId] }]}>
+      <H3 style={{ textAlign: 'center', color: 'white'}}>
         {status}
-      </Text>
-      <Text>
+      </H3>
+      {/* <Text>
         {startDate} to {endDate}
-      </Text>
+      </Text> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   holidayStatus: {
-    backgroundColor: '#f7f7f7',
-    borderLeftWidth: 10,
-    borderLeftColor: '#00DCFA',
+    backgroundColor: LIGHTGREY,
+    // borderLeftWidth: 3,
+    // borderLeftColor: '#00DCFA',
     padding: 10,
-    marginTop: 20,
   },
 });
 

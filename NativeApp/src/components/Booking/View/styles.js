@@ -1,17 +1,24 @@
 import { StyleSheet } from 'react-native';
+import { LIGHTERBLACK } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'flex-start',
-    paddingVertical: 23,
-    paddingHorizontal: 20,
+    paddingBottom: 23,
     backgroundColor: '#fff',
   },
   dateForm: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingTop: 20,
+    padding: 20,
+    margin: 10,
+  },
+  formLabel: {
+    marginLeft: 0,
+    fontSize: 12,
+    fontWeight: 'normal',
+    color: LIGHTERBLACK,
   },
   checkBox: {
     backgroundColor: 'transparent',
@@ -19,6 +26,12 @@ const styles = StyleSheet.create({
     margin: 0,
     marginRight: 0,
     marginLeft: 0,
+    padding: 0,
+  },
+  checkText: {
+    fontSize: 12,
+    color: LIGHTERBLACK,
+    fontWeight: 'normal'
   },
   holidayStatus: {
     backgroundColor: '#f7f7f7',
