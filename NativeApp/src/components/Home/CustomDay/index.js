@@ -13,16 +13,18 @@ const CustomDay = (props) => {
     }
 
     return (
-      <View style={
-        [
-          styles.halfDay,
-          {
-            borderTopLeftRadius: 17,
-            borderBottomLeftRadius: 17,
-            backgroundColor: holidayStatusColor[statusId],
-          },
-        ]}
-      />
+      <View style={styles.halfDayContainer}>
+        <View style={
+          [
+            styles.halfDay,
+            {
+              borderTopLeftRadius: 16,
+              borderBottomLeftRadius: 16,
+              backgroundColor: holidayStatusColor[statusId],
+            },
+          ]}
+        />
+      </View>
     );
   };
 
@@ -62,11 +64,15 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginLeft: -1,
   },
-  halfDay: {
-    width: '50%',
-    height: '100%',
-    left: 0,
+  halfDayContainer: {
+    width: 32,
+    height: 32,
     position: 'absolute',
+  },
+  halfDay: {
+    flex: 1,
+    width: '50%',
+    alignItems: 'flex-start',
   },
   fillers: {
     position: 'absolute',
