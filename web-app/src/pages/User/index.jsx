@@ -1,7 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { HolidayList, HolidayModal } from '../../components';
+import { DataTable, HolidayModal } from '../../components';
+import HolidayCells from '../../components/DataTable/Cells/holidays';
 import { Container, Splitter } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -41,8 +42,9 @@ export const User = props => {
       <Splitter />
       <div>
         <h2>Holidays</h2>
-        <HolidayList
-          holidays={profileHolidays}
+        <DataTable
+          data={profileHolidays}
+          cells={HolidayCells}
           columns={['status', 'startDate', 'endDate', 'requestedDate']}
           onRowClick={holiday => selectHoliday(holiday)}
         />
