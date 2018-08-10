@@ -17,6 +17,12 @@ public class Event {
     @Column(name = "event_id", unique = true, nullable = false)
     private int eventId;
 
+   /* @SequenceGenerator(name="groupEventSeq",sequenceName="group_event_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="eventSeq")*/
+    @Column(name = "group_id", unique = true, nullable = false)
+    private Integer groupId;
+
+
     @Basic
     @Column(name = "start_date")
     private LocalDate startDate;

@@ -33,6 +33,9 @@ public class EventService {
         return mapEventsToDtos(eventRepository.findByEventType(new EventType(eventType.getEventTypeId())));
     }
 
+    public List<EventDTO> findAll(){
+        return mapEventsToDtos(eventRepository.findAll());
+    }
     public EventDTO findById(int id) {
         Optional<Event> result = eventRepository.findById(id);
         if (result.isPresent()) {

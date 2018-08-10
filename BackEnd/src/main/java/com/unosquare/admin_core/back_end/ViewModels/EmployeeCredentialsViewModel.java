@@ -5,7 +5,9 @@ import lombok.Data;
 @Data
 public class EmployeeCredentialsViewModel {
 
-    private String Emai;
+    private String Email;
 
-    private int userId;
+    private int employeeId;
+
+    private int employeeRoleId;
 }

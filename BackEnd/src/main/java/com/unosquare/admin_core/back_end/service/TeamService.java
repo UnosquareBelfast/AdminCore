@@ -22,6 +22,8 @@ public class TeamService {
     @Autowired
     TeamRepository teamRepository;
 
+
+
     public List<TeamDTO> findAll() {
         List teams = teamRepository.findAll();
         return mapTeamsToDtos(teams);

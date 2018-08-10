@@ -13,4 +13,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findByForenameIgnoreCaseAndSurnameIgnoreCase(String forename, String surname);
 
     List<Employee> findByCountry(Country country);
+
 }

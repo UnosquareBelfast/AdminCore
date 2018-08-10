@@ -30,16 +30,19 @@ public class UserPrincipal implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private int roleId;
+
     private Collection<? extends GrantedAuthority> authorities;
 
 
 
-    public UserPrincipal(int id, String name, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(int id, String name, String email, int roleId, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.roleId = roleId;
     }
 
     @Bean
@@ -58,7 +61,7 @@ public class UserPrincipal implements UserDetails {
 
         return new UserPrincipal(
                 employee.getEmployeeId(), String.format("%s %s", employee.getForename(), employee.getSurname()),
-                employee.getEmail(), employee.getPassword(), authorities
+                employee.getEmail(), employee.getEmployeeRole().getEmployeeRoleId(), employee.getPassword(), authorities
         );
     }
 

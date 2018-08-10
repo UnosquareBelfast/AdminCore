@@ -9,8 +9,9 @@ public class EmployeeCredentialsMappings implements BaseMappings<UserPrincipal, 
     public PropertyMap<UserPrincipal, EmployeeCredentialsViewModel> MapFromSourceToTarget() {
         return new PropertyMap <UserPrincipal, EmployeeCredentialsViewModel>() {
             protected void configure() {
-                map().setEmai(source.getUsername());
-                map().setUserId(source.getId());
+                map().setEmail(source.getUsername());
+                map().setEmployeeId(source.getId());
+                map().setEmployeeRoleId(source.getRoleId());
             }
         };
     }
