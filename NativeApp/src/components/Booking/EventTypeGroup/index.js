@@ -12,27 +12,34 @@ class EventTypeGroup extends Component {
         { type: 'Working from Home', icon: 'home', color: '#399BB6' },
         { type: 'Work related travel', icon: 'plane', color: '#FF544E' },
       ],
+      selectedIndex: 0,
     };
   }
 
+  selected = i => this.setState({ selectedIndex: i });
+
   render() {
-    const { eventType } = this.state;
-    const checkBox = eventType.map((event, index) => (
-      <TouchableOpacity
-        key={index}
-        onPress={() => console.log('test')}
-        style={styles.box}
-      >
-        <Icon
-          name={event.icon}
-          type="font-awesome"
-          size={35}
-          color={event.color}
-          containerStyle={{ paddingBottom: 10 }}
-        />
-        <Text style={styles.textStyle}>{event.type}</Text>
-      </TouchableOpacity>
-    ));
+    const { eventType, selectedIndex } = this.state;
+    const checkBox = eventType.map((event, index) => {
+      const isSelected = selectedIndex === index;
+
+      return (
+        <TouchableOpacity
+          key={event.key}
+          onPress={() => this.selected(index)}
+          style={[styles.box, { backgroundColor: isSelected ? event.color : 'white' }]}
+        >
+          <Icon
+            name={event.icon}
+            type="font-awesome"
+            size={35}
+            color={isSelected ? 'white' : event.color}
+            containerStyle={{ paddingBottom: 10 }}
+          />
+          <Text style={[styles.textStyle, { color: isSelected ? 'white' : 'grey' }]}>{event.type}</Text>
+        </TouchableOpacity>
+      );
+    });
 
     return (
       <View style={styles.container}>
@@ -58,7 +65,6 @@ const styles = StyleSheet.create({
     maxWidth: 150,
     height: 100,
     maxHeight: 150,
-    backgroundColor: 'white',
     borderRadius: 10,
     shadowRadius: 2,
     shadowColor: 'lightgrey',
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 15,
     color: 'grey',
-  }
+  },
 });
 
 export default EventTypeGroup;
