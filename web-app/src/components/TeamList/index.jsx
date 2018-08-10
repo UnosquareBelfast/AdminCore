@@ -1,55 +1,83 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Filter } from '../common';
 import ReactTable from 'react-table';
 import TableValues from './TableValues';
 
-const buildColumns = columns => {
-  const formattedColumns = columns.reduce((acc, column) => {
-    return acc.concat(TableValues[column]);
-  }, []);
+class TeamList extends Component {
+  static propTypes = {
+    teams: PT.array.isRequired,
+    columns: PT.array.isRequired,
+    onRowClick: PT.func,
+    pageSize: PT.number,
+  };
 
-  return formattedColumns;
-};
+  static defaultProps = {
+    onRowClick: () => {},
+    pageSize: 10,
+  };
 
-const renderTable = (teams, columns, onRowClick, pageSize) => {
-  const formattedColumns = buildColumns(columns);
-  return (
-    <ReactTable
-      data={teams}
-      columns={formattedColumns}
-      defaultPageSize={pageSize}
-      className="-striped -highlight"
-      getTrProps={(state, rowInfo) => {
-        return {
-          onClick: () => onRowClick(rowInfo.original),
-          style: {
-            cursor: rowInfo ? 'pointer' : 'null',
-          },
-        };
-      }}
-    />
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: { value: '', key: '' },
+    };
+  }
 
-export const TeamList = props => {
-  const { teams, columns, onRowClick, pageSize } = props;
-  return !teams || teams.length === 0 ? (
-    <p>There are no teams to show</p>
-  ) : (
-    renderTable(teams, columns, onRowClick, pageSize)
-  );
-};
+  buildColumns = columns => {
+    const formattedColumns = columns.reduce((acc, column) => {
+      return acc.concat(TableValues[column]);
+    }, []);
 
-TeamList.propTypes = {
-  teams: PT.array,
-  columns: PT.array.isRequired,
-  onRowClick: PT.func,
-  pageSize: PT.number,
-};
+    return formattedColumns;
+  };
 
-TeamList.defaultProps = {
-  onRowClick: () => {},
-  pageSize: 10,
-};
+  renderTable = (teams, formattedColumns, onRowClick, pageSize) => {
+    return (
+      <ReactTable
+        filtered={[
+          { id: this.state.filter.key, value: this.state.filter.value },
+        ]}
+        data={teams}
+        columns={formattedColumns}
+        defaultPageSize={pageSize}
+        className="-striped -highlight"
+        getTrProps={(state, rowInfo) => {
+          return {
+            onClick: () => onRowClick(rowInfo.original),
+            style: {
+              cursor: rowInfo ? 'pointer' : 'null',
+            },
+          };
+        }}
+      />
+    );
+  };
+
+  render() {
+    const { teams, columns, onRowClick, pageSize } = this.props;
+    const formattedColumns = this.buildColumns(columns);
+
+    const labels = formattedColumns.reduce((acc, column) => {
+      acc.push(column.Header);
+      return acc;
+    }, []);
+
+    if (teams.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(teams, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no teams to show</p>;
+    }
+  }
+}
 
 export default TeamList;
