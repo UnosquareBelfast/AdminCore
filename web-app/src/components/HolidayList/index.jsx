@@ -63,18 +63,20 @@ class HolidayList extends Component {
       return acc;
     }, []);
 
-    return !holidays || holidays.length === 0 ? (
-      <p>There are no holidays to show</p>
-    ) : (
-      <Fragment>
-        <Filter
-          columns={columns}
-          labels={labels}
-          onChange={filter => this.setState({ filter })}
-        />
-        {this.renderTable(holidays, formattedColumns, onRowClick, pageSize)}
-      </Fragment>
-    );
+    if (holidays.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(holidays, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no holidays to show</p>;
+    }
   }
 }
 

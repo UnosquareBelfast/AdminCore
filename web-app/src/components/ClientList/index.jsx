@@ -63,18 +63,20 @@ class ClientList extends Component {
       return acc;
     }, []);
 
-    return !clients || clients.length === 0 ? (
-      <p>There are no clients to show</p>
-    ) : (
-      <Fragment>
-        <Filter
-          columns={columns}
-          labels={labels}
-          onChange={filter => this.setState({ filter })}
-        />
-        {this.renderTable(clients, formattedColumns, onRowClick, pageSize)}
-      </Fragment>
-    );
+    if (clients.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(clients, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no clients to show</p>;
+    }
   }
 }
 

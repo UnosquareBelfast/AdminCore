@@ -63,18 +63,20 @@ class UserList extends Component {
       return acc;
     }, []);
 
-    return !users || users.length === 0 ? (
-      <p>There are no employees to show</p>
-    ) : (
-      <Fragment>
-        <Filter
-          columns={columns}
-          labels={labels}
-          onChange={filter => this.setState({ filter })}
-        />
-        {this.renderTable(users, formattedColumns, onRowClick, pageSize)}
-      </Fragment>
-    );
+    if (users.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(users, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no employees to show</p>;
+    }
   }
 }
 

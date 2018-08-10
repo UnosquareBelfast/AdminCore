@@ -63,18 +63,20 @@ class TeamList extends Component {
       return acc;
     }, []);
 
-    return !teams || teams.length === 0 ? (
-      <p>There are no teams to show</p>
-    ) : (
-      <Fragment>
-        <Filter
-          columns={columns}
-          labels={labels}
-          onChange={filter => this.setState({ filter })}
-        />
-        {this.renderTable(teams, formattedColumns, onRowClick, pageSize)}
-      </Fragment>
-    );
+    if (teams.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(teams, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no teams to show</p>;
+    }
   }
 }
 

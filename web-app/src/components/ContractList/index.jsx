@@ -63,18 +63,20 @@ class ContractList extends Component {
       return acc;
     }, []);
 
-    return !contracts || contracts.length === 0 ? (
-      <p>There are no contracts to show</p>
-    ) : (
-      <Fragment>
-        <Filter
-          columns={columns}
-          labels={labels}
-          onChange={filter => this.setState({ filter })}
-        />
-        {this.renderTable(contracts, formattedColumns, onRowClick, pageSize)}
-      </Fragment>
-    );
+    if (contracts.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(contracts, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no contracts to show</p>;
+    }
   }
 }
 
