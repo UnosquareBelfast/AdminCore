@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { MainContentContainer } from './styled';
-import { HolidayList, HolidayModal } from '../../components/';
+import { DataTable, HolidayModal } from '../../components/';
+import HolidayCells from '../../components/DataTable/Cells/holidays';
 
 const Profile = props => {
   const {
@@ -40,11 +41,12 @@ const Profile = props => {
               <h4>Days Pending</h4>
             </div>
           </div>
-          <HolidayList
-            holidays={userHolidays}
+          <DataTable
+            data={userHolidays}
+            cells={HolidayCells}
             columns={['status', 'startDate', 'endDate', 'requestedDate']}
             onRowClick={holiday => selectHoliday(holiday)}
-          />
+          />>
         </div>
       </MainContentContainer>
     </Fragment>
@@ -58,6 +60,7 @@ Profile.propTypes = {
   daysPending: PT.number,
   selectedHoliday: PT.object.isRequired,
   selectHoliday: PT.func.isRequired,
+  closeModal: PT.func.isRequired,
 };
 
 Profile.defaultProps = {
