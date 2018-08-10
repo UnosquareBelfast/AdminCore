@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { FormInput } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { UNOBLUE, BLACK, RED, GREY } from '../../../styles/colors';
-import {H4_SIZE } from '../../../styles/text';
+import { H4_SIZE } from '../../../styles/text';
 
-class Input extends React.Component {
+class Input extends Component {
   static propTypes = {
     value: PT.node.isRequired,
     textInputRef: PT.func,
@@ -14,7 +14,6 @@ class Input extends React.Component {
     onBlur: PT.func,
     onFocus: PT.func,
     hasError: PT.bool,
-    placeholder: PT.string.isRequired,
     onSubmitEditing: PT.func.isRequired,
     blurOnSubmit: PT.bool,
     secureTextEntry: PT.bool,
@@ -30,9 +29,7 @@ class Input extends React.Component {
   };
 
   onFocus = (e) => {
-    const {
-      onFocus,
-    } = this.props;
+    const { onFocus } = this.props;
 
     this.setState({
       isFocused: true,
@@ -42,9 +39,7 @@ class Input extends React.Component {
   }
 
   onBlur = (e) => {
-    const {
-      onBlur,
-    } = this.props;
+    const { onBlur } = this.props;
 
     this.setState({
       isFocused: false,
@@ -61,7 +56,6 @@ class Input extends React.Component {
       returnKeyType,
       hasError,
       onSubmitEditing,
-      placeholder,
       blurOnSubmit,
       secureTextEntry,
     } = this.props;
@@ -71,9 +65,7 @@ class Input extends React.Component {
       onBlur,
     } = this;
 
-    const {
-      isFocused,
-    } = this.state;
+    const { isFocused } = this.state;
 
     return (
       <FormInput
@@ -86,7 +78,6 @@ class Input extends React.Component {
         ]}
         underlineColorAndroid="transparent"
         selectionColor={UNOBLUE}
-        placeholder={placeholder}
         autoCapitalize="none"
         value={value}
         secureTextEntry={secureTextEntry}

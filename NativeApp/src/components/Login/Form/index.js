@@ -35,7 +35,6 @@ class LoginForm extends Component {
           <FormLabel>Email</FormLabel>
           <Input
             onChangeText={text => this.setState({ email: text })}
-            placeholder="you@email.com"
             value={email}
             returnKeyType="next"
             hasError={hasError}
@@ -48,7 +47,6 @@ class LoginForm extends Component {
             onChangeText={text => this.setState({ password: text })}
             value={password}
             returnKeyType="done"
-            placeholder="*******"
             hasError={hasError}
             secureTextEntry
             onSubmitEditing={() => handleLogin(email, password)}
