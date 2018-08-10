@@ -28,3 +28,4 @@ export { default as ViewContracts } from './ViewContracts';
 export { default as ViewTeams } from './ViewTeams';
 export { default as HolidayModal } from './HolidayModal';
 export { default as AllEmployees } from './AllEmployees';
+export { default as DataTable } from './DataTable';
