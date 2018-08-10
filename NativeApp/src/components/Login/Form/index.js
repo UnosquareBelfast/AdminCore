@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { Button, FormValidationMessage, FormInput, FormLabel } from 'react-native-elements';
+import {
+  Button,
+  FormValidationMessage,
+  FormLabel,
+} from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { View, StyleSheet } from 'react-native';
+import Input from '../Input';
+import { UNOBLUE, WHITE } from '../../../styles/colors';
+import { H4_SIZE } from '../../../styles/text';
+
 
 class LoginForm extends Component {
   static propTypes = {
@@ -15,76 +23,34 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      underlineColor1: 'gray',
-      underlineColor2: 'gray',
     };
   }
 
-
-  changeColor = (id, color) => {
-    if (id === 'input-1') {
-      this.setState({
-        underlineColor1: color,
-      });
-    } else {
-      this.setState({
-        underlineColor2: color,
-      });
-    }
-  }
-
   render() {
-    const { email, password, underlineColor1, underlineColor2 } = this.state;
+    const { email, password } = this.state;
     const { handleLogin, hasError, loading } = this.props;
-    const { changeColor } = this;
     return (
       <View style={styles.view}>
         <View>
           <FormLabel>Email</FormLabel>
-          <FormInput
-            id="input-1"
+          <Input
             onChangeText={text => this.setState({ email: text })}
-            inputStyle={{
-              fontSize: 20,
-              color: 'black',
-              padding: 8,
-              borderColor: hasError ? 'red' : underlineColor1,
-              borderBottomWidth: 1,
-              width: '100%',
-            }}
-            underlineColorAndroid="transparent"
-            selectionColor="#00DCFA"
             placeholder="you@email.com"
-            autoCapitalize="none"
             value={email}
             returnKeyType="next"
+            hasError={hasError}
             onSubmitEditing={() => this.secondInput.focus()}
-            onFocus={() => changeColor('input-1', '#00DCFA')}
-            onBlur={() => changeColor('input-1', 'gray')}
             blurOnSubmit={false}
           />
           <FormLabel>Password</FormLabel>
-          <FormInput
-            id="input-2"
-            textInputRef={(el) => { this.secondInput = el; }}
+          <Input
+            textInputRef={(ref) => { this.secondInput = ref; }}
             onChangeText={text => this.setState({ password: text })}
-            inputStyle={{
-              fontSize: 20,
-              color: 'black',
-              padding: 8,
-              borderColor: hasError ? 'red' : underlineColor2,
-              borderBottomWidth: 1,
-              width: '100%',
-            }}
-            underlineColorAndroid="transparent"
-            selectionColor="#00DCFA"
-            placeholder="*******"
-            autoCapitalize="none"
             value={password}
-            secureTextEntry
             returnKeyType="done"
-            onFocus={() => changeColor('input-2', '#00DCFA')}
-            onBlur={() => changeColor('input-2', 'gray')}
+            placeholder="*******"
+            hasError={hasError}
+            secureTextEntry
             onSubmitEditing={() => handleLogin(email, password)}
           />
           {
@@ -96,8 +62,8 @@ class LoginForm extends Component {
         <Button
           onPress={() => handleLogin(email, password)}
           title="Log In"
-          textStyle={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}
-          backgroundColor="#00DCFA"
+          textStyle={styles.buttonText}
+          backgroundColor={UNOBLUE}
           borderRadius={5}
           containerViewStyle={{ marginVertical: 20 }}
           loading={loading}
@@ -112,6 +78,11 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: 'space-around',
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: WHITE,
+    fontSize: H4_SIZE,
   },
 });
 

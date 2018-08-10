@@ -5,10 +5,11 @@ import LoginForm from '../Form/index';
 import Logo from '../../../images/Logo/Logo.png';
 import { CardContainer } from '../../Common';
 import { container } from '../../../styles/layout';
+import { WHITE } from '../../../styles/colors';
 
 const LoginView = props => (
   <KeyboardAwareScrollView
-    style={{ backgroundColor: 'white' }}
+    style={{ backgroundColor: WHITE }}
     contentContainerStyle={styles.container}
     enableOnAndroid
   >
