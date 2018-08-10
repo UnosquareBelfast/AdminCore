@@ -2,12 +2,9 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Container, Columns, Stat } from './styled';
-import {
-  UserModal,
-  UserList,
-  HolidayList,
-  HolidayModal,
-} from '../../components';
+import { DataTable, UserModal, HolidayModal } from '../../components';
+import HolidayCells from '../../components/DataTable/Cells/holidays';
+import UserCells from '../../components/DataTable/Cells/users';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
 
@@ -58,8 +55,9 @@ export const User = ({
       <Columns>
         <div>
           <h3>Active Members</h3>
-          <UserList
-            users={team}
+          <DataTable
+            data={team}
+            cells={UserCells}
             columns={['fullName', 'email']}
             onRowClick={onUserSelect}
           />
@@ -71,8 +69,9 @@ export const User = ({
               ? `(${teamHolidays.length} needing reviewed)`
               : null}
           </h3>
-          <HolidayList
-            holidays={teamHolidays}
+          <DataTable
+            data={teamHolidays}
+            cells={HolidayCells}
             columns={['employee', 'startDate', 'endDate']}
             onRowClick={holiday => selectHoliday(holiday)}
           />
