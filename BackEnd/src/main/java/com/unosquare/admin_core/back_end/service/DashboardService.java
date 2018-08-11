@@ -29,8 +29,6 @@ public class DashboardService {
     ContractRepository contractRepository;
 
 
-
-
     @Autowired
     DashboardRepository dashboardRepository;
 
@@ -41,22 +39,9 @@ public class DashboardService {
     }
 
     public List <ContractDTO>  FindDashboardForTeams(int[] teamIds) {
-
         List <ContractDTO> contractList = new ArrayList();
-
-      for(int i : teamIds){
-
-          Optional<Contract> result = contractRepository.findById(i);
-          if (result.isPresent()) {
-              contractList.add(modelMapper.map(result.get(), ContractDTO.class));
-          }
-      }
+          List<Contract> result = contractRepository.findAll();
         return contractList;
-    }
-
-
-    public List<ContractDTO> findEmployeesByConract(int[] teamIds){
-        return null;
     }
 
     private List<EventDTO> mapEventsToDtos(List<Event> events) {

@@ -38,14 +38,10 @@ public class DashboardController {
 
     @GetMapping(value = "/{viewTeam}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<DashboardViewModel> getAllEventsByTeam(@RequestParam(value="viewTeam", required = false, defaultValue = "true") boolean viewTeam){
+    public List<DashboardViewModel> getAllEventsByTeam(@RequestParam(value="viewTeam", required = false, defaultValue = "false") boolean viewTeam){
         if (viewTeam) {
 
-            int[] testArray = {1,2}; //TEST ARRAY, Pass into Contract
-
-         List contracts =   dashboardService.FindDashboardForTeams(testArray);
-         return mapContractDtosToDashboard(contracts);
-
+         return null;
         }
         else{
           List events = dashboardService.FindDashboardForEmployee(userDetails.getEmployeeId());

@@ -13,6 +13,6 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
 
     List<Contract> findByTeam(Team team);
 
-    List<Contract> findByTeamId(Team team);
+   // List<Contract> findByTeamId(Team team);
 
 }
