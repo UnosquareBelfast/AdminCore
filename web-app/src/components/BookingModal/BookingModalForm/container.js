@@ -2,7 +2,11 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import * as actions from '../../../actions/index';
+import {
+  toggleBookingModal,
+  updateBooking,
+  updateBookingDuration,
+} from '../../../actions/dashboard';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 import {
@@ -17,7 +21,7 @@ const Container = Wrapped =>
       employeeId: PT.number.isRequired,
       updateTakenHolidays: PT.func.isRequired,
       onUpdateBooking: PT.func.isRequired,
-      onOpenModal: PT.func.isRequired,
+      toggleModal: PT.func.isRequired,
       booking: PT.object.isRequired,
       isEventBeingUpdated: PT.bool,
       onUpdateDuration: PT.func,
@@ -67,7 +71,7 @@ const Container = Wrapped =>
 
       requestHoliday(request).then(() => {
         this.props.updateTakenHolidays();
-        this.props.onOpenModal(false);
+        this.props.toggleModal(false);
       });
     };
 
@@ -75,12 +79,12 @@ const Container = Wrapped =>
       event.preventDefault();
 
       const { holidayId } = this.props.booking;
-      const { updateTakenHolidays, onOpenModal } = this.props;
+      const { updateTakenHolidays, toggleModal } = this.props;
       if (cancel) {
         rejectHoliday(holidayId)
           .then(() => {
             updateTakenHolidays();
-            onOpenModal(false);
+            toggleModal(false);
           })
           .catch(error => {
             Swal({
@@ -88,7 +92,7 @@ const Container = Wrapped =>
               text: error.message,
               type: 'error',
             });
-            onOpenModal(false);
+            toggleModal(false);
           });
       } else {
         const { start, end, isHalfday } = this.state.formData;
@@ -103,7 +107,7 @@ const Container = Wrapped =>
         updateHoliday(request)
           .then(() => {
             updateTakenHolidays();
-            onOpenModal(false);
+            toggleModal(false);
           })
           .catch(error => {
             Swal({
@@ -111,7 +115,7 @@ const Container = Wrapped =>
               text: error.message,
               type: 'error',
             });
-            onOpenModal(false);
+            toggleModal(false);
           });
       }
     };
@@ -185,18 +189,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdateBooking: updatedBooking =>
-      dispatch(actions.updateBooking(updatedBooking)),
-    onUpdateDuration: event => dispatch(actions.updateBookingDuration(event)),
-    onOpenModal: bookingModalOpen =>
-      dispatch(actions.toggleBookingModal(bookingModalOpen)),
+    onUpdateBooking: updatedBooking => dispatch(updateBooking(updatedBooking)),
+    onUpdateDuration: event => dispatch(updateBookingDuration(event)),
+    toggleModal: open => dispatch(toggleBookingModal(open)),
   };
 };
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  Container,
-);
+export default compose(connect(mapStateToProps, mapDispatchToProps), Container);

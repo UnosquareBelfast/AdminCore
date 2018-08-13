@@ -63,17 +63,10 @@ export const updateEventDuration = duration => {
   };
 };
 
-export const showBookingModal = () => {
+export const toggleBookingModal = open => {
   return {
-    type: actionTypes.SHOW_BOOKING_MODAL,
-    bookingModalOpen: true,
-  };
-};
-
-export const hideBookingModal = () => {
-  return {
-    type: actionTypes.HIDE_BOOKING_MODAL,
-    bookingModalOpen: false,
+    type: actionTypes.TOGGLE_BOOKING_MODAL,
+    payload: open,
   };
 };
 
@@ -205,16 +198,6 @@ export const eventBeingUpdated = isUpdated => {
       dispatch(eventIsBeingUpdated());
     } else {
       dispatch(eventIsNotBeingUpdated());
-    }
-  };
-};
-
-export const toggleBookingModal = bookingModalOpen => {
-  return dispatch => {
-    if (bookingModalOpen) {
-      dispatch(showBookingModal());
-    } else {
-      dispatch(hideBookingModal());
     }
   };
 };

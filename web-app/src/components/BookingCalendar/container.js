@@ -2,7 +2,12 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import * as actions from '../../actions/index';
+import {
+  updateBooking,
+  toggleBookingModal,
+  eventBeingUpdated,
+  updateBookingDuration,
+} from '../../actions/dashboard';
 import { Toast } from '../../utilities/Notifications';
 import moment from 'moment';
 
@@ -14,7 +19,7 @@ const BookingCalendarContainer = Wrapped =>
       onUpdateBooking: PT.func,
       onUpdateDuration: PT.func,
       onEventBeingUpdated: PT.func,
-      onOpenModal: PT.func,
+      toggleBookingModal: PT.func,
     };
 
     constructor(props) {
@@ -22,7 +27,7 @@ const BookingCalendarContainer = Wrapped =>
     }
 
     openModal = () => {
-      this.props.onOpenModal(true);
+      this.props.toggleBookingModal(true);
     };
 
     bookingModalConfig = (event, isBeingUpdated) => {
@@ -81,18 +86,14 @@ const BookingCalendarContainer = Wrapped =>
 const mapDispatchToProps = dispatch => {
   return {
     onUpdateBooking: (booking, isEventBeingUpdated) =>
-      dispatch(actions.updateBooking(booking, isEventBeingUpdated)),
-    onUpdateDuration: event => dispatch(actions.updateBookingDuration(event)),
-    onEventBeingUpdated: isUpdated =>
-      dispatch(actions.eventBeingUpdated(isUpdated)),
-    onOpenModal: closeModal => dispatch(actions.toggleBookingModal(closeModal)),
+      dispatch(updateBooking(booking, isEventBeingUpdated)),
+    onUpdateDuration: event => dispatch(updateBookingDuration(event)),
+    onEventBeingUpdated: isUpdated => dispatch(eventBeingUpdated(isUpdated)),
+    toggleBookingModal: open => dispatch(toggleBookingModal(open)),
   };
 };
 
 export default compose(
-  connect(
-    null,
-    mapDispatchToProps,
-  ),
-  BookingCalendarContainer,
+  connect(null, mapDispatchToProps),
+  BookingCalendarContainer
 );

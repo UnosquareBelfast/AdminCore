@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import * as actions from '../../actions/index';
+import { toggleBookingModal } from '../../actions/dashboard';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -12,7 +12,7 @@ const Container = Wrapped =>
       isEventBeingUpdated: PT.bool,
       booking: PT.object,
       bookingModalOpen: PT.bool,
-      onOpenModal: PT.func,
+      toggleBookingModal: PT.func,
       bookingDuration: PT.number,
     };
 
@@ -21,7 +21,7 @@ const Container = Wrapped =>
     }
 
     closeBookingModal = () => {
-      this.props.onOpenModal(false);
+      this.props.toggleBookingModal(false);
     };
 
     render() {
@@ -51,15 +51,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenModal: bookingModalOpen =>
-      dispatch(actions.toggleBookingModal(bookingModalOpen)),
+    toggleBookingModal: open => dispatch(toggleBookingModal(open)),
   };
 };
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  Container,
-);
+export default compose(connect(mapStateToProps, mapDispatchToProps), Container);

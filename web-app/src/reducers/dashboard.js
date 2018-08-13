@@ -66,9 +66,7 @@ const updateEventDuration = (state, action) => {
 };
 
 const toggleBookingModal = (state, action) => {
-  return updateObject(state, {
-    bookingModalOpen: action.bookingModalOpen,
-  });
+  return { ...state, bookingModalOpen: action.payload };
 };
 
 const toggleEventUpdatedState = (state, action) => {
@@ -91,9 +89,7 @@ const reducer = (state = initialState, action) => {
       return updateEventBooking(state, action);
     case actionTypes.UPDATE_EVENT_DURATION:
       return updateEventDuration(state, action);
-    case actionTypes.SHOW_BOOKING_MODAL:
-      return toggleBookingModal(state, action);
-    case actionTypes.HIDE_BOOKING_MODAL:
+    case actionTypes.TOGGLE_BOOKING_MODAL:
       return toggleBookingModal(state, action);
     case actionTypes.EVENT_BEING_UPDATED:
       return toggleEventUpdatedState(state, action);
