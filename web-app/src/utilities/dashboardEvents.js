@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { getDurationBetweenDates } from './dates';
 
 export const getMandatoryEvents = () => {
   const currYear = new Date().getFullYear();
@@ -56,4 +57,19 @@ export const formatEventsForCalendar = data => {
   });
   events.concat(mandatoryEvents);
   return [...mandatoryEvents, ...events];
+};
+
+export const getEventDuration = event => {
+  const { start, end, isHalfday, eventType } = event;
+  let duration = getDurationBetweenDates(start, end);
+  const eventTypeId = eventType ? parseInt(eventType.eventTypeId) : 1;
+  if (isHalfday) {
+    if (duration != 0) {
+      return 0.5;
+    }
+  } else if (eventTypeId !== 1) {
+    return 0;
+  } else {
+    return duration;
+  }
 };

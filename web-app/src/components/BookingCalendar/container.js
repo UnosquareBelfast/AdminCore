@@ -3,10 +3,10 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-  updateBooking,
+  selectBooking,
   toggleBookingModal,
   setEventBeingUpdated,
-  updateBookingDuration,
+  updateEventDuration,
 } from '../../actions/dashboard';
 import { Toast } from '../../utilities/Notifications';
 import moment from 'moment';
@@ -16,8 +16,8 @@ const BookingCalendarContainer = Wrapped =>
     static propTypes = {
       employeeId: PT.number,
       takenHolidays: PT.array,
-      onUpdateBooking: PT.func,
-      onUpdateDuration: PT.func,
+      selectBooking: PT.func,
+      updateEventDuration: PT.func,
       setEventBeingUpdated: PT.func,
       toggleBookingModal: PT.func,
     };
@@ -32,7 +32,7 @@ const BookingCalendarContainer = Wrapped =>
 
     bookingModalConfig = (event, isBeingUpdated) => {
       this.openModal();
-      this.props.onUpdateDuration(event);
+      this.props.updateEventDuration(event);
       this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
@@ -43,8 +43,19 @@ const BookingCalendarContainer = Wrapped =>
           holidayId: -1,
           start: new moment(start),
           end: new moment(end),
+          title: null,
+          isHalfday: false,
+          eventType: {
+            eventTypeId: 1,
+            description: 'Annual leave',
+          },
+          eventStatus: {
+            eventStatusId: 1,
+            description: 'Awaiting Approval',
+          },
+          employee: null,
         };
-        this.props.onUpdateBooking(booking);
+        this.props.selectBooking(booking);
         this.bookingModalConfig({ ...booking }, false);
       } else {
         Toast({
@@ -57,7 +68,7 @@ const BookingCalendarContainer = Wrapped =>
     onSelectEvent = event => {
       if (event.employee) {
         if (event.employee.employeeId == this.props.employeeId) {
-          this.props.onUpdateBooking(event);
+          this.props.selectBooking(event);
           this.bookingModalConfig({ ...event }, true);
         } else {
           Toast({
@@ -85,9 +96,8 @@ const BookingCalendarContainer = Wrapped =>
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdateBooking: (booking, isEventBeingUpdated) =>
-      dispatch(updateBooking(booking, isEventBeingUpdated)),
-    onUpdateDuration: event => dispatch(updateBookingDuration(event)),
+    selectBooking: booking => dispatch(selectBooking(booking)),
+    updateEventDuration: event => dispatch(updateEventDuration(event)),
     setEventBeingUpdated: isUpdated =>
       dispatch(setEventBeingUpdated(isUpdated)),
     toggleBookingModal: open => dispatch(toggleBookingModal(open)),

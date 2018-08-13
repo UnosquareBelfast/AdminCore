@@ -1,13 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import moment from 'moment';
 
-const updateObject = (oldObject, updatedProperties) => {
-  return {
-    ...oldObject,
-    ...updatedProperties,
-  };
-};
-
 const initialState = {
   takenHolidays: [],
   booking: {
@@ -22,7 +15,7 @@ const initialState = {
     },
     eventStatus: {
       eventStatusId: 1,
-      dexcription: 'Awaiting Approval',
+      description: 'Awaiting Approval',
     },
     employee: null,
   },
@@ -32,16 +25,12 @@ const initialState = {
   error: null,
 };
 
-const updateEventBooking = (state, action) => {
-  return updateObject(state, {
-    booking: action.booking,
-  });
+const selectBooking = (state, action) => {
+  return { ...state, booking: action.payload };
 };
 
 const updateEventDuration = (state, action) => {
-  return updateObject(state, {
-    bookingDuration: action.duration,
-  });
+  return { ...state, bookingDuration: action.payload };
 };
 
 const toggleBookingModal = (state, action) => {
@@ -66,8 +55,8 @@ const reducer = (state = initialState, action) => {
       return setCalendarEvents(state, action);
     case actionTypes.SET_ERROR:
       return setError(state, action);
-    case actionTypes.UPDATE_EVENT_BOOKING:
-      return updateEventBooking(state, action);
+    case actionTypes.SELECT_EVENT:
+      return selectBooking(state, action);
     case actionTypes.UPDATE_EVENT_DURATION:
       return updateEventDuration(state, action);
     case actionTypes.TOGGLE_BOOKING_MODAL:

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
   toggleBookingModal,
-  updateBooking,
+  selectBooking,
   updateBookingDuration,
 } from '../../../actions/dashboard';
 import Swal from 'sweetalert2';
@@ -20,7 +20,7 @@ const Container = Wrapped =>
     static propTypes = {
       employeeId: PT.number.isRequired,
       updateTakenHolidays: PT.func.isRequired,
-      onUpdateBooking: PT.func.isRequired,
+      selectBooking: PT.func.isRequired,
       toggleModal: PT.func.isRequired,
       booking: PT.object.isRequired,
       isEventBeingUpdated: PT.bool,
@@ -189,7 +189,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdateBooking: updatedBooking => dispatch(updateBooking(updatedBooking)),
+    selectBooking: updatedBooking => dispatch(selectBooking(updatedBooking)),
     onUpdateDuration: event => dispatch(updateBookingDuration(event)),
     toggleModal: open => dispatch(toggleBookingModal(open)),
   };
