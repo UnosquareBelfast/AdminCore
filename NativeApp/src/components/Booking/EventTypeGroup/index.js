@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { LIGHTGREY, GREY, WHITE } from '../../../styles/colors';
 
 class EventTypeGroup extends Component {
   constructor() {
@@ -27,16 +28,16 @@ class EventTypeGroup extends Component {
         <TouchableOpacity
           key={index}
           onPress={() => this.selected(index)}
-          style={[styles.box, { backgroundColor: isSelected ? event.color : 'white' }]}
+          style={[styles.box, { backgroundColor: isSelected ? event.color : WHITE }]}
         >
           <Icon
             name={event.icon}
             type="font-awesome"
             size={20}
-            color={isSelected ? 'white' : event.color}
+            color={isSelected ? WHITE : event.color}
             containerStyle={{ paddingBottom: 10 }}
           />
-          <Text style={[styles.textStyle, { color: isSelected ? 'white' : 'grey' }]}>{event.type}</Text>
+          <Text style={[styles.textStyle, { color: isSelected ? WHITE : 'grey' }]}>{event.type}</Text>
         </TouchableOpacity>
       );
     });
@@ -51,21 +52,22 @@ class EventTypeGroup extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 10,
+    margin: 10,
   },
   box: {
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
-    padding: 10,
-    width: 100,
-    height: 100,
-    borderRadius: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    padding: 5,
+    width: '30%',
+    aspectRatio: 1,
+    borderRadius: 8,
     shadowRadius: 2,
-    shadowColor: 'lightgrey',
+    shadowColor: LIGHTGREY,
     shadowOpacity: 0.5,
     shadowOffset: {
       width: 3,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   textStyle: {
     textAlign: 'center',
     fontSize: 12,
-    color: 'grey',
+    color: GREY,
   },
 });
 

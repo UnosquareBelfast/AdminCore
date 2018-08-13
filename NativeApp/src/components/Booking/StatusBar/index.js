@@ -3,14 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import holidayStatusColor from '../../../utilities/holidayStatus';
 import { H3 } from '../../Common';
-import { LIGHTGREY } from '../../../styles/colors';
+import { LIGHTGREY, WHITE } from '../../../styles/colors';
 
 const StatusBar = ({ booking }) => {
   const { status, statusId, startDate, endDate } = booking;
 
   return (
     <View style={[styles.holidayStatus, { backgroundColor: holidayStatusColor[statusId] }]}>
-      <H3 style={{ textAlign: 'center', color: 'white'}}>
+      <H3 style={{ textAlign: 'center', color: WHITE }}>
         {status}
       </H3>
       {/* <Text>

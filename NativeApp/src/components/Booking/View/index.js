@@ -27,42 +27,52 @@ const BookingView = (props) => {
   const { startDate, endDate, halfDay } = booking;
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView style={{ backgroundColor: '#f7f7f7' }} contentContainerStyle={styles.container}>
       {booked && <StatusBar booking={booking} />}
-      <EventTypeGroup />
-      <View style={styles.dateForm}>
-        <CheckBox
-          title="Request half day"
-          checked={halfDay}
-          size={20}
-          checkedIcon="check-circle"
-          uncheckedIcon="circle-o"
-          onPress={updateHalfDay}
-          containerStyle={styles.checkBox}
-          textStyle={styles.checkText}
-        />
-        <View>
+      <View>
+        <View style={styles.dateForm}>
           <FormLabel labelStyle={styles.formLabel}>
-            Start Date
+            TYPE
           </FormLabel>
-          <CustomDatePicker
-            chosenDate={startDate}
-            setDate={changeStartDate}
-          />
-
-          { !halfDay && (
-            <Fragment>
-              <FormLabel labelStyle={styles.formLabel}>
-                End Date
-              </FormLabel>
-              <CustomDatePicker
-                chosenDate={endDate}
-                setDate={changeEndDate}
-                minimumDate={startDate}
-              />
-            </Fragment>
-          )}
+          <EventTypeGroup />
         </View>
+
+        <View style={styles.dateForm}>
+          <View>
+            <FormLabel labelStyle={styles.formLabel}>
+              STARTING
+            </FormLabel>
+            <CustomDatePicker
+              chosenDate={startDate}
+              setDate={changeStartDate}
+            />
+
+            { !halfDay && (
+              <Fragment>
+                <FormLabel labelStyle={styles.formLabel}>
+                  ENDING
+                </FormLabel>
+                <CustomDatePicker
+                  chosenDate={endDate}
+                  setDate={changeEndDate}
+                  minimumDate={startDate}
+                />
+              </Fragment>
+            )}
+            <CheckBox
+              title="Request half day"
+              checked={halfDay}
+              size={20}
+              checkedIcon="check-circle"
+              uncheckedIcon="circle-o"
+              onPress={updateHalfDay}
+              containerStyle={styles.checkBox}
+              textStyle={styles.checkText}
+            />
+          </View>
+        </View>
+      </View>
+      <View style={styles.buttonContainer}>
         <RequestButton
           updateHoliday={updateHoliday}
           cancelHoliday={cancelHoliday}

@@ -1,37 +1,44 @@
 import { StyleSheet } from 'react-native';
-import { LIGHTERBLACK } from '../../../styles/colors';
+import { GREY } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'flex-start',
-    paddingBottom: 23,
-    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+    backgroundColor: '#f7f7f7',
   },
   dateForm: {
-    flex: 1,
     justifyContent: 'space-between',
-    padding: 20,
-    margin: 10,
+    alignItems: 'stretch',
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    shadowRadius: 2,
+    shadowColor: 'lightgrey',
+    shadowOpacity: 0.5,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
   },
   formLabel: {
-    marginLeft: 0,
+    marginLeft: 5,
+    marginTop: 10,
     fontSize: 12,
     fontWeight: 'normal',
-    color: LIGHTERBLACK,
+    color: GREY,
   },
   checkBox: {
     backgroundColor: 'transparent',
     borderWidth: 0,
-    margin: 0,
-    marginRight: 0,
-    marginLeft: 0,
-    padding: 0,
   },
   checkText: {
     fontSize: 12,
-    color: LIGHTERBLACK,
-    fontWeight: 'normal'
+    color: GREY,
+    fontWeight: 'normal',
   },
   holidayStatus: {
     backgroundColor: '#f7f7f7',
@@ -39,6 +46,11 @@ const styles = StyleSheet.create({
     borderLeftColor: '#00DCFA',
     padding: 10,
     marginTop: 20,
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 10,
   },
 });
 

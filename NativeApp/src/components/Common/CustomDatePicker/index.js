@@ -142,8 +142,8 @@ class CustomDatePicker extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
-    marginTop: 10,
+    marginVertical: 5,
+    marginHorizontal: 10,
   },
   dateInput: {
     padding: 10,
