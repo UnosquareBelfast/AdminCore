@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import {
   updateBooking,
   toggleBookingModal,
-  eventBeingUpdated,
+  setEventBeingUpdated,
   updateBookingDuration,
 } from '../../actions/dashboard';
 import { Toast } from '../../utilities/Notifications';
@@ -18,7 +18,7 @@ const BookingCalendarContainer = Wrapped =>
       takenHolidays: PT.array,
       onUpdateBooking: PT.func,
       onUpdateDuration: PT.func,
-      onEventBeingUpdated: PT.func,
+      setEventBeingUpdated: PT.func,
       toggleBookingModal: PT.func,
     };
 
@@ -33,7 +33,7 @@ const BookingCalendarContainer = Wrapped =>
     bookingModalConfig = (event, isBeingUpdated) => {
       this.openModal();
       this.props.onUpdateDuration(event);
-      this.props.onEventBeingUpdated(isBeingUpdated);
+      this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
     onSelectSlot = ({ start, end }) => {
@@ -88,7 +88,8 @@ const mapDispatchToProps = dispatch => {
     onUpdateBooking: (booking, isEventBeingUpdated) =>
       dispatch(updateBooking(booking, isEventBeingUpdated)),
     onUpdateDuration: event => dispatch(updateBookingDuration(event)),
-    onEventBeingUpdated: isUpdated => dispatch(eventBeingUpdated(isUpdated)),
+    setEventBeingUpdated: isUpdated =>
+      dispatch(setEventBeingUpdated(isUpdated)),
     toggleBookingModal: open => dispatch(toggleBookingModal(open)),
   };
 };

@@ -1,0 +1,59 @@
+import moment from 'moment';
+
+export const getMandatoryEvents = () => {
+  const currYear = new Date().getFullYear();
+  const events = [
+    {
+      title: 'Christmas Day',
+      mandatoryDate: `${currYear}-12-25`,
+    },
+    {
+      title: 'New Years Day',
+      mandatoryDate: `${currYear}-12-31`,
+    },
+    {
+      title: 'Memorial Day',
+      mandatoryDate: `${currYear}-05-28`,
+    },
+  ];
+
+  return events;
+};
+
+const formattedMandatoryEvents = () => {
+  const mandatoryEvents = getMandatoryEvents();
+
+  const events = mandatoryEvents.map(function(event) {
+    return {
+      holidayId: -1,
+      title: event.title,
+      allDay: true,
+      start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+      end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
+      halfDay: false,
+      employee: null,
+      eventStatus: { eventStatusId: 4, description: 'Mandatory' },
+      eventType: { eventTypeId: 1, description: 'Annual leave' },
+    };
+  });
+  return events;
+};
+
+export const formatEventsForCalendar = data => {
+  const mandatoryEvents = formattedMandatoryEvents();
+  const events = data.map(event => {
+    return {
+      holidayId: event.holidayId,
+      title: `${event.employee.forename} ${event.employee.surname}`,
+      allDay: !event.halfDay,
+      start: event.start,
+      end: event.end,
+      halfDay: event.halfDay,
+      employee: event.employee,
+      eventStatus: event.eventStatus,
+      eventType: event.eventType,
+    };
+  });
+  events.concat(mandatoryEvents);
+  return [...mandatoryEvents, ...events];
+};

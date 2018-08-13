@@ -2,14 +2,14 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import * as actions from '../../actions/index';
+import { fetchEvents, fetchEventsByUserId } from '../../actions/dashboard';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object,
-      onFetchEvents: PT.func.isRequired,
-      onFilterEventsByEmployeeId: PT.func.isRequired,
+      fetchEvents: PT.func.isRequired,
+      fetchEventsByUserId: PT.func.isRequired,
       takenHolidays: PT.array,
       loading: PT.bool,
       isEventBeingUpdated: PT.bool,
@@ -25,7 +25,7 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidMount() {
-      this.props.onFetchEvents();
+      this.props.fetchEvents();
     }
 
     componentWillUpdate = (nextProps, nextState) => {
@@ -36,9 +36,9 @@ const DashboardContainer = Wrapped =>
 
     getTakenHolidaysById = id => {
       if (id === -1) {
-        this.props.onFetchEvents();
+        this.props.fetchEvents();
       } else {
-        this.props.onFilterEventsByEmployeeId(id);
+        this.props.fetchEventsByUserId(id);
       }
     };
 
@@ -52,7 +52,7 @@ const DashboardContainer = Wrapped =>
       let takenHolidaysUpdated = [];
       if (eventKeys.length > 0) {
         takenHolidaysUpdated = this.props.takenHolidays.filter(hol =>
-          eventKeys.includes(hol.eventStatus.eventStatusId),
+          eventKeys.includes(hol.eventStatus.eventStatusId)
         );
       }
 
@@ -76,7 +76,7 @@ const DashboardContainer = Wrapped =>
         },
         () => {
           this.updateFilterEvents();
-        },
+        }
       );
     };
 
@@ -92,7 +92,7 @@ const DashboardContainer = Wrapped =>
                 ? this.props.takenHolidays
                 : this.state.takenHolidaysFiltered
             }
-            updateTakenHolidays={this.props.onFetchEvents}
+            updateTakenHolidays={this.props.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             onUpdateEvents={this.onFilterEvents}
             onUpdateEmployee={this.onFilterEmployee}
@@ -113,16 +113,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchEvents: () => dispatch(actions.fetchEvents()),
-    onFilterEventsByEmployeeId: employeeId =>
-      dispatch(actions.filterEventsByEmployeeId(employeeId)),
+    fetchEvents: () => dispatch(fetchEvents()),
+    fetchEventsByUserId: employeeId =>
+      dispatch(fetchEventsByUserId(employeeId)),
   };
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  DashboardContainer,
+  connect(mapStateToProps, mapDispatchToProps),
+  DashboardContainer
 );

@@ -32,27 +32,6 @@ const initialState = {
   error: null,
 };
 
-const fetchEventsFailed = (state, action) => {
-  return updateObject(state, { error: action.error });
-};
-
-const fetchEventsStart = state => {
-  return state;
-};
-
-const fetchEventsSuccess = (state, action) => {
-  return updateObject(state, {
-    takenHolidays: action.events,
-    loading: false,
-  });
-};
-
-const filterEventsSuccess = (state, action) => {
-  return updateObject(state, {
-    takenHolidays: action.events,
-  });
-};
-
 const updateEventBooking = (state, action) => {
   return updateObject(state, {
     booking: action.booking,
@@ -69,32 +48,32 @@ const toggleBookingModal = (state, action) => {
   return { ...state, bookingModalOpen: action.payload };
 };
 
-const toggleEventUpdatedState = (state, action) => {
-  return updateObject(state, {
-    isEventBeingUpdated: action.isEventBeingUpdated,
-  });
+const setCalendarEvents = (state, action) => {
+  return { ...state, takenHolidays: action.payload };
+};
+
+const setError = (state, action) => {
+  return { ...state, error: action.payload };
+};
+
+const setIsBeingUpdated = (state, action) => {
+  return { ...state, isEventBeingUpdated: action.payload };
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.FETCH_EVENTS_START:
-      return fetchEventsStart(state, action);
-    case actionTypes.FETCH_EVENTS_SUCCESS:
-      return fetchEventsSuccess(state, action);
-    case actionTypes.FETCH_EVENTS_FAIL:
-      return fetchEventsFailed(state, action);
-    case actionTypes.FILTER_EVENTS_SUCCESS:
-      return filterEventsSuccess(state, action);
+    case actionTypes.SET_CALENDAR_EVENTS:
+      return setCalendarEvents(state, action);
+    case actionTypes.SET_ERROR:
+      return setError(state, action);
     case actionTypes.UPDATE_EVENT_BOOKING:
       return updateEventBooking(state, action);
     case actionTypes.UPDATE_EVENT_DURATION:
       return updateEventDuration(state, action);
     case actionTypes.TOGGLE_BOOKING_MODAL:
       return toggleBookingModal(state, action);
-    case actionTypes.EVENT_BEING_UPDATED:
-      return toggleEventUpdatedState(state, action);
-    case actionTypes.EVENT_NOT_BEING_UPDATED:
-      return toggleEventUpdatedState(state, action);
+    case actionTypes.SET_IS_BEING_UPDATED:
+      return setIsBeingUpdated(state, action);
     default:
       return state;
   }

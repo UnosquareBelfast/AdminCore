@@ -1,53 +1,11 @@
 import * as actionTypes from '../actionTypes';
-import moment from 'moment';
 import { getAllHolidays, getHolidays } from '../services/holidayService';
-import { getMandatoryCalendarEvents } from '../utilities/mandatoryEventConfig';
+import { formatEventsForCalendar } from '../utilities/dashboardEvents';
 import { getDurationBetweenDates } from '../utilities/dates';
 
 /*
-  Action Types and Data
+  Action Creators
 */
-
-export const fetchEventsSuccess = events => {
-  return {
-    type: actionTypes.FETCH_EVENTS_SUCCESS,
-    events: events,
-    error: null,
-  };
-};
-
-export const fetchEventsFail = error => {
-  return {
-    type: actionTypes.FETCH_EVENTS_FAIL,
-    error: error,
-  };
-};
-
-export const fetchEventsStart = () => {
-  return {
-    type: actionTypes.FETCH_EVENTS_START,
-  };
-};
-
-export const filterEventsSuccess = events => {
-  return {
-    type: actionTypes.FILTER_EVENTS_SUCCESS,
-    events: events,
-  };
-};
-
-export const filterEventsFail = error => {
-  return {
-    type: actionTypes.FILTER_EVENTS_FAIL,
-    error: error,
-  };
-};
-
-export const filterEventsStart = () => {
-  return {
-    type: actionTypes.FILTER_EVENTS_START,
-  };
-};
 
 export const updateBookingEvent = booking => {
   return {
@@ -70,88 +28,30 @@ export const toggleBookingModal = open => {
   };
 };
 
-export const eventIsBeingUpdated = () => {
+export const setEventBeingUpdated = isBeingUpdated => {
   return {
-    type: actionTypes.EVENT_BEING_UPDATED,
-    isEventBeingUpdated: true,
+    type: actionTypes.SET_IS_BEING_UPDATED,
+    payload: isBeingUpdated,
   };
 };
 
-export const eventIsNotBeingUpdated = () => {
+export const setCalendarEvents = events => {
   return {
-    type: actionTypes.EVENT_NOT_BEING_UPDATED,
-    isEventBeingUpdated: false,
+    type: actionTypes.SET_CALENDAR_EVENTS,
+    payload: events,
+  };
+};
+
+export const setError = error => {
+  return {
+    type: actionTypes.SET_ERROR,
+    payload: error,
   };
 };
 
 /*
   Actions
 */
-
-const getMandatoryEvents = () => {
-  const mandatoryEvents = getMandatoryCalendarEvents();
-  const events = mandatoryEvents.map(function(event) {
-    return {
-      holidayId: -1,
-      title: event.title,
-      allDay: true,
-      start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
-      end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
-      halfDay: false,
-      employee: null,
-      eventStatus: { eventStatusId: 4, description: 'Mandatory' },
-      eventType: { eventTypeId: 1, description: 'Annual leave' },
-    };
-  });
-  return events;
-};
-
-const setEventsState = data => {
-  const mandatoryEvents = getMandatoryEvents();
-  const usersEvents = data.map(event => {
-    return {
-      holidayId: event.holidayId,
-      title: `${event.employee.forename} ${event.employee.surname}`,
-      allDay: !event.halfDay,
-      start: event.start,
-      end: event.end,
-      halfDay: event.halfDay,
-      employee: event.employee,
-      eventStatus: event.eventStatus,
-      eventType: event.eventType,
-    };
-  });
-  usersEvents.concat(mandatoryEvents);
-  return [...mandatoryEvents, ...usersEvents];
-};
-
-export const fetchEvents = () => {
-  return dispatch => {
-    dispatch(fetchEventsStart());
-    getAllHolidays()
-      .then(response => {
-        const allEvents = setEventsState(response.data);
-        dispatch(fetchEventsSuccess(allEvents));
-      })
-      .catch(error => {
-        dispatch(fetchEventsFail(error));
-      });
-  };
-};
-
-export const filterEventsByEmployeeId = employeeId => {
-  return dispatch => {
-    dispatch(filterEventsStart());
-    getHolidays(employeeId)
-      .then(response => {
-        const allEvents = setEventsState(response.data);
-        dispatch(filterEventsSuccess(allEvents));
-      })
-      .catch(error => {
-        dispatch(filterEventsFail(error));
-      });
-  };
-};
 
 export const updateBooking = booking => {
   return dispatch => {
@@ -192,12 +92,26 @@ export const updateBookingDuration = ({ start, end, isHalfday, eventType }) => {
   };
 };
 
-export const eventBeingUpdated = isUpdated => {
-  return dispatch => {
-    if (isUpdated) {
-      dispatch(eventIsBeingUpdated());
-    } else {
-      dispatch(eventIsNotBeingUpdated());
-    }
-  };
+// Thunks
+
+export const fetchEvents = () => dispatch => {
+  getAllHolidays()
+    .then(({ data }) => {
+      const formattedEvents = formatEventsForCalendar(data);
+      dispatch(setCalendarEvents(formattedEvents));
+    })
+    .catch(error => {
+      dispatch(setError(error));
+    });
+};
+
+export const fetchEventsByUserId = userId => dispatch => {
+  getHolidays(userId)
+    .then(({ data }) => {
+      const formattedEvents = formatEventsForCalendar(data);
+      dispatch(setCalendarEvents(formattedEvents));
+    })
+    .catch(error => {
+      dispatch(setError(error));
+    });
 };
