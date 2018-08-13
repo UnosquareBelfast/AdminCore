@@ -1,55 +1,83 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { Filter } from '../common';
 import ReactTable from 'react-table';
 import TableValues from './TableValues';
 
-const buildColumns = columns => {
-  const formattedColumns = columns.reduce((acc, column) => {
-    return acc.concat(TableValues[column]);
-  }, []);
+class ContractList extends Component {
+  static propTypes = {
+    contracts: PT.array.isRequired,
+    columns: PT.array.isRequired,
+    onRowClick: PT.func,
+    pageSize: PT.number,
+  };
 
-  return formattedColumns;
-};
+  static defaultProps = {
+    onRowClick: () => {},
+    pageSize: 10,
+  };
 
-const renderTable = (contracts, columns, onRowClick, pageSize) => {
-  const formattedColumns = buildColumns(columns);
-  return (
-    <ReactTable
-      data={contracts}
-      columns={formattedColumns}
-      defaultPageSize={pageSize}
-      className="-striped -highlight"
-      getTrProps={(state, rowInfo) => {
-        return {
-          onClick: () => onRowClick(rowInfo.original),
-          style: {
-            cursor: rowInfo ? 'pointer' : 'null',
-          },
-        };
-      }}
-    />
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: { value: '', key: '' },
+    };
+  }
 
-export const ContractList = props => {
-  const { contracts, columns, onRowClick, pageSize } = props;
-  return !contracts || contracts.length === 0 ? (
-    <p>There are no contracts to show</p>
-  ) : (
-    renderTable(contracts, columns, onRowClick, pageSize)
-  );
-};
+  buildColumns = columns => {
+    const formattedColumns = columns.reduce((acc, column) => {
+      return acc.concat(TableValues[column]);
+    }, []);
 
-ContractList.propTypes = {
-  contracts: PT.array,
-  columns: PT.array.isRequired,
-  onRowClick: PT.func,
-  pageSize: PT.number,
-};
+    return formattedColumns;
+  };
 
-ContractList.defaultProps = {
-  onRowClick: () => {},
-  pageSize: 10,
-};
+  renderTable = (contracts, formattedColumns, onRowClick, pageSize) => {
+    return (
+      <ReactTable
+        filtered={[
+          { id: this.state.filter.key, value: this.state.filter.value },
+        ]}
+        data={contracts}
+        columns={formattedColumns}
+        defaultPageSize={pageSize}
+        className="-striped -highlight"
+        getTrProps={(state, rowInfo) => {
+          return {
+            onClick: () => onRowClick(rowInfo.original),
+            style: {
+              cursor: rowInfo ? 'pointer' : 'null',
+            },
+          };
+        }}
+      />
+    );
+  };
+
+  render() {
+    const { contracts, columns, onRowClick, pageSize } = this.props;
+    const formattedColumns = this.buildColumns(columns);
+
+    const labels = formattedColumns.reduce((acc, column) => {
+      acc.push(column.Header);
+      return acc;
+    }, []);
+
+    if (contracts.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(contracts, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no contracts to show</p>;
+    }
+  }
+}
 
 export default ContractList;

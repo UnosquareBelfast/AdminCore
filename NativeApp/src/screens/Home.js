@@ -4,7 +4,7 @@ import Home from '../components/Home';
 
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Calendar',
+
   }
 
   static propTypes = {

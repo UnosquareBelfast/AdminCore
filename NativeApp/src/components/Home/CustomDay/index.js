@@ -5,7 +5,7 @@ import Day from 'react-native-calendars/src/calendar/day/custom';
 import holidayStatusColor from '../../../utilities/holidayStatus';
 
 const CustomDay = (props) => {
-  const { marking: { halfDay, statusId } } = props;
+  const { marking: { halfDay, statusId, startingDate, endingDate } } = props;
 
   const HalfDay = () => {
     if (!halfDay) {
@@ -13,12 +13,37 @@ const CustomDay = (props) => {
     }
 
     return (
-      <View style={[styles.halfDay, { backgroundColor: holidayStatusColor[statusId] }]} />
+      <View style={styles.halfDayContainer}>
+        <View style={
+          [
+            styles.halfDay,
+            {
+              borderTopLeftRadius: 16,
+              borderBottomLeftRadius: 16,
+              backgroundColor: holidayStatusColor[statusId],
+            },
+          ]}
+        />
+      </View>
     );
   };
 
   return (
-    <View style={[styles.wrapper, { backgroundColor: halfDay ? 'transparent' : holidayStatusColor[statusId] }]}>
+    <View style={[styles.wrapper]}>
+      <View style={styles.fillers}>
+        <View
+          style={[
+            styles.leftFiller,
+            endingDate && { backgroundColor: holidayStatusColor[statusId] },
+          ]}
+        />
+        <View
+          style={[
+            styles.rightFiller,
+            startingDate && { backgroundColor: holidayStatusColor[statusId] },
+          ]}
+        />
+      </View>
       <HalfDay />
       <Day {...props} />
     </View>
@@ -39,11 +64,30 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginLeft: -1,
   },
-  halfDay: {
-    width: '50%',
-    height: '100%',
-    left: 0,
+  halfDayContainer: {
+    width: 32,
+    height: 32,
     position: 'absolute',
+  },
+  halfDay: {
+    flex: 1,
+    width: '50%',
+    alignItems: 'flex-start',
+  },
+  fillers: {
+    position: 'absolute',
+    height: '100%',
+    flexDirection: 'row',
+    left: 0,
+    right: 0,
+  },
+  leftFiller: {
+    height: '100%',
+    flex: 1,
+  },
+  rightFiller: {
+    height: '100%',
+    flex: 1,
   },
 });
 

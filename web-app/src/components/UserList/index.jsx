@@ -1,60 +1,83 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import container from './container';
+import { Filter } from '../common';
 import ReactTable from 'react-table';
 import TableValues from './TableValues';
 
-const buildColumns = columns => {
-  const formattedColumns = columns.reduce((acc, column) => {
-    return acc.concat(TableValues[column]);
-  }, []);
+class UserList extends Component {
+  static propTypes = {
+    users: PT.array.isRequired,
+    columns: PT.array.isRequired,
+    onRowClick: PT.func,
+    pageSize: PT.number,
+  };
 
-  return formattedColumns;
-};
+  static defaultProps = {
+    onRowClick: () => {},
+    pageSize: 10,
+  };
 
-const renderTable = (users, columns, onRowClick, pageSize) => {
-  const formattedColumns = buildColumns(columns);
-  return (
-    <ReactTable
-      data={users}
-      columns={formattedColumns}
-      defaultPageSize={pageSize}
-      filterable
-      className="-striped -highlight"
-      defaultFilterMethod={(filter, row) =>
-        String(row[filter.id]).includes(filter.value)
-      }
-      getTrProps={(state, rowInfo) => {
-        return {
-          onClick: () => onRowClick(rowInfo.original),
-          style: {
-            cursor: rowInfo ? 'pointer' : 'null',
-          },
-        };
-      }}
-    />
-  );
-};
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: { value: '', key: '' },
+    };
+  }
 
-export const UserList = props => {
-  const { users, columns, onRowClick, pageSize } = props;
-  return !users || users.length === 0 ? (
-    <p>There are no users to show</p>
-  ) : (
-    renderTable(users, columns, onRowClick, pageSize)
-  );
-};
+  buildColumns = columns => {
+    const formattedColumns = columns.reduce((acc, column) => {
+      return acc.concat(TableValues[column]);
+    }, []);
 
-UserList.propTypes = {
-  users: PT.array,
-  columns: PT.array.isRequired,
-  onRowClick: PT.func,
-  pageSize: PT.number,
-};
+    return formattedColumns;
+  };
 
-UserList.defaultProps = {
-  onRowClick: () => {},
-  pageSize: 10,
-};
+  renderTable = (users, formattedColumns, onRowClick, pageSize) => {
+    return (
+      <ReactTable
+        filtered={[
+          { id: this.state.filter.key, value: this.state.filter.value },
+        ]}
+        data={users}
+        columns={formattedColumns}
+        defaultPageSize={pageSize}
+        className="-striped -highlight"
+        getTrProps={(state, rowInfo) => {
+          return {
+            onClick: () => onRowClick(rowInfo.original),
+            style: {
+              cursor: rowInfo ? 'pointer' : 'null',
+            },
+          };
+        }}
+      />
+    );
+  };
 
-export default container(UserList);
+  render() {
+    const { users, columns, onRowClick, pageSize } = this.props;
+    const formattedColumns = this.buildColumns(columns);
+
+    const labels = formattedColumns.reduce((acc, column) => {
+      acc.push(column.Header);
+      return acc;
+    }, []);
+
+    if (users.length > 0) {
+      return (
+        <Fragment>
+          <Filter
+            columns={columns}
+            labels={labels}
+            onChange={filter => this.setState({ filter })}
+          />
+          {this.renderTable(users, formattedColumns, onRowClick, pageSize)}
+        </Fragment>
+      );
+    } else {
+      return <p>There are no employees to show</p>;
+    }
+  }
+}
+
+export default UserList;
