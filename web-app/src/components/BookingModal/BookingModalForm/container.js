@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import {
   toggleBookingModal,
   selectBooking,
-  updateBookingDuration,
+  updateEventDuration,
 } from '../../../actions/dashboard';
 import Swal from 'sweetalert2';
 import moment from 'moment';
@@ -14,6 +14,7 @@ import {
   requestHoliday,
   rejectHoliday,
 } from '../../../services/holidayService';
+import { eventBeingUpdated } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -24,7 +25,7 @@ const Container = Wrapped =>
       toggleModal: PT.func.isRequired,
       booking: PT.object.isRequired,
       isEventBeingUpdated: PT.bool,
-      onUpdateDuration: PT.func,
+      updateEventDuration: PT.func,
       bookingDuration: PT.number,
     };
 
@@ -151,7 +152,7 @@ const Container = Wrapped =>
           eventTypeId: formData.eventTypeId,
         },
       };
-      this.props.onUpdateDuration(updatedFormData);
+      this.props.updateEventDuration(updatedFormData);
 
       this.setState({
         formData,
@@ -183,14 +184,14 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-    isEventBeingUpdated: state.DASHBOARD.isEventBeingUpdated,
+    isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     selectBooking: updatedBooking => dispatch(selectBooking(updatedBooking)),
-    onUpdateDuration: event => dispatch(updateBookingDuration(event)),
+    updateEventDuration: event => dispatch(updateEventDuration(event)),
     toggleModal: open => dispatch(toggleBookingModal(open)),
   };
 };

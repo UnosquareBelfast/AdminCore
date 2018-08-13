@@ -3,6 +3,11 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toggleBookingModal } from '../../actions/dashboard';
+import {
+  getBooking,
+  bookingModalOpen,
+  getBookingDuration,
+} from '../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -43,9 +48,9 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-    booking: state.DASHBOARD.booking,
-    bookingModalOpen: state.DASHBOARD.bookingModalOpen,
-    bookingDuration: state.DASHBOARD.bookingDuration,
+    booking: getBooking(state),
+    bookingModalOpen: bookingModalOpen(state),
+    bookingDuration: getBookingDuration(state),
   };
 };
 

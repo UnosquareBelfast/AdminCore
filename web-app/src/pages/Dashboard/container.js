@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents, fetchEventsByUserId } from '../../actions/dashboard';
+import { getUser, getTakenHolidays, eventBeingUpdated } from '../../reducers';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -11,7 +12,6 @@ const DashboardContainer = Wrapped =>
       fetchEvents: PT.func.isRequired,
       fetchEventsByUserId: PT.func.isRequired,
       takenHolidays: PT.array,
-      loading: PT.bool,
       isEventBeingUpdated: PT.bool,
     };
 
@@ -85,7 +85,6 @@ const DashboardContainer = Wrapped =>
         this.props.userDetails && (
           <Wrapped
             employeeId={this.props.userDetails.employeeId}
-            loading={this.props.loading}
             takenHolidays={this.props.takenHolidays}
             takenHolidaysFiltered={
               this.state.takenHolidaysFiltered.length === 0
@@ -104,12 +103,12 @@ const DashboardContainer = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-    userDetails: state.USER,
-    loading: state.DASHBOARD.loading,
-    takenHolidays: state.DASHBOARD.takenHolidays,
-    isEventBeingUpdated: state.DASHBOARD.isEventBeingUpdated,
+    userDetails: getUser(state),
+    takenHolidays: getTakenHolidays(state),
+    isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
+2;
 
 const mapDispatchToProps = dispatch => {
   return {

@@ -1,4 +1,11 @@
-import * as actionTypes from '../actionTypes';
+import {
+  SET_CALENDAR_EVENTS,
+  SET_ERROR,
+  SELECT_EVENT,
+  UPDATE_EVENT_DURATION,
+  TOGGLE_BOOKING_MODAL,
+  SET_IS_BEING_UPDATED,
+} from '../actionTypes';
 import moment from 'moment';
 
 const initialState = {
@@ -25,47 +32,43 @@ const initialState = {
   error: null,
 };
 
-const selectBooking = (state, action) => {
-  return { ...state, booking: action.payload };
+// Reducer
+export default function dashboardReducer(state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type];
+  return handler ? handler(state, action) : state;
+}
+
+// Handlers
+const ACTION_HANDLERS = {
+  [SET_CALENDAR_EVENTS]: (state, action) => ({
+    ...state,
+    takenHolidays: action.payload,
+  }),
+  [SET_ERROR]: (state, action) => ({
+    ...state,
+    error: action.payload,
+  }),
+  [SELECT_EVENT]: (state, action) => ({
+    ...state,
+    booking: action.payload,
+  }),
+  [UPDATE_EVENT_DURATION]: (state, action) => ({
+    ...state,
+    bookingDuration: action.payload,
+  }),
+  [TOGGLE_BOOKING_MODAL]: (state, action) => ({
+    ...state,
+    bookingModalOpen: action.payload,
+  }),
+  [SET_IS_BEING_UPDATED]: (state, action) => ({
+    ...state,
+    isEventBeingUpdated: action.payload,
+  }),
 };
 
-const updateEventDuration = (state, action) => {
-  return { ...state, bookingDuration: action.payload };
-};
-
-const toggleBookingModal = (state, action) => {
-  return { ...state, bookingModalOpen: action.payload };
-};
-
-const setCalendarEvents = (state, action) => {
-  return { ...state, takenHolidays: action.payload };
-};
-
-const setError = (state, action) => {
-  return { ...state, error: action.payload };
-};
-
-const setIsBeingUpdated = (state, action) => {
-  return { ...state, isEventBeingUpdated: action.payload };
-};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.SET_CALENDAR_EVENTS:
-      return setCalendarEvents(state, action);
-    case actionTypes.SET_ERROR:
-      return setError(state, action);
-    case actionTypes.SELECT_EVENT:
-      return selectBooking(state, action);
-    case actionTypes.UPDATE_EVENT_DURATION:
-      return updateEventDuration(state, action);
-    case actionTypes.TOGGLE_BOOKING_MODAL:
-      return toggleBookingModal(state, action);
-    case actionTypes.SET_IS_BEING_UPDATED:
-      return setIsBeingUpdated(state, action);
-    default:
-      return state;
-  }
-};
-
-export default reducer;
+// Private selectors
+export const getTakenHolidays = store => store.takenHolidays;
+export const eventBeingUpdated = store => store.isEventBeingUpdated;
+export const getBooking = store => store.booking;
+export const bookingModalOpen = store => store.bookingModalOpen;
+export const getBookingDuration = store => store.bookingDuration;
