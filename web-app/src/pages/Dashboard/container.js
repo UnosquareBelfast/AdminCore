@@ -28,8 +28,8 @@ const DashboardContainer = Wrapped =>
       this.props.fetchEvents();
     }
 
-    componentWillUpdate = (nextProps, nextState) => {
-      if (nextState.selectedEmployeeId !== this.state.selectedEmployeeId) {
+    componentDidUpdate = (_, prevState) => {
+      if (prevState.selectedEmployeeId !== this.state.selectedEmployeeId) {
         this.updateFilterEvents();
       }
     };

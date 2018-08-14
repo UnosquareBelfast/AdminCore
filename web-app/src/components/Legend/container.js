@@ -74,14 +74,13 @@ const LegendContainer = Wrapped =>
       };
     }
 
-    componentWillUpdate = (nextProps, nextState) => {
-      if (nextProps.takenHolidays.length > 0) {
-        if (
-          this.state.employees.length === nextState.employees.length &&
-          this.state.employees.length === 0
-        ) {
-          this.createEmployeesList(nextProps.takenHolidays);
-        }
+    componentDidUpdate = (_, prevState) => {
+      const { takenHolidays } = this.props;
+      const { employees } = this.state;
+      const prevEmployees = prevState.employees;
+
+      if (employees.length === prevEmployees.length && employees.length === 0) {
+        this.createEmployeesList(takenHolidays);
       }
     };
 
@@ -105,7 +104,7 @@ const LegendContainer = Wrapped =>
       return employees.reduce((unique, o) => {
         if (
           !unique.some(
-            obj => obj.value === o.value && obj.displayValue === o.displayValue,
+            obj => obj.value === o.value && obj.displayValue === o.displayValue
           )
         ) {
           unique.push(o);
@@ -145,7 +144,7 @@ const LegendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee);
-        },
+        }
       );
     }
 
