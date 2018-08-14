@@ -3,7 +3,8 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
-import { ClientList, ClientModal } from '../';
+import { DataTable, ClientModal } from '../';
+import ClientCells from '../DataTable/Cells/clients';
 
 export const AllClients = ({
   clients,
@@ -26,8 +27,9 @@ export const AllClients = ({
         />
       </CornerButton>
       <h2>All Clients</h2>
-      <ClientList
-        clients={clients}
+      <DataTable
+        data={clients}
+        cells={ClientCells}
         columns={['clientName']}
         onRowClick={data => selectClient(data)}
         pageSize={20}

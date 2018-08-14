@@ -2,19 +2,21 @@ import React, { Component, Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Filter } from '../common';
 import ReactTable from 'react-table';
-import TableValues from './TableValues';
 
-class ContractList extends Component {
+class DataTable extends Component {
   static propTypes = {
-    contracts: PT.array.isRequired,
+    data: PT.array.isRequired,
     columns: PT.array.isRequired,
+    cells: PT.object.isRequired,
     onRowClick: PT.func,
     pageSize: PT.number,
+    emptyMessage: PT.string,
   };
 
   static defaultProps = {
     onRowClick: () => {},
     pageSize: 10,
+    emptyMessage: 'No data found',
   };
 
   constructor(props) {
@@ -25,20 +27,22 @@ class ContractList extends Component {
   }
 
   buildColumns = columns => {
+    const { cells } = this.props;
     const formattedColumns = columns.reduce((acc, column) => {
-      return acc.concat(TableValues[column]);
+      return acc.concat(cells[column]);
     }, []);
 
     return formattedColumns;
   };
 
-  renderTable = (contracts, formattedColumns, onRowClick, pageSize) => {
+  renderTable = formattedColumns => {
+    const { data, pageSize, onRowClick } = this.props;
     return (
       <ReactTable
         filtered={[
           { id: this.state.filter.key, value: this.state.filter.value },
         ]}
-        data={contracts}
+        data={data}
         columns={formattedColumns}
         defaultPageSize={pageSize}
         className="-striped -highlight"
@@ -55,7 +59,7 @@ class ContractList extends Component {
   };
 
   render() {
-    const { contracts, columns, onRowClick, pageSize } = this.props;
+    const { data, columns, emptyMessage } = this.props;
     const formattedColumns = this.buildColumns(columns);
 
     const labels = formattedColumns.reduce((acc, column) => {
@@ -63,7 +67,7 @@ class ContractList extends Component {
       return acc;
     }, []);
 
-    if (contracts.length > 0) {
+    if (data.length > 0) {
       return (
         <Fragment>
           <Filter
@@ -71,13 +75,13 @@ class ContractList extends Component {
             labels={labels}
             onChange={filter => this.setState({ filter })}
           />
-          {this.renderTable(contracts, formattedColumns, onRowClick, pageSize)}
+          {this.renderTable(formattedColumns)}
         </Fragment>
       );
     } else {
-      return <p>There are no contracts to show</p>;
+      return <p>{emptyMessage}</p>;
     }
   }
 }
 
-export default ContractList;
+export default DataTable;

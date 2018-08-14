@@ -1,6 +1,6 @@
 import React from 'react';
-import holidayStatus, { statusText } from '../../utilities/holidayStatus';
-import { theme } from '../../styled';
+import holidayStatus, { statusText } from '../../../utilities/holidayStatus';
+import { theme } from '../../../styled';
 import moment from 'moment';
 
 const status = {
