@@ -46,7 +46,7 @@ const Profile = props => {
             cells={HolidayCells}
             columns={['status', 'startDate', 'endDate', 'requestedDate']}
             onRowClick={holiday => selectHoliday(holiday)}
-          />>
+          />
         </div>
       </MainContentContainer>
     </Fragment>
