@@ -68,6 +68,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
     "axios": "^0.18.0",
+    "babel": "^6.23.0",
     "dotenv-webpack": "^1.5.5",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
