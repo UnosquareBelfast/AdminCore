@@ -18,7 +18,7 @@ const BookingModalForm = props => {
     formData,
     formStatus,
     formIsValid,
-    daysRequested,
+    bookingDuration,
   } = props;
 
   const createCtas = () => {
@@ -27,12 +27,12 @@ const BookingModalForm = props => {
         {
           label: 'Update',
           event: updateHolidayRequest,
-          disabled: !formIsValid || daysRequested === 0,
+          disabled: !formIsValid || bookingDuration === 0,
         },
         {
           label: 'Cancel',
           event: deleteHolidayRequest,
-          disabled: !formIsValid || daysRequested === 0,
+          disabled: !formIsValid || bookingDuration === 0,
         },
       ];
     } else {
@@ -40,7 +40,7 @@ const BookingModalForm = props => {
         {
           label: 'Request',
           event: submitHolidayRequest,
-          disabled: !formIsValid || daysRequested === 0,
+          disabled: !formIsValid || bookingDuration === 0,
         },
       ];
     }
@@ -57,10 +57,10 @@ const BookingModalForm = props => {
         start,
       );
 
-      const daysNotice = calculateDaysNotice(daysRequested);
+      const daysNotice = calculateDaysNotice(bookingDuration);
       let error = {
-        message: `You should give ${daysNotice} working/business days notice to request ${daysRequested} ${
-          daysRequested > 1 ? 'days' : 'day'
+        message: `You should give ${daysNotice} working/business days notice to request ${bookingDuration} ${
+          bookingDuration > 1 ? 'days' : 'day'
         } off, and therefore your request might be declined.`,
       };
       return fromTodayToStartDateRequested < daysNotice ? (
@@ -129,9 +129,9 @@ const BookingModalForm = props => {
 };
 
 BookingModalForm.propTypes = {
-  daysRequested: PT.number.isRequired,
+  bookingDuration: PT.number,
   formData: PT.object.isRequired,
-  isEventBeingUpdated: PT.bool.isRequired,
+  isEventBeingUpdated: PT.bool,
   formStatus: PT.func.isRequired,
   formIsValid: PT.bool.isRequired,
   submitHolidayRequest: PT.func.isRequired,

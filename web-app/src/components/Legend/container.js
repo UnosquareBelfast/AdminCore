@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import holidayStatus from '../../utilities/holidayStatus';
 
-const LengendContainer = Wrapped =>
+const LegendContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       takenHolidays: PT.array.isRequired,
@@ -74,8 +74,14 @@ const LengendContainer = Wrapped =>
       };
     }
 
-    componentWillMount = () => {
-      this.createEmployeesList();
+    componentDidUpdate = (_, prevState) => {
+      const { takenHolidays } = this.props;
+      const { employees } = this.state;
+      const prevEmployees = prevState.employees;
+
+      if (employees.length === prevEmployees.length && employees.length === 0) {
+        this.createEmployeesList(takenHolidays);
+      }
     };
 
     sortEmployeeList = objArray => {
@@ -98,7 +104,7 @@ const LengendContainer = Wrapped =>
       return employees.reduce((unique, o) => {
         if (
           !unique.some(
-            obj => obj.value === o.value && obj.displayValue === o.displayValue,
+            obj => obj.value === o.value && obj.displayValue === o.displayValue
           )
         ) {
           unique.push(o);
@@ -107,8 +113,7 @@ const LengendContainer = Wrapped =>
       }, []);
     };
 
-    createEmployeesList = () => {
-      const { takenHolidays } = this.props;
+    createEmployeesList = takenHolidays => {
       let employees = takenHolidays.filter(hol => hol.employee).map(hol => {
         return this.createEmployeeObject(hol);
       });
@@ -139,7 +144,7 @@ const LengendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee);
-        },
+        }
       );
     }
 
@@ -158,4 +163,4 @@ const LengendContainer = Wrapped =>
     }
   };
 
-export default LengendContainer;
+export default LegendContainer;
