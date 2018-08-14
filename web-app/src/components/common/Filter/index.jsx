@@ -54,19 +54,21 @@ class Filter extends Component {
   render() {
     return (
       <FilterContainer>
-        <label>Search</label>
-        <select value={this.state.key} onChange={this.switchKey}>
-          {this.options.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <input
-          type="text"
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
+        <div>
+          <label>Search</label>
+          <select value={this.state.key} onChange={this.switchKey}>
+            {this.options.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
+        </div>
       </FilterContainer>
     );
   }
