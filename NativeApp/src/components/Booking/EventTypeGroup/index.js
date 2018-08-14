@@ -43,7 +43,15 @@ class EventTypeGroup extends Component {
             color={isSelected ? WHITE : event.color}
             containerStyle={{ width: 30, aspectRatio: 1, paddingRight: 5 }}
           />
-          <Text style={[styles.textStyle, { color: isSelected ? WHITE : 'grey' }]}>{event.type}</Text>
+          <Text
+            style={[styles.textStyle,
+              {
+                color: isSelected ? WHITE : 'grey',
+              },
+            ]}
+          >
+            {event.type}
+          </Text>
         </TouchableOpacity>
       );
     });
