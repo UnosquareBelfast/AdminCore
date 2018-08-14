@@ -43,12 +43,15 @@ const Container = Wrapped =>
     }
 
     componentDidMount = () => {
+      const {
+        booking: { start, end, eventType, halfDay },
+      } = this.props;
       this.setState({
         formData: {
-          end: this.props.booking.end,
-          eventTypeId: this.props.booking.eventType.eventTypeId,
-          isHalfday: this.props.booking.halfDay || false,
-          start: this.props.booking.start,
+          start: start,
+          end: end,
+          eventTypeId: eventType.eventTypeId,
+          isHalfday: halfDay || false,
         },
       });
     };
