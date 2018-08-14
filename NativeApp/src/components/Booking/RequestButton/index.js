@@ -14,13 +14,14 @@ const RequestButton = (props) => {
           title="Update Holiday"
           backgroundColor={UNOBLUE}
           borderRadius={5}
+          containerViewStyle={{ marginLeft: 0, marginRight: 0 }}
           loading={loading}
           loadingRight
         />
         <Button
           onPress={cancelHoliday}
           title="Cancel Holiday"
-          containerViewStyle={{ marginTop: 10 }}
+          containerViewStyle={{ marginLeft: 0, marginRight: 0, marginTop: 10 }}
           borderRadius={5}
           loading={loading}
           loadingRight
@@ -35,6 +36,7 @@ const RequestButton = (props) => {
         borderRadius={5}
         loading={loading}
         loadingRight
+        containerViewStyle={{ marginLeft: 0, marginRight: 0 }}
       />
     )
   );

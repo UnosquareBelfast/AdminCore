@@ -1,9 +1,5 @@
 import React, { Fragment } from 'react';
-import {
-  View,
-  ScrollView,
-  Text,
-} from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { CheckBox, FormLabel } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import styles from './styles';
@@ -29,49 +25,49 @@ const BookingView = (props) => {
   return (
     <ScrollView style={{ backgroundColor: '#f7f7f7' }} contentContainerStyle={styles.container}>
       {booked && <StatusBar booking={booking} />}
-      <View>
-        <View style={styles.dateForm}>
+
+      <View style={styles.dateForm}>
+        <View>
           <FormLabel labelStyle={styles.formLabel}>
             TYPE
           </FormLabel>
           <EventTypeGroup />
         </View>
 
-        <View style={styles.dateForm}>
-          <View>
-            <FormLabel labelStyle={styles.formLabel}>
-              STARTING
-            </FormLabel>
-            <CustomDatePicker
-              chosenDate={startDate}
-              setDate={changeStartDate}
-            />
+        <View>
+          <FormLabel labelStyle={styles.formLabel}>
+            STARTING
+          </FormLabel>
+          <CustomDatePicker
+            chosenDate={startDate}
+            setDate={changeStartDate}
+          />
 
-            { !halfDay && (
-              <Fragment>
-                <FormLabel labelStyle={styles.formLabel}>
-                  ENDING
-                </FormLabel>
-                <CustomDatePicker
-                  chosenDate={endDate}
-                  setDate={changeEndDate}
-                  minimumDate={startDate}
-                />
-              </Fragment>
-            )}
-            <CheckBox
-              title="Request half day"
-              checked={halfDay}
-              size={20}
-              checkedIcon="check-circle"
-              uncheckedIcon="circle-o"
-              onPress={updateHalfDay}
-              containerStyle={styles.checkBox}
-              textStyle={styles.checkText}
-            />
-          </View>
+          { !halfDay && (
+            <Fragment>
+              <FormLabel labelStyle={styles.formLabel}>
+                ENDING
+              </FormLabel>
+              <CustomDatePicker
+                chosenDate={endDate}
+                setDate={changeEndDate}
+                minimumDate={startDate}
+              />
+            </Fragment>
+          )}
+          <CheckBox
+            title="Request half day"
+            checked={halfDay}
+            size={20}
+            checkedIcon="check-circle"
+            uncheckedIcon="circle-o"
+            onPress={updateHalfDay}
+            containerStyle={styles.checkBox}
+            textStyle={styles.checkText}
+          />
         </View>
       </View>
+
       <View style={styles.buttonContainer}>
         <RequestButton
           updateHoliday={updateHoliday}

@@ -143,12 +143,11 @@ class CustomDatePicker extends Component {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 5,
-    marginHorizontal: 10,
   },
   dateInput: {
     padding: 10,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 4,
     borderColor: 'lightgrey',
     flexDirection: 'row',
     alignItems: 'center',

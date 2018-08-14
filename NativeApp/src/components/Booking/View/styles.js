@@ -1,31 +1,24 @@
 import { StyleSheet } from 'react-native';
-import { GREY } from '../../../styles/colors';
+import { GREY, WHITE } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingBottom: 10,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: WHITE,
   },
   dateForm: {
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-    paddingHorizontal: 10,
+    flex: 1,
+    justifyContent: 'flex-start',
     marginHorizontal: 10,
     marginVertical: 5,
+    paddingHorizontal: 10,
     backgroundColor: 'white',
-    borderRadius: 8,
-    shadowRadius: 2,
-    shadowColor: 'lightgrey',
-    shadowOpacity: 0.5,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
   },
   formLabel: {
-    marginLeft: 5,
+    marginLeft: 0,
+    marginRight: 0,
     marginTop: 10,
     fontSize: 12,
     fontWeight: 'normal',
@@ -34,6 +27,11 @@ const styles = StyleSheet.create({
   checkBox: {
     backgroundColor: 'transparent',
     borderWidth: 0,
+    margin: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    padding: 0,
+    paddingTop: 10,
   },
   checkText: {
     fontSize: 12,
@@ -51,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 10,
+    marginHorizontal: 10,
   },
 });
 

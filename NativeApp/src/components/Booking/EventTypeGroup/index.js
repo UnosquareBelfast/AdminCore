@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { LIGHTGREY, GREY, WHITE } from '../../../styles/colors';
+import { GREY, WHITE } from '../../../styles/colors';
 
 class EventTypeGroup extends Component {
   constructor() {
@@ -9,8 +9,8 @@ class EventTypeGroup extends Component {
     this.state = {
       eventType: [
         { type: 'Annual leave', icon: 'suitcase', color: '#A7BF35' },
-        { type: 'Sick leave', icon: 'bed', color: '#A2798F' },
         { type: 'Working from Home', icon: 'home', color: '#399BB6' },
+        { type: 'Sick leave', icon: 'bed', color: '#A2798F' },
         { type: 'Work related travel', icon: 'plane', color: '#FF544E' },
       ],
       selectedIndex: 0,
@@ -23,19 +23,25 @@ class EventTypeGroup extends Component {
     const { eventType, selectedIndex } = this.state;
     const checkBox = eventType.map((event, index) => {
       const isSelected = selectedIndex === index;
+      const isOdd = index % 2 === 1;
 
       return (
         <TouchableOpacity
           key={index}
           onPress={() => this.selected(index)}
-          style={[styles.box, { backgroundColor: isSelected ? event.color : WHITE }]}
+          style={[styles.box,
+            {
+              backgroundColor: isSelected ? event.color : WHITE,
+              marginRight: isOdd ? 0 : 10,
+            },
+          ]}
         >
           <Icon
             name={event.icon}
             type="font-awesome"
             size={20}
             color={isSelected ? WHITE : event.color}
-            containerStyle={{ paddingBottom: 10 }}
+            containerStyle={{ width: 30, aspectRatio: 1, paddingRight: 5 }}
           />
           <Text style={[styles.textStyle, { color: isSelected ? WHITE : 'grey' }]}>{event.type}</Text>
         </TouchableOpacity>
@@ -55,24 +61,28 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    margin: 10,
+    marginVertical: 10,
   },
   box: {
-    justifyContent: 'center',
+    flex: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    flexDirection: 'row',
     marginRight: 10,
     marginBottom: 10,
     padding: 5,
-    width: '30%',
-    aspectRatio: 1,
-    borderRadius: 8,
+    paddingHorizontal: 10,
+    minWidth: 120,
+    maxHeight: 40,
+    borderRadius: 4,
     shadowRadius: 2,
-    shadowColor: LIGHTGREY,
-    shadowOpacity: 0.5,
+    shadowColor: '#F7F7F7',
+    shadowOpacity: 0.8,
     shadowOffset: {
       width: 3,
       height: 3,
     },
+    elevation: 2,
   },
   textStyle: {
     textAlign: 'center',
