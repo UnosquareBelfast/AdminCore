@@ -24,7 +24,7 @@ const BookingView = (props) => {
 
   return (
     <ScrollView style={{ backgroundColor: '#f7f7f7' }} contentContainerStyle={styles.container}>
-      {booked && <StatusBar booking={booking} />}
+      {booked && <StatusBar booking={booking} cancelHoliday={cancelHoliday} />}
 
       <View style={styles.dateForm}>
         <View>

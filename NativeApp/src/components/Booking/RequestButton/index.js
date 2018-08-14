@@ -1,33 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Button } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
-import { UNOBLUE, RED } from '../../../styles/colors';
+import { UNOBLUE } from '../../../styles/colors';
 
 const RequestButton = (props) => {
-  const { updateHoliday, booked, submitRequest, loading, cancelHoliday } = props;
+  const { updateHoliday, booked, submitRequest, loading } = props;
 
   return (
     booked ? (
-      <Fragment>
-        <Button
-          onPress={updateHoliday}
-          title="Update Holiday"
-          backgroundColor={UNOBLUE}
-          borderRadius={5}
-          containerViewStyle={{ marginLeft: 0, marginRight: 0 }}
-          loading={loading}
-          loadingRight
-        />
-        <Button
-          onPress={cancelHoliday}
-          title="Cancel Holiday"
-          containerViewStyle={{ marginLeft: 0, marginRight: 0, marginTop: 10 }}
-          borderRadius={5}
-          loading={loading}
-          loadingRight
-          backgroundColor={RED}
-        />
-      </Fragment>
+      <Button
+        onPress={updateHoliday}
+        title="Update"
+        backgroundColor={UNOBLUE}
+        borderRadius={5}
+        containerViewStyle={{ marginLeft: 0, marginRight: 0 }}
+        loading={loading}
+        loadingRight
+      />
     ) : (
       <Button
         onPress={submitRequest}
@@ -46,7 +35,6 @@ export default RequestButton;
 
 RequestButton.propTypes = {
   updateHoliday: PT.func.isRequired,
-  cancelHoliday: PT.func.isRequired,
   booked: PT.bool.isRequired,
   submitRequest: PT.func.isRequired,
   loading: PT.bool.isRequired,
