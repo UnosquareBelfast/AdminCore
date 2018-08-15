@@ -21,10 +21,12 @@ const HomeStack = createStackNavigator(
     navigationOptions: {
       header: null,
       headerStyle: {
+        paddingHorizontal: 20,
         backgroundColor: 'white',
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(192,192,192,0.3)',
       },
+      headerBackTitle: null,
     },
   }
 );

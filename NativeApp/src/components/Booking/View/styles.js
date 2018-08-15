@@ -1,24 +1,42 @@
 import { StyleSheet } from 'react-native';
+import { GREY, WHITE } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    paddingVertical: 40,
-    paddingHorizontal: 30,
-    backgroundColor: '#fff',
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 10,
+    backgroundColor: WHITE,
   },
   dateForm: {
     flex: 1,
-    justifyContent: 'space-between',
-    paddingTop: 20,
+    justifyContent: 'flex-start',
+    marginHorizontal: 10,
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+  },
+  formLabel: {
+    marginLeft: 0,
+    marginRight: 0,
+    marginTop: 10,
+    fontSize: 12,
+    fontWeight: 'normal',
+    color: GREY,
   },
   checkBox: {
     backgroundColor: 'transparent',
     borderWidth: 0,
     margin: 0,
-    marginRight: 0,
     marginLeft: 0,
+    marginRight: 0,
+    padding: 0,
+    paddingTop: 10,
+  },
+  checkText: {
+    fontSize: 12,
+    color: GREY,
+    fontWeight: 'normal',
   },
   holidayStatus: {
     backgroundColor: '#f7f7f7',
@@ -26,6 +44,12 @@ const styles = StyleSheet.create({
     borderLeftColor: '#00DCFA',
     padding: 10,
     marginTop: 20,
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
   },
 });
 
