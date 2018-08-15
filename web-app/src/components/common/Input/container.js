@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import checkValidity from '../../../utilities/inputValidationRules';
 
 export default Wrapped =>
-  class extends React.Component {
+  class extends React.PureComponent {
     static propTypes = {
       label: PT.string.isRequired,
       type: PT.string.isRequired,
