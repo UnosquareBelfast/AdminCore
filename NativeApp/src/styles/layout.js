@@ -1,4 +1,4 @@
-import { WHITE } from '../styles/colors';
+import { WHITE } from './colors';
 
 export const container = {
   flexGrow: 1,

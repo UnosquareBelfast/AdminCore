@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import styles from './styles';
 import H1 from '../H1';
-import H2 from '../H2';
+import H3 from '../H3';
 import P from '../P';
 
 const HeaderDays = (props) => {
@@ -11,31 +11,31 @@ const HeaderDays = (props) => {
 
   return (
     <View style={styles.headerContainer}>
-      <View style={styles.divider}>
-        <H2 type="base" style={styles.boldDarkGrey}>
-          Taken
-        </H2>
+      <View style={styles.holidayContainer}>
         <View style={styles.holidayText}>
-          <H1 type="base" style={styles.darkGrey}>
+          <H1 type="base" style={styles.h1}>
             {takenHolidays.length}
           </H1>
-          <P type="base" style={styles.darkGreyPadding}>
-            DAYS
+          <P type="base" style={styles.p}>
+              DAYS
           </P>
         </View>
+        <H3 type="base" style={styles.h3}>
+          Taken
+        </H3>
       </View>
       <View style={styles.holidayContainer}>
-        <H2 type="base" style={styles.boldDarkGrey}>
-          Remaining
-        </H2>
         <View style={styles.holidayText}>
-          <H1 type="base" style={styles.darkGrey}>
+          <H1 type="base" style={styles.h1}>
             {remainingHolidays}
           </H1>
-          <P type="base" style={styles.darkGreyPadding}>
+          <P type="base" style={styles.p}>
             DAYS
           </P>
         </View>
+        <H3 type="base" style={styles.h3}>
+          Remaining
+        </H3>
       </View>
     </View>
   );

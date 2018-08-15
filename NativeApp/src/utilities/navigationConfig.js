@@ -19,6 +19,7 @@ const HomeStack = createStackNavigator(
   {
     initialRouteName: 'Home',
     navigationOptions: {
+      header: null,
       headerStyle: {
         backgroundColor: 'white',
         borderBottomWidth: 1,
@@ -38,7 +39,7 @@ HomeStack.navigationOptions = () => {
 };
 
 
-const AppStack = createBottomTabNavigator(
+const AppTab = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
     User: { screen: User },
@@ -59,6 +60,8 @@ const AppStack = createBottomTabNavigator(
     },
   }
 );
+
+const AppStack = createStackNavigator({ AppTab });
 
 const AuthStack = createStackNavigator({ Login });
 
