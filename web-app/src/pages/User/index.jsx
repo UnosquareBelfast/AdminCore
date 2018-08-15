@@ -1,7 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { HolidayList, HolidayModal } from '../../components';
+import { DataTable, HolidayModal } from '../../components';
+import HolidayCells from '../../components/DataTable/Cells/holidays';
 import { Container, Splitter } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import {
@@ -10,6 +11,7 @@ import {
   faArrowLeft,
 } from '@fortawesome/fontawesome-free-solid';
 import { roleText } from '../../utilities/roles';
+import { Email } from '../../components/common';
 
 export const User = props => {
   if (!props.profileUser) return null;
@@ -30,7 +32,7 @@ export const User = props => {
         </h1>
         <p>
           <FontAwesomeIcon icon={faEnvelope} />
-          {email}
+          <Email>{email}</Email>
         </p>
         <p>
           <FontAwesomeIcon icon={faIdCard} />
@@ -40,8 +42,9 @@ export const User = props => {
       <Splitter />
       <div>
         <h2>Holidays</h2>
-        <HolidayList
-          holidays={profileHolidays}
+        <DataTable
+          data={profileHolidays}
+          cells={HolidayCells}
           columns={['status', 'startDate', 'endDate', 'requestedDate']}
           onRowClick={holiday => selectHoliday(holiday)}
         />

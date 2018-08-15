@@ -16,4 +16,5 @@ public class UpdateHolidayViewModel {
     private LocalDate endDate;
 
     private boolean halfDay;
+
 }

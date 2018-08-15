@@ -32,7 +32,7 @@ export class Form extends Component {
       },
       () => {
         this.addInputsToValidatedElements();
-      }
+      },
     );
   }
 

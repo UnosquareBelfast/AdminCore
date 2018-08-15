@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { UserList, UserModal } from '../';
+import { DataTable, UserModal } from '../';
+import UserCells from '../DataTable/Cells/users';
 import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 import container from './container';
@@ -20,11 +21,12 @@ const AllEmployees = ({ history, users, selectUser, selectedUser }) => {
         history={history}
       />
       <h2>Employees</h2>
-      <UserList
-        history={history}
-        users={users}
+      <DataTable
+        data={users}
+        cells={UserCells}
         columns={['fullName', 'email', 'role', 'location']}
         onRowClick={employee => selectUser(employee)}
+        pageSize={20}
       />
     </Fragment>
   );

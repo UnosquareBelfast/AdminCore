@@ -1,19 +1,27 @@
 package com.unosquare.admin_core.back_end.ViewModels;
 
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 public class SaveWorkingFromHomeViewModel {
+    private int eventId;
 
-    @NotBlank
-    private List<DateViewModel> dates;
+    private LocalDate startDate;
 
-    @NotBlank
-    private int employeeId;
+    private LocalDate endDate;
 
-    @NotBlank
-    private int eventTypeId;
+    private int eventStatusId;
+
+    private String eventStatusDescription;
+
+    private EmployeeDTO employee;
+
+    private LocalDate lastModified;
+
+    private LocalDate dateCreated;
+
+
 }

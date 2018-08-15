@@ -5,9 +5,13 @@ import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.enums.EmployeeRoles;
 import com.unosquare.admin_core.back_end.enums.SecurityRoles;
 import lombok.Data;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +32,8 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+
+
     public UserPrincipal(int id, String name, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
@@ -35,6 +41,7 @@ public class UserPrincipal implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
+
 
     public static UserPrincipal create(Employee employee) {
 

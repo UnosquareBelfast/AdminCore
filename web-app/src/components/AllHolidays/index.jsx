@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { HolidayList, HolidayModal } from '../';
+import { DataTable, HolidayModal } from '../';
+import HolidayCells from '../DataTable/Cells/holidays';
 
 export const AllHolidays = ({
   holidays,
@@ -13,8 +14,10 @@ export const AllHolidays = ({
     <Fragment>
       <HolidayModal holiday={selectedHoliday} closeModal={() => closeModal()} />
       <h2>All Holidays</h2>
-      <HolidayList
-        holidays={holidays}
+      <DataTable
+        data={holidays}
+        cells={HolidayCells}
+        pageSize={20}
         columns={[
           'status',
           'employee',

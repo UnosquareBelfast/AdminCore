@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native-elements';
+import {
+  Button,
+  FormValidationMessage,
+  FormLabel,
+} from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, Caption } from '../../Common';
+import Input from '../Input';
+import { UNOBLUE, WHITE } from '../../../styles/colors';
+import { H4_SIZE } from '../../../styles/text';
+
 
 class LoginForm extends Component {
   static propTypes = {
@@ -16,67 +23,47 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      underlineColor1: 'gray',
-      underlineColor2: 'gray',
     };
   }
 
-  changeColor = (id, color) => {
-    if (id === 'input-1') {
-      this.setState({
-        underlineColor1: color,
-      });
-    } else {
-      this.setState({
-        underlineColor2: color,
-      });
-    }
-  }
-
   render() {
-    const { email, password, underlineColor1, underlineColor2 } = this.state;
+    const { email, password } = this.state;
     const { handleLogin, hasError, loading } = this.props;
-    const { changeColor } = this;
     return (
-      <View>
-        <TextInput
-          id="input-1"
-          onFocus={() => changeColor('input-1', '#00DCFA')}
-          onBlur={() => changeColor('input-1', 'gray')}
-          placeholder="Email"
-          onChangeText={text => this.setState({ email: text })}
-          value={email}
-          autoCapitalize="none"
-          underlineColorAndroid="transparent"
-          selectionColor="#00DCFA"
-          style={{ borderBottomWidth: 1, borderColor: hasError ? 'red' : underlineColor1 }}
-        />
-        <TextInput
-          id="input-2"
-          onFocus={() => changeColor('input-2', '#00DCFA')}
-          onBlur={() => changeColor('input-2', 'gray')}
-          placeholder="Password"
-          onChangeText={text => this.setState({ password: text })}
-          value={password}
-          secureTextEntry
-          underlineColorAndroid="transparent"
-          style={{ borderBottomWidth: 1, borderColor: hasError ? 'red' : underlineColor2 }}
-          selectionColor="#00DCFA"
-        />
-        {
-          hasError && (
-            <Caption type="base" style={styles.red}>
-              Incorrect email or password
-            </Caption>
-          )
-        }
+      <View style={styles.view}>
+        <View>
+          <FormLabel>Email</FormLabel>
+          <Input
+            onChangeText={text => this.setState({ email: text })}
+            value={email}
+            returnKeyType="next"
+            hasError={hasError}
+            onSubmitEditing={() => this.secondInput.focus()}
+            blurOnSubmit={false}
+          />
+          <FormLabel>Password</FormLabel>
+          <Input
+            textInputRef={(ref) => { this.secondInput = ref; }}
+            onChangeText={text => this.setState({ password: text })}
+            value={password}
+            returnKeyType="done"
+            hasError={hasError}
+            secureTextEntry
+            onSubmitEditing={() => handleLogin(email, password)}
+          />
+          {
+            hasError && (
+              <FormValidationMessage>Incorrect email or password</FormValidationMessage>
+            )
+          }
+        </View>
         <Button
           onPress={() => handleLogin(email, password)}
-          title="Login"
-          textStyle={{ fontWeight: 'bold', color: '#fff', fontSize: 20 }}
-          backgroundColor="#00DCFA"
-          containerViewStyle={{ marginTop: 30 }}
+          title="Log In"
+          textStyle={styles.buttonText}
+          backgroundColor={UNOBLUE}
           borderRadius={5}
+          containerViewStyle={{ marginVertical: 20 }}
           loading={loading}
           loadingRight
         />
@@ -86,9 +73,14 @@ class LoginForm extends Component {
 }
 
 const styles = StyleSheet.create({
-  red: {
-    color: 'red',
-    paddingHorizontal: 5,
+  view: {
+    flex: 1,
+    justifyContent: 'space-around',
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: WHITE,
+    fontSize: H4_SIZE,
   },
 });
 

@@ -1,34 +1,60 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import {
+  toggleBookingModal,
+  selectBooking,
+  updateEventDuration,
+} from '../../../actions/dashboard';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import {
   updateHoliday,
   requestHoliday,
   rejectHoliday,
 } from '../../../services/holidayService';
+import { eventBeingUpdated } from '../../../reducers';
 
-export default Wrapped =>
+const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
       employeeId: PT.number.isRequired,
       updateTakenHolidays: PT.func.isRequired,
-      updateBookingAndDuration: PT.func.isRequired,
-      closeModal: PT.func.isRequired,
+      selectBooking: PT.func.isRequired,
+      toggleModal: PT.func.isRequired,
       booking: PT.object.isRequired,
+      isEventBeingUpdated: PT.bool,
+      updateEventDuration: PT.func,
+      bookingDuration: PT.number,
     };
 
     constructor(props) {
       super(props);
       this.state = {
         formData: {
-          end: props.booking.end,
-          eventTypeId: props.booking.eventType.eventTypeId,
-          isHalfday: props.booking.halfDay || false,
-          start: props.booking.start,
+          end: moment(),
+          eventTypeId: 1,
+          isHalfday: false,
+          start: moment(),
         },
         formIsValid: true,
       };
     }
+
+    componentDidMount = () => {
+      const {
+        booking: { start, end, eventType, halfDay },
+      } = this.props;
+      this.setState({
+        formData: {
+          start: start,
+          end: end,
+          eventTypeId: eventType.eventTypeId,
+          isHalfday: halfDay || false,
+        },
+      });
+    };
 
     handleMakeHolidayRequest = event => {
       event.preventDefault();
@@ -49,7 +75,7 @@ export default Wrapped =>
 
       requestHoliday(request).then(() => {
         this.props.updateTakenHolidays();
-        this.props.closeModal();
+        this.props.toggleModal(false);
       });
     };
 
@@ -57,12 +83,12 @@ export default Wrapped =>
       event.preventDefault();
 
       const { holidayId } = this.props.booking;
-      const { updateTakenHolidays, closeModal } = this.props;
+      const { updateTakenHolidays, toggleModal } = this.props;
       if (cancel) {
         rejectHoliday(holidayId)
           .then(() => {
             updateTakenHolidays();
-            closeModal();
+            toggleModal(false);
           })
           .catch(error => {
             Swal({
@@ -70,7 +96,7 @@ export default Wrapped =>
               text: error.message,
               type: 'error',
             });
-            closeModal();
+            toggleModal(false);
           });
       } else {
         const { start, end, isHalfday } = this.state.formData;
@@ -85,7 +111,7 @@ export default Wrapped =>
         updateHoliday(request)
           .then(() => {
             updateTakenHolidays();
-            closeModal();
+            toggleModal(false);
           })
           .catch(error => {
             Swal({
@@ -93,7 +119,7 @@ export default Wrapped =>
               text: error.message,
               type: 'error',
             });
-            closeModal();
+            toggleModal(false);
           });
       }
     };
@@ -123,38 +149,30 @@ export default Wrapped =>
         formData.eventTypeId = 1;
       }
 
-      this.setState(
-        {
-          formData,
-          formIsValid,
-        },
-        () => {
-          this.updateBookingObj(formData);
-        },
-      );
-    }
-
-    updateBookingObj(formData) {
-      const { isEventBeingUpdated } = this.props.booking;
-      const updatedBooking = {
-        ...this.props.booking,
+      const updatedFormData = {
         ...formData,
-        isEventBeingUpdated: isEventBeingUpdated,
+        eventType: {
+          eventTypeId: formData.eventTypeId,
+        },
       };
-      this.props.updateBookingAndDuration(updatedBooking);
+      this.props.updateEventDuration(updatedFormData);
+
+      this.setState({
+        formData,
+        formIsValid,
+      });
     }
 
     render() {
       return (
         <Wrapped
           formData={this.state.formData}
-          isEventBeingUpdated={this.props.booking.isEventBeingUpdated}
-          daysRequested={this.props.booking.duration}
+          isEventBeingUpdated={this.props.isEventBeingUpdated}
+          bookingDuration={this.props.bookingDuration}
           formIsValid={this.state.formIsValid}
           formStatus={(name, value, formIsValid) =>
             this.handleFormStatus(name, value, formIsValid)
           }
-          updateBookingAndDuration={this.props.updateBookingAndDuration}
           submitHolidayRequest={event => this.handleMakeHolidayRequest(event)}
           updateHolidayRequest={event =>
             this.handleUpdateHolidayRequest(event, false)
@@ -166,3 +184,19 @@ export default Wrapped =>
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    isEventBeingUpdated: eventBeingUpdated(state),
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    selectBooking: updatedBooking => dispatch(selectBooking(updatedBooking)),
+    updateEventDuration: event => dispatch(updateEventDuration(event)),
+    toggleModal: open => dispatch(toggleBookingModal(open)),
+  };
+};
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), Container);
