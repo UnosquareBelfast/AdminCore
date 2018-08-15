@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form Component renders correctly 1`] = `
+<form>
+  <styled.div>
+    <React.Fragment
+      key="0"
+    >
+      <Button
+        disabled={false}
+        label="Test Form Name"
+        onClick={[MockFunction]}
+      />
+    </React.Fragment>
+  </styled.div>
+</form>
+`;

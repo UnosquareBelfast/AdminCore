@@ -2,7 +2,7 @@
 
 exports[`Button renders correctly when background is disabled 1`] = `
 .c0 {
-  background: #f4f4f4;
+  background: #0eb5d1;
   color: white;
   cursor: pointer;
   text-align: center;
@@ -13,6 +13,7 @@ exports[`Button renders correctly when background is disabled 1`] = `
   border: none;
   font-size: 1em;
   font-weight: bold;
+  opacity: 0.4;
 }
 
 <button
@@ -34,6 +35,7 @@ exports[`Button renders correctly when background is not disabled 1`] = `
   border: none;
   font-size: 1em;
   font-weight: bold;
+  opacity: 1;
 }
 
 <button
