@@ -40,7 +40,11 @@ const Container = Wrapped =>
 
     createEvent = (event, formData) => {
       event.preventDefault();
-      const { employeeId } = this.props;
+      const {
+        employeeId,
+        updateTakenHolidays,
+        toggleBookingModal,
+      } = this.props;
       const { start, end, isHalfday } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
 
@@ -62,8 +66,8 @@ const Container = Wrapped =>
 
       endpoints[eventTypeId](request)
         .then(() => {
-          this.props.updateTakenHolidays();
-          this.props.toggleBookingModal(false);
+          updateTakenHolidays();
+          toggleBookingModal(false);
         })
         .catch(error => Swal('Error', error.message, 'error'));
     };
@@ -102,7 +106,26 @@ const Container = Wrapped =>
       }
     };
 
-    cancelEvent = (event, formData) => {};
+    cancelEvent = () => {
+      const {
+        updateTakenHolidays,
+        toggleBookingModal,
+        booking: { holidayId },
+      } = this.props;
+      rejectHoliday(holidayId)
+        .then(() => {
+          updateTakenHolidays();
+          toggleBookingModal(false);
+        })
+        .catch(error => {
+          Swal({
+            title: 'Error',
+            text: error.message,
+            type: 'error',
+          });
+          toggleBookingModal(false);
+        });
+    };
 
     render() {
       return (

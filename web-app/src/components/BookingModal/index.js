@@ -28,6 +28,7 @@ const BookingModal = props => {
     bookingModalOpen && (
       <Modal closeModal={closeBookingModal}>
         <StyleContainer>
+          <p onClick={cancelEvent}>Cancel</p>
           <h1>
             {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
           </h1>
