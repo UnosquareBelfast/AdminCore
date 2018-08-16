@@ -3,12 +3,9 @@ import container from './container';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-import {
-  StyleContainer,
-  BookingStatus,
-  StatusDot,
-  FormContainer,
-} from './styled';
+import { StyleContainer, BookingStatus, FormContainer } from './styled';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/fontawesome-free-solid';
 
 const BookingModal = props => {
   const {
@@ -28,20 +25,25 @@ const BookingModal = props => {
     bookingModalOpen && (
       <Modal closeModal={closeBookingModal}>
         <StyleContainer>
-          <p onClick={cancelEvent}>Cancel</p>
+          {isEventBeingUpdated && (
+            <BookingStatus status={booking.eventStatus.eventStatusId}>
+              <div>
+                <h4>{booking.title}</h4>
+                <p>{booking.eventStatus.description}</p>
+              </div>
+              <div>
+                <div className="cancelEvent" onClick={cancelEvent}>
+                  <FontAwesomeIcon icon={faTrash} />
+                  Cancel Event
+                </div>
+              </div>
+            </BookingStatus>
+          )}
           <h1>
             {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
           </h1>
           <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
-          {isEventBeingUpdated && (
-            <BookingStatus>
-              <h4>{booking.title}</h4>
-              <span>
-                <StatusDot status={booking.eventStatus.eventStatusId} />
-                {booking.eventStatus.description}
-              </span>
-            </BookingStatus>
-          )}
+
           <FormContainer>
             <BookingModalForm
               updateTakenHolidays={updateTakenHolidays}

@@ -14,45 +14,40 @@ export const StyleContainer = styled.div`
   h1 {
     margin: 0 0 10px 0;
   }
+
+  h4 {
+    margin: 0;
+  }
 `;
 
 export const BookingStatus = styled.div`
-  background: ${props => props.theme.colours.lightgrey};
-  padding: 10px 35px;
-  margin: 10px -35px;
-  @media (min-width: 920px) {
-    padding: 10px 54px;
-    margin: 10px -54px;
-  }
-
-  h4,
-  span {
-    position: relative;
-    margin: 0 0 4px 0;
-  }
-
-  span {
-    left: -13px;
-  }
-`;
-
-export const StatusDot = styled.div`
-  display: inline-block;
-  position: relative;
-  top: -2.5px;
-  margin-right: 7px;
-  height: 7px;
-  width: 7px;
-  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
   background: ${({ theme, status }) => theme.holidayStatus[status]};
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  p {
+    margin: 4px 0 0 0;
+  }
+  svg {
+    margin-right: 5px;
+  }
+
+  .cancelEvent {
+    cursor: pointer;
+    border: 1.5px solid white;
+    padding: 10px; 15px;
+    border-radius: 3px;
+  }
 `;
 
 export const FormContainer = styled.div`
   position: relative;
-  padding-top: 15px;
 
   form {
-    margin: 15px 0;
     @media (min-width: 992px) {
       margin-right: -10px;
       margin-left: -10px;
@@ -80,7 +75,7 @@ export const FormContainer = styled.div`
 
     .checkbox {
       @media (min-width: 992px) {
-        margin: 20px 10px;
+        margin: 0 10px 20px 10px;
       }
     }
 
