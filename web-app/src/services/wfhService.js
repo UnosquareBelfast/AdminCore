@@ -1,11 +1,11 @@
 import axios from '../utilities/AxiosInstance';
 
-export const createWFH = holidayId => {
-  return axios.post(`/workingFromHome/${holidayId}`);
+export const requestWFH = dates => {
+  return axios.post('/workingFromHome/', dates);
 };
 
-export const getAllWFH = dates => {
-  return axios.get('/workingFromHome/', dates);
+export const getAllWFH = () => {
+  return axios.get('/workingFromHome/');
 };
 
 export const getWFH = employeeId => {
