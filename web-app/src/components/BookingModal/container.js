@@ -2,12 +2,20 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Swal from 'sweetalert2';
 import { toggleBookingModal } from '../../actions/dashboard';
 import {
   getBooking,
   bookingModalOpen,
   getBookingDuration,
 } from '../../reducers';
+import {
+  updateHoliday,
+  requestHoliday,
+  rejectHoliday,
+} from '../../services/holidayService';
+import { requestWFH } from '../../services/wfhService';
+import eventTypes from '../../utilities/eventTypes';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -23,11 +31,78 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
+      this.dateFormat = 'YYYY-MM-DD';
     }
 
     closeBookingModal = () => {
       this.props.toggleBookingModal(false);
     };
+
+    createEvent = (event, formData) => {
+      event.preventDefault();
+      const { employeeId } = this.props;
+      const { start, end, isHalfday } = formData;
+      const eventTypeId = parseInt(formData.eventTypeId);
+
+      const endpoints = {
+        [eventTypes.HOLIDAY]: requestHoliday,
+        [eventTypes.WFH]: requestWFH,
+      };
+
+      const request = {
+        dates: [
+          {
+            startDate: start.format(this.dateFormat),
+            endDate: end.format(this.dateFormat),
+            halfDay: isHalfday,
+          },
+        ],
+        employeeId: employeeId,
+      };
+
+      endpoints[eventTypeId](request)
+        .then(() => {
+          this.props.updateTakenHolidays();
+          this.props.toggleBookingModal(false);
+        })
+        .catch(error => Swal('Error', error.message, 'error'));
+    };
+
+    updateEvent = (event, formData) => {
+      event.preventDefault();
+      const { start, end, isHalfday } = formData;
+      const eventTypeId = parseInt(formData.eventTypeId);
+      const {
+        updateTakenHolidays,
+        toggleBookingModal,
+        booking: { holidayId },
+      } = this.props;
+
+      const request = {
+        endDate: end.format(this.dateFormat),
+        halfDay: isHalfday,
+        holidayId: holidayId,
+        startDate: start.format(this.dateFormat),
+      };
+
+      if (eventTypeId) {
+        updateHoliday(request)
+          .then(() => {
+            updateTakenHolidays();
+            toggleBookingModal(false);
+          })
+          .catch(error => {
+            Swal({
+              title: 'Error',
+              text: error.message,
+              type: 'error',
+            });
+            toggleBookingModal(false);
+          });
+      }
+    };
+
+    cancelEvent = (event, formData) => {};
 
     render() {
       return (
@@ -40,6 +115,9 @@ const Container = Wrapped =>
             updateTakenHolidays={this.props.updateTakenHolidays}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             bookingDuration={this.props.bookingDuration}
+            createEvent={this.createEvent}
+            updateEvent={this.updateEvent}
+            cancelEvent={this.cancelEvent}
           />
         )
       );

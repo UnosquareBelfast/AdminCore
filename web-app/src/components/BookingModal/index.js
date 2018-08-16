@@ -19,6 +19,9 @@ const BookingModal = props => {
     updateTakenHolidays,
     isEventBeingUpdated,
     bookingDuration,
+    createEvent,
+    updateEvent,
+    cancelEvent,
   } = props;
 
   return (
@@ -43,6 +46,8 @@ const BookingModal = props => {
               updateTakenHolidays={updateTakenHolidays}
               employeeId={employeeId}
               booking={booking}
+              createEvent={createEvent}
+              updateEvent={updateEvent}
             />
           </FormContainer>
         </StyleContainer>
@@ -58,6 +63,9 @@ BookingModal.propTypes = {
   bookingModalOpen: PT.bool,
   updateTakenHolidays: PT.func.isRequired,
   bookingDuration: PT.number,
+  createEvent: PT.func.isRequired,
+  updateEvent: PT.func.isRequired,
+  cancelEvent: PT.func.isRequired,
 };
 
 export default container(BookingModal);
