@@ -6,22 +6,24 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: WHITE,
-    paddingTop: 10,
-    paddingBottom: 10,
-    maxHeight: 93,
+    paddingTop: 11,
+    paddingBottom: 11,
+    maxHeight: 70,
     borderColor: LIGHTGREY,
     borderTopWidth: 0.7,
   },
   holidayContainer: {
-    marginLeft: '7%',
+    marginLeft: '5%',
     flex: 1,
+    borderTopWidth: 1,
+    borderColor: LIGHTGREY,
   },
   holidayText: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'baseline',
   },
-  h3: {
+  h2: {
     color: GREY,
   },
   h1: {
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
   },
   p: {
     fontWeight: 'bold',
-    paddingBottom: 5,
+    paddingBottom: 2,
     paddingLeft: 2,
   },
 });

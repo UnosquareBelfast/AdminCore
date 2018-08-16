@@ -6,7 +6,7 @@ export const P_COLOR = BLACK;
 export const CAPTION_SIZE = 14;
 export const CAPTION_COLOR = RED;
 
-export const H1_SIZE = 27;
+export const H1_SIZE = 20;
 export const H1_COLOR = DARKGREY;
 
 export const H2_SIZE = 17;
@@ -17,5 +17,3 @@ export const H3_COLOR = DARKGREY;
 
 export const H4_SIZE = 13;
 export const H4_COLOR = DARKGREY;
-
-export const FORM_INPUT_TEXT = 20;

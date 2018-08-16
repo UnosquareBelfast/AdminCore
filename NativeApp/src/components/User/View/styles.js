@@ -34,15 +34,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   profileName: {
-    paddingBottom: 10,
-    paddingTop: 10,
     alignSelf: 'center',
-    flexDirection: 'row',
   },
   flatListView: {
     flex: 1,
   },
-  H3Bold: {
+  profileText: {
     fontWeight: 'bold',
   },
 });
