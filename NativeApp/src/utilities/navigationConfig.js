@@ -1,5 +1,9 @@
 import React from 'react';
-import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   Home,
@@ -10,6 +14,7 @@ import {
   Booking,
   Logout,
 } from '../screens';
+import { UNOBLUE, WHITE } from '../styles/colors';
 
 const HomeStack = createStackNavigator(
   {
@@ -19,10 +24,9 @@ const HomeStack = createStackNavigator(
   {
     initialRouteName: 'Home',
     navigationOptions: {
-      header: null,
       headerStyle: {
-        paddingHorizontal: 20,
-        backgroundColor: 'white',
+        paddingHorizontal: 10,
+        backgroundColor: WHITE,
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(192,192,192,0.3)',
       },
@@ -40,30 +44,55 @@ HomeStack.navigationOptions = () => {
   };
 };
 
-
 const AppTab = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
-    User: { screen: User },
+    Profile: { screen: User },
     Team: { screen: Team },
     Logout: { screen: Logout },
   }, {
     initialRouteName: 'HomeStack',
-    order: ['HomeStack', 'User', 'Team', 'Logout'],
+    order: ['HomeStack', 'Profile', 'Team', 'Logout'],
     tabBarOptions: {
-      activeTintColor: '#FFFFFF',
+      activeTintColor: WHITE,
       inactiveTintColor: 'rgba(2,157,178,0.7)',
-      inactiveBackgroundColor: '#00DCFA',
-      activeBackgroundColor: '#00DCFA',
+      inactiveBackgroundColor: UNOBLUE,
+      activeBackgroundColor: UNOBLUE,
       style: {
         paddingTop: 5,
-        backgroundColor: '#00DCFA',
+        backgroundColor: UNOBLUE,
+      },
+    },
+  },
+);
+
+AppTab.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+  let header;
+
+  const headerTitle = routeName;
+
+  if (routeName === 'HomeStack') {
+    header = null;
+  }
+
+  return {
+    headerTitle,
+    header,
+  };
+};
+
+
+const AppStack = createStackNavigator(
+  { AppTab },
+  {
+    navigationOptions: {
+      headerStyle: {
+        paddingHorizontal: 10,
       },
     },
   }
 );
-
-const AppStack = createStackNavigator({ AppTab });
 
 const AuthStack = createStackNavigator({ Login });
 

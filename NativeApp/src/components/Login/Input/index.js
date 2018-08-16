@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { FormInput } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import { UNOBLUE, BLACK, RED, GREY } from '../../../styles/colors';
-import { H4_SIZE } from '../../../styles/text';
+import { FORM_INPUT_TEXT } from '../../../styles/text';
 
 class Input extends Component {
   static propTypes = {
@@ -93,7 +93,7 @@ class Input extends Component {
 
 const styles = StyleSheet.create({
   formInputStyles: {
-    fontSize: H4_SIZE,
+    fontSize: FORM_INPUT_TEXT,
     color: BLACK,
     padding: 8,
     borderBottomWidth: 1,

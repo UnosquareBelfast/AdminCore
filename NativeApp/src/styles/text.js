@@ -17,3 +17,5 @@ export const H3_COLOR = DARKGREY;
 
 export const H4_SIZE = 13;
 export const H4_COLOR = DARKGREY;
+
+export const FORM_INPUT_TEXT = 20;

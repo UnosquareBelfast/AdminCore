@@ -7,8 +7,7 @@ import {
 import { PropTypes as PT } from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import Input from '../Input';
-import { UNOBLUE, WHITE } from '../../../styles/colors';
-import { H4_SIZE } from '../../../styles/text';
+import { UNOBLUE } from '../../../styles/colors';
 
 
 class LoginForm extends Component {
@@ -60,7 +59,6 @@ class LoginForm extends Component {
         <Button
           onPress={() => handleLogin(email, password)}
           title="Log In"
-          textStyle={styles.buttonText}
           backgroundColor={UNOBLUE}
           borderRadius={5}
           containerViewStyle={{ marginVertical: 20 }}
@@ -76,11 +74,6 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: 'space-around',
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    color: WHITE,
-    fontSize: H4_SIZE,
   },
 });
 
