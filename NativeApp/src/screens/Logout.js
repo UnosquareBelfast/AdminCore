@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { View, Alert } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from 'react-native-elements';
 import { userLogout } from '../utilities/currentUser';
 
 export default class LogoutScreen extends Component {
   static navigationOptions = {
     header: null,
     title: 'Logout',
-    tabBarIcon: ({ tintColor }) => <Icon name="sign-out" size={25} color={tintColor} />,
+    tabBarIcon: ({ tintColor }) => <Icon name="sign-out" type="font-awesome" size={20} color={tintColor} />,
   };
 
   static propTypes = {
