@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { PropTypes as PT } from 'prop-types';
 import BootView from '../components/Boot';
 import { AuthConsumer } from '../utilities/AuthContext';
@@ -6,9 +7,11 @@ import { AuthConsumer } from '../utilities/AuthContext';
 const BootScreen = props => (
   <AuthConsumer>
     {
-      ({ token, isLoading }) => (
-        isLoading
-          ? <BootView /> : props.navigation.navigate(token ? 'App' : 'Auth')
+      ({ token, isLoading, fontLoaded }) => (
+        <View> {
+          console.log({isLoading}, { fontLoaded })}
+          {!fontLoaded ? <BootView /> : props.navigation.navigate(token ? 'App' : 'Auth')}
+    </View>
       )
     }
   </AuthConsumer>

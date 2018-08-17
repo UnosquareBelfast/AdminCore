@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import CustomDay from '../CustomDay';
 import { LIGHTGREY, BLACK } from '../../../styles/colors';
@@ -14,6 +14,7 @@ const HomeView = (props) => {
 
   return (
     <View style={styles.container}>
+      <Text style={{ fontFamily: 'open-sans-bold' }}>Testing</Text>
       <Calendar
         style={[styles.calendar]}
         markedDates={takenHolidays}

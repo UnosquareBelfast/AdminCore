@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Font } from 'expo';
 import { PropTypes as PT } from 'prop-types';
 import deviceStorage from '../services/deviceStorage';
 
@@ -14,7 +15,15 @@ class AuthProvider extends Component {
     this.state = {
       isLoading: true,
       token: '',
+      fontLoaded: false,
     };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'open-sans-bold': require('../assets/fonts/OpenSans-Bold.ttf'),
+    });
+    this.setState({ fontLoaded: true });
     this.appSession();
   }
 
@@ -24,12 +33,12 @@ class AuthProvider extends Component {
   }
 
   render() {
-    const { isLoading, token } = this.state;
+    const { isLoading, token, fontLoaded } = this.state;
     const { children } = this.props;
 
     return (
       <AuthContext.Provider
-        value={{ isLoading, token }}
+        value={{ isLoading, token, fontLoaded }}
       >
         {children}
       </AuthContext.Provider>

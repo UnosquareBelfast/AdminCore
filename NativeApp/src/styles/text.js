@@ -2,6 +2,7 @@ import { BLACK, DARKGREY, RED } from './colors';
 
 export const P_SIZE = 12;
 export const P_COLOR = BLACK;
+export const P_FONT = 'open-sans-bold';
 
 export const CAPTION_SIZE = 14;
 export const CAPTION_COLOR = RED;
