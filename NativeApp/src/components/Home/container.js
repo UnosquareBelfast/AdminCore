@@ -77,8 +77,8 @@ export default Container => class extends Component {
 
     formatDate = data => data.reduce((obj, item) => {
       const holidayStatus = holidayStatusColor[item.eventStatus.eventStatusId];
-      const dates = this.enumerateDaysBetweenDates(item.start, item.end);
       const sameDate = moment(item.start).isSame(item.end);
+      const dates = this.enumerateDaysBetweenDates(item.start, item.end);
       dates.forEach((date) => {
         obj[date] = {
           customStyles: {
@@ -89,8 +89,9 @@ export default Container => class extends Component {
               color: item.halfDay ? BLACK : WHITE,
             },
           },
-          startingDate: item.start === date && !sameDate,
-          endingDate: item.end === date && !sameDate,
+          startingDate: item.start === date,
+          endingDate: item.end === date,
+          sameDate,
           halfDay: item.halfDay,
           statusId: item.eventStatus.eventStatusId,
           status: item.eventStatus.description,
