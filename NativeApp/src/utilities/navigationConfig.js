@@ -1,5 +1,9 @@
 import React from 'react';
-import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import {
   Home,
@@ -21,8 +25,8 @@ const HomeStack = createStackNavigator(
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        paddingHorizontal: 20,
-        backgroundColor: 'white',
+        paddingHorizontal: 10,
+        backgroundColor: WHITE,
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(192,192,192,0.3)',
       },
@@ -47,16 +51,15 @@ HomeStack.navigationOptions = () => {
   };
 };
 
-
-const AppStack = createBottomTabNavigator(
+const AppTab = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
-    User: { screen: User },
+    Profile: { screen: User },
     Team: { screen: Team },
     Logout: { screen: Logout },
   }, {
     initialRouteName: 'HomeStack',
-    order: ['HomeStack', 'User', 'Team', 'Logout'],
+    order: ['HomeStack', 'Profile', 'Team', 'Logout'],
     tabBarOptions: {
       activeTintColor: ACTIVECOLOR,
       inactiveTintColor: INACTIVECOLOR,
@@ -74,6 +77,34 @@ const AppStack = createBottomTabNavigator(
         },
         shadowOpacity: 0.2,
         elevation: 10,
+      },
+    },
+  },
+);
+
+AppTab.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+  let header;
+
+  const headerTitle = routeName;
+
+  if (routeName === 'HomeStack') {
+    header = null;
+  }
+
+  return {
+    headerTitle,
+    header,
+  };
+};
+
+
+const AppStack = createStackNavigator(
+  { AppTab },
+  {
+    navigationOptions: {
+      headerStyle: {
+        paddingHorizontal: 10,
       },
     },
   }

@@ -7,28 +7,27 @@ import {
   ScrollView,
 } from 'react-native';
 import ListItem from './ListItem';
-import { H3, HeaderDays } from '../../Common';
-import { LIGHTGREY } from '../../../styles/colors';
+import { H1, HeaderDays } from '../../Common';
+import { WHITE } from '../../../styles/colors';
 import styles from './styles';
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: LIGHTGREY }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
       <View style={styles.container}>
+        <View style={styles.profileName}>
+          <H1 type="bold">
+            {employee.forename}&nbsp;
+            {`${employee.surname}'s Holidays`}
+          </H1>
+        </View>
         <HeaderDays
           takenHolidays={takenHolidays}
           remainingHolidays={remainingHolidays}
         />
         <ScrollView>
-          <View style={styles.profileName}>
-            <H3 type="base" style={styles.H3Bold}>
-              {employee.forename}&nbsp;
-              {`${employee.surname}'s Holidays`}
-            </H3>
-          </View>
-
           <View style={styles.flatListView}>
             <FlatList
               keyExtractor={item => item.holidayId.toString()}

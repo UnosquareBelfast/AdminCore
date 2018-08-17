@@ -5,6 +5,10 @@ const styles = StyleSheet.create({
   base: {
     fontSize: H1_SIZE,
   },
+  bold: {
+    fontWeight: 'bold',
+    fontSize: H1_SIZE,
+  }
 });
 
 export default styles;
