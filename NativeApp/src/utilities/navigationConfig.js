@@ -4,7 +4,7 @@ import {
   createSwitchNavigator,
   createBottomTabNavigator,
 } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from 'react-native-elements';
 import {
   Home,
   Login,
@@ -14,7 +14,7 @@ import {
   Booking,
   Logout,
 } from '../screens';
-import { UNOBLUE, WHITE } from '../styles/colors';
+import { WHITE, ACTIVECOLOR, INACTIVECOLOR, LIGHTGREY } from '../styles/colors';
 
 const HomeStack = createStackNavigator(
   {
@@ -36,7 +36,14 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = () => {
-  const tabBarIcon = ({ tintColor }) => (<Icon name="calendar" size={25} color={tintColor} />);
+  const tabBarIcon = ({ tintColor }) => (
+    <Icon
+      name="calendar"
+      type="font-awesome"
+      size={20}
+      color={tintColor}
+    />
+  );
 
   return {
     tabBarIcon,
@@ -54,13 +61,22 @@ const AppTab = createBottomTabNavigator(
     initialRouteName: 'HomeStack',
     order: ['HomeStack', 'Profile', 'Team', 'Logout'],
     tabBarOptions: {
-      activeTintColor: WHITE,
-      inactiveTintColor: 'rgba(2,157,178,0.7)',
-      inactiveBackgroundColor: UNOBLUE,
-      activeBackgroundColor: UNOBLUE,
+      activeTintColor: ACTIVECOLOR,
+      inactiveTintColor: INACTIVECOLOR,
+      inactiveBackgroundColor: WHITE,
+      activeBackgroundColor: WHITE,
+      allowFontScaling: false,
       style: {
-        paddingTop: 5,
-        backgroundColor: UNOBLUE,
+        borderTopColor: LIGHTGREY,
+        padding: 5,
+        backgroundColor: WHITE,
+        shadowColor: INACTIVECOLOR,
+        shadowOffset: {
+          width: 1,
+          height: -2,
+        },
+        shadowOpacity: 0.2,
+        elevation: 10,
       },
     },
   },
