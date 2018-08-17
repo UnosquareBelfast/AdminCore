@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Font } from 'expo';
 import { PropTypes as PT } from 'prop-types';
+import fontTypes from '../assets/fonts';
 import deviceStorage from '../services/deviceStorage';
 
 const AuthContext = React.createContext();
@@ -20,16 +21,28 @@ class AuthProvider extends Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync({
-      'open-sans-bold': require('../assets/fonts/OpenSans-Bold.ttf'),
+    const [session, font] = await Promise.all([this.appSession(), this.getFont()]);
+    this.setState({
+      isLoading: session.isLoading,
+      token: session.token,
+      fontLoaded: font.fontLoaded,
     });
-    this.setState({ fontLoaded: true });
-    this.appSession();
+  }
+
+  getFont = async () => {
+    await Font.loadAsync(fontTypes);
+    return {
+      fontLoaded: true,
+    };
   }
 
   appSession = async () => {
-    await deviceStorage.getItem('id_token')
-      .then(token => this.setState({ isLoading: false, token }));
+    const session = await deviceStorage.getItem('id_token');
+
+    return {
+      token: session,
+      isLoading: false,
+    };
   }
 
   render() {
