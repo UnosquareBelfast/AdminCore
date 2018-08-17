@@ -1,9 +1,5 @@
 import axios from '../utilities/AxiosInstance';
 
-export const cancelHoliday = holidayId => {
-  return axios.post(`/holidays/cancel/${holidayId}`);
-};
-
 export const getAllHolidays = () => {
   return axios.get('/holidays/');
 };

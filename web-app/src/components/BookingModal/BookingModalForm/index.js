@@ -12,9 +12,8 @@ import Errorbox from '../../common/Errorbox';
 const BookingModalForm = props => {
   const {
     isEventBeingUpdated,
-    submitHolidayRequest,
-    updateHolidayRequest,
-    deleteHolidayRequest,
+    createEvent,
+    updateEvent,
     formData,
     formStatus,
     formIsValid,
@@ -26,12 +25,7 @@ const BookingModalForm = props => {
       return [
         {
           label: 'Update',
-          event: updateHolidayRequest,
-          disabled: !formIsValid || bookingDuration === 0,
-        },
-        {
-          label: 'Cancel',
-          event: deleteHolidayRequest,
+          event: updateEvent,
           disabled: !formIsValid || bookingDuration === 0,
         },
       ];
@@ -39,7 +33,7 @@ const BookingModalForm = props => {
       return [
         {
           label: 'Request',
-          event: submitHolidayRequest,
+          event: createEvent,
           disabled: !formIsValid || bookingDuration === 0,
         },
       ];
@@ -54,7 +48,7 @@ const BookingModalForm = props => {
       const today = new moment();
       const fromTodayToStartDateRequested = getDurationBetweenDates(
         today,
-        start,
+        start
       );
 
       const daysNotice = calculateDaysNotice(bookingDuration);
@@ -134,9 +128,8 @@ BookingModalForm.propTypes = {
   isEventBeingUpdated: PT.bool,
   formStatus: PT.func.isRequired,
   formIsValid: PT.bool.isRequired,
-  submitHolidayRequest: PT.func.isRequired,
-  updateHolidayRequest: PT.func.isRequired,
-  deleteHolidayRequest: PT.func.isRequired,
+  createEvent: PT.func.isRequired,
+  updateEvent: PT.func.isRequired,
 };
 
 BookingModalForm.defaultProps = {
