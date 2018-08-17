@@ -1,46 +1,34 @@
 import { StyleSheet } from 'react-native';
-import {LIGHTGREY, GREY, DARKGREY } from '../../../styles/colors';
+import { WHITE, GREY, LIGHTGREY } from '../../../styles/colors';
 
 const styles = StyleSheet.create({
   headerContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: LIGHTGREY,
-    paddingTop: 8,
-    paddingBottom: 8,
-    maxHeight: 93,
-    justifyContent: 'space-between',
-    borderColor: GREY,
-    borderBottomWidth: 1,
-    alignSelf: 'center',
-    alignItems: 'center',
+    backgroundColor: WHITE,
+    paddingTop: 11,
+    paddingBottom: 11,
+    maxHeight: 70,
+    borderColor: LIGHTGREY,
+    borderTopWidth: 0.7,
+
   },
   holidayContainer: {
-    alignItems: 'center',
+    marginLeft: 20,
     flex: 1,
-  },
-  divider: {
-    alignItems: 'center',
-    flex: 1,
-    borderColor: GREY,
-    borderRightWidth: 3,
+    borderTopWidth: 1,
+    borderColor: LIGHTGREY,
   },
   holidayText: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'baseline',
   },
-  boldDarkGrey: {
-    fontWeight: 'bold',
-    color: DARKGREY,
+  h2: {
+    color: GREY,
   },
-  darkGrey: {
-    color: DARKGREY,
-  },
-  darkGreyPadding: {
-    color: DARKGREY,
-    paddingBottom: 5,
-    paddingLeft: 2,
+  daysText: {
+    paddingLeft: 3,
   },
 });
 

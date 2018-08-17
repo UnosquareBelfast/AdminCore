@@ -48,6 +48,7 @@ export default Container => class extends Component {
         status: holiday.status,
         startDate: chosenDate,
         endDate: chosenDate,
+        halfDay: holiday.halfDay,
       },
       booked,
     });

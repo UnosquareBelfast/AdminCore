@@ -11,9 +11,13 @@ const H4 = (props) => {
   );
 };
 
+H4.defaultProps = {
+  type: 'base',
+};
+
 H4.propTypes = {
   children: PT.node.isRequired,
-  type: PT.string.isRequired,
+  type: PT.string,
   style: PT.oneOfType([
     PT.number,
     PT.object,

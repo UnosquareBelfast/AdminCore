@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import {
   View,
-  Text,
   DatePickerIOS,
   DatePickerAndroid,
   Modal,
@@ -14,6 +13,7 @@ import {
 import { Icon } from 'react-native-elements';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
+import { P } from '..';
 
 
 class CustomDatePicker extends Component {
@@ -100,13 +100,14 @@ class CustomDatePicker extends Component {
         >
           <View>
             <View style={styles.dateInput}>
-              <Text>
+              <P type="base">
                 {chosenDate}
-              </Text>
+              </P>
               <Icon
                 name="calendar"
                 type="font-awesome"
                 color="#00DCFA"
+                size={20}
               />
             </View>
 
@@ -141,14 +142,13 @@ class CustomDatePicker extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
-    marginTop: 10,
+    marginVertical: 5,
   },
   dateInput: {
     padding: 10,
     borderWidth: 1,
-    borderRadius: 10,
-    borderColor: '#aaa',
+    borderRadius: 4,
+    borderColor: 'lightgrey',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

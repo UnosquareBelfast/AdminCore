@@ -1,6 +1,10 @@
 import React from 'react';
-import { createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
+import { Icon } from 'react-native-elements';
 import {
   Home,
   Login,
@@ -10,6 +14,7 @@ import {
   Booking,
   Logout,
 } from '../screens';
+import { WHITE, ACTIVECOLOR, INACTIVECOLOR, LIGHTGREY } from '../styles/colors';
 
 const HomeStack = createStackNavigator(
   {
@@ -20,16 +25,25 @@ const HomeStack = createStackNavigator(
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: 'white',
+        paddingHorizontal: 10,
+        backgroundColor: WHITE,
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(192,192,192,0.3)',
       },
+      headerBackTitle: null,
     },
   }
 );
 
 HomeStack.navigationOptions = () => {
-  const tabBarIcon = ({ tintColor }) => (<Icon name="calendar" size={25} color={tintColor} />);
+  const tabBarIcon = ({ tintColor }) => (
+    <Icon
+      name="calendar"
+      type="font-awesome"
+      size={20}
+      color={tintColor}
+    />
+  );
 
   return {
     tabBarIcon,
@@ -37,24 +51,60 @@ HomeStack.navigationOptions = () => {
   };
 };
 
-
-const AppStack = createBottomTabNavigator(
+const AppTab = createBottomTabNavigator(
   {
     HomeStack: { screen: HomeStack },
-    User: { screen: User },
+    Profile: { screen: User },
     Team: { screen: Team },
     Logout: { screen: Logout },
   }, {
     initialRouteName: 'HomeStack',
-    order: ['HomeStack', 'User', 'Team', 'Logout'],
+    order: ['HomeStack', 'Profile', 'Team', 'Logout'],
     tabBarOptions: {
-      activeTintColor: '#FFFFFF',
-      inactiveTintColor: 'rgba(2,157,178,0.7)',
-      inactiveBackgroundColor: '#00DCFA',
-      activeBackgroundColor: '#00DCFA',
+      activeTintColor: ACTIVECOLOR,
+      inactiveTintColor: INACTIVECOLOR,
+      inactiveBackgroundColor: WHITE,
+      activeBackgroundColor: WHITE,
+      allowFontScaling: false,
       style: {
-        paddingTop: 5,
-        backgroundColor: '#00DCFA',
+        borderTopColor: LIGHTGREY,
+        padding: 5,
+        backgroundColor: WHITE,
+        shadowColor: INACTIVECOLOR,
+        shadowOffset: {
+          width: 1,
+          height: -2,
+        },
+        shadowOpacity: 0.2,
+        elevation: 10,
+      },
+    },
+  },
+);
+
+AppTab.navigationOptions = ({ navigation }) => {
+  const { routeName } = navigation.state.routes[navigation.state.index];
+  let header;
+
+  const headerTitle = routeName;
+
+  if (routeName === 'HomeStack') {
+    header = null;
+  }
+
+  return {
+    headerTitle,
+    header,
+  };
+};
+
+
+const AppStack = createStackNavigator(
+  { AppTab },
+  {
+    navigationOptions: {
+      headerStyle: {
+        paddingHorizontal: 10,
       },
     },
   }
