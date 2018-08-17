@@ -7,22 +7,31 @@ import { FormContainer } from './styled';
 export const CreateTeamForm = props => {
   const { formStatus, formData, clients } = props;
 
-  return (
-    <FormContainer>
-      <Form formData={formData} formStatus={formStatus}>
-        <Input
-          label="Pick a client:"
-          type="select"
-          htmlAttrs={{
-            name: 'selectedClient',
-            options: clients,
-            disabled: clients.length === 0,
-          }}
-          value={formData.selectedClient}
-        />
-      </Form>
-    </FormContainer>
-  );
+  if (clients.length > 0) {
+    return (
+      <FormContainer>
+        <Form formData={formData} formStatus={formStatus}>
+          <Input
+            label="Pick a client:"
+            type="select"
+            htmlAttrs={{
+              name: 'selectedClient',
+              options: clients,
+              disabled: clients.length === 0,
+            }}
+            value={formData.selectedClient}
+          />
+        </Form>
+      </FormContainer>
+    );
+  } else {
+    return (
+      <p>
+        No teams can exist without a client. You are required to create a client
+        to view this page.
+      </p>
+    );
+  }
 };
 
 CreateTeamForm.propTypes = {

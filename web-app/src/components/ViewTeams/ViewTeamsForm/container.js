@@ -23,23 +23,25 @@ export default Wrapped =>
       getAllClients()
         .then(response => {
           const clients = response.data;
-          const formattedClients = clients.reduce((acc, client) => {
-            acc.push({
-              value: client.clientId,
-              displayValue: client.clientName,
-            });
-            return acc;
-          }, []);
-          this.setState(
-            {
-              clients: formattedClients,
-              formData: {
-                ...this.state.formData,
-                selectedClient: formattedClients[0].value,
+          if (clients.length > 0) {
+            const formattedClients = clients.reduce((acc, client) => {
+              acc.push({
+                value: client.clientId,
+                displayValue: client.clientName,
+              });
+              return acc;
+            }, []);
+            this.setState(
+              {
+                clients: formattedClients,
+                formData: {
+                  ...this.state.formData,
+                  selectedClient: formattedClients[0].value,
+                },
               },
-            },
-            () => this.props.onChange(this.state.formData.selectedClient)
-          );
+              () => this.props.onChange(this.state.formData.selectedClient)
+            );
+          }
         })
         .catch(error =>
           swal('Error', `Could not retreive clients: ${error.message}`, 'error')
