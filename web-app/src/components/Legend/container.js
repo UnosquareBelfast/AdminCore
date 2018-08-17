@@ -12,130 +12,91 @@ const LegendContainer = Wrapped =>
 
     constructor(props) {
       super(props);
-      const {
-        PENDING,
-        APPROVED,
-        REJECTED,
-        MANDATORY,
-        WFH,
-        SICK,
-        WRT,
-      } = holidayStatus;
       this.state = {
-        employees: [],
+        employeeList: [],
         selectedEmployee: {
           employeeId: -1,
         },
-        eventsKeys: [
-          {
-            eventStatusId: 1,
-            key: PENDING,
-            type: 'event',
-            active: false,
-          },
-          {
-            eventStatusId: 2,
-            key: APPROVED,
-            type: 'event',
-            active: false,
-          },
-          {
-            eventStatusId: 3,
-            key: REJECTED,
-            type: 'event',
-            active: false,
-          },
-          {
-            eventStatusId: 4,
-            key: MANDATORY,
-            type: 'event',
-            active: false,
-          },
-          {
-            eventStatusId: 5,
-            key: WFH,
-            type: 'status',
-            active: false,
-          },
-          {
-            eventStatusId: 6,
-            key: WRT,
-            type: 'status',
-            active: false,
-          },
-          {
-            eventStatusId: 7,
-            key: SICK,
-            type: 'status',
-            active: false,
-          },
-        ],
-        selectedEventStatusID: 1,
+        statusList: [],
+        typesList: [],
       };
     }
 
-    componentDidUpdate = (_, prevState) => {
-      const { takenHolidays } = this.props;
-      const { employees } = this.state;
-      const prevEmployees = prevState.employees;
+    componentWillMount = () => {
+      this.storeLegendKeysToState();
+    };
 
-      if (employees.length === prevEmployees.length && employees.length === 0) {
-        this.createEmployeesList(takenHolidays);
+    componentDidUpdate = (_, prevState) => {
+      const { employeeList } = this.state;
+      const prevEmployees = prevState.employeeList;
+      if (
+        employeeList.length === prevEmployees.length &&
+        employeeList.length === 0
+      ) {
+        this.storeEmployeeListToState();
       }
     };
 
-    sortEmployeeList = objArray => {
-      return objArray.sort(function(a, b) {
-        if (a.displayName < b.displayName) return -1;
-        if (a.displayName > b.displayName) return 1;
-        return 0;
-      });
-    };
+    storeLegendKeysToState = () => {
+      const statusKeys = Object.keys(holidayStatus);
+      const statusList = [];
+      const typeList = [];
 
-    createEmployeeObject = hol => {
-      let { employeeId, forename, surname } = hol.employee;
-      return {
-        value: employeeId,
-        displayValue: `${forename} ${surname}`,
-      };
-    };
-
-    removeDuplicateEmployees = employees => {
-      return employees.reduce((unique, o) => {
-        if (
-          !unique.some(
-            obj => obj.value === o.value && obj.displayValue === o.displayValue
-          )
-        ) {
-          unique.push(o);
+      for (const index of statusKeys.keys()) {
+        const keyObj = {
+          eventId: index + 1,
+          key: index + 1,
+          active: false,
+        };
+        // temp if statement
+        if (index < 4) {
+          statusList.push(keyObj);
+        } else {
+          typeList.push(keyObj);
         }
-        return unique;
-      }, []);
-    };
+      }
 
-    createEmployeesList = takenHolidays => {
-      let employees = takenHolidays.filter(hol => hol.employee).map(hol => {
-        return this.createEmployeeObject(hol);
+      this.setState({
+        statusList: statusList,
+        typesList: typeList,
       });
-      employees = this.removeDuplicateEmployees(employees);
-      employees.unshift({ value: -1, displayValue: 'All' });
-      this.setState({ employees: this.sortEmployeeList(employees) });
     };
 
-    setKeyActiveState = eventStatusId => {
-      let updatedList = [...this.state.eventsKeys];
+    storeEmployeeListToState = () => {
+      const { takenHolidays } = this.props;
+      const employeeList = takenHolidays
+        .filter(hol => hol.employee)
+        .map(hol => hol.employee)
+        .filter((employee, pos, arr) => {
+          return (
+            arr
+              .map(mapObj => mapObj.employeeId)
+              .indexOf(employee.employeeId) === pos
+          );
+        });
+      this.setState({ employeeList });
+    };
+
+    setLegendKeyActiveState = (eventId, event) => {
+      let updatedList;
+      let updatedProp;
+      if (event === 'status') {
+        updatedList = [...this.state.statusList];
+        updatedProp = 'statusList';
+      } else {
+        updatedList = [...this.state.typesList];
+        updatedProp = 'typesList';
+      }
       for (let key of updatedList) {
-        if (key.eventStatusId === eventStatusId) {
+        if (key.eventId === eventId) {
           key.active = !key.active;
         }
       }
-      this.setState({
-        selectedEventStatusID: eventStatusId,
-      });
-      this.props.updateCalendarEvents(eventStatusId);
+      this.setState({ [updatedProp]: updatedList });
+      this.props.updateCalendarEvents(eventId, event);
     };
 
-    handleFormStatus(name, value) {
+    onFilterUserChange(_, value) {
       this.setState(
         {
           selectedEmployee: {
@@ -144,20 +105,21 @@ const LegendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee);
-        }
+        },
       );
     }
 
     render() {
       return (
         <Wrapped
-          employees={this.state.employees}
           selectedEmployee={this.state.selectedEmployee}
+          employeeList={this.state.employeeList}
           formStatus={(name, value, formIsValid) =>
-            this.handleFormStatus(name, value, formIsValid)
+            this.onFilterUserChange(name, value, formIsValid)
           }
-          eventsKeyList={this.state.eventsKeys}
-          onToggleKey={this.setKeyActiveState}
+          statusList={this.state.statusList}
+          typesList={this.state.typesList}
+          onToggleEvent={this.setLegendKeyActiveState}
         />
       );
     }
