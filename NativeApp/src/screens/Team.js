@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from 'react-native-elements';
 import Team from '../components/Team';
 
 export default class TeamScreen extends Component {
   static navigationOptions = {
     title: 'Team',
-    tabBarIcon: ({ tintColor }) => <Icon name="group" size={25} color={tintColor} />,
+    tabBarIcon: ({ tintColor }) => <Icon name="group" type="font-awesome" size={20} color={tintColor} />,
   }
 
   static propTypes = {

@@ -10,3 +10,7 @@ export const BLACK = '#000000';
 
 // BASIC COLORS
 export const RED = '#DD0101';
+
+// TAB NAVIGATION
+export const ACTIVECOLOR = '#5a8ccf';
+export const INACTIVECOLOR = '#bdbdbd';
