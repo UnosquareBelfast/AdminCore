@@ -39,9 +39,6 @@ const styles = StyleSheet.create({
   flatListView: {
     flex: 1,
   },
-  profileText: {
-    fontWeight: 'bold',
-  },
 });
 
 export default styles;

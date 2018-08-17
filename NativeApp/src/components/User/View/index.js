@@ -18,7 +18,7 @@ const UserView = (props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
       <View style={styles.container}>
         <View style={styles.profileName}>
-          <H1 type="base" style={styles.profileText}>
+          <H1 type="bold">
             {employee.forename}&nbsp;
             {`${employee.surname}'s Holidays`}
           </H1>
