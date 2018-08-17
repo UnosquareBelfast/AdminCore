@@ -5,7 +5,15 @@ import Day from 'react-native-calendars/src/calendar/day/custom';
 import holidayStatusColor from '../../../utilities/holidayStatus';
 
 const CustomDay = (props) => {
-  const { marking: { halfDay, statusId, startingDate, endingDate } } = props;
+  const { marking:
+    {
+      halfDay,
+      statusId,
+      startingDate,
+      endingDate,
+      sameDate,
+    } } = props;
+
 
   const HalfDay = () => {
     if (!halfDay) {
@@ -28,19 +36,29 @@ const CustomDay = (props) => {
     );
   };
 
+  const renderFiller = (date) => {
+    let filler;
+    if (!sameDate) {
+      if (date || (!startingDate && !endingDate)) {
+        filler = { backgroundColor: holidayStatusColor[statusId] };
+      }
+    }
+    return filler;
+  };
+
   return (
     <View style={[styles.wrapper]}>
       <View style={styles.fillers}>
         <View
           style={[
             styles.leftFiller,
-            endingDate && { backgroundColor: holidayStatusColor[statusId] },
+            renderFiller(endingDate),
           ]}
         />
         <View
           style={[
             styles.rightFiller,
-            startingDate && { backgroundColor: holidayStatusColor[statusId] },
+            renderFiller(startingDate),
           ]}
         />
       </View>
