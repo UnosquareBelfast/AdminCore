@@ -26,13 +26,9 @@ const LegendContainer = Wrapped =>
       this.storeLegendKeysToState();
     };
 
-    componentDidUpdate = (_, prevState) => {
+    componentDidUpdate = () => {
       const { employeeList } = this.state;
-      const prevEmployees = prevState.employeeList;
-      if (
-        employeeList.length === prevEmployees.length &&
-        employeeList.length === 0
-      ) {
+      if (employeeList.length === 0) {
         this.storeEmployeeListToState();
       }
     };
@@ -114,9 +110,7 @@ const LegendContainer = Wrapped =>
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
           employeeList={this.state.employeeList}
-          formStatus={(name, value, formIsValid) =>
-            this.onFilterUserChange(name, value, formIsValid)
-          }
+          formStatus={(name, value) => this.onFilterUserChange(name, value)}
           statusList={this.state.statusList}
           typesList={this.state.typesList}
           onToggleEvent={this.setLegendKeyActiveState}
