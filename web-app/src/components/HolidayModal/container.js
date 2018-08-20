@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { isEmpty } from 'lodash';
 import { approveHoliday, rejectHoliday } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import holidayStatus from '../../utilities/holidayStatus';
 import { Toast } from '../../utilities/Notifications';
+import { getUser } from '../../reducers';
 
-export default Wrapped =>
+const HolidayModalContainer = Wrapped =>
   class extends Component {
     static propTypes = {
       holiday: PT.object.isRequired,
       closeModal: PT.func.isRequired,
+      showAdminControls: PT.bool,
+      userDetails: PT.object.isRequired,
+    };
+
+    static defaultProps = {
+      showAdminControls: false,
     };
 
     constructor(props) {
@@ -77,7 +86,7 @@ export default Wrapped =>
     };
 
     render() {
-      const { closeModal } = this.props;
+      const { closeModal, userDetails, showAdminControls } = this.props;
       const { holiday } = this.state;
       if (isEmpty(holiday)) return null;
       return (
@@ -86,7 +95,17 @@ export default Wrapped =>
           closeModal={closeModal}
           approveHoliday={this.approveHoliday}
           rejectHoliday={this.rejectHoliday}
+          userDetails={userDetails}
+          showAdminControls={showAdminControls}
         />
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    userDetails: getUser(state),
+  };
+};
+
+export default compose(connect(mapStateToProps), HolidayModalContainer);

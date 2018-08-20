@@ -5,15 +5,26 @@ import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, StatWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../utilities/holidayStatus';
+import roles from '../../utilities/roles';
 
 const HolidayModal = ({
   closeModal,
   holiday,
   approveHoliday,
   rejectHoliday,
+  userDetails,
+  showAdminControls,
 }) => {
   const { start, end, employee, eventStatus } = holiday;
-  const { forename, surname, email } = employee;
+  const { forename, surname, email, employeeId } = employee;
+  const isAdmin = userDetails.employeeRoleId === roles.ADMIN;
+
+  const shouldShowAdminControls = () => {
+    if (!isAdmin) return false;
+    if (userDetails.employeeId === employeeId) return false;
+    if (!showAdminControls) return false;
+    return true;
+  };
 
   const duration = getEventDayAmount(holiday);
   return (
@@ -49,10 +60,12 @@ const HolidayModal = ({
             <h4>Duration</h4>
           </Stat>
         </StatWrap>
-        <ButtonWrap>
-          <Button label="Approve" onClick={approveHoliday} />
-          <Button label="Reject" onClick={rejectHoliday} />
-        </ButtonWrap>
+        {shouldShowAdminControls() && (
+          <ButtonWrap>
+            <Button label="Approve" onClick={approveHoliday} />
+            <Button label="Reject" onClick={rejectHoliday} />
+          </ButtonWrap>
+        )}
       </StyleContainer>
     </Modal>
   );
@@ -63,6 +76,8 @@ HolidayModal.propTypes = {
   holiday: PT.object.isRequired,
   approveHoliday: PT.func.isRequired,
   rejectHoliday: PT.func.isRequired,
+  userDetails: PT.object.isRequired,
+  showAdminControls: PT.bool.isRequired,
 };
 
 export default container(HolidayModal);
