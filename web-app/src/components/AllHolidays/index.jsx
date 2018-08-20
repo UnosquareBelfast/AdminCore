@@ -12,7 +12,11 @@ export const AllHolidays = ({
 }) => {
   return (
     <Fragment>
-      <HolidayModal holiday={selectedHoliday} closeModal={() => closeModal()} />
+      <HolidayModal
+        holiday={selectedHoliday}
+        closeModal={() => closeModal()}
+        showAdminControls
+      />
       <h2>All Holidays</h2>
       <DataTable
         data={holidays}

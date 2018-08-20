@@ -19,11 +19,7 @@ const Profile = props => {
 
   return (
     <Fragment>
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={closeModal}
-        showAdminControls={false}
-      />
+      <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
       <MainContentContainer>
         <div>
           <h2>

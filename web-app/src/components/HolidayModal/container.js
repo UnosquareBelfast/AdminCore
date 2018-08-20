@@ -19,7 +19,7 @@ const HolidayModalContainer = Wrapped =>
     };
 
     static defaultProps = {
-      showAdminControls: true,
+      showAdminControls: false,
     };
 
     constructor(props) {

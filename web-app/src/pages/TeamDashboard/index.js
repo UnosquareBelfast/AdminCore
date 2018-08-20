@@ -29,7 +29,11 @@ export const User = ({
           history={history}
         />
       )}
-      <HolidayModal holiday={selectedHoliday} closeModal={hideHolidayModal} />
+      <HolidayModal
+        holiday={selectedHoliday}
+        closeModal={hideHolidayModal}
+        showAdminControls
+      />
       <h2>My Team</h2>
       <Columns>
         <Stat>
