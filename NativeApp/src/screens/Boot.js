@@ -6,9 +6,10 @@ import { AuthConsumer } from '../utilities/AuthContext';
 const BootScreen = props => (
   <AuthConsumer>
     {
-      ({ token, isLoading }) => (
-        isLoading
-          ? <BootView /> : props.navigation.navigate(token ? 'App' : 'Auth')
+      ({ token, isLoading, fontLoaded }) => (
+        (isLoading && !fontLoaded)
+          ? <BootView />
+          : props.navigation.navigate(token ? 'App' : 'Auth')
       )
     }
   </AuthConsumer>
