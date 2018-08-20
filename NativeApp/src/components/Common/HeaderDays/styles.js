@@ -11,20 +11,17 @@ const styles = StyleSheet.create({
     maxHeight: 70,
     borderColor: LIGHTGREY,
     borderTopWidth: 0.7,
-
   },
   holidayContainer: {
     marginLeft: 20,
     flex: 1,
-    borderTopWidth: 1,
-    borderColor: LIGHTGREY,
   },
   holidayText: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'baseline',
   },
-  h2: {
+  textGrey: {
     color: GREY,
   },
   daysText: {

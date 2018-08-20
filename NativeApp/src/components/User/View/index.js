@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import ListItem from './ListItem';
-import { H1, HeaderDays } from '../../Common';
+import { H1, H3, HeaderDays } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
 
@@ -18,10 +18,11 @@ const UserView = (props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
       <View style={styles.container}>
         <View style={styles.profileName}>
-          <H1 type="bold">
+          <H1 type="base">
             {employee.forename}&nbsp;
-            {`${employee.surname}'s Holidays`}
+            {employee.surname}
           </H1>
+          <H3 type="base" style={styles.holidayText}>Holidays</H3>
         </View>
         <HeaderDays
           takenHolidays={takenHolidays}

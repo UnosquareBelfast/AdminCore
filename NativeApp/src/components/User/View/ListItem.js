@@ -11,12 +11,17 @@ const ListItem = (props) => {
   return (
 
     <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
-      <P type="base">
-        {status}
-      </P>
-      <P type="base">
-        {startDate} to {endDate}
-      </P>
+      <P type="bold">{status}</P>
+      <View style={styles.holidayDate}>
+        <View>
+          <P type="base">Start date</P>
+          <P type="base">{startDate}</P>
+        </View>
+        <View style={styles.endDate}>
+          <P type="base">End date</P>
+          <P type="base">{endDate}</P>
+        </View>
+      </View>
     </View>
   );
 };
