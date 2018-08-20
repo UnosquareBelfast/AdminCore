@@ -31,76 +31,73 @@ const DashboardContainer = Wrapped =>
       this.props.fetchEvents();
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
+    componentDidUpdate = prevProps => {
       if (prevProps.takenHolidays != this.props.takenHolidays) {
         this.setState({ filteredHolidays: [...this.props.takenHolidays] });
       }
-      // if (prevState.selectedEmployeeId !== this.state.selectedEmployeeId) {
-      //   this.updateFilterEvents();
-      // }
     };
 
-    // updateFilterEvents = () => {
-    //   const eventKeys = { ...this.state.eventKeysFilter };
-    //   const { status, type } = eventKeys;
-    //   let filteredHolidays = [];
-    //   if (status.length > 0 || type.length > 0) {
-    //     filteredHolidays = this.state.filteredHolidays.filter(
-    //       hol =>
-    //         status.includes('hol.eventStatus.eventStatusId) ||
-    //         type.includes('hol.eventType.eventTypeId),
-    //     );
-    //   }
-    //   this.setState({
-    //     filteredHolidays,
-    //   });
-    // };
-
-    onFilterEvents = filterOptions => {
+    handleFilterEvents = filterOptions => {
       let filteredHolidays = [...this.props.takenHolidays];
       const completeFilterOptions = {
-        employeeId: filterOptions.employeeId
+        employeeId: filterOptions['employeeId']
           ? filterOptions.employeeId
           : this.state.selectedEmployeeId,
-        filterEvent: {
-          eventStatusId: filterOptions.filterEvent.eventStatusId,
-          filterType: filterOptions.filterEvent.filterType,
-        },
       };
 
-      filteredHolidays = this.onFilterEmployee(
+      if (filterOptions['filterEvent']) {
+        completeFilterOptions['filterEvent'] = {
+          eventStatusId: filterOptions.filterEvent.eventStatusId,
+          filterType: filterOptions.filterEvent.filterType,
+        };
+      }
+
+      filteredHolidays = this.filterEmployee(
         filteredHolidays,
-        completeFilterOptions.employeeId,
+        completeFilterOptions.employeeId
       );
 
-      filteredHolidays = this.onFilterEvents(
+      filteredHolidays = this.filterEvents(
         filteredHolidays,
-        completeFilterOptions.filterEvent,
+        completeFilterOptions['filterEvent']
+          ? completeFilterOptions.filterEvent
+          : null
       );
 
       this.setState({ filteredHolidays });
     };
 
-    onFilterEmployee = (filteredHolidays, employeeId) => {
+    // Filter Employees
+
+    filterEmployee = (filteredHolidays, employeeId) => {
+      const intEmployeeId = parseInt(employeeId);
+      this.setState({ selectedEmployeeId: intEmployeeId });
       if (employeeId == -1) {
         return filteredHolidays;
       }
       return filteredHolidays.filter(hol => {
-        if (!hol.employee || hol.employee.employeeId == employeeId) {
+        if (!hol.employee || hol.employee.employeeId == intEmployeeId) {
           return true;
         }
       });
     };
 
-    onFilterEvents = (filteredHolidays, filterEvent) => {
+    // Filter Events
+
+    filterEvents = (filteredHolidays, filterEvent) => {
       const filterKeys = { ...this.state.eventKeysFilter };
 
-      //The events probably weren't modified so return filtered holidays from already existing state
+      // If there's no changes, we still need to filter. This may not be the
+      // first time the user has interacted with the filter.
       if (filterEvent === null) {
+        if (filterKeys.status.length === 0 && filterKeys.type.length === 0) {
+          return filteredHolidays;
+        }
+
         return filteredHolidays.filter(
           hol =>
             filterKeys.status.includes(hol.eventStatus.eventStatusId) ||
-            filterKeys.type.includes(hol.eventType.eventTypeId),
+            filterKeys.type.includes(hol.eventType.eventTypeId)
         );
       }
 
@@ -108,20 +105,25 @@ const DashboardContainer = Wrapped =>
       const { filterType, eventStatusId } = filterEvent;
       if (filterKeys[filterType].includes(eventStatusId)) {
         filterKeys[filterType] = filterKeys[filterType].filter(
-          item => item !== eventStatusId,
+          item => item !== eventStatusId
         );
       } else {
         filterKeys[filterType].push(eventStatusId);
       }
 
-      // Return the holidays with modified filter
-      this.setState({ eventKeysFilter: filterKeys }, () => {
-        return filteredHolidays.filter(
-          hol =>
-            filterKeys.status.includes(hol.eventStatus.eventStatusId) ||
-            filterKeys.type.includes(hol.eventType.eventTypeId),
-        );
-      });
+      // Update state and return the holidays with modified filter
+      this.setState({ eventKeysFilter: filterKeys });
+
+      // Just return if there's no filtering to be done.
+      if (filterKeys.status.length === 0 && filterKeys.type.length === 0) {
+        return filteredHolidays;
+      }
+
+      return filteredHolidays.filter(
+        hol =>
+          filterKeys.status.includes(hol.eventStatus.eventStatusId) ||
+          filterKeys.type.includes(hol.eventType.eventTypeId)
+      );
     };
 
     render() {
@@ -134,11 +136,13 @@ const DashboardContainer = Wrapped =>
             updateTakenHolidays={this.props.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             onUpdateEvents={(eventStatusId, filterType) =>
-              this.onFilterEvents({
+              this.handleFilterEvents({
                 filterEvent: { eventStatusId, filterType },
               })
             }
-            onUpdateEmployee={employeeId => this.onFilterEvents({ employeeId })}
+            onUpdateEmployee={({ employeeId }) =>
+              this.handleFilterEvents({ employeeId })
+            }
           />
         )
       );
@@ -163,9 +167,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  DashboardContainer,
+  connect(mapStateToProps, mapDispatchToProps),
+  DashboardContainer
 );
