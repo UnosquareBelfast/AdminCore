@@ -35,6 +35,7 @@ export const theme = {
 injectGlobal`
 
   @import url('https://fonts.googleapis.com/css?family=Oswald');
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
   @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css');
   body {
     font-family: ${theme.fonts.main}, ${theme.fonts.fallback};
