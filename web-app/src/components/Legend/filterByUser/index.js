@@ -1,41 +1,36 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { Form, Input } from '../../common';
+import { Select } from '../../common_styled/';
 
-const FilterByUser = ({ selectedEmployee, formStatus, employeeList }) => {
+const FilterByUser = ({ selectedEmployee, onChange, employeeList }) => {
+  let options = [
+    <option key={-1} value={-1}>
+      All
+    </option>,
+  ];
+
   if (employeeList.length > 0) {
-    employeeList = employeeList.map(employee => {
-      let { employeeId, forename, surname } = employee;
-      return {
-        value: employeeId,
-        displayValue: `${forename} ${surname}`,
-      };
+    const employees = employeeList.map(employee => {
+      const { employeeId, forename, surname } = employee;
+      return (
+        <option key={employeeId} value={employeeId}>
+          {forename} {surname}
+        </option>
+      );
     });
-
-    employeeList.unshift({
-      value: -1,
-      displayValue: 'All',
-    });
+    options.push(...employees);
   }
 
   return (
-    <Form formData={selectedEmployee} formStatus={formStatus}>
-      <Input
-        type="select"
-        htmlAttrs={{
-          name: 'employee',
-          options: employeeList,
-        }}
-        value={selectedEmployee.employeeId}
-        label="FILTER BY EMPLOYEE:"
-      />
-    </Form>
+    <Select value={selectedEmployee.employeeId} onChange={onChange}>
+      {options}
+    </Select>
   );
 };
 
 FilterByUser.propTypes = {
   selectedEmployee: PT.object.isRequired,
-  formStatus: PT.func.isRequired,
+  onChange: PT.func.isRequired,
   employeeList: PT.array.isRequired,
 };
 

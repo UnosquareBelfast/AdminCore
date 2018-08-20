@@ -96,30 +96,30 @@ const LegendContainer = Wrapped =>
       this.props.updateCalendarEvents(eventId, event);
     };
 
-    onFilterUserChange(_, value) {
+    onFilterUserChange = event => {
+      const employeeId = event.target.value;
+
       this.setState(
         {
           selectedEmployee: {
-            employeeId: value,
+            employeeId,
           },
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee);
-        },
+        }
       );
-    }
+    };
 
     render() {
       return (
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
           employeeList={this.state.employeeList}
-          formStatus={(name, value, formIsValid) =>
-            this.onFilterUserChange(name, value, formIsValid)
-          }
           statusList={this.state.statusList}
           typesList={this.state.typesList}
           onToggleEvent={this.setLegendKeyActiveState}
+          userChanged={this.onFilterUserChange}
         />
       );
     }

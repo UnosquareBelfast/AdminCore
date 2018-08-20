@@ -7,19 +7,20 @@ import FilterByUser from './filterByUser';
 
 const Legend = ({
   selectedEmployee,
-  formStatus,
   employeeList,
   statusList,
   onToggleEvent,
   typesList,
+  userChanged,
 }) => {
   return (
     <StyleContainer>
       <Column>
+        <h4>Filter by Employee</h4>
         <FilterByUser
           selectedEmployee={selectedEmployee}
-          formStatus={formStatus}
           employeeList={employeeList}
+          onChange={userChanged}
         />
       </Column>
       <Column>
@@ -45,10 +46,10 @@ const Legend = ({
 Legend.propTypes = {
   employeeList: PT.array,
   selectedEmployee: PT.object.isRequired,
-  formStatus: PT.func.isRequired,
   statusList: PT.array.isRequired,
   typesList: PT.array.isRequired,
   onToggleEvent: PT.func.isRequired,
+  userChanged: PT.func.isRequired,
 };
 
 export default container(Legend);
