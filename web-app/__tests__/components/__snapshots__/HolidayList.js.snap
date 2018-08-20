@@ -20,7 +20,7 @@ exports[`HolidayList Should match snapshot with actions and columns supplied 1`]
   TrComponent={[Function]}
   TrGroupComponent={[Function]}
   aggregatedKey="_aggregated"
-  className=""
+  className="-striped -highlight"
   collapseOnDataChange={true}
   collapseOnPageChange={true}
   collapseOnSortingChange={true}
@@ -60,8 +60,10 @@ exports[`HolidayList Should match snapshot with actions and columns supplied 1`]
         "Header": "Status",
         "accessor": [Function],
         "filterable": false,
+        "getProps": [Function],
         "id": "status",
         "sortable": false,
+        "width": 110,
       },
       Object {
         "Header": "Employee",
@@ -80,7 +82,7 @@ exports[`HolidayList Should match snapshot with actions and columns supplied 1`]
         "id": "endDate",
       },
       Object {
-        "Header": "Requested Date",
+        "Header": "Requested",
         "accessor": [Function],
         "id": "requestedDate",
       },
@@ -212,7 +214,7 @@ exports[`HolidayList Should match snapshot with no actions supplied 1`] = `
   TrComponent={[Function]}
   TrGroupComponent={[Function]}
   aggregatedKey="_aggregated"
-  className=""
+  className="-striped -highlight"
   collapseOnDataChange={true}
   collapseOnPageChange={true}
   collapseOnSortingChange={true}
@@ -252,8 +254,10 @@ exports[`HolidayList Should match snapshot with no actions supplied 1`] = `
         "Header": "Status",
         "accessor": [Function],
         "filterable": false,
+        "getProps": [Function],
         "id": "status",
         "sortable": false,
+        "width": 110,
       },
       Object {
         "Header": "Employee",
@@ -272,7 +276,7 @@ exports[`HolidayList Should match snapshot with no actions supplied 1`] = `
         "id": "endDate",
       },
       Object {
-        "Header": "Requested Date",
+        "Header": "Requested",
         "accessor": [Function],
         "id": "requestedDate",
       },

@@ -14,19 +14,22 @@ const formData = {
   endDate: moment('2018-01-02 09:00:00'),
 };
 
-describe('BookingModal', () => {
+xdescribe('CreateUser', () => {
   it('renders correctly', () => {
     const formChanged = jest.fn();
     const startDateChanged = jest.fn();
     const submitForm = jest.fn();
 
-    const wrapper = shallow(<CreateUser 
-      formData={formData}
-      formChanged={formChanged}
-      startDateChanged={startDateChanged}
-      error={null}
-      loading={false}
-      submitForm={ submitForm }/>);
+    const wrapper = shallow(
+      <CreateUser
+        formData={formData}
+        formChanged={formChanged}
+        startDateChanged={startDateChanged}
+        error={null}
+        loading={false}
+        submitForm={submitForm}
+      />,
+    );
 
     expect(wrapper.exists()).toBe(true);
     expect(wrapper).toMatchSnapshot();
@@ -36,13 +39,16 @@ describe('BookingModal', () => {
     const startDateChanged = jest.fn();
     const submitForm = jest.fn();
 
-    const wrapper = shallow(<CreateUser 
-      formData={formData}
-      formChanged={formChanged}
-      startDateChanged={startDateChanged}
-      error={ {} }
-      success
-      submitForm={ submitForm }/>);
+    const wrapper = shallow(
+      <CreateUser
+        formData={formData}
+        formChanged={formChanged}
+        startDateChanged={startDateChanged}
+        error={{}}
+        success
+        submitForm={submitForm}
+      />,
+    );
 
     expect(wrapper.find('#userCreatedSuccess').exists()).toBe(true);
     expect(wrapper.find('#errorCreateUser').exists()).toBe(true);
@@ -52,19 +58,22 @@ describe('BookingModal', () => {
     const startDateChanged = jest.fn();
     const submitForm = jest.fn();
 
-    const wrapper = shallow(<CreateUser 
-      formData={formData}
-      formChanged={formChanged}
-      startDateChanged={startDateChanged}
-      error={ {} }
-      success
-      loading
-      submitForm={ submitForm }/>);
+    const wrapper = shallow(
+      <CreateUser
+        formData={formData}
+        formChanged={formChanged}
+        startDateChanged={startDateChanged}
+        error={{}}
+        success
+        loading
+        submitForm={submitForm}
+      />,
+    );
 
-    wrapper.find('input').forEach((node) => {
+    wrapper.find('input').forEach(node => {
       expect(node.prop('disabled')).toBe(true);
     });
-    wrapper.find('select').forEach((node) => {
+    wrapper.find('select').forEach(node => {
       expect(node.prop('disabled')).toBe(true);
     });
   });

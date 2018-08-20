@@ -1,2 +1,4 @@
-export default jest.fn();
-
+const mockObj = {
+  mixin: jest.fn(),
+};
+export default mockObj;

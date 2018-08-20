@@ -1,12 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AllHolidays renders correctly 1`] = `
-<Card>
-  <h3>
-    All Holidays
-  </h3>
+<React.Fragment>
   <_class
-    actions={Array []}
+    closeModal={[Function]}
+    holiday={Object {}}
+  />
+  <h2>
+    All Holidays
+  </h2>
+  <HolidayList
     columns={
       Array [
         "status",
@@ -24,7 +27,7 @@ exports[`AllHolidays renders correctly 1`] = `
             1,
             2018,
           ],
-          "dateCreated": 2018-06-25T15:21:08.823Z,
+          "dateCreated": 2018-08-15T09:40:36.752Z,
           "employee": Object {
             "forename": "Joe",
             "surname": "Bloggs",
@@ -34,6 +37,7 @@ exports[`AllHolidays renders correctly 1`] = `
         },
       ]
     }
+    onRowClick={[Function]}
   />
-</Card>
+</React.Fragment>
 `;

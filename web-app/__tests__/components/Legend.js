@@ -4,7 +4,16 @@ import { Legend } from '../../src/components';
 
 describe('Legend', () => {
   it('snapshot', () => {
-    const wrapper = shallow(<Legend />);
+    const takenHolidays = [];
+    const updateEmployee = jest.fn();
+    const updateCalendarEvents = jest.fn();
+    const wrapper = shallow(
+      <Legend
+        updateEmployee={updateEmployee}
+        updateCalendarEvents={updateCalendarEvents}
+        takenHolidays={takenHolidays}
+      />,
+    );
     expect(wrapper).toMatchSnapshot();
   });
 });

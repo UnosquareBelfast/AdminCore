@@ -10,6 +10,7 @@ exports[`Card renders correctly 1`] = `
   width: 100%;
   box-sizing: border-box;
   margin-bottom: 15px;
+  position: relative;
 }
 
 <div
