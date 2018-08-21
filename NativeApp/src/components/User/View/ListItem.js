@@ -6,20 +6,38 @@ import styles from './styles';
 import holidayStatusColor from '../../../utilities/holidayStatus';
 
 const ListItem = (props) => {
-  const { status, statusId, startDate, endDate } = props;
+  const { status, statusId, startDate, endDate, duration } = props;
 
   return (
 
     <View style={[styles.holidayStatus, { borderLeftColor: holidayStatusColor[statusId] }]}>
-      <P type="bold">{status}</P>
-      <View style={styles.holidayDate}>
+      <P type="bold">
+        {status}
+      </P>
+      <View style={styles.holidaySection}>
         <View>
-          <P type="base">Start date</P>
-          <P type="base">{startDate}</P>
+          <P type="base">
+            Start date
+          </P>
+          <P type="base">
+            {startDate}
+          </P>
         </View>
-        <View style={styles.endDate}>
-          <P type="base">End date</P>
-          <P type="base">{endDate}</P>
+        <View>
+          <P type="base">
+            End date
+          </P>
+          <P type="base">
+            {endDate}
+          </P>
+        </View>
+        <View>
+          <P type="base">
+            Duration
+          </P>
+          <P type="base">
+            {duration}
+          </P>
         </View>
       </View>
     </View>
@@ -31,6 +49,7 @@ ListItem.propTypes = {
   startDate: PT.string.isRequired,
   statusId: PT.number.isRequired,
   endDate: PT.string.isRequired,
+  duration: PT.number.isRequired,
 };
 
 export default ListItem;

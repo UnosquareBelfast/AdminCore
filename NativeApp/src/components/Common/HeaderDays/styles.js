@@ -24,9 +24,6 @@ const styles = StyleSheet.create({
   textGrey: {
     color: GREY,
   },
-  daysText: {
-    paddingLeft: 3,
-  },
 });
 
 export default styles;

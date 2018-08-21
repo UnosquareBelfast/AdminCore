@@ -10,6 +10,8 @@ import ListItem from './ListItem';
 import { H1, H3, HeaderDays } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
+import { getDuration } from '../../../utilities/dates';
+
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
@@ -39,6 +41,7 @@ const UserView = (props) => {
                   status={item.eventStatus.description}
                   startDate={item.start}
                   endDate={item.end}
+                  duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
                 />
               )}
             />

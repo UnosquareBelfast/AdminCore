@@ -41,13 +41,10 @@ const styles = StyleSheet.create({
     },
     elevation: 2,
   },
-  holidayDate: {
+  holidaySection: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  endDate: {
-    paddingLeft: 100,
+    justifyContent: 'space-between',
   },
   profileName: {
     marginHorizontal: 20,
