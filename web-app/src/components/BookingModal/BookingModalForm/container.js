@@ -72,7 +72,10 @@ const Container = Wrapped =>
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.end = formData.start;
-        formData.eventTypeId = 1;
+        const annualLeave = 1;
+        formData.eventTypeId = annualLeave;
+      } else if (name === 'eventTypeId') {
+        formData[name] = parseInt(value);
       }
 
       const updatedFormData = {
