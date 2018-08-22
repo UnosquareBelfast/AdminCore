@@ -18,6 +18,11 @@ const Container = Wrapped =>
       updateEvent: PT.func.isRequired,
     };
 
+    static defaultProps = {
+      isEventBeingUpdated: false,
+      bookingDuration: 1,
+    };
+
     constructor(props) {
       super(props);
       this.state = {
@@ -121,4 +126,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), Container);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  Container,
+);
