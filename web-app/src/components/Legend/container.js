@@ -53,7 +53,6 @@ const LegendContainer = Wrapped =>
       this.setState({ legendKeys }, () => {
         const activeKeys = legendKeys.filter(key => key.active);
         this.props.updateCalendarEvents(activeKeys);
-        console.log('ACTIVE', activeKeys);
       });
     };
 
