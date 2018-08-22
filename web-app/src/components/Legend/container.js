@@ -51,8 +51,14 @@ const LegendContainer = Wrapped =>
         }
       });
       this.setState({ legendKeys }, () => {
-        const activeKeys = legendKeys.filter(key => key.active);
-        this.props.updateCalendarEvents(activeKeys);
+        const activeKeyIds = legendKeys
+          .filter(key => key.active)
+          .reduce((acc, key) => {
+            acc.push(key.id);
+            return acc;
+          }, []);
+
+        this.props.updateCalendarEvents(activeKeyIds);
       });
     };
 

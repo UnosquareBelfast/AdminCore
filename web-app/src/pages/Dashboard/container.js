@@ -19,7 +19,7 @@ const DashboardContainer = Wrapped =>
       super(props);
       this.state = {
         filteredEvents: [],
-        activeEvents: [],
+        activeEventIds: [],
         activeEmployee: -1,
       };
     }
@@ -36,10 +36,10 @@ const DashboardContainer = Wrapped =>
 
     filterCalenderEvents = () => {
       let filteredEvents = [...this.props.takenEvents];
-      const { activeEmployee, activeEvents } = this.state;
+      const { activeEmployee, activeEventIds } = this.state;
 
       filteredEvents = this.filterEmployee(filteredEvents, activeEmployee);
-      filteredEvents = this.filterEvents(filteredEvents, activeEvents);
+      filteredEvents = this.filterEvents(filteredEvents, activeEventIds);
 
       this.setState({ filteredEvents });
     };
@@ -60,23 +60,18 @@ const DashboardContainer = Wrapped =>
 
     // Filter Events
 
-    filterEvents = (filteredEvents, activeEvents) => {
-      const activeIds = activeEvents.reduce((acc, event) => {
-        acc.push(event.id);
-        return acc;
-      }, []);
-
-      if (activeEvents.length === 0) {
+    filterEvents = (filteredEvents, activeEventIds) => {
+      if (activeEventIds.length === 0) {
         return filteredEvents;
       } else {
         return filteredEvents.filter(hol =>
-          activeIds.includes(hol.eventStatus.eventStatusId)
+          activeEventIds.includes(hol.eventStatus.eventStatusId)
         );
       }
     };
 
-    setActiveEvents = keys => {
-      this.setState({ activeEvents: keys }, this.filterCalenderEvents);
+    setActiveEvents = activeEventIds => {
+      this.setState({ activeEventIds }, this.filterCalenderEvents);
     };
 
     setActiveEmployee = employeeId => {
@@ -92,7 +87,9 @@ const DashboardContainer = Wrapped =>
             events={this.state.filteredEvents}
             updateTakenEvents={this.props.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
-            onUpdateEvents={keys => this.setActiveEvents(keys)}
+            onUpdateEvents={activeEventIds =>
+              this.setActiveEvents(activeEventIds)
+            }
             onUpdateEmployee={({ employeeId }) =>
               this.setActiveEmployee(parseInt(employeeId))
             }
