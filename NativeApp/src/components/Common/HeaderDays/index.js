@@ -12,27 +12,27 @@ const HeaderDays = (props) => {
     <View style={styles.headerContainer}>
       <View style={styles.holidayContainer}>
         <View style={styles.holidayText}>
-          <H1 type="base">
+          <H1>
             {takenHolidays.length}&nbsp;
           </H1>
-          <H1 type="base">
+          <H1>
               DAYS
           </H1>
         </View>
-        <H3 type="base" style={styles.textGrey}>
+        <H3 style={styles.textGrey}>
           Taken
         </H3>
       </View>
       <View style={styles.holidayContainer}>
         <View style={styles.holidayText}>
-          <H1 type="base">
+          <H1>
             {remainingHolidays}&nbsp;
           </H1>
-          <H1 type="base">
+          <H1>
             DAYS
           </H1>
         </View>
-        <H3 type="base" style={styles.textGrey}>
+        <H3 style={styles.textGrey}>
           Remaining
         </H3>
       </View>

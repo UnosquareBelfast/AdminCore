@@ -10,7 +10,7 @@ import ListItem from './ListItem';
 import { H1, H3, HeaderDays } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
-import { getDuration } from '../../../utilities/dates';
+import getDuration from '../../../utilities/dates';
 
 
 const UserView = (props) => {
@@ -20,11 +20,11 @@ const UserView = (props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
       <View style={styles.container}>
         <View style={styles.profileName}>
-          <H1 type="base">
+          <H1>
             {employee.forename}&nbsp;
             {employee.surname}
           </H1>
-          <H3 type="base" style={styles.holidayText}>Holidays</H3>
+          <H3 style={styles.holidayText}>Holidays</H3>
         </View>
         <HeaderDays
           takenHolidays={takenHolidays}

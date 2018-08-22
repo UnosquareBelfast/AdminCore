@@ -16,26 +16,26 @@ const ListItem = (props) => {
       </P>
       <View style={styles.holidaySection}>
         <View>
-          <P type="base">
+          <P>
             Start date
           </P>
-          <P type="base">
+          <P>
             {startDate}
           </P>
         </View>
         <View>
-          <P type="base">
+          <P>
             End date
           </P>
-          <P type="base">
+          <P>
             {endDate}
           </P>
         </View>
         <View>
-          <P type="base">
+          <P>
             Duration
           </P>
-          <P type="base">
+          <P>
             {duration}
           </P>
         </View>

@@ -1,5 +1,5 @@
 import moment from 'moment';
 
-export const getDuration = (startDate, endDate) => {
-  return moment(endDate).diff(startDate, 'days') + 1;
-};
+const getDuration = (startDate, endDate) => moment(endDate).diff(startDate, 'days') + 1;
+
+export default getDuration;
