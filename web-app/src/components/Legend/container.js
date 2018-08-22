@@ -70,18 +70,20 @@ const LegendContainer = Wrapped =>
       this.props.updateCalendarEvents(eventId, event);
     };
 
-    onFilterUserChange(_, value) {
+    onFilterUserChange = event => {
+      const employeeId = event.target.value;
+
       this.setState(
         {
           selectedEmployee: {
-            employeeId: value,
+            employeeId,
           },
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee);
         },
       );
-    }
+    };
 
     getEmployeeState = () => {
       const { takenHolidays } = this.props;
@@ -99,10 +101,10 @@ const LegendContainer = Wrapped =>
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
           employeeList={employeeList}
-          formStatus={(name, value) => this.onFilterUserChange(name, value)}
           statusList={this.state.statusList}
           typesList={this.state.typesList}
           onToggleEvent={this.setLegendKeyActiveState}
+          userChanged={this.onFilterUserChange}
         />
       );
     }
