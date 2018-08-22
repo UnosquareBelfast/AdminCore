@@ -1,30 +1,34 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { statusText, statusIcons } from '../../../utilities/holidayStatus';
+import holidayStatus, {
+  statusText,
+  statusIcons,
+} from '../../../utilities/holidayStatus';
 import { Key } from '../styled';
 
-const FilterByKey = ({ eventList, onToggleEvent, listType }) => {
-  const keyList = eventList.map(event => {
+const FilterByKey = ({ keyList, onToggleEvent }) => {
+  if (!keyList) return;
+
+  const keys = keyList.map(key => {
     return (
       <Key
-        className={event.active ? 'selected' : ''}
-        key={event.eventId}
-        status={event.key}
-        onClick={() => onToggleEvent(event.eventId, listType)}
+        className={key.active ? 'selected' : ''}
+        key={key.id}
+        status={holidayStatus[key.keyName]}
+        onClick={() => onToggleEvent(key.id)}
       >
-        <span>{statusIcons[event.key]}</span>
-        <span>{statusText[event.key]}</span>
+        <span>{statusIcons[key.id]}</span>
+        <span>{statusText[key.id]}</span>
       </Key>
     );
   });
 
-  return <div>{keyList}</div>;
+  return <div>{keys}</div>;
 };
 
 FilterByKey.propTypes = {
   onToggleEvent: PT.func.isRequired,
-  eventList: PT.array.isRequired,
-  listType: PT.string.isRequired,
+  keyList: PT.array.isRequired,
 };
 
 export default FilterByKey;

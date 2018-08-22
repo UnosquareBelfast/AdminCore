@@ -1,7 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import _ from 'lodash';
-import holidayStatus from '../../utilities/holidayStatus';
+import holidayStatus, { statusText } from '../../utilities/holidayStatus';
 
 const LegendContainer = Wrapped =>
   class extends React.Component {
@@ -17,57 +17,44 @@ const LegendContainer = Wrapped =>
         selectedEmployee: {
           employeeId: -1,
         },
-        statusList: [],
-        typesList: [],
+        legendKeys: [],
       };
     }
 
     componentWillMount = () => {
-      this.storeLegendKeysToState();
+      this.buildLegendKeys();
     };
 
-    storeLegendKeysToState = () => {
-      const statusKeys = Object.keys(holidayStatus);
-      const statusList = [];
-      const typeList = [];
+    buildLegendKeys = () => {
+      const legendKeys = Object.keys(holidayStatus);
+      const keysFormatted = [];
 
-      for (const index of statusKeys.keys()) {
-        const keyObj = {
-          eventId: index + 1,
-          key: index + 1,
+      for (let i = 0; i < legendKeys.length; i++) {
+        const legendKey = legendKeys[i];
+        keysFormatted.push({
+          id: holidayStatus[legendKey],
+          keyName: legendKey,
+          label: statusText[holidayStatus[legendKey]],
+          type: i < 4 ? 'status' : 'type',
           active: false,
-        };
-        // temp if statement
-        if (index < 4) {
-          statusList.push(keyObj);
-        } else {
-          typeList.push(keyObj);
-        }
+        });
       }
 
-      this.setState({
-        statusList: statusList,
-        typesList: typeList,
-      });
+      this.setState({ legendKeys: keysFormatted });
     };
 
-    setLegendKeyActiveState = (eventId, event) => {
-      let updatedList;
-      let updatedProp;
-      if (event === 'status') {
-        updatedList = [...this.state.statusList];
-        updatedProp = 'statusList';
-      } else {
-        updatedList = [...this.state.typesList];
-        updatedProp = 'typesList';
-      }
-      for (let key of updatedList) {
-        if (key.eventId === eventId) {
+    toggleKeyActive = keyId => {
+      const legendKeys = [...this.state.legendKeys];
+      legendKeys.map(key => {
+        if (key.id == keyId) {
           key.active = !key.active;
         }
-      }
-      this.setState({ [updatedProp]: updatedList });
-      this.props.updateCalendarEvents(eventId, event);
+      });
+      this.setState({ legendKeys }, () => {
+        const activeKeys = legendKeys.filter(key => key.active);
+        this.props.updateCalendarEvents(activeKeys);
+        console.log('ACTIVE', activeKeys);
+      });
     };
 
     onFilterUserChange = event => {
@@ -81,7 +68,7 @@ const LegendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee);
-        },
+        }
       );
     };
 
@@ -101,9 +88,8 @@ const LegendContainer = Wrapped =>
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
           employeeList={employeeList}
-          statusList={this.state.statusList}
-          typesList={this.state.typesList}
-          onToggleEvent={this.setLegendKeyActiveState}
+          legendKeys={this.state.legendKeys}
+          onToggleEvent={this.toggleKeyActive}
           userChanged={this.onFilterUserChange}
         />
       );

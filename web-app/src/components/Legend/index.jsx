@@ -8,11 +8,13 @@ import FilterByUser from './filterByUser';
 const Legend = ({
   selectedEmployee,
   employeeList,
-  statusList,
   onToggleEvent,
-  typesList,
   userChanged,
+  legendKeys,
 }) => {
+  const statusKeys = legendKeys.filter(key => key.type === 'status');
+  const typeKeys = legendKeys.filter(key => key.type === 'type');
+
   return (
     <StyleContainer>
       <Column>
@@ -25,19 +27,11 @@ const Legend = ({
       </Column>
       <Column>
         <h4>Filter by Holiday Status</h4>
-        <FilterByKey
-          eventList={statusList}
-          onToggleEvent={onToggleEvent}
-          listType="status"
-        />
+        <FilterByKey keyList={statusKeys} onToggleEvent={onToggleEvent} />
       </Column>
       <Column>
         <h4>Filter by Event Type</h4>
-        <FilterByKey
-          eventList={typesList}
-          onToggleEvent={onToggleEvent}
-          listType="type"
-        />
+        <FilterByKey keyList={typeKeys} onToggleEvent={onToggleEvent} />
       </Column>
     </StyleContainer>
   );
@@ -46,8 +40,7 @@ const Legend = ({
 Legend.propTypes = {
   employeeList: PT.array,
   selectedEmployee: PT.object.isRequired,
-  statusList: PT.array.isRequired,
-  typesList: PT.array.isRequired,
+  legendKeys: PT.array.isRequired,
   onToggleEvent: PT.func.isRequired,
   userChanged: PT.func.isRequired,
 };

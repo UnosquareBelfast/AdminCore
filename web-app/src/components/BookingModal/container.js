@@ -21,7 +21,7 @@ const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
       employeeId: PT.number,
-      updateTakenHolidays: PT.func,
+      updateTakenEvents: PT.func,
       isEventBeingUpdated: PT.bool,
       booking: PT.object,
       bookingModalOpen: PT.bool,
@@ -40,11 +40,7 @@ const Container = Wrapped =>
 
     createEvent = (event, formData) => {
       event.preventDefault();
-      const {
-        employeeId,
-        updateTakenHolidays,
-        toggleBookingModal,
-      } = this.props;
+      const { employeeId, updateTakenEvents, toggleBookingModal } = this.props;
       const { start, end, isHalfday } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
 
@@ -66,7 +62,7 @@ const Container = Wrapped =>
 
       endpoints[eventTypeId](request)
         .then(() => {
-          updateTakenHolidays();
+          updateTakenEvents();
           toggleBookingModal(false);
         })
         .catch(error => Swal('Error', error.message, 'error'));
@@ -77,7 +73,7 @@ const Container = Wrapped =>
       const { start, end, isHalfday } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
-        updateTakenHolidays,
+        updateTakenEvents,
         toggleBookingModal,
         booking: { holidayId },
       } = this.props;
@@ -92,7 +88,7 @@ const Container = Wrapped =>
       if (eventTypeId) {
         updateHoliday(request)
           .then(() => {
-            updateTakenHolidays();
+            updateTakenEvents();
             toggleBookingModal(false);
           })
           .catch(error => {
@@ -108,13 +104,13 @@ const Container = Wrapped =>
 
     cancelEvent = () => {
       const {
-        updateTakenHolidays,
+        updateTakenEvents,
         toggleBookingModal,
         booking: { holidayId },
       } = this.props;
       rejectHoliday(holidayId)
         .then(() => {
-          updateTakenHolidays();
+          updateTakenEvents();
           toggleBookingModal(false);
         })
         .catch(error => {
@@ -135,7 +131,7 @@ const Container = Wrapped =>
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
             closeBookingModal={this.closeBookingModal}
-            updateTakenHolidays={this.props.updateTakenHolidays}
+            updateTakenEvents={this.props.updateTakenEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             bookingDuration={this.props.bookingDuration}
             createEvent={this.createEvent}
