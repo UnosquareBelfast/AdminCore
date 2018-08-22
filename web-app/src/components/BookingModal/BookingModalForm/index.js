@@ -42,13 +42,14 @@ const BookingModalForm = props => {
 
   const composeErrorMessage = () => {
     const { eventTypeId, start } = formData;
-    if (isEventBeingUpdated || eventTypeId !== 1) {
+    const annualLeave = 1;
+    if (isEventBeingUpdated || eventTypeId !== annualLeave) {
       return null;
     } else {
       const today = new moment();
       const fromTodayToStartDateRequested = getDurationBetweenDates(
         today,
-        start
+        start,
       );
 
       const daysNotice = calculateDaysNotice(bookingDuration);
