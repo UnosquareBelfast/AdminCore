@@ -1,5 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import _ from 'lodash';
 import holidayStatus from '../../utilities/holidayStatus';
 
 const LegendContainer = Wrapped =>
@@ -13,7 +14,6 @@ const LegendContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        employeeList: [],
         selectedEmployee: {
           employeeId: -1,
         },
@@ -24,13 +24,6 @@ const LegendContainer = Wrapped =>
 
     componentWillMount = () => {
       this.storeLegendKeysToState();
-    };
-
-    componentDidUpdate = () => {
-      const { employeeList } = this.state;
-      if (employeeList.length === 0) {
-        this.storeEmployeeListToState();
-      }
     };
 
     storeLegendKeysToState = () => {
@@ -56,21 +49,6 @@ const LegendContainer = Wrapped =>
         statusList: statusList,
         typesList: typeList,
       });
-    };
-
-    storeEmployeeListToState = () => {
-      const { takenHolidays } = this.props;
-      const employeeList = takenHolidays
-        .filter(hol => hol.employee)
-        .map(hol => hol.employee)
-        .filter((employee, pos, arr) => {
-          return (
-            arr
-              .map(mapObj => mapObj.employeeId)
-              .indexOf(employee.employeeId) === pos
-          );
-        });
-      this.setState({ employeeList });
     };
 
     setLegendKeyActiveState = (eventId, event) => {
@@ -105,11 +83,22 @@ const LegendContainer = Wrapped =>
       );
     }
 
+    getEmployeeState = () => {
+      const { takenHolidays } = this.props;
+      return _.chain(takenHolidays)
+        .map('employee')
+        .compact()
+        .uniqBy('employeeId')
+        .value();
+    };
+
     render() {
+      const employeeList = this.getEmployeeState();
+
       return (
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
-          employeeList={this.state.employeeList}
+          employeeList={employeeList}
           formStatus={(name, value) => this.onFilterUserChange(name, value)}
           statusList={this.state.statusList}
           typesList={this.state.typesList}
