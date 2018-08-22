@@ -1,38 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login Component renders correctly 1`] = `
-<div
-  className="center"
->
-  <div
-    className="card"
-  >
+<styled.div>
+  <styled.div>
     <h1>
-      Login
+      Welcome to Admin Core
     </h1>
-    <form
-      id="loginForm"
-    >
-      <input
-        className="item"
-        name="email"
-        onChange={[MockFunction]}
-        placeholder="Email goes here..."
-        type="text"
-      />
-      <input
-        className="item"
-        name="password"
-        onChange={[MockFunction]}
-        placeholder="Password goes here..."
-        type="password"
-      />
-      <input
-        className="submit"
-        type="submit"
-        value="SUBMIT"
-      />
-    </form>
-  </div>
-</div>
+    <_class
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "canGo": [Function],
+          "createHref": [Function],
+          "entries": Array [
+            Object {
+              "hash": "",
+              "key": "lc587a",
+              "pathname": "/",
+              "search": "",
+              "state": undefined,
+            },
+          ],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "index": 0,
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "key": "lc587a",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    />
+  </styled.div>
+</styled.div>
 `;

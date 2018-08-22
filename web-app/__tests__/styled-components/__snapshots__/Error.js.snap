@@ -2,22 +2,27 @@
 
 exports[`Errorbox renders correctly 1`] = `
 .c0 {
-  margin: 1rem 0;
-  padding: 0.5rem;
-  background: #ff1a1a;
+  margin: 0;
+  padding: 10px;
+  background: #fda49a;
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
-  color: white;
+  color: #ff3434;
+  opacity: 1;
+  box-shadow: 0px 0px 14px #fda49a;
+  border: 5px solid white;
+  border-radius: 6px;
 }
 
 .c0 p {
   padding: 0;
   margin: 0;
+  font-size: 14px;
 }
 
 .c0 p:first-of-type {
-  margin-bottom: 0.3rem;
+  margin-bottom: 3px;
 }
 
 <div

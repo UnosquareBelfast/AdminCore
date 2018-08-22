@@ -20,7 +20,11 @@ export const User = props => {
 
   return (
     <Container>
-      <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
+      <HolidayModal
+        holiday={selectedHoliday}
+        closeModal={closeModal}
+        showAdminControls
+      />
       <div>
         <p className="return" onClick={props.history.goBack}>
           <FontAwesomeIcon icon={faArrowLeft} />Return

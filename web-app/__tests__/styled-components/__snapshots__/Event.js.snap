@@ -2,7 +2,6 @@
 
 exports[`Event renders correctly 1`] = `
 .c0 {
-  background: #ff9b34;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -11,6 +10,15 @@ exports[`Event renders correctly 1`] = `
   color: white;
   font-size: 12px;
   border-radius: 2px;
+  background: #ff9b34;
+}
+
+.c0 span {
+  padding: 0 10px 0 2px;
+}
+
+.c0.ishalfday {
+  background: linear-gradient( to top, #ff9b34 0%, #ff9b34 50%, #ff9b34CC 51%, #ff9b34CC 100% );
 }
 
 <div

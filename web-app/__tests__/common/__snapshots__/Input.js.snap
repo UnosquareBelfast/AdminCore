@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Component renders correctly 1`] = `
+<Input
+  changed={[Function]}
+  focus={false}
+  htmlAttrs={
+    Object {
+      "name": "test",
+      "placeholder": "Test placeholder value",
+      "type": "text",
+    }
+  }
+  label="Test input field:"
+  rules={null}
+  theme={
+    Object {
+      "colours": Object {
+        "darkBlue": "#0a98af",
+        "darkGrey": "#3a3939",
+        "darkRed": "#c4412b",
+        "green": "#35c375",
+        "grey": "#d6d6d6",
+        "lightBlue": "#daffff",
+        "lightRed": "#fda49a",
+        "lightgrey": "#f7f7f7",
+        "red": "#ff3434",
+        "unoBlue": "#0eb5d1",
+        "white": "#ffffff",
+        "yellow": "#ff9b34",
+      },
+      "fonts": Object {
+        "fallback": "sans-serif",
+        "headers": "Oswald",
+        "main": "Open Sans",
+      },
+      "holidayStatus": Object {
+        "1": "#ff9b34",
+        "2": "#35c375",
+        "3": "#ff3434",
+        "4": "#0eb5d1",
+        "5": "#3469ff",
+        "6": "#551A8B",
+        "7": "#333333",
+      },
+    }
+  }
+  touched={false}
+  type="input"
+  valid={false}
+  validateForm={[Function]}
+  value="Hello"
+/>
+`;

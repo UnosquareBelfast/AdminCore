@@ -12,7 +12,11 @@ export const PendingHolidays = ({
 }) => {
   return (
     <Fragment>
-      <HolidayModal holiday={selectedHoliday} closeModal={() => closeModal()} />
+      <HolidayModal
+        holiday={selectedHoliday}
+        closeModal={() => closeModal()}
+        showAdminControls
+      />
       <h2>Manage Pending Holidays</h2>
       <DataTable
         data={pendingHolidays}

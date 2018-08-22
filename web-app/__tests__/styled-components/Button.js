@@ -7,15 +7,17 @@ import { theme } from '../../src/styled';
 
 describe('Button', () => {
   it('renders correctly when background is not disabled', () => {
-    const tree = renderer.create(<Button disabled={false} theme={theme}/>).toJSON();
+    const tree = renderer
+      .create(<Button disabled={false} theme={theme} />)
+      .toJSON();
 
     expect(tree).toMatchSnapshot();
-    expect(tree).toHaveStyleRule('background', theme.colours.unoBlue);
+    expect(tree).toHaveStyleRule('opacity', '1');
   });
   it('renders correctly when background is disabled', () => {
-    const tree = renderer.create(<Button disabled theme={theme}/>).toJSON();
+    const tree = renderer.create(<Button disabled theme={theme} />).toJSON();
 
     expect(tree).toMatchSnapshot();
-    expect(tree).toHaveStyleRule('background', '#f4f4f4');
+    expect(tree).toHaveStyleRule('opacity', '0.4');
   });
 });
