@@ -7,9 +7,11 @@ import {
   ScrollView,
 } from 'react-native';
 import ListItem from './ListItem';
-import { H1, HeaderDays } from '../../Common';
+import { H1, H3, HeaderDays } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
+import getDuration from '../../../utilities/dates';
+
 
 const UserView = (props) => {
   const { takenHolidays, remainingHolidays, employee } = props;
@@ -18,10 +20,11 @@ const UserView = (props) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
       <View style={styles.container}>
         <View style={styles.profileName}>
-          <H1 type="bold">
+          <H1>
             {employee.forename}&nbsp;
-            {`${employee.surname}'s Holidays`}
+            {employee.surname}
           </H1>
+          <H3 style={styles.holidayText}>Holidays</H3>
         </View>
         <HeaderDays
           takenHolidays={takenHolidays}
@@ -38,6 +41,7 @@ const UserView = (props) => {
                   status={item.eventStatus.description}
                   startDate={item.start}
                   endDate={item.end}
+                  duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
                 />
               )}
             />

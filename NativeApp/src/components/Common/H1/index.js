@@ -10,10 +10,13 @@ const H1 = (props) => {
     <Text {...props} style={[styles[type], style]}>{children}</Text>
   );
 };
+H1.defaultProps = {
+  type: 'base',
+};
 
 H1.propTypes = {
   children: PT.node.isRequired,
-  type: PT.string.isRequired,
+  type: PT.string,
   style: PT.oneOfType([
     PT.number,
     PT.object,

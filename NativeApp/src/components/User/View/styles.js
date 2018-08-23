@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { WHITE, UNOBLUE, LIGHTGREY } from '../../../styles/colors';
+import { WHITE, UNOBLUE, LIGHTGREY, GREY, SHADOW } from '../../../styles/colors';
 import { container } from '../../../styles/layout';
 
 const styles = StyleSheet.create({
@@ -26,18 +26,37 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
   },
   holidayStatus: {
-    backgroundColor: LIGHTGREY,
+    backgroundColor: WHITE,
     borderLeftWidth: 10,
     borderLeftColor: UNOBLUE,
     padding: 10,
-    marginTop: 10,
+    marginVertical: 10,
     marginHorizontal: 20,
+    shadowRadius: 3,
+    shadowColor: SHADOW,
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    elevation: 2,
+  },
+  holidaySection: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   profileName: {
-    alignSelf: 'center',
+    marginHorizontal: 20,
+    borderBottomWidth: 1,
+    borderColor: LIGHTGREY,
   },
   flatListView: {
     flex: 1,
+  },
+  holidayText: {
+    color: GREY,
+    marginBottom: 15,
   },
 });
 
