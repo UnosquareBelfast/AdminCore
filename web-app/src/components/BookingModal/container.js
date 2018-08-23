@@ -49,7 +49,7 @@ const Container = Wrapped =>
       const eventTypeId = parseInt(formData.eventTypeId);
 
       const endpoints = {
-        [eventTypes.HOLIDAY]: requestHoliday,
+        [eventTypes.ANNUAL_LEAVE]: requestHoliday,
         [eventTypes.WFH]: requestWFH,
       };
 
@@ -161,4 +161,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), Container);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  Container,
+);

@@ -49,6 +49,7 @@ const BookingModal = props => {
               updateTakenHolidays={updateTakenHolidays}
               employeeId={employeeId}
               booking={booking}
+              bookingDuration={bookingDuration}
               createEvent={createEvent}
               updateEvent={updateEvent}
             />

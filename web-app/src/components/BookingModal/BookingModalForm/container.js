@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
+import eventTypes from '../../../utilities/eventTypes';
 import moment from 'moment';
 import { eventBeingUpdated } from '../../../reducers';
 
@@ -16,6 +17,11 @@ const Container = Wrapped =>
       bookingDuration: PT.number,
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
+    };
+
+    static defaultProps = {
+      isEventBeingUpdated: false,
+      bookingDuration: 1,
     };
 
     constructor(props) {
@@ -67,7 +73,9 @@ const Container = Wrapped =>
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.end = formData.start;
-        formData.eventTypeId = 1;
+        formData.eventTypeId = eventTypes.ANNUAL_LEAVE;
+      } else if (name === 'eventTypeId') {
+        formData[name] = parseInt(value);
       }
 
       const updatedFormData = {
@@ -121,4 +129,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), Container);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  Container,
+);
