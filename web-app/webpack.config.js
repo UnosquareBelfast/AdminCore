@@ -1,5 +1,6 @@
 const path = require('path');
 
+let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
@@ -48,9 +49,9 @@ module.exports = {
         ],
       },
       {
-        test:  /\.(png|jpg|ttf|gif|svg|woff|eot)$/,
+        test: /\.(png|jpg|ttf|gif|svg|woff|eot)$/,
         use: [
-          {  loader:  'url-loader',  options: {  limit:  8192  } },
+          { loader: 'url-loader', options: { limit: 8192 } },
           // limit => file.size =< 8192 bytes ? DataURI : File
         ],
       },
@@ -63,10 +64,12 @@ module.exports = {
     },
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+      'Access-Control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept',
     },
   },
   plugins: [
+    new FaviconsWebpackPlugin('./admincore.png'),
     new HtmlWebpackPlugin({
       template: './src/index.template.ejs',
       inject: 'body',
