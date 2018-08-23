@@ -47,7 +47,8 @@ const BookingCalendarContainer = Wrapped =>
 
     selectedDatesOverlapExisting = (start, end) => {
       const overlappingEvents = this.props.takenHolidays.filter(hol => {
-        if (hol.employee && hol.employee.employeeId === this.props.employeeId) {
+        const { employee } = hol;
+        if (employee && employee.employeeId === this.props.employeeId) {
           var selectedDateRange = moment.range(
             moment(start),
             moment(end).endOf('day'),
