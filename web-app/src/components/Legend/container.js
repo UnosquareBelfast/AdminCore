@@ -29,16 +29,15 @@ const LegendContainer = Wrapped =>
       const legendKeys = Object.keys(holidayStatus);
       const keysFormatted = [];
 
-      for (let i = 0; i < legendKeys.length; i++) {
-        const legendKey = legendKeys[i];
+      legendKeys.forEach((legendKey, index) => {
         keysFormatted.push({
           id: holidayStatus[legendKey],
           keyName: legendKey,
           label: statusText[holidayStatus[legendKey]],
-          type: i < 4 ? 'status' : 'type',
+          type: index < 4 ? 'status' : 'type',
           active: false,
         });
-      }
+      });
 
       this.setState({ legendKeys: keysFormatted });
     };
@@ -46,7 +45,7 @@ const LegendContainer = Wrapped =>
     toggleKeyActive = keyId => {
       const legendKeys = [...this.state.legendKeys];
       legendKeys.map(key => {
-        if (key.id == keyId) {
+        if (key.id === keyId) {
           key.active = !key.active;
         }
       });
@@ -72,7 +71,7 @@ const LegendContainer = Wrapped =>
           },
         },
         () => {
-          this.props.updateEmployee(this.state.selectedEmployee);
+          this.props.updateEmployee(this.state.selectedEmployee.employeeId);
         }
       );
     };

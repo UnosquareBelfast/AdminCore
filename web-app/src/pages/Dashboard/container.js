@@ -29,7 +29,7 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidUpdate = prevProps => {
-      if (prevProps.takenEvents != this.props.takenEvents) {
+      if (prevProps.takenEvents !== this.props.takenEvents) {
         this.setState({ filteredEvents: [...this.props.takenEvents] });
       }
     };
@@ -90,7 +90,7 @@ const DashboardContainer = Wrapped =>
             onUpdateEvents={activeEventIds =>
               this.setActiveEvents(activeEventIds)
             }
-            onUpdateEmployee={({ employeeId }) =>
+            onUpdateEmployee={employeeId =>
               this.setActiveEmployee(parseInt(employeeId))
             }
           />
