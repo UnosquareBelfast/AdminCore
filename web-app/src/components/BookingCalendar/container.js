@@ -64,29 +64,23 @@ const BookingCalendarContainer = Wrapped =>
     validateSelectedDates = (start, end) => {
       const pastDatesSelected = this.checkIfPastDatesSelected(start);
       if (pastDatesSelected) {
-        return [false, 'Unable to select past dates'];
+        return 'Unable to select past dates';
       } else {
         const datesOverlapExisting = this.selectedDatesOverlapExisting(
           start,
           end,
         );
         if (datesOverlapExisting) {
-          return [
-            false,
-            'Your are trying to request dates that have already been set',
-          ];
+          return 'Your are trying to request dates that have already been set';
         } else {
-          return [true, 'dates approved'];
+          return 'Dates approved';
         }
       }
     };
 
     onSelectSlot = ({ start, end }) => {
-      const [newDatesApproved, message] = this.validateSelectedDates(
-        start,
-        end,
-      );
-      if (newDatesApproved) {
+      const validatingDatesResult = this.validateSelectedDates(start, end);
+      if (validatingDatesResult === 'Dates approved') {
         let booking = {
           holidayId: -1,
           start: new moment(start),
@@ -108,7 +102,7 @@ const BookingCalendarContainer = Wrapped =>
       } else {
         Toast({
           type: 'warning',
-          title: message,
+          title: validatingDatesResult,
         });
       }
     };
