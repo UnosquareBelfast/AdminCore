@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.TeamViewModel;
+import com.unosquare.admin_core.back_end.viewModels.teams.TeamViewModel;
 import com.unosquare.admin_core.back_end.dto.TeamDTO;
 import com.unosquare.admin_core.back_end.service.TeamService;
 import org.modelmapper.ModelMapper;

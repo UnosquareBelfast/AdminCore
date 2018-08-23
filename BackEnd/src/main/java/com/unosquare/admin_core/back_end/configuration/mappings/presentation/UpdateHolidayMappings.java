@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
 
-import com.unosquare.admin_core.back_end.ViewModels.UpdateHolidayViewModel;
+import com.unosquare.admin_core.back_end.viewModels.holidays.UpdateHolidayViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventTypesConverter;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;

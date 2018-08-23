@@ -1,7 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.EmployeeViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.FindEmployeeViewModel;
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeViewModel;
+import com.unosquare.admin_core.back_end.viewModels.employee.FindEmployeeViewModel;
 import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import com.unosquare.admin_core.back_end.enums.Countries;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
