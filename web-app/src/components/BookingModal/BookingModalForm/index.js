@@ -3,6 +3,7 @@ import moment from 'moment';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../common';
+import eventTypes from '../../../utilities/eventTypes';
 import {
   getDurationBetweenDates,
   calculateDaysNotice,
@@ -42,8 +43,7 @@ const BookingModalForm = props => {
 
   const composeErrorMessage = () => {
     const { eventTypeId, start } = formData;
-    const annualLeave = 1;
-    if (isEventBeingUpdated || eventTypeId !== annualLeave) {
+    if (isEventBeingUpdated || eventTypeId !== eventTypes.ANNUAL_LEAVE) {
       return null;
     } else {
       const today = new moment();

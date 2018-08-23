@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
+import eventTypes from '../../../utilities/eventTypes';
 import moment from 'moment';
 import { eventBeingUpdated } from '../../../reducers';
 
@@ -72,8 +73,7 @@ const Container = Wrapped =>
         }
       } else if (name === 'isHalfday' && formData.isHalfday) {
         formData.end = formData.start;
-        const annualLeave = 1;
-        formData.eventTypeId = annualLeave;
+        formData.eventTypeId = eventTypes.ANNUAL_LEAVE;
       } else if (name === 'eventTypeId') {
         formData[name] = parseInt(value);
       }
