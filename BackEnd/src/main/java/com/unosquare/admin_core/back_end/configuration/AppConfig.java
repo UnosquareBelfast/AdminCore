@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.configuration;
 
-import com.unosquare.admin_core.back_end.ViewModels.EmployeeCredentialsViewModel;
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.domain.EmployeeMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.presentation.RegisterEmployeeMappings;
 import com.unosquare.admin_core.back_end.security.UserPrincipal;

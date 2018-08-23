@@ -1,9 +1,8 @@
-package com.unosquare.admin_core.back_end.ViewModels;
+package com.unosquare.admin_core.back_end.viewModels.holidays;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Data
 public class ApproveHolidayViewModel {

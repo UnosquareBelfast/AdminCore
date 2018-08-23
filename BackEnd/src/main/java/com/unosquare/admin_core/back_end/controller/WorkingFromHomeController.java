@@ -1,7 +1,10 @@
 
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.*;
+import com.unosquare.admin_core.back_end.viewModels.*;
+import com.unosquare.admin_core.back_end.viewModels.workfromhome.CreateWorkingFromHomeViewModel;
+import com.unosquare.admin_core.back_end.viewModels.workfromhome.SaveWorkingFromHomeViewModel;
+import com.unosquare.admin_core.back_end.viewModels.workfromhome.ViewWorkingFromHomeViewModel;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;

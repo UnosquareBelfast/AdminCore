@@ -1,4 +1,4 @@
-package com.unosquare.admin_core.back_end.ViewModels;
+package com.unosquare.admin_core.back_end.viewModels.clients;
 
 import lombok.Data;
 

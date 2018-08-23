@@ -1,8 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.ContractViewModel;
+import com.unosquare.admin_core.back_end.viewModels.contracts.ContractViewModel;
 import com.unosquare.admin_core.back_end.dto.ContractDTO;
-import com.unosquare.admin_core.back_end.entity.Contract;
 import com.unosquare.admin_core.back_end.service.ContractService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

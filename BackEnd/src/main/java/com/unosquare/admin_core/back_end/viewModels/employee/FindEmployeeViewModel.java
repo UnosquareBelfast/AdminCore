@@ -1,6 +1,5 @@
-package com.unosquare.admin_core.back_end.ViewModels;
+package com.unosquare.admin_core.back_end.viewModels.employee;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unosquare.admin_core.back_end.enums.Countries;
 import com.unosquare.admin_core.back_end.enums.EmployeeRoles;
 import com.unosquare.admin_core.back_end.enums.EmployeeStatuses;

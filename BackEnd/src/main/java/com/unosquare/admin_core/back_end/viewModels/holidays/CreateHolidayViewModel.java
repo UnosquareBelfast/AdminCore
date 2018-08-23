@@ -1,6 +1,6 @@
-package com.unosquare.admin_core.back_end.ViewModels;
+package com.unosquare.admin_core.back_end.viewModels.holidays;
 
-import com.unosquare.admin_core.back_end.dto.DateDTO;
+import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

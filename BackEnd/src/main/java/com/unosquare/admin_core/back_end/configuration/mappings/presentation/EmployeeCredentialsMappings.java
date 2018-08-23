@@ -1,11 +1,9 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
-import com.unosquare.admin_core.back_end.ViewModels.EmployeeCredentialsViewModel;
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.security.UserPrincipal;
 import lombok.NoArgsConstructor;
 import org.modelmapper.PropertyMap;
-
-import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 

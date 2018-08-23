@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.ClientViewModel;
+import com.unosquare.admin_core.back_end.viewModels.clients.ClientViewModel;
 import com.unosquare.admin_core.back_end.dto.ClientDTO;
 import com.unosquare.admin_core.back_end.service.ClientService;
 import org.modelmapper.ModelMapper;

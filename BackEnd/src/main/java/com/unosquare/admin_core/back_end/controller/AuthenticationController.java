@@ -1,9 +1,9 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.RegisterEmployeeViewModel;
+import com.unosquare.admin_core.back_end.viewModels.auth.RegisterEmployeeViewModel;
 import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
-import com.unosquare.admin_core.back_end.ViewModels.JwtAuthenticationResponseViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.LoginRequestViewModel;
+import com.unosquare.admin_core.back_end.viewModels.auth.JwtAuthenticationResponseViewModel;
+import com.unosquare.admin_core.back_end.viewModels.auth.LoginRequestViewModel;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

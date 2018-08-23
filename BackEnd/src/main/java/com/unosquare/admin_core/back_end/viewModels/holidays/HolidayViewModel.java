@@ -1,11 +1,10 @@
-package com.unosquare.admin_core.back_end.ViewModels;
+package com.unosquare.admin_core.back_end.viewModels.holidays;
 
-import com.unosquare.admin_core.back_end.entity.Employee;
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeViewModel;
 import com.unosquare.admin_core.back_end.entity.EventStatus;
 import com.unosquare.admin_core.back_end.entity.EventType;
-import lombok.*;
+import lombok.Data;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
