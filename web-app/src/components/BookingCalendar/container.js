@@ -66,8 +66,11 @@ const BookingCalendarContainer = Wrapped =>
       if (pastDatesSelected) {
         return [false, 'Unable to select past dates'];
       } else {
-        const slotsOverlapping = this.selectedDatesOverlapExisting(start, end);
-        if (slotsOverlapping) {
+        const datesOverlapExisting = this.selectedDatesOverlapExisting(
+          start,
+          end,
+        );
+        if (datesOverlapExisting) {
           return [
             false,
             'Your are trying to request dates that have already been set',
