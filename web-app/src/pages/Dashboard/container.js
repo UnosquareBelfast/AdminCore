@@ -2,15 +2,15 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchEvents, fetchEventsByUserId } from '../../actions/dashboard';
+import { fetchEvents } from '../../actions/dashboard';
 import { getUser, getTakenHolidays, eventBeingUpdated } from '../../reducers';
+import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object,
       fetchEvents: PT.func.isRequired,
-      fetchEventsByUserId: PT.func.isRequired,
       takenEvents: PT.array,
       isEventBeingUpdated: PT.bool,
     };
@@ -18,6 +18,7 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
+        calendarDate: new moment(),
         filteredEvents: [],
         activeEventIds: [],
         activeEmployee: -1,
@@ -25,7 +26,8 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidMount() {
-      this.props.fetchEvents();
+      const { calendarDate } = this.state;
+      this.props.fetchEvents(calendarDate.format('YYYY-MM-DD'));
     }
 
     componentDidUpdate = prevProps => {
@@ -78,6 +80,11 @@ const DashboardContainer = Wrapped =>
       this.setState({ activeEmployee: employeeId }, this.filterCalenderEvents);
     };
 
+    fetchEvents = () => {
+      const { calendarDate } = this.state;
+      this.props.fetchEvents(calendarDate.format('YYYY-MM-DD'));
+    };
+
     render() {
       return (
         this.props.userDetails && (
@@ -85,7 +92,7 @@ const DashboardContainer = Wrapped =>
             employeeId={this.props.userDetails.employeeId}
             takenEvents={this.props.takenEvents}
             events={this.state.filteredEvents}
-            updateTakenEvents={this.props.fetchEvents}
+            updateTakenEvents={this.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             onUpdateEvents={activeEventIds =>
               this.setActiveEvents(activeEventIds)
@@ -110,9 +117,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchEvents: () => dispatch(fetchEvents()),
-    fetchEventsByUserId: employeeId =>
-      dispatch(fetchEventsByUserId(employeeId)),
+    fetchEvents: date => dispatch(fetchEvents(date)),
   };
 };
 
