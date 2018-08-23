@@ -58,7 +58,7 @@ const BookingCalendarContainer = Wrapped =>
           }
         }
       });
-      return overlappingEvents.length > 0 ? true : false;
+      return overlappingEvents.length > 0;
     };
 
     validateSelectedDates = (start, end) => {
