@@ -5,6 +5,12 @@ import { LIGHTERBLACK } from '../../../styles/colors';
 const styles = StyleSheet.create({
   base: {
     fontSize: P_SIZE,
+    fontFamily: 'openSansRegular',
+    color: LIGHTERBLACK,
+  },
+  bold: {
+    fontSize: P_SIZE,
+    fontFamily: 'openSansBold',
     color: LIGHTERBLACK,
   },
 });

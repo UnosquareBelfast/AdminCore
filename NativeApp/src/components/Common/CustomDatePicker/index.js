@@ -100,7 +100,7 @@ class CustomDatePicker extends Component {
         >
           <View>
             <View style={styles.dateInput}>
-              <P type="base">
+              <P>
                 {chosenDate}
               </P>
               <Icon
