@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import store from '../store';
 
 const baseURL = process.env.DOMAIN;
 
@@ -34,6 +35,24 @@ instance.interceptors.response.use(function(response) {
     return {
       ...response,
       data: holidays,
+    };
+  }
+
+  // Append employee to each event (we know its the logged in user) and convert
+  // dates to moment objects
+  if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeEvents`)) {
+    const events = [...response.data.events];
+    const employee = store.getState().USER;
+    for (const index in events) {
+      // Raw dates to moment objects
+      events[index].start = new moment(events[index].startDate, 'YYYY-MM-DD');
+      events[index].end = new moment(events[index].endDate, 'YYYY-MM-DD');
+      // Append logged in employee
+      events[index].employee = { ...employee };
+    }
+    return {
+      ...response,
+      data: events,
     };
   }
 
