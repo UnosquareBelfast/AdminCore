@@ -1,6 +1,9 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import _ from 'lodash';
+import map from 'lodash/fp/map';
+import compact from 'lodash/fp/compact';
+import uniqBy from 'lodash/fp/uniqBy';
+import flow from 'lodash/fp/flow';
 import holidayStatus, { statusText } from '../../utilities/holidayStatus';
 
 const LegendContainer = Wrapped =>
@@ -72,22 +75,21 @@ const LegendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee.employeeId);
-        }
+        },
       );
     };
 
     getEmployeeState = () => {
       const { takenHolidays } = this.props;
-      return _.chain(takenHolidays)
-        .map('employee')
-        .compact()
-        .uniqBy('employeeId')
-        .value();
+      return flow(
+        map('employee'),
+        compact,
+        uniqBy('employeeId'),
+      )(takenHolidays);
     };
 
     render() {
       const employeeList = this.getEmployeeState();
-
       return (
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
