@@ -40,26 +40,34 @@ const BookingCalendarContainer = Wrapped =>
       this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
-    selectedSlotsOverlapExisting = (start, end) => {
-      return this.props.takenHolidays.filter(hol => {
+    checkIfPastDatesSelected = start => {
+      const today = new moment();
+      return moment(start).isBefore(today);
+    };
+
+    selectedDatesOverlapExisting = (start, end) => {
+      const overlappingEvents = this.props.takenHolidays.filter(hol => {
         if (hol.employee && hol.employee.employeeId === this.props.employeeId) {
-          var newRange = moment.range(moment(start), moment(end).endOf('day'));
-          var existingRange = moment.range(moment(hol.start), moment(hol.end));
-          if (newRange.overlaps(existingRange)) {
+          var selectedDateRange = moment.range(
+            moment(start),
+            moment(end).endOf('day'),
+          );
+          var existingEvent = moment.range(moment(hol.start), moment(hol.end));
+          if (selectedDateRange.overlaps(existingEvent)) {
             return true;
           }
         }
       });
+      return overlappingEvents.length > 0 ? true : false;
     };
 
-    validateSelectedSlots = (start, end) => {
-      const today = new moment();
-      const pastDatesSelected = moment(start).isBefore(today);
+    validateSelectedDates = (start, end) => {
+      const pastDatesSelected = this.checkIfPastDatesSelected(start);
       if (pastDatesSelected) {
         return [false, 'Unable to select past dates'];
       } else {
-        const overlappingEvents = this.selectedSlotsOverlapExisting(start, end);
-        if (overlappingEvents.length > 0) {
+        const slotsOverlapping = this.selectedDatesOverlapExisting(start, end);
+        if (slotsOverlapping) {
           return [
             false,
             'Your are trying to request dates that have already been set',
@@ -71,7 +79,7 @@ const BookingCalendarContainer = Wrapped =>
     };
 
     onSelectSlot = ({ start, end }) => {
-      const [newDatesApproved, message] = this.validateSelectedSlots(
+      const [newDatesApproved, message] = this.validateSelectedDates(
         start,
         end,
       );
@@ -83,7 +91,7 @@ const BookingCalendarContainer = Wrapped =>
           title: null,
           isHalfday: false,
           eventType: {
-            eventTypeId: eventTypes.HOLIDAY,
+            eventTypeId: eventTypes.ANNUAL_LEAVE,
             description: 'Annual leave',
           },
           eventStatus: {
