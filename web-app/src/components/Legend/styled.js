@@ -19,49 +19,13 @@ export const StyleContainer = styled.div`
 `;
 
 export const Column = styled.div`
-  width: 100%;
-  padding: 25px 10px 0 10px;
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  margin-bottom: 20px;
-  @media (min-width: 1520px) {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  :nth-child(1) {
-    padding-top: 0;
-  }
-
-  > div {
-    flex: 1 1 40%;
-
-    span {
-      display: inline-block;
-      vertical-align: sub;
-    }
+    width: 100%;
+    margin: 10px;
   }
 
   h4 {
-    display: block;
     width: 100%;
     margin: 0 0 10px 0;
-    position: absolute;
-    left: 10px;
-    top: 0;
-  }
-
-  form {
-    display: block;
-    width: 100%;
-  }
-
-  label {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-family: Oswald, sans-serif;
   }
 `;
 
@@ -76,7 +40,6 @@ export const Key = styled.div`
   margin: 0px 4px 4px 0;
   border-radius: 3px;
   padding: 8px;
-  align-self: auto;
   cursor: pointer;
   transition: all 150ms;
   &:hover {
