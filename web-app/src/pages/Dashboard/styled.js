@@ -5,7 +5,22 @@ export const InnerLayout = styled.div`
   height: 100%;
 
   .rbc-calendar {
-    height: 700px;
+    height: 800px;
+  }
+
+  .rbc-show-more {
+    background-color: ${props => props.theme.colours.grey};
+    color: ${props => props.theme.colours.darkGrey};
+    transition: 0.1s all ease-in-out;
+    border-radius: 2px;
+    padding: 4px 5px;
+    margin: 1px 2px;
+    text-decoration: none;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.6);
+    }
   }
 
   .rbc-header {
