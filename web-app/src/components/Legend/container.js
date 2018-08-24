@@ -9,7 +9,7 @@ import holidayStatus, { statusText } from '../../utilities/holidayStatus';
 const LegendContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
-      takenHolidays: PT.array.isRequired,
+      takenEvents: PT.array.isRequired,
       updateEmployee: PT.func.isRequired,
       updateCalendarEvents: PT.func.isRequired,
     };
@@ -80,12 +80,12 @@ const LegendContainer = Wrapped =>
     };
 
     getEmployeeState = () => {
-      const { takenHolidays } = this.props;
+      const { takenEvents } = this.props;
       return flow(
         map('employee'),
         compact,
         uniqBy('employeeId'),
-      )(takenHolidays);
+      )(takenEvents);
     };
 
     render() {

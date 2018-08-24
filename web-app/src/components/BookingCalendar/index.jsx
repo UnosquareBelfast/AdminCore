@@ -10,12 +10,12 @@ moment.locale('en-gb');
 Calendar.momentLocalizer(moment);
 
 export const BookingCalendar = props => {
-  const { onSelectSlot, onSelectEvent, takenHolidays } = props;
+  const { onSelectSlot, onSelectEvent, events } = props;
   return (
     <Calendar
       components={{ eventWrapper: Event, toolbar: BigCalendarToolbar }}
       defaultDate={new Date()}
-      events={takenHolidays}
+      events={events}
       endAccessor={({ end }) => end.endOf('day')}
       messages={{ agenda: 'team', personal: 'personal' }}
       onSelectSlot={onSelectSlot}
@@ -34,7 +34,7 @@ export const BookingCalendar = props => {
 BookingCalendar.propTypes = {
   onSelectSlot: PT.func.isRequired,
   onSelectEvent: PT.func.isRequired,
-  takenHolidays: PT.array.isRequired,
+  events: PT.array.isRequired,
 };
 
 export default container(BookingCalendar);

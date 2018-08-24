@@ -19,7 +19,7 @@ const BookingCalendarContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       employeeId: PT.number,
-      takenHolidays: PT.array,
+      events: PT.array,
       selectBooking: PT.func,
       updateEventDuration: PT.func,
       setEventBeingUpdated: PT.func,
@@ -46,15 +46,18 @@ const BookingCalendarContainer = Wrapped =>
     };
 
     selectedDatesOverlapExisting = (start, end) => {
-      const { takenHolidays, employeeId } = this.props;
-      const overlappingEvents = takenHolidays.filter(hol => {
-        const { employee } = hol;
+      const { events, employeeId } = this.props;
+      const overlappingEvents = events.filter(event => {
+        const { employee } = event;
         if (employee && employee.employeeId === employeeId) {
           var selectedDateRange = moment.range(
             moment(start),
             moment(end).endOf('day'),
           );
-          var existingEvent = moment.range(moment(hol.start), moment(hol.end));
+          var existingEvent = moment.range(
+            moment(event.start),
+            moment(event.end),
+          );
           if (selectedDateRange.overlaps(existingEvent)) {
             return true;
           }
@@ -126,12 +129,11 @@ const BookingCalendarContainer = Wrapped =>
     render() {
       return (
         this.props.employeeId &&
-        this.props.takenHolidays && (
+        this.props.events && (
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
-            takenHolidays={this.props.takenHolidays}
-            updateTakenHolidays={this.getTakenHolidays}
+            events={this.props.events}
           />
         )
       );
