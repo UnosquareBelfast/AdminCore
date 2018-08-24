@@ -43,12 +43,12 @@ instance.interceptors.response.use(function(response) {
   if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeEvents`)) {
     const events = [...response.data.events];
     const employee = store.getState().USER;
-    for (const index in events) {
+    for (let event of events) {
       // Raw dates to moment objects
-      events[index].start = new moment(events[index].startDate, 'YYYY-MM-DD');
-      events[index].end = new moment(events[index].endDate, 'YYYY-MM-DD');
+      event.start = new moment(event.startDate, 'YYYY-MM-DD');
+      event.end = new moment(event.endDate, 'YYYY-MM-DD');
       // Append logged in employee
-      events[index].employee = { ...employee };
+      event.employee = { ...employee };
     }
     return {
       ...response,
