@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
-import { getAllHolidays, getHolidays } from '../services/holidayService';
+import { getUsersEvents } from '../services/dashboardService';
+
 import {
   formatEventsForCalendar,
   getEventDuration,
@@ -53,19 +54,8 @@ export const setError = error => {
 
 // Thunks
 
-export const fetchEvents = () => dispatch => {
-  getAllHolidays()
-    .then(({ data }) => {
-      const formattedEvents = formatEventsForCalendar(data);
-      dispatch(setCalendarEvents(formattedEvents));
-    })
-    .catch(error => {
-      dispatch(setError(error));
-    });
-};
-
-export const fetchEventsByUserId = userId => dispatch => {
-  getHolidays(userId)
+export const fetchEvents = date => dispatch => {
+  getUsersEvents(date)
     .then(({ data }) => {
       const formattedEvents = formatEventsForCalendar(data);
       dispatch(setCalendarEvents(formattedEvents));
