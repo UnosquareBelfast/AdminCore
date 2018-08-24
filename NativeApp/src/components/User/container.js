@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { getTakenHolidays, getRemainingHolidays } from '../../utilities/holidays';
+import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
 
 export default Container => class extends Component {
@@ -18,7 +18,7 @@ export default Container => class extends Component {
     super(props);
     this.state = {
       id: '',
-      takenHolidays: [],
+      events: [],
       remainingHolidays: 0,
       employee: {
         forename: '',
@@ -31,8 +31,8 @@ export default Container => class extends Component {
     const { navigation } = this.props;
 
     this.sub = navigation.addListener('didFocus', () => {
-      getTakenHolidays()
-        .then(takenHolidays => this.setState({ takenHolidays }));
+      getUserEvents()
+        .then(events => this.setState({ events }));
 
       getRemainingHolidays()
         .then(remainingHolidays => this.setState({ remainingHolidays }));
@@ -47,13 +47,13 @@ export default Container => class extends Component {
   }
 
   render() {
-    const { takenHolidays, remainingHolidays, employee } = this.state;
+    const { events, remainingHolidays, employee } = this.state;
 
     return (
       <Container
         employee={employee}
-        takenHolidays={takenHolidays}
-        remainingHolidays={remainingHolidays - takenHolidays.length}
+        events={events}
+        remainingHolidays={remainingHolidays - events.length}
       />
     );
   }

@@ -1,12 +1,13 @@
 import { Alert } from 'react-native';
-import { getUserHolidays } from '../services/holidayService';
+import moment from 'moment';
+import { fetchEvents } from '../services/holidayService';
 import { getUserProfile } from '../services/userService';
 
-export const getTakenHolidays = () => getUserHolidays()
+export const getUserEvents = month => fetchEvents(month || moment().format('YYYY-MM-DD'))
   .then(res => res.data)
   .catch((e) => {
     Alert.alert(
-      'Could not get taken holidays',
+      'Could not get user events',
       e.message,
     );
   });

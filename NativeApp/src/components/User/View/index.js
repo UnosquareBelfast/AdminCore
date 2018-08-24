@@ -14,7 +14,7 @@ import getDuration from '../../../utilities/dates';
 
 
 const UserView = (props) => {
-  const { takenHolidays, remainingHolidays, employee } = props;
+  const { events, remainingHolidays, employee } = props;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
@@ -27,14 +27,14 @@ const UserView = (props) => {
           <H3 style={styles.holidayText}>Holidays</H3>
         </View>
         <HeaderDays
-          takenHolidays={takenHolidays}
+          events={events}
           remainingHolidays={remainingHolidays}
         />
         <ScrollView>
           <View style={styles.flatListView}>
             <FlatList
-              keyExtractor={item => item.holidayId.toString()}
-              data={takenHolidays}
+              keyExtractor={(item, index) => index.toString()}
+              data={events}
               renderItem={({ item }) => (
                 <ListItem
                   statusId={item.eventStatus.eventStatusId}
@@ -53,7 +53,7 @@ const UserView = (props) => {
 };
 
 UserView.propTypes = {
-  takenHolidays: PT.arrayOf(PT.object).isRequired,
+  events: PT.arrayOf(PT.object).isRequired,
   remainingHolidays: PT.number.isRequired,
   employee: PT.shape({
     forename: PT.string,

@@ -10,6 +10,7 @@ const HomeView = (props) => {
   const {
     takenHolidays,
     onDayPress,
+    onMonthChange,
   } = props;
 
   return (
@@ -35,7 +36,8 @@ const HomeView = (props) => {
             },
           },
         }}
-        onDayPress={(day) => { onDayPress(day); }}
+        onDayPress={day => onDayPress(day)}
+        onMonthChange={month => onMonthChange(month)}
       />
     </View>
   );
@@ -47,6 +49,7 @@ HomeView.propTypes = {
     color: PT.string,
   }).isRequired,
   onDayPress: PT.func.isRequired,
+  onMonthChange: PT.func.isRequired,
 };
 
 const styles = StyleSheet.create({

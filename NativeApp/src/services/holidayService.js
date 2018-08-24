@@ -1,18 +1,6 @@
-import { Alert } from 'react-native';
 import axios from '../utilities/AxiosInstance';
 
-export const getHolidays = date => axios.get(`/dashboard/getEmployeeEvents?date=${date}`);
-
-export const getUserHolidays = () => {
-  try {
-    return getHolidays('2018-08-01');
-  } catch (e) {
-    return Alert.alert(
-      'Could not get user id',
-      e.message,
-    );
-  }
-};
+export const fetchEvents = date => axios.get(`/dashboard/getEmployeeEvents?date=${date}`);
 
 export const requestHolidays = holidays => axios.post('/holidays/', holidays);
 

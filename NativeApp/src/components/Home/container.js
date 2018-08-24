@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { has, get } from 'lodash';
-import { getTakenHolidays } from '../../utilities/holidays';
+import { getUserEvents } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
 import { BLACK, WHITE } from '../../styles/colors';
 
@@ -29,7 +29,7 @@ export default Container => class extends Component {
       const { navigation } = this.props;
 
       this.sub = navigation.addListener('didFocus', () => {
-        getTakenHolidays()
+        getUserEvents()
           .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
       });
     }
@@ -51,6 +51,11 @@ export default Container => class extends Component {
           booked,
         });
       }
+    }
+
+    onMonthChange = (month) => {
+      getUserEvents(month.dateString)
+        .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
     }
 
     closeModal = () => {
@@ -109,6 +114,7 @@ export default Container => class extends Component {
         <Container
           takenHolidays={takenHolidays}
           onDayPress={this.onDayPress}
+          onMonthChange={this.onMonthChange}
         />
       );
     }
