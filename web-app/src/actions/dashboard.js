@@ -1,5 +1,4 @@
 import * as actionTypes from '../actionTypes';
-import { getHolidays } from '../services/holidayService';
 import { getUsersEvents } from '../services/dashboardService';
 
 import {
