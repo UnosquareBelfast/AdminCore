@@ -29,7 +29,7 @@ export default Container => class extends Component {
       const { navigation } = this.props;
 
       this.sub = navigation.addListener('didFocus', () => {
-        getUserEvents()
+        getUserEvents(moment().format('YYYY-MM-DD'))
           .then(data => this.setState({ events: this.formatDate(data) }));
       });
     }

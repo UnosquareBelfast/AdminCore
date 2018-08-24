@@ -1,9 +1,8 @@
 import { Alert } from 'react-native';
-import moment from 'moment';
 import { fetchEvents } from '../services/holidayService';
 import { getUserProfile } from '../services/userService';
 
-export const getUserEvents = month => fetchEvents(month || moment().format('YYYY-MM-DD'))
+export const getUserEvents = month => fetchEvents(month)
   .then(res => res.data)
   .catch((e) => {
     Alert.alert(
