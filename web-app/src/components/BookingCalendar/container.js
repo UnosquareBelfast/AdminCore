@@ -24,6 +24,7 @@ const BookingCalendarContainer = Wrapped =>
       updateEventDuration: PT.func,
       setEventBeingUpdated: PT.func,
       toggleBookingModal: PT.func,
+      onNavigate: PT.func,
     };
 
     constructor(props) {
@@ -52,11 +53,11 @@ const BookingCalendarContainer = Wrapped =>
         if (employee && employee.employeeId === employeeId) {
           var selectedDateRange = moment.range(
             moment(start),
-            moment(end).endOf('day'),
+            moment(end).endOf('day')
           );
           var existingEvent = moment.range(
             moment(event.start),
-            moment(event.end),
+            moment(event.end)
           );
           if (selectedDateRange.overlaps(existingEvent)) {
             return true;
@@ -73,7 +74,7 @@ const BookingCalendarContainer = Wrapped =>
       } else {
         const datesOverlapExisting = this.selectedDatesOverlapExisting(
           start,
-          end,
+          end
         );
         if (datesOverlapExisting) {
           return 'Your are trying to request dates that have already been set';
@@ -126,6 +127,11 @@ const BookingCalendarContainer = Wrapped =>
       }
     };
 
+    onNavigate = date => {
+      const newDate = new moment(date);
+      this.props.onNavigate(newDate);
+    };
+
     render() {
       return (
         this.props.employeeId &&
@@ -133,6 +139,7 @@ const BookingCalendarContainer = Wrapped =>
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
+            onNavigate={this.onNavigate}
             events={this.props.events}
           />
         )
@@ -151,9 +158,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(
-    null,
-    mapDispatchToProps,
-  ),
-  BookingCalendarContainer,
+  connect(null, mapDispatchToProps),
+  BookingCalendarContainer
 );

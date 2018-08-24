@@ -13,7 +13,9 @@ export const Dashboard = props => {
     onUpdateEvents,
     onUpdateEmployee,
     isEventBeingUpdated,
+    onCalendarNavigate,
   } = props;
+
   return (
     <Fragment>
       <BookingModal
@@ -26,6 +28,7 @@ export const Dashboard = props => {
           employeeId={employeeId}
           events={events}
           isEventBeingUpdated={isEventBeingUpdated}
+          onNavigate={onCalendarNavigate}
         />
         <Legend
           updateCalendarEvents={onUpdateEvents}
@@ -45,6 +48,7 @@ Dashboard.propTypes = {
   updateTakenEvents: PT.func.isRequired,
   employeeId: PT.number,
   isEventBeingUpdated: PT.bool,
+  onCalendarNavigate: PT.func.isRequired,
 };
 
 Dashboard.defaultProps = {
