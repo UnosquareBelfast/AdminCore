@@ -28,13 +28,7 @@ public class DashboardController {
 
     @Autowired
     ModelMapper modelMapper;
-
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String getUsername() {
-        return employeeCredentialsViewModel.getEmail();
-    }
-
+    
     @GetMapping(value = "/getEmployeeEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public EmployeeEventViewModel getDashboardEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
