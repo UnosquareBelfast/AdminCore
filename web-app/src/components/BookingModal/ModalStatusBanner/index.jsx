@@ -2,8 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Banner } from './styled';
 import { statusText } from '../../../utilities/holidayStatus';
-import eventTypes from '../../../utilities/eventTypes';
-import { getEventTypeValue } from '../../../utilities/eventTypeConfig';
+import eventTypes, { getEventTypeValue } from '../../../utilities/eventTypes';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/fontawesome-free-solid';
 

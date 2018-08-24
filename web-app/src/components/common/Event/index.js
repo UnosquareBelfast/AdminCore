@@ -1,8 +1,7 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
-import eventTypes from '../../../utilities/eventTypes';
-import { getEventTypeValue } from '../../../utilities/eventTypeConfig';
+import eventTypes, { getEventTypeValue } from '../../../utilities/eventTypes';
 import { statusIcons } from '../../../utilities/holidayStatus';
 import moment from 'moment';
 
