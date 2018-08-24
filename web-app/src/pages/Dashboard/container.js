@@ -26,8 +26,7 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidMount() {
-      const { calendarDate } = this.state;
-      this.props.fetchEvents(calendarDate.format('YYYY-MM-DD'));
+      this.fetchEvents();
     }
 
     componentDidUpdate = prevProps => {
