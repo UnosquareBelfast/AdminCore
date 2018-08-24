@@ -24,13 +24,13 @@ export const Dashboard = props => {
       <InnerLayout>
         <BookingCalendar
           employeeId={employeeId}
-          takenHolidays={events}
+          events={events}
           isEventBeingUpdated={isEventBeingUpdated}
         />
         <Legend
           updateCalendarEvents={onUpdateEvents}
           updateEmployee={onUpdateEmployee}
-          takenHolidays={takenEvents}
+          takenEvents={takenEvents}
         />
       </InnerLayout>
     </Fragment>
