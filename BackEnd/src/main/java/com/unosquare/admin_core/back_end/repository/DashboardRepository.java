@@ -18,8 +18,9 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
                                                    @Param("startDate") LocalDate startDate,
                                                    @Param("endDate") LocalDate endDate);
 
-    @Query(value = "SELECT * FROM Event e INNER JOIN Contract c on e.employee_id = c.employee_id where (e.start_date >= :startDate AND e.end_Date <= :endDate)" +
-            "AND c.team_id in(select team_id FROM Contract d where d.employee_id = :employeeId)",
+    @Query(value = "SELECT * FROM Event e INNER JOIN Contract c  on e.employee_id = c.employee_id where (e.start_date >= :startDate " +
+                   "AND e.end_Date <= :endDate) AND c.team_id IN(select team_id FROM Contract c WHERE (c.employee_id = :employeeId " +
+                   "AND c.start_Date <= :startDate AND (c.end_Date >= :endDate or c.end_Date IS NULL)))",
             nativeQuery = true)
     List<Event> findCalendarMonthEventsForTeam(@Param("employeeId") int employeeId,
                                                @Param("startDate") LocalDate startDate,
