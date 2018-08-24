@@ -8,8 +8,12 @@ import {
   setEventBeingUpdated,
   updateEventDuration,
 } from '../../actions/dashboard';
+import holidayStatus from '../../utilities/holidayStatus';
+import eventTypes from '../../utilities/eventTypes';
 import { Toast } from '../../utilities/Notifications';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+const moment = extendMoment(Moment);
 
 const BookingCalendarContainer = Wrapped =>
   class extends React.Component {
@@ -36,9 +40,49 @@ const BookingCalendarContainer = Wrapped =>
       this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
-    onSelectSlot = ({ start, end }) => {
+    checkIfPastDatesSelected = start => {
       const today = new moment();
-      if (moment(start).isAfter(today.add(-1, 'days'))) {
+      return moment(start).isBefore(today);
+    };
+
+    selectedDatesOverlapExisting = (start, end) => {
+      const { takenHolidays, employeeId } = this.props;
+      const overlappingEvents = takenHolidays.filter(hol => {
+        const { employee } = hol;
+        if (employee && employee.employeeId === employeeId) {
+          var selectedDateRange = moment.range(
+            moment(start),
+            moment(end).endOf('day'),
+          );
+          var existingEvent = moment.range(moment(hol.start), moment(hol.end));
+          if (selectedDateRange.overlaps(existingEvent)) {
+            return true;
+          }
+        }
+      });
+      return overlappingEvents.length > 0;
+    };
+
+    validateSelectedDates = (start, end) => {
+      const pastDatesSelected = this.checkIfPastDatesSelected(start);
+      if (pastDatesSelected) {
+        return 'Unable to select past dates';
+      } else {
+        const datesOverlapExisting = this.selectedDatesOverlapExisting(
+          start,
+          end,
+        );
+        if (datesOverlapExisting) {
+          return 'Your are trying to request dates that have already been set';
+        } else {
+          return 'Dates approved';
+        }
+      }
+    };
+
+    onSelectSlot = ({ start, end }) => {
+      const validatingDatesResult = this.validateSelectedDates(start, end);
+      if (validatingDatesResult === 'Dates approved') {
         let booking = {
           holidayId: -1,
           start: new moment(start),
@@ -46,11 +90,11 @@ const BookingCalendarContainer = Wrapped =>
           title: null,
           isHalfday: false,
           eventType: {
-            eventTypeId: 1,
+            eventTypeId: eventTypes.ANNUAL_LEAVE,
             description: 'Annual leave',
           },
           eventStatus: {
-            eventStatusId: 1,
+            eventStatusId: holidayStatus.PENDING,
             description: 'Awaiting Approval',
           },
           employee: null,
@@ -60,7 +104,7 @@ const BookingCalendarContainer = Wrapped =>
       } else {
         Toast({
           type: 'warning',
-          title: 'Unable to select past dates',
+          title: validatingDatesResult,
         });
       }
     };
@@ -105,6 +149,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(null, mapDispatchToProps),
-  BookingCalendarContainer
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
+  BookingCalendarContainer,
 );

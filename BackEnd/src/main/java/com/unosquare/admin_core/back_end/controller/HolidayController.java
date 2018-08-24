@@ -1,6 +1,7 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.ViewModels.*;
+import com.unosquare.admin_core.back_end.viewModels.*;
+import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;

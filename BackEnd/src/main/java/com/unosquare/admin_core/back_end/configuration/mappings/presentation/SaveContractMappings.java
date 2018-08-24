@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
 
-import com.unosquare.admin_core.back_end.ViewModels.ContractViewModel;
+import com.unosquare.admin_core.back_end.viewModels.contracts.ContractViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.dto.ContractDTO;
 import lombok.NoArgsConstructor;

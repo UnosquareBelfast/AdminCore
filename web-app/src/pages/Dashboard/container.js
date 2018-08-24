@@ -11,16 +11,16 @@ const DashboardContainer = Wrapped =>
       userDetails: PT.object,
       fetchEvents: PT.func.isRequired,
       fetchEventsByUserId: PT.func.isRequired,
-      takenHolidays: PT.array,
+      takenEvents: PT.array,
       isEventBeingUpdated: PT.bool,
     };
 
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidaysFiltered: [],
-        eventKeysFilter: [],
-        selectedEmployeeId: -1,
+        filteredEvents: [],
+        activeEventIds: [],
+        activeEmployee: -1,
       };
     }
 
@@ -28,56 +28,54 @@ const DashboardContainer = Wrapped =>
       this.props.fetchEvents();
     }
 
-    componentDidUpdate = (_, prevState) => {
-      if (prevState.selectedEmployeeId !== this.state.selectedEmployeeId) {
-        this.updateFilterEvents();
+    componentDidUpdate = prevProps => {
+      if (prevProps.takenEvents !== this.props.takenEvents) {
+        this.setState({ filteredEvents: [...this.props.takenEvents] });
       }
     };
 
-    getTakenHolidaysById = id => {
-      if (id === -1) {
-        this.props.fetchEvents();
+    filterCalenderEvents = () => {
+      let filteredEvents = [...this.props.takenEvents];
+      const { activeEmployee, activeEventIds } = this.state;
+
+      filteredEvents = this.filterEmployee(filteredEvents, activeEmployee);
+      filteredEvents = this.filterEvents(filteredEvents, activeEventIds);
+
+      this.setState({ filteredEvents });
+    };
+
+    // Filter Employees
+
+    filterEmployee = (filteredEvents, activeEmployee) => {
+      if (activeEmployee === -1) {
+        return filteredEvents;
       } else {
-        this.props.fetchEventsByUserId(id);
+        return filteredEvents.filter(hol => {
+          if (!hol.employee || hol.employee.employeeId == activeEmployee) {
+            return true;
+          }
+        });
       }
     };
 
-    onFilterEmployee = ({ employeeId }) => {
-      this.setState({ selectedEmployeeId: employeeId });
-      this.getTakenHolidaysById(parseInt(employeeId));
-    };
+    // Filter Events
 
-    updateFilterEvents = () => {
-      let eventKeys = [...this.state.eventKeysFilter];
-      let takenHolidaysUpdated = [];
-      if (eventKeys.length > 0) {
-        takenHolidaysUpdated = this.props.takenHolidays.filter(hol =>
-          eventKeys.includes(hol.eventStatus.eventStatusId)
+    filterEvents = (filteredEvents, activeEventIds) => {
+      if (activeEventIds.length === 0) {
+        return filteredEvents;
+      } else {
+        return filteredEvents.filter(hol =>
+          activeEventIds.includes(hol.eventStatus.eventStatusId)
         );
       }
-
-      this.setState({
-        takenHolidaysFiltered: takenHolidaysUpdated,
-      });
     };
 
-    onFilterEvents = eventStatusId => {
-      let eventKeys = [...this.state.eventKeysFilter];
-      if (eventStatusId !== undefined) {
-        if (eventKeys.includes(eventStatusId)) {
-          eventKeys = eventKeys.filter(item => item !== eventStatusId);
-        } else {
-          eventKeys.push(eventStatusId);
-        }
-      }
-      this.setState(
-        {
-          eventKeysFilter: eventKeys,
-        },
-        () => {
-          this.updateFilterEvents();
-        }
-      );
+    setActiveEvents = activeEventIds => {
+      this.setState({ activeEventIds }, this.filterCalenderEvents);
+    };
+
+    setActiveEmployee = employeeId => {
+      this.setState({ activeEmployee: employeeId }, this.filterCalenderEvents);
     };
 
     render() {
@@ -85,16 +83,16 @@ const DashboardContainer = Wrapped =>
         this.props.userDetails && (
           <Wrapped
             employeeId={this.props.userDetails.employeeId}
-            takenHolidays={this.props.takenHolidays}
-            takenHolidaysFiltered={
-              this.state.takenHolidaysFiltered.length === 0
-                ? this.props.takenHolidays
-                : this.state.takenHolidaysFiltered
-            }
-            updateTakenHolidays={this.props.fetchEvents}
+            takenEvents={this.props.takenEvents}
+            events={this.state.filteredEvents}
+            updateTakenEvents={this.props.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
-            onUpdateEvents={this.onFilterEvents}
-            onUpdateEmployee={this.onFilterEmployee}
+            onUpdateEvents={activeEventIds =>
+              this.setActiveEvents(activeEventIds)
+            }
+            onUpdateEmployee={employeeId =>
+              this.setActiveEmployee(parseInt(employeeId))
+            }
           />
         )
       );
@@ -104,7 +102,7 @@ const DashboardContainer = Wrapped =>
 const mapStateToProps = state => {
   return {
     userDetails: getUser(state),
-    takenHolidays: getTakenHolidays(state),
+    takenEvents: getTakenHolidays(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };

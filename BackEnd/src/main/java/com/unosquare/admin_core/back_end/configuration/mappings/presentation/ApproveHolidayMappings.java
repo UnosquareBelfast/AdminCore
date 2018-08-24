@@ -1,9 +1,7 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
-import com.unosquare.admin_core.back_end.ViewModels.ApproveHolidayViewModel;
+import com.unosquare.admin_core.back_end.viewModels.holidays.ApproveHolidayViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
-import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventStatusesConverter;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
-import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import lombok.NoArgsConstructor;
 import org.modelmapper.PropertyMap;
 

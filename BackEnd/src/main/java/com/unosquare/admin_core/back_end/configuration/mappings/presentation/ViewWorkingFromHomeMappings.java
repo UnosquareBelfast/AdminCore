@@ -1,11 +1,8 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
 
-import com.unosquare.admin_core.back_end.ViewModels.HolidayViewModel;
-import com.unosquare.admin_core.back_end.ViewModels.ViewWorkingFromHomeViewModel;
+import com.unosquare.admin_core.back_end.viewModels.workfromhome.ViewWorkingFromHomeViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
-import com.unosquare.admin_core.back_end.entity.EventStatus;
-import com.unosquare.admin_core.back_end.entity.EventType;
 import org.modelmapper.PropertyMap;
 
 public class ViewWorkingFromHomeMappings implements BaseMappings<EventDTO, ViewWorkingFromHomeViewModel> {

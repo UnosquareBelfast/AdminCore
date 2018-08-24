@@ -1,6 +1,5 @@
 package com.unosquare.admin_core.back_end.repository;
 
-import com.sun.java.accessibility.util.EventID;
 import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.entity.EventStatus;
@@ -15,8 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByEmployee(Employee employee);
 
     Event findByEmployeeAndStartDateAndEndDateAndEventType(Employee employee, LocalDate startDate, LocalDate endDate, EventType eventType);
-
-    List<Event> findByStartDateAndEmployeeAndEventType(LocalDate startDate, Employee employee, EventType eventType);
 
     List<Event> findByStartDateBetweenAndEventType(LocalDate rangeStart, LocalDate rangeEnd,EventType eventType);
 
