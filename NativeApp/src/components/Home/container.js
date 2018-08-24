@@ -20,7 +20,7 @@ export default Container => class extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidays: {},
+        events: {},
         showModal: false,
       };
     }
@@ -30,7 +30,7 @@ export default Container => class extends Component {
 
       this.sub = navigation.addListener('didFocus', () => {
         getUserEvents()
-          .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+          .then(data => this.setState({ events: this.formatDate(data) }));
       });
     }
 
@@ -40,11 +40,11 @@ export default Container => class extends Component {
 
     onDayPress = (day) => {
       const { navigation } = this.props;
-      const { takenHolidays } = this.state;
+      const { events } = this.state;
 
       if (day) {
-        const booked = has(takenHolidays, day.dateString);
-        const holiday = get(takenHolidays, day.dateString, 0);
+        const booked = has(events, day.dateString);
+        const holiday = get(events, day.dateString, 0);
         navigation.push('Booking', {
           date: day.dateString,
           holiday,
@@ -55,7 +55,7 @@ export default Container => class extends Component {
 
     onMonthChange = (month) => {
       getUserEvents(month.dateString)
-        .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+        .then(data => this.setState({ events: this.formatDate(data) }));
     }
 
     closeModal = () => {
@@ -108,11 +108,11 @@ export default Container => class extends Component {
     }, {});
 
     render() {
-      const { takenHolidays } = this.state;
+      const { events } = this.state;
 
       return (
         <Container
-          takenHolidays={takenHolidays}
+          events={events}
           onDayPress={this.onDayPress}
           onMonthChange={this.onMonthChange}
         />
