@@ -18,7 +18,7 @@ const DashboardContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        calendarDate: new moment(),
+        calendarDate: new moment().startOf('month').format('YYYY-MM-DD'),
         filteredEvents: [],
         activeEventIds: [],
         activeEmployee: -1,
@@ -79,9 +79,19 @@ const DashboardContainer = Wrapped =>
       this.setState({ activeEmployee: employeeId }, this.filterCalenderEvents);
     };
 
+    handleCalendarNavigate = date => {
+      const newDate = new moment(date);
+      this.setState(
+        {
+          calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
+        },
+        this.fetchEvents
+      );
+    };
+
     fetchEvents = () => {
       const { calendarDate } = this.state;
-      this.props.fetchEvents(calendarDate.format('YYYY-MM-DD'));
+      this.props.fetchEvents(calendarDate);
     };
 
     render() {
@@ -99,6 +109,7 @@ const DashboardContainer = Wrapped =>
             onUpdateEmployee={employeeId =>
               this.setActiveEmployee(parseInt(employeeId))
             }
+            onCalendarNavigate={this.handleCalendarNavigate}
           />
         )
       );
