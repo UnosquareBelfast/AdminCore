@@ -7,7 +7,7 @@ import { InnerLayout } from './styled';
 export const Dashboard = props => {
   const {
     takenEvents,
-    events,
+    filteredEvents,
     updateTakenEvents,
     employeeId,
     onUpdateEvents,
@@ -26,7 +26,7 @@ export const Dashboard = props => {
       <InnerLayout>
         <BookingCalendar
           employeeId={employeeId}
-          events={events}
+          events={filteredEvents}
           isEventBeingUpdated={isEventBeingUpdated}
           onNavigate={onCalendarNavigate}
         />
@@ -44,7 +44,7 @@ Dashboard.propTypes = {
   onUpdateEvents: PT.func.isRequired,
   onUpdateEmployee: PT.func.isRequired,
   takenEvents: PT.array,
-  events: PT.array,
+  filteredEvents: PT.array,
   updateTakenEvents: PT.func.isRequired,
   employeeId: PT.number,
   isEventBeingUpdated: PT.bool,

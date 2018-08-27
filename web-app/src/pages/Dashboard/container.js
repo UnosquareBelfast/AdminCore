@@ -100,7 +100,7 @@ const DashboardContainer = Wrapped =>
           <Wrapped
             employeeId={this.props.userDetails.employeeId}
             takenEvents={this.props.takenEvents}
-            events={this.state.filteredEvents}
+            filteredEvents={this.state.filteredEvents}
             updateTakenEvents={this.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             onUpdateEvents={activeEventIds =>
