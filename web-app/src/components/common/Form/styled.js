@@ -7,7 +7,7 @@ export const ButtonContainer = styled.div`
 
   button {
     margin: 0 10px 10px 0;
-    @media (min-width: 992px) {
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
       margin: 0px 10px 10px 0;
     }
     :last-of-type {
