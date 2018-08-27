@@ -4,12 +4,28 @@ export const Drawer = styled.div`
   background-color: ${props => props.theme.colours.unoBlue};
   color: ${props => props.theme.colours.white};
   position: fixed;
-  left: -160px;
+  left: -200px;
   top: 0;
   bottom: 0;
   width: 200px;
   transition: left 300ms;
   z-index: 10;
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
+    left: -160px;
+  }
+
+  &::after {
+    transition: all 300ms;
+    content: '';
+    opacity: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+      display: none;
+    }
+  }
 `;
 
 export const Icon = styled.div`
@@ -24,19 +40,22 @@ export const Icon = styled.div`
 `;
 
 export const Tooltip = styled.div`
-  display: block;
-  background-color: black;
-  position: absolute;
-  left: 30px;
-  top: 10px;
-  font-size: 10px;
-  width: 100px;
-  line-height: 20px;
-  opacity: 0;
-  color: #ffffff;
-  border-bottom-right-radius: 4px;
-  border-top-right-radius: 4px;
-  transition: 300ms all;
+  display: none;
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
+    display: block;
+    background-color: black;
+    position: absolute;
+    left: 30px;
+    top: 10px;
+    font-size: 10px;
+    width: 100px;
+    line-height: 20px;
+    opacity: 0;
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    transition: 300ms all;
+  }
 `;
 
 export const MenuItem = styled.div`
@@ -84,6 +103,11 @@ export const ToggleDrawerBtn = styled.label`
   line-height: 40px;
   position: relative;
   padding: 0 15px 0 40px;
+  background-color: ${props => props.theme.colours.unoBlue};
+  transform: translateX(40px);
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
+    transform: none;
+  }
 `;
 
 export const MenuItemSubSection = styled.div`
@@ -108,16 +132,22 @@ export const MenuItemSubSection = styled.div`
 // The calc in min-height below just subtracts the padding to avoid
 // unrequired scroll bars.
 export const LayoutContainer = styled.div`
-  min-height: calc(100vh - 40px);
+  min-height: 100vh;
   background-color: white;
   box-sizing: border-box;
-  padding: ${props => (props.history == '/login' ? '0' : '20px')};
+  padding: ${props =>
+    props.history == '/login' ? '0' : '60px 20px 20px 20px'};
   padding-bottom: none;
-  width: calc(100% - 40px);
-  transform: ${props =>
-    props.history == '/login' ? 'none' : 'translateX(40px)'};
+  width: 100%;
   transition: ${props =>
     props.history == '/login' ? 'none' : 'transform 300ms, width 300ms;'};
+
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
+    padding: ${props => (props.history == '/login' ? '0' : '20px')};
+    transform: ${props =>
+      props.history == '/login' ? 'none' : 'translateX(40px)'};
+    width: calc(100% - 40px);
+  }
 `;
 
 export const Input = styled.input`
@@ -125,6 +155,11 @@ export const Input = styled.input`
 
   &:checked ~ ${Drawer} {
     left: 0px;
+
+    ${ToggleDrawerBtn} {
+      transform: none;
+    }
+
     ${MenuItem} ${Icon} {
       right: auto;
       left: 0px;
@@ -139,13 +174,27 @@ export const Input = styled.input`
       }
     }
 
+    &::after {
+      opacity: 1;
+      content: '';
+      position: fixed;
+      right: 0;
+      left: 200px;
+      background-color: rgba(0, 0, 0, 0.6);
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+        display: none;
+      }
+    }
+
     ${MenuItemSubSection}.active {
       display: block;
     }
   }
 
   &:checked ~ ${LayoutContainer} {
-    width: calc(100% - 200px);
-    transform: translateX(200px);
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+      width: calc(100% - 200px);
+      transform: translateX(200px);
+    }
   }
 `;

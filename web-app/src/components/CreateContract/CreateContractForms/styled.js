@@ -12,7 +12,7 @@ export const ButtonWrap = styled.div`
     width: 100%;
     max-width: 100%;
 
-    @media (min-width: 992px) {
+    @media (min-width: ${props => props.theme.mediaQueries.md}) {
       width: 200px;
     }
   }
@@ -20,13 +20,13 @@ export const ButtonWrap = styled.div`
 
 export const FormContainer = styled.div`
   form {
-    @media (min-width: 992px) {
+    @media (min-width: ${props => props.theme.mediaQueries.md}) {
       margin-right: -10px;
       margin-left: -10px;
     }
 
     & > div:not(${ButtonWrap}) {
-      @media (min-width: 992px) {
+      @media (min-width: ${props => props.theme.mediaQueries.md}) {
         margin: 0 0 20px 0;
         width: 50%;
         padding: 0 10px;

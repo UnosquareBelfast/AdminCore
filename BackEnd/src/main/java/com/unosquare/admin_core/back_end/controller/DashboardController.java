@@ -29,12 +29,6 @@ public class DashboardController {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String getUsername() {
-        return employeeCredentialsViewModel.getEmail();
-    }
-
     @GetMapping(value = "/getEmployeeEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public EmployeeEventViewModel getDashboardEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
@@ -43,5 +37,15 @@ public class DashboardController {
             EmployeeEventViewModel model = new EmployeeEventViewModel();
             model.setEvents(results);
             return model;
+    }
+
+    @GetMapping(value = "/getTeamEvents", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public EmployeeEventViewModel getTeamEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        List<EventDTO> events = dashboardService.getTeamDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
+        List<DashboardEventViewModel> results = events.stream().map(event -> modelMapper.map(event, DashboardEventViewModel.class)).collect(Collectors.toList());
+        EmployeeEventViewModel model = new EmployeeEventViewModel();
+        model.setEvents(results);
+        return model;
     }
 }

@@ -29,6 +29,12 @@ export const theme = {
       small: 14,
     },
   },
+  mediaQueries: {
+    sm: '600px',
+    md: '768px',
+    lg: '992px',
+    xl: '1220px',
+  },
   holidayStatus: {
     [holidayStatus.PENDING]: '#ff9b34',
     [holidayStatus.REJECTED]: '#ff3434',

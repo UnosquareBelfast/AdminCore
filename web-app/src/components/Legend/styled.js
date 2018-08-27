@@ -9,7 +9,7 @@ export const StyleContainer = styled.div`
   width: 100%;
   padding: 20px 10px 0 10px;
   display: block;
-  @media (min-width: 1220px) {
+  @media (min-width: ${props => props.theme.mediaQueries.xl}) {
     display: flex;
   }
 
