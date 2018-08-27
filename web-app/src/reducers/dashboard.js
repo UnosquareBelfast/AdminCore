@@ -9,7 +9,7 @@ import {
 import moment from 'moment';
 
 const initialState = {
-  takenHolidays: [],
+  allEvents: [],
   booking: {
     eventId: -1,
     title: null,
@@ -42,7 +42,7 @@ export default function dashboardReducer(state = initialState, action) {
 const ACTION_HANDLERS = {
   [SET_CALENDAR_EVENTS]: (state, action) => ({
     ...state,
-    takenHolidays: action.payload,
+    allEvents: action.payload,
   }),
   [SET_ERROR]: (state, action) => ({
     ...state,
@@ -67,7 +67,7 @@ const ACTION_HANDLERS = {
 };
 
 // Private selectors
-export const getTakenHolidays = store => store.takenHolidays;
+export const getAllEvents = store => store.allEvents;
 export const eventBeingUpdated = store => store.isEventBeingUpdated;
 export const getBooking = store => store.booking;
 export const bookingModalOpen = store => store.bookingModalOpen;

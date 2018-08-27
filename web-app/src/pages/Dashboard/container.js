@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents } from '../../actions/dashboard';
-import { getUser, getTakenHolidays, eventBeingUpdated } from '../../reducers';
+import { getUser, getAllEvents, eventBeingUpdated } from '../../reducers';
 import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
@@ -119,7 +119,7 @@ const DashboardContainer = Wrapped =>
 const mapStateToProps = state => {
   return {
     userDetails: getUser(state),
-    allEvents: getTakenHolidays(state),
+    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
