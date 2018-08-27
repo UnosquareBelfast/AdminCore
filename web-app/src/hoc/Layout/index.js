@@ -3,6 +3,7 @@ import container from './container';
 import { PropTypes as PT } from 'prop-types';
 import NavMenu from './nav-menu';
 import { LayoutContainer, Input } from './styled';
+import { FullPageLoader } from '../../components';
 
 export const Layout = props => {
   let drawer = null;
@@ -37,6 +38,7 @@ export const Layout = props => {
     <Fragment>
       {drawer}
       <LayoutContainer history={history.location.pathname}>
+        <FullPageLoader />
         {children}
       </LayoutContainer>
     </Fragment>
