@@ -31,7 +31,7 @@ const ModalStatusBanner = props => {
       <div>
         <div className="cancelEvent" onClick={cancelEvent}>
           <FontAwesomeIcon icon={faTrash} />
-          Cancel Event
+          <span>Cancel Event</span>
         </div>
       </div>
     </Banner>
