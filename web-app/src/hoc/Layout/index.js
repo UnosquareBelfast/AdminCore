@@ -29,6 +29,8 @@ export const Layout = props => {
           isAuthenticated={isAuthenticated}
           history={history}
           menuItems={menuItems}
+          closeDrawer={toggleDrawer}
+          drawerIsOpen={drawerOpen}
         />
       </Fragment>
     );

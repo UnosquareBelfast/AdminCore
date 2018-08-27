@@ -1,11 +1,10 @@
 import React from 'react';
 import container from './container';
+import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-import { StyleContainer, BookingStatus, FormContainer } from './styled';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/fontawesome-free-solid';
+import { StyleContainer, FormContainer } from './styled';
 
 const BookingModal = props => {
   const {
@@ -26,18 +25,12 @@ const BookingModal = props => {
       <Modal closeModal={closeBookingModal}>
         <StyleContainer>
           {isEventBeingUpdated && (
-            <BookingStatus status={booking.eventStatus.eventStatusId}>
-              <div>
-                <h4>{booking.title}</h4>
-                <p>{booking.eventStatus.description}</p>
-              </div>
-              <div>
-                <div className="cancelEvent" onClick={cancelEvent}>
-                  <FontAwesomeIcon icon={faTrash} />
-                  Cancel Event
-                </div>
-              </div>
-            </BookingStatus>
+            <ModalStatusBanner
+              userName={booking.title}
+              eventStatus={booking.eventStatus}
+              eventType={booking.eventType}
+              cancelEvent={cancelEvent}
+            />
           )}
           <h1>
             {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
