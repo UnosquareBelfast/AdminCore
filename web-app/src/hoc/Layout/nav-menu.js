@@ -14,7 +14,13 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faBars, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
 import Swal from 'sweetalert2';
 
-const NavMenu = ({ history, isAuthenticated, menuItems }) => {
+const NavMenu = ({
+  history,
+  isAuthenticated,
+  menuItems,
+  drawerIsOpen,
+  closeDrawer,
+}) => {
   const handleLogout = () => {
     Swal({
       title: 'Log out?',
@@ -31,10 +37,20 @@ const NavMenu = ({ history, isAuthenticated, menuItems }) => {
     });
   };
 
+  const onMobileViewCloseDrawer = name => {
+    var { innerWidth } = window;
+    if (drawerIsOpen && innerWidth <= 768 && name !== 'Admin') {
+      closeDrawer();
+    }
+  };
+
   const createTopLevelNavLinks = headerLink => {
     const exactCheck = headerLink.route === '/' ? true : false;
     return (
-      <MenuItem key={headerLink.route}>
+      <MenuItem
+        key={headerLink.route}
+        onClick={() => onMobileViewCloseDrawer(headerLink.name)}
+      >
         <NavLink
           exact={exactCheck}
           to={headerLink.route}
@@ -52,7 +68,10 @@ const NavMenu = ({ history, isAuthenticated, menuItems }) => {
 
   const createSubLevelNavLinks = sublink => {
     return (
-      <MenuItem key={sublink.route}>
+      <MenuItem
+        key={sublink.route}
+        onClick={() => onMobileViewCloseDrawer(sublink.name)}
+      >
         <NavLink to={sublink.route} exact activeClassName="active">
           {sublink.name}
         </NavLink>
@@ -115,6 +134,8 @@ const NavMenu = ({ history, isAuthenticated, menuItems }) => {
 
 NavMenu.propTypes = {
   menuItems: PT.array,
+  drawerIsOpen: PT.bool,
+  closeDrawer: PT.func,
   isAuthenticated: PT.bool,
   history: PT.object,
 };
