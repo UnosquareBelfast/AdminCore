@@ -6,7 +6,7 @@ import { InnerLayout } from './styled';
 
 export const Dashboard = props => {
   const {
-    takenEvents,
+    allEvents,
     filteredEvents,
     updateTakenEvents,
     employeeId,
@@ -33,7 +33,7 @@ export const Dashboard = props => {
         <Legend
           updateCalendarEvents={onUpdateEvents}
           updateEmployee={onUpdateEmployee}
-          takenEvents={takenEvents}
+          allEvents={allEvents}
         />
       </InnerLayout>
     </Fragment>
@@ -43,7 +43,7 @@ export const Dashboard = props => {
 Dashboard.propTypes = {
   onUpdateEvents: PT.func.isRequired,
   onUpdateEmployee: PT.func.isRequired,
-  takenEvents: PT.array,
+  allEvents: PT.array,
   filteredEvents: PT.array,
   updateTakenEvents: PT.func.isRequired,
   employeeId: PT.number,
