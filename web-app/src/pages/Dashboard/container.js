@@ -80,9 +80,10 @@ const DashboardContainer = Wrapped =>
     };
 
     handleCalendarNavigate = date => {
+      const newDate = new moment(date);
       this.setState(
         {
-          calendarDate: date.startOf('month').format('YYYY-MM-DD'),
+          calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
         },
         this.fetchEvents
       );

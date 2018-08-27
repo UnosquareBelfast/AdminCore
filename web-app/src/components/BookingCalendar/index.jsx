@@ -12,11 +12,6 @@ Calendar.momentLocalizer(moment);
 export const BookingCalendar = props => {
   const { onSelectSlot, onSelectEvent, events, onNavigate } = props;
 
-  const updateOnNavigate = date => {
-    const newDate = new moment(date);
-    onNavigate(newDate);
-  };
-
   return (
     <Calendar
       components={{ eventWrapper: Event, toolbar: BigCalendarToolbar }}
@@ -33,7 +28,7 @@ export const BookingCalendar = props => {
       formats={{
         weekdayFormat: 'dddd',
       }}
-      onNavigate={updateOnNavigate}
+      onNavigate={onNavigate}
     />
   );
 };
