@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Label = styled.label`
   display: inline-block;
   margin-bottom: 4px;
-  font-size: 14px;
   font-weight: bold;
   cursor: pointer;
 `;
@@ -71,7 +70,6 @@ export const DatePickerContainer = styled.div`
     right: 12px;
     top: 12px;
     z-index: 1;
-    font-size: 20px;
     color: ${props => props.theme.colours.unoBlue};
   }
 

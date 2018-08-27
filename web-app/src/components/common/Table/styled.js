@@ -65,7 +65,6 @@ export const TableCSS = styled.table`
     min-width: 100px;
     height: 30px;
     line-height: 30px;
-    font-size: 12px;
   }
 
   button.error {
