@@ -23,3 +23,4 @@ export { default as ViewTeams } from './ViewTeams';
 export { default as HolidayModal } from './HolidayModal';
 export { default as AllEmployees } from './AllEmployees';
 export { default as DataTable } from './DataTable';
+export { default as FullPageLoader } from './FullPageLoader';
