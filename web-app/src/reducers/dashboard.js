@@ -11,7 +11,7 @@ import moment from 'moment';
 const initialState = {
   takenHolidays: [],
   booking: {
-    holidayId: -1,
+    eventId: -1,
     title: null,
     start: new moment(),
     end: new moment(),

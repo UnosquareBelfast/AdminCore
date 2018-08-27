@@ -75,13 +75,13 @@ const Container = Wrapped =>
       const {
         updateTakenEvents,
         toggleBookingModal,
-        booking: { holidayId },
+        booking: { eventId },
       } = this.props;
 
       const request = {
         endDate: end.format(this.dateFormat),
         halfDay: isHalfday,
-        holidayId: holidayId,
+        eventId: eventId,
         startDate: start.format(this.dateFormat),
       };
 
@@ -106,9 +106,9 @@ const Container = Wrapped =>
       const {
         updateTakenEvents,
         toggleBookingModal,
-        booking: { holidayId },
+        booking: { eventId },
       } = this.props;
-      rejectHoliday(holidayId)
+      rejectHoliday(eventId)
         .then(() => {
           updateTakenEvents();
           toggleBookingModal(false);
@@ -157,10 +157,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  Container,
-);
+export default compose(connect(mapStateToProps, mapDispatchToProps), Container);
