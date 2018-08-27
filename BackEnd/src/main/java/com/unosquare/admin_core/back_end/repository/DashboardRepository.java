@@ -44,5 +44,4 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
                                                @Param("startDate") LocalDate startDate,
                                                @Param("endDate") LocalDate endDate,
                                                @Param("today") LocalDate today);
-
 }

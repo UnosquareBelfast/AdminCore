@@ -36,6 +36,7 @@ public class DashboardService {
         LocalDate endDate = getMonthEndDate(date);
         LocalDate today = LocalDate.now();
         List<Event> result = dashboardRepository.findCalendarMonthEventsForTeam(employeeId, startDate, endDate, today);
+
         return result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
