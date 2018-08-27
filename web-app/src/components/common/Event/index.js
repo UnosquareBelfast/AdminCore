@@ -1,7 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
-import holidayStatus, { statusIcons } from '../../../utilities/holidayStatus';
+import eventTypes, { getEventTypeValue } from '../../../utilities/eventTypes';
+import { statusIcons } from '../../../utilities/holidayStatus';
 import moment from 'moment';
 
 const Event = ({ children, event }) => {
@@ -9,14 +10,10 @@ const Event = ({ children, event }) => {
   const { eventTypeId } = event.eventType;
   let id = eventTypeId;
 
-  if (eventTypeId === 1) {
+  if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
     id = eventStatusId;
-  } else if (eventTypeId === 2) {
-    id = holidayStatus.WFH;
-  } else if (eventTypeId === 3) {
-    id = holidayStatus.SICK;
-  } else if (eventTypeId === 4) {
-    id = holidayStatus.WRT;
+  } else {
+    id = getEventTypeValue(eventTypeId, eventStatusId);
   }
 
   const today = new moment();
