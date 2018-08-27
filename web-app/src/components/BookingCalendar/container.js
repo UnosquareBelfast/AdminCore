@@ -127,19 +127,15 @@ const BookingCalendarContainer = Wrapped =>
       }
     };
 
-    onNavigate = date => {
-      const newDate = new moment(date);
-      this.props.onNavigate(newDate);
-    };
-
     render() {
+      const { employeeId, events, onNavigate } = this.props;
       return (
-        this.props.employeeId &&
-        this.props.events && (
+        employeeId &&
+        events && (
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
-            onNavigate={this.onNavigate}
+            onNavigate={onNavigate}
             events={this.props.events}
           />
         )
