@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { isLoading } from '../../reducers';
 import { InnerContainer } from './styled';
 import { Spinner } from '../common';
 
@@ -21,7 +23,13 @@ FullPageLoader.propTypes = {
 };
 
 FullPageLoader.defaultProps = {
-  loading: false,
+  loading: true,
 };
 
-export default FullPageLoader;
+const mapStateToProps = state => {
+  return {
+    loading: isLoading(state),
+  };
+};
+
+export default connect(mapStateToProps)(FullPageLoader);
