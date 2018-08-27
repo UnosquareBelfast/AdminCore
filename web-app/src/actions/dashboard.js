@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { getUsersEvents } from '../services/dashboardService';
+import { setLoading } from './loading';
 
 import {
   formatEventsForCalendar,
@@ -55,12 +56,15 @@ export const setError = error => {
 // Thunks
 
 export const fetchEvents = date => dispatch => {
+  dispatch(setLoading(true));
   getUsersEvents(date)
     .then(({ data }) => {
+      dispatch(setLoading(false));
       const formattedEvents = formatEventsForCalendar(data);
       dispatch(setCalendarEvents(formattedEvents));
     })
     .catch(error => {
+      dispatch(setLoading(false));
       dispatch(setError(error));
     });
 };
