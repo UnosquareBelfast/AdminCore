@@ -22,7 +22,7 @@ export const Drawer = styled.div`
     left: 0;
     top: 0;
     bottom: 0;
-    @media (min-width: ${props => props.theme.mediaQueries.md}) {
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
       display: none;
     }
   }
@@ -181,7 +181,7 @@ export const Input = styled.input`
       right: 0;
       left: 200px;
       background-color: rgba(0, 0, 0, 0.6);
-      @media (min-width: ${props => props.theme.mediaQueries.md}) {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         display: none;
       }
     }
@@ -192,7 +192,7 @@ export const Input = styled.input`
   }
 
   &:checked ~ ${LayoutContainer} {
-    @media (min-width: ${props => props.theme.mediaQueries.md}) {
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
       width: calc(100% - 200px);
       transform: translateX(200px);
     }
