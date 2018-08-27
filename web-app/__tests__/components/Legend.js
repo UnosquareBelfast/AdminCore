@@ -4,14 +4,14 @@ import { Legend } from '../../src/components';
 
 describe('Legend', () => {
   it('snapshot', () => {
-    const takenHolidays = [];
+    const takenEvents = [];
     const updateEmployee = jest.fn();
     const updateCalendarEvents = jest.fn();
     const wrapper = shallow(
       <Legend
         updateEmployee={updateEmployee}
         updateCalendarEvents={updateCalendarEvents}
-        takenHolidays={takenHolidays}
+        takenEvents={takenEvents}
       />,
     );
     expect(wrapper).toMatchSnapshot();

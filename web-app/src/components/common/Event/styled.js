@@ -6,7 +6,8 @@ export const Container = styled.div`
   white-space: nowrap;
   overflow: hidden;
   cursor: pointer;
-  padding: 7px 5px;
+  padding: 4px 5px;
+  margin: 1px 2px;
   color: white;
   font-size: 14px;
   border-radius: 2px;
