@@ -2,6 +2,8 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.service.DashboardService;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.MobileDashboardEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.MobileEmployeeEventViewModel;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardEventViewModel;
 import com.unosquare.admin_core.back_end.viewModels.dashboard.EmployeeEventViewModel;
@@ -45,6 +47,17 @@ public class DashboardController {
         List<EventDTO> events = dashboardService.getTeamDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
         List<DashboardEventViewModel> results = events.stream().map(event -> modelMapper.map(event, DashboardEventViewModel.class)).collect(Collectors.toList());
         EmployeeEventViewModel model = new EmployeeEventViewModel();
+        model.setEvents(results);
+        return model;
+    }
+
+
+    @GetMapping(value = "/getMobileSnapshot", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public MobileEmployeeEventViewModel getDashboardSnapshotForMobile(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        List<EventDTO> events = dashboardService.getTeamDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
+        List<MobileDashboardEventViewModel> results = events.stream().map(event -> modelMapper.map(event, MobileDashboardEventViewModel.class)).collect(Collectors.toList());
+        MobileEmployeeEventViewModel model = new MobileEmployeeEventViewModel();
         model.setEvents(results);
         return model;
     }
