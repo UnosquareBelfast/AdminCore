@@ -10,19 +10,20 @@ export const Drawer = styled.div`
   width: 200px;
   transition: left 300ms;
   z-index: 10;
-  @media (min-width: 600px) {
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     left: -160px;
   }
 
   &::after {
-    @media (max-width: 768px) {
-      transition: all 300ms;
-      content: '';
-      opacity: 0;
-      position: fixed;
-      left: 0;
-      top: 0;
-      bottom: 0;
+    transition: all 300ms;
+    content: '';
+    opacity: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    @media (min-width: ${props => props.theme.mediaQueries.md}) {
+      display: none;
     }
   }
 `;
@@ -40,7 +41,7 @@ export const Icon = styled.div`
 
 export const Tooltip = styled.div`
   display: none;
-  @media (min-width: 769px) {
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     display: block;
     background-color: black;
     position: absolute;
@@ -104,7 +105,7 @@ export const ToggleDrawerBtn = styled.label`
   padding: 0 15px 0 40px;
   background-color: ${props => props.theme.colours.unoBlue};
   transform: translateX(40px);
-  @media (min-width: 600px) {
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     transform: none;
   }
 `;
@@ -141,7 +142,7 @@ export const LayoutContainer = styled.div`
   transition: ${props =>
     props.history == '/login' ? 'none' : 'transform 300ms, width 300ms;'};
 
-  @media (min-width: 600px) {
+  @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     padding: ${props => (props.history == '/login' ? '0' : '20px')};
     transform: ${props =>
       props.history == '/login' ? 'none' : 'translateX(40px)'};
@@ -174,13 +175,14 @@ export const Input = styled.input`
     }
 
     &::after {
-      @media (max-width: 768px) {
-        opacity: 1;
-        content: '';
-        position: fixed;
-        right: 0;
-        left: 200px;
-        background-color: rgba(0, 0, 0, 0.6);
+      opacity: 1;
+      content: '';
+      position: fixed;
+      right: 0;
+      left: 200px;
+      background-color: rgba(0, 0, 0, 0.6);
+      @media (min-width: ${props => props.theme.mediaQueries.md}) {
+        display: none;
       }
     }
 
@@ -190,7 +192,7 @@ export const Input = styled.input`
   }
 
   &:checked ~ ${LayoutContainer} {
-    @media (min-width: 769px) {
+    @media (min-width: ${props => props.theme.mediaQueries.md}) {
       width: calc(100% - 200px);
       transform: translateX(200px);
     }

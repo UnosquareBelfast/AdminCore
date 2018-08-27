@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyleContainer = styled.div`
   margin: 20px;
-  @media (min-width: 920px) {
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
     margin: 40px;
   }
   #closeBookingModal {
@@ -24,7 +24,7 @@ export const FormContainer = styled.div`
   position: relative;
 
   form {
-    @media (min-width: 992px) {
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
       margin-right: -10px;
       margin-left: -10px;
     }
@@ -32,7 +32,7 @@ export const FormContainer = styled.div`
     .date {
       transition: all 300ms;
       visibility: visible;
-      @media (min-width: 992px) {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         margin: 0 0 20px 0;
         display: inline-block;
         width: 50%;
@@ -43,20 +43,20 @@ export const FormContainer = styled.div`
     }
 
     .select {
-      @media (min-width: 992px) {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         margin: 20px 10px;
         width: calc(100% - 20px);
       }
     }
 
     .checkbox {
-      @media (min-width: 992px) {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         margin: 0 10px 20px 10px;
       }
     }
 
     > div:last-child {
-      @media (min-width: 992px) {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         width: calc(50% - 10px);
         box-sizing: border-box;
         margin-left: calc(50% + 10px);
