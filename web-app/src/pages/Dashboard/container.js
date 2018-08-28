@@ -23,7 +23,7 @@ const DashboardContainer = Wrapped =>
         filteredEvents: [],
         activeEventIds: [],
         activeEmployee: -1,
-        eventView: eventsView.PERSONNAL_EVENTS,
+        eventView: eventsView.PERSONAL_EVENTS,
       };
     }
 
@@ -40,10 +40,10 @@ const DashboardContainer = Wrapped =>
     toggleEventsView = () => {
       const { eventView } = this.state;
       let updatedEventView;
-      if (eventView === eventsView.PERSONNAL_EVENTS) {
+      if (eventView === eventsView.PERSONAL_EVENTS) {
         updatedEventView = eventsView.TEAM_EVENTS;
       } else {
-        updatedEventView = eventsView.PERSONNAL_EVENTS;
+        updatedEventView = eventsView.PERSONAL_EVENTS;
       }
       this.setState({ eventView: updatedEventView });
     };

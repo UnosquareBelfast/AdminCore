@@ -26,8 +26,8 @@ export const Dashboard = props => {
   const toggleButton = {
     activeButtonText: eventsViewText[eventView],
     leftButton: {
-      icon: eventsViewIcons[eventsView.PERSONNAL_EVENTS],
-      text: eventsViewText[eventsView.PERSONNAL_EVENTS],
+      icon: eventsViewIcons[eventsView.PERSONAL_EVENTS],
+      text: eventsViewText[eventsView.PERSONAL_EVENTS],
     },
     rightButton: {
       icon: eventsViewIcons[eventsView.TEAM_EVENTS],

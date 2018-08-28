@@ -3,7 +3,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faUser, faUsers } from '@fortawesome/fontawesome-free-solid';
 
 export default {
-  PERSONNAL_EVENTS: 1,
+  PERSONAL_EVENTS: 1,
   TEAM_EVENTS: 2,
 };
 
