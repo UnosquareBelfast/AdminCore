@@ -21,7 +21,7 @@ export const ErrorContainer = styled.div`
 
   > p:last-of-type {
     background-color: ${props => props.theme.colours.darkRed};
-    font-weight: 600;
+    font-weight: ${props => props.theme.fonts.weight.bold};
     color: white;
     padding: 15px;
     border-radius: 3px;

@@ -56,11 +56,11 @@ const NavMenu = ({
           to={headerLink.route}
           activeClassName="active"
         >
-          <Icon>
-            <Tooltip>{headerLink.tooltip}</Tooltip>
+          <Icon className="h3">
+            <Tooltip className="xsmall">{headerLink.tooltip}</Tooltip>
             <FontAwesomeIcon icon={headerLink.icon} />
-          </Icon>{' '}
-          {headerLink.name}
+          </Icon>
+          <span>{headerLink.name}</span>
         </NavLink>
       </MenuItem>
     );
@@ -108,7 +108,7 @@ const NavMenu = ({
     <Drawer>
       <MenuItem underline>
         <ToggleDrawerBtn htmlFor="toggle-drawer">
-          <Icon>
+          <Icon className="h3">
             <FontAwesomeIcon icon={faBars} />
           </Icon>{' '}
           AdminCore
@@ -119,8 +119,8 @@ const NavMenu = ({
           {navlinks}
           <MenuItem>
             <a onClick={handleLogout}>
-              <Icon>
-                <Tooltip>Log out</Tooltip>
+              <Icon className="h3">
+                <Tooltip className="xsmall">Log out</Tooltip>
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </Icon>{' '}
               Log Out

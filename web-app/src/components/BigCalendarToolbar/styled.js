@@ -11,7 +11,6 @@ export const StyleContainer = styled.div`
   p {
     margin: 8px 0 0 0;
     text-transform: uppercase;
-    font-size: 16px;
     color: ${({ theme }) => theme.colours.darkGrey};
   }
 

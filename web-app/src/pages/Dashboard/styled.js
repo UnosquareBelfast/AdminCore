@@ -43,7 +43,7 @@ export const InnerLayout = styled.div`
     padding: 4px 5px;
     a {
       color: ${props => props.theme.colours.unoBlue};
-      font-weight: bold;
+      font-weight: ${props => props.theme.fonts.weight.bold};
     }
   }
 
