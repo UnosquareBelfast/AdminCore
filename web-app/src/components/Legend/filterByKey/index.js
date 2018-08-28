@@ -12,7 +12,7 @@ const FilterByKey = ({ keyList, onToggleEvent }) => {
   const keys = keyList.map(key => {
     return (
       <Key
-        className={key.active ? 'selected' : ''}
+        className={key.active ? 'small selected' : 'small'}
         key={key.id}
         status={holidayStatus[key.keyName]}
         onClick={() => onToggleEvent(key.id)}

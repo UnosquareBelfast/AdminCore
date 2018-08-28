@@ -27,6 +27,11 @@ export const theme = {
       h4: 18,
       default: 16,
       small: 14,
+      xsmall: 10,
+    },
+    weight: {
+      regular: 400,
+      bold: 600,
     },
   },
   mediaQueries: {
@@ -75,15 +80,15 @@ injectGlobal`
     margin: 0 0 20px 0;
   }
 
-  h1 { 
+  h1, .h1 { 
     font-size: ${convertPxToRem(28)}
     @media (min-width: 768px) {
       font-size: ${convertPxToRem(theme.fonts.pixelSize.h1)} 
     }
   }
-  h2 { font-size: ${convertPxToRem(theme.fonts.pixelSize.h2)} }
-  h3 { font-size: ${convertPxToRem(theme.fonts.pixelSize.h3)} }
-  h4 { font-size: ${convertPxToRem(theme.fonts.pixelSize.h4)} }
+  h2, .h2 { font-size: ${convertPxToRem(theme.fonts.pixelSize.h2)} }
+  h3, .h3 { font-size: ${convertPxToRem(theme.fonts.pixelSize.h3)} }
+  h4, .h4 { font-size: ${convertPxToRem(theme.fonts.pixelSize.h4)} }
 
   p,
   p span, 
@@ -96,9 +101,24 @@ injectGlobal`
     font-size: ${convertPxToRem(theme.fonts.pixelSize.default)}
   }
 
-  .swal2-title,
+  small, .small{
+    font-size: ${convertPxToRem(theme.fonts.pixelSize.small)}
+  }
+
+  .xsmall{
+    font-size: ${convertPxToRem(theme.fonts.pixelSize.xsmall)}
+  }
+
   .rt-td,
   .rt-resizable-header-content{
     font-size: ${convertPxToRem(theme.fonts.pixelSize.small)}
+  }
+
+  .bold{
+    font-weight: ${theme.fonts.weight.bold}
+  }
+
+  .regular{
+    font-weight: ${theme.fonts.weight.regular}
   }
 `;

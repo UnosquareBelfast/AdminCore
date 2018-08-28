@@ -13,7 +13,7 @@ export const ContractStyle = styled.div`
       margin-bottom: 5px;
     }
     span {
-      font-weight: bold;
+      font-weight: ${props => props.theme.fonts.weight.bold};
     }
   }
 `;

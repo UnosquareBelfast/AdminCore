@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Label = styled.label`
   display: inline-block;
   margin-bottom: 4px;
-  font-weight: bold;
+  font-weight: ${props => props.theme.fonts.weight.bold};
   cursor: pointer;
 `;
 
