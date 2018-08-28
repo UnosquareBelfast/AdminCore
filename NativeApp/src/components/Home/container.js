@@ -22,6 +22,7 @@ export default Container => class extends Component {
       this.state = {
         events: {},
         showModal: false,
+        calendarDate: moment().format('YYYY-MM-DD'),
       };
     }
 
@@ -29,14 +30,14 @@ export default Container => class extends Component {
       const { navigation } = this.props;
 
       this.sub = navigation.addListener('didFocus', () => {
-        getUserEvents(moment().format('YYYY-MM-DD'))
-          .then(data => this.setState({ events: this.formatDate(data) }));
+        this.fetchEvents();
       });
     }
 
     componentWillUnmount() {
       this.sub.remove();
     }
+
 
     onDayPress = (day) => {
       const { navigation } = this.props;
@@ -54,9 +55,19 @@ export default Container => class extends Component {
     }
 
     onMonthChange = (month) => {
-      getUserEvents(month.dateString)
-        .then(data => this.setState({ events: this.formatDate(data) }));
+      const newDate = moment(month.dateString);
+      this.setState({
+        calendarDate: newDate.format('YYYY-MM-DD'),
+      }, () => {
+        this.fetchEvents();
+      });
     }
+
+    fetchEvents = () => {
+      const { calendarDate } = this.state;
+      getUserEvents(calendarDate)
+        .then(data => this.setState({ events: this.formatDate(data) }));
+    };
 
     closeModal = () => {
       this.setState({ showModal: false });
