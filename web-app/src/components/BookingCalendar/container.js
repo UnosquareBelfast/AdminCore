@@ -77,7 +77,7 @@ const BookingCalendarContainer = Wrapped =>
           end
         );
         if (datesOverlapExisting) {
-          return 'Your are trying to request dates that have already been set';
+          return 'You\'re are trying to request dates that have already been set';
         } else {
           return 'Dates approved';
         }
@@ -88,10 +88,8 @@ const BookingCalendarContainer = Wrapped =>
       const validatingDatesResult = this.validateSelectedDates(start, end);
       if (validatingDatesResult === 'Dates approved') {
         let booking = {
-          holidayId: -1,
           start: new moment(start),
           end: new moment(end),
-          title: null,
           isHalfday: false,
           eventType: {
             eventTypeId: eventTypes.ANNUAL_LEAVE,

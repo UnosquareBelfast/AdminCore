@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents } from '../../actions/dashboard';
-import { getUser, getTakenHolidays, eventBeingUpdated } from '../../reducers';
+import { getUser, getAllEvents, eventBeingUpdated } from '../../reducers';
 import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
@@ -11,7 +11,7 @@ const DashboardContainer = Wrapped =>
     static propTypes = {
       userDetails: PT.object,
       fetchEvents: PT.func.isRequired,
-      takenEvents: PT.array,
+      allEvents: PT.array,
       isEventBeingUpdated: PT.bool,
     };
 
@@ -30,13 +30,13 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidUpdate = prevProps => {
-      if (prevProps.takenEvents !== this.props.takenEvents) {
-        this.setState({ filteredEvents: [...this.props.takenEvents] });
+      if (prevProps.allEvents !== this.props.allEvents) {
+        this.setState({ filteredEvents: [...this.props.allEvents] });
       }
     };
 
     filterCalenderEvents = () => {
-      let filteredEvents = [...this.props.takenEvents];
+      let filteredEvents = [...this.props.allEvents];
       const { activeEmployee, activeEventIds } = this.state;
 
       filteredEvents = this.filterEmployee(filteredEvents, activeEmployee);
@@ -99,8 +99,8 @@ const DashboardContainer = Wrapped =>
         this.props.userDetails && (
           <Wrapped
             employeeId={this.props.userDetails.employeeId}
-            takenEvents={this.props.takenEvents}
-            events={this.state.filteredEvents}
+            allEvents={this.props.allEvents}
+            filteredEvents={this.state.filteredEvents}
             updateTakenEvents={this.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
             onUpdateEvents={activeEventIds =>
@@ -119,7 +119,7 @@ const DashboardContainer = Wrapped =>
 const mapStateToProps = state => {
   return {
     userDetails: getUser(state),
-    takenEvents: getTakenHolidays(state),
+    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
