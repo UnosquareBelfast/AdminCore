@@ -12,7 +12,7 @@ export const FilterContainer = styled.div`
     width: 100%;
   }
   label {
-    font-weight: 600px;
+    font-weight: ${props => props.theme.fonts.weight.bold}
     margin-right: 10px;
   }
   select {

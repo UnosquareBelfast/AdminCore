@@ -6,7 +6,6 @@ export default styled.div`
   top: 20px;
 
   button {
-    font-size: 12px;
     margin-left: 4px;
     width: auto;
   }

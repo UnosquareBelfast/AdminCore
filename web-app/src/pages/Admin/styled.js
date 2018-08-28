@@ -18,7 +18,6 @@ export const MainContentContainer = styled.div`
 export const Refresh = styled.p`
   display: inline;
   text-decoration: underline;
-  font-size: 0.8em;
   cursor: pointer;
   color: grey;
 `;
