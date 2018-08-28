@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { has, get } from 'lodash';
-import { getUserEvents } from '../../utilities/holidays';
+import { getMonthEvents } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
 import { BLACK, WHITE } from '../../styles/colors';
 
@@ -65,7 +65,7 @@ export default Container => class extends Component {
 
     fetchEvents = () => {
       const { calendarDate } = this.state;
-      getUserEvents(calendarDate)
+      getMonthEvents(calendarDate)
         .then(data => this.setState({ events: this.formatDate(data) }));
     };
 

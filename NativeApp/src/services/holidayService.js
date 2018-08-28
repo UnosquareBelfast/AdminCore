@@ -1,6 +1,8 @@
 import axios from '../utilities/AxiosInstance';
 
-export const fetchEvents = date => axios.get(`/dashboard/getEmployeeEvents?date=${date}`);
+export const fetchMonthEvents = date => axios.get(`/dashboard/getEmployeeEvents?date=${date}`);
+
+export const employeeEvents = employeeId => axios.get(`/holidays/findByEmployeeId/${employeeId}`);
 
 export const requestHolidays = holidays => axios.post('/holidays/', holidays);
 
