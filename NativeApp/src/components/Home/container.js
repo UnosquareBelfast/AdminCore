@@ -45,10 +45,10 @@ export default Container => class extends Component {
 
       if (day) {
         const booked = has(events, day.dateString);
-        const holiday = get(events, day.dateString, 0);
+        const event = get(events, day.dateString, 0);
         navigation.push('Booking', {
           date: day.dateString,
-          holiday,
+          event,
           booked,
         });
       }
