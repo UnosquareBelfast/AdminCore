@@ -8,7 +8,7 @@ public enum EventStatuses {
     AWAITING_APPROVAL(1, "Awaiting approval"), //default clientStatus for new holiday requests
     APPROVED(2, "Approved"),
     DENIED(3, "Denied"),
-    TAKEN(5, "Taken");
+    CANCELLED(4,"Cancelled");
 
     private String description;
     private int eventStatusId;

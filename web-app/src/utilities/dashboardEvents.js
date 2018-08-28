@@ -26,7 +26,7 @@ const formattedMandatoryEvents = () => {
 
   const events = mandatoryEvents.map(function(event) {
     return {
-      holidayId: -1,
+      eventId: -1,
       title: event.title,
       allDay: true,
       start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
@@ -44,7 +44,7 @@ export const formatEventsForCalendar = data => {
   const mandatoryEvents = formattedMandatoryEvents();
   const events = data.map(event => {
     return {
-      holidayId: event.holidayId,
+      eventId: event.eventId,
       title: `${event.employee.forename} ${event.employee.surname}`,
       allDay: !event.halfDay,
       start: event.start,

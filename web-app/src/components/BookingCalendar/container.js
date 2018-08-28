@@ -24,6 +24,7 @@ const BookingCalendarContainer = Wrapped =>
       updateEventDuration: PT.func,
       setEventBeingUpdated: PT.func,
       toggleBookingModal: PT.func,
+      onNavigate: PT.func,
     };
 
     constructor(props) {
@@ -52,11 +53,11 @@ const BookingCalendarContainer = Wrapped =>
         if (employee && employee.employeeId === employeeId) {
           var selectedDateRange = moment.range(
             moment(start),
-            moment(end).endOf('day'),
+            moment(end).endOf('day')
           );
           var existingEvent = moment.range(
             moment(event.start),
-            moment(event.end),
+            moment(event.end)
           );
           if (selectedDateRange.overlaps(existingEvent)) {
             return true;
@@ -73,10 +74,10 @@ const BookingCalendarContainer = Wrapped =>
       } else {
         const datesOverlapExisting = this.selectedDatesOverlapExisting(
           start,
-          end,
+          end
         );
         if (datesOverlapExisting) {
-          return 'Your are trying to request dates that have already been set';
+          return 'You\'re are trying to request dates that have already been set';
         } else {
           return 'Dates approved';
         }
@@ -87,10 +88,8 @@ const BookingCalendarContainer = Wrapped =>
       const validatingDatesResult = this.validateSelectedDates(start, end);
       if (validatingDatesResult === 'Dates approved') {
         let booking = {
-          holidayId: -1,
           start: new moment(start),
           end: new moment(end),
-          title: null,
           isHalfday: false,
           eventType: {
             eventTypeId: eventTypes.ANNUAL_LEAVE,
@@ -127,12 +126,14 @@ const BookingCalendarContainer = Wrapped =>
     };
 
     render() {
+      const { employeeId, events, onNavigate } = this.props;
       return (
-        this.props.employeeId &&
-        this.props.events && (
+        employeeId &&
+        events && (
           <Wrapped
             onSelectSlot={this.onSelectSlot}
             onSelectEvent={this.onSelectEvent}
+            onNavigate={onNavigate}
             events={this.props.events}
           />
         )
@@ -151,9 +152,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(
-    null,
-    mapDispatchToProps,
-  ),
-  BookingCalendarContainer,
+  connect(null, mapDispatchToProps),
+  BookingCalendarContainer
 );
