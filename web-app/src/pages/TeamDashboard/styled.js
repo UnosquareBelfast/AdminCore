@@ -13,13 +13,22 @@ export const Stat = styled.div`
 export const Columns = styled.div`
   display: flex;
   margin-bottom: 20px;
-  > div {
-    width: 50%;
-    :first-of-type {
-      margin-right: 10px;
-    }
-    :last-of-type {
-      margin-left: 10px;
+  flex-direction: column;
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+    justify-content: space-around;
+    flex-direction: row;
+  }
+
+  &:last-of-type > div {
+    margin: 15px 0;
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+      width: 50%;
+      :first-of-type {
+        margin: 0 10px 0 0;
+      }
+      :last-of-type {
+        margin: 0 0 0 10px;
+      }
     }
   }
 `;

@@ -34,7 +34,7 @@ export const InnerLayout = styled.div`
 
       a {
         color: ${({ theme }) => theme.colours.unoBlue};
-        font-weight: 600;
+        font-weight: ${props => props.theme.fonts.weight.bold};
         text-decoration: none;
         margin-bottom: 5px;
 

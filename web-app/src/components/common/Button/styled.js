@@ -10,7 +10,6 @@ export const Container = styled.button`
   border-radius: 4px;
   width: 100%;
   border: none;
-  font-size: 1em;
-  font-weight: bold;
+  font-weight: ${props => props.theme.fonts.weight.bold};
   opacity: ${props => (props.disabled ? '0.4' : '1')};
 `;

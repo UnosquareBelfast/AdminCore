@@ -9,7 +9,6 @@ export const Container = styled.div`
   padding: 4px 5px;
   margin: 1px 2px;
   color: white;
-  font-size: 14px;
   border-radius: 2px;
   background: ${props => props.theme.holidayStatus[props.status]};
   opacity: ${({ fade }) => (fade ? 0.4 : 1)};

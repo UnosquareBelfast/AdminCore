@@ -12,7 +12,6 @@ export const ErrorContainer = styled.div`
   p {
     padding: 0;
     margin: 0;
-    font-size: 14px;
   }
   p:first-of-type {
     margin-bottom: 3px;
