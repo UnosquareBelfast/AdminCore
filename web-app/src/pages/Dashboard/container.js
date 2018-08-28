@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents } from '../../actions/dashboard';
 import { getUser, getAllEvents, eventBeingUpdated } from '../../reducers';
+import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
@@ -22,6 +23,7 @@ const DashboardContainer = Wrapped =>
         filteredEvents: [],
         activeEventIds: [],
         activeEmployee: -1,
+        eventView: eventsView.PERSONAL_EVENTS,
       };
     }
 
@@ -33,6 +35,17 @@ const DashboardContainer = Wrapped =>
       if (prevProps.allEvents !== this.props.allEvents) {
         this.setState({ filteredEvents: [...this.props.allEvents] });
       }
+    };
+
+    toggleEventsView = () => {
+      const { eventView } = this.state;
+      let updatedEventView;
+      if (eventView === eventsView.PERSONAL_EVENTS) {
+        updatedEventView = eventsView.TEAM_EVENTS;
+      } else {
+        updatedEventView = eventsView.PERSONAL_EVENTS;
+      }
+      this.setState({ eventView: updatedEventView });
     };
 
     filterCalenderEvents = () => {
@@ -66,7 +79,7 @@ const DashboardContainer = Wrapped =>
         return filteredEvents;
       } else {
         return filteredEvents.filter(hol =>
-          activeEventIds.includes(hol.eventStatus.eventStatusId)
+          activeEventIds.includes(hol.eventStatus.eventStatusId),
         );
       }
     };
@@ -85,7 +98,7 @@ const DashboardContainer = Wrapped =>
         {
           calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
         },
-        this.fetchEvents
+        this.fetchEvents,
       );
     };
 
@@ -100,6 +113,8 @@ const DashboardContainer = Wrapped =>
           <Wrapped
             employeeId={this.props.userDetails.employeeId}
             allEvents={this.props.allEvents}
+            onToggleEventsView={this.toggleEventsView}
+            eventView={this.state.eventView}
             filteredEvents={this.state.filteredEvents}
             updateTakenEvents={this.fetchEvents}
             isEventBeingUpdated={this.props.isEventBeingUpdated}
@@ -132,6 +147,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  DashboardContainer
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  DashboardContainer,
 );
