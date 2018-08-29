@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { has, get } from 'lodash';
-import { getTakenHolidays } from '../../utilities/holidays';
+import { getMonthEvents } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
 import { BLACK, WHITE } from '../../styles/colors';
 
@@ -20,8 +20,9 @@ export default Container => class extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        takenHolidays: {},
+        events: {},
         showModal: false,
+        calendarDate: moment().format('YYYY-MM-DD'),
       };
     }
 
@@ -29,8 +30,7 @@ export default Container => class extends Component {
       const { navigation } = this.props;
 
       this.sub = navigation.addListener('didFocus', () => {
-        getTakenHolidays()
-          .then(data => this.setState({ takenHolidays: this.formatDate(data) }));
+        this.fetchEvents();
       });
     }
 
@@ -38,20 +38,36 @@ export default Container => class extends Component {
       this.sub.remove();
     }
 
+
     onDayPress = (day) => {
       const { navigation } = this.props;
-      const { takenHolidays } = this.state;
+      const { events } = this.state;
 
       if (day) {
-        const booked = has(takenHolidays, day.dateString);
-        const holiday = get(takenHolidays, day.dateString, 0);
+        const booked = has(events, day.dateString);
+        const event = get(events, day.dateString, 0);
         navigation.push('Booking', {
           date: day.dateString,
-          holiday,
+          event,
           booked,
         });
       }
     }
+
+    onMonthChange = (month) => {
+      const newDate = moment(month.dateString);
+      this.setState({
+        calendarDate: newDate.format('YYYY-MM-DD'),
+      }, () => {
+        this.fetchEvents();
+      });
+    }
+
+    fetchEvents = () => {
+      const { calendarDate } = this.state;
+      getMonthEvents(calendarDate)
+        .then(data => this.setState({ events: this.formatDate(data) }));
+    };
 
     closeModal = () => {
       this.setState({ showModal: false });
@@ -103,12 +119,13 @@ export default Container => class extends Component {
     }, {});
 
     render() {
-      const { takenHolidays } = this.state;
+      const { events } = this.state;
 
       return (
         <Container
-          takenHolidays={takenHolidays}
+          events={events}
           onDayPress={this.onDayPress}
+          onMonthChange={this.onMonthChange}
         />
       );
     }

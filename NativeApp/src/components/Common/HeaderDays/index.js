@@ -6,14 +6,14 @@ import H1 from '../H1';
 import H3 from '../H3';
 
 const HeaderDays = (props) => {
-  const { remainingHolidays, takenHolidays } = props;
+  const { remainingHolidays, events } = props;
 
   return (
     <View style={styles.headerContainer}>
       <View style={styles.holidayContainer}>
         <View style={styles.holidayText}>
           <H1>
-            {takenHolidays.length}&nbsp;
+            {events.length}&nbsp;
           </H1>
           <H1>
               DAYS
@@ -41,7 +41,7 @@ const HeaderDays = (props) => {
 };
 
 HeaderDays.propTypes = {
-  takenHolidays: PT.arrayOf(PT.object).isRequired,
+  events: PT.arrayOf(PT.object).isRequired,
   remainingHolidays: PT.number.isRequired,
 };
 
