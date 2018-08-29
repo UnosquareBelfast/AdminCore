@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
-import { getUsersEvents } from '../services/dashboardService';
+import { getUsersEvents, getTeamsEvents } from '../services/dashboardService';
+import eventsView from '../utilities/eventsView';
 import { setLoading } from './loading';
 
 import {
@@ -54,23 +55,46 @@ export const setError = error => {
   };
 };
 
+export const setEventView = eventView => {
+  return {
+    type: actionTypes.SET_EVENT_VIEW,
+    payload: eventView,
+  };
+};
+
 // Thunks
 
-export const fetchEvents = (date, force = false) => dispatch => {
-  // Check if we already have events for this month, if so we've already done
-  // this request.
+export const fetchEvents = (date, eventView, force = false) => dispatch => {
+  // Check if we need to make a request (is there existing state?)
   if (requiresNewRequest(date) || force) {
+    // Start loading
     dispatch(setLoading(true));
-    getUsersEvents(date)
-      .then(({ data }) => {
-        dispatch(setLoading(false));
-        transformEvents(data).then(transformedEvents => {
-          dispatch(setCalendarEvents(transformedEvents));
+    // Fetch personal events only.
+    if (eventView === eventsView.PERSONAL_EVENTS) {
+      getUsersEvents(date)
+        .then(({ data }) => {
+          dispatch(setLoading(false));
+          transformEvents(data).then(transformedEvents => {
+            dispatch(setCalendarEvents(transformedEvents));
+          });
+        })
+        .catch(error => {
+          dispatch(setLoading(false));
+          dispatch(setError(error));
         });
-      })
-      .catch(error => {
-        dispatch(setLoading(false));
-        dispatch(setError(error));
-      });
+      // Fetch team's events as well as your own.
+    } else if (eventView === eventsView.TEAM_EVENTS) {
+      getTeamsEvents(date)
+        .then(({ data }) => {
+          dispatch(setLoading(false));
+          transformEvents(data).then(transformedEvents => {
+            dispatch(setCalendarEvents(transformedEvents));
+          });
+        })
+        .catch(error => {
+          dispatch(setLoading(false));
+          dispatch(setError(error));
+        });
+    }
   }
 };

@@ -27,8 +27,8 @@ const _formatEventsForCalendar = events => {
       eventId: event.eventId,
       title: `${event.employee.forename} ${event.employee.surname}`,
       allDay: !event.halfDay,
-      start: event.start,
-      end: event.end,
+      start: new moment([event.startDate], 'YYYY-MM-DD'),
+      end: new moment([event.endDate], 'YYYY-MM-DD'),
       halfDay: event.halfDay,
       employee: event.employee,
       eventStatus: event.eventStatus,
@@ -92,5 +92,7 @@ export const requiresNewRequest = date => {
       requireNewRequest = false;
     }
   });
+  console.log('reqreq', requireNewRequest);
+
   return requireNewRequest;
 };

@@ -21,6 +21,9 @@ export default rootReducer;
 export const getUser = store => FromUser.getUser(store[USER]);
 
 //Dashboard
+export const getEventView = store =>
+  FromDashboard.getEventView(store[DASHBOARD]);
+
 export const getAllEvents = store =>
   FromDashboard.getAllEvents(store[DASHBOARD]);
 
