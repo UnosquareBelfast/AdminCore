@@ -2,8 +2,13 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchEvents } from '../../actions/dashboard';
-import { getUser, getAllEvents, eventBeingUpdated } from '../../reducers';
+import { fetchEvents, updateEventView } from '../../actions/dashboard';
+import {
+  getUser,
+  getEventView,
+  getAllEvents,
+  eventBeingUpdated,
+} from '../../reducers';
 import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 
@@ -11,6 +16,8 @@ const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object,
+      updateEventView: PT.func.isRequired,
+      eventView: PT.number.isRequired,
       fetchEvents: PT.func.isRequired,
       allEvents: PT.array,
       isEventBeingUpdated: PT.bool,
@@ -38,14 +45,15 @@ const DashboardContainer = Wrapped =>
     };
 
     toggleEventsView = () => {
-      const { eventView } = this.state;
+      const { eventView } = this.props;
       let updatedEventView;
       if (eventView === eventsView.PERSONAL_EVENTS) {
         updatedEventView = eventsView.TEAM_EVENTS;
       } else {
         updatedEventView = eventsView.PERSONAL_EVENTS;
       }
-      this.setState({ eventView: updatedEventView }, this.fetchEvents);
+      this.props.updateEventView(updatedEventView);
+      this.fetchEvents(updatedEventView);
     };
 
     filterCalenderEvents = () => {
@@ -102,22 +110,30 @@ const DashboardContainer = Wrapped =>
       );
     };
 
-    fetchEvents = () => {
-      const { calendarDate, eventView } = this.state;
+    fetchEvents = (eventView = this.props.eventView) => {
+      const { calendarDate } = this.state;
       this.props.fetchEvents(calendarDate, eventView);
     };
 
     render() {
+      const { filteredEvents } = this.state;
+      const {
+        userDetails: { employeeId },
+        allEvents,
+        eventView,
+        isEventBeingUpdated,
+      } = this.props;
+
       return (
         this.props.userDetails && (
           <Wrapped
-            employeeId={this.props.userDetails.employeeId}
-            allEvents={this.props.allEvents}
+            employeeId={employeeId}
+            allEvents={allEvents}
             onToggleEventsView={this.toggleEventsView}
-            eventView={this.state.eventView}
-            filteredEvents={this.state.filteredEvents}
+            eventView={eventView}
+            filteredEvents={filteredEvents}
             updateTakenEvents={this.fetchEvents}
-            isEventBeingUpdated={this.props.isEventBeingUpdated}
+            isEventBeingUpdated={isEventBeingUpdated}
             onUpdateEvents={activeEventIds =>
               this.setActiveEvents(activeEventIds)
             }
@@ -134,6 +150,7 @@ const DashboardContainer = Wrapped =>
 const mapStateToProps = state => {
   return {
     userDetails: getUser(state),
+    eventView: getEventView(state),
     allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
@@ -143,6 +160,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchEvents: (date, eventView) => dispatch(fetchEvents(date, eventView)),
+    updateEventView: eventView => dispatch(updateEventView(eventView)),
   };
 };
 
