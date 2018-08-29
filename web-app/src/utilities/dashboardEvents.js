@@ -1,10 +1,14 @@
 import { getDurationBetweenDates } from './dates';
 import mandatoryEvents from './mandatoryEvents';
 import flow from 'lodash/fp/flow';
+import moment from 'moment';
 
 // The pipeline that our events go through to make them calendar ready.
 export const transformEvents = allEvents => {
-  return flow(_formatEventsForCalendar, _appendMandatoryEvents)(allEvents);
+  return flow(
+    _formatEventsForCalendar,
+    _appendMandatoryEvents,
+  )(allEvents);
 };
 
 // Private. Takes the events from the server and transforms them into a format
