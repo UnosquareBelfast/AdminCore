@@ -1,5 +1,3 @@
-import store from '../store';
-import { getAllEvents } from '../reducers';
 import * as actionTypes from '../actionTypes';
 import { getUsersEvents } from '../services/dashboardService';
 import { setLoading } from './loading';
@@ -59,8 +57,8 @@ export const setError = error => {
 // Thunks
 
 export const fetchEvents = (date, force = false) => dispatch => {
-  //Set as loading
-  // Check if we already have events for this month, if so we've already requested
+  // Check if we already have events for this month, if so we've already done
+  // this request.
   if (requiresNewRequest(date) || force) {
     dispatch(setLoading(true));
     getUsersEvents(date)
