@@ -4,8 +4,8 @@ import eventsView from '../utilities/eventsView';
 import { setLoading } from './loading';
 
 import {
-  formatEventsForCalendar,
   getEventDuration,
+  transformEvents,
 } from '../utilities/dashboardEvents';
 
 /*
@@ -70,7 +70,7 @@ export const fetchEvents = (date, eventView) => dispatch => {
     getUsersEvents(date)
       .then(({ data }) => {
         dispatch(setLoading(false));
-        const formattedEvents = formatEventsForCalendar(data);
+        const formattedEvents = transformEvents(data);
         dispatch(setCalendarEvents(formattedEvents));
       })
       .catch(error => {
@@ -81,7 +81,7 @@ export const fetchEvents = (date, eventView) => dispatch => {
     getTeamsEvents(date)
       .then(({ data }) => {
         dispatch(setLoading(false));
-        const formattedEvents = formatEventsForCalendar(data.events);
+        const formattedEvents = transformEvents(data.events);
         dispatch(setCalendarEvents(formattedEvents));
       })
       .catch(error => {
