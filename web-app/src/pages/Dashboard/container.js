@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchEvents, updateEventView } from '../../actions/dashboard';
+import { fetchEvents, setEventView } from '../../actions/dashboard';
 import {
   getUser,
   getEventView,
@@ -16,7 +16,7 @@ const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object,
-      updateEventView: PT.func.isRequired,
+      setEventView: PT.func.isRequired,
       eventView: PT.number.isRequired,
       fetchEvents: PT.func.isRequired,
       allEvents: PT.array,
@@ -52,7 +52,7 @@ const DashboardContainer = Wrapped =>
       } else {
         updatedEventView = eventsView.PERSONAL_EVENTS;
       }
-      this.props.updateEventView(updatedEventView);
+      this.props.setEventView(updatedEventView);
       this.fetchEvents(updatedEventView);
     };
 
@@ -159,7 +159,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchEvents: (date, eventView) => dispatch(fetchEvents(date, eventView)),
-    updateEventView: eventView => dispatch(updateEventView(eventView)),
+    setEventView: eventView => dispatch(setEventView(eventView)),
   };
 };
 

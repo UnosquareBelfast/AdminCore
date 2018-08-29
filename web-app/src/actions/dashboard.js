@@ -54,7 +54,7 @@ export const setError = error => {
   };
 };
 
-export const updateEventView = eventView => {
+export const setEventView = eventView => {
   return {
     type: actionTypes.SET_EVENT_VIEW,
     payload: eventView,
