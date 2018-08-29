@@ -155,7 +155,6 @@ const mapStateToProps = state => {
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
-2;
 
 const mapDispatchToProps = dispatch => {
   return {

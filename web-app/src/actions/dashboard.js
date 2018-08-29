@@ -81,7 +81,7 @@ export const fetchEvents = (date, eventView) => dispatch => {
     getTeamsEvents(date)
       .then(({ data }) => {
         dispatch(setLoading(false));
-        const formattedEvents = formatEventsForCalendar(data);
+        const formattedEvents = formatEventsForCalendar(data.events);
         dispatch(setCalendarEvents(formattedEvents));
       })
       .catch(error => {
