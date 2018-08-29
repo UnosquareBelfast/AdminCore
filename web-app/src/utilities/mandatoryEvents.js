@@ -1,4 +1,6 @@
 import moment from 'moment';
+import holidayStatus from './holidayStatus';
+
 const currYear = new Date().getFullYear();
 
 // Add mandatory events here. The only fields that need change are title and the dates.
@@ -29,7 +31,13 @@ export default mandatoryEvents.map(event => {
     allDay: true,
     halfDay: false,
     employee: null,
-    eventStatus: { eventStatusId: 4, description: 'Mandatory' },
-    eventType: { eventTypeId: 1, description: 'Annual leave' },
+    eventStatus: {
+      eventStatusId: holidayStatus.PENDING,
+      description: 'Mandatory',
+    },
+    eventType: {
+      eventTypeId: holidayStatus.MANDATORY,
+      description: 'Annual leave',
+    },
   };
 });
