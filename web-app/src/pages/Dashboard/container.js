@@ -45,7 +45,7 @@ const DashboardContainer = Wrapped =>
       } else {
         updatedEventView = eventsView.PERSONAL_EVENTS;
       }
-      this.setState({ eventView: updatedEventView });
+      this.setState({ eventView: updatedEventView }, this.fetchEvents);
     };
 
     filterCalenderEvents = () => {
@@ -103,8 +103,8 @@ const DashboardContainer = Wrapped =>
     };
 
     fetchEvents = () => {
-      const { calendarDate } = this.state;
-      this.props.fetchEvents(calendarDate);
+      const { calendarDate, eventView } = this.state;
+      this.props.fetchEvents(calendarDate, eventView);
     };
 
     render() {
@@ -142,7 +142,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchEvents: date => dispatch(fetchEvents(date)),
+    fetchEvents: (date, eventView) => dispatch(fetchEvents(date, eventView)),
   };
 };
 
