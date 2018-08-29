@@ -99,6 +99,15 @@ public class EventService {
         }
     }
 
+    public void rejectEvent(int eventId){
+        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+        if (retrievedEvent.isPresent()) {
+            Event event = retrievedEvent.get();
+            event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
+            save(event);
+        }
+    }
+
     public List<EventDTO> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd,EventTypes eventType) {//Pass in event type
         return mapEventsToDtos(eventRepository.findByStartDateBetweenAndEventType(rangeStart, rangeEnd,new EventType(eventType.getEventTypeId())));
     }

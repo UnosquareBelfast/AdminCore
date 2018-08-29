@@ -110,6 +110,13 @@ public class HolidayController {
         eventService.cancelEvent(event.getEventId());
     }
 
+    @PutMapping(value = "/rejectHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel){
+        EventDTO event = modelMapper.map(rejectHolidayViewModel, EventDTO.class);
+        eventService.rejectEvent(event.getEventId());
+    }
+
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
