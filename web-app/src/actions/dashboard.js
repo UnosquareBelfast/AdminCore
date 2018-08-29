@@ -54,6 +54,13 @@ export const setError = error => {
   };
 };
 
+export const updateEventView = eventView => {
+  return {
+    type: actionTypes.SET_EVENT_VIEW,
+    payload: eventView,
+  };
+};
+
 // Thunks
 
 export const fetchEvents = (date, eventView) => dispatch => {
