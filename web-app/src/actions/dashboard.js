@@ -6,6 +6,7 @@ import { setLoading } from './loading';
 
 import {
   getEventDuration,
+  requiresNewRequest,
   transformEvents,
 } from '../utilities/dashboardEvents';
 
@@ -57,22 +58,21 @@ export const setError = error => {
 
 // Thunks
 
-export const fetchEvents = date => dispatch => {
-  // Get the previous events state
-  const prevEvents = getAllEvents(store.getState());
-
+export const fetchEvents = (date, force = false) => dispatch => {
   //Set as loading
-  dispatch(setLoading(true));
-  getUsersEvents(date)
-    .then(({ data }) => {
-      dispatch(setLoading(false));
-      const formattedEvents = transformEvents(data, prevEvents);
-      console.log(formattedEvents);
-
-      dispatch(setCalendarEvents(formattedEvents));
-    })
-    .catch(error => {
-      dispatch(setLoading(false));
-      dispatch(setError(error));
-    });
+  // Check if we already have events for this month, if so we've already requested
+  if (requiresNewRequest(date) || force) {
+    dispatch(setLoading(true));
+    getUsersEvents(date)
+      .then(({ data }) => {
+        dispatch(setLoading(false));
+        transformEvents(data).then(transformedEvents => {
+          dispatch(setCalendarEvents(transformedEvents));
+        });
+      })
+      .catch(error => {
+        dispatch(setLoading(false));
+        dispatch(setError(error));
+      });
+  }
 };
