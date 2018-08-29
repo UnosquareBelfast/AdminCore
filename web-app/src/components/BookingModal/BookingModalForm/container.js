@@ -3,13 +3,17 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
+import { validateSelectedDates } from '../../../utilities/dashboardEvents';
+import { Toast } from '../../../utilities/Notifications';
 import eventTypes from '../../../utilities/eventTypes';
 import moment from 'moment';
-import { eventBeingUpdated } from '../../../reducers';
+import { eventBeingUpdated, getUser, getAllEvents } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      userDetails: PT.object.isRequired,
+      allEvents: PT.array.isRequired,
       selectBooking: PT.func.isRequired,
       booking: PT.object.isRequired,
       isEventBeingUpdated: PT.bool,
@@ -51,6 +55,26 @@ const Container = Wrapped =>
       });
     };
 
+    handleCalendarValidation({ start, end }) {
+      const {
+        userDetails: { employeeId },
+        allEvents,
+      } = this.props;
+      const validatingDatesResult = validateSelectedDates(
+        allEvents,
+        employeeId,
+        start,
+        end,
+      );
+      let formIsValid = validatingDatesResult === 'Dates approved';
+      Toast({
+        type: formIsValid ? 'success' : 'warning',
+        title: validatingDatesResult,
+      });
+
+      return formIsValid;
+    }
+
     handleFormStatus(name, value, formIsValid) {
       const formData = { ...this.state.formData };
       formData[name] = value;
@@ -86,6 +110,10 @@ const Container = Wrapped =>
       };
       this.props.updateEventDuration(updatedFormData);
 
+      if (!this.props.isEventBeingUpdated) {
+        formIsValid = this.handleCalendarValidation(formData);
+      }
+
       this.setState({
         formData,
         formIsValid,
@@ -118,6 +146,8 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
+    userDetails: getUser(state),
+    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
