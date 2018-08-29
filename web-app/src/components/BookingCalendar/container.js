@@ -2,6 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { validateSelectedDates } from '../../utilities/dashboardEvents';
 import {
   selectBooking,
   toggleBookingModal,
@@ -41,51 +42,14 @@ const BookingCalendarContainer = Wrapped =>
       this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
-    checkIfPastDatesSelected = start => {
-      const today = new moment();
-      return moment(start).isBefore(today);
-    };
-
-    selectedDatesOverlapExisting = (start, end) => {
-      const { events, employeeId } = this.props;
-      const overlappingEvents = events.filter(event => {
-        const { employee } = event;
-        if (employee && employee.employeeId === employeeId) {
-          var selectedDateRange = moment.range(
-            moment(start),
-            moment(end).endOf('day')
-          );
-          var existingEvent = moment.range(
-            moment(event.start),
-            moment(event.end)
-          );
-          if (selectedDateRange.overlaps(existingEvent)) {
-            return true;
-          }
-        }
-      });
-      return overlappingEvents.length > 0;
-    };
-
-    validateSelectedDates = (start, end) => {
-      const pastDatesSelected = this.checkIfPastDatesSelected(start);
-      if (pastDatesSelected) {
-        return 'Unable to select past dates';
-      } else {
-        const datesOverlapExisting = this.selectedDatesOverlapExisting(
-          start,
-          end
-        );
-        if (datesOverlapExisting) {
-          return 'You\'re are trying to request dates that have already been set';
-        } else {
-          return 'Dates approved';
-        }
-      }
-    };
-
     onSelectSlot = ({ start, end }) => {
-      const validatingDatesResult = this.validateSelectedDates(start, end);
+      const { events, employeeId } = this.props;
+      const validatingDatesResult = validateSelectedDates(
+        events,
+        employeeId,
+        start,
+        end,
+      );
       if (validatingDatesResult === 'Dates approved') {
         let booking = {
           start: new moment(start),
@@ -152,6 +116,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(null, mapDispatchToProps),
-  BookingCalendarContainer
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
+  BookingCalendarContainer,
 );

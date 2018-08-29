@@ -49,3 +49,64 @@ export const getEventDuration = event => {
     return duration;
   }
 };
+
+/* 
+  Events Validation
+*/
+
+export const checkIfPastDatesSelected = start => {
+  const today = new moment();
+  return moment(start).isBefore(today);
+};
+
+export const checkIfDatesFallOnWeekend = (start, end) => {
+  if (moment(start).isoWeekday() > 5 && moment(end).isoWeekday() > 5) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const checkIfSelectedDatesOverlapExisting = (
+  events,
+  employeeId,
+  start,
+  end,
+) => {
+  const overlappingEvents = events.filter(event => {
+    const { employee } = event;
+    if (employee && employee.employeeId === employeeId) {
+      var selectedDateRange = moment.range(
+        moment(start),
+        moment(end).endOf('day'),
+      );
+      var existingEvent = moment.range(moment(event.start), moment(event.end));
+      if (selectedDateRange.overlaps(existingEvent)) {
+        return true;
+      }
+    }
+  });
+  return overlappingEvents.length > 0;
+};
+
+export const validateSelectedDates = (events, employeeId, start, end) => {
+  const pastDatesSelected = checkIfPastDatesSelected(start);
+  const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
+  if (pastDatesSelected) {
+    return 'Unable to select past dates';
+  } else if (datesFallOnWeekend) {
+    return 'Unable to select weekend dates';
+  } else {
+    const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
+      events,
+      employeeId,
+      start,
+      end,
+    );
+    if (datesOverlapExisting) {
+      return 'You cannot request dates that have already been set';
+    } else {
+      return 'Dates approved';
+    }
+  }
+};
