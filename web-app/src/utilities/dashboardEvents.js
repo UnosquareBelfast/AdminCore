@@ -3,8 +3,11 @@ import mandatoryEvents from './mandatoryEvents';
 import flow from 'lodash/fp/flow';
 
 // The pipeline that our events go through to make them calendar ready.
-export const transformEvents = allEvents => {
-  return flow(_formatEventsForCalendar, _appendMandatoryEvents)(allEvents);
+export const transformEvents = (allEvents, prevEvents) => {
+  return flow(_formatEventsForCalendar, _appendMandatoryEvents)(
+    allEvents,
+    prevEvents
+  );
 };
 
 // Private. Takes the events from the server and transforms them into a format
@@ -26,8 +29,8 @@ const _formatEventsForCalendar = events => {
 };
 
 // Private. Appends the mandatory holidays as specified in ./mandatoryEvents.js
-const _appendMandatoryEvents = data => {
-  return data.concat(mandatoryEvents);
+const _appendMandatoryEvents = events => {
+  return events.concat(mandatoryEvents);
 };
 
 // Takes an event and turns the duration of the event

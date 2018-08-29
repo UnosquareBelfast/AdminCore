@@ -1,3 +1,5 @@
+import store from '../store';
+import { getAllEvents } from '../reducers';
 import * as actionTypes from '../actionTypes';
 import { getUsersEvents } from '../services/dashboardService';
 import { setLoading } from './loading';
@@ -56,11 +58,17 @@ export const setError = error => {
 // Thunks
 
 export const fetchEvents = date => dispatch => {
+  // Get the previous events state
+  const prevEvents = getAllEvents(store.getState());
+
+  //Set as loading
   dispatch(setLoading(true));
   getUsersEvents(date)
     .then(({ data }) => {
       dispatch(setLoading(false));
-      const formattedEvents = transformEvents(data);
+      const formattedEvents = transformEvents(data, prevEvents);
+      console.log(formattedEvents);
+
       dispatch(setCalendarEvents(formattedEvents));
     })
     .catch(error => {
