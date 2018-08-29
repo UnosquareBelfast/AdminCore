@@ -33,7 +33,7 @@ const UserView = (props) => {
         <ScrollView>
           <View style={styles.flatListView}>
             <FlatList
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={item => item.holidayId.toString()}
               data={events}
               renderItem={({ item }) => (
                 <ListItem
