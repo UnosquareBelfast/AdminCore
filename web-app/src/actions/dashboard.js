@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
-import { getUsersEvents } from '../services/dashboardService';
+import { getUsersEvents, getTeamsEvents } from '../services/dashboardService';
+import eventsView from '../utilities/eventsView';
 import { setLoading } from './loading';
 
 import {
@@ -55,16 +56,30 @@ export const setError = error => {
 
 // Thunks
 
-export const fetchEvents = date => dispatch => {
+export const fetchEvents = (date, eventView) => dispatch => {
   dispatch(setLoading(true));
-  getUsersEvents(date)
-    .then(({ data }) => {
-      dispatch(setLoading(false));
-      const formattedEvents = formatEventsForCalendar(data);
-      dispatch(setCalendarEvents(formattedEvents));
-    })
-    .catch(error => {
-      dispatch(setLoading(false));
-      dispatch(setError(error));
-    });
+
+  if (eventView === eventsView.PERSONAL_EVENTS) {
+    getUsersEvents(date)
+      .then(({ data }) => {
+        dispatch(setLoading(false));
+        const formattedEvents = formatEventsForCalendar(data);
+        dispatch(setCalendarEvents(formattedEvents));
+      })
+      .catch(error => {
+        dispatch(setLoading(false));
+        dispatch(setError(error));
+      });
+  } else if (eventView === eventsView.TEAM_EVENTS) {
+    getTeamsEvents(date)
+      .then(({ data }) => {
+        dispatch(setLoading(false));
+        const formattedEvents = formatEventsForCalendar(data);
+        dispatch(setCalendarEvents(formattedEvents));
+      })
+      .catch(error => {
+        dispatch(setLoading(false));
+        dispatch(setError(error));
+      });
+  }
 };
