@@ -1,4 +1,5 @@
 import { getDurationBetweenDates } from './dates';
+import eventTypes from './eventTypes';
 import mandatoryEvents from './mandatoryEvents';
 import flow from 'lodash/fp/flow';
 import moment from 'moment';
@@ -50,6 +51,38 @@ export const getEventDuration = event => {
   }
 };
 
+/*
+  Booking Form Validation
+*/
+
+export const startDateValidation = formData => {
+  if (formData.isHalfday) {
+    formData.end = formData.start;
+  } else {
+    if (formData.start.isAfter(formData.end)) {
+      formData.end = formData.start;
+    }
+  }
+  return formData;
+};
+
+export const endDateValidation = formData => {
+  if (formData.isHalfday) {
+    formData.start = formData.end;
+  } else {
+    if (formData.end.isBefore(formData.start)) {
+      formData.start = formData.end;
+    }
+  }
+  return formData;
+};
+
+export const halfDayValidation = formData => {
+  formData.end = formData.start;
+  formData.eventTypeId = eventTypes.ANNUAL_LEAVE;
+  return formData;
+};
+
 /* 
   Events Validation
 */
@@ -87,26 +120,4 @@ export const checkIfSelectedDatesOverlapExisting = (
     }
   });
   return overlappingEvents.length > 0;
-};
-
-export const validateSelectedDates = (events, employeeId, start, end) => {
-  const pastDatesSelected = checkIfPastDatesSelected(start);
-  const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
-  if (pastDatesSelected) {
-    return 'Unable to select past dates';
-  } else if (datesFallOnWeekend) {
-    return 'Unable to select weekend dates';
-  } else {
-    const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
-      events,
-      employeeId,
-      start,
-      end,
-    );
-    if (datesOverlapExisting) {
-      return 'You cannot request dates that have already been set';
-    } else {
-      return 'Dates approved';
-    }
-  }
 };
