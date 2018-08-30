@@ -3,11 +3,16 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
-import { validateSelectedDates } from '../../../utilities/dashboardEvents';
+import {
+  checkIfPastDatesSelected,
+  checkIfDatesFallOnWeekend,
+  startDateValidation,
+  endDateValidation,
+  halfDayValidation,
+} from '../../../utilities/dashboardEvents';
 import { Toast } from '../../../utilities/Notifications';
-import eventTypes from '../../../utilities/eventTypes';
 import moment from 'moment';
-import { eventBeingUpdated, getUser, getAllEvents } from '../../../reducers';
+import { eventBeingUpdated } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -56,67 +61,53 @@ const Container = Wrapped =>
     };
 
     handleCalendarValidation({ start, end }) {
-      const {
-        userDetails: { employeeId },
-        allEvents,
-      } = this.props;
-      const validatingDatesResult = validateSelectedDates(
-        allEvents,
-        employeeId,
-        start,
-        end,
-      );
-      let formIsValid = validatingDatesResult === 'Dates approved';
-      Toast({
-        type: formIsValid ? 'success' : 'warning',
-        title: validatingDatesResult,
-      });
-
-      return formIsValid;
+      const pastDatesSelected = checkIfPastDatesSelected(start);
+      const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
+      if (pastDatesSelected) {
+        return 'Unable to select past dates';
+      } else if (datesFallOnWeekend) {
+        return 'Unable to select weekend dates';
+      } else {
+        return 'Dates approved';
+      }
     }
 
     handleFormStatus(name, value, formIsValid) {
-      const formData = { ...this.state.formData };
+      let formData = { ...this.state.formData };
       formData[name] = value;
 
-      if (name == 'start') {
-        if (formData.isHalfday) {
-          formData.end = formData.start;
-        } else {
-          if (formData.start.isAfter(formData.end)) {
-            formData.end = formData.start;
-          }
-        }
-      } else if (name == 'end') {
-        if (formData.isHalfday) {
-          formData.start = formData.end;
-        } else {
-          if (formData.end.isBefore(formData.start)) {
-            formData.start = formData.end;
-          }
-        }
+      if (name === 'start') {
+        formData = startDateValidation(formData);
+      } else if (name === 'end') {
+        formData = endDateValidation(formData);
       } else if (name === 'isHalfday' && formData.isHalfday) {
-        formData.end = formData.start;
-        formData.eventTypeId = eventTypes.ANNUAL_LEAVE;
+        formData = halfDayValidation(formData);
       } else if (name === 'eventTypeId') {
         formData[name] = parseInt(value);
       }
 
-      const updatedFormData = {
-        ...formData,
-        eventType: {
-          eventTypeId: formData.eventTypeId,
-        },
-      };
-      this.props.updateEventDuration(updatedFormData);
-
-      if (!this.props.isEventBeingUpdated) {
-        formIsValid = this.handleCalendarValidation(formData);
+      if (name === 'start' || name === 'end') {
+        const calendarValidationResults = this.handleCalendarValidation(
+          formData,
+        );
+        formIsValid = calendarValidationResults === 'Dates approved';
+        Toast({
+          type: formIsValid ? 'success' : 'warning',
+          title: calendarValidationResults,
+        });
       }
 
       this.setState({
         formData,
         formIsValid,
+      });
+
+      const { updateEventDuration } = this.props;
+      updateEventDuration({
+        ...formData,
+        eventType: {
+          eventTypeId: formData.eventTypeId,
+        },
       });
     }
 
@@ -146,8 +137,6 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
-    userDetails: getUser(state),
-    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };

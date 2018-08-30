@@ -2,7 +2,11 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { validateSelectedDates } from '../../utilities/dashboardEvents';
+import {
+  checkIfPastDatesSelected,
+  checkIfDatesFallOnWeekend,
+  checkIfSelectedDatesOverlapExisting,
+} from '../../utilities/dashboardEvents';
 import {
   selectBooking,
   toggleBookingModal,
@@ -42,15 +46,35 @@ const BookingCalendarContainer = Wrapped =>
       this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
-    onSelectSlot = ({ start, end }) => {
+    handleCalendarValidation = (start, end) => {
       const { events, employeeId } = this.props;
-      const validatingDatesResult = validateSelectedDates(
-        events,
-        employeeId,
+      const pastDatesSelected = checkIfPastDatesSelected(start);
+      const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
+      if (pastDatesSelected) {
+        return 'Unable to select past dates';
+      } else if (datesFallOnWeekend) {
+        return 'Unable to select weekend dates';
+      } else {
+        const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
+          events,
+          employeeId,
+          start,
+          end,
+        );
+        if (datesOverlapExisting) {
+          return 'You cannot request dates that have already been set';
+        } else {
+          return 'Dates approved';
+        }
+      }
+    };
+
+    onSelectSlot = ({ start, end }) => {
+      const calendarValidationResults = this.handleCalendarValidation(
         start,
         end,
       );
-      if (validatingDatesResult === 'Dates approved') {
+      if (calendarValidationResults === 'Dates approved') {
         let booking = {
           start: new moment(start),
           end: new moment(end),
@@ -70,7 +94,7 @@ const BookingCalendarContainer = Wrapped =>
       } else {
         Toast({
           type: 'warning',
-          title: validatingDatesResult,
+          title: calendarValidationResults,
         });
       }
     };
