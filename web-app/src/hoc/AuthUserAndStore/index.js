@@ -29,7 +29,7 @@ class AuthUserAndStore extends Component {
         Toast({
           type: 'success',
           title: `Welcome, ${tokenProfile.name}`,
-          position: 'top-end',
+          position: 'top-center',
           timer: 2000,
         });
       })

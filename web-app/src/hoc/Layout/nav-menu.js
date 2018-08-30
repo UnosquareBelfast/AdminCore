@@ -13,6 +13,7 @@ import {
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faBars, faSignOutAlt } from '@fortawesome/fontawesome-free-solid';
 import Swal from 'sweetalert2';
+import { theme } from './../../styled';
 
 const NavMenu = ({
   history,
@@ -28,6 +29,7 @@ const NavMenu = ({
       type: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, log out',
+      confirmButtonColor: theme.colours.unoBlue,
       cancelButtonText: 'No, cancel',
     }).then(signOut => {
       if (signOut.value === true) {
