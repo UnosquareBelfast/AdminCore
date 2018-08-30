@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   base: {
     color: '#fff',
     fontSize: H4_SIZE,
-    fontWeight: 'bold',
+    fontFamily: 'openSansBold',
   },
 });
 
