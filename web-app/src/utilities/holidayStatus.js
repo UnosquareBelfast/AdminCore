@@ -16,8 +16,6 @@ export default {
   REJECTED: 3,
   MANDATORY: 4,
   WFH: 5,
-  WRT: 6,
-  SICK: 7,
 };
 
 export const statusText = [
@@ -27,9 +25,7 @@ export const statusText = [
   'Rejected',
   'Mandatory',
   'Working remotely',
-  'Work related travel',
-  'Sick',
-];
+ ];
 
 export const statusIcons = [
   null,

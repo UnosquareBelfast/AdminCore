@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export const ButtonToggle = styled.div`
   position: absolute;
-  left: calc(50% - 111px);
-  top: 40px;
+  left: calc(60% - 111px);
+  top: 30px;
   display: flex;
-`;
+  height: 40px;
+   `;
 
 export const InnerLayout = styled.div`
   width: 100%;
