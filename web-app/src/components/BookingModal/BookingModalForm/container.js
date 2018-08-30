@@ -6,13 +6,14 @@ import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
 import {
   checkIfPastDatesSelected,
   checkIfDatesFallOnWeekend,
+  checkIfSelectedDatesOverlapExisting,
   startDateValidation,
   endDateValidation,
   halfDayValidation,
 } from '../../../utilities/dashboardEvents';
 import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
-import { eventBeingUpdated } from '../../../reducers';
+import { getUser, getAllEvents, eventBeingUpdated } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -68,7 +69,24 @@ const Container = Wrapped =>
       } else if (datesFallOnWeekend) {
         return 'Unable to select weekend dates';
       } else {
-        return 'Dates approved';
+        const {
+          userDetails: { employeeId },
+          allEvents,
+          booking: { eventId },
+        } = this.props;
+
+        const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
+          allEvents,
+          employeeId,
+          start,
+          end,
+          eventId,
+        );
+        if (datesOverlapExisting) {
+          return 'You cannot request dates that have already been set';
+        } else {
+          return 'Dates approved';
+        }
       }
     }
 
@@ -137,6 +155,8 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
+    userDetails: getUser(state),
+    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
