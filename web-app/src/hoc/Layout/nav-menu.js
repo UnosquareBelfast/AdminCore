@@ -28,6 +28,7 @@ const NavMenu = ({
       type: 'question',
       showCancelButton: true,
       confirmButtonText: 'Yes, log out',
+      confirmButtonColor: '#0eb5d1',
       cancelButtonText: 'No, cancel',
     }).then(signOut => {
       if (signOut.value === true) {
