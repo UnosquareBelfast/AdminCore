@@ -56,6 +56,19 @@ instance.interceptors.response.use(function(response) {
     };
   }
 
+  if (response.config.url.includes(`${baseURL}/dashboard/getTeamEvents`)) {
+    const events = [...response.data.events];
+    for (let event of events) {
+      // Raw dates to moment objects
+      event.start = new moment(event.startDate, 'YYYY-MM-DD');
+      event.end = new moment(event.endDate, 'YYYY-MM-DD');
+    }
+    return {
+      ...response,
+      data: events,
+    };
+  }
+
   return response;
 });
 
