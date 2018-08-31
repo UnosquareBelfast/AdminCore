@@ -69,32 +69,37 @@ export const fetchEvents = (date, eventView, force = false) => dispatch => {
   if (requiresNewRequest(date) || force) {
     // Start loading
     dispatch(setLoading(true));
+
+    // If force is true, we need a clean slate. Wipe all events.
+    if (force) {
+      dispatch(setCalendarEvents([]));
+    }
+
+    // Set up a function that will run on success.
+    const onSuccess = data => {
+      dispatch(setLoading(false));
+      transformEvents(data).then(transformedEvents => {
+        dispatch(setCalendarEvents(transformedEvents));
+      });
+    };
+
+    // Set up a function that will run on fail.
+
+    const onError = error => {
+      dispatch(setLoading(false));
+      dispatch(setError(error));
+    };
+
     // Fetch personal events only.
     if (eventView === eventsView.PERSONAL_EVENTS) {
       getUsersEvents(date)
-        .then(({ data }) => {
-          dispatch(setLoading(false));
-          transformEvents(data).then(transformedEvents => {
-            dispatch(setCalendarEvents(transformedEvents));
-          });
-        })
-        .catch(error => {
-          dispatch(setLoading(false));
-          dispatch(setError(error));
-        });
+        .then(({ data }) => onSuccess(data))
+        .catch(error => onError(error));
       // Fetch team's events as well as your own.
     } else if (eventView === eventsView.TEAM_EVENTS) {
       getTeamsEvents(date)
-        .then(({ data }) => {
-          dispatch(setLoading(false));
-          transformEvents(data).then(transformedEvents => {
-            dispatch(setCalendarEvents(transformedEvents));
-          });
-        })
-        .catch(error => {
-          dispatch(setLoading(false));
-          dispatch(setError(error));
-        });
+        .then(({ data }) => onSuccess(data))
+        .catch(error => onError(error));
     }
   }
 };

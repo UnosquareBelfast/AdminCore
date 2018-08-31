@@ -35,7 +35,7 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidMount() {
-      this.fetchEvents();
+      this.fetchEvents(eventsView.PERSONAL_EVENTS, true);
     }
 
     componentDidUpdate = prevProps => {
@@ -53,7 +53,7 @@ const DashboardContainer = Wrapped =>
         updatedEventView = eventsView.PERSONAL_EVENTS;
       }
       this.props.setEventView(updatedEventView);
-      this.fetchEvents(updatedEventView);
+      this.fetchEvents(updatedEventView, true);
     };
 
     filterCalenderEvents = () => {
@@ -87,7 +87,7 @@ const DashboardContainer = Wrapped =>
         return filteredEvents;
       } else {
         return filteredEvents.filter(hol =>
-          activeEventIds.includes(hol.eventStatus.eventStatusId),
+          activeEventIds.includes(hol.eventStatus.eventStatusId)
         );
       }
     };
@@ -106,13 +106,13 @@ const DashboardContainer = Wrapped =>
         {
           calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
         },
-        this.fetchEvents,
+        this.fetchEvents
       );
     };
 
-    fetchEvents = (eventView = this.props.eventView) => {
+    fetchEvents = (eventView = this.props.eventView, force = false) => {
       const { calendarDate } = this.state;
-      this.props.fetchEvents(calendarDate, eventView);
+      this.props.fetchEvents(calendarDate, eventView, force);
     };
 
     render() {
@@ -158,15 +158,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchEvents: (date, eventView) => dispatch(fetchEvents(date, eventView)),
+    fetchEvents: (date, eventView, force) =>
+      dispatch(fetchEvents(date, eventView, force)),
     setEventView: eventView => dispatch(setEventView(eventView)),
   };
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  DashboardContainer,
+  connect(mapStateToProps, mapDispatchToProps),
+  DashboardContainer
 );
