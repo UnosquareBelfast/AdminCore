@@ -92,7 +92,6 @@ export const requiresNewRequest = date => {
       requireNewRequest = false;
     }
   });
-  console.log('reqreq', requireNewRequest);
 
   return requireNewRequest;
 };
