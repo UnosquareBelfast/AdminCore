@@ -5,6 +5,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MobileEmployeeEventViewModel {
-    private List<MobileDashboardEventViewModel> events;
+public class DashboardSnapshotEmployeeEventViewModel {
+    private List<DashboardSnapshotEventViewModel> events;
 }

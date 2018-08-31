@@ -12,7 +12,6 @@ public class FindEmployeeMappings implements BaseMappings<EmployeeDTO, FindEmplo
     public PropertyMap<EmployeeDTO, FindEmployeeViewModel> MapFromSourceToTarget() {
         return new PropertyMap <EmployeeDTO, FindEmployeeViewModel>() {
             protected void configure() {
-
             }
         };
     }

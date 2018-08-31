@@ -2,8 +2,8 @@ import axios from 'axios';
 import moment from 'moment';
 import store from '../store';
 
-const baseURL = process.env.DOMAIN;
-
+//const baseURL = process.env.DOMAIN;
+const baseURL = "http://localhost:8081";
 const instance = axios.create({
   baseURL,
 });

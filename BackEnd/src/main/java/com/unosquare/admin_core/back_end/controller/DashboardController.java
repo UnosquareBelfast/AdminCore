@@ -2,8 +2,8 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.service.DashboardService;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.MobileDashboardEventViewModel;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.MobileEmployeeEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardSnapshotEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardSnapshotEmployeeEventViewModel;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardEventViewModel;
 import com.unosquare.admin_core.back_end.viewModels.dashboard.EmployeeEventViewModel;
@@ -52,12 +52,12 @@ public class DashboardController {
     }
 
 
-    @GetMapping(value = "/getMobileSnapshot", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getDashboardSnapshot", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public MobileEmployeeEventViewModel getDashboardSnapshotForMobile(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
-        List<EventDTO> events = dashboardService.getTeamDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
-        List<MobileDashboardEventViewModel> results = events.stream().map(event -> modelMapper.map(event, MobileDashboardEventViewModel.class)).collect(Collectors.toList());
-        MobileEmployeeEventViewModel model = new MobileEmployeeEventViewModel();
+    public DashboardSnapshotEmployeeEventViewModel getDashboardSnapshot(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        List<EventDTO> events = dashboardService.getTeamSnapshotDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
+        List<DashboardSnapshotEventViewModel> results = events.stream().map(event -> modelMapper.map(event, DashboardSnapshotEventViewModel.class)).collect(Collectors.toList());
+        DashboardSnapshotEmployeeEventViewModel model = new DashboardSnapshotEmployeeEventViewModel();
         model.setEvents(results);
         return model;
     }

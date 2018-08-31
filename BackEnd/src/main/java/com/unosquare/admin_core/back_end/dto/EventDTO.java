@@ -29,4 +29,6 @@ public class EventDTO {
     private LocalDate lastModified;
 
     private LocalDate dateCreated;
+
+    private String teamName;
 }
