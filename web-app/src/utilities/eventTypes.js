@@ -1,22 +1,16 @@
-import holidayStatus from './holidayStatus';
+import React from 'react';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faHome } from '@fortawesome/fontawesome-free-solid';
 
-const eventTypes = {
+export default {
   ANNUAL_LEAVE: 1,
   WFH: 2,
-  SICK: 3,
-  TRAVEL: 4,
 };
 
-export const getEventTypeValue = (eventTypeId, eventStatusId) => {
-  if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
-    return eventStatusId;
-  } else if (eventTypeId === eventTypes.WFH) {
-    return holidayStatus.WFH;
-  } else if (eventTypeId === eventTypes.SICK) {
-    return holidayStatus.SICK;
-  } else if (eventTypeId === eventTypes.WRT) {
-    return holidayStatus.WRT;
-  }
-};
+export const typeText = [null, 'Annual leave', 'Working remotely'];
 
-export default eventTypes;
+export const typeIcons = [
+  null,
+  <FontAwesomeIcon icon={faThumbsUp} />,
+  <FontAwesomeIcon icon={faHome} />,
+];
