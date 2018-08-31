@@ -10,7 +10,6 @@ export const Container = styled.div`
   margin: 1px 2px;
   color: white;
   border-radius: 2px;
-  background: ${props => props.theme.holidayStatus[props.status]};
   opacity: ${({ fade }) => (fade ? 0.4 : 1)};
   transition: 0.1s all ease-in-out;
 
@@ -18,6 +17,14 @@ export const Container = styled.div`
     transform: scale(1.05);
     opacity: 1;
     box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.6);
+  }
+
+  &.holidayStatus {
+    background: ${props => props.theme.holidayStatus[props.status]};
+  }
+
+  &.eventType {
+    background: ${props => props.theme.eventType[props.status]};
   }
 
   span {
