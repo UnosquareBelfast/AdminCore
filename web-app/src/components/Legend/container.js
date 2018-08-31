@@ -1,14 +1,23 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import map from 'lodash/fp/map';
 import compact from 'lodash/fp/compact';
 import uniqBy from 'lodash/fp/uniqBy';
 import flow from 'lodash/fp/flow';
-import holidayStatus, { statusText } from '../../utilities/holidayStatus';
+import { getEventView } from '../../reducers';
+import eventCategory from '../../utilities/eventCategory';
+import holidayStatus, {
+  statusText,
+  statusIcons,
+} from '../../utilities/holidayStatus';
+import eventTypes, { typeText, typeIcons } from '../../utilities/eventTypes';
 
 const LegendContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      eventView: PT.number.isRequired,
       allEvents: PT.array.isRequired,
       updateEmployee: PT.func.isRequired,
       updateCalendarEvents: PT.func.isRequired,
@@ -20,47 +29,91 @@ const LegendContainer = Wrapped =>
         selectedEmployee: {
           employeeId: -1,
         },
-        legendKeys: [],
+        legendKeyStatuses: [],
+        legendKeyTypes: [],
       };
     }
 
     componentWillMount = () => {
-      this.buildLegendKeys();
+      this.buildLegendKeyStatuses();
+      this.buildLegendKeyTypes();
     };
 
-    buildLegendKeys = () => {
+    buildLegendKeyStatuses = () => {
       const legendKeys = Object.keys(holidayStatus);
       const keysFormatted = [];
 
-      legendKeys.forEach((legendKey, index) => {
+      legendKeys.forEach(key => {
         keysFormatted.push({
-          id: holidayStatus[legendKey],
-          keyName: legendKey,
-          label: statusText[holidayStatus[legendKey]],
-          type: index < 4 ? 'status' : 'type',
+          id: key,
+          status: holidayStatus[key],
+          text: statusText[holidayStatus[key]],
+          icon: statusIcons[holidayStatus[key]],
           active: false,
         });
       });
 
-      this.setState({ legendKeys: keysFormatted });
+      this.setState({ legendKeyStatuses: keysFormatted });
     };
 
-    toggleKeyActive = keyId => {
-      const legendKeys = [...this.state.legendKeys];
-      legendKeys.map(key => {
+    buildLegendKeyTypes = () => {
+      const legendKeys = Object.keys(eventTypes);
+      const keysFormatted = [];
+
+      legendKeys.forEach(key => {
+        // dont wish to show annual leave as its really part of holiday status
+        if (key !== 'ANNUAL_LEAVE') {
+          keysFormatted.push({
+            id: key,
+            status: eventTypes[key],
+            text: typeText[eventTypes[key]],
+            icon: typeIcons[eventTypes[key]],
+            active: false,
+          });
+        }
+      });
+
+      this.setState({ legendKeyTypes: keysFormatted });
+    };
+
+    onToggleStatus = keyId => {
+      const legendKeyStatuses = [...this.state.legendKeyStatuses];
+      legendKeyStatuses.map(key => {
         if (key.id === keyId) {
           key.active = !key.active;
         }
       });
-      this.setState({ legendKeys }, () => {
-        const activeKeyIds = legendKeys
+      this.setState({ legendKeyStatuses }, () => {
+        const activeKeyIds = legendKeyStatuses
           .filter(key => key.active)
           .reduce((acc, key) => {
-            acc.push(key.id);
+            acc.push(key.status);
             return acc;
           }, []);
 
-        this.props.updateCalendarEvents(activeKeyIds);
+        this.props.updateCalendarEvents(
+          eventCategory.HOLIDAY_STATUS,
+          activeKeyIds,
+        );
+      });
+    };
+
+    onToggleType = keyId => {
+      const legendKeyTypes = [...this.state.legendKeyTypes];
+      legendKeyTypes.map(key => {
+        if (key.id === keyId) {
+          key.active = !key.active;
+        }
+      });
+      this.setState({ legendKeyTypes }, () => {
+        const activeKeyIds = legendKeyTypes
+          .filter(key => key.active)
+          .reduce((acc, key) => {
+            acc.push(key.status);
+            return acc;
+          }, []);
+
+        this.props.updateCalendarEvents(eventCategory.EVENT_TYPE, activeKeyIds);
       });
     };
 
@@ -75,13 +128,17 @@ const LegendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee.employeeId);
-        }
+        },
       );
     };
 
     getEmployeeState = () => {
       const { allEvents } = this.props;
-      return flow(map('employee'), compact, uniqBy('employeeId'))(allEvents);
+      return flow(
+        map('employee'),
+        compact,
+        uniqBy('employeeId'),
+      )(allEvents);
     };
 
     render() {
@@ -90,12 +147,24 @@ const LegendContainer = Wrapped =>
         <Wrapped
           selectedEmployee={this.state.selectedEmployee}
           employeeList={employeeList}
-          legendKeys={this.state.legendKeys}
-          onToggleEvent={this.toggleKeyActive}
+          legendKeyStatuses={this.state.legendKeyStatuses}
+          legendKeyTypes={this.state.legendKeyTypes}
+          eventView={this.props.eventView}
+          onToggleStatus={this.onToggleStatus}
+          onToggleType={this.onToggleType}
           userChanged={this.onFilterUserChange}
         />
       );
     }
   };
 
-export default LegendContainer;
+const mapStateToProps = state => {
+  return {
+    eventView: getEventView(state),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  LegendContainer,
+);

@@ -4,34 +4,51 @@ import { StyleContainer, Column } from './styled';
 import container from './container';
 import FilterByKey from './filterByKey';
 import FilterByUser from './filterByUser';
+import eventCategory from '../../utilities/eventCategory';
+import eventsView from '../../utilities/eventsView';
 
 const Legend = ({
   selectedEmployee,
   employeeList,
-  onToggleEvent,
+  onToggleStatus,
+  onToggleType,
   userChanged,
-  legendKeys,
+  legendKeyStatuses,
+  legendKeyTypes,
+  eventView,
 }) => {
-  const statusKeys = legendKeys.filter(key => key.type === 'status');
-  const typeKeys = legendKeys.filter(key => key.type === 'type');
-
-  return (
-    <StyleContainer>
-      <Column>
+  let filterUser = null;
+  if (eventView === eventsView.TEAM_EVENTS) {
+    filterUser = (
+      <div>
         <h4>Filter by Employee</h4>
         <FilterByUser
           selectedEmployee={selectedEmployee}
           employeeList={employeeList}
           onChange={userChanged}
         />
-      </Column>
+      </div>
+    );
+  }
+
+  return (
+    <StyleContainer>
+      <Column>{filterUser}</Column>
       <Column>
         <h4>Filter by Holiday Status</h4>
-        <FilterByKey keyList={statusKeys} onToggleEvent={onToggleEvent} />
+        <FilterByKey
+          category={eventCategory.HOLIDAY_STATUS}
+          keyList={legendKeyStatuses}
+          onToggleEvent={onToggleStatus}
+        />
       </Column>
       <Column>
         <h4>Filter by Event Type</h4>
-        <FilterByKey keyList={typeKeys} onToggleEvent={onToggleEvent} />
+        <FilterByKey
+          category={eventCategory.EVENT_TYPE}
+          keyList={legendKeyTypes}
+          onToggleEvent={onToggleType}
+        />
       </Column>
     </StyleContainer>
   );
@@ -40,9 +57,12 @@ const Legend = ({
 Legend.propTypes = {
   employeeList: PT.array,
   selectedEmployee: PT.object.isRequired,
-  legendKeys: PT.array.isRequired,
-  onToggleEvent: PT.func.isRequired,
+  legendKeyStatuses: PT.array.isRequired,
+  legendKeyTypes: PT.array.isRequired,
+  onToggleStatus: PT.func.isRequired,
+  onToggleType: PT.func.isRequired,
   userChanged: PT.func.isRequired,
+  eventView: PT.number.isRequired,
 };
 
 export default container(Legend);
