@@ -50,7 +50,7 @@ export const getDurationBetweenDates = (startDate, endDate) => {
 };
 
 export const calculateDaysNotice = daysRequested => {
-  if (daysRequested < 4) {
+  if (daysRequested <= 4) {
     return 10;
   } else if (daysRequested > 4 && daysRequested < 10) {
     return 20;

@@ -2,8 +2,12 @@ import styled from 'styled-components';
 
 export const StyleContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin: 0 0 15px 0;
+  @media (min-width: ${props => props.theme.mediaQueries.md}) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
   h2 {
     margin: 0 0 0px 0;
@@ -11,7 +15,6 @@ export const StyleContainer = styled.div`
   p {
     margin: 8px 0 0 0;
     text-transform: uppercase;
-    font-size: 16px;
     color: ${({ theme }) => theme.colours.darkGrey};
   }
 

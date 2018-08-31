@@ -27,8 +27,8 @@ public class DashboardService {
     public List<EventDTO> getEmployeeDashboardEvents(int employeeId, LocalDate date){
             LocalDate startDate = getMonthStartDate(date);
             LocalDate endDate = getMonthEndDate(date);
-        LocalDate today = LocalDate.now();
-        List<Event> result = dashboardRepository.findCalendarMonthEventsForEmployee(employeeId, startDate, endDate, today);
+            LocalDate today = LocalDate.now();
+            List<Event> result = dashboardRepository.findCalendarMonthEventsForEmployee(employeeId, startDate, endDate, today);
             return result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
@@ -37,7 +37,6 @@ public class DashboardService {
         LocalDate endDate = getMonthEndDate(date);
         LocalDate today = LocalDate.now();
         List<Event> result = dashboardRepository.findCalendarMonthEventsForTeam(employeeId, startDate, endDate, today);
-
         return result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 

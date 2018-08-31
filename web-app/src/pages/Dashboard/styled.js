@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const ButtonToggle = styled.div`
+  position: absolute;
+  left: calc(60% - 111px);
+  top: 30px;
+  display: flex;
+  height: 40px;
+   `;
+
 export const InnerLayout = styled.div`
   width: 100%;
   height: 100%;
@@ -43,7 +51,7 @@ export const InnerLayout = styled.div`
     padding: 4px 5px;
     a {
       color: ${props => props.theme.colours.unoBlue};
-      font-weight: bold;
+      font-weight: ${props => props.theme.fonts.weight.bold};
     }
   }
 

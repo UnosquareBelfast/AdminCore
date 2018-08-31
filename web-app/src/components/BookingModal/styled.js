@@ -9,7 +9,7 @@ export const StyleContainer = styled.div`
     position: absolute;
     cursor: pointer;
     top: 5px;
-    font-weight: bold;
+    font-weight: ${props => props.theme.fonts.weight.bold};
   }
   h1 {
     margin: 0 0 10px 0;

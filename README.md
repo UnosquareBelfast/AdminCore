@@ -17,8 +17,8 @@ Before following the steps be sure to clone this repository to the local machine
 2. Download & Install [PostgreSQL](https://www.postgresql.org/download/)
 3. Build the Docker images:
     1. Navigate to `/BackEnd/` in your terminal.
-    2. Run `docker build -f docker/admin.core.Dockerfile -t unosquare/admincore:latest .`
-    3. Run `docker build -f docker/express.cors.proxy.Dockerfile -t unosquare/cors-proxy:latest .`
+    2. Run `docker build -f docker/admin.core.Dockerfile -t unosquare/admincore:latest . --no-cache`
+    3. Run `docker build -f docker/express.cors.proxy.Dockerfile -t unosquare/cors-proxy:latest . --no-cache`
 4. Finally, run the project with `docker-compose up`
 
 #### Non-Pro Windows:
@@ -29,9 +29,9 @@ Before following the steps be sure to clone this repository to the local machine
 
 #### Mac (Make)
 For mac users you can us Make to build Docker images.
-1. `(make | nmake) build_admin_core:latest`
-2. `(make | nmake) build_cors_proxy:latest`
-3. `(make | nmake) latest`
+1. `(make | nmake) build_admin_core version=latest`
+2. `(make | nmake) build_cors_proxy version=latest`
+3. `(make | nmake) version=latest`
 
 
 ### Web-App

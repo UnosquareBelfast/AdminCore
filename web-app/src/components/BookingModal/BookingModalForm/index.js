@@ -27,7 +27,7 @@ const BookingModalForm = props => {
         {
           label: 'Update',
           event: updateEvent,
-          disabled: !formIsValid || bookingDuration === 0,
+          disabled: !formIsValid,
         },
       ];
     } else {
@@ -35,7 +35,7 @@ const BookingModalForm = props => {
         {
           label: 'Request',
           event: createEvent,
-          disabled: !formIsValid || bookingDuration === 0,
+          disabled: !formIsValid,
         },
       ];
     }
@@ -75,9 +75,7 @@ const BookingModalForm = props => {
             options: [
               { value: 1, displayValue: 'Annual Leave' },
               { value: 2, displayValue: 'Working from home' },
-              { value: 3, displayValue: 'Sick Leave' },
-              { value: 4, displayValue: 'Work Related travel' },
-            ],
+             ],
           }}
           value={formData.eventTypeId}
           label="Reason:"

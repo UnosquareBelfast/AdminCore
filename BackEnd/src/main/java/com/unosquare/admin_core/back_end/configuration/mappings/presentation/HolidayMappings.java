@@ -18,7 +18,7 @@ public class HolidayMappings implements BaseMappings<EventDTO, HolidayViewModel>
         return new PropertyMap <EventDTO, HolidayViewModel>() {
             protected void configure() {
 
-                map().setHolidayId(source.getEventId());
+                map().setEventId(source.getEventId());
                 map().setDateCreated(source.getDateCreated());
                 map().setEndDate(source.getEndDate());
                 map().setHalfDay(source.isHalfDay());
