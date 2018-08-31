@@ -3,7 +3,6 @@ import moment from 'moment';
 import store from '../store';
 
 const baseURL = process.env.DOMAIN;
-
 const instance = axios.create({
   baseURL,
 });

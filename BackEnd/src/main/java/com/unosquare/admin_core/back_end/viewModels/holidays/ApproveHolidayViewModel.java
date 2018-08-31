@@ -7,5 +7,5 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ApproveHolidayViewModel {
     @NotBlank
-    private int holidayId;
+    private int eventId;
 }
