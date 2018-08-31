@@ -1,29 +1,32 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Banner } from './styled';
+import eventCategory from '../../../utilities/eventCategory';
 import { statusText } from '../../../utilities/holidayStatus';
-import eventTypes, { getEventTypeValue } from '../../../utilities/eventTypes';
+import eventTypes, { typeText } from '../../../utilities/eventTypes';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/fontawesome-free-solid';
 
 const ModalStatusBanner = props => {
   const { userName, eventStatus, eventType, cancelEvent } = props;
-  const { eventStatusId, description } = eventStatus;
+  const { eventStatusId } = eventStatus;
   const { eventTypeId } = eventType;
 
   let bannerId;
   let bannerDescription;
+  let category;
   if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
     bannerId = eventStatusId;
-    bannerDescription = description;
+    bannerDescription = statusText[eventStatusId];
+    category = eventCategory.HOLIDAY_STATUS;
   } else {
-    const selectedEventType = getEventTypeValue(eventTypeId, eventStatusId);
-    bannerId = selectedEventType;
-    bannerDescription = statusText[selectedEventType];
+    bannerId = eventTypeId;
+    bannerDescription = typeText[eventTypeId];
+    category = eventCategory.EVENT_TYPE;
   }
 
   return (
-    <Banner status={bannerId}>
+    <Banner status={bannerId} className={category}>
       <div>
         <h4>{userName}</h4>
         <p>{bannerDescription}</p>
