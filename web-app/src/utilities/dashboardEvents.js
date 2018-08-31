@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { getDurationBetweenDates } from './dates';
+import eventTypes from './eventTypes';
 import mandatoryEvents from './mandatoryEvents';
 import { flow } from 'lodash/fp';
 import { uniqBy } from 'lodash';
@@ -71,6 +72,7 @@ export const getEventDuration = event => {
   }
 };
 
+// Detect if we want to fire off a new request for event data
 export const requiresNewRequest = date => {
   let requireNewRequest = true;
   const month = new moment(date, 'YYYY-MM-DD').month();
@@ -94,4 +96,90 @@ export const requiresNewRequest = date => {
   });
 
   return requireNewRequest;
+  
+/*
+  Booking Form Validation
+*/
+
+export const startDateValidation = formData => {
+  if (formData.isHalfday) {
+    formData.end = formData.start;
+  } else {
+    if (formData.start.isAfter(formData.end)) {
+      formData.end = formData.start;
+    }
+  }
+  return formData;
+};
+
+export const endDateValidation = formData => {
+  if (formData.isHalfday) {
+    formData.start = formData.end;
+  } else {
+    if (formData.end.isBefore(formData.start)) {
+      formData.start = formData.end;
+    }
+  }
+  return formData;
+};
+
+export const halfDayValidation = formData => {
+  formData.end = formData.start;
+  formData.eventTypeId = eventTypes.ANNUAL_LEAVE;
+  return formData;
+};
+
+/* 
+  Events Validation
+*/
+
+export const validationMessage = {
+  PAST_DATES_SELECTED: 'Unable to select past dates',
+  WEEKEND_DATES_SELECTED: 'Unable to select weekend dates',
+  DATES_ALREADY_REQUESTED:
+    'You cannot request dates that have already been set',
+  DATES_APPROVED: 'Dates approved',
+};
+
+export const checkIfPastDatesSelected = start => {
+  const today = new moment();
+  return moment(start).isBefore(today);
+};
+
+export const checkIfDatesFallOnWeekend = (start, end) => {
+  if (moment(start).isoWeekday() > 5 && moment(end).isoWeekday() > 5) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const checkIfSelectedDatesOverlapExisting = (
+  events,
+  employeeId,
+  start,
+  end,
+  selectedEventId = null,
+) => {
+  const overlappingEvents = events.filter(event => {
+    const { employee, eventId } = event;
+    if (
+      employee &&
+      employee.employeeId === employeeId &&
+      selectedEventId !== eventId
+    ) {
+      const selectedDateRange = moment.range(
+        moment(start),
+        moment(end).endOf('day'),
+      );
+      const existingEvent = moment.range(
+        moment(event.start),
+        moment(event.end),
+      );
+      if (selectedDateRange.overlaps(existingEvent)) {
+        return true;
+      }
+    }
+  });
+  return overlappingEvents.length > 0;
 };
