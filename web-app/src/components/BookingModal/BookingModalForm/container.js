@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
 import {
+  validationMessage,
   checkIfPastDatesSelected,
   checkIfDatesFallOnWeekend,
   checkIfSelectedDatesOverlapExisting,
@@ -65,9 +66,9 @@ const Container = Wrapped =>
       const pastDatesSelected = checkIfPastDatesSelected(start);
       const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
       if (pastDatesSelected) {
-        return 'Unable to select past dates';
+        return validationMessage.PAST_DATES_SELECTED;
       } else if (datesFallOnWeekend) {
-        return 'Unable to select weekend dates';
+        return validationMessage.WEEKEND_DATES_SELECTED;
       } else {
         const {
           userDetails: { employeeId },
@@ -83,9 +84,9 @@ const Container = Wrapped =>
           eventId,
         );
         if (datesOverlapExisting) {
-          return 'You cannot request dates that have already been set';
+          return validationMessage.DATES_ALREADY_REQUESTED;
         } else {
-          return 'Dates approved';
+          return validationMessage.DATES_APPROVED;
         }
       }
     }
@@ -108,7 +109,8 @@ const Container = Wrapped =>
         const calendarValidationResults = this.handleCalendarValidation(
           formData,
         );
-        formIsValid = calendarValidationResults === 'Dates approved';
+        formIsValid =
+          calendarValidationResults === validationMessage.DATES_APPROVED;
         Toast({
           type: formIsValid ? 'success' : 'warning',
           title: calendarValidationResults,

@@ -87,6 +87,14 @@ export const halfDayValidation = formData => {
   Events Validation
 */
 
+export const validationMessage = {
+  PAST_DATES_SELECTED: 'Unable to select past dates',
+  WEEKEND_DATES_SELECTED: 'Unable to select weekend dates',
+  DATES_ALREADY_REQUESTED:
+    'You cannot request dates that have already been set',
+  DATES_APPROVED: 'Dates approved',
+};
+
 export const checkIfPastDatesSelected = start => {
   const today = new moment();
   return moment(start).isBefore(today);

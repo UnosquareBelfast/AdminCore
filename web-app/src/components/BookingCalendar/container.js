@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
+  validationMessage,
   checkIfPastDatesSelected,
   checkIfDatesFallOnWeekend,
   checkIfSelectedDatesOverlapExisting,
@@ -51,9 +52,9 @@ const BookingCalendarContainer = Wrapped =>
       const pastDatesSelected = checkIfPastDatesSelected(start);
       const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
       if (pastDatesSelected) {
-        return 'Unable to select past dates';
+        return validationMessage.PAST_DATES_SELECTED;
       } else if (datesFallOnWeekend) {
-        return 'Unable to select weekend dates';
+        return validationMessage.WEEKEND_DATES_SELECTED;
       } else {
         const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
           events,
@@ -62,9 +63,9 @@ const BookingCalendarContainer = Wrapped =>
           end,
         );
         if (datesOverlapExisting) {
-          return 'You cannot request dates that have already been set';
+          return validationMessage.DATES_ALREADY_REQUESTED;
         } else {
-          return 'Dates approved';
+          return validationMessage.DATES_APPROVED;
         }
       }
     };
@@ -74,7 +75,7 @@ const BookingCalendarContainer = Wrapped =>
         start,
         end,
       );
-      if (calendarValidationResults === 'Dates approved') {
+      if (calendarValidationResults === validationMessage.DATES_APPROVED) {
         let booking = {
           start: new moment(start),
           end: new moment(end),
