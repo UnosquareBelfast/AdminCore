@@ -1,64 +1,40 @@
-import moment from 'moment';
 import { getDurationBetweenDates } from './dates';
+import mandatoryEvents from './mandatoryEvents';
+import flow from 'lodash/fp/flow';
+import moment from 'moment';
 
-export const getMandatoryEvents = () => {
-  const currYear = new Date().getFullYear();
-  const events = [
-    {
-      title: 'Christmas Day',
-      mandatoryDate: `${currYear}-12-25`,
-    },
-    {
-      title: 'New Years Day',
-      mandatoryDate: `${currYear}-12-31`,
-    },
-    {
-      title: 'Memorial Day',
-      mandatoryDate: `${currYear}-05-28`,
-    },
-  ];
-
-  return events;
+// The pipeline that our events go through to make them calendar ready.
+export const transformEvents = allEvents => {
+  return flow(
+    _formatEventsForCalendar,
+    _appendMandatoryEvents,
+  )(allEvents);
 };
 
-const formattedMandatoryEvents = () => {
-  const mandatoryEvents = getMandatoryEvents();
-
-  const events = mandatoryEvents.map(function(event) {
+// Private. Takes the events from the server and transforms them into a format
+// that our calendar supports.
+const _formatEventsForCalendar = events => {
+  return events.map(event => {
     return {
-      holidayId: -1,
-      title: event.title,
-      allDay: true,
-      start: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
-      end: new moment([event.mandatoryDate], 'YYYY-MM-DD'),
-      halfDay: false,
-      employee: null,
-      eventStatus: { eventStatusId: 4, description: 'Mandatory' },
-      eventType: { eventTypeId: 1, description: 'Annual leave' },
-    };
-  });
-  return events;
-};
-
-export const formatEventsForCalendar = data => {
-  const mandatoryEvents = formattedMandatoryEvents();
-  const events = data.map(event => {
-    return {
-      holidayId: event.holidayId,
+      eventId: event.eventId,
       title: `${event.employee.forename} ${event.employee.surname}`,
       allDay: !event.halfDay,
-      start: event.start,
-      end: event.end,
+      start: new moment([event.startDate], 'YYYY-MM-DD'),
+      end: new moment([event.endDate], 'YYYY-MM-DD'),
       halfDay: event.halfDay,
       employee: event.employee,
       eventStatus: event.eventStatus,
       eventType: event.eventType,
     };
   });
-  events.concat(mandatoryEvents);
-  return [...mandatoryEvents, ...events];
 };
 
+// Private. Appends the mandatory holidays as specified in ./mandatoryEvents.js
+const _appendMandatoryEvents = data => {
+  return data.concat(mandatoryEvents);
+};
+
+// Takes an event and turns the duration of the event
 export const getEventDuration = event => {
   const { start, end, isHalfday, eventType } = event;
   let duration = getDurationBetweenDates(start, end);

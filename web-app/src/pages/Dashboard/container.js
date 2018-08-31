@@ -2,16 +2,24 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchEvents } from '../../actions/dashboard';
-import { getUser, getTakenHolidays, eventBeingUpdated } from '../../reducers';
+import { fetchEvents, setEventView } from '../../actions/dashboard';
+import {
+  getUser,
+  getEventView,
+  getAllEvents,
+  eventBeingUpdated,
+} from '../../reducers';
+import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object,
+      setEventView: PT.func.isRequired,
+      eventView: PT.number.isRequired,
       fetchEvents: PT.func.isRequired,
-      takenEvents: PT.array,
+      allEvents: PT.array,
       isEventBeingUpdated: PT.bool,
     };
 
@@ -22,6 +30,7 @@ const DashboardContainer = Wrapped =>
         filteredEvents: [],
         activeEventIds: [],
         activeEmployee: -1,
+        eventView: eventsView.PERSONAL_EVENTS,
       };
     }
 
@@ -30,13 +39,25 @@ const DashboardContainer = Wrapped =>
     }
 
     componentDidUpdate = prevProps => {
-      if (prevProps.takenEvents !== this.props.takenEvents) {
-        this.setState({ filteredEvents: [...this.props.takenEvents] });
+      if (prevProps.allEvents !== this.props.allEvents) {
+        this.setState({ filteredEvents: [...this.props.allEvents] });
       }
     };
 
+    toggleEventsView = () => {
+      const { eventView } = this.props;
+      let updatedEventView;
+      if (eventView === eventsView.PERSONAL_EVENTS) {
+        updatedEventView = eventsView.TEAM_EVENTS;
+      } else {
+        updatedEventView = eventsView.PERSONAL_EVENTS;
+      }
+      this.props.setEventView(updatedEventView);
+      this.fetchEvents(updatedEventView);
+    };
+
     filterCalenderEvents = () => {
-      let filteredEvents = [...this.props.takenEvents];
+      let filteredEvents = [...this.props.allEvents];
       const { activeEmployee, activeEventIds } = this.state;
 
       filteredEvents = this.filterEmployee(filteredEvents, activeEmployee);
@@ -66,7 +87,7 @@ const DashboardContainer = Wrapped =>
         return filteredEvents;
       } else {
         return filteredEvents.filter(hol =>
-          activeEventIds.includes(hol.eventStatus.eventStatusId)
+          activeEventIds.includes(hol.eventStatus.eventStatusId),
         );
       }
     };
@@ -85,24 +106,34 @@ const DashboardContainer = Wrapped =>
         {
           calendarDate: newDate.startOf('month').format('YYYY-MM-DD'),
         },
-        this.fetchEvents
+        this.fetchEvents,
       );
     };
 
-    fetchEvents = () => {
+    fetchEvents = (eventView = this.props.eventView) => {
       const { calendarDate } = this.state;
-      this.props.fetchEvents(calendarDate);
+      this.props.fetchEvents(calendarDate, eventView);
     };
 
     render() {
+      const { filteredEvents } = this.state;
+      const {
+        userDetails: { employeeId },
+        allEvents,
+        eventView,
+        isEventBeingUpdated,
+      } = this.props;
+
       return (
         this.props.userDetails && (
           <Wrapped
-            employeeId={this.props.userDetails.employeeId}
-            takenEvents={this.props.takenEvents}
-            events={this.state.filteredEvents}
+            employeeId={employeeId}
+            allEvents={allEvents}
+            onToggleEventsView={this.toggleEventsView}
+            eventView={eventView}
+            filteredEvents={filteredEvents}
             updateTakenEvents={this.fetchEvents}
-            isEventBeingUpdated={this.props.isEventBeingUpdated}
+            isEventBeingUpdated={isEventBeingUpdated}
             onUpdateEvents={activeEventIds =>
               this.setActiveEvents(activeEventIds)
             }
@@ -119,19 +150,23 @@ const DashboardContainer = Wrapped =>
 const mapStateToProps = state => {
   return {
     userDetails: getUser(state),
-    takenEvents: getTakenHolidays(state),
+    eventView: getEventView(state),
+    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
-2;
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchEvents: date => dispatch(fetchEvents(date)),
+    fetchEvents: (date, eventView) => dispatch(fetchEvents(date, eventView)),
+    setEventView: eventView => dispatch(setEventView(eventView)),
   };
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  DashboardContainer
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  DashboardContainer,
 );

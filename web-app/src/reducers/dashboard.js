@@ -1,4 +1,5 @@
 import {
+  SET_EVENT_VIEW,
   SET_CALENDAR_EVENTS,
   SET_ERROR,
   SELECT_EVENT,
@@ -6,12 +7,14 @@ import {
   TOGGLE_BOOKING_MODAL,
   SET_IS_BEING_UPDATED,
 } from '../actionTypes';
+import eventsView from '../utilities/eventsView';
 import moment from 'moment';
 
 const initialState = {
-  takenHolidays: [],
+  eventView: eventsView.PERSONAL_EVENTS,
+  allEvents: [],
   booking: {
-    holidayId: -1,
+    eventId: -1,
     title: null,
     start: new moment(),
     end: new moment(),
@@ -40,9 +43,13 @@ export default function dashboardReducer(state = initialState, action) {
 
 // Handlers
 const ACTION_HANDLERS = {
+  [SET_EVENT_VIEW]: (state, action) => ({
+    ...state,
+    eventView: action.payload,
+  }),
   [SET_CALENDAR_EVENTS]: (state, action) => ({
     ...state,
-    takenHolidays: action.payload,
+    allEvents: action.payload,
   }),
   [SET_ERROR]: (state, action) => ({
     ...state,
@@ -67,7 +74,8 @@ const ACTION_HANDLERS = {
 };
 
 // Private selectors
-export const getTakenHolidays = store => store.takenHolidays;
+export const getAllEvents = store => store.allEvents;
+export const getEventView = store => store.eventView;
 export const eventBeingUpdated = store => store.isEventBeingUpdated;
 export const getBooking = store => store.booking;
 export const bookingModalOpen = store => store.bookingModalOpen;

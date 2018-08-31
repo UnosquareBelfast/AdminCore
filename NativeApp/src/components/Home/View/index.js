@@ -8,15 +8,16 @@ import { H3_SIZE } from '../../../styles/text';
 
 const HomeView = (props) => {
   const {
-    takenHolidays,
+    events,
     onDayPress,
+    onMonthChange,
   } = props;
 
   return (
     <View style={styles.container}>
       <Calendar
         style={[styles.calendar]}
-        markedDates={takenHolidays}
+        markedDates={events}
         markingType="period"
         dayComponent={dayProps => <CustomDay {...dayProps} />}
         theme={{
@@ -35,18 +36,20 @@ const HomeView = (props) => {
             },
           },
         }}
-        onDayPress={(day) => { onDayPress(day); }}
+        onDayPress={day => onDayPress(day)}
+        onMonthChange={month => onMonthChange(month)}
       />
     </View>
   );
 };
 
 HomeView.propTypes = {
-  takenHolidays: PT.shape({
+  events: PT.shape({
     text: PT.string,
     color: PT.string,
   }).isRequired,
   onDayPress: PT.func.isRequired,
+  onMonthChange: PT.func.isRequired,
 };
 
 const styles = StyleSheet.create({
