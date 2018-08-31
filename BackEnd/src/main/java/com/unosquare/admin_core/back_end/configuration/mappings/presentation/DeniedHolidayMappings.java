@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.configuration.mappings.presentation;
 
-import com.unosquare.admin_core.back_end.viewModels.holidays.RejectHolidayViewModel;
+import com.unosquare.admin_core.back_end.viewModels.holidays.DeniedHolidayViewModel;
 import com.unosquare.admin_core.back_end.configuration.mappings.BaseMappings;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventStatusesConverter;
 import com.unosquare.admin_core.back_end.configuration.mappings.converters.EventTypesConverter;
@@ -11,11 +11,11 @@ import org.modelmapper.PropertyMap;
 
 import java.time.LocalDate;
 
-public class RejectHolidayMappings implements BaseMappings<EventDTO, RejectHolidayViewModel> {
+public class DeniedHolidayMappings implements BaseMappings<EventDTO, DeniedHolidayViewModel> {
 
     @Override
-    public PropertyMap<EventDTO, RejectHolidayViewModel> MapFromSourceToTarget() {
-        return new PropertyMap <EventDTO, RejectHolidayViewModel>() {
+    public PropertyMap<EventDTO, DeniedHolidayViewModel> MapFromSourceToTarget() {
+        return new PropertyMap <EventDTO, DeniedHolidayViewModel>() {
             protected void configure() {
 
             }
@@ -23,15 +23,15 @@ public class RejectHolidayMappings implements BaseMappings<EventDTO, RejectHolid
     }
 
     @Override
-    public PropertyMap<RejectHolidayViewModel, EventDTO> MapFromTargetToSource() {
-        return  new PropertyMap <RejectHolidayViewModel, EventDTO>() {
+    public PropertyMap<DeniedHolidayViewModel, EventDTO> MapFromTargetToSource() {
+        return  new PropertyMap <DeniedHolidayViewModel, EventDTO>() {
             protected void configure() {
                 EventTypesConverter eventTypesConverter = new EventTypesConverter();
                 EventStatusesConverter eventStatusConverter = new EventStatusesConverter();
 
                 using(eventTypesConverter.MapFromSourceToTarget()).map(EventTypes.ANNUAL_LEAVE, destination.getEventTypeId());
-                using(eventStatusConverter.MapFromSourceToTarget()).map(EventStatuses.REJECTED, destination.getEventStatusId());
-                map().setEventId(source.getHolidayId());
+                using(eventStatusConverter.MapFromSourceToTarget()).map(EventStatuses.DENIED, destination.getEventStatusId());
+                map().setEventId(source.getEventId());
                 map().setLastModified(LocalDate.now());
                 skip().setEmployee(null);
             }

@@ -267,6 +267,7 @@ CREATE TABLE IF NOT EXISTS public.event
   event_status_id integer,
   event_type_id integer,
   is_half_day       boolean NOT NULL,
+  denied_message varchar(50),
   last_modified     date,
   CONSTRAINT event_pkey PRIMARY KEY (event_id),
   CONSTRAINT event_employee_id_fkey FOREIGN KEY (employee_id)

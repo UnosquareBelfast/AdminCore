@@ -42,6 +42,9 @@ public class Event {
     @Column(name = "last_modified")
     private LocalDate lastModified;
 
+    @Column(name = "denied_message")
+    private String deniedMessage;
+
     @Column(name = "date_created")
     private LocalDate dateCreated;
 

@@ -28,5 +28,7 @@ public class EventDTO {
 
     private LocalDate lastModified;
 
+    private String deniedMessage;
+
     private LocalDate dateCreated;
 }

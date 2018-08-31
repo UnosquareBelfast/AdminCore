@@ -79,7 +79,7 @@ public class HolidayController {
 
             for (DateViewModel date : createHolidayViewModel.getDates()) {
 
-                EventDTO newHoliday = modelMapper.map(date , EventDTO.class);
+                EventDTO newHoliday = modelMapper.map(date, EventDTO.class);
                 modelMapper.map(createHolidayViewModel, newHoliday);
                 newHolidays.add(newHoliday);
             }
@@ -94,34 +94,35 @@ public class HolidayController {
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody UpdateHolidayViewModel updateHolidayViewModel) {
         UpdateEventDTO event = modelMapper.map(updateHolidayViewModel, UpdateEventDTO.class);
-        eventService.updateEvent(event); }
+        eventService.updateEvent(event);
+    }
 
     @PutMapping(value = "/approveHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel){
+    public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel) {
         EventDTO event = modelMapper.map(approveHolidayViewModel, EventDTO.class);
         eventService.approveEvent(event.getEventId());
     }
 
     @PutMapping(value = "/cancelHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel){
+    public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel) {
         EventDTO event = modelMapper.map(cancelHolidayViewModel, EventDTO.class);
         eventService.cancelEvent(event.getEventId());
     }
 
-    @PutMapping(value = "/rejectHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/denyHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel){
-        EventDTO event = modelMapper.map(rejectHolidayViewModel, EventDTO.class);
-        eventService.rejectEvent(event.getEventId());
+    public void denyHoliday(@RequestBody DeniedHolidayViewModel deniedHolidayViewModel) { ;
+        EventDTO event = modelMapper.map(deniedHolidayViewModel, EventDTO.class);
+            eventService.denyEvent(event.getEventId(), event.getDeniedMessage());
     }
 
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
-                                            @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
-        return mapEventDtosToHolidays(eventService.findByDateBetween(rangeStart, rangeEnd,EventTypes.ANNUAL_LEAVE));
+                                                    @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
+        return mapEventDtosToHolidays(eventService.findByDateBetween(rangeStart, rangeEnd, EventTypes.ANNUAL_LEAVE));
     }
 
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -131,6 +132,6 @@ public class HolidayController {
     }
 
     private List<HolidayViewModel> mapEventDtosToHolidays(List<EventDTO> events) {
-            return events.stream().map(event -> modelMapper.map(event, HolidayViewModel.class)).collect(Collectors.toList());
+        return events.stream().map(event -> modelMapper.map(event, HolidayViewModel.class)).collect(Collectors.toList());
     }
 }

@@ -5,7 +5,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class RejectHolidayViewModel {
-@NotBlank
-private int eventId;
+public class DeniedHolidayViewModel {
+    @NotBlank
+    private int eventId;
+
+    private String deniedMessage;
 }

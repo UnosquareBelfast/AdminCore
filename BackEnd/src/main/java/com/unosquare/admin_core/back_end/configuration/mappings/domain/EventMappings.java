@@ -17,6 +17,7 @@ public class EventMappings implements BaseMappings<EventDTO, Event> {
                 map().setEventType(new EventType(source.getEventTypeId()));
                 map().setStartDate(source.getStartDate());
                 map().setEndDate(source.getEndDate());
+                map().setDeniedMessage(source.getDeniedMessage());
             }
         };
     }
