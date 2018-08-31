@@ -29,7 +29,7 @@ public class UpdateHolidayMappings implements BaseMappings<UpdateEventDTO, Updat
                 EventTypesConverter eventTypesConverter = new EventTypesConverter();
                 using(eventTypesConverter.MapFromSourceToTarget()).map(EventTypes.ANNUAL_LEAVE, destination.getEventTypeId());
                 map().setHalfDay(source.isHalfDay());
-                map().setEventId(source.getHolidayId());
+                map().setEventId(source.getEventId());
                 map().setLastModified(LocalDate.now());
                 map().setStartDate(source.getStartDate());
                 map().setEndDate(source.getEndDate());

@@ -22,7 +22,7 @@ public class ApproveHolidayMappings implements BaseMappings<EventDTO, ApproveHol
     public PropertyMap<ApproveHolidayViewModel, EventDTO> MapFromTargetToSource() {
         return  new PropertyMap <ApproveHolidayViewModel, EventDTO>() {
             protected void configure() {
-                map().setEventId(source.getHolidayId());
+                map().setEventId(source.getEventId());
             }
         };
     }

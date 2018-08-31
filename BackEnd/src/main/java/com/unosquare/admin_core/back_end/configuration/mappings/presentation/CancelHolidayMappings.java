@@ -31,7 +31,7 @@ public class CancelHolidayMappings implements BaseMappings<EventDTO, CancelHolid
 
                 using(eventTypesConverter.MapFromSourceToTarget()).map(EventTypes.ANNUAL_LEAVE, destination.getEventTypeId());
                 using(eventStatusConverter.MapFromSourceToTarget()).map(EventStatuses.CANCELLED, destination.getEventStatusId());
-                map().setEventId(source.getHolidayId());
+                map().setEventId(source.getEventId());
                 map().setLastModified(LocalDate.now());
                 skip().setEmployee(null);
             }
