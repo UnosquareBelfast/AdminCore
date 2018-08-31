@@ -29,7 +29,6 @@ const DashboardContainer = Wrapped =>
       this.state = {
         calendarDate: new moment().startOf('month').format('YYYY-MM-DD'),
         filteredEvents: [],
-        activeEventIds: [],
         activeEventTypeIds: [],
         activeHolidayStatusIds: [],
         activeEmployee: -1,
