@@ -118,6 +118,7 @@ const DashboardContainer = Wrapped =>
     render() {
       const { filteredEvents } = this.state;
       const {
+        userDetails,
         userDetails: { employeeId },
         allEvents,
         eventView,
@@ -125,14 +126,14 @@ const DashboardContainer = Wrapped =>
       } = this.props;
 
       return (
-        this.props.userDetails && (
+        userDetails && (
           <Wrapped
             employeeId={employeeId}
             allEvents={allEvents}
             onToggleEventsView={this.toggleEventsView}
             eventView={eventView}
             filteredEvents={filteredEvents}
-            updateTakenEvents={this.fetchEvents}
+            updateTakenEvents={() => this.fetchEvents(eventView, true)}
             isEventBeingUpdated={isEventBeingUpdated}
             onUpdateEvents={activeEventIds =>
               this.setActiveEvents(activeEventIds)
