@@ -114,11 +114,14 @@ export const checkIfSelectedDatesOverlapExisting = (
       employee.employeeId === employeeId &&
       selectedEventId !== eventId
     ) {
-      var selectedDateRange = moment.range(
+      const selectedDateRange = moment.range(
         moment(start),
         moment(end).endOf('day'),
       );
-      var existingEvent = moment.range(moment(event.start), moment(event.end));
+      const existingEvent = moment.range(
+        moment(event.start),
+        moment(event.end),
+      );
       if (selectedDateRange.overlaps(existingEvent)) {
         return true;
       }
