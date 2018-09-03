@@ -4,6 +4,8 @@ import container from './container';
 import { MainContentContainer } from './styled';
 import { DataTable, HolidayModal } from '../../components/';
 import HolidayCells from '../../components/DataTable/Cells/holidays';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faCalendar, faCheck, faSpinner } from '@fortawesome/fontawesome-free-solid';
 
 const Profile = props => {
   const {
@@ -30,15 +32,15 @@ const Profile = props => {
           <div className="columns">
             <div>
               <h1>{totalHolidays - daysBooked}</h1>
-              <h4>Days Remaining</h4>
+              <h4><FontAwesomeIcon icon={faCalendar} /> Days Remaining</h4>
             </div>
             <div>
               <h1>{daysBooked}</h1>
-              <h4>Days Booked</h4>
+              <h4><FontAwesomeIcon icon={faCheck} />Days Booked</h4>
             </div>
             <div>
               <h1>{daysPending}</h1>
-              <h4>Days Pending</h4>
+              <h4><FontAwesomeIcon icon={faSpinner} />Days Pending</h4>
             </div>
           </div>
           <DataTable
