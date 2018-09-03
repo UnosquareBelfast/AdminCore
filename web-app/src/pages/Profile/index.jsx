@@ -36,11 +36,11 @@ const Profile = props => {
             </div>
             <div>
               <h1>{daysBooked}</h1>
-              <h4><FontAwesomeIcon icon={faCheck} />Days Booked</h4>
+              <h4><FontAwesomeIcon icon={faCheck} /> Days Booked</h4>
             </div>
             <div>
               <h1>{daysPending}</h1>
-              <h4><FontAwesomeIcon icon={faSpinner} />Days Pending</h4>
+              <h4><FontAwesomeIcon icon={faSpinner} /> Days Pending</h4>
             </div>
           </div>
           <DataTable
