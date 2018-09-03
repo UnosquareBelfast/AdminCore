@@ -94,7 +94,17 @@ const Input = props => {
       inputElement = (
         <DatePickerContainer className={inputClasses.join(' ')}>
           <FontAwesomeIcon icon={faCalendarAlt} />
-          <DatePicker selected={value} onChange={changed} />
+          <DatePicker
+            selected={value}
+            onChange={changed}
+            placeholderText={htmlAttrs.placeholder}
+            disabledKeyboardNavigation
+            readOnly
+            filterDate={date => {
+              const day = date.day();
+              return day !== 0 && day !== 6;
+            }}
+          />
         </DatePickerContainer>
       );
       break;
