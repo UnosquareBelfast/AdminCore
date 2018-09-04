@@ -33,16 +33,16 @@ const Profile = props => {
         <div className="holidayinfo">
           <div className="columns">
             <div>
-              <h1>{totalHolidays - daysBooked}</h1>
-              <h4><FontAwesomeIcon icon={faCalendar} /> Days Remaining</h4>
+              <h1>{totalHolidays - daysBooked} Days</h1>
+              <h4><FontAwesomeIcon icon={faCalendar} /> Remaining</h4>
             </div>
             <div>
-              <h1>{daysBooked}</h1>
-              <h4><FontAwesomeIcon icon={faCheck} /> Days Booked</h4>
+              <h1>{daysBooked} Days</h1>
+              <h4><FontAwesomeIcon icon={faCheck} /> Booked</h4>
             </div>
             <div>
-              <h1>{daysPending}</h1>
-              <h4><FontAwesomeIcon icon={faSpinner} /> Days Pending</h4>
+              <h1>{daysPending} Days</h1>
+              <h4><FontAwesomeIcon icon={faSpinner} /> Pending</h4>
             </div>
           </div>
       <Columns>
