@@ -34,6 +34,7 @@ const ProfileContainer = Wrapped =>
       // Required in case the user navigates away from the page, then back.
       this.setState({ holidays: null });
       this.setState( { contracts: [] });
+      this.getContracts();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -60,21 +61,19 @@ const ProfileContainer = Wrapped =>
             });
           });
         });
-      } 
-      if (
-        this.props.userDetails.employeeId !== null &&
-        this.state.contracts !== null
-      )
-        {   
-        getContractsByEmployeeId(this.props.userDetails.employeeId).then(response => {
-          const contracts = response.data;
-                this.setState({ contracts });
-              })
-              .catch(error =>
-                swal('Error',`Error finding contracts: ${error.message}`, 'error')
-              );
-          };     
+      }   
     }
+
+      getContracts()
+      {   
+      getContractsByEmployeeId(this.props.userDetails.employeeId).then(response => {
+        const contracts = response.data;
+              this.setState({ contracts });
+            })
+            .catch(error =>
+              swal('Error',`Error finding contracts: ${error.message}`, 'error')
+            );
+        }; 
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
