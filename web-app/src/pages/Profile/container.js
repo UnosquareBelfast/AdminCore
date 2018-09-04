@@ -33,7 +33,7 @@ const ProfileContainer = Wrapped =>
     componentDidMount() {
       // Required in case the user navigates away from the page, then back.
       this.setState({ holidays: null });
-      this.setState( { contracts: [] });
+      this.setState({ contracts: [] });
       this.getContracts();
     }
 
