@@ -33,7 +33,10 @@ export const MainContentContainer = styled.div`
       margin-right: 15px;
     }
 
-    h1,
+    h1 {
+      margin-bottom: 5px;
+      color: ${props => props.theme.colours.unoBlue};
+    }
     h4 {
       margin: 0;
     }

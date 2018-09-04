@@ -48,4 +48,14 @@ export const Key = styled.div`
   &.selected {
     box-shadow: inset 0 0 0 2px white;
   }
+
+  &.holidayStatus {
+    background-color: ${props => props.theme.holidayStatus[props.status]};
+    border: 2px solid ${props => props.theme.holidayStatus[props.status]};
+  }
+
+  &.eventType {
+    background-color: ${props => props.theme.eventType[props.status]};
+    border: 2px solid ${props => props.theme.eventType[props.status]};
+  }
 `;

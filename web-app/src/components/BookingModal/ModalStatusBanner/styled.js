@@ -16,6 +16,14 @@ export const Banner = styled.div`
     margin-right: 5px;
   }
 
+  &.holidayStatus{
+    background: ${({ theme, status }) => theme.holidayStatus[status]};
+  }
+
+  &.eventType{
+    background: ${({ theme, status }) => theme.eventType[status]};
+  }
+
   .cancelEvent {
     cursor: pointer;
     border: 1.5px solid white;

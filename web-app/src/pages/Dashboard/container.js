@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvents, setEventView } from '../../actions/dashboard';
+import eventCategory from '../../utilities/eventCategory';
 import {
   getUser,
   getEventView,
@@ -28,7 +29,8 @@ const DashboardContainer = Wrapped =>
       this.state = {
         calendarDate: new moment().startOf('month').format('YYYY-MM-DD'),
         filteredEvents: [],
-        activeEventIds: [],
+        activeEventTypeIds: [],
+        activeHolidayStatusIds: [],
         activeEmployee: -1,
         eventView: eventsView.PERSONAL_EVENTS,
       };
@@ -58,10 +60,18 @@ const DashboardContainer = Wrapped =>
 
     filterCalenderEvents = () => {
       let filteredEvents = [...this.props.allEvents];
-      const { activeEmployee, activeEventIds } = this.state;
+      const {
+        activeEmployee,
+        activeHolidayStatusIds,
+        activeEventTypeIds,
+      } = this.state;
 
       filteredEvents = this.filterEmployee(filteredEvents, activeEmployee);
-      filteredEvents = this.filterEvents(filteredEvents, activeEventIds);
+      filteredEvents = this.filterEvents(
+        filteredEvents,
+        activeHolidayStatusIds,
+        activeEventTypeIds,
+      );
 
       this.setState({ filteredEvents });
     };
@@ -82,18 +92,37 @@ const DashboardContainer = Wrapped =>
 
     // Filter Events
 
-    filterEvents = (filteredEvents, activeEventIds) => {
-      if (activeEventIds.length === 0) {
+    filterEvents = (
+      filteredEvents,
+      activeHolidayStatusIds,
+      activeEventTypeIds,
+    ) => {
+      if (
+        activeHolidayStatusIds.length === 0 &&
+        activeEventTypeIds.length === 0
+      ) {
         return filteredEvents;
       } else {
-        return filteredEvents.filter(hol =>
-          activeEventIds.includes(hol.eventStatus.eventStatusId)
+        return filteredEvents.filter(
+          hol =>
+            activeHolidayStatusIds.includes(hol.eventStatus.eventStatusId) ||
+            activeEventTypeIds.includes(hol.eventType.eventTypeId),
         );
       }
     };
 
-    setActiveEvents = activeEventIds => {
-      this.setState({ activeEventIds }, this.filterCalenderEvents);
+    setActiveEvents = (category, eventId) => {
+      if (category == eventCategory.HOLIDAY_STATUS) {
+        this.setState(
+          { activeHolidayStatusIds: eventId },
+          this.filterCalenderEvents,
+        );
+      } else if (category == eventCategory.EVENT_TYPE) {
+        this.setState(
+          { activeEventTypeIds: eventId },
+          this.filterCalenderEvents,
+        );
+      }
     };
 
     setActiveEmployee = employeeId => {
@@ -135,8 +164,8 @@ const DashboardContainer = Wrapped =>
             filteredEvents={filteredEvents}
             updateTakenEvents={() => this.fetchEvents(eventView, true)}
             isEventBeingUpdated={isEventBeingUpdated}
-            onUpdateEvents={activeEventIds =>
-              this.setActiveEvents(activeEventIds)
+            onUpdateEvents={(category, activeEventIds) =>
+              this.setActiveEvents(category, activeEventIds)
             }
             onUpdateEmployee={employeeId =>
               this.setActiveEmployee(parseInt(employeeId))
