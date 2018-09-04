@@ -28,8 +28,8 @@ const _formatEventsForCalendar = events => {
       eventId: event.eventId,
       title: `${event.employee.forename} ${event.employee.surname}`,
       allDay: !event.halfDay,
-      start: new moment([event.startDate], 'YYYY-MM-DD'),
-      end: new moment([event.endDate], 'YYYY-MM-DD'),
+      start: event.start,
+      end: event.end,
       halfDay: event.halfDay,
       employee: event.employee,
       eventStatus: event.eventStatus,
@@ -96,7 +96,8 @@ export const requiresNewRequest = date => {
   });
 
   return requireNewRequest;
-  
+};
+
 /*
   Booking Form Validation
 */
@@ -159,7 +160,7 @@ export const checkIfSelectedDatesOverlapExisting = (
   employeeId,
   start,
   end,
-  selectedEventId = null,
+  selectedEventId = null
 ) => {
   const overlappingEvents = events.filter(event => {
     const { employee, eventId } = event;
@@ -170,11 +171,11 @@ export const checkIfSelectedDatesOverlapExisting = (
     ) {
       const selectedDateRange = moment.range(
         moment(start),
-        moment(end).endOf('day'),
+        moment(end).endOf('day')
       );
       const existingEvent = moment.range(
         moment(event.start),
-        moment(event.end),
+        moment(event.end)
       );
       if (selectedDateRange.overlaps(existingEvent)) {
         return true;
