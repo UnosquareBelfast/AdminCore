@@ -17,7 +17,7 @@ const ProfileContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object.isRequired,
-  };
+    };
 
     constructor(props) {
       super(props);
