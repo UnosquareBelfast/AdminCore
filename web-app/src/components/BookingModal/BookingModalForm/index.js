@@ -75,7 +75,7 @@ const BookingModalForm = props => {
             options: [
               { value: 1, displayValue: 'Annual Leave' },
               { value: 2, displayValue: 'Working from home' },
-             ],
+            ],
           }}
           value={formData.eventTypeId}
           label="Reason:"

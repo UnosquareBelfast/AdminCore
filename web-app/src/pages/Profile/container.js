@@ -64,16 +64,16 @@ const ProfileContainer = Wrapped =>
       }   
     }
 
-      getContracts()
-      {   
+    getContracts()
+    {   
       getContractsByEmployeeId(this.props.userDetails.employeeId).then(response => {
         const contracts = response.data;
-              this.setState({ contracts });
-            })
-            .catch(error =>
-              swal('Error',`Error finding contracts: ${error.message}`, 'error')
-            );
-        }; 
+        this.setState({ contracts });
+      })
+        .catch(error =>
+          swal('Error',`Error finding contracts: ${error.message}`, 'error')
+        );
+    } 
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 

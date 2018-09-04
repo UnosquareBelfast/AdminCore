@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
-import holidayStatus, { statusText } from '../../utilities/holidayStatus';
+import holidayStatus from '../../utilities/holidayStatus';
 import { monthToMonth, dateFormat } from '../../utilities/calendarConfig';
-import { EmployeeStyleContainer, EventTable, StatusDot } from './styled';
+import { EmployeeStyleContainer } from './styled';
 import { HolidayList } from '../';
 
 class TeamView extends Component {
@@ -36,11 +36,11 @@ class TeamView extends Component {
     const employees = this.getEventsByEmployee();
     return Object.keys(employees).map(id => {
       const e = employees[id];
-      
+
       return (
         <EmployeeStyleContainer key={id}>
           <h3>{`${e.forename} ${e.surname}`}</h3>
-          <HolidayList 
+          <HolidayList
             holidays={e.events}
             columns={['status', 'startDate', 'endDate']}
           />

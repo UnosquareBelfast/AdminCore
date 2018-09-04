@@ -45,26 +45,26 @@ const Profile = props => {
               <h4><FontAwesomeIcon icon={faSpinner} /> Pending</h4>
             </div>
           </div>
-      <Columns>
-        <div>
-          <h3>My holidays</h3>
-          <DataTable
-            data={userHolidays}
-            cells={HolidayCells}
-            columns={['status', 'startDate', 'endDate', 'requestedDate']}
-            onRowClick={holiday => selectHoliday(holiday)}
-          />
-        </div>
-        <div>
-          <h3>View Contracts </h3>
-          <DataTable
-            data={contracts}
-            cells={ContractCells}
-            columns={['startDate', 'endDate']}
-            pageSize={10}
-          />
-        </div> 
-        </Columns>      
+          <Columns>
+            <div>
+              <h3>My holidays</h3>
+              <DataTable
+                data={userHolidays}
+                cells={HolidayCells}
+                columns={['status', 'startDate', 'endDate', 'requestedDate']}
+                onRowClick={holiday => selectHoliday(holiday)}
+              />
+            </div>
+            <div>
+              <h3>View Contracts </h3>
+              <DataTable
+                data={contracts}
+                cells={ContractCells}
+                columns={['startDate', 'endDate']}
+                pageSize={10}
+              />
+            </div> 
+          </Columns>      
         </div>
       </MainContentContainer>
     </Fragment>
