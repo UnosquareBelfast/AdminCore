@@ -10,12 +10,14 @@ import {
 } from '../../utilities/dates';
 import holidayStatus from '../../utilities/holidayStatus';
 import { isEmpty } from 'lodash';
+import { getContractsByEmployeeId } from '../../services/contractService';
+import swal from 'sweetalert2';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       userDetails: PT.object.isRequired,
-    };
+   };
 
     constructor(props) {
       super(props);
@@ -24,12 +26,14 @@ const ProfileContainer = Wrapped =>
         daysBooked: null,
         daysPending: null,
         selectedHoliday: {},
+        contracts: [],
       };
     }
 
     componentDidMount() {
       // Required in case the user navigates away from the page, then back.
       this.setState({ holidays: null });
+      this.setState( { contracts: [] });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -56,9 +60,24 @@ const ProfileContainer = Wrapped =>
             });
           });
         });
-      }
+      } 
+      if (
+        this.props.userDetails.employeeId !== null &&
+        this.state.contracts !== null
+      )
+        {   
+        getContractsByEmployeeId(this.props.userDetails.employeeId).then(response => {
+          const contracts = response.data;
+                this.setState({ contracts });
+              })
+              .catch(error =>
+                swal('Error',`Error finding contracts: ${error.message}`, 'error')
+              );
+          };     
     }
 
+    updateContracts = contracts => this.setState({ contracts });
+    
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
     closeModal = () => {
@@ -74,7 +93,10 @@ const ProfileContainer = Wrapped =>
           selectHoliday={this.selectHoliday}
           selectedHoliday={this.state.selectedHoliday}
           closeModal={this.closeModal}
+          contracts={this.state.contracts}
+          updateContracts={this.updateContracts}
         />
+       
       );
     }
   };
@@ -86,3 +108,5 @@ const mapStateToProps = state => {
 };
 
 export default compose(connect(mapStateToProps), ProfileContainer);
+
+
