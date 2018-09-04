@@ -76,8 +76,6 @@ const ProfileContainer = Wrapped =>
           };     
     }
 
-    updateContracts = contracts => this.setState({ contracts });
-    
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
     closeModal = () => {
@@ -94,7 +92,6 @@ const ProfileContainer = Wrapped =>
           selectedHoliday={this.state.selectedHoliday}
           closeModal={this.closeModal}
           contracts={this.state.contracts}
-          updateContracts={this.updateContracts}
         />
        
       );
