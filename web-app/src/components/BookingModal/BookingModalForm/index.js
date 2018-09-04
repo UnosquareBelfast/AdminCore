@@ -27,7 +27,7 @@ const BookingModalForm = props => {
         {
           label: 'Update',
           event: updateEvent,
-          disabled: !formIsValid || bookingDuration === 0,
+          disabled: !formIsValid,
         },
       ];
     } else {
@@ -35,7 +35,7 @@ const BookingModalForm = props => {
         {
           label: 'Request',
           event: createEvent,
-          disabled: !formIsValid || bookingDuration === 0,
+          disabled: !formIsValid,
         },
       ];
     }

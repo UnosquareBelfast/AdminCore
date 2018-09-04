@@ -3,13 +3,24 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { selectBooking, updateEventDuration } from '../../../actions/dashboard';
-import eventTypes from '../../../utilities/eventTypes';
+import {
+  validationMessage,
+  checkIfPastDatesSelected,
+  checkIfDatesFallOnWeekend,
+  checkIfSelectedDatesOverlapExisting,
+  startDateValidation,
+  endDateValidation,
+  halfDayValidation,
+} from '../../../utilities/dashboardEvents';
+import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
-import { eventBeingUpdated } from '../../../reducers';
+import { getUser, getAllEvents, eventBeingUpdated } from '../../../reducers';
 
 const Container = Wrapped =>
   class extends React.Component {
     static propTypes = {
+      userDetails: PT.object.isRequired,
+      allEvents: PT.array.isRequired,
       selectBooking: PT.func.isRequired,
       booking: PT.object.isRequired,
       isEventBeingUpdated: PT.bool,
@@ -51,44 +62,72 @@ const Container = Wrapped =>
       });
     };
 
+    handleCalendarValidation({ start, end }) {
+      const pastDatesSelected = checkIfPastDatesSelected(start);
+      const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
+      if (pastDatesSelected) {
+        return validationMessage.PAST_DATES_SELECTED;
+      } else if (datesFallOnWeekend) {
+        return validationMessage.WEEKEND_DATES_SELECTED;
+      } else {
+        const {
+          userDetails: { employeeId },
+          allEvents,
+          booking: { eventId },
+        } = this.props;
+
+        const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
+          allEvents,
+          employeeId,
+          start,
+          end,
+          eventId,
+        );
+        if (datesOverlapExisting) {
+          return validationMessage.DATES_ALREADY_REQUESTED;
+        } else {
+          return validationMessage.DATES_APPROVED;
+        }
+      }
+    }
+
     handleFormStatus(name, value, formIsValid) {
-      const formData = { ...this.state.formData };
+      let formData = { ...this.state.formData };
       formData[name] = value;
 
-      if (name == 'start') {
-        if (formData.isHalfday) {
-          formData.end = formData.start;
-        } else {
-          if (formData.start.isAfter(formData.end)) {
-            formData.end = formData.start;
-          }
-        }
-      } else if (name == 'end') {
-        if (formData.isHalfday) {
-          formData.start = formData.end;
-        } else {
-          if (formData.end.isBefore(formData.start)) {
-            formData.start = formData.end;
-          }
-        }
+      if (name === 'start') {
+        formData = startDateValidation(formData);
+      } else if (name === 'end') {
+        formData = endDateValidation(formData);
       } else if (name === 'isHalfday' && formData.isHalfday) {
-        formData.end = formData.start;
-        formData.eventTypeId = eventTypes.ANNUAL_LEAVE;
+        formData = halfDayValidation(formData);
       } else if (name === 'eventTypeId') {
         formData[name] = parseInt(value);
       }
 
-      const updatedFormData = {
-        ...formData,
-        eventType: {
-          eventTypeId: formData.eventTypeId,
-        },
-      };
-      this.props.updateEventDuration(updatedFormData);
+      if (name === 'start' || name === 'end') {
+        const calendarValidationResults = this.handleCalendarValidation(
+          formData,
+        );
+        formIsValid =
+          calendarValidationResults === validationMessage.DATES_APPROVED;
+        Toast({
+          type: formIsValid ? 'success' : 'warning',
+          title: calendarValidationResults,
+        });
+      }
 
       this.setState({
         formData,
         formIsValid,
+      });
+
+      const { updateEventDuration } = this.props;
+      updateEventDuration({
+        ...formData,
+        eventType: {
+          eventTypeId: formData.eventTypeId,
+        },
       });
     }
 
@@ -118,6 +157,8 @@ const Container = Wrapped =>
 
 const mapStateToProps = state => {
   return {
+    userDetails: getUser(state),
+    allEvents: getAllEvents(state),
     isEventBeingUpdated: eventBeingUpdated(state),
   };
 };
