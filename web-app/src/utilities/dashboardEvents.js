@@ -8,7 +8,6 @@ import { uniqBy } from 'lodash';
 import store from '../store';
 import { getAllEvents } from '../reducers';
 
-// The pipeline that our events go through to make them calendar ready.
 export const transformEvents = allEvents => {
   return new Promise(resolve => {
     const transformedEvents = flow(
@@ -20,8 +19,6 @@ export const transformEvents = allEvents => {
   });
 };
 
-// Private. Takes the events from the server and transforms them into a format
-// that our calendar supports.
 const _formatEventsForCalendar = events => {
   return events.map(event => {
     return {
@@ -38,25 +35,44 @@ const _formatEventsForCalendar = events => {
   });
 };
 
-// Private. Appends existing event data from previous requests to current.
-// and removes duplicates.
 const _appendExistingEvents = events => {
   const prevEvents = getAllEvents(store.getState());
-  // Append the previously displayed months' events to the new events.
   let combinedEvents = [...prevEvents, ...events];
-  // Remove any mandatory holidays as the next step would mess them up.
+  // Remove mandatory
   combinedEvents = combinedEvents.filter(event => event.eventId !== -1);
-  // Remove any duplicate holidays in the array.
   combinedEvents = uniqBy(combinedEvents, event => event.eventId);
   return combinedEvents;
 };
 
-// Private. Appends the mandatory holidays as specified in ./mandatoryEvents.js
 const _appendMandatoryEvents = events => {
   return events.concat(mandatoryEvents);
 };
 
-// Takes an event and turns the duration of the event
+export const requiresNewRequest = date => {
+  let requireNewRequest = true;
+  const month = new moment(date, 'YYYY-MM-DD').month();
+  let events = getAllEvents(store.getState());
+
+  // Remove mandatory
+  events = events.filter(event => event.eventId !== -1);
+
+  let eventDates = events.reduce((acc, event) => {
+    acc.push(event.start);
+    return acc;
+  }, []);
+
+  eventDates.forEach(date => {
+    if (date.month() === month) {
+      requireNewRequest = false;
+    }
+  });
+  return requireNewRequest;
+};
+
+/*
+ Utility
+*/
+
 export const getEventDuration = event => {
   const { start, end, isHalfday, eventType } = event;
   let duration = getDurationBetweenDates(start, end);
@@ -70,32 +86,6 @@ export const getEventDuration = event => {
   } else {
     return duration;
   }
-};
-
-// Detect if we want to fire off a new request for event data
-export const requiresNewRequest = date => {
-  let requireNewRequest = true;
-  const month = new moment(date, 'YYYY-MM-DD').month();
-  let events = getAllEvents(store.getState());
-
-  // Remove mandatory, we don't want to check these.
-  events = events.filter(event => event.eventId !== -1);
-
-  // Reduce events to just start dates
-  let eventDates = events.reduce((acc, event) => {
-    acc.push(event.start);
-    return acc;
-  }, []);
-
-  // Check if any of the dates' month match the month the user is viewing. If
-  // there's a match, we don't want to update.
-  eventDates.forEach(date => {
-    if (date.month() === month) {
-      requireNewRequest = false;
-    }
-  });
-
-  return requireNewRequest;
 };
 
 /*
