@@ -92,8 +92,7 @@ const ProfileContainer = Wrapped =>
           closeModal={this.closeModal}
           contracts={this.state.contracts}
         />
-       
-      );
+       );
     }
   };
 
@@ -104,5 +103,3 @@ const mapStateToProps = state => {
 };
 
 export default compose(connect(mapStateToProps), ProfileContainer);
-
-
