@@ -9,7 +9,7 @@ export const Stat = styled.div`
   h1 {
     margin-bottom: 5px;
     color: ${props => props.theme.colours.unoBlue};
-    }
+  }
 `;
 
 export const Columns = styled.div`
@@ -19,7 +19,7 @@ export const Columns = styled.div`
   @media (min-width: ${props => props.theme.mediaQueries.lg}) {
     justify-content: space-around;
     flex-direction: row;
-    }
+  }
 
   &:last-of-type > div {
     margin: 15px 0;
