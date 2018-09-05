@@ -1,6 +1,6 @@
 package com.unosquare.admin_core.back_end.repository;
 
-import com.unosquare.admin_core.back_end.dto.TeamSummaryDto;
+import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
 import com.unosquare.admin_core.back_end.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -75,7 +75,7 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
             "OR " +
             "(:today BETWEEN ev.startDate AND ev.endDate) ")
 
-    List<TeamSummaryDto> findDailySnapshotForTeamMobile(@Param("today") LocalDate today);
+    List<EmployeeSnapshotDto> findDailySnapshotForTeamMobile(@Param("today") LocalDate today);
 
 
 }

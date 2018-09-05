@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class TeamSummaryDto {
+public class EmployeeSnapshotDto {
     private final int teamId;
     private final String name;
     private final String description;

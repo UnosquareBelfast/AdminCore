@@ -1,7 +1,7 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
-import com.unosquare.admin_core.back_end.dto.TeamSummaryDto;
+import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
 import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.repository.DashboardRepository;
 import org.modelmapper.ModelMapper;
@@ -42,10 +42,10 @@ public class DashboardService {
         return result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
-    public Map<String, List<TeamSummaryDto>> getTeamSnapshotDashboardEvents(){
+    public Map<String, List<EmployeeSnapshotDto>> getTeamSnapshotDashboardEvents(){
         LocalDate today = LocalDate.now();
-        List<TeamSummaryDto> result = dashboardRepository.findDailySnapshotForTeamMobile(today);
-        return result.stream().collect(Collectors.groupingBy(TeamSummaryDto::getTeamName, Collectors.toList()));
+        List<EmployeeSnapshotDto> result = dashboardRepository.findDailySnapshotForTeamMobile(today);
+        return result.stream().collect(Collectors.groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
     }
 
     private LocalDate getMonthStartDate(LocalDate date){
