@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class DashboardSnapshotEmployeeEventViewModel {
-    private List<DashboardSnapshotEventViewModel> events;
+public class TeamSnapshotViewModel {
+    private String team;
+    private List<EmployeeSnapshotViewModel> members;
 }

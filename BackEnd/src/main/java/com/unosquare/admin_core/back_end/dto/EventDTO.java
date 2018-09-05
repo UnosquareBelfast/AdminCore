@@ -30,5 +30,5 @@ public class EventDTO {
 
     private LocalDate dateCreated;
 
-    private String teamName;
+    private TeamDTO Team;
 }

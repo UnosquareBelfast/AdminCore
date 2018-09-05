@@ -1,12 +1,10 @@
 package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
+import com.unosquare.admin_core.back_end.dto.TeamSummaryDto;
 import com.unosquare.admin_core.back_end.service.DashboardService;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardSnapshotEventViewModel;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardSnapshotEmployeeEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.*;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.DashboardEventViewModel;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.EmployeeEventViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,6 +30,8 @@ public class DashboardController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    private static final String IN_OFFICE = "In Office";
 
     @GetMapping(value = "/getEmployeeEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -54,11 +56,31 @@ public class DashboardController {
 
     @GetMapping(value = "/getDashboardSnapshot", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DashboardSnapshotEmployeeEventViewModel getDashboardSnapshot(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
-        List<EventDTO> events = dashboardService.getTeamSnapshotDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
-        List<DashboardSnapshotEventViewModel> results = events.stream().map(event -> modelMapper.map(event, DashboardSnapshotEventViewModel.class)).collect(Collectors.toList());
-        DashboardSnapshotEmployeeEventViewModel model = new DashboardSnapshotEmployeeEventViewModel();
-        model.setEvents(results);
+    public List<TeamSnapshotViewModel> getDashboardSnapshot(){
+        Map<String, List<TeamSummaryDto>> teamSummary = dashboardService.getTeamSnapshotDashboardEvents();
+        return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
+    }
+
+    private  List<TeamSnapshotViewModel> mapTeamSummaryDtoToTeamSummaryViewModel(Map<String, List<TeamSummaryDto>> teams) {
+        List<TeamSnapshotViewModel> model = new ArrayList<>();
+        for (Map.Entry<String, List<TeamSummaryDto>> team : teams.entrySet()) {
+            TeamSnapshotViewModel membersModel = new TeamSnapshotViewModel();
+            membersModel.setTeam(team.getKey());
+            List<TeamSummaryDto> members = team.getValue();
+            List<EmployeeSnapshotViewModel> employeeList = new ArrayList<>();
+            for (TeamSummaryDto m : members){
+                EmployeeSnapshotViewModel employee = new EmployeeSnapshotViewModel();
+                employee.setName(m.getName());
+                if (m.getDescription() == null) {
+                    employee.setState(IN_OFFICE);
+                } else {
+                    employee.setState(m.getDescription());
+                }
+                employeeList.add(employee);
+            }
+            membersModel.setMembers(employeeList);
+            model.add(membersModel);
+        }
         return model;
     }
 }
