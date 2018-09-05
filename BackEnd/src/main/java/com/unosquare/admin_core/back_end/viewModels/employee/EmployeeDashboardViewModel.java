@@ -4,9 +4,13 @@ import lombok.Data;
 
 @Data
 public class EmployeeDashboardViewModel {
-    private int employeeId;
 
     private String forename;
 
     private String surname;
+
+    private String status;
+
+    private String type;
+
 }
