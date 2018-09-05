@@ -1,7 +1,5 @@
 package com.unosquare.admin_core.back_end.viewModels.employee;
 
-import com.unosquare.admin_core.back_end.viewModels.events.EventStatusViewModel;
-import com.unosquare.admin_core.back_end.viewModels.events.EventTypeViewModel;
 import lombok.Data;
 
 @Data
