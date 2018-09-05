@@ -1,9 +1,12 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { MainContentContainer } from './styled';
+import { MainContentContainer, Columns } from './styled';
 import { DataTable, HolidayModal } from '../../components/';
+import ContractCells from '../../components/DataTable/Cells/contracts';
 import HolidayCells from '../../components/DataTable/Cells/holidays';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faCalendar, faCheck, faSpinner } from '@fortawesome/fontawesome-free-solid';
 
 const Profile = props => {
   const {
@@ -14,6 +17,7 @@ const Profile = props => {
     selectedHoliday,
     selectHoliday,
     closeModal,
+    contracts,
   } = props;
   const { forename, surname, totalHolidays } = userDetails;
 
@@ -29,24 +33,38 @@ const Profile = props => {
         <div className="holidayinfo">
           <div className="columns">
             <div>
-              <h1>{totalHolidays - daysBooked}</h1>
-              <h4>Days Remaining</h4>
+              <h1>{totalHolidays - daysBooked} Days</h1>
+              <h4><FontAwesomeIcon icon={faCalendar} /> Remaining</h4>
             </div>
             <div>
-              <h1>{daysBooked}</h1>
-              <h4>Days Booked</h4>
+              <h1>{daysBooked} Days</h1>
+              <h4><FontAwesomeIcon icon={faCheck} /> Booked</h4>
             </div>
             <div>
-              <h1>{daysPending}</h1>
-              <h4>Days Pending</h4>
+              <h1>{daysPending} Days</h1>
+              <h4><FontAwesomeIcon icon={faSpinner} /> Pending</h4>
             </div>
           </div>
-          <DataTable
-            data={userHolidays}
-            cells={HolidayCells}
-            columns={['status', 'startDate', 'endDate', 'requestedDate']}
-            onRowClick={holiday => selectHoliday(holiday)}
-          />
+          <Columns>
+            <div>
+              <h3>My holidays</h3>
+              <DataTable
+                data={userHolidays}
+                cells={HolidayCells}
+                columns={['status', 'startDate', 'endDate', 'requestedDate']}
+                onRowClick={holiday => selectHoliday(holiday)}
+              />
+            </div>
+            <div>
+              <h3>View Contracts </h3>
+              <DataTable
+                data={contracts}
+                cells={ContractCells}
+                columns={['startDate', 'endDate']}
+                pageSize={10}
+              />
+            </div> 
+          </Columns>      
         </div>
       </MainContentContainer>
     </Fragment>
@@ -61,6 +79,7 @@ Profile.propTypes = {
   selectedHoliday: PT.object.isRequired,
   selectHoliday: PT.func.isRequired,
   closeModal: PT.func.isRequired,
+  contracts: PT.array.isRequired,
 };
 
 Profile.defaultProps = {

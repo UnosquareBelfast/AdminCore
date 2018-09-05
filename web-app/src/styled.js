@@ -1,5 +1,6 @@
 import { injectGlobal } from 'styled-components';
 import holidayStatus from './utilities/holidayStatus';
+import eventTypes from './utilities/eventTypes';
 
 export const theme = {
   colours: {
@@ -46,6 +47,10 @@ export const theme = {
     [holidayStatus.APPROVED]: '#35c375',
     [holidayStatus.MANDATORY]: '#0eb5d1',
     [holidayStatus.WFH]: '#3469ff',
+  },
+  eventType: {
+    [eventTypes.ANNUAL_LEAVE]: '#35c375',
+    [eventTypes.WFH]: '#3469ff',
   },
 };
 

@@ -1,24 +1,22 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import holidayStatus, {
-  statusText,
-  statusIcons,
-} from '../../../utilities/holidayStatus';
 import { Key } from '../styled';
 
-const FilterByKey = ({ keyList, onToggleEvent }) => {
+const FilterByKey = ({ category, keyList, onToggleEvent }) => {
   if (!keyList) return;
 
   const keys = keyList.map(key => {
     return (
       <Key
-        className={key.active ? 'small selected' : 'small'}
+        className={
+          key.active ? category + ' small selected' : category + ' small'
+        }
         key={key.id}
-        status={holidayStatus[key.keyName]}
+        status={key.status}
         onClick={() => onToggleEvent(key.id)}
       >
-        <span>{statusIcons[key.id]}</span>
-        <span>{statusText[key.id]}</span>
+        <span>{key.icon}</span>
+        <span>{key.text}</span>
       </Key>
     );
   });
@@ -27,6 +25,7 @@ const FilterByKey = ({ keyList, onToggleEvent }) => {
 };
 
 FilterByKey.propTypes = {
+  category: PT.string.isRequired,
   onToggleEvent: PT.func.isRequired,
   keyList: PT.array.isRequired,
 };

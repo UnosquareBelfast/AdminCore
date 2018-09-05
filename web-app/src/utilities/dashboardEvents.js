@@ -1,27 +1,32 @@
+import moment from 'moment';
 import { getDurationBetweenDates } from './dates';
 import eventTypes from './eventTypes';
 import mandatoryEvents from './mandatoryEvents';
-import flow from 'lodash/fp/flow';
-import moment from 'moment';
+import { flow } from 'lodash/fp';
+import { uniqBy } from 'lodash';
 
-// The pipeline that our events go through to make them calendar ready.
+import store from '../store';
+import { getAllEvents } from '../reducers';
+
 export const transformEvents = allEvents => {
-  return flow(
-    _formatEventsForCalendar,
-    _appendMandatoryEvents,
-  )(allEvents);
+  return new Promise(resolve => {
+    const transformedEvents = flow(
+      _formatEventsForCalendar,
+      _appendExistingEvents,
+      _appendMandatoryEvents
+    )(allEvents);
+    resolve(transformedEvents);
+  });
 };
 
-// Private. Takes the events from the server and transforms them into a format
-// that our calendar supports.
 const _formatEventsForCalendar = events => {
   return events.map(event => {
     return {
       eventId: event.eventId,
       title: `${event.employee.forename} ${event.employee.surname}`,
       allDay: !event.halfDay,
-      start: new moment([event.startDate], 'YYYY-MM-DD'),
-      end: new moment([event.endDate], 'YYYY-MM-DD'),
+      start: event.start,
+      end: event.end,
       halfDay: event.halfDay,
       employee: event.employee,
       eventStatus: event.eventStatus,
@@ -30,12 +35,44 @@ const _formatEventsForCalendar = events => {
   });
 };
 
-// Private. Appends the mandatory holidays as specified in ./mandatoryEvents.js
-const _appendMandatoryEvents = data => {
-  return data.concat(mandatoryEvents);
+const _appendExistingEvents = events => {
+  const prevEvents = getAllEvents(store.getState());
+  let combinedEvents = [...prevEvents, ...events];
+  // Remove mandatory
+  combinedEvents = combinedEvents.filter(event => event.eventId !== -1);
+  combinedEvents = uniqBy(combinedEvents, event => event.eventId);
+  return combinedEvents;
 };
 
-// Takes an event and turns the duration of the event
+const _appendMandatoryEvents = events => {
+  return events.concat(mandatoryEvents);
+};
+
+export const requiresNewRequest = date => {
+  let requireNewRequest = true;
+  const month = new moment(date, 'YYYY-MM-DD').month();
+  let events = getAllEvents(store.getState());
+
+  // Remove mandatory
+  events = events.filter(event => event.eventId !== -1);
+
+  let eventDates = events.reduce((acc, event) => {
+    acc.push(event.start);
+    return acc;
+  }, []);
+
+  eventDates.forEach(date => {
+    if (date.month() === month) {
+      requireNewRequest = false;
+    }
+  });
+  return requireNewRequest;
+};
+
+/*
+ Utility
+*/
+
 export const getEventDuration = event => {
   const { start, end, isHalfday, eventType } = event;
   let duration = getDurationBetweenDates(start, end);
@@ -113,7 +150,7 @@ export const checkIfSelectedDatesOverlapExisting = (
   employeeId,
   start,
   end,
-  selectedEventId = null,
+  selectedEventId = null
 ) => {
   const overlappingEvents = events.filter(event => {
     const { employee, eventId } = event;
@@ -124,11 +161,11 @@ export const checkIfSelectedDatesOverlapExisting = (
     ) {
       const selectedDateRange = moment.range(
         moment(start),
-        moment(end).endOf('day'),
+        moment(end).endOf('day')
       );
       const existingEvent = moment.range(
         moment(event.start),
-        moment(event.end),
+        moment(event.end)
       );
       if (selectedDateRange.overlaps(existingEvent)) {
         return true;

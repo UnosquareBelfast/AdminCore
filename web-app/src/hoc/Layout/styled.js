@@ -142,7 +142,7 @@ export const LayoutContainer = styled.div`
   @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     padding: ${props => (props.history == '/login' ? '0' : '20px')};
     transform: ${props =>
-      props.history == '/login' ? 'none' : 'translateX(40px)'};
+    props.history == '/login' ? 'none' : 'translateX(40px)'};
     width: calc(100% - 40px);
   }
 `;
