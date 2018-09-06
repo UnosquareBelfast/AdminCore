@@ -28,6 +28,8 @@ public class EventDTO {
 
     private LocalDate lastModified;
 
+    private String message;
+
     private LocalDate dateCreated;
 
     private TeamDTO Team;

@@ -46,10 +46,10 @@ public class EventService {
         return mapEventsToDtos(events);
     }
 
-    public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType){
+    public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType) {
 
-        Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate,new EventType(eventType.getEventTypeId()));
-        return (event != null ) ? modelMapper.map(event, EventDTO.class) : null;
+        Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate, new EventType(eventType.getEventTypeId()));
+        return (event != null) ? modelMapper.map(event, EventDTO.class) : null;
     }
 
     private void save(Event event) {
@@ -63,25 +63,25 @@ public class EventService {
     }
 
     @Transactional
-    public void saveEvents(EventDTO... eventDtos){
+    public void saveEvents(EventDTO... eventDtos) {
         Preconditions.checkNotNull(eventDtos);
-        for(EventDTO eventDto : eventDtos) {
+        for (EventDTO eventDto : eventDtos) {
             Event event = modelMapper.map(eventDto, Event.class);
             save(event);
         }
     }
 
-    public  void updateEvent(UpdateEventDTO updateEventDTO){
+    public void updateEvent(UpdateEventDTO updateEventDTO) {
         Preconditions.checkNotNull(updateEventDTO);
         Optional<Event> retrievedEvent = eventRepository.findById(updateEventDTO.getEventId());
-        if(retrievedEvent.isPresent()){
+        if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             modelMapper.map(updateEventDTO, event);
             save(event);
         }
     }
 
-    public void approveEvent(int eventId){
+    public void approveEvent(int eventId) {
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
@@ -90,7 +90,7 @@ public class EventService {
         }
     }
 
-    public void cancelEvent(int eventId){
+    public void cancelEvent(int eventId) {
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
@@ -99,8 +99,18 @@ public class EventService {
         }
     }
 
-    public List<EventDTO> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd,EventTypes eventType) {//Pass in event type
-        return mapEventsToDtos(eventRepository.findByStartDateBetweenAndEventType(rangeStart, rangeEnd,new EventType(eventType.getEventTypeId())));
+    public void rejectEvent(int eventId, String deniedMessage){
+        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+        if (retrievedEvent.isPresent()) {
+            Event event = retrievedEvent.get();
+            event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
+            event.setMessage(deniedMessage);
+            save(event);
+        }
+    }
+
+    public List<EventDTO> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd, EventTypes eventType) {//Pass in event type
+        return mapEventsToDtos(eventRepository.findByStartDateBetweenAndEventType(rangeStart, rangeEnd, new EventType(eventType.getEventTypeId())));
     }
 
     public List<EventDTO> findByStatusAndType(EventStatuses eventStatus, EventTypes eventType) {
@@ -114,7 +124,6 @@ public class EventService {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
-    
 
 }
 
