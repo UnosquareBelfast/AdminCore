@@ -103,8 +103,8 @@ public class EventService {
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
-            event.setEventStatus(new EventStatus(EventStatuses.DENIED.getEventStatusId()));
-            event.setDeniedMessage(deniedMessage);
+            event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
+            event.setMessage(deniedMessage);
             save(event);
         }
     }

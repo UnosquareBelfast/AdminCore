@@ -1,31 +1,16 @@
 package com.unosquare.admin_core.back_end.viewModels.events;
 
-import com.unosquare.admin_core.back_end.entity.Employee;
+import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
 import lombok.Data;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 public class CreateEventViewModel {
-    private int eventId;
+    @NotBlank
+    private List<DateViewModel> dates;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-
+    @NotBlank
     private int employeeId;
-
-    private int eventTypeId;
-    private String eventTypeDescription;
-
-    private int eventStatusId;
-    private String eventStatusDescription;
-
-    private boolean isHalfDay;
-
-    private LocalDate lastModified;
-    private LocalDate dateCreated;
-
-    private Employee employee;
-
-
 }
