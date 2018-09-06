@@ -1,6 +1,7 @@
 package com.unosquare.admin_core.back_end.service;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
+import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
 import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.repository.DashboardRepository;
 import org.modelmapper.ModelMapper;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -38,6 +40,12 @@ public class DashboardService {
         LocalDate today = LocalDate.now();
         List<Event> result = dashboardRepository.findCalendarMonthEventsForTeam(employeeId, startDate, endDate, today);
         return result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+    }
+
+    public Map<String, List<EmployeeSnapshotDto>> getTeamSnapshotDashboardEvents(){
+        LocalDate today = LocalDate.now();
+        List<EmployeeSnapshotDto> result = dashboardRepository.findDailySnapshotForTeamMobile(today);
+        return result.stream().collect(Collectors.groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
     }
 
     private LocalDate getMonthStartDate(LocalDate date){

@@ -3,7 +3,6 @@ import moment from 'moment';
 import store from '../store';
 
 const baseURL = process.env.DOMAIN;
-
 const instance = axios.create({
   baseURL,
 });
@@ -49,6 +48,19 @@ instance.interceptors.response.use(function(response) {
       event.end = new moment(event.endDate, 'YYYY-MM-DD');
       // Append logged in employee
       event.employee = { ...employee };
+    }
+    return {
+      ...response,
+      data: events,
+    };
+  }
+
+  if (response.config.url.includes(`${baseURL}/dashboard/getTeamEvents`)) {
+    const events = [...response.data.events];
+    for (let event of events) {
+      // Raw dates to moment objects
+      event.start = new moment(event.startDate, 'YYYY-MM-DD');
+      event.end = new moment(event.endDate, 'YYYY-MM-DD');
     }
     return {
       ...response,

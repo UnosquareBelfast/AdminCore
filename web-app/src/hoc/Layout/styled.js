@@ -32,7 +32,6 @@ export const Icon = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  font-size: 20px;
   line-height: 40px;
   width: 40px;
   height: 40px;
@@ -47,7 +46,6 @@ export const Tooltip = styled.div`
     position: absolute;
     left: 30px;
     top: 10px;
-    font-size: 10px;
     width: 100px;
     line-height: 20px;
     opacity: 0;
@@ -98,7 +96,7 @@ export const MenuItem = styled.div`
 
 export const ToggleDrawerBtn = styled.label`
   display: block;
-  font-weight: bold;
+  font-weight: ${props => props.theme.fonts.weight.bold};
   cursor: pointer;
   line-height: 40px;
   position: relative;
@@ -117,7 +115,6 @@ export const MenuItemSubSection = styled.div`
     background-color: #ffffff;
     a {
       color: ${props => props.theme.colours.unoBlue};
-      font-size: 14px;
 
       &:hover {
         background-color: ${props => props.theme.colours.lightgrey};
@@ -145,7 +142,7 @@ export const LayoutContainer = styled.div`
   @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     padding: ${props => (props.history == '/login' ? '0' : '20px')};
     transform: ${props =>
-      props.history == '/login' ? 'none' : 'translateX(40px)'};
+    props.history == '/login' ? 'none' : 'translateX(40px)'};
     width: calc(100% - 40px);
   }
 `;

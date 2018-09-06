@@ -35,8 +35,7 @@ export const Key = styled.div`
   background-color: ${props => props.theme.holidayStatus[props.status]};
   border: 2px solid ${props => props.theme.holidayStatus[props.status]};
   color: white;
-  font-size: 12px;
-  font-weight: 400;
+  font-weight: ${props => props.theme.fonts.weight.regular};
   margin: 0px 4px 4px 0;
   border-radius: 3px;
   padding: 8px;
@@ -48,5 +47,15 @@ export const Key = styled.div`
 
   &.selected {
     box-shadow: inset 0 0 0 2px white;
+  }
+
+  &.holidayStatus {
+    background-color: ${props => props.theme.holidayStatus[props.status]};
+    border: 2px solid ${props => props.theme.holidayStatus[props.status]};
+  }
+
+  &.eventType {
+    background-color: ${props => props.theme.eventType[props.status]};
+    border: 2px solid ${props => props.theme.eventType[props.status]};
   }
 `;

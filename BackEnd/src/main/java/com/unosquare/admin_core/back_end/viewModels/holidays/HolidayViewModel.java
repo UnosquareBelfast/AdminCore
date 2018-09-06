@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class HolidayViewModel {
 
-        private int holidayId;
+        private int eventId;
 
         private LocalDate startDate;
 

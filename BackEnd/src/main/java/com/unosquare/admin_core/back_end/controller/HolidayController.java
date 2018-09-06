@@ -38,9 +38,9 @@ public class HolidayController {
         return mapEventDtosToHolidays(holidays);
     }
 
-    @GetMapping(value = "/{holidayId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HolidayViewModel findholidayById(@PathVariable("holidayId") int eventId) {
+    public HolidayViewModel findholidayById(@PathVariable("eventId") int eventId) {
         EventDTO holiday = eventService.findById(eventId);
         return modelMapper.map(holiday, HolidayViewModel.class);
     }

@@ -31,4 +31,6 @@ public class EventDTO {
     private String deniedMessage;
 
     private LocalDate dateCreated;
+
+    private TeamDTO Team;
 }

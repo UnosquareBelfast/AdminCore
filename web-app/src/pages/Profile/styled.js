@@ -5,6 +5,29 @@ export const Container = styled.div`
   width: 100%;
 `;
 
+export const Columns = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: column;
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+    justify-content: space-around;
+    flex-direction: row;
+    }
+
+  &:last-of-type > div {
+    margin: 15px 0;
+    @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+      width: 50%;
+      :first-of-type {
+        margin: 0 10px 0 0;
+      }
+      :last-of-type {
+        margin: 0 0 0 10px;
+      }
+    }
+  }
+  `;
+
 export const MainContentContainer = styled.div`
   h2 {
     margin: 0;
@@ -17,7 +40,7 @@ export const MainContentContainer = styled.div`
   .holidayinfo {
     margin-top: 20px;
     h3 {
-      margin-bottom: 5px;
+      margin-bottom: 20px;
     }
     p {
       margin: 0 0 5px 0;
@@ -33,9 +56,15 @@ export const MainContentContainer = styled.div`
       margin-right: 15px;
     }
 
-    h1,
+    h1 {
+      margin-bottom: 5px;
+      color: ${props => props.theme.colours.unoBlue};
+    }
     h4 {
       margin: 0;
+      margin-bottom: 20px;
     }
   }
 `;
+
+

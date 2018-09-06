@@ -10,6 +10,8 @@ import {
 } from '../../utilities/dates';
 import holidayStatus from '../../utilities/holidayStatus';
 import { isEmpty } from 'lodash';
+import { getContractsByEmployeeId } from '../../services/contractService';
+import swal from 'sweetalert2';
 
 const ProfileContainer = Wrapped =>
   class extends React.Component {
@@ -24,12 +26,15 @@ const ProfileContainer = Wrapped =>
         daysBooked: null,
         daysPending: null,
         selectedHoliday: {},
+        contracts: [],
       };
     }
 
     componentDidMount() {
       // Required in case the user navigates away from the page, then back.
       this.setState({ holidays: null });
+      this.setState({ contracts: [] });
+      this.getContracts();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -56,8 +61,19 @@ const ProfileContainer = Wrapped =>
             });
           });
         });
-      }
+      }   
     }
+
+    getContracts()
+    {   
+      getContractsByEmployeeId(this.props.userDetails.employeeId).then(response => {
+        const contracts = response.data;
+        this.setState({ contracts });
+      })
+        .catch(error =>
+          swal('Error',`Error finding contracts: ${error.message}`, 'error')
+        );
+    } 
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
@@ -74,6 +90,7 @@ const ProfileContainer = Wrapped =>
           selectHoliday={this.selectHoliday}
           selectedHoliday={this.state.selectedHoliday}
           closeModal={this.closeModal}
+          contracts={this.state.contracts}
         />
       );
     }

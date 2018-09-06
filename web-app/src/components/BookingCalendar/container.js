@@ -3,6 +3,12 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
+  validationMessage,
+  checkIfPastDatesSelected,
+  checkIfDatesFallOnWeekend,
+  checkIfSelectedDatesOverlapExisting,
+} from '../../utilities/dashboardEvents';
+import {
   selectBooking,
   toggleBookingModal,
   setEventBeingUpdated,
@@ -41,57 +47,38 @@ const BookingCalendarContainer = Wrapped =>
       this.props.setEventBeingUpdated(isBeingUpdated);
     };
 
-    checkIfPastDatesSelected = start => {
-      const today = new moment();
-      return moment(start).isBefore(today);
-    };
-
-    selectedDatesOverlapExisting = (start, end) => {
+    handleCalendarValidation = (start, end) => {
       const { events, employeeId } = this.props;
-      const overlappingEvents = events.filter(event => {
-        const { employee } = event;
-        if (employee && employee.employeeId === employeeId) {
-          var selectedDateRange = moment.range(
-            moment(start),
-            moment(end).endOf('day')
-          );
-          var existingEvent = moment.range(
-            moment(event.start),
-            moment(event.end)
-          );
-          if (selectedDateRange.overlaps(existingEvent)) {
-            return true;
-          }
-        }
-      });
-      return overlappingEvents.length > 0;
-    };
-
-    validateSelectedDates = (start, end) => {
-      const pastDatesSelected = this.checkIfPastDatesSelected(start);
+      const pastDatesSelected = checkIfPastDatesSelected(start);
+      const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
       if (pastDatesSelected) {
-        return 'Unable to select past dates';
+        return validationMessage.PAST_DATES_SELECTED;
+      } else if (datesFallOnWeekend) {
+        return validationMessage.WEEKEND_DATES_SELECTED;
       } else {
-        const datesOverlapExisting = this.selectedDatesOverlapExisting(
+        const datesOverlapExisting = checkIfSelectedDatesOverlapExisting(
+          events,
+          employeeId,
           start,
-          end
+          end,
         );
         if (datesOverlapExisting) {
-          return 'Your are trying to request dates that have already been set';
+          return validationMessage.DATES_ALREADY_REQUESTED;
         } else {
-          return 'Dates approved';
+          return validationMessage.DATES_APPROVED;
         }
       }
     };
 
     onSelectSlot = ({ start, end }) => {
-      const validatingDatesResult = this.validateSelectedDates(start, end);
-      if (validatingDatesResult === 'Dates approved') {
+      const calendarValidationResults = this.handleCalendarValidation(
+        start,
+        end,
+      );
+      if (calendarValidationResults === validationMessage.DATES_APPROVED) {
         let booking = {
-          holidayId: -1,
           start: new moment(start),
           end: new moment(end),
-          title: null,
           isHalfday: false,
           eventType: {
             eventTypeId: eventTypes.ANNUAL_LEAVE,
@@ -108,7 +95,7 @@ const BookingCalendarContainer = Wrapped =>
       } else {
         Toast({
           type: 'warning',
-          title: validatingDatesResult,
+          title: calendarValidationResults,
         });
       }
     };
@@ -154,6 +141,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-  connect(null, mapDispatchToProps),
-  BookingCalendarContainer
+  connect(
+    null,
+    mapDispatchToProps,
+  ),
+  BookingCalendarContainer,
 );

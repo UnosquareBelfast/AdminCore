@@ -52,7 +52,7 @@ const HolidayModalContainer = Wrapped =>
           Toast({
             type: 'success',
             title: 'Holiday Approved',
-            position: 'top-end',
+            position: 'top',
           });
         })
         .catch(error => {
@@ -77,7 +77,7 @@ const HolidayModalContainer = Wrapped =>
           Toast({
             type: 'success',
             title: 'Holiday Rejected',
-            position: 'top-end',
+            position: 'top',
           });
         })
         .catch(error => {

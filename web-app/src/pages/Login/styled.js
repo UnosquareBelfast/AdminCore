@@ -22,8 +22,7 @@ export const LoginPanel = styled.div`
   form {
     display: flex;
     flex-direction: column;
-    background-color: ${props => props.theme.colours.lightgrey};
-    padding: 30px 20px;
+    padding: 20px 15px;
     box-sizing: border-box;
     width: 420px;
   }

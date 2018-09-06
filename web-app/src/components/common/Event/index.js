@@ -1,7 +1,8 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Container } from './styled';
-import eventTypes, { getEventTypeValue } from '../../../utilities/eventTypes';
+import eventCategory from '../../../utilities/eventCategory';
+import eventTypes, { typeIcons } from '../../../utilities/eventTypes';
 import { statusIcons } from '../../../utilities/holidayStatus';
 import moment from 'moment';
 
@@ -9,11 +10,15 @@ const Event = ({ children, event }) => {
   const { eventStatusId } = event.eventStatus;
   const { eventTypeId } = event.eventType;
   let id = eventTypeId;
+  let icon;
+  let category;
 
   if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
-    id = eventStatusId;
+    icon = statusIcons[eventStatusId];
+    category = eventCategory.HOLIDAY_STATUS;
   } else {
-    id = getEventTypeValue(eventTypeId, eventStatusId);
+    icon = typeIcons[eventTypeId];
+    category = eventCategory.EVENT_TYPE;
   }
 
   const today = new moment();
@@ -22,11 +27,13 @@ const Event = ({ children, event }) => {
   return (
     <Container
       fade={eventPast}
-      className={event.halfDay ? 'ishalfday' : ''}
+      className={
+        event.halfDay ? category + ' small ishalfday' : category + ' small'
+      }
       status={id}
       onClick={children.props.onClick}
     >
-      {statusIcons[id]} <span>{event.title}</span>
+      {icon} <span>{event.title}</span>
     </Container>
   );
 };
