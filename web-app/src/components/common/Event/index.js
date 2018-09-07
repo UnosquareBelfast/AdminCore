@@ -9,16 +9,18 @@ import moment from 'moment';
 const Event = ({ children, event }) => {
   const { eventStatusId } = event.eventStatus;
   const { eventTypeId } = event.eventType;
-  let id = eventTypeId;
+  let id;
   let icon;
   let category;
 
   if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
     icon = statusIcons[eventStatusId];
     category = eventCategory.HOLIDAY_STATUS;
+    id = eventStatusId;
   } else {
     icon = typeIcons[eventTypeId];
     category = eventCategory.EVENT_TYPE;
+    id = eventTypeId;
   }
 
   const today = new moment();
