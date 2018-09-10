@@ -20,10 +20,10 @@ export const updateHoliday = holiday => {
   return axios.put('/holidays/', holiday);
 };
 
-export const approveHoliday = holidayId => {
-  return axios.put('/holidays/approveHoliday', { holidayId });
+export const approveHoliday = eventId => {
+  return axios.put('/holidays/approveHoliday', { eventId });
 };
 
-export const rejectHoliday = holidayId => {
-  return axios.put('/holidays/cancelHoliday', { holidayId });
+export const rejectHoliday = eventId => {
+  return axios.put('/holidays/rejectHoliday', { eventId });
 };

@@ -61,16 +61,13 @@ const LegendContainer = Wrapped =>
       const keysFormatted = [];
 
       legendKeys.forEach(key => {
-        // dont wish to show annual leave as its really part of holiday status
-        if (key !== 'ANNUAL_LEAVE') {
-          keysFormatted.push({
-            id: key,
-            status: eventTypes[key],
-            text: typeText[eventTypes[key]],
-            icon: typeIcons[eventTypes[key]],
-            active: false,
-          });
-        }
+        keysFormatted.push({
+          id: key,
+          status: eventTypes[key],
+          text: typeText[eventTypes[key]],
+          icon: typeIcons[eventTypes[key]],
+          active: false,
+        });
       });
 
       this.setState({ legendKeyTypes: keysFormatted });
@@ -93,7 +90,7 @@ const LegendContainer = Wrapped =>
 
         this.props.updateCalendarEvents(
           eventCategory.HOLIDAY_STATUS,
-          activeKeyIds,
+          activeKeyIds
         );
       });
     };
@@ -128,17 +125,13 @@ const LegendContainer = Wrapped =>
         },
         () => {
           this.props.updateEmployee(this.state.selectedEmployee.employeeId);
-        },
+        }
       );
     };
 
     getEmployeeState = () => {
       const { allEvents } = this.props;
-      return flow(
-        map('employee'),
-        compact,
-        uniqBy('employeeId'),
-      )(allEvents);
+      return flow(map('employee'), compact, uniqBy('employeeId'))(allEvents);
     };
 
     render() {
@@ -164,7 +157,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default compose(
-  connect(mapStateToProps),
-  LegendContainer,
-);
+export default compose(connect(mapStateToProps), LegendContainer);
