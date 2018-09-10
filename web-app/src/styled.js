@@ -45,12 +45,11 @@ export const theme = {
     [holidayStatus.PENDING]: '#ff9b34',
     [holidayStatus.REJECTED]: '#ff3434',
     [holidayStatus.APPROVED]: '#35c375',
-    [holidayStatus.CANCELLED]: '#232323',
     [holidayStatus.MANDATORY]: '#0eb5d1',
     [holidayStatus.WFH]: '#3469ff',
   },
   eventType: {
-    [eventTypes.ANNUAL_LEAVE]: '#5ccc4b',
+    [eventTypes.ANNUAL_LEAVE]: '#35c375',
     [eventTypes.WFH]: '#3469ff',
   },
 };
