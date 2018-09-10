@@ -39,7 +39,7 @@ public class HolidayController extends BaseController {
 
     @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HolidayViewModel findholidaybyid(@PathVariable("eventId") int eventId) {
+    public HolidayViewModel findHolidayById(@PathVariable("eventId") int eventId) {
         EventDTO holiday = eventService.findById(eventId);
         return modelMapper.map(holiday, HolidayViewModel.class);
     }
