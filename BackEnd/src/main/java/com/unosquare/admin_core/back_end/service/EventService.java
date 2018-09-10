@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -99,14 +100,22 @@ public class EventService {
         }
     }
 
-    public void rejectEvent(int eventId, String deniedMessage){
+    public List<String> rejectEvent(int eventId, String deniedMessage){
+        List<String> responses = new ArrayList<>();
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
-            event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
-            event.setMessage(deniedMessage);
-            save(event);
+            if (event.getEventStatus().getEventStatusId() == EventStatuses.REJECTED.getEventStatusId()){
+                responses.add("Event has already been marked as rejected, ID: " + eventId);
+            } else {
+                event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
+                event.setMessage(deniedMessage);
+                save(event);
+            }
+        } else{
+            responses.add("No event found with an ID of: " + eventId);
         }
+        return responses;
     }
 
     public List<EventDTO> findByDateBetween(LocalDate rangeStart, LocalDate rangeEnd, EventTypes eventType) {//Pass in event type
