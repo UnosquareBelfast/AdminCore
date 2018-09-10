@@ -24,7 +24,7 @@ export const Columns = styled.div`
   &:last-of-type > div {
     margin: 15px 0;
     @media (min-width: ${props => props.theme.mediaQueries.lg}) {
-      width: 50%;
+      width: ${props => (props.fullWidth ? '100%' : '50%')};
       :first-of-type {
         margin: 0 10px 0 0;
       }
