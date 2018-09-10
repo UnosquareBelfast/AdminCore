@@ -36,9 +36,9 @@ const HolidayModalContainer = Wrapped =>
     }
 
     approveHoliday = () => {
-      const eventId = this.state.holiday.eventId;
+      const holidayId = this.state.holiday.holidayId;
 
-      approveHoliday(eventId)
+      approveHoliday(holidayId)
         .then(() => {
           this.setState({
             holiday: {
@@ -61,9 +61,9 @@ const HolidayModalContainer = Wrapped =>
     };
 
     rejectHoliday = () => {
-      const eventId = this.state.holiday.eventId;
+      const holidayId = this.state.holiday.holidayId;
 
-      rejectHoliday(eventId)
+      rejectHoliday(holidayId)
         .then(() => {
           this.setState({
             holiday: {
