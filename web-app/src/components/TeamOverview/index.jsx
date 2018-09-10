@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { DataTable, UserModal } from '../';
-import TeamCells from '../DataTable/Cells/teamsOverView';
+import TeamCells from '../DataTable/Cells/teamsOverview';
 import container from './container';
 
 const TeamOverview = ({ history, selectUser, selectedUser, teams }) => {
-
   return (
     <Fragment>
       <UserModal
