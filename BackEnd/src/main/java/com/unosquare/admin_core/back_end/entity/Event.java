@@ -42,9 +42,6 @@ public class Event {
     @Column(name = "last_modified")
     private LocalDate lastModified;
 
-    @Column(name = "message")
-    private String Message;
-
     @Column(name = "date_created")
     private LocalDate dateCreated;
 

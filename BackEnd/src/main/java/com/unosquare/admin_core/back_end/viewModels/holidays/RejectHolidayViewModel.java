@@ -8,6 +8,5 @@ import javax.validation.constraints.NotBlank;
 public class RejectHolidayViewModel {
     @NotBlank
     private int eventId;
-
     private String message;
 }

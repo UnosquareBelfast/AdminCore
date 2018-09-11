@@ -3,12 +3,11 @@ package com.unosquare.admin_core.back_end.service;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
-import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.entity.Event;
-import com.unosquare.admin_core.back_end.entity.EventStatus;
-import com.unosquare.admin_core.back_end.entity.EventType;
+import com.unosquare.admin_core.back_end.entity.*;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
+import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
+import com.unosquare.admin_core.back_end.repository.EventMessageRepository;
 import com.unosquare.admin_core.back_end.repository.EventRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,12 @@ public class EventService {
 
     @Autowired
     EventRepository eventRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
+
+    @Autowired
+    EventMessageRepository eventMessageRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -51,16 +56,6 @@ public class EventService {
 
         Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate, new EventType(eventType.getEventTypeId()));
         return (event != null) ? modelMapper.map(event, EventDTO.class) : null;
-    }
-
-    private void save(Event event) {
-        Preconditions.checkNotNull(event);
-
-        if (event.getEventId() > 0) {
-            event.setDateCreated(LocalDate.now());
-        }
-        event.setLastModified(LocalDate.now());
-        eventRepository.save(event);
     }
 
     @Transactional
@@ -100,19 +95,24 @@ public class EventService {
         }
     }
 
-    public List<String> rejectEvent(int eventId, String message){
+    public List<String> rejectEvent(int eventId, String message, int employeeId) {
         List<String> responses = new ArrayList<>();
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
-            if (event.getEventStatus().getEventStatusId() == EventStatuses.REJECTED.getEventStatusId()){
-                responses.add("Event has already been marked as rejected, ID: " + eventId);
+            event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
+            Optional<Employee> employee = employeeRepository.findById(employeeId);
+            if (employee.isPresent()) {
+                Employee emp = employee.get();
+                EventMessage eventMessage = mapToEventMessage(message, event, emp);
+                saveEventMessage(eventMessage);
+                if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
+                    save(event);
+                }
             } else {
-                event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
-                event.setMessage(message);
-                save(event);
+                responses.add("No employee found with an ID of: " + employeeId);
             }
-        } else{
+        } else {
             responses.add("No event found with an ID of: " + eventId);
         }
         return responses;
@@ -133,6 +133,34 @@ public class EventService {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
+    private EventMessage mapToEventMessage(String message, Event event, Employee emp) {
+        EventMessage eventMessage = new EventMessage();
+        eventMessage.setEmployee(emp);
+        eventMessage.setMessage(message);
+        eventMessage.setLastModified(LocalDate.now());
+        eventMessage.setEvent(event);
+        return eventMessage;
+    }
+
+    private void save(Event event) {
+        Preconditions.checkNotNull(event);
+
+        if (event.getEventId() > 0) {
+            event.setDateCreated(LocalDate.now());
+        }
+        event.setLastModified(LocalDate.now());
+        eventRepository.save(event);
+    }
+
+    private void saveEventMessage(EventMessage eventMessage) {
+        Preconditions.checkNotNull(eventMessage);
+
+        if (eventMessage.getEventMessageId() > 0) {
+            eventMessage.setLastModified(LocalDate.now());
+        }
+        eventMessage.setLastModified(LocalDate.now());
+        eventMessageRepository.save(eventMessage);
+    }
 
 }
 

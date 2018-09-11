@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
 import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
@@ -29,6 +30,9 @@ public class HolidayController extends BaseController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    public EmployeeCredentialsViewModel employeeCredentialsViewModel;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -82,7 +86,10 @@ public class HolidayController extends BaseController {
     @PutMapping(value = "/rejectHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<String>>  rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel) {
-        List<String> responses = eventService.rejectEvent(rejectHolidayViewModel.getEventId(), rejectHolidayViewModel.getMessage());
+        List<String> responses = eventService.rejectEvent(
+                rejectHolidayViewModel.getEventId(),
+                rejectHolidayViewModel.getMessage(),
+                employeeCredentialsViewModel.getUserId());
         return ResponseEntity.ok(responses);
     }
 
