@@ -332,6 +332,32 @@ ALTER TABLE public.event
   ----------------------------------------------------------------------------------------
 
 /*
+                                  EVENT MESSAGE TYPE TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
+
+CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_type_id_seq;
+CREATE TABLE IF NOT EXISTS public.event_message_type
+(
+    event_message_type_id        integer NOT NULL DEFAULT nextval('event_message_event_message_type_id_seq' :: regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT event_message_type_pkey PRIMARY KEY (event_message_type_id)
+)
+WITH (
+OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER SEQUENCE event_message_event_message_type_id_seq
+    OWNED BY event_message_type.event_message_type_id;
+
+ALTER TABLE public.event_message_type
+  OWNER to postgres;
+
+  ----------------------------------------------------------------------------------------
+
+/*
                                   EVENT MESSAGE TABLE
 */
 
@@ -345,6 +371,7 @@ CREATE TABLE public.event_message
     message text NOT NULL,
     last_modified date NOT NULL,
     employee_id integer NOT NULL,
+    event_message_type_id integer NOT NULL,
     CONSTRAINT event_message_pkey PRIMARY KEY (event_message_id),
 	  CONSTRAINT event_id_fkey FOREIGN KEY (event_id)
         REFERENCES public.event (event_id) MATCH SIMPLE
@@ -352,6 +379,10 @@ CREATE TABLE public.event_message
         ON DELETE NO ACTION,
 	  CONSTRAINT event_message_employee_id_fkey FOREIGN KEY (employee_id)
         REFERENCES public.employee (employee_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	  CONSTRAINT event_message_type_event_message_type_id_fkey FOREIGN KEY (event_message_type_id)
+        REFERENCES public.event_message_type (event_message_type_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )

@@ -33,6 +33,10 @@ public class EventMessage {
     @Column(name = "message")
     private String Message;
 
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name = "event_message_type_id")
+    private EventMessageType eventMessageType;
+
     public EventMessage(int eventMessageId) {
         this.eventMessageId = eventMessageId;
     }

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.entity.*;
+import com.unosquare.admin_core.back_end.enums.EventMessageTypes;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.TransactionScoped;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +97,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public List<String> rejectEvent(int eventId, String message, int employeeId) {
         List<String> responses = new ArrayList<>();
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
@@ -139,6 +142,7 @@ public class EventService {
         eventMessage.setMessage(message);
         eventMessage.setLastModified(LocalDate.now());
         eventMessage.setEvent(event);
+        eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.REJECTED.getEventStatusId()));
         return eventMessage;
     }
 
