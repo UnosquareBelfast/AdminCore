@@ -22,6 +22,7 @@ const DashboardContainer = Wrapped =>
       fetchEvents: PT.func.isRequired,
       allEvents: PT.array,
       isEventBeingUpdated: PT.bool,
+      history: PT.object,
     };
 
     constructor(props) {
@@ -32,12 +33,18 @@ const DashboardContainer = Wrapped =>
         activeEventTypeIds: [],
         activeHolidayStatusIds: [],
         activeEmployee: -1,
-        eventView: eventsView.PERSONAL_EVENTS,
       };
     }
 
     componentDidMount() {
+      const { setEventView } = this.props;
+      setEventView(eventsView.PERSONAL_EVENTS);
       this.fetchEvents(eventsView.PERSONAL_EVENTS, true);
+
+      // This will be called when the user navigates away from the page.
+      this.unlisten = this.props.history.listen(() => {
+        setEventView(eventsView.PERSONAL_EVENTS);
+      });
     }
 
     componentDidUpdate = prevProps => {
@@ -46,15 +53,19 @@ const DashboardContainer = Wrapped =>
       }
     };
 
+    componentWillUnmount() {
+      this.unlisten();
+    }
+
     toggleEventsView = () => {
-      const { eventView } = this.props;
+      const { eventView, setEventView } = this.props;
       let updatedEventView;
       if (eventView === eventsView.PERSONAL_EVENTS) {
         updatedEventView = eventsView.TEAM_EVENTS;
       } else {
         updatedEventView = eventsView.PERSONAL_EVENTS;
       }
-      this.props.setEventView(updatedEventView);
+      setEventView(updatedEventView);
       this.fetchEvents(updatedEventView, true);
     };
 
@@ -70,7 +81,7 @@ const DashboardContainer = Wrapped =>
       filteredEvents = this.filterEvents(
         filteredEvents,
         activeHolidayStatusIds,
-        activeEventTypeIds,
+        activeEventTypeIds
       );
 
       this.setState({ filteredEvents });
@@ -95,7 +106,7 @@ const DashboardContainer = Wrapped =>
     filterEvents = (
       filteredEvents,
       activeHolidayStatusIds,
-      activeEventTypeIds,
+      activeEventTypeIds
     ) => {
       if (
         activeHolidayStatusIds.length === 0 &&
@@ -106,7 +117,7 @@ const DashboardContainer = Wrapped =>
         return filteredEvents.filter(
           hol =>
             activeHolidayStatusIds.includes(hol.eventStatus.eventStatusId) ||
-            activeEventTypeIds.includes(hol.eventType.eventTypeId),
+            activeEventTypeIds.includes(hol.eventType.eventTypeId)
         );
       }
     };
@@ -115,12 +126,12 @@ const DashboardContainer = Wrapped =>
       if (category == eventCategory.HOLIDAY_STATUS) {
         this.setState(
           { activeHolidayStatusIds: eventId },
-          this.filterCalenderEvents,
+          this.filterCalenderEvents
         );
       } else if (category == eventCategory.EVENT_TYPE) {
         this.setState(
           { activeEventTypeIds: eventId },
-          this.filterCalenderEvents,
+          this.filterCalenderEvents
         );
       }
     };
