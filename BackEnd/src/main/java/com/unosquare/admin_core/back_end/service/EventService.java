@@ -1,5 +1,6 @@
 package com.unosquare.admin_core.back_end.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
@@ -50,6 +51,20 @@ public class EventService {
 
         Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate,new EventType(eventType.getEventTypeId()));
         return (event != null ) ? modelMapper.map(event, EventDTO.class) : null;
+    }
+
+    public Long getNumberOfHolidaysRemainingForEmployee(int employeeId){
+
+        Long numberOfHolidaysRemaining = eventRepository.getTotalEventsRemainingByEmployee(employeeId);
+
+        return numberOfHolidaysRemaining;
+    }
+
+    public Long numberOfEventsCreatedOnDateForEmployee(int employeeId, LocalDate startDate, LocalDate endDate){
+
+        Long event = eventRepository.getCountOfNumberOfExistingEventsByEmployee(new Employee(employeeId), startDate, endDate);
+
+        return event;
     }
 
     private void save(Event event) {
@@ -113,8 +128,4 @@ public class EventService {
     private List<EventDTO> mapEventsToDtos(List<Event> events) {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
-
-    
-
 }
-

@@ -1,12 +1,12 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.viewModels.*;
-import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
+import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
+import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -71,6 +71,22 @@ public class HolidayController {
                 responses.add("Starting date cannot be after end date");
                 continue;
             }
+
+            Long numberOfRemainingHolidays = eventService.getNumberOfHolidaysRemainingForEmployee(
+                    createHolidayViewModel.getEmployeeId());
+
+            if (numberOfRemainingHolidays == 0){
+                responses.add("Error in requested holiday. Total number of Holidays remaining : 0");
+                continue;
+            }
+
+            Long createdEvent = eventService.numberOfEventsCreatedOnDateForEmployee(
+                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
+
+            if (createdEvent != 0) {
+                responses.add("Event exists for requested dates. Please review");
+                continue;
+            }
         }
 
         if (responses.isEmpty()) {
@@ -79,7 +95,7 @@ public class HolidayController {
 
             for (DateViewModel date : createHolidayViewModel.getDates()) {
 
-                EventDTO newHoliday = modelMapper.map(date , EventDTO.class);
+                EventDTO newHoliday = modelMapper.map(date, EventDTO.class);
                 modelMapper.map(createHolidayViewModel, newHoliday);
                 newHolidays.add(newHoliday);
             }
@@ -94,18 +110,19 @@ public class HolidayController {
     @ResponseStatus(HttpStatus.OK)
     public void updateHoliday(@RequestBody UpdateHolidayViewModel updateHolidayViewModel) {
         UpdateEventDTO event = modelMapper.map(updateHolidayViewModel, UpdateEventDTO.class);
-        eventService.updateEvent(event); }
+        eventService.updateEvent(event);
+    }
 
     @PutMapping(value = "/approveHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel){
+    public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel) {
         EventDTO event = modelMapper.map(approveHolidayViewModel, EventDTO.class);
         eventService.approveEvent(event.getEventId());
     }
 
     @PutMapping(value = "/cancelHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel){
+    public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel) {
         EventDTO event = modelMapper.map(cancelHolidayViewModel, EventDTO.class);
         eventService.cancelEvent(event.getEventId());
     }
@@ -113,8 +130,8 @@ public class HolidayController {
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findByDateBetween(@PathVariable("rangeStart") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeStart,
-                                            @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
-        return mapEventDtosToHolidays(eventService.findByDateBetween(rangeStart, rangeEnd,EventTypes.ANNUAL_LEAVE));
+                                                    @PathVariable("rangeEnd") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate rangeEnd) {
+        return mapEventDtosToHolidays(eventService.findByDateBetween(rangeStart, rangeEnd, EventTypes.ANNUAL_LEAVE));
     }
 
     @GetMapping(value = "/findByHolidayStatus/{holidayStatusId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -124,6 +141,6 @@ public class HolidayController {
     }
 
     private List<HolidayViewModel> mapEventDtosToHolidays(List<EventDTO> events) {
-            return events.stream().map(event -> modelMapper.map(event, HolidayViewModel.class)).collect(Collectors.toList());
+        return events.stream().map(event -> modelMapper.map(event, HolidayViewModel.class)).collect(Collectors.toList());
     }
 }
