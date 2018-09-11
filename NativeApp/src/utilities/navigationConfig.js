@@ -14,7 +14,8 @@ import {
   Booking,
   Logout,
 } from '../screens';
-import { WHITE, ACTIVECOLOR, INACTIVECOLOR, LIGHTGREY } from '../styles/colors';
+import { WHITE, ACTIVECOLOR, INACTIVECOLOR, LIGHTGREY, GREY } from '../styles/colors';
+import { H2_SIZE } from '../styles/text';
 
 const HomeStack = createStackNavigator(
   {
@@ -25,12 +26,16 @@ const HomeStack = createStackNavigator(
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        paddingHorizontal: 10,
         backgroundColor: WHITE,
         borderBottomWidth: 1,
         borderBottomColor: 'rgba(192,192,192,0.3)',
       },
       headerBackTitle: null,
+      headerTitleStyle: {
+        color: GREY,
+        fontSize: H2_SIZE,
+        fontFamily: 'oswaldRegular',
+      },
     },
   }
 );

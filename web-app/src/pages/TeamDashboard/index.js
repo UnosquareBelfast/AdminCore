@@ -7,8 +7,9 @@ import HolidayCells from '../../components/DataTable/Cells/holidays';
 import UserCells from '../../components/DataTable/Cells/users';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
+import roles from '../../utilities/roles';
 
-export const User = ({
+export const TeamDashboard = ({
   team,
   teamHolidays,
   selectedUser,
@@ -19,7 +20,10 @@ export const User = ({
   history,
   selectedHoliday,
   selectHoliday,
+  userDetails,
 }) => {
+  const isAdmin = userDetails.employeeRoleId !== roles.STANDARD;
+
   return (
     <Container>
       {userModalVisible && (
@@ -56,7 +60,7 @@ export const User = ({
         </Stat>
       </Columns>
 
-      <Columns>
+      <Columns fullWidth={!isAdmin}>
         <div>
           <h3>Active Members</h3>
           <DataTable
@@ -66,26 +70,28 @@ export const User = ({
             onRowClick={onUserSelect}
           />
         </div>
-        <div>
-          <h3>
-            Member's Pending Holidays{' '}
-            {teamHolidays != 0
-              ? `(${teamHolidays.length} needing reviewed)`
-              : null}
-          </h3>
-          <DataTable
-            data={teamHolidays}
-            cells={HolidayCells}
-            columns={['employee', 'startDate', 'endDate']}
-            onRowClick={holiday => selectHoliday(holiday)}
-          />
-        </div>
+        {isAdmin && (
+          <div>
+            <h3>
+              Member's Pending Holidays{' '}
+              {teamHolidays != 0
+                ? `(${teamHolidays.length} needing reviewed)`
+                : null}
+            </h3>
+            <DataTable
+              data={teamHolidays}
+              cells={HolidayCells}
+              columns={['employee', 'startDate', 'endDate']}
+              onRowClick={holiday => selectHoliday(holiday)}
+            />
+          </div>
+        )}
       </Columns>
     </Container>
   );
 };
 
-User.propTypes = {
+TeamDashboard.propTypes = {
   history: PT.object,
   team: PT.array,
   teamHolidays: PT.array,
@@ -96,12 +102,13 @@ User.propTypes = {
   hideUserModal: PT.func.isRequired,
   hideHolidayModal: PT.func.isRequired,
   userModalVisible: PT.bool.isRequired,
+  userDetails: PT.object.isRequired,
 };
 
-User.defaultProps = {
+TeamDashboard.defaultProps = {
   team: [],
   teamHolidays: [],
   selectedUser: null,
 };
 
-export default container(User);
+export default container(TeamDashboard);
