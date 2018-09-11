@@ -100,7 +100,7 @@ public class EventService {
         }
     }
 
-    public List<String> rejectEvent(int eventId, String deniedMessage){
+    public List<String> rejectEvent(int eventId, String message){
         List<String> responses = new ArrayList<>();
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
@@ -109,7 +109,7 @@ public class EventService {
                 responses.add("Event has already been marked as rejected, ID: " + eventId);
             } else {
                 event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
-                event.setMessage(deniedMessage);
+                event.setMessage(message);
                 save(event);
             }
         } else{

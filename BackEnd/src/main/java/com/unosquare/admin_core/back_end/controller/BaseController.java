@@ -44,7 +44,7 @@ public abstract class BaseController {
 
         if (responses.isEmpty()) {
 
-            ArrayList<EventDTO> eventDTOS = new ArrayList<>();
+            List<EventDTO> eventDTOS = new ArrayList<>();
 
             for (DateViewModel date : createEventViewModel.getDates()) {
 

@@ -82,8 +82,7 @@ public class HolidayController extends BaseController {
     @PutMapping(value = "/rejectHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<String>>  rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel) {
-        EventDTO event = modelMapper.map(rejectHolidayViewModel, EventDTO.class);
-        List<String> responses = eventService.rejectEvent(event.getEventId(), event.getMessage());
+        List<String> responses = eventService.rejectEvent(rejectHolidayViewModel.getEventId(), rejectHolidayViewModel.getMessage());
         return ResponseEntity.ok(responses);
     }
 

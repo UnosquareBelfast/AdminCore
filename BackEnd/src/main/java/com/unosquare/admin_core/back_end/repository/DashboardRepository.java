@@ -12,22 +12,16 @@ import java.util.List;
 
 public interface DashboardRepository extends JpaRepository<Event, Integer> {
     @Query(value = "SELECT e FROM Event e " +
-            "INNER JOIN Contract c on e.employee.employeeId = c.employee.employeeId " +
             "WHERE " +
             "((e.startDate BETWEEN :startDate AND :endDate) OR " +
             "(e.endDate BETWEEN :startDate AND :endDate) OR " +
             "(e.startDate > :startDate AND e.endDate < :endDate)) " +
             "AND " +
-            "((c.startDate BETWEEN :startDate AND :today) OR " +
-            "(c.endDate BETWEEN :today AND :endDate) OR " +
-            "(c.startDate < :startDate AND (c.endDate IS NULL OR :endDate > :today))) " +
-            "AND " +
-            "c.employee.employeeId = :employeeId"
+            "e.employee.employeeId = :employeeId"
     )
     List<Event> findCalendarMonthEventsForEmployee(@Param("employeeId") int employeeId,
                                                    @Param("startDate") LocalDate startDate,
-                                                   @Param("endDate") LocalDate endDate,
-                                                   @Param("today") LocalDate today);
+                                                   @Param("endDate") LocalDate endDate);
 
     @Query(value = "SELECT e FROM Event e " +
             "INNER JOIN Contract c on e.employee.employeeId = c.employee.employeeId " +
