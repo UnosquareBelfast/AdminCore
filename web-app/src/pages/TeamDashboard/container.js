@@ -1,13 +1,17 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { getHolidaysByStatus } from '../../services/holidayService';
 import holidayStatus from '../../utilities/holidayStatus';
 import { getAllUsers } from '../../services/userService';
+import { getUser } from '../../reducers/';
 
-export default Wrapped =>
+const TeamDashboardContainer = Wrapped =>
   class extends React.Component {
     static propTypes = {
       history: PT.object.isRequired,
+      userDetails: PT.object.isRequired,
     };
     constructor(props) {
       super(props);
@@ -53,19 +57,37 @@ export default Wrapped =>
     };
 
     render() {
+      const { history, userDetails } = this.props;
+      const {
+        teamHolidays,
+        team,
+        selectedUser,
+        userModalVisible,
+        selectedHoliday,
+      } = this.state;
+
       return (
         <Wrapped
-          history={this.props.history}
-          teamHolidays={this.state.teamHolidays}
-          team={this.state.team}
+          history={history}
+          teamHolidays={teamHolidays}
+          team={team}
           onUserSelect={this.handleUserSelection}
-          selectedUser={this.state.selectedUser}
-          userModalVisible={this.state.userModalVisible}
+          selectedUser={selectedUser}
+          userModalVisible={userModalVisible}
           hideUserModal={this.handleHideUserModal}
           hideHolidayModal={this.handleHideHolidayModal}
           selectHoliday={this.selectHoliday}
-          selectedHoliday={this.state.selectedHoliday}
+          selectedHoliday={selectedHoliday}
+          userDetails={userDetails}
         />
       );
     }
   };
+
+const mapStateToProps = state => {
+  return {
+    userDetails: getUser(state),
+  };
+};
+
+export default compose(connect(mapStateToProps), TeamDashboardContainer);
