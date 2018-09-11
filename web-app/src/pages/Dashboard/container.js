@@ -42,7 +42,7 @@ const DashboardContainer = Wrapped =>
       this.fetchEvents(eventsView.PERSONAL_EVENTS, true);
 
       // This will be called when the user navigates away from the page.
-      this.unlisten = this.props.history.listen(() => {
+      this.removeRouterListener = this.props.history.listen(() => {
         setEventView(eventsView.PERSONAL_EVENTS);
       });
     }
@@ -54,7 +54,7 @@ const DashboardContainer = Wrapped =>
     };
 
     componentWillUnmount() {
-      this.unlisten();
+      this.removeRouterListener();
     }
 
     toggleEventsView = () => {
