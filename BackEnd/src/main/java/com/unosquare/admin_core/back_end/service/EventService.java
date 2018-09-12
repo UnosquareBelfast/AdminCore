@@ -76,7 +76,7 @@ public class EventService {
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             modelMapper.map(updateEventDTO, event);
-            EventMessage eventMessage = mapToEventMessage(updateEventDTO.getMessage(), event, event.getEmployee(), updateEventDTO.getMessageType());
+            EventMessage eventMessage = mapToEventMessage(updateEventDTO.getMessage(), event, event.getEmployee(), EventMessageTypes.GENERAL.getEventStatusId());
             save(event);
             saveEventMessage(eventMessage);
         }
