@@ -69,13 +69,16 @@ public class EventService {
         }
     }
 
+    @Transactional
     public void updateEvent(UpdateEventDTO updateEventDTO) {
         Preconditions.checkNotNull(updateEventDTO);
         Optional<Event> retrievedEvent = eventRepository.findById(updateEventDTO.getEventId());
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             modelMapper.map(updateEventDTO, event);
+            EventMessage eventMessage = mapToEventMessage(updateEventDTO.getMessage(), event, event.getEmployee(), updateEventDTO.getMessageType());
             save(event);
+            saveEventMessage(eventMessage);
         }
     }
 
@@ -104,10 +107,9 @@ public class EventService {
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
-            Optional<Employee> employee = employeeRepository.findById(employeeId);
-            if (employee.isPresent()) {
-                Employee emp = employee.get();
-                EventMessage eventMessage = mapToEventMessage(message, event, emp);
+            Employee employee = getEmployeeFromEmployeeId(employeeId);
+            if (employee != null ) {
+                EventMessage eventMessage = mapToEventMessage(message, event, employee, EventStatuses.REJECTED.getEventStatusId());
                 saveEventMessage(eventMessage);
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
                     save(event);
@@ -136,13 +138,17 @@ public class EventService {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
-    private EventMessage mapToEventMessage(String message, Event event, Employee emp) {
+    private EventMessage mapToEventMessage(String message, Event event, Employee emp, int eventMessageTypeId) {
         EventMessage eventMessage = new EventMessage();
         eventMessage.setEmployee(emp);
         eventMessage.setMessage(message);
         eventMessage.setLastModified(LocalDate.now());
         eventMessage.setEvent(event);
-        eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.REJECTED.getEventStatusId()));
+        if (EventMessageTypes.REJECTED.getEventStatusId() == eventMessageTypeId) {
+            eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.REJECTED.getEventStatusId()));
+        } else {
+            eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.GENERAL.getEventStatusId()));
+        }
         return eventMessage;
     }
 
@@ -166,5 +172,13 @@ public class EventService {
         eventMessageRepository.save(eventMessage);
     }
 
+
+    private Employee getEmployeeFromEmployeeId(int employeeId){
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        if (employee.isPresent()) {
+            return employee.get();
+        }
+        return null;
+    }
 }
 

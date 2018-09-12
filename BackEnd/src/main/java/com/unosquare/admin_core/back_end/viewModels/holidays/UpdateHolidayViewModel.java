@@ -17,4 +17,7 @@ public class UpdateHolidayViewModel {
 
     private boolean halfDay;
 
+    private String message;
+
+    private int messageType;
 }
