@@ -6,25 +6,24 @@ export const ButtonToggle = styled.div`
   top: 30px;
   height: 40px;
   display: none;
-  .btnText {
+  .btn-text {
     display: none;
-  }
-
-  span {
-    margin: 0 !important;
-  }
-
-  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
-    .btnText {
-      display: inline;
-    }
-    span {
-      margin: inherit;
-    }
   }
 
   @media (min-width: ${props => props.theme.mediaQueries.md}) {
     display: flex;
+    .btn-icon {
+      margin-right: 0px;
+    }
+  }
+
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+    .btn-text {
+      display: inline;
+    }
+    .btn-icon {
+      margin-right: 6px;
+    }
   }
 `;
 
