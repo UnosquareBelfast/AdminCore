@@ -2,8 +2,11 @@ package com.unosquare.admin_core.back_end.service;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
+import com.unosquare.admin_core.back_end.dto.EventMessageDTO;
 import com.unosquare.admin_core.back_end.entity.Event;
+import com.unosquare.admin_core.back_end.entity.EventMessage;
 import com.unosquare.admin_core.back_end.repository.DashboardRepository;
+import com.unosquare.admin_core.back_end.repository.EventMessageRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,13 +27,21 @@ public class DashboardService {
     public DashboardRepository dashboardRepository;
 
     @Autowired
+    EventMessageRepository eventMessageRepository;
+
+    @Autowired
     ModelMapper modelMapper;
 
-    public List<EventDTO> getEmployeeDashboardEvents(int employeeId, LocalDate date){
-            LocalDate startDate = getMonthStartDate(date);
-            LocalDate endDate = getMonthEndDate(date);
-            List<Event> result = dashboardRepository.findCalendarMonthEventsForEmployee(employeeId, startDate, endDate);
-            return result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+    public List<EventDTO> getEmployeeDashboardEvents(int employeeId, LocalDate date) {
+        LocalDate startDate = getMonthStartDate(date);
+        LocalDate endDate = getMonthEndDate(date);
+        List<Event> result = dashboardRepository.findCalendarMonthEventsForEmployee(employeeId, startDate, endDate);
+        List<EventDTO> eventDTOS = result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+        for (EventDTO event : eventDTOS){
+            List<EventMessage> messages = eventMessageRepository.findEventMessagesByEventId(event.getEventId());
+            event.setMessages(messages.stream().map(message -> modelMapper.map(message, EventMessageDTO.class)).collect(Collectors.toList()));
+        }
+        return eventDTOS;
     }
 
     public List<EventDTO> getTeamDashboardEvents(int employeeId, LocalDate date){

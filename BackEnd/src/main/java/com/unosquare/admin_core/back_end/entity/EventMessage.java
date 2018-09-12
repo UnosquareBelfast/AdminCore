@@ -24,7 +24,7 @@ public class EventMessage {
     private Event event;
 
     @OneToOne()
-    @JoinColumn(name = "employeeId")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Column(name = "last_modified")
