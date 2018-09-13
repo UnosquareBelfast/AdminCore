@@ -1,13 +1,11 @@
 
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.viewModels.*;
-import com.unosquare.admin_core.back_end.viewModels.workfromhome.CreateWorkingFromHomeViewModel;
-import com.unosquare.admin_core.back_end.viewModels.workfromhome.SaveWorkingFromHomeViewModel;
-import com.unosquare.admin_core.back_end.viewModels.workfromhome.ViewWorkingFromHomeViewModel;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
+import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.workfromhome.ViewWorkingFromHomeViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +13,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/workingFromHome")
-public class WorkingFromHomeController {
+public class WorkingFromHomeController extends BaseController {
 
     @Autowired
     EventService eventService;
@@ -33,7 +30,7 @@ public class WorkingFromHomeController {
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<ViewWorkingFromHomeViewModel> findAll() {
-        List workingFromHome = eventService.findByType(EventTypes.WORKING_FROM_HOME);
+        List<EventDTO> workingFromHome = eventService.findByType(EventTypes.WORKING_FROM_HOME);
         return mapEventDtosToWorkingFromHome(workingFromHome);
     }
 
@@ -46,46 +43,15 @@ public class WorkingFromHomeController {
 
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<SaveWorkingFromHomeViewModel> findWorkingFromHomeByEmployeeId(@PathVariable("employeeId") int employeeId) {
-        List workingFromHome = eventService.findByEmployee(employeeId);
+    public List<ViewWorkingFromHomeViewModel> findWorkingFromHomeByEmployeeId(@PathVariable("employeeId") int employeeId) {
+        List<EventDTO> workingFromHome = eventService.findByEmployee(employeeId);
         return mapEventDtosToWorkingFromHome(workingFromHome);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createWorkingFromHome(@RequestBody CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel) {
-
-        List<String> responses = new ArrayList<>();
-
-
-        for (DateViewModel date : createWorkingFromHomeViewModel.getDates()) {
-            EventDTO existentEvent = eventService.findByEmployeeIdStartDataEndDate(
-                    createWorkingFromHomeViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate(), EventTypes.WORKING_FROM_HOME);
-
-            if (existentEvent != null) {
-                responses.add("Working from home already exists");
-                continue;
-            }
-
-            if (date.getStartDate().isAfter(date.getEndDate())) {
-                responses.add("Starting date cannot be after end date");
-                continue;
-            }
-        }
-
-        if (responses.isEmpty()) {
-
-            ArrayList<EventDTO> newWorkingFromHomeDays = new ArrayList<>();
-
-            for (DateViewModel date : createWorkingFromHomeViewModel.getDates()) {
-
-                EventDTO newWorkingFromHomeDay = modelMapper.map(date , EventDTO.class);
-                modelMapper.map(createWorkingFromHomeViewModel, newWorkingFromHomeDay);
-                newWorkingFromHomeDays.add(newWorkingFromHomeDay);
-            }
-            eventService.saveEvents(newWorkingFromHomeDays.stream().toArray(EventDTO[]::new));
-        }
-
+    public ResponseEntity<List<String>> createWorkingFromHome(@RequestBody CreateEventViewModel createEventViewModel) {
+        List<String> responses = createEventByType(createEventViewModel, EventTypes.WORKING_FROM_HOME);
         return ResponseEntity.ok(responses);
     }
 

@@ -10,10 +10,14 @@
 -- TABLESPACE = pg_default
 -- CONNECTION LIMIT = -1;
 
-----------------------------------------------------------------------------------------
 
--- Table: public.country
--- DROP TABLE public.country;
+  ----------------------------------------------------------------------------------------
+
+/*
+                                   COUNTRY TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.country_country_id_seq;
 CREATE TABLE IF NOT EXISTS public.country
@@ -33,10 +37,14 @@ ALTER SEQUENCE country_country_id_seq
 ALTER TABLE public.country
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
 
--- Table: public.employee_status
--- DROP TABLE public.employee_status;
+  ----------------------------------------------------------------------------------------
+
+/*
+                                   EMPLOYEE STATUS TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.employee_status_employee_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.employee_status
@@ -56,10 +64,14 @@ ALTER SEQUENCE employee_status_employee_status_id_seq
 ALTER TABLE public.employee_status
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
 
--- Table: public.employee_role
--- DROP TABLE public.employee_role;
+  ----------------------------------------------------------------------------------------
+
+/*
+                                   EMPLOYEE TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.employee_role_employee_role_id_seq;
 CREATE TABLE IF NOT EXISTS public.employee_role
@@ -79,10 +91,14 @@ ALTER SEQUENCE employee_role_employee_role_id_seq
 ALTER TABLE public.employee_role
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
 
--- Table: public.holiday_status
--- DROP TABLE public.holiday_status;
+  ----------------------------------------------------------------------------------------
+
+/*
+                                   EVENT STATUS TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.event_status_event_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_status
@@ -102,11 +118,14 @@ ALTER SEQUENCE event_status_event_status_id_seq
 ALTER TABLE public.event_status
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
 
+  ----------------------------------------------------------------------------------------
 
--- Table: public.event_type
--- DROP TABLE public.event_type;
+/*
+                                   EVENT TYPE TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.event_type_event_type_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_type
@@ -126,9 +145,13 @@ ALTER SEQUENCE event_type_event_type_id_seq
 ALTER TABLE public.event_type
   OWNER to postgres;
 
-----------------------------------------------------------------------------------------
--- Table: public.employee
--- DROP TABLE public.employee;
+  ----------------------------------------------------------------------------------------
+
+/*
+                                   EMPLOYEE TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 CREATE SEQUENCE IF NOT EXISTS public.employee_employee_id_seq;
 CREATE TABLE IF NOT EXISTS public.employee
 (
@@ -167,10 +190,13 @@ ALTER SEQUENCE employee_employee_id_seq
 ALTER TABLE public.employee
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------
 
--- Table: public.client
--- DROP TABLE public.client;
+/*
+                                   CLIENT TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.client_client_id_seq;
 CREATE TABLE IF NOT EXISTS public.client
@@ -190,10 +216,13 @@ ALTER SEQUENCE client_client_id_seq
 ALTER TABLE public.client
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------
 
--- Table: public.team
--- DROP TABLE public.team;
+/*
+                                  TEAM TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.team_team_id_seq;
 CREATE TABLE IF NOT EXISTS public.team
@@ -220,10 +249,13 @@ ALTER SEQUENCE team_team_id_seq
 ALTER TABLE public.team
     OWNER to postgres;
 
-----------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------
 
--- Table: public.contract
--- DROP TABLE public.contract;
+/*
+                                  CONTRACT TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.contract_contract_id_seq;
 CREATE TABLE IF NOT EXISTS public.contract
@@ -251,10 +283,13 @@ TABLESPACE pg_default;
 ALTER TABLE public.contract
   OWNER to postgres;
 
-----------------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------------------
 
--- Table: public.holiday
--- DROP TABLE public.holiday;
+/*
+                                  EVENT TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.event_event_id_seq;
 CREATE TABLE IF NOT EXISTS public.event
@@ -293,3 +328,71 @@ ALTER SEQUENCE event_event_id_seq
 
 ALTER TABLE public.event
   OWNER to postgres;
+
+  ----------------------------------------------------------------------------------------
+
+/*
+                                  EVENT MESSAGE TYPE TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
+
+CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_type_id_seq;
+CREATE TABLE IF NOT EXISTS public.event_message_type
+(
+    event_message_type_id        integer NOT NULL DEFAULT nextval('event_message_event_message_type_id_seq' :: regclass),
+    description character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT event_message_type_pkey PRIMARY KEY (event_message_type_id)
+)
+WITH (
+OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER SEQUENCE event_message_event_message_type_id_seq
+    OWNED BY event_message_type.event_message_type_id;
+
+ALTER TABLE public.event_message_type
+  OWNER to postgres;
+
+  ----------------------------------------------------------------------------------------
+
+/*
+                                  EVENT MESSAGE TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
+
+CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_id_seq;
+CREATE TABLE public.event_message
+(
+    event_message_id integer NOT NULL DEFAULT nextval('event_message_event_message_id_seq' :: regclass),
+    event_id integer NOT NULL,
+    message text NOT NULL,
+    last_modified date NOT NULL,
+    employee_id integer NOT NULL,
+    event_message_type_id integer NOT NULL,
+    CONSTRAINT event_message_pkey PRIMARY KEY (event_message_id),
+	  CONSTRAINT event_id_fkey FOREIGN KEY (event_id)
+        REFERENCES public.event (event_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	  CONSTRAINT event_message_employee_id_fkey FOREIGN KEY (employee_id)
+        REFERENCES public.employee (employee_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	  CONSTRAINT event_message_type_event_message_type_id_fkey FOREIGN KEY (event_message_type_id)
+        REFERENCES public.event_message_type (event_message_type_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER SEQUENCE event_message_event_message_id_seq
+    OWNED BY event_message.event_message_id;
+
+ALTER TABLE public.event_message
+    OWNER to postgres;
