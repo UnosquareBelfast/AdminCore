@@ -136,7 +136,6 @@ export const FormGroup = styled.div`
     &:before {
       content: '';
       position: absolute;
-      left: 2px;
       top: 2px;
       width: 12px;
       height: 12px;

@@ -61,6 +61,10 @@ export default Wrapped =>
             endDate: contractData.endDate.toISOString(),
           };
 
+          if (contractData.isOpenEnded) {
+            delete contractRequest.endDate;
+          }
+
           createContract(contractRequest)
             .then(() => this.complete())
             .catch(error =>
