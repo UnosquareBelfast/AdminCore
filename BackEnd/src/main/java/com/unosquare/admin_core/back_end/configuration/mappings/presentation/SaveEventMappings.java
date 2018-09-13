@@ -31,6 +31,7 @@ public class SaveEventMappings implements BaseMappings<EventDTO, CreateEventView
                 using(eventStatusConverter.MapFromSourceToTarget()).map(EventStatuses.AWAITING_APPROVAL, destination.getEventStatusId());
                 skip().setStartDate(null);
                 skip().setEndDate(null);
+                skip().setEventId(0);
                 map().setDateCreated(LocalDate.now());
                 map().setLastModified(LocalDate.now());
                 }
