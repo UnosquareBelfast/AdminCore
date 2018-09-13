@@ -12,6 +12,9 @@ services:
     volumes:
     - postgres-data:/var/lib/postgresql/data
   admincore:
+    build:
+      context: .
+      dockerfile: docker/admin.core.Dockerfile
     image: unosquare/admincore:latest
     restart: always
     ports:
@@ -21,6 +24,9 @@ services:
     links:
     - admincore-postgres:postgres
   cors-proxy:
+    build:
+      context: .
+      dockerfile: docker/express.cors.proxy.Dockerfile
     image: unosquare/cors-proxy:latest
     restart: always
     environment:
@@ -30,9 +36,6 @@ services:
 # AWS FireWall already handle port restriction - network could be used for handling public/private containers
 # I can't see this being required atm for the reason that AWS's F/W will only let the cors-proxy through
 # https://docs.docker.com/compose/networking/#specify-custom-networks
-networks:
-  frontend:
-  backend:
 volumes:
   postgres-data:
 
