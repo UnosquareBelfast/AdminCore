@@ -16,11 +16,7 @@ Before following the steps be sure to clone this repository to the local machine
 1. Download & Install [Docker](https://www.docker.com/products/docker-desktop).
 2. Download & Install [PostgreSQL](https://www.postgresql.org/download/)
 3. Login to docker: Try `docker login` first, or if using bash `winpty docker login`. Note it asks for **username**, not email.
-4. Build the Docker images:
-    1. Navigate to `/BackEnd/` in your terminal.
-    2. Run `docker build -f docker/admin.core.Dockerfile -t unosquare/admincore:latest . --no-cache`
-    3. Run `docker build -f docker/express.cors.proxy.Dockerfile -t unosquare/cors-proxy:latest . --no-cache`
-5. Finally, run the project with `docker-compose up`
+4. Finally, run the project with `docker-compose up`
 
 #### Non-Pro Windows:
 
@@ -123,7 +119,7 @@ Currently it's a bit of handling to update the backend. Here's how to it. Run th
 2. Delete all containers `docker rm -f $(docker ps -a -q)`
 3. Delete all volumes `docker volume rm $(docker volume ls -q)`
 4. Remove images: `docker rmi unosquare/admincore unosquare/cors-proxy`
-5. Follow BackEnd setup guide above from point 4.
+4. Finally, run the project with `docker-compose up`
 
 ## Back end troubleshooting
 - If you're experiencing problems after running `docker-compose up` it may be due to PostgresQL running locally. Use task manager or the mac equivilent to shut down all the PostgresQL processes.
