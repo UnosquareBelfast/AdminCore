@@ -1,9 +1,13 @@
 package com.unosquare.admin_core.back_end.controller;
 
+import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
+import com.unosquare.admin_core.back_end.entity.Employee;
+import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
+import com.unosquare.admin_core.back_end.service.EmployeeService;
 import com.unosquare.admin_core.back_end.service.EventService;
 import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
 import com.unosquare.admin_core.back_end.viewModels.holidays.*;
@@ -27,6 +31,9 @@ public class HolidayController {
 
     @Autowired
     EventService eventService;
+
+    @Autowired
+    EmployeeService employeeService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -72,11 +79,14 @@ public class HolidayController {
                 continue;
             }
 
-            Long numberOfRemainingHolidays = eventService.getNumberOfHolidaysRemainingForEmployee(
+            EmployeeDTO employee = employeeService.findById(
                     createHolidayViewModel.getEmployeeId());
 
-            if (numberOfRemainingHolidays == 0){
-                responses.add("Error in requested holiday. Total number of Holidays remaining : 0");
+            Long numberOfEventsBookedInYear = eventService.getTotalNumberOfEventDaysRequestedInYearByEmployee(
+                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
+
+            if (employee.getTotalHolidays() - numberOfEventsBookedInYear < 0){
+                responses.add("Error in requested holiday");
                 continue;
             }
 

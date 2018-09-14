@@ -3,7 +3,6 @@ package com.unosquare.admin_core.back_end.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +26,6 @@ public class Employee {
     private String email;
 
     @Column(name = "total_holidays")
-    @Min(value = 0)
     private int totalHolidays;
 
     @Column(name = "start_date")

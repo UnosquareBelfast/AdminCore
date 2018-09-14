@@ -1,6 +1,5 @@
 package com.unosquare.admin_core.back_end.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
@@ -10,6 +9,7 @@ import com.unosquare.admin_core.back_end.entity.EventStatus;
 import com.unosquare.admin_core.back_end.entity.EventType;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
+import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.repository.EventRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,9 @@ public class EventService {
 
     @Autowired
     EventRepository eventRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -47,17 +50,17 @@ public class EventService {
         return mapEventsToDtos(events);
     }
 
+    public Long getTotalNumberOfEventDaysRequestedInYearByEmployee(int employeeId, LocalDate startDate, LocalDate endDate){
+
+        Long numberOfRequestedDays = eventRepository.getCountOfTotalEventsInYearMadeByEmployee(new Employee(employeeId), startDate, endDate);
+
+        return numberOfRequestedDays;
+    }
+
     public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType){
 
         Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate,new EventType(eventType.getEventTypeId()));
         return (event != null ) ? modelMapper.map(event, EventDTO.class) : null;
-    }
-
-    public Long getNumberOfHolidaysRemainingForEmployee(int employeeId){
-
-        Long numberOfHolidaysRemaining = eventRepository.getTotalEventsRemainingByEmployee(employeeId);
-
-        return numberOfHolidaysRemaining;
     }
 
     public Long numberOfEventsCreatedOnDateForEmployee(int employeeId, LocalDate startDate, LocalDate endDate){
