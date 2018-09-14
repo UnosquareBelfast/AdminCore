@@ -1,67 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { PropTypes as PT } from 'prop-types';
+import container from './container';
 import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, StatWrap } from './styled';
-import { getHolidays } from '../../services/holidayService';
-import swal from 'sweetalert2';
+import { isEmpty } from 'lodash';
 import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
 import HolidayStatus from '../../utilities/holidayStatus';
-import { isEmpty } from 'lodash';
 
-class UserModal extends Component {
-  static propTypes = {
-    user: PT.object,
-    closeModal: PT.func.isRequired,
-    history: PT.object.isRequired,
-  };
+const UserModal = ({
+  user,
+  closeModal, 
+  history,
+  userHolidays,
+  hasPermission,
+}) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      userHolidays: [],
-    };
-  }
-
-  componentDidMount() {
-    const { user } = this.props;
-    if (isEmpty(user)) return null;
-
-    getHolidays(user.employeeId)
-      .then(response => {
-        this.setState({ userHolidays: response.data });
-      })
-      .catch(error => {
-        swal(
-          'Error',
-          `Error getting user holiday details: ${error.message}`,
-          'error'
-        );
-      });
-  }
-
-  getTotalPendingDays = () => {
+  const getTotalPendingDays = () => {
     return getTotalDaysInEventArrayWithStatus(
-      this.state.userHolidays,
+      userHolidays,
       HolidayStatus.PENDING
     );
   };
 
-  getTotalApprovedDays = () => {
+  const getTotalApprovedDays = () => {
     return getTotalDaysInEventArrayWithStatus(
-      this.state.userHolidays,
+      userHolidays,
       HolidayStatus.APPROVED
     );
   };
 
-  render() {
-    const { user, closeModal, history } = this.props;
+  if (isEmpty(user)) return null;
+  const approvedDays = getTotalApprovedDays();
+  const pendingDays = getTotalPendingDays();
+ 
+  if (hasPermission) {
 
-    if (isEmpty(user)) return null;
-    const approvedDays = this.getTotalApprovedDays();
-    const pendingDays = this.getTotalPendingDays();
-
-    return (
-      <Modal closeModal={closeModal}>
+    return (  
+      <Modal closeModal={closeModal}> 
         <StyleContainer>
           <div>
             <h2>
@@ -91,6 +66,20 @@ class UserModal extends Component {
       </Modal>
     );
   }
-}
+  return null;
+};
 
-export default UserModal;
+
+UserModal.propTypes = {
+  closeModal: PT.func,
+  userDetails: PT.object.isRequired,
+  showModal: PT.bool.isRequired,
+  history: PT.object,
+  user: PT.object,   
+  userHolidays: PT.array.isRequired,
+  getHolidays: PT.func.isRequired,
+  hasPermission: PT.bool.isRequired,
+};
+
+export default container(UserModal);
+//export default UserModal;
