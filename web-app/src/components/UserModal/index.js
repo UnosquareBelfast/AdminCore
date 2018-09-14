@@ -3,36 +3,16 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Modal, Button, Email } from '../../components/common';
 import { StyleContainer, Stat, StatWrap } from './styled';
-import { isEmpty } from 'lodash';
-import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
-import HolidayStatus from '../../utilities/holidayStatus';
 
 const UserModal = ({
   user,
   closeModal, 
   history,
-  userHolidays,
   hasPermission,
+  approvedDays,
+  pendingDays,
 }) => {
-
-  const getTotalPendingDays = () => {
-    return getTotalDaysInEventArrayWithStatus(
-      userHolidays,
-      HolidayStatus.PENDING
-    );
-  };
-
-  const getTotalApprovedDays = () => {
-    return getTotalDaysInEventArrayWithStatus(
-      userHolidays,
-      HolidayStatus.APPROVED
-    );
-  };
-
-  if (isEmpty(user)) return null;
-  const approvedDays = getTotalApprovedDays();
-  const pendingDays = getTotalPendingDays();
- 
+  
   if (hasPermission) {
 
     return (  
@@ -69,17 +49,16 @@ const UserModal = ({
   return null;
 };
 
-
 UserModal.propTypes = {
   closeModal: PT.func,
   userDetails: PT.object.isRequired,
-  showModal: PT.bool.isRequired,
   history: PT.object,
   user: PT.object,   
   userHolidays: PT.array.isRequired,
   getHolidays: PT.func.isRequired,
   hasPermission: PT.bool.isRequired,
+  approvedDays: PT.number.isRequired,
+  pendingDays: PT.number.isRequired,
 };
 
 export default container(UserModal);
-//export default UserModal;

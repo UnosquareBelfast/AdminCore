@@ -7,6 +7,8 @@ import { getHolidays } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import { isEmpty } from 'lodash';
 import roles from '../../utilities/roles';
+import { getTotalDaysInEventArrayWithStatus } from '../../utilities/dates';
+import HolidayStatus from '../../utilities/holidayStatus';
 
 const UserModalContainer = Wrapped =>
   class extends Component {
@@ -15,11 +17,6 @@ const UserModalContainer = Wrapped =>
       closeModal: PT.func,
       history: PT.object,
       userDetails: PT.object.isRequired,
-      showModal: PT.bool,
-    };
-
-    static defaultProps = {
-      showModal: false,
     };
 
     constructor(props) {
@@ -49,21 +46,40 @@ const UserModalContainer = Wrapped =>
           });
       }
     }
+
+    getTotalPendingDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.state.userHolidays,
+        HolidayStatus.PENDING
+      );
+    };
   
+    getTotalApprovedDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.state.userHolidays,
+        HolidayStatus.APPROVED
+      );
+      
+    };
+
     render() {
-      const { closeModal, userDetails, showModal, user, history} = this.props;
-      const { userHolidays } = this.state;
+      const approvedDays = this.getTotalApprovedDays();
+      const pendingDays = this.getTotalPendingDays();
+      const { closeModal, userDetails, user, history} = this.props;
+      const { userHolidays  } = this.state;
+      if (isEmpty(user)) return null; 
        
       return (
         <Wrapped 
           userDetails={userDetails}
           userHolidays={userHolidays}
-          showModal={showModal}
           closeModal={closeModal}
           user={user}
           hasPermission = {this.hasPermission}
           history={history} 
-          getHolidays={getHolidays} />
+          getHolidays={getHolidays} 
+          approvedDays={approvedDays}
+          pendingDays={pendingDays}/>
       );
     }
   };
