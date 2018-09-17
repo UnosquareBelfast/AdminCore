@@ -2,11 +2,30 @@ import styled from 'styled-components';
 
 export const ButtonToggle = styled.div`
   position: absolute;
-  left: calc(60% - 111px);
+  right: 350px;
   top: 30px;
-  display: flex;
   height: 40px;
-   `;
+  display: none;
+  .btn-text {
+    display: none;
+  }
+
+  @media (min-width: ${props => props.theme.mediaQueries.md}) {
+    display: flex;
+    .btn-icon {
+      margin-right: 0px;
+    }
+  }
+
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+    .btn-text {
+      display: inline;
+    }
+    .btn-icon {
+      margin-right: 6px;
+    }
+  }
+`;
 
 export const InnerLayout = styled.div`
   width: 100%;

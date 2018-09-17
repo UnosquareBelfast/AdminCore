@@ -1,6 +1,6 @@
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faHome } from '@fortawesome/fontawesome-free-solid';
+import { faCalendar, faHome } from '@fortawesome/fontawesome-free-solid';
 
 export default {
   ANNUAL_LEAVE: 1,
@@ -11,6 +11,6 @@ export const typeText = [null, 'Annual leave', 'Working remotely'];
 
 export const typeIcons = [
   null,
-  <FontAwesomeIcon icon={faThumbsUp} />,
+  <FontAwesomeIcon icon={faCalendar} />,
   <FontAwesomeIcon icon={faHome} />,
 ];

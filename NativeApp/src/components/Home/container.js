@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import moment from 'moment';
 import { has, get } from 'lodash';
-import { getMonthEvents } from '../../utilities/holidays';
+import { getMonthEvents, getUserEvents } from '../../utilities/holidays';
 import holidayStatusColor from '../../utilities/holidayStatus';
 import { BLACK, WHITE } from '../../styles/colors';
 
@@ -22,6 +22,7 @@ export default Container => class extends Component {
       this.state = {
         events: {},
         showModal: false,
+        upcomingEvents: [],
         calendarDate: moment().format('YYYY-MM-DD'),
       };
     }
@@ -67,6 +68,8 @@ export default Container => class extends Component {
       const { calendarDate } = this.state;
       getMonthEvents(calendarDate)
         .then(data => this.setState({ events: this.formatDate(data) }));
+      getUserEvents()
+        .then(res => this.setState({ upcomingEvents: res }));
     };
 
     closeModal = () => {
@@ -119,11 +122,12 @@ export default Container => class extends Component {
     }, {});
 
     render() {
-      const { events } = this.state;
+      const { events, upcomingEvents } = this.state;
 
       return (
         <Container
           events={events}
+          upcomingEvents={upcomingEvents}
           onDayPress={this.onDayPress}
           onMonthChange={this.onMonthChange}
         />

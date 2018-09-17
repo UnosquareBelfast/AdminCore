@@ -14,8 +14,8 @@ const ToggleButton = props => {
             onClick={onToggleButton}
             className={activeButtonText === button.text ? 'active' : ''}
           >
-            <span>{button.icon}</span>
-            <span>{button.text}</span>
+            <span className="btn-icon">{button.icon}</span>
+            <span className="btn-text">{button.text}</span>
           </button>
         );
       })}

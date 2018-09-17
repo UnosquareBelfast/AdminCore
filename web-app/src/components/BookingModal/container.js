@@ -81,7 +81,7 @@ const Container = Wrapped =>
       const request = {
         endDate: end.format(this.dateFormat),
         halfDay: isHalfday,
-        holidayId: eventId,
+        eventId: eventId,
         startDate: start.format(this.dateFormat),
       };
 

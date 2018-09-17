@@ -15,6 +15,7 @@ export default Wrapped =>
         formData: {
           startDate: moment(),
           endDate: moment(),
+          isOpenEnded: false,
         },
         formIsValid: false,
       };

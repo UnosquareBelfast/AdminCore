@@ -1,6 +1,9 @@
 package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
+import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.entity.Employee;
@@ -20,14 +23,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 @RequestMapping("/holidays")
-public class HolidayController {
+public class HolidayController extends BaseController {
 
     @Autowired
     EventService eventService;
@@ -38,16 +40,19 @@ public class HolidayController {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    public EmployeeCredentialsViewModel employeeCredentialsViewModel;
+
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findAll() {
-        List holidays = eventService.findByType(EventTypes.ANNUAL_LEAVE);
+        List<EventDTO> holidays = eventService.findByType(EventTypes.ANNUAL_LEAVE);
         return mapEventDtosToHolidays(holidays);
     }
 
     @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public HolidayViewModel findholidayById(@PathVariable("eventId") int eventId) {
+    public HolidayViewModel findHolidayById(@PathVariable("eventId") int eventId) {
         EventDTO holiday = eventService.findById(eventId);
         return modelMapper.map(holiday, HolidayViewModel.class);
     }
@@ -55,7 +60,7 @@ public class HolidayController {
     @GetMapping(value = "findByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<HolidayViewModel> findHolidaysByEmployeeId(@PathVariable("employeeId") int employeeId) {
-        List holidays = eventService.findByEmployee(employeeId);
+        List<EventDTO> holidays = eventService.findByEmployee(employeeId);
         return mapEventDtosToHolidays(holidays);
     }
 
@@ -135,6 +140,16 @@ public class HolidayController {
     public void cancelHoliday(@RequestBody CancelHolidayViewModel cancelHolidayViewModel) {
         EventDTO event = modelMapper.map(cancelHolidayViewModel, EventDTO.class);
         eventService.cancelEvent(event.getEventId());
+    }
+
+    @PutMapping(value = "/rejectHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<String>>  rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel) {
+        List<String> responses = eventService.rejectEvent(
+                rejectHolidayViewModel.getEventId(),
+                rejectHolidayViewModel.getMessage(),
+                employeeCredentialsViewModel.getUserId());
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping(value = "/findByDateBetween/{rangeStart}/{rangeEnd}", produces = MediaType.APPLICATION_JSON_VALUE)

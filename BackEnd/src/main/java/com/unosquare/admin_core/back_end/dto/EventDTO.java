@@ -3,6 +3,7 @@ package com.unosquare.admin_core.back_end.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Data
@@ -31,4 +32,6 @@ public class EventDTO {
     private LocalDate dateCreated;
 
     private TeamDTO Team;
+
+    private List<EventMessageDTO> messages;
 }

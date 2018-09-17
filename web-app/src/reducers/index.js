@@ -40,3 +40,4 @@ export const getBookingDuration = store =>
 
 //Loading
 export const isLoading = store => FromLoading.isLoading(store[LOADING]);
+export const loadingSince = store => FromLoading.loadingSince(store[LOADING]);
