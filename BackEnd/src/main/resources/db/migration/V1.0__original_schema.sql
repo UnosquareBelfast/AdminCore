@@ -34,9 +34,6 @@ TABLESPACE pg_default;
 ALTER SEQUENCE country_country_id_seq
     OWNED BY country.country_id;
 
-ALTER TABLE public.country
-    OWNER to postgres;
-
 
   ----------------------------------------------------------------------------------------
 
@@ -60,9 +57,6 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE employee_status_employee_status_id_seq
     OWNED BY employee_status.employee_status_id;
-
-ALTER TABLE public.employee_status
-    OWNER to postgres;
 
 
   ----------------------------------------------------------------------------------------
@@ -88,10 +82,6 @@ TABLESPACE pg_default;
 ALTER SEQUENCE employee_role_employee_role_id_seq
     OWNED BY employee_role.employee_role_id;
 
-ALTER TABLE public.employee_role
-    OWNER to postgres;
-
-
   ----------------------------------------------------------------------------------------
 
 /*
@@ -115,10 +105,6 @@ TABLESPACE pg_default;
 ALTER SEQUENCE event_status_event_status_id_seq
     OWNED BY event_status.event_status_id;
 
-ALTER TABLE public.event_status
-    OWNER to postgres;
-
-
   ----------------------------------------------------------------------------------------
 
 /*
@@ -141,9 +127,6 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE event_type_event_type_id_seq
     OWNED BY event_type.event_type_id;
-
-ALTER TABLE public.event_type
-  OWNER to postgres;
 
   ----------------------------------------------------------------------------------------
 
@@ -187,9 +170,6 @@ TABLESPACE pg_default;
 ALTER SEQUENCE employee_employee_id_seq
     OWNED BY employee.employee_id;
 
-ALTER TABLE public.employee
-    OWNER to postgres;
-
   ----------------------------------------------------------------------------------------
 
 /*
@@ -212,9 +192,6 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE client_client_id_seq
     OWNED BY client.client_id;
-
-ALTER TABLE public.client
-    OWNER to postgres;
 
   ----------------------------------------------------------------------------------------
 
@@ -245,9 +222,6 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE team_team_id_seq
     OWNED BY team.team_id;
-
-ALTER TABLE public.team
-    OWNER to postgres;
 
   ----------------------------------------------------------------------------------------
 
@@ -280,8 +254,6 @@ OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.contract
-  OWNER to postgres;
 
   ----------------------------------------------------------------------------------------
 
@@ -326,9 +298,6 @@ TABLESPACE pg_default;
 ALTER SEQUENCE event_event_id_seq
     OWNED BY event.event_id;
 
-ALTER TABLE public.event
-  OWNER to postgres;
-
   ----------------------------------------------------------------------------------------
 
 /*
@@ -351,9 +320,6 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE event_message_event_message_type_id_seq
     OWNED BY event_message_type.event_message_type_id;
-
-ALTER TABLE public.event_message_type
-  OWNER to postgres;
 
   ----------------------------------------------------------------------------------------
 
@@ -393,6 +359,3 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE event_message_event_message_id_seq
     OWNED BY event_message.event_message_id;
-
-ALTER TABLE public.event_message
-    OWNER to postgres;
