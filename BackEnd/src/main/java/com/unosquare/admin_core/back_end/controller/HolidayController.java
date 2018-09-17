@@ -1,18 +1,15 @@
 package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
-import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
-import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
-import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
-import com.unosquare.admin_core.back_end.entity.Employee;
-import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import com.unosquare.admin_core.back_end.service.EventService;
 import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
+import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
+import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
 import com.unosquare.admin_core.back_end.viewModels.holidays.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +40,9 @@ public class HolidayController extends BaseController {
 
     @Autowired
     public EmployeeCredentialsViewModel employeeCredentialsViewModel;
+
+    @Autowired
+    CreateEventViewModel createEventViewModel;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -66,7 +67,7 @@ public class HolidayController extends BaseController {
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createHoliday(@RequestBody CreateHolidayViewModel createHolidayViewModel) {
+    public ResponseEntity createHoliday(@RequestBody CreateEventViewModel createHolidayViewModel) {
 
         List<String> responses = new ArrayList<>();
 

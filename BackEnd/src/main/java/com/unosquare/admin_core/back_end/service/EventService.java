@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.TransactionScoped;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -176,16 +175,6 @@ public class EventService {
             eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.GENERAL.getEventStatusId()));
         }
         return eventMessage;
-    }
-
-    private void save(Event event) {
-        Preconditions.checkNotNull(event);
-
-        if (event.getEventId() > 0) {
-            event.setDateCreated(LocalDate.now());
-        }
-        event.setLastModified(LocalDate.now());
-        eventRepository.save(event);
     }
 
     private void saveEventMessage(EventMessage eventMessage) {
