@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import { Banner } from './styled';
 import eventCategory from '../../../utilities/eventCategory';
-import { statusText } from '../../../utilities/holidayStatus';
+import holidayStatus, { statusText } from '../../../utilities/holidayStatus';
 import eventTypes, { typeText } from '../../../utilities/eventTypes';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/fontawesome-free-solid';
@@ -31,6 +31,7 @@ class ModalStatusBanner extends Component {
     } = this.props;
     const { cancelConfirm } = this.state;
 
+    let isCancelled = eventStatusId === holidayStatus.CANCELLED;
     let bannerId;
     let bannerDescription;
     let category;
@@ -51,12 +52,14 @@ class ModalStatusBanner extends Component {
           <p>{bannerDescription}</p>
         </div>
         <div>
-          <div className="cancelEvent" onClick={this.handleCancel}>
-            <FontAwesomeIcon icon={faTrash} />
-            <span>
-              {cancelConfirm ? 'Confirm? (Click Again)' : 'Cancel Event'}
-            </span>
-          </div>
+          {!isCancelled && (
+            <div className="cancelEvent" onClick={this.handleCancel}>
+              <FontAwesomeIcon icon={faTrash} />
+              <span>
+                {cancelConfirm ? 'Confirm? (Click Again)' : 'Cancel Event'}
+              </span>
+            </div>
+          )}
         </div>
       </Banner>
     );
