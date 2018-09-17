@@ -10,14 +10,14 @@ export const ButtonToggle = styled.div`
     display: none;
   }
 
-  @media (min-width: ${props => props.theme.mediaQueries.md}) {
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
     display: flex;
     .btn-icon {
       margin-right: 0px;
     }
   }
 
-  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+  @media (min-width: ${props => props.theme.mediaQueries.xl}) {
     .btn-text {
       display: inline;
     }
