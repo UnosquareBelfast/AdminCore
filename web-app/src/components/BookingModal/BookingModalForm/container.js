@@ -28,6 +28,7 @@ const Container = Wrapped =>
       bookingDuration: PT.number,
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
+      toggleRejectionResponseView: PT.bool.isRequired,
     };
 
     static defaultProps = {
@@ -45,6 +46,7 @@ const Container = Wrapped =>
           start: moment(),
         },
         formIsValid: true,
+        capturedRejectionReponseText: '',
       };
     }
 
@@ -61,6 +63,11 @@ const Container = Wrapped =>
         },
       });
     };
+
+    assignRejectionResponseText = e =>{
+      console.log("THIS IS THE CAPTUREDREJECTIONRESPONSETEXT ====>", e.target.value );
+      this.setState({ capturedRejectionReponseText: e.target.value });
+    }
 
     handleCalendarValidation({ start, end }) {
       const pastDatesSelected = checkIfPastDatesSelected(start);
@@ -130,7 +137,7 @@ const Container = Wrapped =>
         },
       });
     }
-
+  
     render() {
       const { formData, formIsValid } = this.state;
       const {
@@ -138,10 +145,14 @@ const Container = Wrapped =>
         createEvent,
         updateEvent,
         isEventBeingUpdated,
+        toggleRejectionResponseView,
       } = this.props;
       return (
         <Wrapped
           formData={formData}
+          capturedRejectionReponseText={this.state.capturedRejectionReponseText}
+          assignRejectionResponseText={this.assignRejectionResponseText}
+          toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
           formIsValid={formIsValid}

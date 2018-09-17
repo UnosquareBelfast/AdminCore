@@ -8,7 +8,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/fontawesome-free-solid';
 
 const ModalStatusBanner = props => {
-  const { userName, eventStatus, eventType, cancelEvent } = props;
+  const { userName, eventStatus, eventType, cancelEvent, rejectionReason, toggleRejectionMessageInputView, toggleRejectionResponseView } = props;
   const { eventStatusId } = eventStatus;
   const { eventTypeId } = eventType;
 
@@ -31,6 +31,15 @@ const ModalStatusBanner = props => {
         <h4>{userName}</h4>
         <p>{bannerDescription}</p>
       </div>
+      {rejectionReason ? <div>
+        <h4>{'Rejection Reason'}</h4>
+        <p>{rejectionReason}</p>
+      </div> : null }
+      {rejectionReason ? <div>
+        <div className="cancelEvent" onClick={()=>toggleRejectionMessageInputView(!toggleRejectionResponseView)}>
+          <span>{toggleRejectionResponseView === false ? 'Respond to Rejection' : 'Return to Update' }</span>
+        </div>
+      </div> : null }
       <div>
         <div className="cancelEvent" onClick={cancelEvent}>
           <FontAwesomeIcon icon={faTrash} />
@@ -42,10 +51,13 @@ const ModalStatusBanner = props => {
 };
 
 ModalStatusBanner.propTypes = {
-  userName: PT.string.isRequired,
+  userName: PT.string,
   eventStatus: PT.object.isRequired,
   eventType: PT.object.isRequired,
   cancelEvent: PT.func.isRequired,
+  toggleRejectionMessageInputView: PT.func.isRequired,
+  rejectionReason: PT.string,
+  toggleRejectionResponseView: PT.bool.isRequired,
 };
 
 export default ModalStatusBanner;

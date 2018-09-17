@@ -64,3 +64,9 @@ export const FormContainer = styled.div`
     }
   }
 `;
+
+export const ButtonFloat = styled.div`
+  width: 25% !important;
+  margin-bottom: 10px !important;
+  float: right;
+`;
