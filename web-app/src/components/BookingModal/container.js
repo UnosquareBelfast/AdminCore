@@ -12,7 +12,7 @@ import {
 import {
   updateHoliday,
   requestHoliday,
-  rejectHoliday,
+  cancelHoliday,
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
 import eventTypes from '../../utilities/eventTypes';
@@ -108,7 +108,7 @@ const Container = Wrapped =>
         toggleBookingModal,
         booking: { eventId },
       } = this.props;
-      rejectHoliday(eventId)
+      cancelHoliday(eventId)
         .then(() => {
           updateTakenEvents();
           toggleBookingModal(false);
