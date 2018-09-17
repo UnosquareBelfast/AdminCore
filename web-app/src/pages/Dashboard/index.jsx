@@ -3,7 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { BookingCalendar, BookingModal, Legend } from '../../components';
 import { ToggleButton } from '../../components/common';
-import { InnerLayout, ButtonToggle } from './styled';
+import { InnerLayout, ButtonToggle, CalendarLayoutContainer } from './styled';
 import eventsView, {
   eventsViewText,
   eventsViewIcons,
@@ -51,17 +51,21 @@ export const Dashboard = props => {
             onToggleButton={onToggleEventsView}
           />
         </ButtonToggle>
-        <BookingCalendar
-          employeeId={employeeId}
-          events={filteredEvents}
-          isEventBeingUpdated={isEventBeingUpdated}
-          onNavigate={onCalendarNavigate}
-        />
-        <Legend
-          updateCalendarEvents={onUpdateEvents}
-          updateEmployee={onUpdateEmployee}
-          allEvents={allEvents}
-        />
+        <CalendarLayoutContainer>
+          <div className="calendar">
+            <BookingCalendar
+              employeeId={employeeId}
+              events={filteredEvents}
+              isEventBeingUpdated={isEventBeingUpdated}
+              onNavigate={onCalendarNavigate}
+            />
+          </div>
+          <Legend
+            updateCalendarEvents={onUpdateEvents}
+            updateEmployee={onUpdateEmployee}
+            allEvents={allEvents}
+          />
+        </CalendarLayoutContainer>
       </InnerLayout>
     </Fragment>
   );
