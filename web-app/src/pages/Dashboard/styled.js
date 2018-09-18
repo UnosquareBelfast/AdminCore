@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ButtonToggle = styled.div`
   position: absolute;
-  right: 350px;
+  right: 575px;
   top: 30px;
   height: 40px;
   display: none;
@@ -10,14 +10,14 @@ export const ButtonToggle = styled.div`
     display: none;
   }
 
-  @media (min-width: ${props => props.theme.mediaQueries.md}) {
+  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
     display: flex;
     .btn-icon {
       margin-right: 0px;
     }
   }
 
-  @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+  @media (min-width: ${props => props.theme.mediaQueries.xl}) {
     .btn-text {
       display: inline;
     }
@@ -32,7 +32,7 @@ export const InnerLayout = styled.div`
   height: 100%;
 
   .rbc-calendar {
-    height: 800px;
+    height: 900px;
   }
 
   .rbc-show-more {
@@ -47,6 +47,23 @@ export const InnerLayout = styled.div`
     &:hover {
       transform: scale(1.05);
       box-shadow: 0px 0px 12px -1px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .rbc-month-header {
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+  }
+
+  .rbc-month-view {
+    border: none;
+  }
+
+  .rbc-month-row {
+    border-left: 1px solid ${props => props.theme.colours.borderGrey};
+    border-right: 1px solid ${props => props.theme.colours.borderGrey};
+    :last-of-type {
+      border-bottom: 1px solid ${props => props.theme.colours.borderGrey};
     }
   }
 
@@ -76,5 +93,14 @@ export const InnerLayout = styled.div`
 
   .rbc-today {
     background-color: ${props => props.theme.colours.lightBlue};
+  }
+`;
+
+export const CalendarLayoutContainer = styled.div`
+  display: flex;
+
+  .calendar {
+    flex-grow: 1;
+    margin-right: 20px;
   }
 `;
