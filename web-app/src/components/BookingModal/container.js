@@ -12,7 +12,7 @@ import {
 import {
   updateHoliday,
   requestHoliday,
-  rejectionResponseMessage,
+  rejectionResponse,
   cancelHoliday,
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
@@ -119,12 +119,13 @@ const Container = Wrapped =>
     }
 
     submitRejectionResponse = () => {
+
       const rejectionResponseMessage = this.state.rejectionResponseText;
       const {
         booking: { eventId },
       } = this.props;
     
-      rejectionResponseMessage( eventId, rejectionResponseMessage)
+      rejectionResponse( eventId, rejectionResponseMessage)
         .then(() => this.closeBookingModal())
         .catch(error => {
           Swal({

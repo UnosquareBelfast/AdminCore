@@ -32,7 +32,7 @@ export const rejectHolidayWithMessage = ( eventId, message ) => {
   return axios.put('/holidays/rejectHoliday', { eventId, message });
 };
 
-export const rejectionResponseMessage = ( eventId, message ) => {
+export const rejectionResponse = ( eventId, message ) => {
   return axios.put('/holidays/rejectHoliday', { eventId, message });
 };
 
