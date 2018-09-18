@@ -33,10 +33,8 @@ const BookingModal = props => {
             />
           )}
           <h1>
-            {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
+            {isEventBeingUpdated ? 'Update Booking' : 'Request a Holiday'}
           </h1>
-          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
-
           <FormContainer>
             <BookingModalForm
               updateTakenEvents={updateTakenEvents}
