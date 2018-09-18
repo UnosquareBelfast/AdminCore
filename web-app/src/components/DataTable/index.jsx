@@ -11,12 +11,14 @@ class DataTable extends Component {
     onRowClick: PT.func,
     pageSize: PT.number,
     emptyMessage: PT.string,
+    loading: PT.bool,
   };
 
   static defaultProps = {
     onRowClick: () => {},
     pageSize: 10,
     emptyMessage: 'No data found',
+    loading: false,
   };
 
   constructor(props) {
@@ -39,6 +41,7 @@ class DataTable extends Component {
     const { data, pageSize, onRowClick } = this.props;
     return (
       <ReactTable
+        {...this.props}
         filtered={[
           { id: this.state.filter.key, value: this.state.filter.value },
         ]}
@@ -59,15 +62,18 @@ class DataTable extends Component {
   };
 
   render() {
-    const { data, columns, emptyMessage } = this.props;
+    const { data, columns, emptyMessage, loading } = this.props;
     const formattedColumns = this.buildColumns(columns);
 
     const labels = formattedColumns.reduce((acc, column) => {
       acc.push(column.Header);
       return acc;
     }, []);
+    console.log(loading);
 
-    if (data.length > 0) {
+    if (data.length < 0 && !loading) {
+      return <p>{emptyMessage}</p>;
+    } else {
       return (
         <Fragment>
           <Filter
@@ -78,8 +84,6 @@ class DataTable extends Component {
           {this.renderTable(formattedColumns)}
         </Fragment>
       );
-    } else {
-      return <p>{emptyMessage}</p>;
     }
   }
 }
