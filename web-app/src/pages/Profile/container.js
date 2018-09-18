@@ -27,13 +27,14 @@ const ProfileContainer = Wrapped =>
         daysPending: null,
         selectedHoliday: {},
         contracts: [],
+        holidaysLoading: false,
+        contractsLoading: false,
       };
     }
 
     componentDidMount() {
       // Required in case the user navigates away from the page, then back.
-      this.setState({ holidays: null });
-      this.setState({ contracts: [] });
+      this.setState({ holidays: null, contracts: [], contractsLoading: true });
       this.getContracts();
     }
 
@@ -47,33 +48,40 @@ const ProfileContainer = Wrapped =>
       }
       if (
         this.props.userDetails.forename !== null &&
-        (this.state.holidays === null || selectedHolidayCleared)
+        (this.state.holidays === null || selectedHolidayCleared) &&
+        !this.state.holidaysLoading
       ) {
-        getHolidays(this.props.userDetails.employeeId).then(response => {
-          const holidays = response.data;
-          this.setState({ holidays }, () => {
-            this.setState({
-              daysBooked: getTotalDaysInEventArray(holidays),
-              daysPending: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.PENDING
-              ),
-            });
-          });
-        });
-      }   
+        this.getHolidays();
+      }
     }
 
-    getContracts()
-    {   
-      getContractsByEmployeeId(this.props.userDetails.employeeId).then(response => {
-        const contracts = response.data;
-        this.setState({ contracts });
-      })
+    getHolidays() {
+      this.setState({ holidaysLoading: true });
+      getHolidays(this.props.userDetails.employeeId).then(response => {
+        const holidays = response.data;
+        this.setState({ holidays }, () => {
+          this.setState({
+            holidaysLoading: false,
+            daysBooked: getTotalDaysInEventArray(holidays),
+            daysPending: getTotalDaysInEventArrayWithStatus(
+              holidays,
+              holidayStatus.PENDING
+            ),
+          });
+        });
+      });
+    }
+
+    getContracts() {
+      getContractsByEmployeeId(this.props.userDetails.employeeId)
+        .then(response => {
+          const contracts = response.data;
+          this.setState({ contracts, contractsLoading: false });
+        })
         .catch(error =>
-          swal('Error',`Error finding contracts: ${error.message}`, 'error')
+          swal('Error', `Error finding contracts: ${error.message}`, 'error')
         );
-    } 
+    }
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
 
