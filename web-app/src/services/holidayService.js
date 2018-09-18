@@ -35,3 +35,7 @@ export const rejectHolidayWithMessage = ( eventId, message ) => {
 export const rejectionResponseMessage = ( eventId, message ) => {
   return axios.put('/holidays/rejectHoliday', { eventId, message });
 };
+
+export const cancelHoliday = eventId => {
+  return axios.put('/holidays/cancelHoliday', { eventId });
+};

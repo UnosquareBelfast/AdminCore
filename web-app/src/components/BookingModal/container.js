@@ -12,8 +12,8 @@ import {
 import {
   updateHoliday,
   requestHoliday,
-  rejectHoliday,
   rejectionResponseMessage,
+  cancelHoliday,
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
 import eventTypes from '../../utilities/eventTypes';
@@ -144,7 +144,7 @@ const Container = Wrapped =>
         booking: { eventId },
       } = this.props;
 
-      rejectHoliday(eventId)
+      cancelHoliday(eventId)
         .then(() => {
           updateTakenEvents();
           this.setState({toggleRejectionResponseView: false});
