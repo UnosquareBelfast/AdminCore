@@ -3,12 +3,16 @@ import container from './container';
 import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
-import {  Modal, Button } from '../common';
-import { InputText } from '../common_styled';
-import { StyleContainer, ButtonFloat, FormContainer  } from './styled';
+import { Modal } from '../common';
+
+import { StyleContainer, FormContainer } from './styled';
 
 const rejectionReason = booking => {
-  return booking.messages ? booking.messages.length > 0 ? booking.messages[0].message : undefined : undefined;
+  return booking.messages
+    ? booking.messages.length > 0
+      ? booking.messages[0].message
+      : undefined
+    : undefined;
 };
 
 const BookingModal = props => {
@@ -25,9 +29,6 @@ const BookingModal = props => {
     cancelEvent,
     toggleRejectionMessageInputView,
     toggleRejectionResponseView,
-    assignRejectionResponseText,
-    submitRejectionResponse,
-    rejectionResponseText,
   } = props;
 
   return (

@@ -6,7 +6,6 @@ import { StyleContainer, Stat, StatWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../utilities/holidayStatus';
 import roles from '../../utilities/roles';
-
 import { InputText } from '../common_styled';
 
 const HolidayModal = ({
@@ -37,7 +36,9 @@ const HolidayModal = ({
   };
 
   const duration = getEventDayAmount(holiday);
-  const disableRejectionReasonButton = shouldDisableButtonControl(capturedRejectionReasonText);
+  const disableRejectionReasonButton = shouldDisableButtonControl(
+    capturedRejectionReasonText
+  );
   return (
     <Modal closeModal={closeModal}>
       <StyleContainer>
@@ -71,28 +72,40 @@ const HolidayModal = ({
             <h4>Duration</h4>
           </Stat>
         </StatWrap>
-        {shouldShowAdminControls() && (
-          toggled === false ? <Stat>
-            <ButtonWrap>
-              <Button label="Approve" onClick={approveHoliday} />
-              <Button label="Reject" onClick={ expandRejectHolidayExplanationText } />
-            </ButtonWrap>
-          </Stat> : null
-        )}
-        { toggled && ( 
+        {shouldShowAdminControls() &&
+          (toggled === false ? (
+            <Stat>
+              <ButtonWrap>
+                <Button label="Approve" onClick={approveHoliday} />
+                <Button
+                  label="Reject"
+                  onClick={expandRejectHolidayExplanationText}
+                />
+              </ButtonWrap>
+            </Stat>
+          ) : null)}
+        {toggled && (
           <div>
             <StatWrap>
               <Stat>
-                <h2>{ 'Rejection Reason' }</h2>
-                <InputText onChange={assignRejectionReasonText}/>
+                <h2>{'Rejection Reason'}</h2>
+                <InputText onChange={assignRejectionReasonText} />
               </Stat>
             </StatWrap>
             <StatWrap>
               <ButtonWrap>
-                <Button title={disableRejectionReasonButton ? 'Enter Message First' : ''} disabled={disableRejectionReasonButton} label="Confirm Rejection" onClick={() => rejectHoliday()} />
+                <Button
+                  title={
+                    disableRejectionReasonButton ? 'Enter Message First' : ''
+                  }
+                  disabled={disableRejectionReasonButton}
+                  label="Confirm Rejection"
+                  onClick={() => rejectHoliday()}
+                />
               </ButtonWrap>
             </StatWrap>
-          </div> )}
+          </div>
+        )}
       </StyleContainer>
     </Modal>
   );

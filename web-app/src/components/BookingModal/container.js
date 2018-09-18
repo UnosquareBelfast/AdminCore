@@ -41,7 +41,10 @@ const Container = Wrapped =>
     }
 
     closeBookingModal = () => {
-      this.setState({rejectionResponseText: '' , toggleRejectionResponseView: false} );
+      this.setState({
+        rejectionResponseText: '',
+        toggleRejectionResponseView: false,
+      });
       this.props.toggleBookingModal(false);
     };
 
@@ -76,13 +79,10 @@ const Container = Wrapped =>
     };
 
     toggleRejectionMessageInputView = toggle => {
-
-      this.setState({toggleRejectionResponseView: toggle} );
-
-    }
+      this.setState({ toggleRejectionResponseView: toggle });
+    };
 
     updateEvent = (event, formData) => {
-  
       event.preventDefault();
       const { start, end, isHalfday, employeeRejectionMessage } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
@@ -102,7 +102,7 @@ const Container = Wrapped =>
 
       if (eventTypeId) {
         updateHoliday(request)
-          .then( () => {
+          .then(() => {
             updateTakenEvents();
             toggleBookingModal(false);
           })
@@ -117,17 +117,16 @@ const Container = Wrapped =>
       }
     };
     assignRejectionResponseText = e => {
-      this.setState({rejectionResponseText: e.target.value } );
-    }
+      this.setState({ rejectionResponseText: e.target.value });
+    };
 
     submitRejectionResponse = () => {
-
       const rejectionResponseMessage = this.state.rejectionResponseText;
       const {
         booking: { eventId },
       } = this.props;
-    
-      rejectionResponse( eventId, rejectionResponseMessage)
+
+      rejectionResponse(eventId, rejectionResponseMessage)
         .then(() => this.closeBookingModal())
         .catch(error => {
           Swal({
@@ -136,11 +135,9 @@ const Container = Wrapped =>
             type: 'error',
           });
         });
-  
-    }
+    };
 
     cancelEvent = () => {
-      
       const {
         updateTakenEvents,
         toggleBookingModal,
@@ -150,9 +147,8 @@ const Container = Wrapped =>
       cancelHoliday(eventId)
         .then(() => {
           updateTakenEvents();
-          this.setState({toggleRejectionResponseView: false});
+          this.setState({ toggleRejectionResponseView: false });
           toggleBookingModal(false);
-          
         })
         .catch(error => {
           Swal({
@@ -173,7 +169,9 @@ const Container = Wrapped =>
             assignRejectionResponseText={this.assignRejectionResponseText}
             booking={this.props.booking}
             toggleRejectionResponseView={this.state.toggleRejectionResponseView}
-            toggleRejectionMessageInputView={this.toggleRejectionMessageInputView}
+            toggleRejectionMessageInputView={
+              this.toggleRejectionMessageInputView
+            }
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
             closeBookingModal={this.closeBookingModal}

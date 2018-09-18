@@ -3,7 +3,10 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { isEmpty } from 'lodash';
-import { approveHoliday, rejectHolidayWithMessage } from '../../services/holidayService';
+import {
+  approveHoliday,
+  rejectionResponse,
+} from '../../services/holidayService';
 import swal from 'sweetalert2';
 import holidayStatus from '../../utilities/holidayStatus';
 import { Toast } from '../../utilities/Notifications';
@@ -24,11 +27,13 @@ const HolidayModalContainer = Wrapped =>
 
     constructor(props) {
       super(props);
-      this.state = { holidays: [],
+      this.state = {
+        holidays: [],
         holidayModalExpansion: false,
         capturedRejectionReasonText: '',
         capturedRejectionReponseText: '',
-        rejectionReasonResponse: false };
+        rejectionReasonResponse: false,
+      };
     }
 
     componentWillUpdate(nextProps) {
@@ -41,7 +46,7 @@ const HolidayModalContainer = Wrapped =>
       const holidayId = this.state.holiday.eventId;
       const { closeModal } = this.props;
       approveHoliday(holidayId)
-        .then( () => {
+        .then(() => {
           this.setState({
             holiday: {
               ...this.state.holiday,
@@ -56,7 +61,7 @@ const HolidayModalContainer = Wrapped =>
             title: 'Holiday Approved',
             position: 'top',
           });
-          this.toggleRejectionReasonState();
+          this.colapseRejectionReasonState();
           closeModal();
         })
         .catch(error => {
@@ -64,31 +69,24 @@ const HolidayModalContainer = Wrapped =>
         });
     };
 
-    assignRejectionResponseText = e =>{
-
+    assignRejectionResponseText = e => {
       this.setState({ capturedRejectionReponseText: e.target.value });
-    }
+    };
 
-    assignRejectionReasonText = e =>{
-
+    assignRejectionReasonText = e => {
       this.setState({ capturedRejectionReasonText: e.target.value });
-    }
+    };
 
-    toggleRejectionMessageResponse = rejectionReasonToggleValue =>{
-      
+    toggleRejectionMessageResponse = rejectionReasonToggleValue => {
       this.setState({ rejectionReasonResponse: rejectionReasonToggleValue });
-    
-    }
-
+    };
 
     sendRejectionResponse = () => {
-    
       const rejectionResponseMessage = this.state.capturedRejectionReponseText;
       const holidayId = this.state.holiday.holidayId;
-   
-      rejectionResponseMessage( holidayId, rejectionResponseMessage )
-        .then( () => {
-        
+
+      rejectionResponseMessage(holidayId, rejectionResponseMessage)
+        .then(() => {
           this.setState({
             holiday: {
               ...this.state.holiday,
@@ -96,40 +94,7 @@ const HolidayModalContainer = Wrapped =>
                 ...this.state.holiday.eventStatus,
                 eventStatusId: holidayStatus.REJECTED,
               },
-            }, 
-          });
-          Toast({
-            type: 'success',
-            title: 'Holiday Rejected',
-            position: 'top',
-          });
-          
-          this.closeModalResetRejectionReasonView();
-          
-        })
-        .catch(error => {
-          swal('Error', `There was an error: ${error.message}. 'error`);
-        });
-
-
-    }
-
-
-    rejectHoliday = () => {
-      
-      const rejectionReasonText = this.state.capturedRejectionReasonText;
-      const holidayId = this.state.holiday.eventId;
-   
-      rejectHolidayWithMessage( holidayId, rejectionReasonText )
-        .then( () => {
-          this.setState({
-            holiday: {
-              ...this.state.holiday,
-              eventStatus: {
-                ...this.state.holiday.eventStatus,
-                eventStatusId: holidayStatus.REJECTED,
-              },
-            }, 
+            },
           });
           Toast({
             type: 'success',
@@ -143,29 +108,61 @@ const HolidayModalContainer = Wrapped =>
         });
     };
 
+    rejectHoliday = () => {
+      const { capturedRejectionReasonText, holiday } = this.state;
+      const { eventId } = holiday;
 
-    toggleRejectionReasonState = () =>{
+      rejectionResponse(eventId, capturedRejectionReasonText)
+        .then(() => {
+          this.setState({
+            holiday: {
+              ...this.state.holiday,
+              eventStatus: {
+                ...this.state.holiday.eventStatus,
+                eventStatusId: holidayStatus.REJECTED,
+              },
+            },
+          });
+          Toast({
+            type: 'success',
+            title: 'Holiday Rejected',
+            position: 'top',
+          });
+          this.closeModalResetRejectionReasonView();
+        })
+        .catch(error => {
+          swal('Error', `There was an error: ${error.message}. 'error`);
+        });
+    };
+
+    colapseRejectionReasonState = () => {
       this.setState({ holidayModalExpansion: false });
-    }
+    };
 
-    expandRejectHolidayExplanationText = () =>{
+    expandRejectHolidayExplanationText = () => {
       this.setState({ holidayModalExpansion: true });
-    }
+    };
 
-    closeModalResetRejectionReasonView = () =>{
-      this.setState({ holidayModalExpansion: false, 
-        capturedRejectionReasonText: '', 
-        rejectionReasonResponse: false, 
-        capturedRejectionReponseText: ''  });
-     
+    closeModalResetRejectionReasonView = () => {
       const { closeModal } = this.props;
+      this.setState({
+        holidayModalExpansion: false,
+        capturedRejectionReasonText: '',
+        rejectionReasonResponse: false,
+        capturedRejectionReponseText: '',
+      });
       closeModal();
-    }
-
+    };
 
     render() {
       const { userDetails, showAdminControls } = this.props;
-      const { holiday } = this.state;
+      const {
+        holiday,
+        rejectionReasonResponse,
+        capturedRejectionReasonText,
+        capturedRejectionReponseText,
+        holidayModalExpansion,
+      } = this.state;
       if (isEmpty(holiday)) return null;
       return (
         <Wrapped
@@ -175,14 +172,16 @@ const HolidayModalContainer = Wrapped =>
           rejectHoliday={this.rejectHoliday}
           userDetails={userDetails}
           showAdminControls={showAdminControls}
-          toggled={this.state.holidayModalExpansion}
-          expandRejectHolidayExplanationText={this.expandRejectHolidayExplanationText}
+          toggled={holidayModalExpansion}
+          expandRejectHolidayExplanationText={
+            this.expandRejectHolidayExplanationText
+          }
           assignRejectionReasonText={this.assignRejectionReasonText}
-          capturedRejectionReasonText={this.state.capturedRejectionReasonText}
-          rejectionReasonResponse={this.state.rejectionReasonResponse}
+          capturedRejectionReasonText={capturedRejectionReasonText}
+          rejectionReasonResponse={rejectionReasonResponse}
           toggleRejectionMessageResponse={this.toggleRejectionMessageResponse}
           assignRejectionResponseText={this.assignRejectionResponseText}
-          capturedRejectionReponseText={this.state.capturedRejectionReponseText}
+          capturedRejectionReponseText={capturedRejectionReponseText}
           sendRejectionResponse={this.sendRejectionResponse}
         />
       );

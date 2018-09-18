@@ -28,11 +28,7 @@ export const rejectHoliday = holidayId => {
   return axios.put('/holidays/cancelHoliday', { holidayId });
 };
 
-export const rejectHolidayWithMessage = ( eventId, message ) => {
-  return axios.put('/holidays/rejectHoliday', { eventId, message });
-};
-
-export const rejectionResponse = ( eventId, message ) => {
+export const rejectionResponse = (eventId, message) => {
   return axios.put('/holidays/rejectHoliday', { eventId, message });
 };
 
