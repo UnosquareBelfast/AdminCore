@@ -69,7 +69,6 @@ class DataTable extends Component {
       acc.push(column.Header);
       return acc;
     }, []);
-    console.log(loading);
 
     if (data.length < 0 && !loading) {
       return <p>{emptyMessage}</p>;
