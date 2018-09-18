@@ -55,6 +55,12 @@ export const FormContainer = styled.div`
       }
     }
 
+    .input {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+        margin: 0px 10px 20px 10px;
+      }
+    }
+
     > div:last-child {
       @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         width: calc(50% - 10px);

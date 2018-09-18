@@ -19,6 +19,7 @@ const BookingModalForm = props => {
     formStatus,
     formIsValid,
     bookingDuration,
+    booking,
   } = props;
 
   const createCtas = () => {
@@ -107,6 +108,14 @@ const BookingModalForm = props => {
           }}
           label="End Date:"
         />
+        { booking.messages && booking.messages.length > 0 ? <Input
+          type="input"
+          htmlAttrs={{
+            type: 'input',
+            name: 'employeeRejectionMessage',
+          }}
+          label="Rejection Response:"
+        /> : <div/>}
         <Input
           type="checkbox"
           htmlAttrs={{

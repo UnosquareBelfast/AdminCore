@@ -45,29 +45,21 @@ const BookingModal = props => {
               toggleRejectionMessageInputView={toggleRejectionMessageInputView}
             />
           )}
-          {toggleRejectionResponseView === true ? <div><h1>Rejection Response</h1><InputText onChange={assignRejectionResponseText}/>
-            <ButtonFloat>
-              <Button title={ !rejectionResponseText.length > 0 ? 'Enter Repsonse First' : '' } disabled={ !rejectionResponseText.length > 0 } onClick={submitRejectionResponse} label="Send Response" />
-            </ButtonFloat>
-          </div> : null} 
-          {toggleRejectionResponseView === false ?
-            <div>
-              <h1>
-                {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
-              </h1>
-              <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
-              <FormContainer>
-                <BookingModalForm
-                  toggleRejectionResponseView={toggleRejectionResponseView}
-                  updateTakenEvents={updateTakenEvents}
-                  employeeId={employeeId}
-                  booking={booking}
-                  bookingDuration={bookingDuration}
-                  createEvent={createEvent}
-                  updateEvent={updateEvent}
-                />
-              </FormContainer>
-            </div> : null }
+          <h1>
+            {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
+          </h1>
+          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
+          <FormContainer>
+            <BookingModalForm
+              toggleRejectionResponseView={toggleRejectionResponseView}
+              updateTakenEvents={updateTakenEvents}
+              employeeId={employeeId}
+              booking={booking}
+              bookingDuration={bookingDuration}
+              createEvent={createEvent}
+              updateEvent={updateEvent}
+            />
+          </FormContainer>
         </StyleContainer>
       </Modal>
     )

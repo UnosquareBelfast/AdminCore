@@ -82,8 +82,9 @@ const Container = Wrapped =>
     }
 
     updateEvent = (event, formData) => {
+  
       event.preventDefault();
-      const { start, end, isHalfday } = formData;
+      const { start, end, isHalfday, employeeRejectionMessage } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
         updateTakenEvents,
@@ -96,11 +97,12 @@ const Container = Wrapped =>
         halfDay: isHalfday,
         eventId: eventId,
         startDate: start.format(this.dateFormat),
+        message: employeeRejectionMessage,
       };
 
       if (eventTypeId) {
         updateHoliday(request)
-          .then(() => {
+          .then( () => {
             updateTakenEvents();
             toggleBookingModal(false);
           })

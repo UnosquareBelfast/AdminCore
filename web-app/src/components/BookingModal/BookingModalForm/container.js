@@ -146,10 +146,12 @@ const Container = Wrapped =>
         updateEvent,
         isEventBeingUpdated,
         toggleRejectionResponseView,
+        booking,
       } = this.props;
       return (
         <Wrapped
           formData={formData}
+          booking={booking}
           capturedRejectionReponseText={this.state.capturedRejectionReponseText}
           assignRejectionResponseText={this.assignRejectionResponseText}
           toggleRejectionResponseView={toggleRejectionResponseView}
