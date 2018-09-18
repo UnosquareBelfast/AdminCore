@@ -79,17 +79,20 @@ const HolidayModal = ({
             </ButtonWrap>
           </Stat> : null
         )}
-        { toggled && ( <div><StatWrap>
-          <Stat>
-            <h2>{ 'Rejection Reason' }</h2>
-            <InputText onChange={assignRejectionReasonText}/>
-          </Stat>
-        </StatWrap>
-        <StatWrap>
-          <ButtonWrap>
-            <Button title={disableRejectionReasonButton ? 'Enter Message First' : ''} disabled={disableRejectionReasonButton} label="Confirm Rejection" onClick={() => rejectHoliday()} />
-          </ButtonWrap>
-        </StatWrap></div> )}
+        { toggled && ( 
+          <div>
+            <StatWrap>
+              <Stat>
+                <h2>{ 'Rejection Reason' }</h2>
+                <InputText onChange={assignRejectionReasonText}/>
+              </Stat>
+            </StatWrap>
+            <StatWrap>
+              <ButtonWrap>
+                <Button title={disableRejectionReasonButton ? 'Enter Message First' : ''} disabled={disableRejectionReasonButton} label="Confirm Rejection" onClick={() => rejectHoliday()} />
+              </ButtonWrap>
+            </StatWrap>
+          </div> )}
       </StyleContainer>
     </Modal>
   );
