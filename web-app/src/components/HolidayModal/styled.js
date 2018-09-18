@@ -30,7 +30,7 @@ export const Stat = styled.div`
   }
 `;
 
-export const StatWrap = styled.div`
+export const FlexWrap = styled.div`
   display: flex;
 
   > div {

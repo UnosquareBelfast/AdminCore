@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Modal, Button, Email } from '../../components/common';
-import { StyleContainer, Stat, StatWrap, ButtonWrap, StatusH2 } from './styled';
+import { StyleContainer, Stat, FlexWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../utilities/holidayStatus';
 import roles from '../../utilities/roles';
@@ -48,15 +48,15 @@ const HolidayModal = ({
             {forename} {surname} - <Email>{email}</Email>
           </p>
         </div>
-        <StatWrap>
+        <FlexWrap>
           <Stat>
             <StatusH2 status={eventStatus.eventStatusId}>
               {statusText[eventStatus.eventStatusId]}
             </StatusH2>
             <h4>Status</h4>
           </Stat>
-        </StatWrap>
-        <StatWrap>
+        </FlexWrap>
+        <FlexWrap>
           <Stat>
             <h2>{start.format('DD/MM/YYYY')}</h2>
             <h4>Holiday Start</h4>
@@ -71,7 +71,7 @@ const HolidayModal = ({
             </h2>
             <h4>Duration</h4>
           </Stat>
-        </StatWrap>
+        </FlexWrap>
         {shouldShowAdminControls() &&
           (toggled === false ? (
             <Stat>
@@ -86,13 +86,13 @@ const HolidayModal = ({
           ) : null)}
         {toggled && (
           <div>
-            <StatWrap>
+            <FlexWrap>
               <Stat>
                 <h2>{'Rejection Reason'}</h2>
                 <InputText onChange={assignRejectionReasonText} />
               </Stat>
-            </StatWrap>
-            <StatWrap>
+            </FlexWrap>
+            <FlexWrap>
               <ButtonWrap>
                 <Button
                   title={
@@ -103,7 +103,7 @@ const HolidayModal = ({
                   onClick={() => rejectHoliday()}
                 />
               </ButtonWrap>
-            </StatWrap>
+            </FlexWrap>
           </div>
         )}
       </StyleContainer>
