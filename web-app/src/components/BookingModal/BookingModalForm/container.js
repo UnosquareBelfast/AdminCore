@@ -113,7 +113,7 @@ const Container = Wrapped =>
           calendarValidationResults === validationMessage.DATES_APPROVED;
         if (!formIsValid) {
           Toast({
-            type: formIsValid ? 'success' : 'warning',
+            type: 'warning',
             title: calendarValidationResults,
           });
         }
