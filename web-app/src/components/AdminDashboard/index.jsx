@@ -9,7 +9,7 @@ const AdminDashboard = () => {
       <div className="columnWrap">
         <div>
           <h3>Overview</h3>
-          <Link to="/admin/teamOverview">Team Overview</Link>
+          <Link to="/admin/overview">Team Overview</Link>
         </div>
       </div>
       <div className="columnWrap">

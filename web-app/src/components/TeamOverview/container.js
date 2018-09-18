@@ -19,10 +19,8 @@ const TeamOverviewContainer = Wrapped =>
 
     componentDidMount() {
       
-      var date = new Date().toISOString().slice(0,10);
-      
-      getTeamOverview( date )
-        .then( ({data}) => this.setState( { teams: data } ) )
+      getTeamOverview( )
+        .then( ({data}) => this.setState( { teams: data } ))
         .catch(error =>
           Swal('Error', `There was an error: ${error.message}`, 'error')
         );

@@ -8,8 +8,8 @@ export const getTeamsEvents = date => {
   return axios.get(`/dashboard/getTeamEvents?date=${date}`);
 };
 
-export const getTeamOverview = date => {
-  return axios.get(`/dashboard/getDashboardSnapshot?date=${date}`);
+export const getTeamOverview = () => {
+  return axios.get('/dashboard/getDashboardSnapshot');
 };
 
 
