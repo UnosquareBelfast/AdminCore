@@ -60,10 +60,10 @@ export const InnerLayout = styled.div`
   }
 
   .rbc-month-row {
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-left: 1px solid ${props => props.theme.colours.borderGrey};
+    border-right: 1px solid ${props => props.theme.colours.borderGrey};
     :last-of-type {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid ${props => props.theme.colours.borderGrey};
     }
   }
 
