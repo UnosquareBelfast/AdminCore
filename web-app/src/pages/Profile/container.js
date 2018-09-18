@@ -57,19 +57,24 @@ const ProfileContainer = Wrapped =>
 
     getHolidays() {
       this.setState({ holidaysLoading: true });
-      getHolidays(this.props.userDetails.employeeId).then(response => {
-        const holidays = response.data;
-        this.setState({ holidays }, () => {
-          this.setState({
-            holidaysLoading: false,
-            daysBooked: getTotalDaysInEventArray(holidays),
-            daysPending: getTotalDaysInEventArrayWithStatus(
-              holidays,
-              holidayStatus.PENDING
-            ),
+      getHolidays(this.props.userDetails.employeeId)
+        .then(response => {
+          const holidays = response.data;
+          this.setState({ holidays }, () => {
+            this.setState({
+              holidaysLoading: false,
+              daysBooked: getTotalDaysInEventArray(holidays),
+              daysPending: getTotalDaysInEventArrayWithStatus(
+                holidays,
+                holidayStatus.PENDING
+              ),
+            });
           });
+        })
+        .catch(error => {
+          this.setState({ contractsLoading: false });
+          swal('Error', `Error finding holidays: ${error.message}`, 'error');
         });
-      });
     }
 
     getContracts() {
@@ -78,9 +83,10 @@ const ProfileContainer = Wrapped =>
           const contracts = response.data;
           this.setState({ contracts, contractsLoading: false });
         })
-        .catch(error =>
-          swal('Error', `Error finding contracts: ${error.message}`, 'error')
-        );
+        .catch(error => {
+          this.setState({ contractsLoading: false });
+          swal('Error', `Error finding contracts: ${error.message}`, 'error');
+        });
     }
 
     selectHoliday = holiday => this.setState({ selectedHoliday: holiday });
