@@ -61,7 +61,7 @@ const HolidayModalContainer = Wrapped =>
             title: 'Holiday Approved',
             position: 'top',
           });
-          this.colapseRejectionReasonState();
+          this.collapseRejectionReasonState();
           closeModal();
         })
         .catch(error => {
@@ -79,33 +79,6 @@ const HolidayModalContainer = Wrapped =>
 
     toggleRejectionMessageResponse = rejectionReasonToggleValue => {
       this.setState({ rejectionReasonResponse: rejectionReasonToggleValue });
-    };
-
-    sendRejectionResponse = () => {
-      const rejectionResponseMessage = this.state.capturedRejectionReponseText;
-      const holidayId = this.state.holiday.holidayId;
-
-      rejectionResponseMessage(holidayId, rejectionResponseMessage)
-        .then(() => {
-          this.setState({
-            holiday: {
-              ...this.state.holiday,
-              eventStatus: {
-                ...this.state.holiday.eventStatus,
-                eventStatusId: holidayStatus.REJECTED,
-              },
-            },
-          });
-          Toast({
-            type: 'success',
-            title: 'Holiday Rejected',
-            position: 'top',
-          });
-          this.closeModalResetRejectionReasonView();
-        })
-        .catch(error => {
-          swal('Error', `There was an error: ${error.message}. 'error`);
-        });
     };
 
     rejectHoliday = () => {
@@ -135,7 +108,7 @@ const HolidayModalContainer = Wrapped =>
         });
     };
 
-    colapseRejectionReasonState = () => {
+    collapseRejectionReasonState = () => {
       this.setState({ holidayModalExpansion: false });
     };
 
@@ -182,7 +155,6 @@ const HolidayModalContainer = Wrapped =>
           toggleRejectionMessageResponse={this.toggleRejectionMessageResponse}
           assignRejectionResponseText={this.assignRejectionResponseText}
           capturedRejectionReponseText={capturedRejectionReponseText}
-          sendRejectionResponse={this.sendRejectionResponse}
         />
       );
     }

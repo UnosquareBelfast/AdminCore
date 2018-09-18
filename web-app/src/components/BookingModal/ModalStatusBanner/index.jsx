@@ -23,7 +23,7 @@ class ModalStatusBanner extends Component {
     }
   };
 
-  toggleConversationMessages = () => {};
+  toggleConversationMessages = () => { };
 
   render() {
     const {
@@ -31,7 +31,6 @@ class ModalStatusBanner extends Component {
       eventStatus: { eventStatusId },
       eventType: { eventTypeId },
       rejectionReason,
-      toggleRejectionResponseView,
     } = this.props;
     const { cancelConfirm } = this.state;
 
