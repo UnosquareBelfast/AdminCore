@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Form, Input } from '../../../common';
 import { FormContainer } from '../styled';
+import { Hide } from '../../../common_styled';
 
 export const DateForm = props => {
   const { submitForm, formStatus, formData, formIsValid } = props;
@@ -32,16 +33,27 @@ export const DateForm = props => {
           rules={{}}
           value={formData.startDate}
         />
+        <Hide hide={formData.isOpenEnded}>
+          <Input
+            label="End Date:"
+            type="date"
+            htmlAttrs={{
+              type: 'input',
+              name: 'endDate',
+              placeholder: 'Enter a end date',
+            }}
+            value={formData.endDate}
+            rules={{}}
+          />
+        </Hide>
         <Input
-          label="End Date:"
-          type="date"
+          type="checkbox"
           htmlAttrs={{
-            type: 'input',
-            name: 'endDate',
-            placeholder: 'Enter a end date',
+            type: 'checkbox',
+            name: 'isOpenEnded',
           }}
-          value={formData.endDate}
-          rules={{}}
+          value={formData.isOpenEnded}
+          label="Open ended (No end date)"
         />
       </Form>
     </FormContainer>

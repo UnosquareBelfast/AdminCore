@@ -19,4 +19,5 @@ public class UpdateEventDTO {
 
     private LocalDate lastModified;
 
+    private String message;
 }

@@ -1,7 +1,7 @@
 import * as actionTypes from '../actionTypes';
 import { getUsersEvents, getTeamsEvents } from '../services/dashboardService';
 import eventsView from '../utilities/eventsView';
-import { setLoading } from './loading';
+import { setLoadingAsync } from './loading';
 
 import {
   getEventDuration,
@@ -67,8 +67,15 @@ export const setEventView = eventView => {
 export const fetchEvents = (date, eventView, force = false) => dispatch => {
   // Check if we need to make a request (is there existing state?)
   if (requiresNewRequest(date) || force) {
-    // Start loading
-    dispatch(setLoading(true));
+    // Setup for loading indicator. Only show indicator if been loading for more
+    // than a second.
+    let shouldBeLoading = true;
+
+    setTimeout(() => {
+      if (shouldBeLoading) {
+        dispatch(setLoadingAsync(true));
+      }
+    }, 500);
 
     // If force is true, we need a clean slate. Wipe all events.
     if (force) {
@@ -77,7 +84,8 @@ export const fetchEvents = (date, eventView, force = false) => dispatch => {
 
     // Set up a function that will run on success.
     const onSuccess = data => {
-      dispatch(setLoading(false));
+      shouldBeLoading = false;
+      dispatch(setLoadingAsync(false));
       transformEvents(data).then(transformedEvents => {
         dispatch(setCalendarEvents(transformedEvents));
       });
@@ -86,7 +94,8 @@ export const fetchEvents = (date, eventView, force = false) => dispatch => {
     // Set up a function that will run on fail.
 
     const onError = error => {
-      dispatch(setLoading(false));
+      shouldBeLoading = false;
+      dispatch(setLoadingAsync(false));
       dispatch(setError(error));
     };
 

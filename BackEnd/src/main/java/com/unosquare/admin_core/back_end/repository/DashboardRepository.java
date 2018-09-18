@@ -11,50 +11,37 @@ import java.util.List;
 
 
 public interface DashboardRepository extends JpaRepository<Event, Integer> {
-    @Query(value = "SELECT * FROM Event e INNER JOIN Contract c on e.employee_id = c.employee_id " +
-            "where " +
-            "(" +
-            "(e.start_date BETWEEN :startDate AND :endDate) OR " +
-            "(e.end_date BETWEEN :startDate AND :endDate) OR " +
-            "(e.start_date > :startDate AND e.end_date < :endDate) " +
-            ") " +
+    @Query(value = "SELECT e FROM Event e " +
+            "WHERE " +
+            "((e.startDate BETWEEN :startDate AND :endDate) OR " +
+            "(e.endDate BETWEEN :startDate AND :endDate) OR " +
+            "(e.startDate > :startDate AND e.endDate < :endDate)) " +
             "AND " +
-            "(" +
-            "(c.start_date BETWEEN :startDate AND :today) OR " +
-            "(c.end_date BETWEEN :today AND :endDate) OR " +
-            "(c.start_date < :startDate AND (:endDate = NULL OR :endDate > :today))" +
-            " AND " +
-            "c.employee_id = :employeeId " +
-            ") ",
-            nativeQuery = true
+            "e.employee.employeeId = :employeeId"
     )
     List<Event> findCalendarMonthEventsForEmployee(@Param("employeeId") int employeeId,
                                                    @Param("startDate") LocalDate startDate,
-                                                   @Param("endDate") LocalDate endDate,
-                                                   @Param("today") LocalDate today);
+                                                   @Param("endDate") LocalDate endDate);
 
-    @Query(value = "SELECT * FROM Event e INNER JOIN Contract c on e.employee_id = c.employee_id " +
-            "where " +
-            "(" +
-            "(e.start_date BETWEEN :startDate AND :endDate) OR " +
-            "(e.end_date BETWEEN :startDate AND :endDate) OR " +
-            "(e.start_date > :startDate AND e.end_date < :endDate) " +
-            ") " +
+    @Query(value = "SELECT e FROM Event e " +
+            "INNER JOIN Contract c on e.employee.employeeId = c.employee.employeeId " +
+            "WHERE " +
+            "((e.startDate BETWEEN :startDate AND :endDate) OR " +
+            "(e.endDate BETWEEN :startDate AND :endDate) OR " +
+            "(e.startDate > :startDate AND e.endDate < :endDate)) " +
             "AND " +
+            "((c.startDate BETWEEN :startDate AND :today) OR " +
+            "(c.endDate BETWEEN :today AND :endDate) OR " +
+            "(c.startDate < :startDate AND (c.endDate IS NULL OR :endDate > :today))) " +
+            "AND c.team.teamId IN " +
             "(" +
-            "(c.start_date BETWEEN :startDate AND :today) OR " +
-            "(c.end_date BETWEEN :today AND :endDate) OR " +
-            "(c.start_date < :startDate AND (:endDate = NULL OR :endDate > :today))" +
-            ") " +
-            "AND c.team_id IN " +
-            "(" +
-            "select team_id FROM Contract c " +
-            "WHERE (c.employee_id = :employeeId AND " +
-            "(c.start_date BETWEEN :startDate AND :today) OR " +
-            "(c.end_date BETWEEN :today AND :endDate) OR " +
-            "(c.start_date < :startDate AND (c.end_date IS NULL OR :endDate > :today)))" +
-            ")",
-            nativeQuery = true)
+            "SELECT c.team.teamId FROM Contract c " +
+            "WHERE (c.employee.employeeId = :employeeId AND " +
+            "(c.startDate BETWEEN :startDate AND :today) OR " +
+            "(c.endDate BETWEEN :today AND :endDate) OR " +
+            "(c.startDate < :startDate AND (c.endDate IS NULL OR :endDate > :today)))" +
+            ")"
+    )
     List<Event> findCalendarMonthEventsForTeam(@Param("employeeId") int employeeId,
                                                @Param("startDate") LocalDate startDate,
                                                @Param("endDate") LocalDate endDate,

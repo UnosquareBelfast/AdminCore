@@ -13,4 +13,6 @@ public class EmployeeDashboardViewModel {
 
     private String type;
 
+    private int employeeId;
+
 }

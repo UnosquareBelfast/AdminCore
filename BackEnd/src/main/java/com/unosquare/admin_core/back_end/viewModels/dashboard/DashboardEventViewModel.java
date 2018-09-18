@@ -5,6 +5,8 @@ import com.unosquare.admin_core.back_end.viewModels.events.EventStatusViewModel;
 import com.unosquare.admin_core.back_end.viewModels.events.EventTypeViewModel;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class DashboardEventViewModel {
     private int eventId;
@@ -14,4 +16,5 @@ public class DashboardEventViewModel {
     private EventStatusViewModel eventStatus;
     private EmployeeDashboardViewModel employee;
     private boolean isHalfDay;
+    private List<EventMessageViewModel> messages;
 }
