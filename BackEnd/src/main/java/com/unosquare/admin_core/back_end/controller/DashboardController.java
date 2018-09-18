@@ -61,6 +61,13 @@ public class DashboardController {
         return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
     }
 
+    @GetMapping(value = "/getEmployeeTeamSnapshot", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<TeamSnapshotViewModel> getEmployeeTeamsSnapshot(){
+        Map<String, List<EmployeeSnapshotDto>> teamSummary = dashboardService.getEmployeeTeamSnapshot(employeeCredentialsViewModel.getUserId());
+        return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
+    }
+
     private  List<TeamSnapshotViewModel> mapTeamSummaryDtoToTeamSummaryViewModel(Map<String, List<EmployeeSnapshotDto>> teams) {
         List<TeamSnapshotViewModel> model = new ArrayList<>();
         for (Map.Entry<String, List<EmployeeSnapshotDto>> team : teams.entrySet()) {
