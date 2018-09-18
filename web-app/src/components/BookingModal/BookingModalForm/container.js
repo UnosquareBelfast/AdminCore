@@ -65,7 +65,7 @@ const Container = Wrapped =>
     };
 
     assignRejectionResponseText = e =>{
-      console.log("THIS IS THE CAPTUREDREJECTIONRESPONSETEXT ====>", e.target.value );
+
       this.setState({ capturedRejectionReponseText: e.target.value });
     }
 

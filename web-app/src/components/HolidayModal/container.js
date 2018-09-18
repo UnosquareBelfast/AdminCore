@@ -39,7 +39,7 @@ const HolidayModalContainer = Wrapped =>
 
     approveHoliday = () => {
       const holidayId = this.state.holiday.eventId;
-      const {closeModal} = this.props;
+      const { closeModal } = this.props;
       approveHoliday(holidayId)
         .then( () => {
           this.setState({

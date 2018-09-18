@@ -7,6 +7,10 @@ import {  Modal, Button } from '../common';
 import { InputText } from '../common_styled';
 import { StyleContainer, ButtonFloat, FormContainer  } from './styled';
 
+const rejectionReason = booking => {
+  return booking.messages ? booking.messages.length > 0 ? booking.messages[0].message : undefined : undefined;
+};
+
 const BookingModal = props => {
   const {
     booking,
@@ -37,7 +41,7 @@ const BookingModal = props => {
               eventStatus={booking.eventStatus}
               eventType={booking.eventType}
               cancelEvent={cancelEvent}
-              rejectionReason={booking.messages ? booking.messages.length > 0 ? booking.messages[0].message : undefined : undefined}
+              rejectionReason={rejectionReason(booking)}
               toggleRejectionMessageInputView={toggleRejectionMessageInputView}
             />
           )}

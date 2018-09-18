@@ -119,12 +119,12 @@ const Container = Wrapped =>
     }
 
     submitRejectionResponse = () => {
-      const resjectionResponseMessage = this.state.rejectionResponseText;
+      const rejectionResponseMessage = this.state.rejectionResponseText;
       const {
         booking: { eventId },
       } = this.props;
     
-      rejectionResponseMessage( eventId, resjectionResponseMessage)
+      rejectionResponseMessage( eventId, rejectionResponseMessage)
         .then(() => this.closeBookingModal())
         .catch(error => {
           Swal({
