@@ -1,35 +1,24 @@
 import styled from 'styled-components';
 
 export const StyleContainer = styled.div`
+  min-width: 200px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.colours.lightgrey};
-  border: 1px solid ${props => props.theme.colours.grey};
-  border-radius: 0 0 6px 6px;
   border-top: none;
-  width: 100%;
-  padding: 20px 10px 0 10px;
-  display: block;
-  @media (min-width: ${props => props.theme.mediaQueries.xl}) {
-    display: flex;
-  }
+  margin-top: 66px;
 
-  svg {
-    margin-right: 10px;
+  h3 {
+    margin: 0;
   }
-`;
-
-export const Column = styled.div`
-    width: 100%;
-    margin: 10px;
-  }
-
   h4 {
-    width: 100%;
-    margin: 0 0 10px 0;
+    margin: 20px 0 10px 0;
+    :first-of-type {
+      margin: 10px 0 10px 0;
+    }
   }
 `;
 
 export const Key = styled.div`
+  user-select: none;
   box-sizing: border-box;
   background-color: white;
   background-color: ${props => props.theme.holidayStatus[props.status]};
@@ -41,6 +30,11 @@ export const Key = styled.div`
   padding: 8px;
   cursor: pointer;
   transition: all 150ms;
+
+  svg {
+    margin-right: 10px;
+  }
+
   &:hover {
     opacity: 0.9;
   }
