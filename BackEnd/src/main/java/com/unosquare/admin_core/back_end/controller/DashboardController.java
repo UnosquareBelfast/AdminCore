@@ -2,6 +2,7 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
+import com.unosquare.admin_core.back_end.dto.EventMessageDTO;
 import com.unosquare.admin_core.back_end.service.DashboardService;
 import com.unosquare.admin_core.back_end.viewModels.dashboard.*;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
@@ -66,6 +67,13 @@ public class DashboardController {
     public List<TeamSnapshotViewModel> getEmployeeTeamsSnapshot(){
         Map<String, List<EmployeeSnapshotDto>> teamSummary = dashboardService.getEmployeeTeamSnapshot(employeeCredentialsViewModel.getUserId());
         return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
+    }
+
+    @GetMapping(value = "/getMessagesByEventId/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<EventMessageViewModel> getEmployeeTeamsSnapshot(@PathVariable("eventId") int eventId){
+        List<EventMessageDTO> messages = dashboardService.getEventMessagesByEventId(eventId);
+        return messages.stream().map(message -> modelMapper.map(message, EventMessageViewModel.class)).collect(Collectors.toList());
     }
 
     private  List<TeamSnapshotViewModel> mapTeamSummaryDtoToTeamSummaryViewModel(Map<String, List<EmployeeSnapshotDto>> teams) {
