@@ -13,4 +13,13 @@ public interface EventMessageRepository extends JpaRepository<EventMessage, Inte
             "em.event.eventId = :eventId"
     )
     List<EventMessage> findEventMessagesByEventId(@Param("eventId") int eventId);
+
+    @Query(value = "SELECT em FROM EventMessage em " +
+            "WHERE " +
+            "em.event.eventId = :eventId " +
+            "AND " +
+            "em.lastModified = (" +
+            "SELECT MAX(e.lastModified) FROM EventMessage e WHERE e.event.eventId = :eventId)"
+    )
+    EventMessage findLatestEventMessagesByEventId(@Param("eventId") int eventId);
 }
