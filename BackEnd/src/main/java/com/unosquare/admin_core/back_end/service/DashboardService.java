@@ -58,6 +58,12 @@ public class DashboardService {
         return result.stream().collect(Collectors.groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
     }
 
+    public Map<String, List<EmployeeSnapshotDto>> getEmployeeTeamSnapshot(int employeeId){
+        LocalDate today = LocalDate.now();
+        List<EmployeeSnapshotDto> result = dashboardRepository.findEmployeeTeamsDailySnapshot(today, employeeId);
+        return result.stream().collect(Collectors.groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
+    }
+
     private LocalDate getMonthStartDate(LocalDate date){
         return date.withDayOfMonth(1);
     }
