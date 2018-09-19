@@ -47,7 +47,14 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
                                                @Param("endDate") LocalDate endDate,
                                                @Param("today") LocalDate today);
 
-    @Query(value = "SELECT new com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto(t.teamId ,CONCAT(emp.forename, ' ', emp.surname), et.description, t.teamName) " +
+    @Query(value = "SELECT new com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto(" +
+            "t.teamId ," +
+            "CONCAT(emp.forename, ' ', " + "emp.surname), " +
+            "et.description, " +
+            "t.teamName, " +
+            "emp.employeeId, " +
+            "emp.email" +
+            ") " +
             "FROM Contract c " +
             "INNER JOIN Employee emp on emp.employeeId = c.employee.employeeId " +
             "LEFT JOIN Event ev on c.employee.employeeId = ev.employee.employeeId " +
@@ -62,7 +69,14 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
     List<EmployeeSnapshotDto> findDailySnapshotForTeamMobile(@Param("today") LocalDate today);
 
 
-    @Query(value = "SELECT new com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto(t.teamId ,CONCAT(emp.forename, ' ', emp.surname), et.description, t.teamName) " +
+    @Query(value = "SELECT new com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto(" +
+            "t.teamId ," +
+            "CONCAT(emp.forename, ' ', " + "emp.surname), " +
+            "et.description, " +
+            "t.teamName, " +
+            "emp.employeeId, " +
+            "emp.email" +
+            ") " +
             "FROM Contract c " +
             "INNER JOIN Employee emp on emp.employeeId = c.employee.employeeId " +
             "LEFT JOIN Event ev on c.employee.employeeId = ev.employee.employeeId " +

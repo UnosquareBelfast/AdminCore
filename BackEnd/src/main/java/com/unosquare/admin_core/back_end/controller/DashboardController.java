@@ -77,17 +77,23 @@ public class DashboardController {
             List<EmployeeSnapshotViewModel> employeeList = new ArrayList<>();
             for (EmployeeSnapshotDto m : members){
                 EmployeeSnapshotViewModel employee = new EmployeeSnapshotViewModel();
-                employee.setName(m.getName());
-                if (m.getDescription() == null) {
-                    employee.setState(IN_OFFICE);
-                } else {
-                    employee.setState(m.getDescription());
-                }
+                mapEmployeeSnapshotViewModel(m, employee);
                 employeeList.add(employee);
             }
             membersModel.setMembers(employeeList);
             model.add(membersModel);
         }
         return model;
+    }
+
+    private void mapEmployeeSnapshotViewModel(EmployeeSnapshotDto m, EmployeeSnapshotViewModel employee) {
+        employee.setName(m.getName());
+        employee.setEmployeeId(m.getEmployeeId());
+        employee.setEmail(m.getEmail());
+        if (m.getDescription() == null) {
+            employee.setState(IN_OFFICE);
+        } else {
+            employee.setState(m.getDescription());
+        }
     }
 }
