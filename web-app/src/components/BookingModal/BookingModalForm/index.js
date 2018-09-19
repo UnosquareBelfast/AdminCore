@@ -57,12 +57,16 @@ const BookingModalForm = props => {
       let error = {
         message: `You should give ${daysNotice} working/business days notice to request ${bookingDuration} ${
           bookingDuration > 1 ? 'days' : 'day'
-        } off, and therefore your request might be declined.`,
+          } off, and therefore your request might be declined.`,
       };
       return fromTodayToStartDateRequested < daysNotice ? (
         <Errorbox error={error} label="Warning" />
       ) : null;
     }
+  };
+
+  const renderRejectionReasonMessage = booking => {
+    return booking.messages && booking.messages.length > 0;
   };
 
   return (
@@ -108,14 +112,14 @@ const BookingModalForm = props => {
           }}
           label="End Date:"
         />
-        { booking.messages && booking.messages.length > 0 ? <Input
+        {renderRejectionReasonMessage(booking) ? <Input
           type="input"
           htmlAttrs={{
             type: 'input',
             name: 'employeeRejectionMessage',
           }}
           label="Rejection Response:"
-        /> : <div/>}
+        /> : <div />}
         <Input
           type="checkbox"
           htmlAttrs={{
