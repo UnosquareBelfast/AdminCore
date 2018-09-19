@@ -71,7 +71,7 @@ public class DashboardController {
 
     @GetMapping(value = "/getMessagesByEventId/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventMessageViewModel> getEmployeeTeamsSnapshot(@PathVariable("eventId") int eventId){
+    public List<EventMessageViewModel> getMessagesByEventId(@PathVariable("eventId") int eventId){
         List<EventMessageDTO> messages = dashboardService.getEventMessagesByEventId(eventId);
         return messages.stream().map(message -> modelMapper.map(message, EventMessageViewModel.class)).collect(Collectors.toList());
     }
