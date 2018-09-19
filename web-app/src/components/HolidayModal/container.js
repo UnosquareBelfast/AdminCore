@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { isEmpty } from 'lodash';
 import {
   approveHoliday,
-  rejectionResponse,
+  rejectHoliday,
 } from '../../services/holidayService';
 import swal from 'sweetalert2';
 import holidayStatus from '../../utilities/holidayStatus';
@@ -82,10 +82,11 @@ const HolidayModalContainer = Wrapped =>
     };
 
     rejectHoliday = () => {
+
       const { capturedRejectionReasonText, holiday } = this.state;
       const { eventId } = holiday;
 
-      rejectionResponse(eventId, capturedRejectionReasonText)
+      rejectHoliday(eventId, capturedRejectionReasonText)
         .then(() => {
           this.setState({
             holiday: {

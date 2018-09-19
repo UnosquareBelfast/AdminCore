@@ -8,11 +8,10 @@ import { Modal } from '../common';
 import { StyleContainer, FormContainer } from './styled';
 
 const rejectionReason = booking => {
-  return booking.messages
-    ? booking.messages.length > 0
-      ? booking.messages[0].message
-      : undefined
-    : undefined;
+  if (booking.messages && booking.messages.length > 0) {
+    return booking.messages[0].message;
+  }
+  return undefined;
 };
 
 const BookingModal = props => {

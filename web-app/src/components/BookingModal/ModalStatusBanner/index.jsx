@@ -23,8 +23,6 @@ class ModalStatusBanner extends Component {
     }
   };
 
-  toggleConversationMessages = () => { };
-
   render() {
     const {
       userName,
@@ -58,14 +56,6 @@ class ModalStatusBanner extends Component {
           <div>
             <h4>Rejection Reason</h4>
             <p>{rejectionReason}</p>
-          </div>
-        )}
-        {rejectionReason && (
-          <div
-            className="cancelEvent"
-            onClick={this.toggleConversationMessages}
-          >
-            <span>Display Messages</span>
           </div>
         )}
         <div>

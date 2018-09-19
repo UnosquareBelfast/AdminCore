@@ -73,7 +73,7 @@ const HolidayModal = ({
           </Stat>
         </FlexWrap>
         {shouldShowAdminControls() &&
-          (toggled === false ? (
+          (!toggled && (
             <Stat>
               <ButtonWrap>
                 <Button label="Approve" onClick={approveHoliday} />
@@ -83,7 +83,7 @@ const HolidayModal = ({
                 />
               </ButtonWrap>
             </Stat>
-          ) : null)}
+          ))}
         {toggled && (
           <div>
             <FlexWrap>
@@ -126,7 +126,6 @@ HolidayModal.propTypes = {
   toggleRejectionMessageResponse: PT.func.isRequired,
   rejectionReasonResponse: PT.bool.isRequired,
   assignRejectionResponseText: PT.func.isRequired,
-  sendRejectionResponse: PT.func.isRequired,
 };
 
 export default container(HolidayModal);

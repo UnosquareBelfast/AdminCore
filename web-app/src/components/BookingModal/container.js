@@ -169,9 +169,7 @@ const Container = Wrapped =>
             assignRejectionResponseText={this.assignRejectionResponseText}
             booking={this.props.booking}
             toggleRejectionResponseView={this.state.toggleRejectionResponseView}
-            toggleRejectionMessageInputView={
-              this.toggleRejectionMessageInputView
-            }
+            toggleRejectionMessageInputView={this.toggleRejectionMessageInputView}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
             closeBookingModal={this.closeBookingModal}

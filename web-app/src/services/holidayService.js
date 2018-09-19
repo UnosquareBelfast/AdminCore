@@ -24,12 +24,11 @@ export const approveHoliday = eventId => {
   return axios.put('/holidays/approveHoliday', { eventId });
 };
 
-export const rejectHoliday = holidayId => {
-  return axios.put('/holidays/cancelHoliday', { holidayId });
-};
-
-export const rejectionResponse = (eventId, message) => {
-  return axios.put('/holidays/rejectHoliday', { eventId, message });
+export const rejectHoliday = (eventId, message) => {
+  if (message) {
+    return axios.put('/holidays/rejectHoliday', { eventId, message });
+  }
+  return axios.put('/holidays/rejectHoliday', { eventId });
 };
 
 export const cancelHoliday = eventId => {
