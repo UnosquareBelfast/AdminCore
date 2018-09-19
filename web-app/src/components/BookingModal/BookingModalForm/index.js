@@ -64,9 +64,14 @@ const BookingModalForm = props => {
       ) : null;
     }
   };
-
+  //paul come back here
   const renderRejectionReasonMessage = booking => {
-    return booking.messages && booking.messages.length > 0;
+
+    if (booking.messages && booking.messages.length > 0) {
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -112,14 +117,15 @@ const BookingModalForm = props => {
           }}
           label="End Date:"
         />
-        {renderRejectionReasonMessage(booking) ? <Input
+        <Input
           type="input"
           htmlAttrs={{
             type: 'input',
             name: 'employeeRejectionMessage',
+            disabled: renderRejectionReasonMessage(booking),
           }}
           label="Rejection Response:"
-        /> : <div />}
+        />
         <Input
           type="checkbox"
           htmlAttrs={{
