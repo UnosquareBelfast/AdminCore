@@ -52,7 +52,7 @@ const HomeView = (props) => {
       <View style={styles.upcoming}>
         <H4 style={{ color: GREY }}>Upcoming</H4>
         <FlatList
-          keyExtractor={item => item.holidayId.toString()}
+          keyExtractor={item => item.eventId.toString()}
           data={upcomingEvents}
           renderItem={({ item }) => (
             <ListItem

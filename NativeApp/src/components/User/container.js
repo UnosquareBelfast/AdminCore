@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as PT } from 'prop-types';
+import { flattenDeep } from 'lodash';
 import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
 
@@ -32,8 +33,8 @@ export default Container => class extends Component {
 
     this.sub = navigation.addListener('didFocus', () => {
       getUserEvents()
-        .then(events => this.setState({ events }));
-
+        .then(events => this.setState({ events: this.sortingEvents(events) }));
+        
       getRemainingHolidays()
         .then(remainingHolidays => this.setState({ remainingHolidays }));
 
@@ -44,6 +45,25 @@ export default Container => class extends Component {
 
   componentWillUnmount() {
     this.sub.remove();
+  }
+
+  sortingEvents = (events) => {
+    let eventArray = [];
+    let approvalArray = [];
+    let awaitApprovalArray = [];
+
+    approvalArray.push(events.filter(event => event.eventStatus.description === 'Approved'));
+    awaitApprovalArray.push(events.filter(event => event.eventStatus.description === 'Awaiting approval'));
+
+    approvalArray = flattenDeep(approvalArray);
+    awaitApprovalArray = flattenDeep(awaitApprovalArray);
+
+    eventArray = [
+      { title: 'Approved', data: approvalArray },
+      { title: 'Awaiting approval', data: awaitApprovalArray },
+    ];
+
+    return eventArray;
   }
 
   render() {

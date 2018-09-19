@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import {
   View,
-  FlatList,
+  SectionList,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
@@ -32,9 +32,7 @@ const UserView = (props) => {
         />
         <ScrollView>
           <View style={styles.flatListView}>
-            <FlatList
-              keyExtractor={item => item.holidayId.toString()}
-              data={events}
+            <SectionList
               renderItem={({ item }) => (
                 <ListItem
                   statusId={item.eventStatus.eventStatusId}
@@ -44,6 +42,17 @@ const UserView = (props) => {
                   duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
                 />
               )}
+              renderSectionHeader={({ section }) => (
+                section.data.length >= 1
+                  ? (<H3 type="bold" style={styles.sectionListHeader}>{section.title}</H3>)
+                  : (
+                    <View>
+                      <H3 type="bold" style={styles.sectionListHeader}>{section.title}</H3>
+                      <H3 style={styles.sectionListNoItems}>Nothing to show</H3>
+                    </View>)
+              )}
+              sections={events}
+              keyExtractor={(item, index) => item + index}
             />
           </View>
         </ScrollView>

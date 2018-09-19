@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     fontSize: H3_SIZE,
     fontFamily: 'openSansRegular',
   },
+  bold: {
+    fontSize: H3_SIZE,
+    fontFamily: 'openSansBold',
+  },
 });
 
 export default styles;
