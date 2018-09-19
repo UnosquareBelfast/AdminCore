@@ -142,6 +142,7 @@ BookingModalForm.propTypes = {
   formIsValid: PT.bool.isRequired,
   createEvent: PT.func.isRequired,
   updateEvent: PT.func.isRequired,
+  booking: PT.object,
 };
 
 BookingModalForm.defaultProps = {
