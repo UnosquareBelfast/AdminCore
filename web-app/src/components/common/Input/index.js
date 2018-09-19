@@ -26,12 +26,19 @@ const Input = props => {
     value,
     changed,
     focus,
+    className,
+    labelClass,
+    disabled,
   } = props;
   let formGroupId = label;
   let id = formGroupId.replace(' ', '').toLowerCase();
 
   if (!valid && touched) {
     inputClasses.push('invalid');
+  }
+
+  if (className) {
+    inputClasses.push(className);
   }
 
   switch (type) {
@@ -44,6 +51,7 @@ const Input = props => {
           value={value}
           onChange={changed}
           autoFocus={focus}
+          disabled={disabled}
         />
       );
       break;
@@ -144,7 +152,7 @@ const Input = props => {
 
   return (
     <FormGroup className={checkType()}>
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} className={labelClass}>{label}</Label>
       {inputElement}
     </FormGroup>
   );
@@ -159,6 +167,9 @@ Input.propTypes = {
   valid: PT.bool.isRequired,
   touched: PT.bool,
   focus: PT.bool,
+  className: PT.string,
+  labelClass: PT.string, 
+  disabled: PT.bool,
 };
 
 Input.defaultProps = {

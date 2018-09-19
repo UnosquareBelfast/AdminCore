@@ -70,7 +70,7 @@ const Container = Wrapped =>
 
     updateEvent = (event, formData) => {
       event.preventDefault();
-      const { start, end, isHalfday } = formData;
+      const { start, end, isHalfday, updateHolidayReason } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
         updateTakenEvents,
@@ -83,6 +83,7 @@ const Container = Wrapped =>
         halfDay: isHalfday,
         eventId: eventId,
         startDate: start.format(this.dateFormat),
+        message: updateHolidayReason,
       };
 
       if (eventTypeId) {
