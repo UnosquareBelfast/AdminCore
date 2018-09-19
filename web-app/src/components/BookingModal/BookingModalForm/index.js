@@ -121,10 +121,10 @@ const BookingModalForm = props => {
           className={ isEventBeingUpdated ? null : 'hide'}
           htmlAttrs={{
             type: 'input',
-            name: 'updateHolidayReason',
+            name: 'updateMessage',
             placeholder: 'optional',
           }}
-          value={formData.updateHolidayReason || ''}
+          value={formData.updateMessage || ''}
           label="Reason for updating holiday:"
           labelClass={isEventBeingUpdated ? null : 'hide'}
           disabled={!formIsValid}
