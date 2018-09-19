@@ -31,4 +31,9 @@ TeamOverview.propTypes = {
   selectedUser: PT.object.isRequired,
 };
 
+TeamOverview.defaultProps = {
+  teams: [],
+};
+
+
 export default container(TeamOverview);

@@ -56,9 +56,7 @@ instance.interceptors.response.use(function(response) {
   }
 
   if (response.config.url.includes(`${baseURL}/dashboard/getDashboardSnapshot`)) {
-
     const data = [...response.data];
-  
     const employee = store.getState().USER;
     for (let object of data) {
       object.employee = { ...employee };

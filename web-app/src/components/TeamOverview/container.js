@@ -30,11 +30,12 @@ const TeamOverviewContainer = Wrapped =>
     selectUser = user => this.setState({ selectedUser: user });
 
     render() {
+      const { teams, selectedUser } = this.state;
       return (
         <Wrapped
           history={this.props.history}
-          teams={this.state.teams}
-          selectedUser={this.state.selectedUser}
+          teams={teams}
+          selectedUser={selectedUser}
           logTeam={this.logTeam}
           selectUser={this.selectUser}
         />
