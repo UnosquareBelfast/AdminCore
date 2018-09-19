@@ -28,7 +28,7 @@ const HolidayModalContainer = Wrapped =>
     constructor(props) {
       super(props);
       this.state = {
-        holidays: [],
+        holiday: {},
         holidayModalExpansion: false,
         capturedRejectionReasonText: '',
         capturedRejectionReponseText: '',
