@@ -51,7 +51,7 @@ const Container = Wrapped =>
         capturedRejectionReponseText: '',
       };
     }
-//paul come back here
+
     componentDidMount = () => {
       const {
         booking: { start, end, eventType, halfDay },
