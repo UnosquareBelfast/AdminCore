@@ -8,6 +8,12 @@ const AdminDashboard = () => {
       <h2>Admin Dashboard</h2>
       <div className="columnWrap">
         <div>
+          <h3>Overview</h3>
+          <Link to="/admin/overview">Team Overview</Link>
+        </div>
+      </div>
+      <div className="columnWrap">
+        <div>
           <h3>Employees</h3>
           <Link to="/admin/employees">View Employees</Link>
           <Link to="/admin/employees/new">Create Employee</Link>
