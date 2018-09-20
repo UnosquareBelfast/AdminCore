@@ -1,114 +1,102 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
-import { Container, Columns, Stat } from './styled';
-import { DataTable, UserModal, HolidayModal } from '../../components';
-import HolidayCells from '../../components/DataTable/Cells/holidays';
+import TeamSidebar from './TeamSidebar';
+import { DataTable, UserModal } from '../../components';
 import UserCells from '../../components/DataTable/Cells/users';
+import { Layout, ContentLayout, Stat, Columns } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faChild, faMap, faHome } from '@fortawesome/fontawesome-free-solid';
-import roles from '../../utilities/roles';
 
-export const TeamDashboard = ({
-  team,
-  teamHolidays,
-  selectedUser,
-  onUserSelect,
-  hideUserModal,
-  hideHolidayModal,
-  userModalVisible,
+const TeamDashboard = ({
   history,
-  selectedHoliday,
-  selectHoliday,
-  userDetails,
+  teams,
+  selectTeam,
+  selectedTeam,
+  selectedUser,
+  closeUserModal,
+  onUserSelect,
+  userModalVisible,
+  hasExtraPermissions,
 }) => {
-  const isAdmin = userDetails.employeeRoleId !== roles.STANDARD;
+  //TO-DO: Also check client name is the same.
+  const team = teams.filter(team => team.team === selectedTeam)[0];
+
+  const renderTeamDetails = () => {
+    const { members } = team;
+    const holidayCount = members.filter(
+      member => member.state === 'Annual Leave'
+    ).length;
+
+    const wfhCount = members.filter(
+      member => member.state === 'Working From Home'
+    ).length;
+
+    return (
+      <ContentLayout>
+        <h2>{team.team}</h2>
+        <Columns>
+          <Stat>
+            <h1>{members.length} MEMBERS</h1>
+            <h4>
+              <FontAwesomeIcon icon={faChild} /> Active
+            </h4>
+          </Stat>
+          <Stat>
+            <h1>{holidayCount} MEMBERS</h1>
+            <h4>
+              <FontAwesomeIcon icon={faMap} /> On Holiday
+            </h4>
+          </Stat>
+          <Stat>
+            <h1>{wfhCount} MEMBERS</h1>
+            <h4>
+              <FontAwesomeIcon icon={faHome} /> Working from home
+            </h4>
+          </Stat>
+        </Columns>
+        <DataTable
+          data={members}
+          cells={UserCells}
+          columns={['name', 'email', 'state']}
+          pageSize={20}
+          onRowClick={user => {
+            if (hasExtraPermissions) {
+              onUserSelect(user);
+            }
+          }}
+        />
+      </ContentLayout>
+    );
+  };
 
   return (
-    <Container>
+    <Fragment>
       {userModalVisible && (
         <UserModal
           user={selectedUser}
-          closeModal={hideUserModal}
+          closeModal={closeUserModal}
           history={history}
         />
       )}
-      <HolidayModal
-        holiday={selectedHoliday}
-        closeModal={hideHolidayModal}
-        showAdminControls
-      />
-      <h2>My Team</h2>
-      <Columns>
-        <Stat>
-          <h1>{team.length} MEMBERS</h1>
-          <h4>
-            <FontAwesomeIcon icon={faChild} /> Active
-          </h4>
-        </Stat>
-        <Stat>
-          <h1>2 MEMBERS</h1>
-          <h4>
-            <FontAwesomeIcon icon={faMap} /> On Holiday
-          </h4>
-        </Stat>
-        <Stat>
-          <h1>4 MEMBERS</h1>
-          <h4>
-            <FontAwesomeIcon icon={faHome} /> Working from home
-          </h4>
-        </Stat>
-      </Columns>
-
-      <Columns fullWidth={!isAdmin}>
-        <div>
-          <h3>Active Members</h3>
-          <DataTable
-            data={team}
-            cells={UserCells}
-            columns={['fullName', 'email']}
-            onRowClick={onUserSelect}
-          />
-        </div>
-        {isAdmin && (
-          <div>
-            <h3>
-              Member's Pending Holidays{' '}
-              {teamHolidays != 0
-                ? `(${teamHolidays.length} needing reviewed)`
-                : null}
-            </h3>
-            <DataTable
-              data={teamHolidays}
-              cells={HolidayCells}
-              columns={['employee', 'startDate', 'endDate']}
-              onRowClick={holiday => selectHoliday(holiday)}
-            />
-          </div>
-        )}
-      </Columns>
-    </Container>
+      <Layout>
+        <TeamSidebar teams={teams} selectTeam={selectTeam} />
+        {team ? renderTeamDetails() : null}
+      </Layout>
+    </Fragment>
   );
 };
 
 TeamDashboard.propTypes = {
-  history: PT.object,
-  team: PT.array,
-  teamHolidays: PT.array,
-  selectedUser: PT.object,
-  selectedHoliday: PT.object.isRequired,
-  selectHoliday: PT.func.isRequired,
+  teams: PT.array.isRequired,
+  selectTeam: PT.func.isRequired,
+  selectedTeam: PT.string,
+  history: PT.object.isRequired,
   onUserSelect: PT.func.isRequired,
-  hideUserModal: PT.func.isRequired,
-  hideHolidayModal: PT.func.isRequired,
+  selectedUser: PT.object,
+  closeUserModal: PT.func.isRequired,
   userModalVisible: PT.bool.isRequired,
-  userDetails: PT.object.isRequired,
-};
-
-TeamDashboard.defaultProps = {
-  team: [],
-  teamHolidays: [],
-  selectedUser: null,
+  hasExtraPermissions: PT.bool.isRequired,
 };
 
 export default container(TeamDashboard);

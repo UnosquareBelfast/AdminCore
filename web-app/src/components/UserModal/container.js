@@ -24,6 +24,7 @@ const UserModalContainer = Wrapped =>
       this.state = {
         userDetails: null,
         userHolidays: [],
+        totalHolidays: 0,
       };
       this.hasPermission = props.userDetails.employeeRoleId !== roles.STANDARD;
     }
@@ -31,20 +32,23 @@ const UserModalContainer = Wrapped =>
     componentDidMount() {
       const { user } = this.props;
       if (isEmpty(user)) return null;
-     
-      if (this.hasPermission) {
-        getHolidays(user.employeeId)
-          .then(response => {
-            this.setState({ userHolidays: response.data });
-          })
-          .catch(error => {
-            swal(
-              'Error',
-              `Error getting user holiday details: ${error.message}`,
-              'error'
-            );
-          });
-      }
+
+      getHolidays(user.employeeId)
+        .then(response => {
+          if (response.data.length > 0) {
+            this.setState({
+              totalHolidays: response.data[0].employee.totalHolidays,
+            });
+          }
+          this.setState({ userHolidays: response.data });
+        })
+        .catch(error => {
+          swal(
+            'Error',
+            `Error getting user holiday details: ${error.message}`,
+            'error'
+          );
+        });
     }
 
     getTotalPendingDays = () => {
@@ -53,33 +57,34 @@ const UserModalContainer = Wrapped =>
         HolidayStatus.PENDING
       );
     };
-  
+
     getTotalApprovedDays = () => {
       return getTotalDaysInEventArrayWithStatus(
         this.state.userHolidays,
         HolidayStatus.APPROVED
       );
-      
     };
 
     render() {
       const approvedDays = this.getTotalApprovedDays();
       const pendingDays = this.getTotalPendingDays();
-      const { closeModal, userDetails, user, history} = this.props;
-      const { userHolidays  } = this.state;
-      if (isEmpty(user)) return null; 
-       
+      const { closeModal, userDetails, user, history } = this.props;
+      const { userHolidays, totalHolidays } = this.state;
+      if (isEmpty(user)) return null;
+
       return (
-        <Wrapped 
+        <Wrapped
           userDetails={userDetails}
           userHolidays={userHolidays}
           closeModal={closeModal}
           user={user}
-          hasPermission = {this.hasPermission}
-          history={history} 
-          getHolidays={getHolidays} 
+          hasPermission={this.hasPermission}
+          history={history}
+          getHolidays={getHolidays}
           approvedDays={approvedDays}
-          pendingDays={pendingDays}/>
+          pendingDays={pendingDays}
+          totalHolidays={totalHolidays}
+        />
       );
     }
   };
