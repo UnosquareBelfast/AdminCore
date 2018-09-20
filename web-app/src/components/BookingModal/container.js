@@ -84,20 +84,19 @@ const Container = Wrapped =>
 
     updateEvent = (event, formData) => {
       event.preventDefault();
-      const { start, end, isHalfday, employeeRejectionMessage } = formData;
+      const { start, end, isHalfday, employeeRejectionMessage, updateMessage } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
         updateTakenEvents,
         toggleBookingModal,
         booking: { eventId },
       } = this.props;
-
       const request = {
         endDate: end.format(this.dateFormat),
         halfDay: isHalfday,
         eventId: eventId,
         startDate: start.format(this.dateFormat),
-        message: employeeRejectionMessage,
+        message: employeeRejectionMessage ? employeeRejectionMessage : updateMessage,
       };
 
       if (eventTypeId) {

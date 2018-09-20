@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const Label = styled.label`
+  &.hide {
+   display: none; 
+  }
   display: inline-block;
   margin-bottom: 4px;
   font-weight: ${props => props.theme.fonts.weight.bold};
@@ -8,6 +11,9 @@ export const Label = styled.label`
 `;
 
 export const TextBox = styled.input`
+  &.hide {
+   display: none; 
+  }
   &.invalid {
     border: 2px solid ${props => props.theme.colours.darkRed} !important;
     background-color: ${props => props.theme.colours.lightRed} !important;

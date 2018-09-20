@@ -6,7 +6,11 @@ import { DataTable, HolidayModal } from '../../components/';
 import ContractCells from '../../components/DataTable/Cells/contracts';
 import HolidayCells from '../../components/DataTable/Cells/holidays';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { faCalendar, faCheck, faSpinner } from '@fortawesome/fontawesome-free-solid';
+import {
+  faCalendar,
+  faCheck,
+  faSpinner,
+} from '@fortawesome/fontawesome-free-solid';
 
 const Profile = props => {
   const {
@@ -18,6 +22,8 @@ const Profile = props => {
     selectHoliday,
     closeModal,
     contracts,
+    contractsLoading,
+    holidaysLoading,
   } = props;
   const { forename, surname, totalHolidays } = userDetails;
 
@@ -34,21 +40,28 @@ const Profile = props => {
           <div className="columns">
             <div>
               <h1>{totalHolidays - daysBooked} Days</h1>
-              <h4><FontAwesomeIcon icon={faCalendar} /> Remaining</h4>
+              <h4>
+                <FontAwesomeIcon icon={faCalendar} /> Remaining
+              </h4>
             </div>
             <div>
               <h1>{daysBooked} Days</h1>
-              <h4><FontAwesomeIcon icon={faCheck} /> Booked</h4>
+              <h4>
+                <FontAwesomeIcon icon={faCheck} /> Booked
+              </h4>
             </div>
             <div>
               <h1>{daysPending} Days</h1>
-              <h4><FontAwesomeIcon icon={faSpinner} /> Pending</h4>
+              <h4>
+                <FontAwesomeIcon icon={faSpinner} /> Pending
+              </h4>
             </div>
           </div>
           <Columns>
             <div>
               <h3>My holidays</h3>
               <DataTable
+                loading={holidaysLoading}
                 data={userHolidays}
                 cells={HolidayCells}
                 columns={['status', 'startDate', 'endDate', 'requestedDate']}
@@ -58,13 +71,14 @@ const Profile = props => {
             <div>
               <h3>View Contracts </h3>
               <DataTable
+                loading={contractsLoading}
                 data={contracts}
                 cells={ContractCells}
                 columns={['startDate', 'endDate']}
                 pageSize={10}
               />
-            </div> 
-          </Columns>      
+            </div>
+          </Columns>
         </div>
       </MainContentContainer>
     </Fragment>
@@ -80,6 +94,8 @@ Profile.propTypes = {
   selectHoliday: PT.func.isRequired,
   closeModal: PT.func.isRequired,
   contracts: PT.array.isRequired,
+  contractsLoading: PT.bool.isRequired,
+  holidaysLoading: PT.bool.isRequired,
 };
 
 Profile.defaultProps = {

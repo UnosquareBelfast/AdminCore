@@ -31,7 +31,7 @@ const _formatEventsForCalendar = events => {
       employee: event.employee,
       eventStatus: event.eventStatus,
       eventType: event.eventType,
-      messages: event.messages,
+      messages: event.latestMessage ? event.latestMessage : undefined ,
     };
   });
 };

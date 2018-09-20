@@ -50,9 +50,9 @@ export const FormContainer = styled.div`
     }
 
     .checkbox {
-      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
-        margin: 0 10px 20px 10px;
-      }
+      position: relative;
+      left: 2px;
+      margin: 0 10px 20px 10px;
     }
 
     .input {

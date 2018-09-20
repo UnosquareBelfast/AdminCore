@@ -8,7 +8,9 @@ import {
   getDurationBetweenDates,
   calculateDaysNotice,
 } from '../../../utilities/dates';
-import Errorbox from '../../common/Errorbox';
+import { NoticeAlert } from './styled';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { faExclamationCircle } from '@fortawesome/fontawesome-free-solid';
 
 const BookingModalForm = props => {
   const {
@@ -26,7 +28,9 @@ const BookingModalForm = props => {
     if (isEventBeingUpdated) {
       return [
         {
-          label: 'Update',
+          label: `Update to ${
+            bookingDuration === 0.5 ? 'Half' : bookingDuration
+            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: updateEvent,
           disabled: !formIsValid,
         },
@@ -34,7 +38,9 @@ const BookingModalForm = props => {
     } else {
       return [
         {
-          label: 'Request',
+          label: `Request ${
+            bookingDuration === 0.5 ? 'Half' : bookingDuration
+            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: createEvent,
           disabled: !formIsValid,
         },
@@ -50,27 +56,28 @@ const BookingModalForm = props => {
       const today = new moment();
       const fromTodayToStartDateRequested = getDurationBetweenDates(
         today,
-        start,
+        start
       );
-
       const daysNotice = calculateDaysNotice(bookingDuration);
-      let error = {
-        message: `You should give ${daysNotice} working/business days notice to request ${bookingDuration} ${
-          bookingDuration > 1 ? 'days' : 'day'
-          } off, and therefore your request might be declined.`,
-      };
       return fromTodayToStartDateRequested < daysNotice ? (
-        <Errorbox error={error} label="Warning" />
+        <NoticeAlert>
+          <p>
+            <FontAwesomeIcon icon={faExclamationCircle} />
+            <span>This booking could be declined.</span>
+          </p>
+          <p>
+            You should give {daysNotice} working/business days notice to request
+            {' ' + bookingDuration} {bookingDuration > 1 ? 'days' : 'day'} off.
+          </p>
+        </NoticeAlert>
       ) : null;
     }
   };
-  //paul come back here
-  const renderRejectionReasonMessage = booking => {
 
-    if (booking.messages && booking.messages.length > 0) {
+  const renderRejectionReasonMessage = booking => {
+    if (booking.messages) {
       return false;
     }
-
     return true;
   };
 
@@ -124,6 +131,7 @@ const BookingModalForm = props => {
             name: 'employeeRejectionMessage',
             disabled: renderRejectionReasonMessage(booking),
           }}
+          value={formData.employeeRejectionMessage}
           label="Rejection Response:"
         />
         <Input
@@ -134,6 +142,19 @@ const BookingModalForm = props => {
           }}
           value={formData.isHalfday}
           label="Request a halfday"
+        />
+        <Input
+          type="input"
+          className={isEventBeingUpdated ? null : 'hide'}
+          htmlAttrs={{
+            type: 'input',
+            name: 'updateMessage',
+            placeholder: 'optional',
+          }}
+          value={formData.updateMessage}
+          label="Reason for updating holiday:"
+          labelClass={isEventBeingUpdated ? null : 'hide'}
+          disabled={!formIsValid}
         />
       </Form>
     </Fragment>

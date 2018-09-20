@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { StyleContainer, Column } from './styled';
+import { StyleContainer } from './styled';
 import container from './container';
 import FilterByKey from './filterByKey';
 import FilterByUser from './filterByUser';
@@ -21,7 +21,7 @@ const Legend = ({
   if (eventView === eventsView.TEAM_EVENTS) {
     filterUser = (
       <div>
-        <h4>Filter by Employee</h4>
+        <h4>Employee</h4>
         <FilterByUser
           selectedEmployee={selectedEmployee}
           employeeList={employeeList}
@@ -33,23 +33,20 @@ const Legend = ({
 
   return (
     <StyleContainer>
-      <Column>{filterUser}</Column>
-      <Column>
-        <h4>Filter by Holiday Status</h4>
-        <FilterByKey
-          category={eventCategory.HOLIDAY_STATUS}
-          keyList={legendKeyStatuses}
-          onToggleEvent={onToggleStatus}
-        />
-      </Column>
-      <Column>
-        <h4>Filter by Event Type</h4>
-        <FilterByKey
-          category={eventCategory.EVENT_TYPE}
-          keyList={legendKeyTypes}
-          onToggleEvent={onToggleType}
-        />
-      </Column>
+      <h3>Calendar Filters</h3>
+      {filterUser}
+      <h4>Holiday Status</h4>
+      <FilterByKey
+        category={eventCategory.HOLIDAY_STATUS}
+        keyList={legendKeyStatuses}
+        onToggleEvent={onToggleStatus}
+      />
+      <h4>Event Type</h4>
+      <FilterByKey
+        category={eventCategory.EVENT_TYPE}
+        keyList={legendKeyTypes}
+        onToggleEvent={onToggleType}
+      />
     </StyleContainer>
   );
 };

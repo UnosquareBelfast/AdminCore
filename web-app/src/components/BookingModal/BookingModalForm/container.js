@@ -44,12 +44,14 @@ const Container = Wrapped =>
           eventTypeId: 1,
           isHalfday: false,
           start: moment(),
+          employeeRejectionMessage: '',
+          updateMessage: '',
         },
         formIsValid: true,
         capturedRejectionReponseText: '',
       };
     }
-
+//paul come back here
     componentDidMount = () => {
       const {
         booking: { start, end, eventType, halfDay },
@@ -60,6 +62,8 @@ const Container = Wrapped =>
           end: end,
           eventTypeId: eventType.eventTypeId,
           isHalfday: halfDay || false,
+          employeeRejectionMessage: '',
+          updateMessage: '',
         },
       });
     };
@@ -100,7 +104,6 @@ const Container = Wrapped =>
     handleFormStatus(name, value, formIsValid) {
       let formData = { ...this.state.formData };
       formData[name] = value;
-
       if (name === 'start') {
         formData = startDateValidation(formData);
       } else if (name === 'end') {
@@ -117,10 +120,12 @@ const Container = Wrapped =>
         );
         formIsValid =
           calendarValidationResults === validationMessage.DATES_APPROVED;
-        Toast({
-          type: formIsValid ? 'success' : 'warning',
-          title: calendarValidationResults,
-        });
+        if (!formIsValid) {
+          Toast({
+            type: 'warning',
+            title: calendarValidationResults,
+          });
+        }
       }
 
       this.setState({
