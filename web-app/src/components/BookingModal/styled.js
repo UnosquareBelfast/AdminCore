@@ -55,6 +55,12 @@ export const FormContainer = styled.div`
       margin: 0 10px 20px 10px;
     }
 
+    .input {
+      @media (min-width: ${props => props.theme.mediaQueries.lg}) {
+        margin: 0px 10px 20px 10px;
+      }
+    }
+
     > div:last-child {
       @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         width: calc(50% - 10px);
@@ -63,4 +69,10 @@ export const FormContainer = styled.div`
       }
     }
   }
+`;
+
+export const ButtonFloat = styled.div`
+  width: 25% !important;
+  margin-bottom: 10px !important;
+  float: right;
 `;
