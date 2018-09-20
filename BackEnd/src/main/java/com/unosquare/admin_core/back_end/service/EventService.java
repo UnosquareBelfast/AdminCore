@@ -10,12 +10,14 @@ import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.repository.EventMessageRepository;
 import com.unosquare.admin_core.back_end.repository.EventRepository;
+import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -177,7 +179,7 @@ public class EventService {
         EventMessage eventMessage = new EventMessage();
         eventMessage.setEmployee(emp);
         eventMessage.setMessage(message);
-        eventMessage.setLastModified(LocalDate.now());
+        eventMessage.setLastModified(LocalDateTime.now());
         eventMessage.setEvent(event);
         if (EventMessageTypes.REJECTED.getEventStatusId() == eventMessageTypeId) {
             eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.REJECTED.getEventStatusId()));
@@ -191,9 +193,9 @@ public class EventService {
         Preconditions.checkNotNull(eventMessage);
 
         if (eventMessage.getEventMessageId() > 0) {
-            eventMessage.setLastModified(LocalDate.now());
+            eventMessage.setLastModified(LocalDateTime.now());
         }
-        eventMessage.setLastModified(LocalDate.now());
+        eventMessage.setLastModified(LocalDateTime.now());
         eventMessageRepository.save(eventMessage);
     }
 

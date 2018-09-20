@@ -81,7 +81,7 @@ const Container = Wrapped =>
           employeeId,
           start,
           end,
-          eventId,
+          eventId
         );
         if (datesOverlapExisting) {
           return validationMessage.DATES_ALREADY_REQUESTED;
@@ -107,14 +107,16 @@ const Container = Wrapped =>
 
       if (name === 'start' || name === 'end') {
         const calendarValidationResults = this.handleCalendarValidation(
-          formData,
+          formData
         );
         formIsValid =
           calendarValidationResults === validationMessage.DATES_APPROVED;
-        Toast({
-          type: formIsValid ? 'success' : 'warning',
-          title: calendarValidationResults,
-        });
+        if (!formIsValid) {
+          Toast({
+            type: 'warning',
+            title: calendarValidationResults,
+          });
+        }
       }
 
       this.setState({
@@ -170,10 +172,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  Container,
-);
+export default compose(connect(mapStateToProps, mapDispatchToProps), Container);

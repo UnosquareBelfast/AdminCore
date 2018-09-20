@@ -2,6 +2,7 @@ package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
+import com.unosquare.admin_core.back_end.dto.EventMessageDTO;
 import com.unosquare.admin_core.back_end.service.DashboardService;
 import com.unosquare.admin_core.back_end.viewModels.dashboard.*;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
@@ -61,6 +62,20 @@ public class DashboardController {
         return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
     }
 
+    @GetMapping(value = "/getEmployeeTeamSnapshot", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<TeamSnapshotViewModel> getEmployeeTeamsSnapshot(){
+        Map<String, List<EmployeeSnapshotDto>> teamSummary = dashboardService.getEmployeeTeamSnapshot(employeeCredentialsViewModel.getUserId());
+        return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
+    }
+
+    @GetMapping(value = "/getMessagesByEventId/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<EventMessageViewModel> getMessagesByEventId(@PathVariable("eventId") int eventId){
+        List<EventMessageDTO> messages = dashboardService.getEventMessagesByEventId(eventId);
+        return messages.stream().map(message -> modelMapper.map(message, EventMessageViewModel.class)).collect(Collectors.toList());
+    }
+
     private  List<TeamSnapshotViewModel> mapTeamSummaryDtoToTeamSummaryViewModel(Map<String, List<EmployeeSnapshotDto>> teams) {
         List<TeamSnapshotViewModel> model = new ArrayList<>();
         for (Map.Entry<String, List<EmployeeSnapshotDto>> team : teams.entrySet()) {
@@ -70,17 +85,23 @@ public class DashboardController {
             List<EmployeeSnapshotViewModel> employeeList = new ArrayList<>();
             for (EmployeeSnapshotDto m : members){
                 EmployeeSnapshotViewModel employee = new EmployeeSnapshotViewModel();
-                employee.setName(m.getName());
-                if (m.getDescription() == null) {
-                    employee.setState(IN_OFFICE);
-                } else {
-                    employee.setState(m.getDescription());
-                }
+                mapEmployeeSnapshotViewModel(m, employee);
                 employeeList.add(employee);
             }
             membersModel.setMembers(employeeList);
             model.add(membersModel);
         }
         return model;
+    }
+
+    private void mapEmployeeSnapshotViewModel(EmployeeSnapshotDto m, EmployeeSnapshotViewModel employee) {
+        employee.setName(m.getName());
+        employee.setEmployeeId(m.getEmployeeId());
+        employee.setEmail(m.getEmail());
+        if (m.getDescription() == null) {
+            employee.setState(IN_OFFICE);
+        } else {
+            employee.setState(m.getDescription());
+        }
     }
 }

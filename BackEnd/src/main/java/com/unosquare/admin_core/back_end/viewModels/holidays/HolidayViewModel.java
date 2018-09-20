@@ -27,6 +27,4 @@ public class HolidayViewModel {
         private LocalDate lastModified;
 
         private LocalDate dateCreated;
-
-        private String deniedMessage;
 }

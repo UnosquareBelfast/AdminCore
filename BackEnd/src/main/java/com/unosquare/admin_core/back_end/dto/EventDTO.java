@@ -33,5 +33,5 @@ public class EventDTO {
 
     private TeamDTO Team;
 
-    private List<EventMessageDTO> messages;
+    private EventMessageDTO latestMessage;
 }

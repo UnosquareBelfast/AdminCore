@@ -10,4 +10,6 @@ public class EmployeeSnapshotDto {
     private final String name;
     private final String description;
     private String teamName;
+    private int employeeId;
+    private String email;
 }

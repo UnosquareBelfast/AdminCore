@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -28,7 +29,7 @@ public class EventMessage {
     private Employee employee;
 
     @Column(name = "last_modified")
-    private LocalDate lastModified;
+    private LocalDateTime lastModified;
 
     @Column(name = "message")
     private String Message;

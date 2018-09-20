@@ -12,7 +12,7 @@ import {
 import {
   updateHoliday,
   requestHoliday,
-  rejectHoliday,
+  cancelHoliday,
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
 import eventTypes from '../../utilities/eventTypes';
@@ -70,7 +70,7 @@ const Container = Wrapped =>
 
     updateEvent = (event, formData) => {
       event.preventDefault();
-      const { start, end, isHalfday } = formData;
+      const { start, end, isHalfday, updateMessage } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
       const {
         updateTakenEvents,
@@ -83,6 +83,7 @@ const Container = Wrapped =>
         halfDay: isHalfday,
         eventId: eventId,
         startDate: start.format(this.dateFormat),
+        message: updateMessage,
       };
 
       if (eventTypeId) {
@@ -108,7 +109,7 @@ const Container = Wrapped =>
         toggleBookingModal,
         booking: { eventId },
       } = this.props;
-      rejectHoliday(eventId)
+      cancelHoliday(eventId)
         .then(() => {
           updateTakenEvents();
           toggleBookingModal(false);

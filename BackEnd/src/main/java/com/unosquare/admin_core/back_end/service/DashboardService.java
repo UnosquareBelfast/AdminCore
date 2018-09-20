@@ -38,8 +38,10 @@ public class DashboardService {
         List<Event> result = dashboardRepository.findCalendarMonthEventsForEmployee(employeeId, startDate, endDate);
         List<EventDTO> eventDTOS = result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
         for (EventDTO event : eventDTOS){
-            List<EventMessage> messages = eventMessageRepository.findEventMessagesByEventId(event.getEventId());
-            event.setMessages(messages.stream().map(message -> modelMapper.map(message, EventMessageDTO.class)).collect(Collectors.toList()));
+            EventMessage message = eventMessageRepository.findLatestEventMessagesByEventId(event.getEventId());
+            if (message != null) {
+                event.setLatestMessage(modelMapper.map(message, EventMessageDTO.class));
+            }
         }
         return eventDTOS;
     }
@@ -56,6 +58,17 @@ public class DashboardService {
         LocalDate today = LocalDate.now();
         List<EmployeeSnapshotDto> result = dashboardRepository.findDailySnapshotForTeamMobile(today);
         return result.stream().collect(Collectors.groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
+    }
+
+    public Map<String, List<EmployeeSnapshotDto>> getEmployeeTeamSnapshot(int employeeId){
+        LocalDate today = LocalDate.now();
+        List<EmployeeSnapshotDto> result = dashboardRepository.findEmployeeTeamsDailySnapshot(today, employeeId);
+        return result.stream().collect(Collectors.groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
+    }
+
+    public List<EventMessageDTO> getEventMessagesByEventId(int eventId){
+        List<EventMessage> messages = eventMessageRepository.findEventMessagesByEventId(eventId);
+        return messages.stream().map(message -> modelMapper.map(message, EventMessageDTO.class)).collect(Collectors.toList());
     }
 
     private LocalDate getMonthStartDate(LocalDate date){
