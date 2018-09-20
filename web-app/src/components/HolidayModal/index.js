@@ -15,7 +15,7 @@ const HolidayModal = ({
   rejectHoliday,
   userDetails,
   showAdminControls,
-  expandRejectHolidayExplanationText,
+  toggleHolidayModalExpansion,
   toggled,
   assignRejectionReasonText,
   capturedRejectionReasonText,
@@ -31,14 +31,8 @@ const HolidayModal = ({
     return true;
   };
 
-  const shouldDisableButtonControl = inputText => {
-    return !inputText.length > 0;
-  };
-
   const duration = getEventDayAmount(holiday);
-  const disableRejectionReasonButton = shouldDisableButtonControl(
-    capturedRejectionReasonText
-  );
+  const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
   return (
     <Modal closeModal={closeModal}>
       <StyleContainer>
@@ -79,7 +73,7 @@ const HolidayModal = ({
                 <Button label="Approve" onClick={approveHoliday} />
                 <Button
                   label="Reject"
-                  onClick={expandRejectHolidayExplanationText}
+                  onClick={() => toggleHolidayModalExpansion(true)}
                 />
               </ButtonWrap>
             </Stat>
@@ -115,7 +109,7 @@ HolidayModal.propTypes = {
   closeModal: PT.func.isRequired,
   capturedRejectionReasonText: PT.string.isRequired,
   capturedRejectionReponseText: PT.string.isRequired,
-  expandRejectHolidayExplanationText: PT.func.isRequired,
+  toggleHolidayModalExpansion: PT.func.isRequired,
   toggled: PT.bool,
   holiday: PT.object.isRequired,
   assignRejectionReasonText: PT.func.isRequired,

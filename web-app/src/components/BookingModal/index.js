@@ -8,7 +8,6 @@ import { Modal } from '../common';
 import { StyleContainer, FormContainer } from './styled';
 
 const rejectionReason = booking => {
-  
   if (booking.messages) {
     return booking.messages.message;
   }

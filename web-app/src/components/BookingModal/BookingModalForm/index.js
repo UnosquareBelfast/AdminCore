@@ -74,13 +74,6 @@ const BookingModalForm = props => {
     }
   };
 
-  const renderRejectionReasonMessage = booking => {
-    if (booking.messages) {
-      return false;
-    }
-    return true;
-  };
-
   return (
     <Fragment>
       {composeErrorMessage()}
@@ -129,7 +122,7 @@ const BookingModalForm = props => {
           htmlAttrs={{
             type: 'input',
             name: 'employeeRejectionMessage',
-            disabled: renderRejectionReasonMessage(booking),
+            disabled: !booking.messages,
           }}
           value={formData.employeeRejectionMessage}
           label="Rejection Response:"

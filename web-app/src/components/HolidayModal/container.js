@@ -61,7 +61,7 @@ const HolidayModalContainer = Wrapped =>
             title: 'Holiday Approved',
             position: 'top',
           });
-          this.collapseRejectionReasonState();
+          this.toggleHolidayModalExpansion(false);
           closeModal();
         })
         .catch(error => {
@@ -109,13 +109,9 @@ const HolidayModalContainer = Wrapped =>
         });
     };
 
-    collapseRejectionReasonState = () => {
-      this.setState({ holidayModalExpansion: false });
-    };
-
-    expandRejectHolidayExplanationText = () => {
-      this.setState({ holidayModalExpansion: true });
-    };
+    toggleHolidayModalExpansion = toggle => {
+      this.setState({ holidayModalExpansion: toggle });
+    }
 
     closeModalResetRejectionReasonView = () => {
       const { closeModal } = this.props;
@@ -147,8 +143,8 @@ const HolidayModalContainer = Wrapped =>
           userDetails={userDetails}
           showAdminControls={showAdminControls}
           toggled={holidayModalExpansion}
-          expandRejectHolidayExplanationText={
-            this.expandRejectHolidayExplanationText
+          toggleHolidayModalExpansion={
+            this.toggleHolidayModalExpansion
           }
           assignRejectionReasonText={this.assignRejectionReasonText}
           capturedRejectionReasonText={capturedRejectionReasonText}
