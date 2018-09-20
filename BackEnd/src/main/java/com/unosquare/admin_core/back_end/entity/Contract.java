@@ -36,5 +36,3 @@ public class Contract implements java.io.Serializable{
         this.contractId = id;
     }
 }
-
-

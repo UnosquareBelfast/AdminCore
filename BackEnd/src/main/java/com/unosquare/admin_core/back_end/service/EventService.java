@@ -53,24 +53,33 @@ public class EventService {
         return mapEventsToDtos(events);
     }
 
-    public Long getTotalNumberOfEventDaysRequestedInYearByEmployee(int employeeId, LocalDate startDate, LocalDate endDate){
+//    Service call to repo to get a count of the total number of days requested by Employee in a calender year
+//
+//    public Long getTotalNumberOfEventDaysRequestedInYearByEmployee(int employeeId) {
+//
+//        Long numberOfRequestedDays = eventRepository.getCountOfTotalEventsInYearMadeByEmployee(new Employee(employeeId));
+//
+//        return numberOfRequestedDays;
+//    }
 
-        Long numberOfRequestedDays = eventRepository.getCountOfTotalEventsInYearMadeByEmployee(new Employee(employeeId), startDate, endDate);
-
-        return numberOfRequestedDays;
-    }
-
-    public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType){
+    public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType) {
 
         Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate, new EventType(eventType.getEventTypeId()));
         return (event != null) ? modelMapper.map(event, EventDTO.class) : null;
     }
 
-    public Long numberOfEventsCreatedOnDateForEmployee(int employeeId, LocalDate startDate, LocalDate endDate){
+    public Integer numberOfEventsCreatedOnDateForEmployee(int employeeId, LocalDate startDate, LocalDate endDate) {
 
-        Long event = eventRepository.getCountOfNumberOfExistingEventsByEmployee(new Employee(employeeId), startDate, endDate);
+        Integer event = eventRepository.getCountOfNumberOfExistingEventsByEmployee(new Employee(employeeId), startDate, endDate);
 
         return event;
+    }
+
+    public Integer getEmployeeIdByEventId(int eventId) {
+
+        Integer employeeRoleByEventId = eventRepository.getEmployeeIdByEventId(eventId);
+
+        return employeeRoleByEventId;
     }
 
     private void save(Event event) {
@@ -84,9 +93,9 @@ public class EventService {
     }
 
     @Transactional
-    public void saveEvents(EventDTO... eventDtos){
+    public void saveEvents(EventDTO... eventDtos) {
         Preconditions.checkNotNull(eventDtos);
-        for(EventDTO eventDto : eventDtos) {
+        for (EventDTO eventDto : eventDtos) {
             Event event = modelMapper.map(eventDto, Event.class);
             save(event);
         }
@@ -96,7 +105,7 @@ public class EventService {
     public void updateEvent(UpdateEventDTO updateEventDTO) {
         Preconditions.checkNotNull(updateEventDTO);
         Optional<Event> retrievedEvent = eventRepository.findById(updateEventDTO.getEventId());
-        if(retrievedEvent.isPresent()){
+        if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             modelMapper.map(updateEventDTO, event);
             if (updateEventDTO.getMessage() != null) {
@@ -107,16 +116,7 @@ public class EventService {
         }
     }
 
-    public void approveEvent(int eventId){
-        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
-        if (retrievedEvent.isPresent()) {
-            Event event = retrievedEvent.get();
-            event.setEventStatus(new EventStatus(EventStatuses.APPROVED.getEventStatusId()));
-            save(event);
-        }
-    }
-
-    public void cancelEvent(int eventId){
+    public void cancelEvent(int eventId) {
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
@@ -125,15 +125,25 @@ public class EventService {
         }
     }
 
+    public void approveEvent(int eventId) {
+        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+        if (retrievedEvent.isPresent()) {
+            Event event = retrievedEvent.get();
+                event.setEventStatus(new EventStatus(EventStatuses.APPROVED.getEventStatusId()));
+                save(event);
+        }
+    }
+
     @Transactional
     public List<String> rejectEvent(int eventId, String message, int employeeId) {
         List<String> responses = new ArrayList<>();
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
             Employee employee = getEmployeeFromEmployeeId(employeeId);
-            if (employee != null ) {
+            if (employee != null) {
                 EventMessage eventMessage = mapToEventMessage(message, event, employee, EventStatuses.REJECTED.getEventStatusId());
                 saveEventMessage(eventMessage);
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
@@ -188,7 +198,7 @@ public class EventService {
     }
 
 
-    private Employee getEmployeeFromEmployeeId(int employeeId){
+    private Employee getEmployeeFromEmployeeId(int employeeId) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         if (employee.isPresent()) {
             return employee.get();

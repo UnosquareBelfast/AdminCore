@@ -1,12 +1,12 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.EmployeeDTO;
 import com.unosquare.admin_core.back_end.dto.EventDTO;
 import com.unosquare.admin_core.back_end.dto.UpdateEventDTO;
 import com.unosquare.admin_core.back_end.enums.EventStatuses;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EmployeeService;
 import com.unosquare.admin_core.back_end.service.EventService;
+import com.unosquare.admin_core.back_end.service.TeamService;
 import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
@@ -33,6 +33,9 @@ public class HolidayController extends BaseController {
     EventService eventService;
 
     @Autowired
+    TeamService teamService;
+
+    @Autowired
     EmployeeService employeeService;
 
     @Autowired
@@ -40,9 +43,6 @@ public class HolidayController extends BaseController {
 
     @Autowired
     public EmployeeCredentialsViewModel employeeCredentialsViewModel;
-
-    @Autowired
-    CreateEventViewModel createEventViewModel;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -85,18 +85,29 @@ public class HolidayController extends BaseController {
                 continue;
             }
 
-            EmployeeDTO employee = employeeService.findById(
-                    createHolidayViewModel.getEmployeeId());
+            Integer teamId = teamService.findTeamIdByEmployeeId(createHolidayViewModel.getEmployeeId());
 
-            Long numberOfEventsBookedInYear = eventService.getTotalNumberOfEventDaysRequestedInYearByEmployee(
-                    createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
+            Integer eventsForTeam = teamService.getAllEventsForTeamBySelectedDatesSubmittedByEmployee(teamId,
+                    date.getStartDate(), date.getEndDate());
 
-            if (employee.getTotalHolidays() - numberOfEventsBookedInYear < 0){
-                responses.add("Error in requested holiday");
+            if (eventsForTeam != 0) {
+                responses.add("Error in requested holiday. Check with team");
                 continue;
             }
 
-            Long createdEvent = eventService.numberOfEventsCreatedOnDateForEmployee(
+//            Finding employee Id and using this in order to validate total Holidays does not fall below 0
+//            EmployeeDTO employee = employeeService.findById(
+//                    createHolidayViewModel.getEmployeeId());
+//
+//            Long numberOfEventsBookedInYear = eventService.getTotalNumberOfEventDaysRequestedInYearByEmployee(
+//                    createHolidayViewModel.getEmployeeId());
+//
+//            if (employee.getTotalHolidays() - numberOfEventsBookedInYear < 0) {
+//                responses.add("Error in requested holiday");
+//                continue;
+//            }
+
+            Integer createdEvent = eventService.numberOfEventsCreatedOnDateForEmployee(
                     createHolidayViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate());
 
             if (createdEvent != 0) {
@@ -132,8 +143,20 @@ public class HolidayController extends BaseController {
     @PutMapping(value = "/approveHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public void approveHoliday(@RequestBody ApproveHolidayViewModel approveHolidayViewModel) {
+
+        List<String> responses = new ArrayList<>();
+
         EventDTO event = modelMapper.map(approveHolidayViewModel, EventDTO.class);
-        eventService.approveEvent(event.getEventId());
+
+        Integer employeeIdByEventId = eventService.getEmployeeIdByEventId(approveHolidayViewModel.getEventId());
+
+        if (employeeIdByEventId == employeeCredentialsViewModel.getUserId()) {
+            responses.add("Employee cannot approve event that contains their ID");
+        }
+
+        if (responses.isEmpty()) {
+            eventService.approveEvent(event.getEventId());
+        }
     }
 
     @PutMapping(value = "/cancelHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -145,7 +168,7 @@ public class HolidayController extends BaseController {
 
     @PutMapping(value = "/rejectHoliday", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<String>>  rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel) {
+    public ResponseEntity<List<String>> rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel) {
         List<String> responses = eventService.rejectEvent(
                 rejectHolidayViewModel.getEventId(),
                 rejectHolidayViewModel.getMessage(),

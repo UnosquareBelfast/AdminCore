@@ -24,30 +24,35 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     List<Event> findByEventType(EventType eventType);
 
-    @Query(value = "SELECT COUNT(eventType) " +
-            "FROM Event " +
+    @Query(value = "SELECT COUNT(e.eventType) " +
+            "FROM Event e " +
             "WHERE " +
-            "employee = :employeeId " +
+            "e.employee.employeeId = :employeeId " +
             "AND " +
-            "(startDate BETWEEN :startDate AND :endDate) OR " +
-            "(endDate BETWEEN :startDate AND :endDate) OR " +
-            "(startDate <= :startDate AND endDate >= :endDate)")
-    Long getCountOfNumberOfExistingEventsByEmployee(@Param("employeeId") Employee employee,
+            "(e.startDate BETWEEN :startDate AND :endDate) OR " +
+            "(e.endDate BETWEEN :startDate AND :endDate) OR " +
+            "(e.startDate <= :startDate AND e.endDate >= :endDate) ")
+    Integer getCountOfNumberOfExistingEventsByEmployee(@Param("employeeId") Employee employee,
                                                     @Param("startDate") LocalDate startDate,
                                                     @Param("endDate") LocalDate endDate);
 
-    @Query(value = "SELECT SUM" +
-            "(DATE_PART('DAY', totalEvents.endDate::date) - DATE_PART('DAY', totalEvents.startDate::date))" +
-                     "FROM " +
-                        "(SELECT * " +
-                        "FROM Event " +
-                        "WHERE " +
-                        "employee = :employeeId " +
-                        " AND " +
-                        "(startDate >= '2018-01-01') AND " +
-                        "(endDate <= '2018-12-31') " +
-                        ")totalEvents", nativeQuery = true)
-    Long getCountOfTotalEventsInYearMadeByEmployee(@Param("employeeId") Employee employee,
-                                                    @Param("startDate") LocalDate startDate,
-                                                   @Param("endDate") LocalDate endDate);
+//    Sub query to pull back all events in a calender year by employee
+//    Sum to add up all events within a calender year to be subtracted from totalHoliday count
+//    @Query(value =
+//            "SELECT SUM (DATE_PART('DAY', totalEvents.end_date::date) - DATE_PART('DAY', totalEvents.start_date::date))" +
+//                    "FROM " +
+//                    "(SELECT * " +
+//                    "FROM Event " +
+//                    "WHERE " +
+//                    "employee_id = :employeeId " +
+//                    " AND " +
+//                    "(start_date >= '2018-01-01') AND " +
+//                    "(end_date <= '2018-12-31') " +
+//                    ")totalEvents", nativeQuery = true)
+//    Long getCountOfTotalEventsInYearMadeByEmployee(@Param("employeeId") Employee employee);
+
+    @Query(value = "SELECT e.employee.employeeId " +
+            "FROM Event e " +
+            "WHERE e.eventId = :eventId")
+    Integer getEmployeeIdByEventId(@Param("eventId") int eventId);
 }
