@@ -335,7 +335,7 @@ CREATE TABLE public.event_message
     event_message_id integer NOT NULL DEFAULT nextval('event_message_event_message_id_seq' :: regclass),
     event_id integer NOT NULL,
     message text NOT NULL,
-    last_modified date NOT NULL,
+    last_modified timestamp NOT NULL,
     employee_id integer NOT NULL,
     event_message_type_id integer NOT NULL,
     CONSTRAINT event_message_pkey PRIMARY KEY (event_message_id),
