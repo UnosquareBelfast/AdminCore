@@ -34,4 +34,6 @@ public class EventDTO {
     private TeamDTO Team;
 
     private EventMessageDTO latestMessage;
+
+    private String groupId;
 }

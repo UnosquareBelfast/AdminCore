@@ -45,6 +45,9 @@ public class Event {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
+    @Column(name = "group_id")
+    private String groupId;
+
     public Event(int eventId) {
         this.eventId = eventId;
     }
