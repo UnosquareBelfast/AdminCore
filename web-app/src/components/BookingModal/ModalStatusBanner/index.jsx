@@ -28,6 +28,7 @@ class ModalStatusBanner extends Component {
       userName,
       eventStatus: { eventStatusId },
       eventType: { eventTypeId },
+      rejectionReason,
     } = this.props;
     const { cancelConfirm } = this.state;
 
@@ -51,6 +52,12 @@ class ModalStatusBanner extends Component {
           <h4>{userName}</h4>
           <p>{bannerDescription}</p>
         </div>
+        {rejectionReason && (
+          <div>
+            <h4>Rejection Reason</h4>
+            <p>{rejectionReason}</p>
+          </div>
+        )}
         <div>
           {!isCancelled && (
             <div className="cancelEvent" onClick={this.handleCancel}>
@@ -67,10 +74,13 @@ class ModalStatusBanner extends Component {
 }
 
 ModalStatusBanner.propTypes = {
-  userName: PT.string.isRequired,
+  userName: PT.string,
   eventStatus: PT.object.isRequired,
   eventType: PT.object.isRequired,
   cancelEvent: PT.func.isRequired,
+  toggleRejectionMessageInputView: PT.func.isRequired,
+  rejectionReason: PT.string,
+  toggleRejectionResponseView: PT.bool.isRequired,
 };
 
 export default ModalStatusBanner;

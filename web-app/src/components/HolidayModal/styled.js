@@ -4,11 +4,9 @@ export const StyleContainer = styled.div`
   p {
     margin: 0;
   }
-
   h2 {
     margin-bottom: 5px;
   }
-
   > div {
     margin-bottom: 20px;
     :last-of-type {
@@ -30,9 +28,8 @@ export const Stat = styled.div`
   }
 `;
 
-export const StatWrap = styled.div`
+export const FlexWrap = styled.div`
   display: flex;
-
   > div {
     margin-right: 10px;
     :last-of-type {
@@ -43,7 +40,6 @@ export const StatWrap = styled.div`
 
 export const ButtonWrap = styled.div`
   display: flex;
-
   button {
     flex: 1;
     margin-right: 5px;

@@ -28,6 +28,7 @@ const Container = Wrapped =>
       bookingDuration: PT.number,
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
+      toggleRejectionResponseView: PT.bool.isRequired,
     };
 
     static defaultProps = {
@@ -43,8 +44,11 @@ const Container = Wrapped =>
           eventTypeId: 1,
           isHalfday: false,
           start: moment(),
+          employeeRejectionMessage: '',
+          updateMessage: '',
         },
         formIsValid: true,
+        capturedRejectionReponseText: '',
       };
     }
 
@@ -58,8 +62,14 @@ const Container = Wrapped =>
           end: end,
           eventTypeId: eventType.eventTypeId,
           isHalfday: halfDay || false,
+          employeeRejectionMessage: '',
+          updateMessage: '',
         },
       });
+    };
+
+    assignRejectionResponseText = e => {
+      this.setState({ capturedRejectionReponseText: e.target.value });
     };
 
     handleCalendarValidation({ start, end }) {
@@ -94,7 +104,6 @@ const Container = Wrapped =>
     handleFormStatus(name, value, formIsValid) {
       let formData = { ...this.state.formData };
       formData[name] = value;
-
       if (name === 'start') {
         formData = startDateValidation(formData);
       } else if (name === 'end') {
@@ -134,16 +143,26 @@ const Container = Wrapped =>
     }
 
     render() {
-      const { formData, formIsValid } = this.state;
+      const {
+        formData,
+        formIsValid,
+        capturedRejectionReponseText,
+      } = this.state;
       const {
         bookingDuration,
         createEvent,
         updateEvent,
         isEventBeingUpdated,
+        toggleRejectionResponseView,
+        booking,
       } = this.props;
       return (
         <Wrapped
           formData={formData}
+          booking={booking}
+          capturedRejectionReponseText={capturedRejectionReponseText}
+          assignRejectionResponseText={this.assignRejectionResponseText}
+          toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
           formIsValid={formIsValid}
