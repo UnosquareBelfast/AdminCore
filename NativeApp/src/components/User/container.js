@@ -34,7 +34,7 @@ export default Container => class extends Component {
     this.sub = navigation.addListener('didFocus', () => {
       getUserEvents()
         .then(events => this.setState({ events: this.sortingEvents(events) }));
-        
+
       getRemainingHolidays()
         .then(remainingHolidays => this.setState({ remainingHolidays }));
 
@@ -49,17 +49,30 @@ export default Container => class extends Component {
 
   sortingEvents = (events) => {
     let eventArray = [];
-    let approvalArray = [];
+    let approvedArray = [];
     let awaitApprovalArray = [];
 
-    approvalArray.push(events.filter(event => event.eventStatus.description === 'Approved'));
+    approvedArray.push(events.filter(event => event.eventStatus.description === 'Approved'));
     awaitApprovalArray.push(events.filter(event => event.eventStatus.description === 'Awaiting approval'));
 
-    approvalArray = flattenDeep(approvalArray);
+    approvedArray = flattenDeep(approvedArray);
     awaitApprovalArray = flattenDeep(awaitApprovalArray);
 
+    if (approvedArray.length === 0) {
+      approvedArray.push({});
+    }
+
+    if (awaitApprovalArray.length === 0) {
+      awaitApprovalArray.push({});
+    }
+
+    if (approvedArray.length === 0 && awaitApprovalArray.length === 0) {
+      approvedArray.push({});
+      awaitApprovalArray.push({});
+    }
+
     eventArray = [
-      { title: 'Approved', data: approvalArray },
+      { title: 'Approved', data: approvedArray },
       { title: 'Awaiting approval', data: awaitApprovalArray },
     ];
 

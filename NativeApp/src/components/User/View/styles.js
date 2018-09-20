@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   sectionListHeader: {
     paddingLeft: 20,
   },
-  sectionListNoItems: {
+  noItems: {
     marginBottom: 10,
     paddingLeft: 20,
   },
