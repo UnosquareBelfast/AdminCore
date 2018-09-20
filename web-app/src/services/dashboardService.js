@@ -7,3 +7,7 @@ export const getUsersEvents = date => {
 export const getTeamsEvents = date => {
   return axios.get(`/dashboard/getTeamEvents?date=${date}`);
 };
+
+export const getEmployeesTeamsSnapshot = () => {
+  return axios.get('/dashboard/getEmployeeTeamSnapshot');
+};
