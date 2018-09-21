@@ -58,7 +58,6 @@ const BookingModal = props => {
     toggleRejectionResponseView,
     toggleLegacyHolidayMessageView,
     toggleRejectionMessageView,
-    //legacyHolidayMessagelist,
     legacyMessages,
     loading,
   } = props;
