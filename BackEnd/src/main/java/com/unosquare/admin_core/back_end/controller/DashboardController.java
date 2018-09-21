@@ -98,6 +98,7 @@ public class DashboardController {
         employee.setName(m.getName());
         employee.setEmployeeId(m.getEmployeeId());
         employee.setEmail(m.getEmail());
+        employee.setClientName(m.getClientName());
         if (m.getDescription() == null) {
             employee.setState(IN_OFFICE);
         } else {

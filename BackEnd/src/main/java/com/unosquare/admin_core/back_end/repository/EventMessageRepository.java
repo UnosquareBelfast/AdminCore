@@ -19,7 +19,10 @@ public interface EventMessageRepository extends JpaRepository<EventMessage, Inte
             "em.event.eventId = :eventId " +
             "AND " +
             "em.lastModified = (" +
-            "SELECT MAX(e.lastModified) FROM EventMessage e WHERE e.event.eventId = :eventId)"
+            "SELECT MAX(e.lastModified) " +
+            "FROM EventMessage e " +
+            "WHERE e.event.eventId = :eventId " +
+            "AND e.eventMessageType.eventMessageTypeId = 2 ) "
     )
     EventMessage findLatestEventMessagesByEventId(@Param("eventId") int eventId);
 }
