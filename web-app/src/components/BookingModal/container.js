@@ -10,6 +10,7 @@ import {
   getBookingDuration,
 } from '../../reducers';
 import {
+  getAllHolidays,
   updateHoliday,
   requestHoliday,
   rejectionResponse,
@@ -17,6 +18,16 @@ import {
 } from '../../services/holidayService';
 import { requestWFH } from '../../services/wfhService';
 import eventTypes from '../../utilities/eventTypes';
+const testMessageArray = [{ author: 'Paul Tummon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry Spiderman, No go', messageTypeDescription: 'General', messageTypeId: 1 }
+  , { author: 'Spider Man', eventMessageId: 6, lastModified: '2018-09-19', message: 'But Why???', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Spider Man', eventMessageId: 6, lastModified: '2018-09-19', message: 'But Why???', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Spider Man', eventMessageId: 6, lastModified: '2018-09-19', message: 'But Why???', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Spider Man', eventMessageId: 6, lastModified: '2018-09-19', message: 'But Why???', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Paul Tummon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry Spiderman, No go dsjfdfskgfdskjfhdkjshfsdkfhskdfhdask', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Paul Tummon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry Spiderman, No go', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Paul Tummon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry Spiderman, No go', messageTypeDescription: 'General', messageTypeId: 1 },
+{ author: 'Paul Tummon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry Spiderman, No go', messageTypeDescription: 'General', messageTypeId: 1 }];
+
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -37,6 +48,8 @@ const Container = Wrapped =>
       this.state = {
         toggleRejectionResponseView: false,
         rejectionResponseText: '',
+        toggleRejectionMessageView: false,
+        legacyMessages: [],
         loading: false,
       };
     }
@@ -45,6 +58,7 @@ const Container = Wrapped =>
       this.setState({
         rejectionResponseText: '',
         toggleRejectionResponseView: false,
+        toggleRejectionMessageView: false,
       });
       this.props.toggleBookingModal(false);
     };
@@ -82,6 +96,11 @@ const Container = Wrapped =>
     toggleRejectionMessageInputView = toggle => {
       this.setState({ toggleRejectionResponseView: toggle });
     };
+
+    toggleLegacyHolidayMessageView = () => {
+      this.getLegacyMessages();
+      this.setState({ toggleRejectionMessageView: !this.state.toggleRejectionMessageView });
+    }
 
     updateEvent = (event, formData) => {
       this.setState({ loading: true });
@@ -163,15 +182,39 @@ const Container = Wrapped =>
         });
     };
 
+    getLegacyMessages = () => {
+      const { legacyMessages } = this.state;
+      event.preventDefault();
+      if (!legacyMessages.length) {
+        getAllHolidays()
+          .then(() => {
+            //temporarily overwriting with test data as end point data not yet available
+            this.setState({ legacyMessages: testMessageArray });
+          })
+          .catch(error => {
+            Swal({
+              title: 'Error',
+              text: error.message,
+              type: 'error',
+            });
+          });
+      }
+    };
+
     render() {
+      const { toggleRejectionMessageView, legacyMessages, toggleRejectionResponseView, loading } = this.state;
       return (
         this.props.employeeId && (
           <Wrapped
+            legacyMessages={legacyMessages}
+            legacyHolidayMessagelist={this.legacyHolidayMessagelist}
             submitRejectionResponse={this.submitRejectionResponse}
+            toggleRejectionMessageView={toggleRejectionMessageView}
             rejectionResponseText={this.state.rejectionResponseText}
             assignRejectionResponseText={this.assignRejectionResponseText}
             booking={this.props.booking}
-            toggleRejectionResponseView={this.state.toggleRejectionResponseView}
+            toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
+            toggleRejectionResponseView={toggleRejectionResponseView}
             toggleRejectionMessageInputView={this.toggleRejectionMessageInputView}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
@@ -182,7 +225,7 @@ const Container = Wrapped =>
             createEvent={this.createEvent}
             updateEvent={this.updateEvent}
             cancelEvent={this.cancelEvent}
-            loading={this.state.loading}
+            loading={loading}
           />
         )
       );

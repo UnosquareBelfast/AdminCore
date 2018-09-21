@@ -4,9 +4,43 @@ import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
+import { Ul } from '../common_styled';
+
 import { StyleContainer, FormContainer } from './styled';
 import { Spinner } from '../common';
 import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
+
+const rejectionReason = booking => {
+  if (booking.messages) {
+    return booking.messages.message;
+  }
+  return undefined;
+};
+
+const legacyHolidayMessagelist = legacyMessages => {
+
+  if (!legacyMessages.length) {
+    return <div />;
+  }
+
+  const employee1 = { name: legacyMessages[0].author, eventMessageId: legacyMessages[0].eventMessageId };
+
+  const employeeMessage = 'employee-message';
+  return (
+    <Ul>
+      {legacyMessages.map((element, index) => {
+        return (<li key={index} className={element.author === employee1.name ? employeeMessage + '-1' : employeeMessage + '-2'}>
+          <div className="legacy-message-container">
+            <h3>{element.author + ':'} </h3>
+            <div className="legacy-message">
+              <h3>{element.message}</h3>
+            </div>
+          </div>
+        </li>);
+      })}
+    </Ul>
+  );
+};
 
 const BookingModal = props => {
   const {
@@ -22,15 +56,12 @@ const BookingModal = props => {
     cancelEvent,
     toggleRejectionMessageInputView,
     toggleRejectionResponseView,
+    toggleLegacyHolidayMessageView,
+    toggleRejectionMessageView,
+    //legacyHolidayMessagelist,
+    legacyMessages,
     loading,
   } = props;
-
-  const rejectionReason = booking => {
-    if (booking.messages) {
-      return booking.messages.message;
-    }
-    return undefined;
-  };
 
   const renderSpinner = () => {
     return (
@@ -45,6 +76,8 @@ const BookingModal = props => {
       <StyleContainer>
         {isEventBeingUpdated && (
           <ModalStatusBanner
+            toggleRejectionMessageView={toggleRejectionMessageView}
+            toggleLegacyHolidayMessageView={toggleLegacyHolidayMessageView}
             toggleRejectionResponseView={toggleRejectionResponseView}
             userName={booking.title}
             eventStatus={booking.eventStatus}
@@ -54,20 +87,23 @@ const BookingModal = props => {
             toggleRejectionMessageInputView={toggleRejectionMessageInputView}
           />
         )}
-        <h1>
-          {isEventBeingUpdated ? 'Update Booking' : 'Request a Holiday'}
+        {toggleRejectionMessageView && (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages)}</div>)}
+        {!toggleRejectionMessageView && (<div><h1>
+          {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
         </h1>
-        <FormContainer>
-          <BookingModalForm
-            toggleRejectionResponseView={toggleRejectionResponseView}
-            updateTakenEvents={updateTakenEvents}
-            employeeId={employeeId}
-            booking={booking}
-            bookingDuration={bookingDuration}
-            createEvent={createEvent}
-            updateEvent={updateEvent}
-          />
-        </FormContainer>
+          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
+          <FormContainer>
+            <BookingModalForm
+              toggleRejectionMessageView={toggleRejectionMessageView}
+              toggleRejectionResponseView={toggleRejectionResponseView}
+              updateTakenEvents={updateTakenEvents}
+              employeeId={employeeId}
+              booking={booking}
+              bookingDuration={bookingDuration}
+              createEvent={createEvent}
+              updateEvent={updateEvent}
+            />
+          </FormContainer> </div>)}
       </StyleContainer>
     );
   };
@@ -75,10 +111,9 @@ const BookingModal = props => {
   return (
     bookingModalOpen && (
       <Modal closeModal={closeBookingModal}>
-        {!loading ?  renderModalContent()  : renderSpinner()}
+        {!loading ? renderModalContent() : renderSpinner()}
       </Modal>
-    )
-  );
+    ));
 };
 
 BookingModal.propTypes = {
