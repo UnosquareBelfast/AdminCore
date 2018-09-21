@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import container from './container';
 import {
+  TeamOverview,
   CreateUser,
   CreateClient,
   AllEmployees,
@@ -34,6 +35,7 @@ export const Admin = props => (
           path="/admin/clients/"
           render={() => <AllClients history={props.history} />}
         />
+        <Route path="/admin/overview" component={TeamOverview} />
         <Route path="/admin/clients/new/" component={CreateClient} />
         <Route path="/admin/clients/:clientId/" component={CreateClient} />
         <Route path="/admin/" component={AdminDashboard} />

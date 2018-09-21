@@ -127,6 +127,19 @@ const BookingModalForm = props => {
           value={formData.isHalfday}
           label="Request a halfday"
         />
+        <Input
+          type="input"
+          className={ isEventBeingUpdated ? null : 'hide'}
+          htmlAttrs={{
+            type: 'input',
+            name: 'updateMessage',
+            placeholder: 'optional',
+          }}
+          value={formData.updateMessage || ''}
+          label="Reason for updating holiday:"
+          labelClass={isEventBeingUpdated ? null : 'hide'}
+          disabled={!formIsValid}
+        />
       </Form>
     </Fragment>
   );

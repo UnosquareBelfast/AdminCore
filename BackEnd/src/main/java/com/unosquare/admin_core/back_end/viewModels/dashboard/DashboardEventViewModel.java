@@ -16,5 +16,5 @@ public class DashboardEventViewModel {
     private EventStatusViewModel eventStatus;
     private EmployeeDashboardViewModel employee;
     private boolean isHalfDay;
-    private List<EventMessageViewModel> messages;
+    private EventMessageViewModel latestMessage;
 }

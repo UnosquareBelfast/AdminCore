@@ -2,12 +2,13 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import {
   View,
-  FlatList,
+  SectionList,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+import { isEmpty } from 'lodash';
 import ListItem from './ListItem';
-import { H1, H3, HeaderDays } from '../../Common';
+import { H1, H3, HeaderDays, P } from '../../Common';
 import { WHITE } from '../../../styles/colors';
 import styles from './styles';
 import getDuration from '../../../utilities/dates';
@@ -15,6 +16,21 @@ import getDuration from '../../../utilities/dates';
 
 const UserView = (props) => {
   const { events, remainingHolidays, employee } = props;
+
+  const itemList = (item) => {
+    const renderItem = isEmpty(item)
+      ? (<P style={styles.noItems}>Nothing to Show</P>)
+      : (
+        <ListItem
+          statusId={item.eventStatus.eventStatusId}
+          status={item.eventStatus.description}
+          startDate={item.start}
+          endDate={item.end}
+          duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
+        />);
+
+    return renderItem;
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: WHITE }}>
@@ -32,18 +48,15 @@ const UserView = (props) => {
         />
         <ScrollView>
           <View style={styles.flatListView}>
-            <FlatList
-              keyExtractor={item => item.holidayId.toString()}
-              data={events}
+            <SectionList
               renderItem={({ item }) => (
-                <ListItem
-                  statusId={item.eventStatus.eventStatusId}
-                  status={item.eventStatus.description}
-                  startDate={item.start}
-                  endDate={item.end}
-                  duration={item.halfDay ? 0.5 : getDuration(item.start, item.end)}
-                />
+                itemList(item)
               )}
+              renderSectionHeader={({ section }) => (
+                <H3 type="bold" style={styles.sectionListHeader}>{section.title}</H3>
+              )}
+              sections={events}
+              keyExtractor={(item, index) => item + index}
             />
           </View>
         </ScrollView>

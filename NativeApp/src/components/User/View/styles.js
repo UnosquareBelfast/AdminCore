@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
     color: GREY,
     marginBottom: 15,
   },
+  sectionListHeader: {
+    paddingLeft: 20,
+  },
+  noItems: {
+    marginBottom: 10,
+    paddingLeft: 20,
+  },
 });
 
 export default styles;
