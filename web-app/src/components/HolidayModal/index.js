@@ -2,10 +2,11 @@ import React from 'react';
 import { PropTypes as PT } from 'prop-types';
 import container from './container';
 import { Modal, Button, Email } from '../../components/common';
-import { StyleContainer, Stat, StatWrap, ButtonWrap, StatusH2 } from './styled';
+import { StyleContainer, Stat, FlexWrap, ButtonWrap, StatusH2 } from './styled';
 import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../utilities/holidayStatus';
 import roles from '../../utilities/roles';
+import { InputText } from '../common_styled';
 
 const HolidayModal = ({
   closeModal,
@@ -14,6 +15,10 @@ const HolidayModal = ({
   rejectHoliday,
   userDetails,
   showAdminControls,
+  toggleHolidayModalExpansion,
+  toggled,
+  assignRejectionReasonText,
+  capturedRejectionReasonText,
 }) => {
   const { start, end, employee, eventStatus } = holiday;
   const { forename, surname, email, employeeId } = employee;
@@ -27,6 +32,7 @@ const HolidayModal = ({
   };
 
   const duration = getEventDayAmount(holiday);
+  const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
   return (
     <Modal closeModal={closeModal}>
       <StyleContainer>
@@ -36,15 +42,15 @@ const HolidayModal = ({
             {forename} {surname} - <Email>{email}</Email>
           </p>
         </div>
-        <StatWrap>
+        <FlexWrap>
           <Stat>
             <StatusH2 status={eventStatus.eventStatusId}>
               {statusText[eventStatus.eventStatusId]}
             </StatusH2>
             <h4>Status</h4>
           </Stat>
-        </StatWrap>
-        <StatWrap>
+        </FlexWrap>
+        <FlexWrap>
           <Stat>
             <h2>{start.format('DD/MM/YYYY')}</h2>
             <h4>Holiday Start</h4>
@@ -59,12 +65,40 @@ const HolidayModal = ({
             </h2>
             <h4>Duration</h4>
           </Stat>
-        </StatWrap>
-        {shouldShowAdminControls() && (
-          <ButtonWrap>
-            <Button label="Approve" onClick={approveHoliday} />
-            <Button label="Reject" onClick={rejectHoliday} />
-          </ButtonWrap>
+        </FlexWrap>
+        {shouldShowAdminControls() &&
+          (!toggled && (
+            <Stat>
+              <ButtonWrap>
+                <Button label="Approve" onClick={approveHoliday} />
+                <Button
+                  label="Reject"
+                  onClick={() => toggleHolidayModalExpansion(true)}
+                />
+              </ButtonWrap>
+            </Stat>
+          ))}
+        {toggled && (
+          <div>
+            <FlexWrap>
+              <Stat>
+                <h2>{'Rejection Reason'}</h2>
+                <InputText onChange={assignRejectionReasonText} />
+              </Stat>
+            </FlexWrap>
+            <FlexWrap>
+              <ButtonWrap>
+                <Button
+                  title={
+                    disableRejectionReasonButton ? 'Enter Message First' : ''
+                  }
+                  disabled={disableRejectionReasonButton}
+                  label="Confirm Rejection"
+                  onClick={() => rejectHoliday()}
+                />
+              </ButtonWrap>
+            </FlexWrap>
+          </div>
         )}
       </StyleContainer>
     </Modal>
@@ -73,11 +107,19 @@ const HolidayModal = ({
 
 HolidayModal.propTypes = {
   closeModal: PT.func.isRequired,
+  capturedRejectionReasonText: PT.string.isRequired,
+  capturedRejectionReponseText: PT.string.isRequired,
+  toggleHolidayModalExpansion: PT.func.isRequired,
+  toggled: PT.bool,
   holiday: PT.object.isRequired,
+  assignRejectionReasonText: PT.func.isRequired,
   approveHoliday: PT.func.isRequired,
   rejectHoliday: PT.func.isRequired,
   userDetails: PT.object.isRequired,
   showAdminControls: PT.bool.isRequired,
+  toggleRejectionMessageResponse: PT.func.isRequired,
+  rejectionReasonResponse: PT.bool.isRequired,
+  assignRejectionResponseText: PT.func.isRequired,
 };
 
 export default container(HolidayModal);
