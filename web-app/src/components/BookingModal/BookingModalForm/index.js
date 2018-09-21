@@ -30,7 +30,7 @@ const BookingModalForm = props => {
         {
           label: `Update to ${
             bookingDuration === 0.5 ? 'Half' : bookingDuration
-            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: updateEvent,
           disabled: !formIsValid,
         },
@@ -40,7 +40,7 @@ const BookingModalForm = props => {
         {
           label: `Request ${
             bookingDuration === 0.5 ? 'Half' : bookingDuration
-            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: createEvent,
           disabled: !formIsValid,
         },
