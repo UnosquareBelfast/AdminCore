@@ -115,6 +115,7 @@ const Container = Wrapped =>
               type: 'error',
             });
             toggleBookingModal(false);
+            this.setState({ loading: false });
           });
       }
     };
