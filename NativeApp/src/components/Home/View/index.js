@@ -1,6 +1,6 @@
 import React from 'react';
 import { PropTypes as PT } from 'prop-types';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { ScrollView, View, StyleSheet, FlatList } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import ListItem from '../ListItem';
 import CustomDay from '../CustomDay';
@@ -19,7 +19,7 @@ const HomeView = (props) => {
   } = props;
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Calendar
         style={[styles.calendar]}
         markedDates={events}
@@ -65,7 +65,7 @@ const HomeView = (props) => {
           )}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
