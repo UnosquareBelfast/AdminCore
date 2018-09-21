@@ -37,6 +37,7 @@ const Container = Wrapped =>
       this.state = {
         toggleRejectionResponseView: false,
         rejectionResponseText: '',
+        loading: false,
       };
     }
 
@@ -83,6 +84,7 @@ const Container = Wrapped =>
     };
 
     updateEvent = (event, formData) => {
+      this.setState({ loading: true });
       event.preventDefault();
       const { start, end, isHalfday, employeeRejectionMessage, updateMessage } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
@@ -104,6 +106,7 @@ const Container = Wrapped =>
           .then(() => {
             updateTakenEvents();
             toggleBookingModal(false);
+            this.setState({ loading: false });
           })
           .catch(error => {
             Swal({
@@ -112,6 +115,7 @@ const Container = Wrapped =>
               type: 'error',
             });
             toggleBookingModal(false);
+            this.setState({ loading: false });
           });
       }
     };
@@ -178,6 +182,7 @@ const Container = Wrapped =>
             createEvent={this.createEvent}
             updateEvent={this.updateEvent}
             cancelEvent={this.cancelEvent}
+            loading={this.state.loading}
           />
         )
       );
