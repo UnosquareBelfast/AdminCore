@@ -55,6 +55,18 @@ instance.interceptors.response.use(function(response) {
     };
   }
 
+  if (response.config.url.includes(`${baseURL}/dashboard/getDashboardSnapshot`)) {
+    const data = [...response.data];
+    const employee = store.getState().USER;
+    for (let object of data) {
+      object.employee = { ...employee };
+    }
+    return {
+      ...response,
+      data: data,
+    };
+  }
+
   if (response.config.url.includes(`${baseURL}/dashboard/getTeamEvents`)) {
     const events = [...response.data.events];
     for (let event of events) {
