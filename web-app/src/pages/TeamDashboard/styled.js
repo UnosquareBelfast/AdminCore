@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Layout = styled.div`
+  display: flex;
+`;
+
+export const ContentLayout = styled.div`
+  margin: 20px 20px 0px 20px;
+  width: 100%;
+`;
 
 export const Stat = styled.div`
   max-width: 100%;
@@ -22,7 +29,6 @@ export const Columns = styled.div`
   }
 
   &:last-of-type > div {
-    margin: 15px 0;
     @media (min-width: ${props => props.theme.mediaQueries.lg}) {
       width: ${props => (props.fullWidth ? '100%' : '50%')};
       :first-of-type {

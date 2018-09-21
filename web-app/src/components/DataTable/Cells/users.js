@@ -4,6 +4,12 @@ const fullName = {
   accessor: user => `${user.forename} ${user.surname}`,
 };
 
+const name = {
+  id: 'name',
+  Header: 'Name',
+  accessor: user => user.name,
+};
+
 const email = {
   id: 'email',
   Header: 'Email',
@@ -22,8 +28,16 @@ const role = {
   accessor: user => user.employeeRole.description,
 };
 
+const state = {
+  id: 'state',
+  Header: 'Today\'s status',
+  accessor: user => user.state,
+};
+
 export default {
   fullName,
+  name,
+  state,
   email,
   location,
   role,
