@@ -41,7 +41,7 @@ export class Form extends Component {
     const { formData } = this.props;
     let keys = Object.keys(formData);
     for (let key of keys) {
-      if (formData[key] !== '') {
+      if (formData[key] !== '' || (key === 'updateMessage' || key === 'employeeRejectionMessage') ) {
         validatedElements.push(key);
       }
     }

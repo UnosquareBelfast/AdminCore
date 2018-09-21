@@ -21,6 +21,7 @@ const BookingModalForm = props => {
     formStatus,
     formIsValid,
     bookingDuration,
+    booking,
   } = props;
 
   const createCtas = () => {
@@ -29,7 +30,7 @@ const BookingModalForm = props => {
         {
           label: `Update to ${
             bookingDuration === 0.5 ? 'Half' : bookingDuration
-          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: updateEvent,
           disabled: !formIsValid,
         },
@@ -39,7 +40,7 @@ const BookingModalForm = props => {
         {
           label: `Request ${
             bookingDuration === 0.5 ? 'Half' : bookingDuration
-          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+            } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: createEvent,
           disabled: !formIsValid,
         },
@@ -57,9 +58,7 @@ const BookingModalForm = props => {
         today,
         start
       );
-
       const daysNotice = calculateDaysNotice(bookingDuration);
-
       return fromTodayToStartDateRequested < daysNotice ? (
         <NoticeAlert>
           <p>
@@ -119,6 +118,16 @@ const BookingModalForm = props => {
           label="End Date:"
         />
         <Input
+          type="input"
+          htmlAttrs={{
+            type: 'input',
+            name: 'employeeRejectionMessage',
+            disabled: !booking.messages,
+          }}
+          value={formData.employeeRejectionMessage}
+          label="Rejection Response:"
+        />
+        <Input
           type="checkbox"
           htmlAttrs={{
             type: 'checkbox',
@@ -129,13 +138,13 @@ const BookingModalForm = props => {
         />
         <Input
           type="input"
-          className={ isEventBeingUpdated ? null : 'hide'}
+          className={isEventBeingUpdated ? null : 'hide'}
           htmlAttrs={{
             type: 'input',
             name: 'updateMessage',
             placeholder: 'optional',
           }}
-          value={formData.updateMessage || ''}
+          value={formData.updateMessage}
           label="Reason for updating holiday:"
           labelClass={isEventBeingUpdated ? null : 'hide'}
           disabled={!formIsValid}
@@ -153,6 +162,7 @@ BookingModalForm.propTypes = {
   formIsValid: PT.bool.isRequired,
   createEvent: PT.func.isRequired,
   updateEvent: PT.func.isRequired,
+  booking: PT.object,
 };
 
 BookingModalForm.defaultProps = {

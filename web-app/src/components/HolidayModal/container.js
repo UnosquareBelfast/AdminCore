@@ -3,7 +3,10 @@ import { PropTypes as PT } from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { isEmpty } from 'lodash';
-import { approveHoliday, rejectHoliday } from '../../services/holidayService';
+import {
+  approveHoliday,
+  rejectHoliday,
+} from '../../services/holidayService';
 import swal from 'sweetalert2';
 import holidayStatus from '../../utilities/holidayStatus';
 import { Toast } from '../../utilities/Notifications';
@@ -26,6 +29,10 @@ const HolidayModalContainer = Wrapped =>
       super(props);
       this.state = {
         holiday: {},
+        holidayModalExpansion: false,
+        capturedRejectionReasonText: '',
+        capturedRejectionReponseText: '',
+        rejectionReasonResponse: false,
       };
     }
 
@@ -36,9 +43,9 @@ const HolidayModalContainer = Wrapped =>
     }
 
     approveHoliday = () => {
-      const eventId = this.state.holiday.eventId;
-
-      approveHoliday(eventId)
+      const holidayId = this.state.holiday.eventId;
+      const { closeModal } = this.props;
+      approveHoliday(holidayId)
         .then(() => {
           this.setState({
             holiday: {
@@ -54,16 +61,32 @@ const HolidayModalContainer = Wrapped =>
             title: 'Holiday Approved',
             position: 'top',
           });
+          this.toggleHolidayModalExpansion(false);
+          closeModal();
         })
         .catch(error => {
           swal('Error', `There was an error: ${error.message}. 'error`);
         });
     };
 
-    rejectHoliday = () => {
-      const eventId = this.state.holiday.eventId;
+    assignRejectionResponseText = e => {
+      this.setState({ capturedRejectionReponseText: e.target.value });
+    };
 
-      rejectHoliday(eventId)
+    assignRejectionReasonText = e => {
+      this.setState({ capturedRejectionReasonText: e.target.value });
+    };
+
+    toggleRejectionMessageResponse = rejectionReasonToggleValue => {
+      this.setState({ rejectionReasonResponse: rejectionReasonToggleValue });
+    };
+
+    rejectHoliday = () => {
+
+      const { capturedRejectionReasonText, holiday } = this.state;
+      const { eventId } = holiday;
+
+      rejectHoliday(eventId, capturedRejectionReasonText)
         .then(() => {
           this.setState({
             holiday: {
@@ -79,24 +102,56 @@ const HolidayModalContainer = Wrapped =>
             title: 'Holiday Rejected',
             position: 'top',
           });
+          this.closeModalResetRejectionReasonView();
         })
         .catch(error => {
           swal('Error', `There was an error: ${error.message}. 'error`);
         });
     };
 
+    toggleHolidayModalExpansion = toggle => {
+      this.setState({ holidayModalExpansion: toggle });
+    }
+
+    closeModalResetRejectionReasonView = () => {
+      const { closeModal } = this.props;
+      this.setState({
+        holidayModalExpansion: false,
+        capturedRejectionReasonText: '',
+        rejectionReasonResponse: false,
+        capturedRejectionReponseText: '',
+      });
+      closeModal();
+    };
+
     render() {
-      const { closeModal, userDetails, showAdminControls } = this.props;
-      const { holiday } = this.state;
+      const { userDetails, showAdminControls } = this.props;
+      const {
+        holiday,
+        rejectionReasonResponse,
+        capturedRejectionReasonText,
+        capturedRejectionReponseText,
+        holidayModalExpansion,
+      } = this.state;
       if (isEmpty(holiday)) return null;
       return (
         <Wrapped
           holiday={holiday}
-          closeModal={closeModal}
+          closeModal={this.closeModalResetRejectionReasonView}
           approveHoliday={this.approveHoliday}
           rejectHoliday={this.rejectHoliday}
           userDetails={userDetails}
           showAdminControls={showAdminControls}
+          toggled={holidayModalExpansion}
+          toggleHolidayModalExpansion={
+            this.toggleHolidayModalExpansion
+          }
+          assignRejectionReasonText={this.assignRejectionReasonText}
+          capturedRejectionReasonText={capturedRejectionReasonText}
+          rejectionReasonResponse={rejectionReasonResponse}
+          toggleRejectionMessageResponse={this.toggleRejectionMessageResponse}
+          assignRejectionResponseText={this.assignRejectionResponseText}
+          capturedRejectionReponseText={capturedRejectionReponseText}
         />
       );
     }
