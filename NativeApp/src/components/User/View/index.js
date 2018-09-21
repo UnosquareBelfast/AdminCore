@@ -53,7 +53,7 @@ const UserView = (props) => {
                 itemList(item)
               )}
               renderSectionHeader={({ section }) => (
-                <H3 type="bold" style={styles.sectionListHeader}>{section.title}</H3>
+                <H3 style={styles.sectionListHeader}>{section.title}</H3>
               )}
               sections={events}
               keyExtractor={(item, index) => item + index}
