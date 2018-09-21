@@ -34,13 +34,11 @@ const UserModalContainer = Wrapped =>
       if (isEmpty(user)) return null;
 
       getHolidays(user.employeeId)
-        .then(response => {
-          if (response.data.length > 0) {
-            this.setState({
-              totalHolidays: response.data[0].employee.totalHolidays,
-            });
-          }
-          this.setState({ userHolidays: response.data });
+        .then(({ data }) => {
+          this.setState({
+            userHolidays: data,
+            totalHolidays: data.length > 0 ? data[0].employee.totalHolidays : 0,
+          });
         })
         .catch(error => {
           swal(

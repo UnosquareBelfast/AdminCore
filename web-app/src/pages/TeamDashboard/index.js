@@ -81,7 +81,7 @@ const TeamDashboard = ({
       )}
       <Layout>
         <TeamSidebar teams={teams} selectTeam={selectTeam} />
-        {team ? renderTeamDetails() : null}
+        {team && renderTeamDetails()}
       </Layout>
     </Fragment>
   );
