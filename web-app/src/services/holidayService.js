@@ -25,10 +25,7 @@ export const approveHoliday = eventId => {
 };
 
 export const rejectHoliday = (eventId, message) => {
-  if (message) {
-    return axios.put('/holidays/rejectHoliday', { eventId, message });
-  }
-  return axios.put('/holidays/rejectHoliday', { eventId });
+  return axios.put('/holidays/rejectHoliday', { eventId, message });
 };
 
 export const cancelHoliday = eventId => {
