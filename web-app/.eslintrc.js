@@ -50,7 +50,6 @@ module.exports = {
     "space-before-blocks": [1, "always"],
     "comma-dangle": [1, "always-multiline"],
     "space-infix-ops": ["error", { "int32Hint": false }],
-    "eol-last": 2,
     // React
     "jsx-quotes": [2, "prefer-double"],
     "react/display-name": 0,
