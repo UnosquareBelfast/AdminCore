@@ -184,7 +184,6 @@ const Container = Wrapped =>
 
     getLegacyMessages = () => {
       const { legacyMessages } = this.state;
-      event.preventDefault();
       if (!legacyMessages.length) {
         getAllHolidays()
           .then(() => {
