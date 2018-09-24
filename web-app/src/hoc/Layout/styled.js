@@ -9,7 +9,6 @@ export const Drawer = styled.div`
   bottom: 0;
   width: 200px;
   transition: left 300ms;
-  z-index: 10;
   @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     left: -160px;
   }
@@ -179,7 +178,6 @@ export const Input = styled.input`
       position: fixed;
       right: 0;
       left: 200px;
-      background-color: rgba(0, 0, 0, 0.6);
       @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         display: none;
       }
