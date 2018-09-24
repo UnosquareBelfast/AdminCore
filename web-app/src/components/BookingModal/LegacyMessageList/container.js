@@ -2,7 +2,6 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import { getAllHolidays } from '../../../services/holidayService';
 
-
 const testMessageArray = [{ author: 'John Mallon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry, low team capacity', messageTypeDescription: 'General', messageTypeId: 1 }
   , { author: 'Carl Stevenson', eventMessageId: 6, lastModified: '2018-09-19', message: 'Is there nothing you can do?', messageTypeDescription: 'General', messageTypeId: 1 },
 { author: 'John Mallon', eventMessageId: 6, lastModified: '2018-09-19', message: 'Not for this date unfortunately', messageTypeDescription: 'General', messageTypeId: 1 },
@@ -12,7 +11,6 @@ const testMessageArray = [{ author: 'John Mallon', eventMessageId: 1, lastModifi
 { author: 'John Mallon', eventMessageId: 1, lastModified: '2018-09-19', message: 'I will see what I can do', messageTypeDescription: 'General', messageTypeId: 1 },
 { author: 'Carl Stevenson', eventMessageId: 1, lastModified: '2018-09-19', message: 'Thankyou, I really appreciate it', messageTypeDescription: 'General', messageTypeId: 1 },
 { author: 'John Mallon', eventMessageId: 1, lastModified: '2018-09-19', message: 'Sorry it cannot be changed', messageTypeDescription: 'General', messageTypeId: 1 }];
-
 
 export default Wrapped =>
   class extends React.Component {

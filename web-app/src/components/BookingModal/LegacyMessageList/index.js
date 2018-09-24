@@ -6,7 +6,6 @@ import { Spinner } from '../../common';
 import { SpinnerContainer } from '../../../hoc/AuthUserAndStore/styled';
 
 const legacyHolidayMessagelist = (legacyMessages, loading) => {
-
   if (loading) {
     return (
       <SpinnerContainer>
