@@ -18,6 +18,8 @@ const Profile = props => {
     userDetails,
     daysBooked,
     daysPending,
+    daysCancelled,
+    daysRejected,
     selectedHoliday,
     selectHoliday,
     closeModal,
@@ -27,6 +29,8 @@ const Profile = props => {
   } = props;
   const { forename, surname, totalHolidays } = userDetails;
 
+  const daysConfirmed = (daysCancelled + daysRejected + daysPending);
+  
   return (
     <Fragment>
       <HolidayModal holiday={selectedHoliday} closeModal={closeModal} />
@@ -39,13 +43,13 @@ const Profile = props => {
         <div className="holidayinfo">
           <div className="columns">
             <div>
-              <h1>{totalHolidays - daysBooked} Days</h1>
+              <h1>{totalHolidays - (daysBooked - daysConfirmed)} Days</h1>
               <h4>
                 <FontAwesomeIcon icon={faCalendar} /> Remaining
               </h4>
             </div>
             <div>
-              <h1>{daysBooked} Days</h1>
+              <h1>{daysBooked - daysConfirmed} Days</h1>
               <h4>
                 <FontAwesomeIcon icon={faCheck} /> Booked
               </h4>
@@ -90,6 +94,8 @@ Profile.propTypes = {
   userHolidays: PT.array.isRequired,
   daysBooked: PT.number,
   daysPending: PT.number,
+  daysCancelled: PT.number, 
+  daysRejected: PT.number,
   selectedHoliday: PT.object.isRequired,
   selectHoliday: PT.func.isRequired,
   closeModal: PT.func.isRequired,
@@ -101,6 +107,8 @@ Profile.propTypes = {
 Profile.defaultProps = {
   daysBooked: 0,
   daysPending: 0,
+  daysCancelled: 0,
+  daysRejected: 0,
 };
 
 export default container(Profile);

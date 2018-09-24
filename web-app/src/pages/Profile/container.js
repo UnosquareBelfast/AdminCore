@@ -25,6 +25,8 @@ const ProfileContainer = Wrapped =>
         holidays: null,
         daysBooked: null,
         daysPending: null,
+        daysCancelled: null,
+        daysRejected: null,
         selectedHoliday: {},
         contracts: [],
         holidaysLoading: false,
@@ -67,6 +69,14 @@ const ProfileContainer = Wrapped =>
               daysPending: getTotalDaysInEventArrayWithStatus(
                 holidays,
                 holidayStatus.PENDING
+              ),
+              daysCancelled: getTotalDaysInEventArrayWithStatus(
+                holidays,
+                holidayStatus.CANCELLED
+              ),
+              daysRejected: getTotalDaysInEventArrayWithStatus(
+                holidays,
+                holidayStatus.REJECTED
               ),
             });
           });
