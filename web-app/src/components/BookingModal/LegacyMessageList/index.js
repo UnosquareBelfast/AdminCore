@@ -17,7 +17,6 @@ const legacyHolidayMessagelist = (legacyMessages, loading) => {
     if (!legacyMessages.length) {
       return null;
     }
-
     const employee1 = { name: legacyMessages[0].author, eventMessageId: legacyMessages[0].eventMessageId };
     const employeeMessage = 'employee-message';
     return (
@@ -38,11 +37,8 @@ const legacyHolidayMessagelist = (legacyMessages, loading) => {
 };
 
 const LegacyMessageList = props => {
-
   const { legacyMessages, loading } = props;
-
   return (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages, loading)}</div>);
-
 };
 
 LegacyMessageList.propTypes = {
