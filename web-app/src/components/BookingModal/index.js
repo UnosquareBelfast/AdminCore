@@ -4,9 +4,9 @@ import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-import { Ul } from '../common_styled';
+// import { Ul } from '../common_styled';
 
-import { StyleContainer, FormContainer } from './styled';
+import { StyleContainer, FormContainer, Ul } from './styled';
 import { Spinner } from '../common';
 import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
 
