@@ -4,40 +4,16 @@ import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-import { StyleContainer, FormContainer, Ul } from './styled';
+import { StyleContainer, FormContainer } from './styled';
 import { Spinner } from '../common';
 import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
+import LegacyMessageList from './LegacyMessageList';
 
 const rejectionReason = booking => {
   if (booking.messages) {
     return booking.messages.message;
   }
   return undefined;
-};
-
-const legacyHolidayMessagelist = legacyMessages => {
-
-  if (!legacyMessages.length) {
-    return null;
-  }
-
-  const employee1 = { name: legacyMessages[0].author, eventMessageId: legacyMessages[0].eventMessageId };
-
-  const employeeMessage = 'employee-message';
-  return (
-    <Ul>
-      {legacyMessages.map((element, index) => {
-        return (<li key={index} className={element.author === employee1.name ? employeeMessage + '-1' : employeeMessage + '-2'}>
-          <div className="legacy-message-container">
-            <h3>{element.author + ':'} </h3>
-            <div className="legacy-message">
-              <h3>{element.message}</h3>
-            </div>
-          </div>
-        </li>);
-      })}
-    </Ul>
-  );
 };
 
 const BookingModal = props => {
@@ -56,7 +32,6 @@ const BookingModal = props => {
     toggleRejectionResponseView,
     toggleLegacyHolidayMessageView,
     toggleRejectionMessageView,
-    legacyMessages,
     loading,
   } = props;
 
@@ -70,7 +45,7 @@ const BookingModal = props => {
 
   const renderLegacyMesasge = () => {
     if (toggleRejectionMessageView) {
-      return (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages)}</div>);
+      return <LegacyMessageList />;
     }
     return null;
   };
