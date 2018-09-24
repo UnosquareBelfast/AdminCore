@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { getUser } from '../../reducers';
 import { getHolidays } from '../../services/holidayService';
 import {
-  getTotalDaysInEventArray,
   getTotalDaysInEventArrayWithStatus,
 } from '../../utilities/dates';
 import holidayStatus from '../../utilities/holidayStatus';
@@ -25,8 +24,6 @@ const ProfileContainer = Wrapped =>
         holidays: null,
         daysBooked: null,
         daysPending: null,
-        daysCancelled: null,
-        daysRejected: null,
         selectedHoliday: {},
         contracts: [],
         holidaysLoading: false,
@@ -65,18 +62,13 @@ const ProfileContainer = Wrapped =>
           this.setState({ holidays }, () => {
             this.setState({
               holidaysLoading: false,
-              daysBooked: getTotalDaysInEventArray(holidays),
+              daysBooked: getTotalDaysInEventArrayWithStatus(
+                holidays,
+                holidayStatus.APPROVED
+              ),
               daysPending: getTotalDaysInEventArrayWithStatus(
                 holidays,
                 holidayStatus.PENDING
-              ),
-              daysCancelled: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.CANCELLED
-              ),
-              daysRejected: getTotalDaysInEventArrayWithStatus(
-                holidays,
-                holidayStatus.REJECTED
               ),
             });
           });
