@@ -70,7 +70,7 @@ const BookingModal = props => {
 
   const renderLegacyMesasge = () => {
     if (toggleRejectionMessageView) {
-      return (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages)}</div>)
+      return (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages)}</div>);
     }
     return null;
   };
