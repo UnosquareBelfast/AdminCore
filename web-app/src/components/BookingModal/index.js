@@ -4,8 +4,6 @@ import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-// import { Ul } from '../common_styled';
-
 import { StyleContainer, FormContainer, Ul } from './styled';
 import { Spinner } from '../common';
 import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
@@ -20,7 +18,7 @@ const rejectionReason = booking => {
 const legacyHolidayMessagelist = legacyMessages => {
 
   if (!legacyMessages.length) {
-    return <div />;
+    return null;
   }
 
   const employee1 = { name: legacyMessages[0].author, eventMessageId: legacyMessages[0].eventMessageId };
@@ -70,6 +68,35 @@ const BookingModal = props => {
     );
   };
 
+  const renderLegacyMesasge = () => {
+    if (toggleRejectionMessageView) {
+      return (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages)}</div>)
+    }
+    return null;
+  };
+
+  const renderBookingModalForm = () => {
+    if (!toggleRejectionMessageView) {
+      return (<div><h1>
+        {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
+      </h1>
+        <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
+        <FormContainer>
+          <BookingModalForm
+            toggleRejectionMessageView={toggleRejectionMessageView}
+            toggleRejectionResponseView={toggleRejectionResponseView}
+            updateTakenEvents={updateTakenEvents}
+            employeeId={employeeId}
+            booking={booking}
+            bookingDuration={bookingDuration}
+            createEvent={createEvent}
+            updateEvent={updateEvent}
+          />
+        </FormContainer> </div>);
+    }
+    return null;
+  };
+
   const renderModalContent = () => {
     return (
       <StyleContainer>
@@ -86,23 +113,8 @@ const BookingModal = props => {
             toggleRejectionMessageInputView={toggleRejectionMessageInputView}
           />
         )}
-        {toggleRejectionMessageView && (<div><h1>Message History</h1>{legacyHolidayMessagelist(legacyMessages)}</div>)}
-        {!toggleRejectionMessageView && (<div><h1>
-          {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
-        </h1>
-          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
-          <FormContainer>
-            <BookingModalForm
-              toggleRejectionMessageView={toggleRejectionMessageView}
-              toggleRejectionResponseView={toggleRejectionResponseView}
-              updateTakenEvents={updateTakenEvents}
-              employeeId={employeeId}
-              booking={booking}
-              bookingDuration={bookingDuration}
-              createEvent={createEvent}
-              updateEvent={updateEvent}
-            />
-          </FormContainer> </div>)}
+        {renderLegacyMesasge()}
+        {renderBookingModalForm()}
       </StyleContainer>
     );
   };
