@@ -9,7 +9,6 @@ export const Drawer = styled.div`
   bottom: 0;
   width: 200px;
   transition: left 300ms;
-  z-index: 10;
   @media (min-width: ${props => props.theme.mediaQueries.sm}) {
     left: -160px;
   }
@@ -41,7 +40,7 @@ export const Icon = styled.div`
 export const Tooltip = styled.div`
   display: none;
   @media (min-width: ${props => props.theme.mediaQueries.sm}) {
-    display: block;
+    display: none;
     background-color: black;
     position: absolute;
     left: 30px;
@@ -78,6 +77,7 @@ export const MenuItem = styled.div`
       ${Icon} {
         color: ${props => props.theme.colours.unoBlue};
         ${Tooltip} {
+          display: block;
           opacity: 0.8;
           left: 40px;
         }
@@ -132,17 +132,18 @@ export const LayoutContainer = styled.div`
   min-height: 100vh;
   background-color: white;
   box-sizing: border-box;
-  padding: ${props =>
-    props.history == '/login' ? '0' : '60px 20px 20px 20px'};
+  padding: ${({ history }) =>
+    history == '/login' || history == '/team' ? '0' : '60px 20px 20px 20px'};
   padding-bottom: none;
   width: 100%;
   transition: ${props =>
     props.history == '/login' ? 'none' : 'transform 300ms, width 300ms;'};
 
   @media (min-width: ${props => props.theme.mediaQueries.sm}) {
-    padding: ${props => (props.history == '/login' ? '0' : '20px')};
-    transform: ${props =>
-    props.history == '/login' ? 'none' : 'translateX(40px)'};
+    padding: ${({ history }) =>
+    history == '/login' || history == '/team' ? '0' : '20px'};
+    transform: ${({ history }) =>
+    history == '/login' ? 'none' : 'translateX(40px)'};
     width: calc(100% - 40px);
   }
 `;
@@ -177,7 +178,6 @@ export const Input = styled.input`
       position: fixed;
       right: 0;
       left: 200px;
-      background-color: rgba(0, 0, 0, 0.6);
       @media (min-width: ${props => props.theme.mediaQueries.lg}) {
         display: none;
       }

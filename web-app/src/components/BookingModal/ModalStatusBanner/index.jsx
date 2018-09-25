@@ -29,6 +29,8 @@ class ModalStatusBanner extends Component {
       eventStatus: { eventStatusId },
       eventType: { eventTypeId },
       rejectionReason,
+      toggleLegacyHolidayMessageView,
+      toggleRejectionMessageView,
     } = this.props;
     const { cancelConfirm } = this.state;
 
@@ -58,6 +60,13 @@ class ModalStatusBanner extends Component {
             <p>{rejectionReason}</p>
           </div>
         )}
+        {rejectionReason && (
+          <div className="cancelEvent" onClick={toggleLegacyHolidayMessageView}>
+            <span>
+              {toggleRejectionMessageView ? 'Hide Messages' : 'Display Messages'}
+            </span>
+          </div>
+        )}
         <div>
           {!isCancelled && (
             <div className="cancelEvent" onClick={this.handleCancel}>
@@ -81,6 +90,8 @@ ModalStatusBanner.propTypes = {
   toggleRejectionMessageInputView: PT.func.isRequired,
   rejectionReason: PT.string,
   toggleRejectionResponseView: PT.bool.isRequired,
+  toggleLegacyHolidayMessageView: PT.func.isRequired,
+  toggleRejectionMessageView: PT.bool.isRequired,
 };
 
 export default ModalStatusBanner;
