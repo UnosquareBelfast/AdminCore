@@ -25,6 +25,7 @@ const BookingModalForm = props => {
   } = props;
 
   const createCtas = () => {
+    const { eventTypeId } = formData;
     if (isEventBeingUpdated) {
       return [
         {
@@ -39,8 +40,8 @@ const BookingModalForm = props => {
       return [
         {
           label: `Request ${
-            bookingDuration === 0.5 ? 'Half' : bookingDuration
-          } ${bookingDuration > 1 ? 'Days' : 'Day'}`,
+            eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
+          ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`,
           event: createEvent,
           disabled: !formIsValid,
         },
