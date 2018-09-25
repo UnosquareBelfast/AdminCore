@@ -31,6 +31,7 @@ public abstract class BaseController {
 
     List<String> createEventByType(CreateEventViewModel createEventViewModel, EventTypes eventType) {
         List<String> responses = new ArrayList<>();
+        eventService.hasEmployeeGotEnoughLeaveForRequest(createEventViewModel.getEmployeeId(), 10);
         for (DateViewModel date : createEventViewModel.getDates()) {
             EventDTO existentEvent = eventService.findByEmployeeIdStartDataEndDate(
                     createEventViewModel.getEmployeeId(), date.getStartDate(), date.getEndDate(), eventType);
