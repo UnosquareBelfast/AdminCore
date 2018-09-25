@@ -19,7 +19,7 @@ export default Wrapped =>
 
     getLegacyMessages = () => {
       const { legacyMessages } = this.state;
-      const {eventId} = this.props;
+      const { eventId } = this.props;
       if (!legacyMessages.length) {
         getMessagesByEventId( eventId )
           .then(({data}) => {
