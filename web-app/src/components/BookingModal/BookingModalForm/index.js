@@ -24,8 +24,12 @@ const BookingModalForm = props => {
     booking,
   } = props;
 
+  const { eventTypeId } = formData;
+  const buttonTextValue =
+  `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
+  ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
+
   const createCtas = () => {
-    const { eventTypeId } = formData;
     if (isEventBeingUpdated) {
       return [
         {
@@ -39,9 +43,7 @@ const BookingModalForm = props => {
     } else {
       return [
         {
-          label: `Request ${
-            eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
-          ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`,
+          label: `Request ${buttonTextValue}`,
           event: createEvent,
           disabled: !formIsValid,
         },
