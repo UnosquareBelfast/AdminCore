@@ -34,7 +34,7 @@ const BookingModal = props => {
     toggleRejectionMessageView,
     loading,
   } = props;
-
+ 
   const renderSpinner = () => {
     return (
       <SpinnerContainer>
@@ -45,7 +45,7 @@ const BookingModal = props => {
 
   const renderLegacyMessage = () => {
     if (toggleRejectionMessageView) {
-      return <LegacyMessageList />;
+      return <LegacyMessageList eventId={booking.eventId}/>;
     }
     return null;
   };

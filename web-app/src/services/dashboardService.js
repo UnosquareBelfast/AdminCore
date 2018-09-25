@@ -15,3 +15,8 @@ export const getEmployeesTeamsSnapshot = () => {
 export const getTeamOverview = () => {
   return axios.get('/dashboard/getDashboardSnapshot');
 };
+
+export const getMessagesByEventId = eventId => {
+  return axios.get(`/dashboard/getMessagesByEventId/${eventId}`);
+};
+
