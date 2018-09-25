@@ -36,8 +36,8 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
             "AND c.team.teamId IN " +
             "(" +
             "SELECT c.team.teamId FROM Contract c " +
-            "WHERE (c.employee.employeeId = :employeeId AND " +
-            "(c.startDate BETWEEN :startDate AND :today) OR " +
+            "WHERE (c.employee.employeeId = :employeeId) AND " +
+            "((c.startDate BETWEEN :startDate AND :today) OR " +
             "(c.endDate BETWEEN :today AND :endDate) OR " +
             "(c.startDate < :startDate AND (c.endDate IS NULL OR :endDate > :today)))" +
             ")"

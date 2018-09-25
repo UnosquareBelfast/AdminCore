@@ -90,15 +90,9 @@ public abstract class BaseController {
 
     private EventDTO mapEventDto(EventDTO priorEvent, LocalDate originalEndDate, LocalDate eventDate) {
         EventDTO nextEvent = new EventDTO();
-        nextEvent.setDateCreated(LocalDate.now());
-        nextEvent.setEmployee(priorEvent.getEmployee());
-        nextEvent.setGroupId(priorEvent.getGroupId());
+        modelMapper.map(priorEvent, nextEvent);
         nextEvent.setStartDate(eventDate.plusDays(2));
         nextEvent.setEndDate(originalEndDate);
-        nextEvent.setEventStatusId(priorEvent.getEventStatusId());
-        nextEvent.setLastModified(LocalDate.now());
-        nextEvent.setEventTypeId(priorEvent.getEventTypeId());
-        nextEvent.setTeam(priorEvent.getTeam());
         return nextEvent;
     }
 
