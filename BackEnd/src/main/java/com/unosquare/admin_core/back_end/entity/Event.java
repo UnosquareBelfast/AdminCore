@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -46,7 +47,7 @@ public class Event {
     private LocalDate dateCreated;
 
     @Column(name = "group_id")
-    private String groupId;
+    private UUID groupId;
 
     public Event(int eventId) {
         this.eventId = eventId;

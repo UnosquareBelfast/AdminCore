@@ -1,19 +1,15 @@
 package com.unosquare.admin_core.back_end.controller;
 
 import com.unosquare.admin_core.back_end.dto.EventDTO;
-import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.service.EventService;
 import com.unosquare.admin_core.back_end.viewModels.DateViewModel;
 import com.unosquare.admin_core.back_end.viewModels.events.CreateEventViewModel;
-import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +55,7 @@ public abstract class BaseController {
                 modelMapper.map(createEventViewModel, newEvent);
                 newEvent.setEventTypeId(eventType.getEventTypeId());
                 if (eventType.getEventTypeId() == EventTypes.ANNUAL_LEAVE.getEventTypeId()) {
-                    String groupId = UUID.randomUUID().toString();
+                    UUID groupId = UUID.randomUUID();
                     newEvent.setGroupId(groupId);
                     splitEventIfFallsOnAWeekend(newEvent, newEvent.getEndDate(), eventDTOS);
                 } else {
@@ -80,7 +76,7 @@ public abstract class BaseController {
                 event.setEndDate(eventDate.minusDays(1));
                 eventDTOS.add(event);
                 // Create new event
-                EventDTO nextEvent = mapEventDto(event, originalEndDate, eventDate, 2);
+                EventDTO nextEvent = mapEventDto(event, originalEndDate, eventDate);
                 // Check again
                 splitEventIfFallsOnAWeekend(nextEvent, nextEvent.getEndDate(), eventDTOS);
                 break;
@@ -92,12 +88,12 @@ public abstract class BaseController {
         }
     }
 
-    private EventDTO mapEventDto(EventDTO priorEvent, LocalDate originalEndDate, LocalDate eventDate, int plusDays) {
+    private EventDTO mapEventDto(EventDTO priorEvent, LocalDate originalEndDate, LocalDate eventDate) {
         EventDTO nextEvent = new EventDTO();
         nextEvent.setDateCreated(LocalDate.now());
         nextEvent.setEmployee(priorEvent.getEmployee());
         nextEvent.setGroupId(priorEvent.getGroupId());
-        nextEvent.setStartDate(eventDate.plusDays(plusDays));
+        nextEvent.setStartDate(eventDate.plusDays(2));
         nextEvent.setEndDate(originalEndDate);
         nextEvent.setEventStatusId(priorEvent.getEventStatusId());
         nextEvent.setLastModified(LocalDate.now());
@@ -106,7 +102,7 @@ public abstract class BaseController {
         return nextEvent;
     }
 
-    public static List<LocalDate> getDatesRange(LocalDate startDate, LocalDate endDate) {
+    private static List<LocalDate> getDatesRange(LocalDate startDate, LocalDate endDate) {
         int numOfDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
         return IntStream.range(0, numOfDays)
                 .mapToObj(startDate::plusDays)
