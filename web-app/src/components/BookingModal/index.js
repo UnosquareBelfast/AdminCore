@@ -43,7 +43,7 @@ const BookingModal = props => {
     );
   };
 
-  const renderLegacyMesasge = () => {
+  const renderLegacyMessage = () => {
     if (toggleRejectionMessageView) {
       return <LegacyMessageList />;
     }
@@ -52,22 +52,25 @@ const BookingModal = props => {
 
   const renderBookingModalForm = () => {
     if (!toggleRejectionMessageView) {
-      return (<div><h1>
-        {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
-      </h1>
-        <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
-        <FormContainer>
-          <BookingModalForm
-            toggleRejectionMessageView={toggleRejectionMessageView}
-            toggleRejectionResponseView={toggleRejectionResponseView}
-            updateTakenEvents={updateTakenEvents}
-            employeeId={employeeId}
-            booking={booking}
-            bookingDuration={bookingDuration}
-            createEvent={createEvent}
-            updateEvent={updateEvent}
-          />
-        </FormContainer> </div>);
+      return (
+        <div>
+          <h1>
+            {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
+          </h1>
+          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
+          <FormContainer>
+            <BookingModalForm
+              toggleRejectionMessageView={toggleRejectionMessageView}
+              toggleRejectionResponseView={toggleRejectionResponseView}
+              updateTakenEvents={updateTakenEvents}
+              employeeId={employeeId}
+              booking={booking}
+              bookingDuration={bookingDuration}
+              createEvent={createEvent}
+              updateEvent={updateEvent}
+            />
+          </FormContainer> 
+        </div>);
     }
     return null;
   };
@@ -88,7 +91,7 @@ const BookingModal = props => {
             toggleRejectionMessageInputView={toggleRejectionMessageInputView}
           />
         )}
-        {renderLegacyMesasge()}
+        {renderLegacyMessage()}
         {renderBookingModalForm()}
       </StyleContainer>
     );
