@@ -4,8 +4,10 @@ import ModalStatusBanner from './ModalStatusBanner';
 import { PropTypes as PT } from 'prop-types';
 import BookingModalForm from './BookingModalForm';
 import { Modal } from '../common';
-
 import { StyleContainer, FormContainer } from './styled';
+import { Spinner } from '../common';
+import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
+import LegacyMessageList from './LegacyMessageList';
 
 const rejectionReason = booking => {
   if (booking.messages) {
@@ -28,28 +30,37 @@ const BookingModal = props => {
     cancelEvent,
     toggleRejectionMessageInputView,
     toggleRejectionResponseView,
+    toggleLegacyHolidayMessageView,
+    toggleRejectionMessageView,
+    loading,
   } = props;
+ 
+  const renderSpinner = () => {
+    return (
+      <SpinnerContainer>
+        <Spinner />
+      </SpinnerContainer>
+    );
+  };
 
-  return (
-    bookingModalOpen && (
-      <Modal closeModal={closeBookingModal}>
-        <StyleContainer>
-          {isEventBeingUpdated && (
-            <ModalStatusBanner
-              toggleRejectionResponseView={toggleRejectionResponseView}
-              userName={booking.title}
-              eventStatus={booking.eventStatus}
-              eventType={booking.eventType}
-              cancelEvent={cancelEvent}
-              rejectionReason={rejectionReason(booking)}
-              toggleRejectionMessageInputView={toggleRejectionMessageInputView}
-            />
-          )}
+  const renderLegacyMessage = () => {
+    if (toggleRejectionMessageView) {
+      return <LegacyMessageList eventId={booking.eventId}/>;
+    }
+    return null;
+  };
+
+  const renderBookingModalForm = () => {
+    if (!toggleRejectionMessageView) {
+      return (
+        <div>
           <h1>
-            {isEventBeingUpdated ? 'Update Booking' : 'Request a Holiday'}
+            {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
           </h1>
+          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
           <FormContainer>
             <BookingModalForm
+              toggleRejectionMessageView={toggleRejectionMessageView}
               toggleRejectionResponseView={toggleRejectionResponseView}
               updateTakenEvents={updateTakenEvents}
               employeeId={employeeId}
@@ -58,11 +69,40 @@ const BookingModal = props => {
               createEvent={createEvent}
               updateEvent={updateEvent}
             />
-          </FormContainer>
-        </StyleContainer>
+          </FormContainer> 
+        </div>);
+    }
+    return null;
+  };
+
+  const renderModalContent = () => {
+    return (
+      <StyleContainer>
+        {isEventBeingUpdated && (
+          <ModalStatusBanner
+            toggleRejectionMessageView={toggleRejectionMessageView}
+            toggleLegacyHolidayMessageView={toggleLegacyHolidayMessageView}
+            toggleRejectionResponseView={toggleRejectionResponseView}
+            userName={booking.title}
+            eventStatus={booking.eventStatus}
+            eventType={booking.eventType}
+            cancelEvent={cancelEvent}
+            rejectionReason={rejectionReason(booking)}
+            toggleRejectionMessageInputView={toggleRejectionMessageInputView}
+          />
+        )}
+        {renderLegacyMessage()}
+        {renderBookingModalForm()}
+      </StyleContainer>
+    );
+  };
+
+  return (
+    bookingModalOpen && (
+      <Modal closeModal={closeBookingModal}>
+        {!loading ? renderModalContent() : renderSpinner()}
       </Modal>
-    )
-  );
+    ));
 };
 
 BookingModal.propTypes = {

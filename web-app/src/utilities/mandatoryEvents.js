@@ -32,11 +32,11 @@ export default mandatoryEvents.map(event => {
     halfDay: false,
     employee: null,
     eventStatus: {
-      eventStatusId: holidayStatus.PENDING,
+      eventStatusId: holidayStatus.MANDATORY,
       description: 'Mandatory',
     },
     eventType: {
-      eventTypeId: holidayStatus.MANDATORY,
+      eventTypeId: holidayStatus.PENDING,
       description: 'Annual leave',
     },
   };

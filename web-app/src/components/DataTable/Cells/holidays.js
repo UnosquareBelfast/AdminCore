@@ -56,7 +56,7 @@ const endDate = {
 
 const requestedDate = {
   id: 'requestedDate',
-  Header: 'Requested',
+  Header: 'Last updated',
   accessor: holiday => {
     const today = moment();
     const diff = today.diff(holiday.created, 'days');

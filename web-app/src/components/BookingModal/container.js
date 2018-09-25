@@ -37,6 +37,8 @@ const Container = Wrapped =>
       this.state = {
         toggleRejectionResponseView: false,
         rejectionResponseText: '',
+        toggleRejectionMessageView: false,
+        loading: false,
       };
     }
 
@@ -44,6 +46,7 @@ const Container = Wrapped =>
       this.setState({
         rejectionResponseText: '',
         toggleRejectionResponseView: false,
+        toggleRejectionMessageView: false,
       });
       this.props.toggleBookingModal(false);
     };
@@ -82,7 +85,12 @@ const Container = Wrapped =>
       this.setState({ toggleRejectionResponseView: toggle });
     };
 
+    toggleLegacyHolidayMessageView = () => {
+      this.setState({ toggleRejectionMessageView: !this.state.toggleRejectionMessageView });
+    }
+
     updateEvent = (event, formData) => {
+      this.setState({ loading: true });
       event.preventDefault();
       const { start, end, isHalfday, employeeRejectionMessage, updateMessage } = formData;
       const eventTypeId = parseInt(formData.eventTypeId);
@@ -104,6 +112,7 @@ const Container = Wrapped =>
           .then(() => {
             updateTakenEvents();
             toggleBookingModal(false);
+            this.setState({ loading: false });
           })
           .catch(error => {
             Swal({
@@ -112,6 +121,7 @@ const Container = Wrapped =>
               type: 'error',
             });
             toggleBookingModal(false);
+            this.setState({ loading: false });
           });
       }
     };
@@ -160,14 +170,18 @@ const Container = Wrapped =>
     };
 
     render() {
+      const { toggleRejectionMessageView, toggleRejectionResponseView, loading } = this.state;
       return (
         this.props.employeeId && (
           <Wrapped
+            legacyHolidayMessagelist={this.legacyHolidayMessagelist}
             submitRejectionResponse={this.submitRejectionResponse}
+            toggleRejectionMessageView={toggleRejectionMessageView}
             rejectionResponseText={this.state.rejectionResponseText}
             assignRejectionResponseText={this.assignRejectionResponseText}
             booking={this.props.booking}
-            toggleRejectionResponseView={this.state.toggleRejectionResponseView}
+            toggleLegacyHolidayMessageView={this.toggleLegacyHolidayMessageView}
+            toggleRejectionResponseView={toggleRejectionResponseView}
             toggleRejectionMessageInputView={this.toggleRejectionMessageInputView}
             employeeId={this.props.employeeId}
             bookingModalOpen={this.props.bookingModalOpen}
@@ -178,6 +192,7 @@ const Container = Wrapped =>
             createEvent={this.createEvent}
             updateEvent={this.updateEvent}
             cancelEvent={this.cancelEvent}
+            loading={loading}
           />
         )
       );

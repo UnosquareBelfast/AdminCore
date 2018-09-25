@@ -29,6 +29,7 @@ const Container = Wrapped =>
       createEvent: PT.func.isRequired,
       updateEvent: PT.func.isRequired,
       toggleRejectionResponseView: PT.bool.isRequired,
+      toggleRejectionMessageView: PT.bool.isRequired,
     };
 
     static defaultProps = {
@@ -155,11 +156,13 @@ const Container = Wrapped =>
         isEventBeingUpdated,
         toggleRejectionResponseView,
         booking,
+        toggleRejectionMessageView,
       } = this.props;
       return (
         <Wrapped
           formData={formData}
           booking={booking}
+          toggleRejectionMessageView={toggleRejectionMessageView}
           capturedRejectionReponseText={capturedRejectionReponseText}
           assignRejectionResponseText={this.assignRejectionResponseText}
           toggleRejectionResponseView={toggleRejectionResponseView}

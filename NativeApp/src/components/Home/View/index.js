@@ -4,7 +4,7 @@ import { ScrollView, View, StyleSheet, FlatList } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import ListItem from '../ListItem';
 import CustomDay from '../CustomDay';
-import { H4 } from '../../Common';
+import { H3 } from '../../Common';
 import { LIGHTGREY, ACTIVECOLOR, BLACK, GREY } from '../../../styles/colors';
 import { H1_SIZE } from '../../../styles/text';
 import { container } from '../../../styles/layout';
@@ -50,7 +50,7 @@ const HomeView = (props) => {
         onMonthChange={month => onMonthChange(month)}
       />
       <View style={styles.upcoming}>
-        <H4 style={{ color: GREY }}>Upcoming</H4>
+        <H3 style={{ color: GREY }}>Upcoming</H3>
         <FlatList
           keyExtractor={item => item.eventId.toString()}
           data={upcomingEvents}
