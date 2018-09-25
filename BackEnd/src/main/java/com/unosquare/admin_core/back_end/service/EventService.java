@@ -137,18 +137,6 @@ public class EventService {
         return mapEventsToDtos(events);
     }
 
-    public boolean hasEmployeeGotEnoughLeaveForRequest(int employeeId, int totalDaysRequested)
-    {
-        LocalDate startOfYear = LocalDate.of(LocalDate.now().getYear(), Month.JANUARY, 1);
-        LocalDate endOfYear = LocalDate.of(LocalDate.now().getYear(), Month.DECEMBER, 31);
-        double totalLeaveTaken = eventRepository.getCountOfTotalEventsInYearMadeByEmployee(employeeId, startOfYear, endOfYear);
-        int employeeLeaveAllocation = employeeRepository.getEmployeeLeaveAllocation(employeeId);
-        if (totalLeaveTaken + totalDaysRequested > employeeLeaveAllocation){
-            return false;
-        }
-        return true;
-    }
-
     private List<EventDTO> mapEventsToDtos(List<Event> events) {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
