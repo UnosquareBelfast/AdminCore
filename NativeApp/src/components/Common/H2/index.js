@@ -11,6 +11,10 @@ const H2 = (props) => {
   );
 };
 
+H2.defaultProps = {
+  type: 'base',
+};
+
 H2.propTypes = {
   children: PT.node.isRequired,
   type: PT.string.isRequired,

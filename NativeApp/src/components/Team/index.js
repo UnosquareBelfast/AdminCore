@@ -1,12 +1,4 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import TeamView from './View';
+import container from './container';
 
-const TeamView = () => (
-  <View>
-    <Text>
-      Team screen
-    </Text>
-  </View>
-);
-
-export default TeamView;
+export default container(TeamView);

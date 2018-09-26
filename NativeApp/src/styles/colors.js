@@ -15,3 +15,5 @@ export const RED = '#DD0101';
 // TAB NAVIGATION
 export const ACTIVECOLOR = '#5a8ccf';
 export const INACTIVECOLOR = '#bdbdbd';
+
+export const WFHCOLOR = '#3469ff';
