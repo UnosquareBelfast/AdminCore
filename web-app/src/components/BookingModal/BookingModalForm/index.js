@@ -25,29 +25,9 @@ const BookingModalForm = props => {
   } = props;
 
   const { eventTypeId } = formData;
- 
-  const getTextValueHalfDay = () => {
-    if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
-      if (bookingDuration === 0.5) {
-        return 'Half';
-      } else { 
-        return bookingDuration; }
-    } else {
-      return 'WFH'; }
-  };
-
-  const getTextValueFullDay = () => {
-    if (eventTypeId === eventTypes.ANNUAL_LEAVE) {
-      if (bookingDuration > 1) {
-        return 'Days';
-      } else { 
-        return 'Day'; }
-    } else {  
-      return ''; }
-  };
-
-  const buttonHalfDay = getTextValueHalfDay();
-  const buttonFullDay = getTextValueFullDay();
+  const buttonTextValue =
+  `${eventTypeId !== eventTypes.ANNUAL_LEAVE ? '' : bookingDuration === 0.5 ? 'Half' : bookingDuration}
+  ${eventTypeId !== eventTypes.ANNUAL_LEAVE ? 'WFH' : bookingDuration > 1 ? 'Days' : 'Day'}`;
 
   const createCtas = () => {
     if (isEventBeingUpdated) {
@@ -63,7 +43,7 @@ const BookingModalForm = props => {
     } else {
       return [
         {
-          label: `Request ${buttonHalfDay} ${buttonFullDay}`,
+          label: `Request ${buttonTextValue} `,
           event: createEvent,
           disabled: !formIsValid,
         },
