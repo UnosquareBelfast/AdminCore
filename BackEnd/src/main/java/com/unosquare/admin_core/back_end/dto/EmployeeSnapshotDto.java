@@ -12,4 +12,5 @@ public class EmployeeSnapshotDto {
     private String teamName;
     private int employeeId;
     private String email;
+    private String clientName;
 }

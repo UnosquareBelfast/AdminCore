@@ -8,4 +8,5 @@ public class EmployeeSnapshotViewModel {
     private String name;
     private String state;
     private String email;
+    private String clientName;
 }

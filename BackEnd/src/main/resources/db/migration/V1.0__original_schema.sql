@@ -275,6 +275,7 @@ CREATE TABLE IF NOT EXISTS public.event
   event_type_id integer,
   is_half_day       boolean NOT NULL,
   last_modified     date,
+  group_id     uuid,
   CONSTRAINT event_pkey PRIMARY KEY (event_id),
   CONSTRAINT event_employee_id_fkey FOREIGN KEY (employee_id)
         REFERENCES public.employee (employee_id) MATCH SIMPLE

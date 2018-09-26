@@ -36,8 +36,8 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
             "AND c.team.teamId IN " +
             "(" +
             "SELECT c.team.teamId FROM Contract c " +
-            "WHERE (c.employee.employeeId = :employeeId AND " +
-            "(c.startDate BETWEEN :startDate AND :today) OR " +
+            "WHERE (c.employee.employeeId = :employeeId) AND " +
+            "((c.startDate BETWEEN :startDate AND :today) OR " +
             "(c.endDate BETWEEN :today AND :endDate) OR " +
             "(c.startDate < :startDate AND (c.endDate IS NULL OR :endDate > :today)))" +
             ")"
@@ -53,13 +53,15 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
             "et.description, " +
             "t.teamName, " +
             "emp.employeeId, " +
-            "emp.email" +
+            "emp.email, " +
+            "cl.clientName" +
             ") " +
             "FROM Contract c " +
             "INNER JOIN Employee emp on emp.employeeId = c.employee.employeeId " +
             "LEFT JOIN Event ev on c.employee.employeeId = ev.employee.employeeId " +
             "INNER JOIN Team t on c.team.teamId = t.teamId " +
             "LEFT JOIN EventType et on et.eventTypeId = ev.eventType.eventTypeId " +
+            "INNER JOIN Client cl on cl.clientId = t.client.clientId " +
             "WHERE " +
             "(c.startDate <= :today AND (c.endDate >= :today OR c.endDate is NULL)) " +
             "AND " +
@@ -75,13 +77,15 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
             "et.description, " +
             "t.teamName, " +
             "emp.employeeId, " +
-            "emp.email" +
+            "emp.email, " +
+            "cl.clientName" +
             ") " +
             "FROM Contract c " +
             "INNER JOIN Employee emp on emp.employeeId = c.employee.employeeId " +
             "LEFT JOIN Event ev on c.employee.employeeId = ev.employee.employeeId " +
             "INNER JOIN Team t on c.team.teamId = t.teamId " +
             "LEFT JOIN EventType et on et.eventTypeId = ev.eventType.eventTypeId " +
+            "INNER JOIN Client cl on cl.clientId = t.client.clientId " +
             "WHERE " +
             "(ev is NULL OR :today BETWEEN ev.startDate AND ev.endDate)" +
             "AND c.team.teamId IN " +

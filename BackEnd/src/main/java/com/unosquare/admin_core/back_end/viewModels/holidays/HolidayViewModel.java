@@ -6,6 +6,7 @@ import com.unosquare.admin_core.back_end.entity.EventType;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 public class HolidayViewModel {
@@ -27,4 +28,6 @@ public class HolidayViewModel {
         private LocalDate lastModified;
 
         private LocalDate dateCreated;
+
+        private UUID groupId;
 }

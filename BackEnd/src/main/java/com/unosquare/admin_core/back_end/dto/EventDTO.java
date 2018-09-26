@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
@@ -34,4 +35,6 @@ public class EventDTO {
     private TeamDTO Team;
 
     private EventMessageDTO latestMessage;
+
+    private UUID groupId;
 }

@@ -10,13 +10,11 @@ import com.unosquare.admin_core.back_end.enums.EventTypes;
 import com.unosquare.admin_core.back_end.repository.EmployeeRepository;
 import com.unosquare.admin_core.back_end.repository.EventMessageRepository;
 import com.unosquare.admin_core.back_end.repository.EventRepository;
-import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.TransactionScoped;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -113,7 +111,7 @@ public class EventService {
             event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
             Employee employee = getEmployeeFromEmployeeId(employeeId);
             if (employee != null ) {
-                EventMessage eventMessage = mapToEventMessage(message, event, employee, EventStatuses.REJECTED.getEventStatusId());
+                EventMessage eventMessage = mapToEventMessage(message, event, employee, EventMessageTypes.REJECTED.getEventStatusId());
                 saveEventMessage(eventMessage);
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
                     save(event);

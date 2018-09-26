@@ -1,10 +1,13 @@
 package com.unosquare.admin_core.back_end.controller;
 
-import com.unosquare.admin_core.back_end.dto.EventDTO;
+import com.unosquare.admin_core.back_end.dto.DashboardEventDTO;
 import com.unosquare.admin_core.back_end.dto.EmployeeSnapshotDto;
 import com.unosquare.admin_core.back_end.dto.EventMessageDTO;
 import com.unosquare.admin_core.back_end.service.DashboardService;
-import com.unosquare.admin_core.back_end.viewModels.dashboard.*;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.EmployeeEventViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.EmployeeSnapshotViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.EventMessageViewModel;
+import com.unosquare.admin_core.back_end.viewModels.dashboard.TeamSnapshotViewModel;
 import com.unosquare.admin_core.back_end.viewModels.employee.EmployeeCredentialsViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +39,16 @@ public class DashboardController {
 
     @GetMapping(value = "/getEmployeeEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EmployeeEventViewModel getDashboardEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
-            List<EventDTO> events = dashboardService.getEmployeeDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
-            List<DashboardEventViewModel> results = events.stream().map(event -> modelMapper.map(event, DashboardEventViewModel.class)).collect(Collectors.toList());
-            EmployeeEventViewModel model = new EmployeeEventViewModel();
-            model.setEvents(results);
-            return model;
+    public List<EmployeeEventViewModel> getDashboardEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        List<DashboardEventDTO> events = dashboardService.getEmployeeDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
+        return events.stream().map(event -> modelMapper.map(event, EmployeeEventViewModel.class)).collect(Collectors.toList());
     }
 
     @GetMapping(value = "/getTeamEvents", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public EmployeeEventViewModel getTeamEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
-        List<EventDTO> events = dashboardService.getTeamDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
-        List<DashboardEventViewModel> results = events.stream().map(event -> modelMapper.map(event, DashboardEventViewModel.class)).collect(Collectors.toList());
-        EmployeeEventViewModel model = new EmployeeEventViewModel();
-        model.setEvents(results);
-        return model;
+    public List<EmployeeEventViewModel> getTeamEventsByEmployeeId(@RequestParam(value = "date")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date) {
+        List<DashboardEventDTO> events = dashboardService.getTeamDashboardEvents(employeeCredentialsViewModel.getUserId(), date);
+        return events.stream().map(event -> modelMapper.map(event, EmployeeEventViewModel.class)).collect(Collectors.toList());
     }
 
 
@@ -98,6 +95,7 @@ public class DashboardController {
         employee.setName(m.getName());
         employee.setEmployeeId(m.getEmployeeId());
         employee.setEmail(m.getEmail());
+        employee.setClientName(m.getClientName());
         if (m.getDescription() == null) {
             employee.setState(IN_OFFICE);
         } else {
