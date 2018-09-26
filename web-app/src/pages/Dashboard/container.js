@@ -12,6 +12,8 @@ import {
 } from '../../reducers';
 import eventsView from '../../utilities/eventsView';
 import moment from 'moment';
+import eventTypes from '../../utilities/eventTypes';
+import holidayStatus from '../../utilities/holidayStatus';
 
 const DashboardContainer = Wrapped =>
   class extends React.Component {
@@ -114,11 +116,20 @@ const DashboardContainer = Wrapped =>
       ) {
         return filteredEvents;
       } else {
-        return filteredEvents.filter(
+        let tempFilter = filteredEvents.filter(
           hol =>
             activeHolidayStatusIds.includes(hol.eventStatus.eventStatusId) ||
             activeEventTypeIds.includes(hol.eventType.eventTypeId)
         );
+        if (
+          activeHolidayStatusIds.includes(holidayStatus.PENDING) &&
+          !activeEventTypeIds.includes(eventTypes.WFH)
+        ) {
+          return tempFilter.filter(
+            event => event.eventType.eventTypeId === eventTypes.ANNUAL_LEAVE
+          );
+        }
+        return tempFilter;
       }
     };
 
