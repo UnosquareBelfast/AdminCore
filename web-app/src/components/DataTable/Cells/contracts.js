@@ -13,6 +13,9 @@ const endDate = {
   id: 'endDate',
   Header: 'End Date',
   accessor: contract => {
+    if (contract.endDate === null) {
+      return 'No End Date';
+    }
     const endDate = new moment(contract.endDate, 'YYYY-MM-DD');
     return endDate.format('Do MMMM YYYY');
   },
