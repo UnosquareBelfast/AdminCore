@@ -87,12 +87,12 @@ public interface DashboardRepository extends JpaRepository<Event, Integer> {
             "LEFT JOIN EventType et on et.eventTypeId = ev.eventType.eventTypeId " +
             "INNER JOIN Client cl on cl.clientId = t.client.clientId " +
             "WHERE " +
-            "(ev is NULL OR :today BETWEEN ev.startDate AND ev.endDate)" +
+            "(ev is NULL OR :today BETWEEN ev.startDate AND ev.endDate) " +
             "AND c.team.teamId IN " +
             "(" +
             "SELECT c.team.teamId FROM Contract c " +
-            "WHERE (c.employee.employeeId = :employeeId)) AND " +
-            "(c.startDate <= :today AND (c.endDate >= :today OR c.endDate IS NULL))")
+            "WHERE c.employee.employeeId = :employeeId AND " +
+            "c.startDate <= :today AND (c.endDate >= :today OR c.endDate IS NULL))")
 
     List<EmployeeSnapshotDto> findEmployeeTeamsDailySnapshot(@Param("today") LocalDate today,
                                                              @Param("employeeId") int employeeId);
