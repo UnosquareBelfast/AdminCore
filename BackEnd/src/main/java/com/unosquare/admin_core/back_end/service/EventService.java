@@ -113,7 +113,7 @@ public class EventService {
             event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
             Employee employee = getEmployeeFromEmployeeId(employeeId);
             if (employee != null ) {
-                EventMessage eventMessage = mapToEventMessage(message, event, employee, EventStatuses.REJECTED.getEventStatusId());
+                EventMessage eventMessage = mapToEventMessage(message, event, employee, EventMessageTypes.REJECTED.getEventStatusId());
                 saveEventMessage(eventMessage);
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
                     save(event);
