@@ -150,9 +150,9 @@ const Container = Wrapped =>
       const {
         updateTakenEvents,
         toggleBookingModal,
-        booking: { eventId },
+        booking: { eventId, groupId },
       } = this.props;
-
+      //groupId being destructured from booking as it will replace the eventId for cancelation when that functionality is merged from Eoin's branch
       cancelHoliday(eventId)
         .then(() => {
           updateTakenEvents();

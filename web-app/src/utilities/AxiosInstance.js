@@ -7,12 +7,12 @@ const instance = axios.create({
   baseURL,
 });
 
-instance.interceptors.request.use(function(config) {
+instance.interceptors.request.use(function (config) {
   config.headers.Authorization = `Bearer ${localStorage.getItem('id_token')}`;
   return config;
 });
 
-instance.interceptors.response.use(function(response) {
+instance.interceptors.response.use(function (response) {
   // Adds start, end & requested to response which are in moment format
   if (response.config.method != 'get') {
     return response;
@@ -36,22 +36,27 @@ instance.interceptors.response.use(function(response) {
       data: holidays,
     };
   }
-
   // Append employee to each event (we know its the logged in user) and convert
   // dates to moment objects
   if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeEvents`)) {
-    const events = [...response.data.events];
+    const events = [...response.data];
     const employee = store.getState().USER;
-    for (let event of events) {
-      // Raw dates to moment objects
-      event.start = new moment(event.startDate, 'YYYY-MM-DD');
-      event.end = new moment(event.endDate, 'YYYY-MM-DD');
-      // Append logged in employee
-      event.employee = { ...employee };
-    }
+    const arrayOfEvents = [];
+    events.map(event => {
+      event.events.map(nestedEvent => {
+        const eventId = nestedEvent.eventId ? nestedEvent.eventId : eventId;
+        nestedEvent.groupId = event.groupId;
+        nestedEvent.start = new moment(nestedEvent.startDate, 'YYYY-MM-DD');
+        nestedEvent.end = new moment(nestedEvent.endDate, 'YYYY-MM-DD');
+        nestedEvent.eventId = eventId;
+        nestedEvent.employee = { ...employee };
+        arrayOfEvents.push(nestedEvent);
+      });
+    });
+
     return {
       ...response,
-      data: events,
+      data: arrayOfEvents,
     };
   }
 

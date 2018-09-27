@@ -32,6 +32,7 @@ const _formatEventsForCalendar = events => {
       eventStatus: event.eventStatus,
       eventType: event.eventType,
       messages: event.latestMessage ? event.latestMessage : undefined ,
+      groupId: event.groupId,
     };
   });
 };
