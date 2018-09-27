@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Data
 @Entity
@@ -20,9 +20,9 @@ public class EventMessage {
     @Column(name = "event_message_id", unique = true, nullable = false)
     private int eventMessageId;
 
-    @OneToOne()
-    @JoinColumn(name = "eventId")
-    private Event event;
+    @OneToMany()
+    @JoinColumn(name = "group_Id")
+    private Collection<Event> events;
 
     @OneToOne()
     @JoinColumn(name = "employee_id")

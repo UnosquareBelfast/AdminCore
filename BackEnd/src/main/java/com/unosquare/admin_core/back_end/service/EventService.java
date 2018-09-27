@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,17 +69,17 @@ public class EventService {
 
     @Transactional
     public void updateEvent(UpdateEventDTO updateEventDTO) {
-        Preconditions.checkNotNull(updateEventDTO);
+    /*    Preconditions.checkNotNull(updateEventDTO);
         Optional<Event> retrievedEvent = eventRepository.findById(updateEventDTO.getEventId());
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             modelMapper.map(updateEventDTO, event);
             if (updateEventDTO.getMessage() != null) {
-                EventMessage eventMessage = mapToEventMessage(updateEventDTO.getMessage(), event, event.getEmployee(), EventMessageTypes.GENERAL.getEventStatusId());
-                saveEventMessage(eventMessage);
+               EventMessage eventMessage = mapToEventMessage(updateEventDTO.getMessage(), event, event.getEmployee(), EventMessageTypes.GENERAL.getEventStatusId());
+               saveEventMessage(eventMessage);
             }
             save(event);
-        }
+        }*/
     }
 
     public void approveEvent(int eventId) {
@@ -103,24 +101,27 @@ public class EventService {
     }
 
     @Transactional
-    public List<String> rejectEvent(int eventId, String message, int employeeId) {
+    public List<String> rejectEvent(UUID groupId, String message, int employeeId) {
         List<String> responses = new ArrayList<>();
-        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
-        if (retrievedEvent.isPresent()) {
-            Event event = retrievedEvent.get();
-            event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
-            Employee employee = getEmployeeFromEmployeeId(employeeId);
-            if (employee != null ) {
-                EventMessage eventMessage = mapToEventMessage(message, event, employee, EventMessageTypes.REJECTED.getEventStatusId());
-                saveEventMessage(eventMessage);
+        List<Event> events = eventRepository.findEventsByGroupId(groupId);
+        if (events.size() != 0) {
+            for (Event event : events) {
+                event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
                     save(event);
                 }
+            }
+            Employee employee = getEmployeeFromEmployeeId(employeeId);
+            if (employee != null) {
+                EventMessage eventMessage = mapToEventMessage(message, events, employee, EventMessageTypes.REJECTED.getEventStatusId());
+                saveEventMessage(eventMessage);
+
             } else {
                 responses.add("No employee found with an ID of: " + employeeId);
             }
+
         } else {
-            responses.add("No event found with an ID of: " + eventId);
+            responses.add("No events found with an groupId of: " + groupId);
         }
         return responses;
     }
@@ -140,12 +141,12 @@ public class EventService {
         return events.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
     }
 
-    private EventMessage mapToEventMessage(String message, Event event, Employee emp, int eventMessageTypeId) {
+    private EventMessage mapToEventMessage(String message, Collection<Event> events, Employee emp, int eventMessageTypeId) {
         EventMessage eventMessage = new EventMessage();
         eventMessage.setEmployee(emp);
         eventMessage.setMessage(message);
         eventMessage.setLastModified(LocalDateTime.now());
-        eventMessage.setEvent(event);
+        eventMessage.setEvents(events);
         if (EventMessageTypes.REJECTED.getEventStatusId() == eventMessageTypeId) {
             eventMessage.setEventMessageType(new EventMessageType(EventMessageTypes.REJECTED.getEventStatusId()));
         } else {

@@ -6,23 +6,27 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface EventMessageRepository extends JpaRepository<EventMessage, Integer> {
     @Query(value = "SELECT em FROM EventMessage em " +
+            "JOIN em.events e " +
             "WHERE " +
-            "em.event.eventId = :eventId"
+            "e.groupId = :groupId"
     )
-    List<EventMessage> findEventMessagesByEventId(@Param("eventId") int eventId);
+    List<EventMessage> findEventMessagesByGroupId(@Param("groupId") UUID groupId);
 
     @Query(value = "SELECT em FROM EventMessage em " +
+            "JOIN em.events e " +
             "WHERE " +
-            "em.event.eventId = :eventId " +
+            "e.groupId = :groupId " +
             "AND " +
             "em.lastModified = (" +
             "SELECT MAX(e.lastModified) " +
-            "FROM EventMessage e " +
-            "WHERE e.event.eventId = :eventId " +
-            "AND e.eventMessageType.eventMessageTypeId = 2 ) "
+            "FROM EventMessage em " +
+            "JOIN em.events ev " +
+            "WHERE ev.groupId = :groupId " +
+            "AND em.eventMessageType.eventMessageTypeId = 2 ) "
     )
-    EventMessage findLatestEventMessagesByEventId(@Param("eventId") int eventId);
+    EventMessage findLatestEventMessagesByGroupId(@Param("groupId") UUID groupId);
 }

@@ -334,13 +334,13 @@ CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_id_seq;
 CREATE TABLE public.event_message
 (
     event_message_id integer NOT NULL DEFAULT nextval('event_message_event_message_id_seq' :: regclass),
-    event_id integer NOT NULL,
+    group_id integer NOT NULL,
     message text NOT NULL,
     last_modified timestamp NOT NULL,
     employee_id integer NOT NULL,
     event_message_type_id integer NOT NULL,
     CONSTRAINT event_message_pkey PRIMARY KEY (event_message_id),
-	  CONSTRAINT event_id_fkey FOREIGN KEY (event_id)
+	  CONSTRAINT event_group_id_fkey FOREIGN KEY (group_id)
         REFERENCES public.event (event_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,

@@ -87,7 +87,7 @@ public class HolidayController extends BaseController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<String>>  rejectHoliday(@RequestBody RejectHolidayViewModel rejectHolidayViewModel) {
         List<String> responses = eventService.rejectEvent(
-                rejectHolidayViewModel.getEventId(),
+                rejectHolidayViewModel.getGroupId(),
                 rejectHolidayViewModel.getMessage(),
                 employeeCredentialsViewModel.getUserId());
         return ResponseEntity.ok(responses);

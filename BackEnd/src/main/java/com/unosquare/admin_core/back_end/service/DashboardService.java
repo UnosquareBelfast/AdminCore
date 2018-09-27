@@ -69,8 +69,8 @@ public class DashboardService {
         return result.stream().collect(groupingBy(EmployeeSnapshotDto::getTeamName, Collectors.toList()));
     }
 
-    public List<EventMessageDTO> getEventMessagesByEventId(int eventId){
-        List<EventMessage> messages = eventMessageRepository.findEventMessagesByEventId(eventId);
+    public List<EventMessageDTO> getEventMessagesByEventId(UUID uuid){
+        List<EventMessage> messages = eventMessageRepository.findEventMessagesByGroupId(uuid);
         return messages.stream().map(message -> modelMapper.map(message, EventMessageDTO.class)).collect(Collectors.toList());
     }
 
@@ -94,7 +94,7 @@ public class DashboardService {
             List<EventDTO> events = new ArrayList<>();
             for (EventDTO event : eventDto.getValue()) {
                 if (mapMessages) {
-                    EventMessage message = eventMessageRepository.findLatestEventMessagesByEventId(event.getEventId());
+                    EventMessage message = eventMessageRepository.findLatestEventMessagesByGroupId(event.getGroupId());
                     if (message != null) {
                         event.setLatestMessage(modelMapper.map(message, EventMessageDTO.class));
                     }

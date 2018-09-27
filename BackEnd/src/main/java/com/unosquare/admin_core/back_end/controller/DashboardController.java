@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -66,10 +67,10 @@ public class DashboardController {
         return mapTeamSummaryDtoToTeamSummaryViewModel(teamSummary);
     }
 
-    @GetMapping(value = "/getMessagesByEventId/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getMessagesByEventId/{groupId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<EventMessageViewModel> getMessagesByEventId(@PathVariable("eventId") int eventId){
-        List<EventMessageDTO> messages = dashboardService.getEventMessagesByEventId(eventId);
+    public List<EventMessageViewModel> getMessagesByEventId(@PathVariable("groupId") UUID groupId){
+        List<EventMessageDTO> messages = dashboardService.getEventMessagesByEventId(groupId);
         return messages.stream().map(message -> modelMapper.map(message, EventMessageViewModel.class)).collect(Collectors.toList());
     }
 

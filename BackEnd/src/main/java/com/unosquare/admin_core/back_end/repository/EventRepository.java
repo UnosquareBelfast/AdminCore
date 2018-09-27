@@ -5,9 +5,12 @@ import com.unosquare.admin_core.back_end.entity.Event;
 import com.unosquare.admin_core.back_end.entity.EventStatus;
 import com.unosquare.admin_core.back_end.entity.EventType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
@@ -20,4 +23,10 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByEventStatusAndEventType(EventStatus eventStatus, EventType eventType);
 
     List<Event> findByEventType(EventType eventType);
+
+    @Query(value = "SELECT e FROM Event e " +
+            "WHERE " +
+            "e.groupId = :groupId"
+    )
+    List<Event> findEventsByGroupId(@Param("groupId") UUID groupId);
 }
