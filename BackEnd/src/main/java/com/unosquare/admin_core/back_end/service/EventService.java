@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.TransactionScoped;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,10 +55,43 @@ public class EventService {
         return mapEventsToDtos(events);
     }
 
+//    Service call to repo to get a count of the total number of days requested by Employee in a calender year
+//
+//    public Long getTotalNumberOfEventDaysRequestedInYearByEmployee(int employeeId) {
+//
+//        Long numberOfRequestedDays = eventRepository.getCountOfTotalEventsInYearMadeByEmployee(new Employee(employeeId));
+//
+//        return numberOfRequestedDays;
+//    }
+
     public EventDTO findByEmployeeIdStartDataEndDate(int employeeId, LocalDate startDate, LocalDate endDate, EventTypes eventType) {
 
         Event event = eventRepository.findByEmployeeAndStartDateAndEndDateAndEventType(new Employee(employeeId), startDate, endDate, new EventType(eventType.getEventTypeId()));
         return (event != null) ? modelMapper.map(event, EventDTO.class) : null;
+    }
+
+    public Integer numberOfEventsCreatedOnDateForEmployee(int employeeId, LocalDate startDate, LocalDate endDate) {
+
+        Integer event = eventRepository.getCountOfNumberOfExistingEventsByEmployee(new Employee(employeeId), startDate, endDate);
+
+        return event;
+    }
+
+    public Integer getEmployeeIdByEventId(int eventId) {
+
+        Integer employeeRoleByEventId = eventRepository.getEmployeeIdByEventId(eventId);
+
+        return employeeRoleByEventId;
+    }
+
+    private void save(Event event) {
+        Preconditions.checkNotNull(event);
+
+        if (event.getEventId() > 0) {
+            event.setDateCreated(LocalDate.now());
+        }
+        event.setLastModified(LocalDate.now());
+        eventRepository.save(event);
     }
 
     @Transactional
@@ -86,15 +118,6 @@ public class EventService {
         }
     }
 
-    public void approveEvent(int eventId) {
-        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
-        if (retrievedEvent.isPresent()) {
-            Event event = retrievedEvent.get();
-            event.setEventStatus(new EventStatus(EventStatuses.APPROVED.getEventStatusId()));
-            save(event);
-        }
-    }
-
     public void cancelEvent(int eventId) {
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
         if (retrievedEvent.isPresent()) {
@@ -104,15 +127,25 @@ public class EventService {
         }
     }
 
+    public void approveEvent(int eventId) {
+        Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+        if (retrievedEvent.isPresent()) {
+            Event event = retrievedEvent.get();
+                event.setEventStatus(new EventStatus(EventStatuses.APPROVED.getEventStatusId()));
+                save(event);
+        }
+    }
+
     @Transactional
     public List<String> rejectEvent(int eventId, String message, int employeeId) {
         List<String> responses = new ArrayList<>();
         Optional<Event> retrievedEvent = eventRepository.findById(eventId);
+
         if (retrievedEvent.isPresent()) {
             Event event = retrievedEvent.get();
             event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
             Employee employee = getEmployeeFromEmployeeId(employeeId);
-            if (employee != null ) {
+            if (employee != null) {
                 EventMessage eventMessage = mapToEventMessage(message, event, employee, EventStatuses.REJECTED.getEventStatusId());
                 saveEventMessage(eventMessage);
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {
@@ -156,16 +189,6 @@ public class EventService {
         return eventMessage;
     }
 
-    private void save(Event event) {
-        Preconditions.checkNotNull(event);
-
-        if (event.getEventId() > 0) {
-            event.setDateCreated(LocalDate.now());
-        }
-        event.setLastModified(LocalDate.now());
-        eventRepository.save(event);
-    }
-
     private void saveEventMessage(EventMessage eventMessage) {
         Preconditions.checkNotNull(eventMessage);
 
@@ -177,7 +200,7 @@ public class EventService {
     }
 
 
-    private Employee getEmployeeFromEmployeeId(int employeeId){
+    private Employee getEmployeeFromEmployeeId(int employeeId) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         if (employee.isPresent()) {
             return employee.get();
@@ -185,4 +208,3 @@ public class EventService {
         return null;
     }
 }
-

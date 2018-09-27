@@ -3,12 +3,14 @@ package com.unosquare.admin_core.back_end.service;
 import com.google.common.base.Preconditions;
 import com.unosquare.admin_core.back_end.dto.TeamDTO;
 import com.unosquare.admin_core.back_end.entity.Client;
+import com.unosquare.admin_core.back_end.entity.Employee;
 import com.unosquare.admin_core.back_end.entity.Team;
 import com.unosquare.admin_core.back_end.repository.TeamRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,6 +41,22 @@ public class TeamService {
     public List<TeamDTO> findByClient(int clientId) {
         List teams = teamRepository.findByClient(new Client(clientId));
         return mapTeamsToDtos(teams);
+    }
+
+    public Integer findTeamIdByEmployeeId(int employeeId){
+
+        Integer teamId = teamRepository.findTeamIdByEmployeeId(new Employee(employeeId));
+
+        return teamId;
+    }
+
+    public Integer getAllEventsForTeamBySelectedDatesSubmittedByEmployee(int teamId, LocalDate startDate,
+                                                                      LocalDate endDate){
+
+        Integer eventsForTeam = teamRepository.getAllEventsForTeamBySelectedDatesSubmittedByEmployee(teamId, startDate,
+                endDate);
+
+        return eventsForTeam;
     }
 
     public TeamDTO save(TeamDTO teamDto) {
