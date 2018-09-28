@@ -135,7 +135,12 @@ export const validationMessage = {
 
 export const checkIfPastDatesSelected = start => {
   const today = new moment();
-  return moment(start).isBefore(today);
+  return moment(start).isBefore(today, 'day');
+};
+
+export const checkSameDate = start => {
+  const today = new moment();
+  return moment(start).isSame(today, 'day');
 };
 
 export const checkIfDatesFallOnWeekend = (start, end) => {

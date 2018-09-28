@@ -30,6 +30,7 @@ const Container = Wrapped =>
       updateEvent: PT.func.isRequired,
       toggleRejectionResponseView: PT.bool.isRequired,
       toggleRejectionMessageView: PT.bool.isRequired,
+      isSameDay: PT.bool.isRequired,
     };
 
     static defaultProps = {
@@ -39,10 +40,11 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
+      const { isSameDay } = this.props;
       this.state = {
         formData: {
           end: moment(),
-          eventTypeId: 1,
+          eventTypeId: isSameDay ? 2 : 1 ,
           isHalfday: false,
           start: moment(),
           employeeRejectionMessage: '',
@@ -56,12 +58,13 @@ const Container = Wrapped =>
     componentDidMount = () => {
       const {
         booking: { start, end, eventType, halfDay },
+        isSameDay,
       } = this.props;
       this.setState({
         formData: {
           start: start,
           end: end,
-          eventTypeId: eventType.eventTypeId,
+          eventTypeId: isSameDay ? 2 : eventType.eventTypeId,
           isHalfday: halfDay || false,
           employeeRejectionMessage: '',
           updateMessage: '',
@@ -157,9 +160,11 @@ const Container = Wrapped =>
         toggleRejectionResponseView,
         booking,
         toggleRejectionMessageView,
+        isSameDay,
       } = this.props;
       return (
         <Wrapped
+          isSameDay={isSameDay}
           formData={formData}
           booking={booking}
           toggleRejectionMessageView={toggleRejectionMessageView}

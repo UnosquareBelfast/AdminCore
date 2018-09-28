@@ -17,7 +17,7 @@ const TeamOverview = ({ history, selectUser, selectedUser, teams }) => {
         data={teams}
         cells={TeamCells}
         columns={['fullName', 'state', 'team']}
-        onRowClick={employee => selectUser(employee)}
+        onRowClick={employee => { selectUser( employee.members[0]); }}
         pageSize={20}
       />
     </Fragment>
