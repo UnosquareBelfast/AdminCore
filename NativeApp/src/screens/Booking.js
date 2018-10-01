@@ -15,7 +15,14 @@ export default class BookingScreen extends Component {
       fontSize: H2_SIZE,
       fontFamily: 'oswaldRegular',
     },
-    headerLeft: <Icon containerStyle={{ paddingLeft: 15 }} type="font-awesome" name="arrow-left" size={20} color="white" />,
+    headerBackImage: () => (
+      <Icon
+        containerStyle={{ paddingLeft: 15 }}
+        type="font-awesome"
+        name="arrow-left"
+        size={20}
+        color="white"
+      />),
   }
 
   static propTypes = {
