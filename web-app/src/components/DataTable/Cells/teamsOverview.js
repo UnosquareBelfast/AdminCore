@@ -1,17 +1,13 @@
 const fullName = {
   id: 'fullName',
   Header: 'Full Name',
-  accessor: user => {
-    return user.members[0].name;
-  },
+  accessor: user => user.name,
 };
   
 const state = {
   id: 'state',
   Header: 'State',
-  accessor: user => {
-    return user.members[0].state;
-  },
+  accessor: user => user.state,
 };
   
 const team = {
