@@ -35,7 +35,7 @@ export default Container => class extends Component {
     const { booking } = this.state;
     const chosenDate = navigation.getParam('date');
     const booked = navigation.getParam('booked', '');
-    const holiday = navigation.getParam('holiday', {});
+    const holiday = navigation.getParam('event', {});
 
     userProfile()
       .then(user => this.setState({ user }));
