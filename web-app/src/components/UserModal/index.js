@@ -21,7 +21,7 @@ const UserModal = ({
         </div>
         <StatWrap>
           <Stat>
-            <h2>{approvedDays + pendingDays} Days</h2>
+            <h2>{approvedDays} Days</h2>
             <h4>Holidays Booked</h4>
           </Stat>
           <Stat>
@@ -29,7 +29,7 @@ const UserModal = ({
             <h4>Holidays Pending</h4>
           </Stat>
           <Stat>
-            <h2>{totalHolidays - approvedDays - pendingDays} Days</h2>
+            <h2>{totalHolidays - approvedDays} Days</h2>
             <h4>Holidays Remaining</h4>
           </Stat>
         </StatWrap>
