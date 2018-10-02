@@ -71,11 +71,9 @@ public abstract class BaseController {
     private void splitEventIfFallsOnAWeekend(EventDTO event, LocalDate originalEndDate, List<EventDTO> eventDTOS) {
         List<LocalDate> dateRange = getDatesRange(event.getStartDate(), event.getEndDate());
         for (LocalDate eventDate : dateRange) {
-            if (eventDate.getDayOfWeek() == DayOfWeek.SATURDAY) {
-                // Set end date
+            if (isWeekend(eventDate)) {
                 event.setEndDate(eventDate.minusDays(1));
                 eventDTOS.add(event);
-                // Create new event
                 EventDTO nextEvent = mapEventDto(event, originalEndDate, eventDate);
                 // Check again
                 splitEventIfFallsOnAWeekend(nextEvent, nextEvent.getEndDate(), eventDTOS);
@@ -102,4 +100,11 @@ public abstract class BaseController {
                 .mapToObj(startDate::plusDays)
                 .collect(Collectors.toList());
     }
+
+
+    private boolean isWeekend(LocalDate eventDate) {
+        //Recursively loops from Monday so Sunday check unnecessary
+        return eventDate.getDayOfWeek() == DayOfWeek.SATURDAY;
+    }
+
 }

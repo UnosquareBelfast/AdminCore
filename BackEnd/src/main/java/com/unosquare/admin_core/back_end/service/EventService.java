@@ -104,7 +104,7 @@ public class EventService {
     public List<String> rejectEvent(UUID groupId, String message, int employeeId) {
         List<String> responses = new ArrayList<>();
         List<Event> events = eventRepository.findEventsByGroupId(groupId);
-        if (events.size() != 0) {
+        if (events != null && events.size() != 0) {
             for (Event event : events) {
                 event.setEventStatus(new EventStatus(EventStatuses.REJECTED.getEventStatusId()));
                 if (event.getEventStatus().getEventStatusId() != EventStatuses.REJECTED.getEventStatusId()) {

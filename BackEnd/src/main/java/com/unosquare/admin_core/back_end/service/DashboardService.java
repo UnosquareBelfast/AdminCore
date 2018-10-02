@@ -38,11 +38,7 @@ public class DashboardService {
         final LocalDate startDate = getMonthStartDate(date);
         final LocalDate endDate = getMonthEndDate(date);
         final List<Event> result = dashboardRepository.findCalendarMonthEventsForEmployee(employeeId, startDate, endDate);
-        final List<EventDTO> eventDTOS = result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
-        final Map<UUID, List<EventDTO>> resultsByUUID = eventDTOS.stream().collect(groupingBy(EventDTO::getGroupId));
-        List<DashboardEventDTO> eventList = new ArrayList<>();
-        mapEventsByGroupId(resultsByUUID, eventList, true);
-        return eventList;
+        return getEventList(result, true);
     }
 
     public List<DashboardEventDTO> getTeamDashboardEvents(int employeeId, LocalDate date){
@@ -50,10 +46,15 @@ public class DashboardService {
         final LocalDate endDate = getMonthEndDate(date);
         final LocalDate today = LocalDate.now();
         final List<Event> result = dashboardRepository.findCalendarMonthEventsForTeam(employeeId, startDate, endDate, today);
+        return getEventList(result, false);
+    }
+
+
+    private List<DashboardEventDTO> getEventList(List<Event> result, boolean b) {
         final List<EventDTO> eventDTOS = result.stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
         final Map<UUID, List<EventDTO>> resultsByUUID = eventDTOS.stream().collect(groupingBy(EventDTO::getGroupId));
         List<DashboardEventDTO> eventList = new ArrayList<>();
-        mapEventsByGroupId(resultsByUUID, eventList, false);
+        mapEventsByGroupId(resultsByUUID, eventList, b);
         return eventList;
     }
 
@@ -93,16 +94,24 @@ public class DashboardService {
             dashboardEventDTO.setEventEndDate(last.getEndDate());
             List<EventDTO> events = new ArrayList<>();
             for (EventDTO event : eventDto.getValue()) {
-                if (mapMessages) {
-                    EventMessage message = eventMessageRepository.findLatestEventMessagesByGroupId(event.getGroupId());
-                    if (message != null) {
-                        event.setLatestMessage(modelMapper.map(message, EventMessageDTO.class));
-                    }
-                }
-                events.add(event);
+                addEvents(mapMessages, events, event);
             }
             dashboardEventDTO.setEvents(events);
             eventList.add(dashboardEventDTO);
+        }
+    }
+
+    private void addEvents(boolean mapMessages, List<EventDTO> events, EventDTO event) {
+        setLatestMessageOnMapMessages(mapMessages, event);
+        events.add(event);
+    }
+
+    private void setLatestMessageOnMapMessages(boolean mapMessages, EventDTO event) {
+        if (mapMessages) {
+            EventMessage message = eventMessageRepository.findLatestEventMessagesByGroupId(event.getGroupId());
+            if (message != null) {
+                event.setLatestMessage(modelMapper.map(message, EventMessageDTO.class));
+            }
         }
     }
 }
