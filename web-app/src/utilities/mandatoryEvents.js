@@ -17,6 +17,18 @@ const mandatoryEvents = [
     title: 'Memorial Day',
     mandatoryDate: `${currYear}-05-28`,
   },
+  {
+    title: 'Christmas Day',
+    mandatoryDate: `${currYear + 1}-12-25`,
+  },
+  {
+    title: 'New Years Day',
+    mandatoryDate: `${currYear + 1}-12-31`,
+  },
+  {
+    title: 'Memorial Day',
+    mandatoryDate: `${currYear + 1}-05-28`,
+  },
 ];
 
 export default mandatoryEvents.map(event => {
