@@ -48,35 +48,29 @@ export default Container => class extends Component {
   }
 
   sortingEvents = (events) => {
+    const { createArray } = this;
     let eventArray = [];
-    let approvedArray = [];
-    let awaitApprovalArray = [];
-
-    approvedArray.push(events.filter(event => event.eventStatus.description === 'Approved'));
-    awaitApprovalArray.push(events.filter(event => event.eventStatus.description === 'Awaiting approval'));
-
-    approvedArray = flattenDeep(approvedArray);
-    awaitApprovalArray = flattenDeep(awaitApprovalArray);
-
-    if (approvedArray.length === 0) {
-      approvedArray.push({});
-    }
-
-    if (awaitApprovalArray.length === 0) {
-      awaitApprovalArray.push({});
-    }
-
-    if (approvedArray.length === 0 && awaitApprovalArray.length === 0) {
-      approvedArray.push({});
-      awaitApprovalArray.push({});
-    }
+    const approvedArray = createArray(events, 'Approved');
+    const awaitApprovalArray = createArray(events, 'Awaiting approval');
+    const rejectedArray = createArray(events, 'Rejected');
+    const cancelledArray = createArray(events, 'Cancelled');
 
     eventArray = [
       { title: 'Approved', data: approvedArray },
       { title: 'Awaiting approval', data: awaitApprovalArray },
+      { title: 'Rejected', data: rejectedArray },
+      { title: 'Cancelled', data: cancelledArray },
     ];
 
     return eventArray;
+  }
+
+  createArray = (events, description) => {
+    let arr = [];
+
+    arr.push(events.filter(event => event.eventStatus.description === description));
+    arr = flattenDeep(arr);
+    return arr.length === 0 ? [{}] : arr;
   }
 
   render() {
