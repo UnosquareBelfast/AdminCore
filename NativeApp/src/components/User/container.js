@@ -33,7 +33,7 @@ export default Container => class extends Component {
 
     this.sub = navigation.addListener('didFocus', () => {
       getUserEvents()
-        .then(events => this.setState({ events: this.sortingEvents(events) }));
+        .then(events => this.setState({ events }));
 
       getRemainingHolidays()
         .then(remainingHolidays => this.setState({ remainingHolidays }));
@@ -45,6 +45,15 @@ export default Container => class extends Component {
 
   componentWillUnmount() {
     this.sub.remove();
+  }
+
+  getDays = (events, description) => {
+    let totalDays = 0;
+    events.forEach((event) => {
+      totalDays += event.eventStatus.description === description;
+    });
+
+    return totalDays;
   }
 
   sortingEvents = (events) => {
@@ -75,12 +84,15 @@ export default Container => class extends Component {
 
   render() {
     const { events, remainingHolidays, employee } = this.state;
+    const approvedHolidays = this.getDays(events, 'Approved');
+    const eventObject = this.sortingEvents(events);
 
     return (
       <Container
         employee={employee}
-        events={events}
-        remainingHolidays={remainingHolidays - events.length}
+        events={eventObject}
+        remainingHolidays={remainingHolidays - approvedHolidays}
+        approvedHolidays={approvedHolidays}
       />
     );
   }
