@@ -3,7 +3,8 @@ import Moment from 'moment';
 import deviceStorage from '../services/deviceStorage';
 
 
-const baseURL = process.env.DOMAIN;
+const baseURL = 'http://192.168.99.100:8081'
+//process.env.DOMAIN;
 
 const instance = axios.create({
   baseURL,
@@ -47,6 +48,17 @@ instance.interceptors.response.use((response) => {
       data: updatedMonthEvents,
     };
   }
+
+  if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeTeamSnapshot`)) {
+    const events = [...response.data];
+    const currentEvents = mapEvents(events);
+
+    return {
+      ...response,
+      data: currentEvents,
+    };
+  }
+
   return response;
 });
 

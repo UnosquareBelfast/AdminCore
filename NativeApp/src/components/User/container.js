@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { flattenDeep } from 'lodash';
 import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
+import getDuration from '../../utilities/dates';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -50,7 +51,15 @@ export default Container => class extends Component {
   getDays = (events, description) => {
     let totalDays = 0;
     events.forEach((event) => {
-      totalDays += event.eventStatus.description === description;
+      if (!event.halfDay) {
+        totalDays += event.eventStatus.description === description
+          ? getDuration(event.start, event.end) : 0;
+      }
+
+      if (event.halfDay) {
+        totalDays += event.eventStatus.description === description
+          ? 0.5 : 0;
+      }
     });
 
     return totalDays;
