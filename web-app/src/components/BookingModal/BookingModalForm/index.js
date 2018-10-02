@@ -22,6 +22,7 @@ const BookingModalForm = props => {
     formIsValid,
     bookingDuration,
     booking,
+    isSameDay,
   } = props;
 
   const { eventTypeId } = formData;
@@ -62,7 +63,7 @@ const BookingModalForm = props => {
         start
       );
       const daysNotice = calculateDaysNotice(bookingDuration);
-      return fromTodayToStartDateRequested < daysNotice ? (
+      return fromTodayToStartDateRequested < daysNotice && isSameDay ? (
         <NoticeAlert>
           <p>
             <FontAwesomeIcon icon={faExclamationCircle} />
@@ -77,6 +78,15 @@ const BookingModalForm = props => {
     }
   };
 
+  const renderWFH = () => {
+    const options = [
+      { value: 1, displayValue: 'Annual Leave' } ,
+      { value: 2, displayValue: 'Working from home' },
+    ];
+    isSameDay ? options.shift() : '' ;
+    return options;
+  };
+
   return (
     <Fragment>
       {composeErrorMessage()}
@@ -85,11 +95,9 @@ const BookingModalForm = props => {
           type="select"
           htmlAttrs={{
             name: 'eventTypeId',
-            options: [
-              { value: 1, displayValue: 'Annual Leave' },
-              { value: 2, displayValue: 'Working from home' },
-            ],
+            options: renderWFH(),
           }}
+          
           value={formData.eventTypeId}
           label="Reason:"
         />
@@ -166,6 +174,7 @@ BookingModalForm.propTypes = {
   createEvent: PT.func.isRequired,
   updateEvent: PT.func.isRequired,
   booking: PT.object,
+  isSameDay: PT.bool.isRequired,
 };
 
 BookingModalForm.defaultProps = {

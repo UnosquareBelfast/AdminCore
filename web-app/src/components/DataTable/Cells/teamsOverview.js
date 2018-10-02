@@ -1,13 +1,13 @@
 const fullName = {
   id: 'fullName',
   Header: 'Full Name',
-  accessor: user => user.members.map( element => element.name ),
+  accessor: user => user.name,
 };
   
 const state = {
   id: 'state',
   Header: 'State',
-  accessor: user => user.members.map( element => element.state ),
+  accessor: user => user.state,
 };
   
 const team = {

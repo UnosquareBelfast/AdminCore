@@ -8,6 +8,7 @@ import { StyleContainer, FormContainer } from './styled';
 import { Spinner } from '../common';
 import { SpinnerContainer } from '../../hoc/AuthUserAndStore/styled';
 import LegacyMessageList from './LegacyMessageList';
+import { checkSameDate } from '../../utilities/dashboardEvents';
 
 const rejectionReason = booking => {
   if (booking.messages) {
@@ -57,9 +58,9 @@ const BookingModal = props => {
           <h1>
             {isEventBeingUpdated ? 'Update Booking' : 'Request a Booking'}
           </h1>
-          <h4 id="totalDaysToBook">Total days: {bookingDuration}</h4>
           <FormContainer>
             <BookingModalForm
+              isSameDay={checkSameDate(booking.start)}
               toggleRejectionMessageView={toggleRejectionMessageView}
               toggleRejectionResponseView={toggleRejectionResponseView}
               updateTakenEvents={updateTakenEvents}
