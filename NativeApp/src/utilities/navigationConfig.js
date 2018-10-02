@@ -14,8 +14,8 @@ import {
   Booking,
   Logout,
 } from '../screens';
-import { WHITE, ACTIVECOLOR, INACTIVECOLOR, LIGHTGREY, GREY } from '../styles/colors';
-import { H2_SIZE } from '../styles/text';
+import { WHITE, ACTIVECOLOR, INACTIVECOLOR } from '../styles/colors';
+import styles from './styles';
 
 const HomeStack = createStackNavigator(
   {
@@ -25,17 +25,9 @@ const HomeStack = createStackNavigator(
   {
     initialRouteName: 'Home',
     navigationOptions: {
-      headerStyle: {
-        backgroundColor: WHITE,
-        borderBottomWidth: 1,
-        borderBottomColor: 'rgba(192,192,192,0.3)',
-      },
+      headerStyle: styles.headerStyle,
       headerBackTitle: null,
-      headerTitleStyle: {
-        color: GREY,
-        fontSize: H2_SIZE,
-        fontFamily: 'oswaldRegular',
-      },
+      headerTitleStyle: styles.headerTitleStyle,
     },
   }
 );
@@ -71,18 +63,7 @@ const AppTab = createBottomTabNavigator(
       inactiveBackgroundColor: WHITE,
       activeBackgroundColor: WHITE,
       allowFontScaling: false,
-      style: {
-        borderTopColor: LIGHTGREY,
-        padding: 5,
-        backgroundColor: WHITE,
-        shadowColor: INACTIVECOLOR,
-        shadowOffset: {
-          width: 1,
-          height: -2,
-        },
-        shadowOpacity: 0.2,
-        elevation: 10,
-      },
+      style: styles.tabBarOptionsStyle,
     },
   },
 );
@@ -108,9 +89,8 @@ const AppStack = createStackNavigator(
   { AppTab },
   {
     navigationOptions: {
-      headerStyle: {
-        paddingHorizontal: 10,
-      },
+      headerStyle: styles.headerStyle,
+      headerTitleStyle: styles.headerTitleStyle,
     },
   }
 );
