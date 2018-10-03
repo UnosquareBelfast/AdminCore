@@ -28,9 +28,10 @@ const HolidayModal = ({
     if (!isAdmin) return false;
     if (userDetails.employeeId === employeeId) return false;
     if (!showAdminControls) return false;
+    if (eventStatus.eventStatusId === 4) return false;
     return true;
   };
-
+  
   const duration = getEventDayAmount(holiday);
   const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
   return (
