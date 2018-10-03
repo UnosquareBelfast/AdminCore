@@ -8,7 +8,7 @@ import {
   getDurationBetweenDates,
   calculateDaysNotice,
 } from '../../../utilities/dates';
-import { NoticeAlert } from './styled';
+import { NoticeAlert, HolidayAlert } from './styled';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/fontawesome-free-solid';
 
@@ -23,6 +23,8 @@ const BookingModalForm = props => {
     bookingDuration,
     booking,
     isSameDay,
+    getApprovedDays,
+    getTotalDays,
   } = props;
 
   const { eventTypeId } = formData;
@@ -49,6 +51,13 @@ const BookingModalForm = props => {
           disabled: !formIsValid,
         },
       ];
+    }
+  };
+
+  const remainingDays = (getTotalDays - getApprovedDays());
+  const composeRemainingHolsErrorMessage = () => {
+    if (remainingDays <= 0 || bookingDuration > remainingDays) { 
+      return true;
     }
   };
 
@@ -90,77 +99,83 @@ const BookingModalForm = props => {
   return (
     <Fragment>
       {composeErrorMessage()}
-      <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
-        <Input
-          type="select"
-          htmlAttrs={{
-            name: 'eventTypeId',
-            options: renderWFH(),
-          }}
-          
-          value={formData.eventTypeId}
-          label="Reason:"
-        />
-        <Input
-          type="date"
-          htmlAttrs={{
-            type: 'input',
-            name: 'start',
-            placeholder: 'Enter a start date',
-          }}
-          value={formData.start}
-          rules={{
-            dateNotInPast: true,
-          }}
-          label={formData.isHalfday ? 'Date' : 'Start Date:'}
-        />
-        <Input
-          type="date"
-          htmlAttrs={{
-            type: 'input',
-            name: 'end',
-            placeholder: 'Enter an end date',
-            disabled: formData.isHalfday,
-          }}
-          value={formData.end}
-          rules={{
-            dateNotInPast: true,
-          }}
-          label="End Date:"
-        />
-        <Input
-          type="input"
-          htmlAttrs={{
-            type: 'input',
-            name: 'employeeRejectionMessage',
-            disabled: !booking.messages,
-          }}
-          value={formData.employeeRejectionMessage}
-          label="Rejection Response:"
-        />
-        <Input
-          type="checkbox"
-          htmlAttrs={{
-            type: 'checkbox',
-            name: 'isHalfday',
-          }}
-          value={formData.isHalfday}
-          label="Request a halfday"
-        />
-        <Input
-          type="input"
-          className={isEventBeingUpdated ? null : 'hide'}
-          htmlAttrs={{
-            type: 'input',
-            name: 'updateMessage',
-            placeholder: 'optional',
-          }}
-          value={formData.updateMessage}
-          label="Reason for updating holiday:"
-          labelClass={isEventBeingUpdated ? null : 'hide'}
-          disabled={!formIsValid}
-        />
-      </Form>
+      {composeRemainingHolsErrorMessage() ?
+        <HolidayAlert>
+          <strong> {remainingDays} Days Remaining </strong>
+          <p> You do not have enough remaining holidays, please contact a member of the HR team. </p>     
+        </HolidayAlert> :
+        <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
+          <Input
+            type="select"
+            htmlAttrs={{
+              name: 'eventTypeId',
+              options: renderWFH(),
+            }}
+            
+            value={formData.eventTypeId}
+            label="Reason:"
+          />
+          <Input
+            type="date"
+            htmlAttrs={{
+              type: 'input',
+              name: 'start',
+              placeholder: 'Enter a start date',
+            }}
+            value={formData.start}
+            rules={{
+              dateNotInPast: true,
+            }}
+            label={formData.isHalfday ? 'Date' : 'Start Date:'}
+          />
+          <Input
+            type="date"
+            htmlAttrs={{
+              type: 'input',
+              name: 'end',
+              placeholder: 'Enter an end date',
+              disabled: formData.isHalfday,
+            }}
+            value={formData.end}
+            rules={{
+              dateNotInPast: true,
+            }}
+            label="End Date:"
+          />
+          <Input
+            type="input"
+            htmlAttrs={{
+              type: 'input',
+              name: 'employeeRejectionMessage',
+              disabled: !booking.messages,
+            }}
+            value={formData.employeeRejectionMessage}
+            label="Rejection Response:"
+          />
+          <Input
+            type="checkbox"
+            htmlAttrs={{
+              type: 'checkbox',
+              name: 'isHalfday',
+            }}
+            value={formData.isHalfday}
+            label="Request a halfday"
+          />
+          <Input
+            type="input"
+            className={isEventBeingUpdated ? null : 'hide'}
+            htmlAttrs={{
+              type: 'input',
+              name: 'updateMessage',
+              placeholder: 'optional',
+            }}
+            value={formData.updateMessage}
+            label="Reason for updating holiday:"
+            labelClass={isEventBeingUpdated ? null : 'hide'}
+            disabled={!formIsValid}
+          />
+        </Form>
+      }
     </Fragment>
   );
 };
@@ -175,6 +190,8 @@ BookingModalForm.propTypes = {
   updateEvent: PT.func.isRequired,
   booking: PT.object,
   isSameDay: PT.bool.isRequired,
+  getApprovedDays: PT.func,
+  getTotalDays: PT.number,
 };
 
 BookingModalForm.defaultProps = {
