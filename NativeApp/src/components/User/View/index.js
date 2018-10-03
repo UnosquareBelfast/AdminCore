@@ -4,7 +4,6 @@ import {
   View,
   SectionList,
   SafeAreaView,
-  ScrollView,
 } from 'react-native';
 import { isEmpty } from 'lodash';
 import ListItem from './ListItem';
@@ -15,7 +14,7 @@ import getDuration from '../../../utilities/dates';
 
 
 const UserView = (props) => {
-  const { events, remainingHolidays, employee } = props;
+  const { events, remainingHolidays, employee, approvedHolidays } = props;
 
   const itemList = (item) => {
     const renderItem = isEmpty(item)
@@ -43,7 +42,7 @@ const UserView = (props) => {
           <H3 style={styles.holidayText}>Holidays</H3>
         </View>
         <HeaderDays
-          events={events}
+          approvedHolidays={approvedHolidays}
           remainingHolidays={remainingHolidays}
         />
         <View style={styles.flatListView}>
@@ -70,6 +69,7 @@ UserView.propTypes = {
     forename: PT.string,
     surname: PT.string,
   }).isRequired,
+  approvedHolidays: PT.number.isRequired,
 };
 
 export default UserView;

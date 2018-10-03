@@ -3,6 +3,7 @@ import { PropTypes as PT } from 'prop-types';
 import { flattenDeep } from 'lodash';
 import { getUserEvents, getRemainingHolidays } from '../../utilities/holidays';
 import { userProfile } from '../../utilities/currentUser';
+import getDuration from '../../utilities/dates';
 
 export default Container => class extends Component {
   static propTypes = {
@@ -33,7 +34,7 @@ export default Container => class extends Component {
 
     this.sub = navigation.addListener('didFocus', () => {
       getUserEvents()
-        .then(events => this.setState({ events: this.sortingEvents(events) }));
+        .then(events => this.setState({ events }));
 
       getRemainingHolidays()
         .then(remainingHolidays => this.setState({ remainingHolidays }));
@@ -45,6 +46,21 @@ export default Container => class extends Component {
 
   componentWillUnmount() {
     this.sub.remove();
+  }
+
+  getDays = (events, description) => {
+    let totalDays = 0;
+    events.forEach((event) => {
+      if (!event.halfDay) {
+        totalDays += event.eventStatus.description === description
+          ? getDuration(event.start, event.end) : 0;
+      } else {
+        totalDays += event.eventStatus.description === description
+          ? 0.5 : 0;
+      }
+    });
+
+    return totalDays;
   }
 
   sortingEvents = (events) => {
@@ -75,12 +91,15 @@ export default Container => class extends Component {
 
   render() {
     const { events, remainingHolidays, employee } = this.state;
+    const approvedHolidays = this.getDays(events, 'Approved');
+    const eventObject = this.sortingEvents(events);
 
     return (
       <Container
         employee={employee}
-        events={events}
-        remainingHolidays={remainingHolidays - events.length}
+        events={eventObject}
+        remainingHolidays={remainingHolidays - approvedHolidays}
+        approvedHolidays={approvedHolidays}
       />
     );
   }

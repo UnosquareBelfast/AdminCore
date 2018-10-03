@@ -47,6 +47,17 @@ instance.interceptors.response.use((response) => {
       data: updatedMonthEvents,
     };
   }
+
+  if (response.config.url.includes(`${baseURL}/dashboard/getEmployeeTeamSnapshot`)) {
+    const events = [...response.data];
+    const currentEvents = mapEvents(events);
+
+    return {
+      ...response,
+      data: currentEvents,
+    };
+  }
+
   return response;
 });
 
