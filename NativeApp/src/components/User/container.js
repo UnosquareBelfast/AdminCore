@@ -54,9 +54,7 @@ export default Container => class extends Component {
       if (!event.halfDay) {
         totalDays += event.eventStatus.description === description
           ? getDuration(event.start, event.end) : 0;
-      }
-
-      if (event.halfDay) {
+      } else {
         totalDays += event.eventStatus.description === description
           ? 0.5 : 0;
       }
