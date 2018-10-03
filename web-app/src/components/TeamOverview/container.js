@@ -18,28 +18,13 @@ const TeamOverviewContainer = Wrapped =>
     }
 
     componentDidMount() {
-
-      getTeamOverview()
-        .then(({ data }) => this.setState({ teams: this.filterTeams(data) }))
+      
+      getTeamOverview( )
+        .then( ({data}) => this.setState( { teams: data } ))
         .catch(error =>
           Swal('Error', `There was an error: ${error.message}`, 'error')
         );
 
-    }
-
-    filterTeams = teams => {
-      const memberArray = [];
-      if (teams.length) {
-        teams.map(team => {
-          team.members.map(member => {
-            member.team = team.team;
-            const splitName = member.name.split(' ');
-            member.employee = {forename: splitName[0] , surname: splitName[1], email: member.email };
-            memberArray.push(member);
-          });
-        });
-      }
-      return memberArray;
     }
 
     selectUser = user => this.setState({ selectedUser: user });

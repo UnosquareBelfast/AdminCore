@@ -46,18 +46,20 @@ const UserView = (props) => {
           events={events}
           remainingHolidays={remainingHolidays}
         />
-        <View style={styles.flatListView}>
-          <SectionList
-            renderItem={({ item }) => (
-              itemList(item)
-            )}
-            renderSectionHeader={({ section }) => (
-              <H3 style={styles.sectionListHeader}>{section.title}</H3>
-            )}
-            sections={events}
-            keyExtractor={(item, index) => item + index}
-          />
-        </View>
+        <ScrollView>
+          <View style={styles.flatListView}>
+            <SectionList
+              renderItem={({ item }) => (
+                itemList(item)
+              )}
+              renderSectionHeader={({ section }) => (
+                <H3 style={styles.sectionListHeader}>{section.title}</H3>
+              )}
+              sections={events}
+              keyExtractor={(item, index) => item + index}
+            />
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );

@@ -14,7 +14,6 @@ const AllEmployeesContainer = Wrapped =>
       this.state = {
         users: [],
         selectedUser: {},
-        userModalVisible: false,
       };
     }
 
@@ -26,11 +25,7 @@ const AllEmployeesContainer = Wrapped =>
         );
     }
 
-    selectUser = user => this.setState({ selectedUser: user, userModalVisible: true  });
-    
-    closeUserModal = () => {
-      this.setState({ userModalVisible: false });
-    };
+    selectUser = user => this.setState({ selectedUser: user });
 
     render() {
       return (
@@ -39,8 +34,6 @@ const AllEmployeesContainer = Wrapped =>
           users={this.state.users}
           selectedUser={this.state.selectedUser}
           selectUser={this.selectUser}
-          userModalVisible={this.state.userModalVisible}
-          closeUserModal={this.closeUserModal}
         />
       );
     }

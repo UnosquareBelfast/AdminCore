@@ -108,7 +108,6 @@ const Input = props => {
             placeholderText={htmlAttrs.placeholder}
             disabledKeyboardNavigation
             readOnly
-            minDate={new Date()}
             filterDate={date => {
               const day = date.day();
               return day !== 0 && day !== 6;

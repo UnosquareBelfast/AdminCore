@@ -6,7 +6,7 @@ import { Button } from '../common';
 import { CornerButton } from '../common_styled';
 import container from './container';
 
-const AllEmployees = ({ history, users, selectUser, selectedUser, closeUserModal, userModalVisible }) => {
+const AllEmployees = ({ history, users, selectUser, selectedUser }) => {
   return (
     <Fragment>
       <CornerButton>
@@ -15,13 +15,11 @@ const AllEmployees = ({ history, users, selectUser, selectedUser, closeUserModal
           label="New Employee"
         />
       </CornerButton>
-      {userModalVisible && (
-        <UserModal
-          user={selectedUser}
-          closeModal={closeUserModal}
-          history={history}
-        />
-      )}
+      <UserModal
+        user={selectedUser}
+        closeModal={() => selectUser({})}
+        history={history}
+      />
       <h2>Employees</h2>
       <DataTable
         data={users}
@@ -39,8 +37,6 @@ AllEmployees.propTypes = {
   users: PT.array.isRequired,
   selectUser: PT.func.isRequired,
   selectedUser: PT.object.isRequired,
-  userModalVisible: PT.bool.isRequired,
-  closeUserModal: PT.func.isRequired,
 };
 
 export default container(AllEmployees);

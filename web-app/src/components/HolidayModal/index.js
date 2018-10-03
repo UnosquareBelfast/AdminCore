@@ -7,7 +7,6 @@ import { getEventDayAmount } from '../../utilities/dates';
 import { statusText } from '../../utilities/holidayStatus';
 import roles from '../../utilities/roles';
 import { InputText } from '../common_styled';
-import holidayStatus from '../../utilities/holidayStatus';
 
 const HolidayModal = ({
   closeModal,
@@ -29,10 +28,9 @@ const HolidayModal = ({
     if (!isAdmin) return false;
     if (userDetails.employeeId === employeeId) return false;
     if (!showAdminControls) return false;
-    if (eventStatus.eventStatusId === holidayStatus.CANCELLED) return false;
     return true;
   };
-  
+
   const duration = getEventDayAmount(holiday);
   const disableRejectionReasonButton = !capturedRejectionReasonText.length > 0;
   return (

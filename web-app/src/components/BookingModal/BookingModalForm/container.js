@@ -15,6 +15,8 @@ import {
 import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
 import { getUser, getAllEvents, eventBeingUpdated } from '../../../reducers';
+import { getTotalDaysInEventArrayWithStatus } from '../../../utilities/dates';
+import HolidayStatus from '../../../utilities/holidayStatus';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -30,7 +32,6 @@ const Container = Wrapped =>
       updateEvent: PT.func.isRequired,
       toggleRejectionResponseView: PT.bool.isRequired,
       toggleRejectionMessageView: PT.bool.isRequired,
-      isSameDay: PT.bool.isRequired,
     };
 
     static defaultProps = {
@@ -40,15 +41,15 @@ const Container = Wrapped =>
 
     constructor(props) {
       super(props);
-      const { isSameDay } = this.props;
       this.state = {
         formData: {
           end: moment(),
-          eventTypeId: isSameDay ? 2 : 1 ,
+          eventTypeId: 1,
           isHalfday: false,
           start: moment(),
           employeeRejectionMessage: '',
           updateMessage: '',
+          totalHolidays: 0,
         },
         formIsValid: true,
         capturedRejectionReponseText: '',
@@ -58,13 +59,12 @@ const Container = Wrapped =>
     componentDidMount = () => {
       const {
         booking: { start, end, eventType, halfDay },
-        isSameDay,
       } = this.props;
       this.setState({
         formData: {
           start: start,
           end: end,
-          eventTypeId: isSameDay ? 2 : eventType.eventTypeId,
+          eventTypeId: eventType.eventTypeId,
           isHalfday: halfDay || false,
           employeeRejectionMessage: '',
           updateMessage: '',
@@ -76,6 +76,15 @@ const Container = Wrapped =>
       this.setState({ capturedRejectionReponseText: e.target.value });
     };
 
+    getApprovedDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.APPROVED
+      );
+    };
+    
+    getTotalDays = (this.props.userDetails.totalHolidays);
+  
     handleCalendarValidation({ start, end }) {
       const pastDatesSelected = checkIfPastDatesSelected(start);
       const datesFallOnWeekend = checkIfDatesFallOnWeekend(start, end);
@@ -160,16 +169,16 @@ const Container = Wrapped =>
         toggleRejectionResponseView,
         booking,
         toggleRejectionMessageView,
-        isSameDay,
       } = this.props;
+      
       return (
         <Wrapped
-          isSameDay={isSameDay}
           formData={formData}
           booking={booking}
           toggleRejectionMessageView={toggleRejectionMessageView}
           capturedRejectionReponseText={capturedRejectionReponseText}
           assignRejectionResponseText={this.assignRejectionResponseText}
+          getApprovedDays={this.getApprovedDays}
           toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
@@ -179,6 +188,7 @@ const Container = Wrapped =>
           }
           createEvent={event => createEvent(event, formData)}
           updateEvent={event => updateEvent(event, formData)}
+          getTotalDays={this.getTotalDays}
         />
       );
     }

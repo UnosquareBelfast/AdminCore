@@ -5,7 +5,7 @@ import { Form, Input } from '../../../common';
 import { FormContainer } from '../styled';
 
 export const DateForm = props => {
-  const { submitForm, formStatus, formData } = props;
+  const { submitForm, formStatus, formData, formIsValid } = props;
 
   return (
     <FormContainer>
@@ -17,6 +17,7 @@ export const DateForm = props => {
           {
             label: 'Create Contract',
             event: submitForm,
+            disabled: !formIsValid,
           },
         ]}
       >
@@ -61,6 +62,7 @@ DateForm.propTypes = {
   formData: PT.object.isRequired,
   submitForm: PT.func.isRequired,
   formStatus: PT.func.isRequired,
+  formIsValid: PT.bool.isRequired,
 };
 
 export default container(DateForm);

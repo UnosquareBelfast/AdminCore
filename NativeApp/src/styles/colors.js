@@ -1,4 +1,4 @@
-export const UNOBLUE = '#0EB5D1';
+export const UNOBLUE = '#00DCFA';
 
 // GREY SCALE
 export const WHITE = '#FFFFFF';
@@ -13,7 +13,7 @@ export const SHADOW = '#F7F7F7';
 export const RED = '#DD0101';
 
 // TAB NAVIGATION
-export const ACTIVECOLOR = '#0EB5D1';
+export const ACTIVECOLOR = '#5a8ccf';
 export const INACTIVECOLOR = '#bdbdbd';
 
 export const WFHCOLOR = '#3469ff';
