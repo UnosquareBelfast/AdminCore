@@ -15,10 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class EventService {
@@ -65,6 +68,37 @@ public class EventService {
             Event event = modelMapper.map(eventDto, Event.class);
             save(event);
         }
+    }
+
+    public List<EventDTO> splitEventIfFallsOnAWeekend(EventDTO event, LocalDate originalEndDate, List<EventDTO> eventDTOS) {
+        List<LocalDate> dateRange = getDatesRange(event.getStartDate(), event.getEndDate());
+        for (LocalDate eventDate : dateRange) {
+            if (eventDate.getDayOfWeek() == DayOfWeek.FRIDAY) {
+                event.setEndDate(eventDate);
+                eventDTOS.add(event);
+                EventDTO nextEvent = mapEventDtoToFollowingWeek(event, originalEndDate, eventDate);
+                event = nextEvent;
+            }
+        }
+        if (event.getEndDate() == originalEndDate){
+            eventDTOS.add(event);
+        }
+        return eventDTOS;
+    }
+
+    private EventDTO mapEventDtoToFollowingWeek(EventDTO priorEvent, LocalDate originalEndDate, LocalDate eventDate) {
+        EventDTO nextEvent = new EventDTO();
+        modelMapper.map(priorEvent, nextEvent);
+        nextEvent.setStartDate(eventDate.plusWeeks(1).with(DayOfWeek.MONDAY));
+        nextEvent.setEndDate(originalEndDate);
+        return nextEvent;
+    }
+
+    private static List<LocalDate> getDatesRange(LocalDate startDate, LocalDate endDate) {
+        int numOfDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
+        return IntStream.range(0, numOfDays)
+                .mapToObj(startDate::plusDays)
+                .collect(Collectors.toList());
     }
 
     @Transactional

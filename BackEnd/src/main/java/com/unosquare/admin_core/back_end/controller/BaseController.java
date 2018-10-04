@@ -57,7 +57,7 @@ public abstract class BaseController {
                 if (eventType.getEventTypeId() == EventTypes.ANNUAL_LEAVE.getEventTypeId()) {
                     UUID groupId = UUID.randomUUID();
                     newEvent.setGroupId(groupId);
-                    splitEventIfFallsOnAWeekend(newEvent, newEvent.getEndDate(), eventDTOS);
+                    eventService.splitEventIfFallsOnAWeekend(newEvent, newEvent.getEndDate(), eventDTOS);
                 } else {
                     eventDTOS.add(newEvent);
                 }
@@ -67,44 +67,4 @@ public abstract class BaseController {
 
         return responses;
     }
-
-    private void splitEventIfFallsOnAWeekend(EventDTO event, LocalDate originalEndDate, List<EventDTO> eventDTOS) {
-        List<LocalDate> dateRange = getDatesRange(event.getStartDate(), event.getEndDate());
-        for (LocalDate eventDate : dateRange) {
-            if (isWeekend(eventDate)) {
-                event.setEndDate(eventDate.minusDays(1));
-                eventDTOS.add(event);
-                EventDTO nextEvent = mapEventDto(event, originalEndDate, eventDate);
-                // Check again
-                splitEventIfFallsOnAWeekend(nextEvent, nextEvent.getEndDate(), eventDTOS);
-                break;
-            }
-        }
-
-        if (event.getEndDate() == originalEndDate){
-            eventDTOS.add(event);
-        }
-    }
-
-    private EventDTO mapEventDto(EventDTO priorEvent, LocalDate originalEndDate, LocalDate eventDate) {
-        EventDTO nextEvent = new EventDTO();
-        modelMapper.map(priorEvent, nextEvent);
-        nextEvent.setStartDate(eventDate.plusDays(2));
-        nextEvent.setEndDate(originalEndDate);
-        return nextEvent;
-    }
-
-    private static List<LocalDate> getDatesRange(LocalDate startDate, LocalDate endDate) {
-        int numOfDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
-        return IntStream.range(0, numOfDays)
-                .mapToObj(startDate::plusDays)
-                .collect(Collectors.toList());
-    }
-
-
-    private boolean isWeekend(LocalDate eventDate) {
-        //Recursively loops from Monday so Sunday check unnecessary
-        return eventDate.getDayOfWeek() == DayOfWeek.SATURDAY;
-    }
-
 }
