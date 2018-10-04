@@ -24,6 +24,7 @@ const BookingModalForm = props => {
     booking,
     isSameDay,
     getApprovedDays,
+    getPendingDays,
     getTotalDays,
   } = props;
 
@@ -54,11 +55,20 @@ const BookingModalForm = props => {
     }
   };
 
-  const remainingDays = (getTotalDays - getApprovedDays());
-  const composeRemainingHolsErrorMessage = () => {
-    if (remainingDays <= 0 || bookingDuration > remainingDays) { 
-      return true;
-    }
+  const remainingDays = (getTotalDays - getApprovedDays);
+  const pendingDays = getPendingDays;
+  const availableDays = (remainingDays - pendingDays);
+  const showRemainingHolsAlertMessage = () => {
+    return (remainingDays === 0 || bookingDuration > remainingDays) || (availableDays < bookingDuration);     
+  };
+
+  const holidayAlertMessage = () => {
+    return (
+      <HolidayAlert>
+        <tag>{availableDays} Days Available</tag>
+        <p>You do not have enough remaining holidays, please contact a member of the HR team.</p>     
+      </HolidayAlert>
+    ); 
   };
 
   const composeErrorMessage = () => {
@@ -72,7 +82,7 @@ const BookingModalForm = props => {
         start
       );
       const daysNotice = calculateDaysNotice(bookingDuration);
-      return fromTodayToStartDateRequested < daysNotice && isSameDay ? (
+      return fromTodayToStartDateRequested < daysNotice ?  (
         <NoticeAlert>
           <p>
             <FontAwesomeIcon icon={faExclamationCircle} />
@@ -99,11 +109,7 @@ const BookingModalForm = props => {
   return (
     <Fragment>
       {composeErrorMessage()}
-      {composeRemainingHolsErrorMessage() ?
-        <HolidayAlert>
-          <strong> {remainingDays} Days Remaining </strong>
-          <p> You do not have enough remaining holidays, please contact a member of the HR team. </p>     
-        </HolidayAlert> :
+      {showRemainingHolsAlertMessage() ? holidayAlertMessage() :
         <Form formData={formData} formStatus={formStatus} actions={createCtas()}>
           <Input
             type="select"
@@ -190,7 +196,8 @@ BookingModalForm.propTypes = {
   updateEvent: PT.func.isRequired,
   booking: PT.object,
   isSameDay: PT.bool.isRequired,
-  getApprovedDays: PT.func,
+  getApprovedDays: PT.number,
+  getPendingDays: PT.number,
   getTotalDays: PT.number,
 };
 

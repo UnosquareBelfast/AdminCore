@@ -81,6 +81,13 @@ const Container = Wrapped =>
         HolidayStatus.APPROVED
       );
     };
+
+    getPendingDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.PENDING
+      );
+    };
     
     getTotalDays = (this.props.userDetails.totalHolidays);
 
@@ -182,7 +189,8 @@ const Container = Wrapped =>
           toggleRejectionMessageView={toggleRejectionMessageView}
           capturedRejectionReponseText={capturedRejectionReponseText}
           assignRejectionResponseText={this.assignRejectionResponseText}
-          getApprovedDays={this.getApprovedDays}
+          getApprovedDays={this.getApprovedDays()}
+          getPendingDays={this.getPendingDays()}
           toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
