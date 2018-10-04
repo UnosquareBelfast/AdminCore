@@ -15,6 +15,8 @@ import {
 import { Toast } from '../../../utilities/Notifications';
 import moment from 'moment';
 import { getUser, getAllEvents, eventBeingUpdated } from '../../../reducers';
+import { getTotalDaysInEventArrayWithStatus } from '../../../utilities/dates';
+import HolidayStatus from '../../../utilities/holidayStatus';
 
 const Container = Wrapped =>
   class extends React.Component {
@@ -49,6 +51,7 @@ const Container = Wrapped =>
           start: moment(),
           employeeRejectionMessage: '',
           updateMessage: '',
+          totalHolidays: 0,
         },
         formIsValid: true,
         capturedRejectionReponseText: '',
@@ -71,6 +74,22 @@ const Container = Wrapped =>
         },
       });
     };
+
+    getApprovedDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.APPROVED
+      );
+    };
+
+    getPendingDays = () => {
+      return getTotalDaysInEventArrayWithStatus(
+        this.props.allEvents,
+        HolidayStatus.PENDING
+      );
+    };
+    
+    getTotalDays = (this.props.userDetails.totalHolidays);
 
     assignRejectionResponseText = e => {
       this.setState({ capturedRejectionReponseText: e.target.value });
@@ -170,6 +189,8 @@ const Container = Wrapped =>
           toggleRejectionMessageView={toggleRejectionMessageView}
           capturedRejectionReponseText={capturedRejectionReponseText}
           assignRejectionResponseText={this.assignRejectionResponseText}
+          getApprovedDays={this.getApprovedDays()}
+          getPendingDays={this.getPendingDays()}
           toggleRejectionResponseView={toggleRejectionResponseView}
           isEventBeingUpdated={isEventBeingUpdated}
           bookingDuration={bookingDuration}
@@ -179,6 +200,7 @@ const Container = Wrapped =>
           }
           createEvent={event => createEvent(event, formData)}
           updateEvent={event => updateEvent(event, formData)}
+          getTotalDays={this.getTotalDays}
         />
       );
     }
