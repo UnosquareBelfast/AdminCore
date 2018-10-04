@@ -148,3 +148,4 @@ dist/
 .vscode/
 /BackEnd/*.iml
 /BackEnd/docs
+.DS_Store
