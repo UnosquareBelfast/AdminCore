@@ -9,16 +9,14 @@
 
 namespace Admincore.WebApi
 {
-  using System.Text;
-
   using Admincore.Services.Configuration;
-
   using Microsoft.AspNetCore.Authentication.JwtBearer;
   using Microsoft.AspNetCore.Builder;
   using Microsoft.AspNetCore.Hosting;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.IdentityModel.Tokens;
-
+  using Swashbuckle.AspNetCore.Swagger;
+  using System.Text;
   using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
   /// <summary>
@@ -66,11 +64,16 @@ namespace Admincore.WebApi
             options.SaveToken = true;
             options.RequireHttpsMetadata = true;
             options.TokenValidationParameters = new TokenValidationParameters()
-                                                  {
-                                                    ValidateIssuer = false,
-                                                    ValidateAudience = false,
-                                                    IssuerSigningKey = new SymmetricSecurityKey(key)
-                                                  };
+            {
+              ValidateIssuer = false,
+              ValidateAudience = false,
+              IssuerSigningKey = new SymmetricSecurityKey(key)
+            };
+          });
+
+      services.AddSwaggerGen(c =>
+          {
+            c.SwaggerDoc("v1", new Info { Title = "AdminCore Documentation", Version = "v1" });
           });
 
       DependencyInjection.RegisterDependencyInjection(services);
@@ -105,6 +108,17 @@ namespace Admincore.WebApi
       app.UseAuthentication();
 
       app.UseHttpsRedirection();
+
+      // Enable middleware to serve generated Swagger as a JSON endpoint.
+      app.UseSwagger();
+
+      // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+      // specifying the Swagger JSON endpoint.
+      app.UseSwaggerUI(c =>
+          {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "AdminCore Documentation V1");
+          });
+
       app.UseMvc();
     }
   }
