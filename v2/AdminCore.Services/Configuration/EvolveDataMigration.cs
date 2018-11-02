@@ -7,24 +7,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Admincore.Common.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics.CodeAnalysis;
 
-namespace MessageSubscription.Services.Configuration
+namespace AdminCore.Services.Configuration
 {
-  using AdminCore.Common.Interfaces;
-
-  using Microsoft.EntityFrameworkCore;
+  using System;
+  using System.Collections.Generic;
+  using System.Data;
+  using System.Diagnostics.CodeAnalysis;
+  using Admincore.Common.Interfaces;
   using Microsoft.Extensions.Configuration;
-
   using Npgsql;
-
   using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
+  /// <summary>
+  /// The evolve data migration.
+  /// </summary>
   public class EvolveDataMigration : IDataMigration
   {
     private readonly IConfiguration _configuration;
@@ -52,15 +49,34 @@ namespace MessageSubscription.Services.Configuration
       }
       catch (Exception ex)
       {
+        //TODO Add Logger
         throw;
       }
     }
 
+    /// <summary>
+    /// The retrieve database connection.
+    /// </summary>
+    /// <returns>
+    /// The <see cref="IDbConnection"/>.
+    /// </returns>
     public virtual IDbConnection RetrieveDatabaseConnection()
     {
-      return new NpgsqlConnection(this._configuration.GetConnectionString("AdmincoreDatabase"));
+      return new NpgsqlConnection(_configuration.GetConnectionString("AdmincoreDatabase"));
     }
 
+    /// <summary>
+    /// The retrieve evolve.
+    /// </summary>
+    /// <param name="connection">
+    /// The connection.
+    /// </param>
+    /// <param name="logger">
+    /// The logger.
+    /// </param>
+    /// <returns>
+    /// The <see cref="Evolve"/>.
+    /// </returns>
     public virtual Evolve.Evolve RetrieveEvolve(IDbConnection connection, Action<string> logger)
     {
       return new Evolve.Evolve(connection, logger)
