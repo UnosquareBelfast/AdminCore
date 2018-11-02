@@ -24,7 +24,15 @@ namespace Admincore.Services.Mappings
     /// </summary>
     public ServiceMapperProfile()
     {
-      CreateMap<Employee, EmployeeDto>();
+      CreateMap<Employee, EmployeeDto>()
+        .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Country.CountryId))
+        .ForMember(dest => dest.CountryDescription, opt => opt.MapFrom(src => src.Country.Description))
+        .ForMember(dest => dest.EmployeeRoleId, opt => opt.MapFrom(src => src.EmployeeRole.EmployeeRoleId))
+        .ForMember(dest => dest.EmployeeRoleDescription, opt => opt.MapFrom(src => src.EmployeeRole.Description))
+        .ForMember(dest => dest.EmployeeStatusId, opt => opt.MapFrom(src => src.EmployeeStatus.EmployeeStatusId))
+        .ForMember(dest => dest.StatusDescription, opt => opt.MapFrom(src => src.EmployeeStatus.Description));
+
+      CreateMap<EmployeeDto, Employee>();
     }
   }
 }

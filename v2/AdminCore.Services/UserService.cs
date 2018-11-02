@@ -9,23 +9,16 @@
 
 namespace Admincore.Services
 {
+  using Admincore.Common.Interfaces;
+  using Admincore.DAL;
+  using AdminCore.DTOs;
+  using AutoMapper;
+  using Microsoft.IdentityModel.Tokens;
   using System;
-  using System.Collections.Generic;
   using System.IdentityModel.Tokens.Jwt;
   using System.Linq;
   using System.Security.Claims;
   using System.Text;
-
-  using Admincore.Common.Interfaces;
-  using Admincore.DAL;
-  using Admincore.DAL.Models;
-  using Admincore.DTOs;
-
-  using AdminCore.DTOs;
-
-  using AutoMapper;
-
-  using Microsoft.IdentityModel.Tokens;
 
   /// <summary>
   /// The hello service.
@@ -84,14 +77,14 @@ namespace Admincore.Services
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 
       var tokenDescriptor = new SecurityTokenDescriptor
-                              {
-                                Subject = new ClaimsIdentity(new[]
+      {
+        Subject = new ClaimsIdentity(new[]
                                                                {
                                                                  new Claim(ClaimTypes.Name, employee.EmployeeId.ToString())
                                                                }),
-                                Expires = DateTime.UtcNow.AddDays(1),
-                                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                              };
+        Expires = DateTime.UtcNow.AddDays(1),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+      };
       var token = tokenHandler.CreateToken(tokenDescriptor);
       var jwtResponseDto = new JwtAuthDto { AccessToken = tokenHandler.WriteToken(token), TokenType = "Bearer" };
       return jwtResponseDto;

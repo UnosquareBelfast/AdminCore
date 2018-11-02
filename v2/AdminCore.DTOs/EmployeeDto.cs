@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Admincore.DTOs
 {
   /// <summary>
@@ -33,5 +35,50 @@ namespace Admincore.DTOs
     /// Gets or sets the password.
     /// </summary>
     public string Password { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Email.
+    /// </summary>
+    public string Email { get; set; }
+
+    /// <summary>
+    /// Gets or sets the TotalHolidays.
+    /// </summary>
+    public int TotalHolidays { get; set; }
+
+    /// <summary>
+    /// Gets or sets the StartDate.
+    /// </summary>
+    public DateTime StartDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the CountryId.
+    /// </summary>
+    public int CountryId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the CountryDescription
+    /// </summary>
+    public int CountryDescription { get; set; }
+
+    /// <summary>
+    /// Gets or sets the EmployeeRoleId 
+    /// </summary>
+    public int EmployeeRoleId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the EmployeeRoleDescription
+    /// </summary>
+    public int EmployeeRoleDescription { get; set; }
+
+    /// <summary>
+    /// Gets or sets the EmployeeStatusId
+    /// </summary>
+    public int EmployeeStatusId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the StatusDescription
+    /// </summary>
+    public int StatusDescription { get; set; }
   }
 }

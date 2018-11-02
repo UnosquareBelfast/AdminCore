@@ -21,14 +21,21 @@ namespace Admincore.WebApi.Mappings
   /// The web mapping profile.
   /// </summary>
   public class WebMappingProfile : Profile
+  {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WebMappingProfile"/> class.
+    /// </summary>
+    public WebMappingProfile()
     {
-      /// <summary>
-      /// Initializes a new instance of the <see cref="WebMappingProfile"/> class.
-      /// </summary>
-      public WebMappingProfile()
-      {
-        CreateMap<EmployeeDto, LoginRequestModel>();
-        CreateMap<JwtAuthDto, JwtAuthViewModel>();
+      CreateMap<EmployeeDto, LoginRequestModel>();
+
+      CreateMap<EmployeeDto, RegisterEmployeeViewModel>()
+        .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId))
+        .ForMember(dest => dest.EmployeeRoleId, opt => opt.MapFrom(src => src.EmployeeRoleId))
+        .ForMember(dest => dest.StatusId, opt => opt.MapFrom(src => src.EmployeeStatusId))
+        .ReverseMap();
+
+      CreateMap<JwtAuthDto, JwtAuthViewModel>();
     }
   }
 }

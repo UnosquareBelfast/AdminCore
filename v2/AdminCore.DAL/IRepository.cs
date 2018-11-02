@@ -41,5 +41,6 @@ namespace Admincore.DAL
     /// The <see cref="T"/>.
     /// </returns>
     T Insert(T entity);
+   
   }
 }

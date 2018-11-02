@@ -9,6 +9,7 @@
 
 namespace Admincore.DAL.Models
 {
+  using System;
   using System.ComponentModel.DataAnnotations;
   using System.ComponentModel.DataAnnotations.Schema;
 
@@ -49,8 +50,49 @@ namespace Admincore.DAL.Models
     /// <summary>
     /// Gets or sets the email.
     /// </summary>
-    [StringLength(50)]
     [Column("email")]
     public string Email { get; set; }
+
+    /// <summary>
+    /// Gets or sets the totalHolidays
+    /// </summary>
+    [Column("total_holidays")]
+    public int TotalHolidays { get; set; }
+
+    /// <summary>
+    /// Gets or sets the startDate
+    /// </summary>
+    [Column("start_date")]
+    public DateTime StartDate { get; set; }
+
+    [Column("country_id")]
+    public int CountryId { get; set; }
+
+    [ForeignKey("CountryId")]
+    public Country Country { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employeeRole
+    /// </summary>
+    [Column("employee_role_id")]
+    public int EmployeeRoleId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employeeRole
+    /// </summary>
+    [ForeignKey("EmployeeRoleId")]
+    public EmployeeRole EmployeeRole { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employeeRole
+    /// </summary>
+    [Column("employee_status_id")]
+    public int EmployeeStatusId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employeeStatus
+    /// </summary>
+    [ForeignKey("EmployeeStatusId")]
+    public EmployeeStatus EmployeeStatus { get; set; }
   }
 }

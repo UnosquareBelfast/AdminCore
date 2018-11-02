@@ -49,6 +49,7 @@ namespace Admincore.Services.Configuration
         services.AddDbContext<AdminCoreContext>();
         services.AddTransient<IDatabaseContext, EntityFrameworkContext>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IEmployeeService, EmployeeService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 

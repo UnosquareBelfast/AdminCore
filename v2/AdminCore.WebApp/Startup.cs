@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using AutoMapper;
+
 namespace Admincore.WebApi
 {
   using Admincore.Services.Configuration;
@@ -50,6 +52,7 @@ namespace Admincore.WebApi
     {
       services.AddMvc();
       services.AddCors();
+      services.AddAutoMapper();
 
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 
