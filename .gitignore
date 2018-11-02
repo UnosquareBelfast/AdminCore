@@ -149,3 +149,7 @@ dist/
 /BackEnd/*.iml
 /BackEnd/docs
 .DS_Store
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
+/.vs/AdminCore/v15/.suo

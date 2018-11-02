@@ -10,6 +10,7 @@
 namespace Admincore.DAL
 {
   using Admincore.DAL.Models;
+  using System.Data;
 
   /// <summary>
   /// The DatabaseContext interface.

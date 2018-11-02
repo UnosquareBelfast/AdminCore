@@ -11,17 +11,14 @@ namespace Admincore.Services.Configuration
 {
   using System;
   using System.Diagnostics.CodeAnalysis;
-
-  using Admincore.Common;
-  using Admincore.Common.Interfaces;
-  using Admincore.DAL;
-  using Admincore.DAL.Database;
-  using Admincore.DAL.Entity_Framework;
-
+  using AdminCore.Services.Configuration;
   using AutoMapper;
-
+  using Common;
+  using Common.Interfaces;
+  using DAL;
+  using DAL.Database;
+  using DAL.Entity_Framework;
   using Microsoft.Extensions.DependencyInjection;
-
   using IContainer = Common.DependencyInjection.IContainer;
 
   /// <summary>
@@ -47,8 +44,10 @@ namespace Admincore.Services.Configuration
       {
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
-        services.AddTransient<IDatabaseContext, EntityFrameworkContext>();
+        services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IDataMigration, EvolveDataMigration>();
+        services.AddSingleton<IConfiguration, ConfigurationProvider>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 

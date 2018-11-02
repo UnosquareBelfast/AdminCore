@@ -11,8 +11,8 @@ namespace Admincore.DAL.Entity_Framework
 {
   using Admincore.DAL.Database;
   using Admincore.DAL.Models;
-
   using Microsoft.EntityFrameworkCore;
+  using System.Data;
 
   /// <summary>
   /// The entity framework context.
