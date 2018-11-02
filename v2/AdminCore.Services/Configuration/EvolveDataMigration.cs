@@ -15,9 +15,8 @@ namespace AdminCore.Services.Configuration
   using System.Data;
   using System.Diagnostics.CodeAnalysis;
   using Admincore.Common.Interfaces;
-  using Microsoft.Extensions.Configuration;
+  using Admincore.Services.Configuration;
   using Npgsql;
-  using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
   /// <summary>
   /// The evolve data migration.
@@ -62,7 +61,7 @@ namespace AdminCore.Services.Configuration
     /// </returns>
     public virtual IDbConnection RetrieveDatabaseConnection()
     {
-      return new NpgsqlConnection(_configuration.GetConnectionString("AdmincoreDatabase"));
+      return new NpgsqlConnection(_configuration.RetrieveConnectionString());
     }
 
     /// <summary>

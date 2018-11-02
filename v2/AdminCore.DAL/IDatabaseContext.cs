@@ -26,7 +26,5 @@ namespace Admincore.DAL
     /// The save changes.
     /// </summary>
     void SaveChanges();
-
-    IDbConnection RetrieveConnection();
   }
 }

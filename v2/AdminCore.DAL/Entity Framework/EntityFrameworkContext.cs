@@ -45,11 +45,6 @@ namespace Admincore.DAL.Entity_Framework
     /// </summary>
     public IRepository<Employee> EmployeeRepository => _EmployeeRepository ?? (_EmployeeRepository = new EntityFrameworkRepository<Employee>(this));
 
-    public IDbConnection RetrieveConnection()
-    {
-      return adminCoreContext.Database.GetDbConnection();
-    }
-
     /// <summary>
     /// The save changes.
     /// </summary>
