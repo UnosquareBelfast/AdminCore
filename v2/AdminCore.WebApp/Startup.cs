@@ -21,6 +21,7 @@ namespace Admincore.WebApi
   using Microsoft.IdentityModel.Tokens;
   using Swashbuckle.AspNetCore.Swagger;
   using System.Text;
+
   using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
   /// <summary>
@@ -68,17 +69,17 @@ namespace Admincore.WebApi
             options.SaveToken = true;
             options.RequireHttpsMetadata = true;
             options.TokenValidationParameters = new TokenValidationParameters()
-            {
-              ValidateIssuer = false,
-              ValidateAudience = false,
-              IssuerSigningKey = new SymmetricSecurityKey(key)
-            };
-          });
+          {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+          };
+        });
 
       services.AddSwaggerGen(c =>
-          {
-            c.SwaggerDoc("v1", new Info { Title = "AdminCore Documentation", Version = "v1" });
-          });
+      {
+        c.SwaggerDoc("v1", new Info { Title = "AdminCore Documentation", Version = "v1" });
+      });
 
       DependencyInjection.RegisterDependencyInjection(services);
 
