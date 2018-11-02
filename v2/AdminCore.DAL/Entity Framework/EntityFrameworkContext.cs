@@ -11,8 +11,8 @@ namespace Admincore.DAL.Entity_Framework
 {
   using Admincore.DAL.Database;
   using Admincore.DAL.Models;
-
   using Microsoft.EntityFrameworkCore;
+  using System.Data;
 
   /// <summary>
   /// The entity framework context.
@@ -44,6 +44,11 @@ namespace Admincore.DAL.Entity_Framework
     /// The patient repository.
     /// </summary>
     public IRepository<Employee> EmployeeRepository => _EmployeeRepository ?? (_EmployeeRepository = new EntityFrameworkRepository<Employee>(this));
+
+    public IDbConnection RetrieveConnection()
+    {
+      return adminCoreContext.Database.GetDbConnection();
+    }
 
     /// <summary>
     /// The save changes.

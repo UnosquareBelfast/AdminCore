@@ -10,6 +10,7 @@
 namespace Admincore.DAL
 {
   using Admincore.DAL.Models;
+  using System.Data;
 
   /// <summary>
   /// The DatabaseContext interface.
@@ -25,5 +26,7 @@ namespace Admincore.DAL
     /// The save changes.
     /// </summary>
     void SaveChanges();
+
+    IDbConnection RetrieveConnection();
   }
 }

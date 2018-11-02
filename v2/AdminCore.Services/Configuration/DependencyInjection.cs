@@ -20,6 +20,8 @@ namespace Admincore.Services.Configuration
 
   using AutoMapper;
 
+  using MessageSubscription.Services.Configuration;
+
   using Microsoft.Extensions.DependencyInjection;
 
   using IContainer = Common.DependencyInjection.IContainer;
@@ -47,8 +49,9 @@ namespace Admincore.Services.Configuration
       {
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
-        services.AddTransient<IDatabaseContext, EntityFrameworkContext>();
+        services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IDataMigration, EvolveDataMigration>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 

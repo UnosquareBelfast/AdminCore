@@ -9,6 +9,10 @@
 
 namespace Admincore.WebApi
 {
+  using System.Text;
+
+  using Admincore.Common;
+  using Admincore.Common.Interfaces;
   using Admincore.Services.Configuration;
   using Microsoft.AspNetCore.Authentication.JwtBearer;
   using Microsoft.AspNetCore.Builder;
@@ -77,6 +81,11 @@ namespace Admincore.WebApi
           });
 
       DependencyInjection.RegisterDependencyInjection(services);
+
+      #if DEBUG
+        var migration = ServiceLocator.Instance.GetInstance<IDataMigration>();
+        migration.Migrate();
+      #endif
     }
 
     /// <summary>
