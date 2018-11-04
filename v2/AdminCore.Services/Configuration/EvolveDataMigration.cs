@@ -15,7 +15,7 @@ namespace AdminCore.Services.Configuration
   using System.Data;
   using System.Diagnostics.CodeAnalysis;
   using Admincore.Common.Interfaces;
-  using Admincore.Services.Configuration;
+
   using Npgsql;
 
   /// <summary>
@@ -23,19 +23,37 @@ namespace AdminCore.Services.Configuration
   /// </summary>
   public class EvolveDataMigration : IDataMigration
   {
+    /// <summary>
+    /// The _configuration.
+    /// </summary>
     private readonly IConfiguration _configuration;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EvolveDataMigration"/> class.
+    /// </summary>
+    /// <param name="configuration">
+    /// The configuration.
+    /// </param>
     public EvolveDataMigration(IConfiguration configuration)
     {
       _configuration = configuration;
     }
 
+    /// <summary>
+    /// The execute migration.
+    /// </summary>
+    /// <param name="evolve">
+    /// The evolve.
+    /// </param>
     [ExcludeFromCodeCoverage]
     public virtual void ExecuteMigration(Evolve.Evolve evolve)
     {
       evolve.Migrate();
     }
 
+    /// <summary>
+    /// The migrate.
+    /// </summary>
     public void Migrate()
     {
       try
