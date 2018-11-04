@@ -48,6 +48,7 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the event dates.
     /// </summary>
+    [ForeignKey("EventId")]
     public ICollection<EventDates> EventDates { get; set; }
 
     /// <summary>
@@ -75,16 +76,10 @@ namespace AdminCore.DAL.Models
     public EventType EventType { get; set; }
 
     /// <summary>
-    /// Gets or sets the event message id.
-    /// </summary>
-    [Column("event_message_id")]
-    public int EventMessageId { get; set; }
-
-    /// <summary>
     /// Gets or sets the event message.
     /// </summary>
-    [ForeignKey("EventMessageId")]
-    public EventMessage EventMessage { get; set; }
+    [ForeignKey("EventId")]
+    public ICollection<EventMessage> EventMessages { get; set; }
 
     /// <summary>
     /// Gets or sets the last modified.

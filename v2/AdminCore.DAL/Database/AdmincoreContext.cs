@@ -11,10 +11,11 @@ namespace AdminCore.DAL.Database
 {
   using System.Diagnostics.CodeAnalysis;
 
+  using Admincore.Common.Interfaces;
+
   using AdminCore.DAL.Models;
 
   using Microsoft.EntityFrameworkCore;
-  using Microsoft.Extensions.Configuration;
 
   /// <summary>
   /// The AdminCore context.
@@ -112,7 +113,7 @@ namespace AdminCore.DAL.Database
     /// </param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseNpgsql(_configuration.GetConnectionString("AdminCoreDatabase"));
+      optionsBuilder.UseNpgsql(_configuration.RetrieveConnectionString());
     }
   }
 }

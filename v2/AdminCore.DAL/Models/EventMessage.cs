@@ -23,7 +23,7 @@ namespace AdminCore.DAL.Models
     /// Gets or sets the event message id.
     /// </summary>
     [Key]
-    [Column("employee_message_id")]
+    [Column("event_message_id")]
     public int EventMessageId { get; set; }
 
     /// <summary>
