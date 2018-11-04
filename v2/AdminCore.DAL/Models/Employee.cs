@@ -9,6 +9,7 @@
 
 namespace Admincore.DAL.Models
 {
+  using System;
   using System.ComponentModel.DataAnnotations;
   using System.ComponentModel.DataAnnotations.Schema;
 
@@ -49,8 +50,37 @@ namespace Admincore.DAL.Models
     /// <summary>
     /// Gets or sets the email.
     /// </summary>
-    [StringLength(50)]
     [Column("email")]
     public string Email { get; set; }
+
+    /// <summary>
+    /// Gets or sets the totalHolidays
+    /// </summary>
+    [Column("total_holidays")]
+    public int TotalHolidays { get; set; }
+
+    /// <summary>
+    /// Gets or sets the startDate
+    /// </summary>
+    [Column("start_date")]
+    public DateTime StartDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the country.
+    /// </summary>
+    [ForeignKey("country_id")]
+    public Country Country { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employeeRole
+    /// </summary>
+    [ForeignKey("employee_role_id")]
+    public EmployeeRole EmployeeRole { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employeeStatus
+    /// </summary>
+    [ForeignKey("employee_status_id")]
+    public EmployeeStatus EmployeeStatus { get; set; }
   }
 }

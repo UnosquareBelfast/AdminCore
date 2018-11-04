@@ -41,5 +41,16 @@ namespace Admincore.DAL
     /// The <see cref="T"/>.
     /// </returns>
     T Insert(T entity);
+
+    /// <summary>
+    /// The get by id.
+    /// </summary>
+    /// <param name="id">
+    /// The id.
+    /// </param>
+    /// <returns>
+    /// The <see cref="T"/>.
+    /// </returns>
+    T GetById(object id);
   }
 }

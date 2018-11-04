@@ -12,7 +12,6 @@ namespace Admincore.DAL.Entity_Framework
   using Admincore.DAL.Database;
   using Admincore.DAL.Models;
   using Microsoft.EntityFrameworkCore;
-  using System.Data;
 
   /// <summary>
   /// The entity framework context.
@@ -30,6 +29,23 @@ namespace Admincore.DAL.Entity_Framework
     private IRepository<Employee> _EmployeeRepository;
 
     /// <summary>
+    /// The _ employee status repository.
+    /// </summary>
+    private IRepository<EmployeeStatus> _EmployeeStatusRepository;
+
+    /// <summary>
+    /// The _ employee role repository.
+    /// </summary>
+    private IRepository<EmployeeRole> _EmployeeRoleRepository;
+
+    /// <summary>
+    /// The _ country repository.
+    /// </summary>
+    private IRepository<Country> _CountryRepository;
+
+
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="EntityFrameworkContext"/> class.
     /// </summary>
     /// <param name="adminCoreContext">
@@ -44,6 +60,22 @@ namespace Admincore.DAL.Entity_Framework
     /// The patient repository.
     /// </summary>
     public IRepository<Employee> EmployeeRepository => _EmployeeRepository ?? (_EmployeeRepository = new EntityFrameworkRepository<Employee>(this));
+
+    /// <summary>
+    /// The employee status repository.
+    /// </summary>
+    public IRepository<EmployeeStatus> EmployeeStatusRepository => _EmployeeStatusRepository ?? (_EmployeeStatusRepository = new EntityFrameworkRepository<EmployeeStatus>(this));
+
+    /// <summary>
+    /// The employee role repository.
+    /// </summary>
+    public IRepository<EmployeeRole> EmployeeRoleRepository => _EmployeeRoleRepository ?? (_EmployeeRoleRepository = new EntityFrameworkRepository<EmployeeRole>(this));
+
+    /// <summary>
+    /// The country repository.
+    /// </summary>
+    public IRepository<Country> CountryRepository => _CountryRepository ?? (_CountryRepository = new EntityFrameworkRepository<Country>(this));
+
 
     /// <summary>
     /// The save changes.

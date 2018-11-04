@@ -10,7 +10,6 @@
 namespace Admincore.DAL
 {
   using Admincore.DAL.Models;
-  using System.Data;
 
   /// <summary>
   /// The DatabaseContext interface.
@@ -21,6 +20,22 @@ namespace Admincore.DAL
     /// Gets the patient repository.
     /// </summary>
     IRepository<Employee> EmployeeRepository { get; }
+
+    /// <summary>
+    /// Gets the employee role repository.
+    /// </summary>
+    IRepository<EmployeeRole> EmployeeRoleRepository { get; }
+
+    /// <summary>
+    /// Gets the employee status repository.
+    /// </summary>
+    IRepository<EmployeeStatus> EmployeeStatusRepository { get; }
+
+    /// <summary>
+    /// Gets the country repository.
+    /// </summary>
+    IRepository<Country> CountryRepository { get; }
+
 
     /// <summary>
     /// The save changes.

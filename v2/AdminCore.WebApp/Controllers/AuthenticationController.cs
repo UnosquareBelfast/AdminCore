@@ -9,11 +9,10 @@
 
 namespace Admincore.WebApi.Controllers
 {
-  using System.Collections.Generic;
-
   using Admincore.Common.Interfaces;
   using Admincore.WebApi.Models;
 
+  using AdminCore.DTOs.Employee;
   using AdminCore.WebApi.Models;
 
   using AutoMapper;
@@ -35,6 +34,11 @@ namespace Admincore.WebApi.Controllers
     private readonly IUserService _userService;
 
     /// <summary>
+    /// The _hello service.
+    /// </summary>
+    private readonly IEmployeeService _employeeService;
+
+    /// <summary>
     /// The _mapper.
     /// </summary>
     private readonly IMapper _mapper;
@@ -43,15 +47,19 @@ namespace Admincore.WebApi.Controllers
     /// Initializes a new instance of the <see cref="AuthenticationController"/> class.
     /// </summary>
     /// <param name="userService">
-    /// The patient service.
+    /// The user service.
+    /// </param>
+    /// <param name="employeeService">
+    /// The employee service.
     /// </param>
     /// <param name="mapper">
     /// The mapper.
     /// </param>
-    public AuthenticationController(IUserService userService, IMapper mapper)
+    public AuthenticationController(IUserService userService, IEmployeeService employeeService, IMapper mapper)
     {
       _userService = userService;
       _mapper = mapper;
+      _employeeService = employeeService;
     }
 
     /// <summary>
@@ -75,6 +83,30 @@ namespace Admincore.WebApi.Controllers
       }
 
       return NotFound("Sorry incorrect username or password");
+    }
+
+    /// <summary>
+    /// The create patient.
+    /// </summary>
+    /// <param name="registerEmployee">
+    /// The model.
+    /// </param>
+    /// <returns>
+    /// The <see cref="ActionResult"/>.
+    /// </returns>
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("register")]
+    public ActionResult Register([FromBody] RegisterEmployeeViewModel registerEmployee)
+    {
+      if (_userService.DoesEmailAlreadyExist(registerEmployee.Email))
+      {
+        return BadRequest("Email already exists.");
+      }
+
+      string email = _userService.CreateNewEmployee(_mapper.Map<EmployeeDto>(registerEmployee));
+
+      return Ok(string.Format("Employee registered:{0}", email));
     }
   }
 }

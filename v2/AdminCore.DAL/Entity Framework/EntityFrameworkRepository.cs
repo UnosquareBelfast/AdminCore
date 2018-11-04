@@ -67,5 +67,19 @@ namespace Admincore.DAL.Entity_Framework
     {
       return _dbSet.Add(entity)?.Entity;
     }
+
+    /// <summary>
+    /// The get by id.
+    /// </summary>
+    /// <param name="id">
+    /// The id.
+    /// </param>
+    /// <returns>
+    /// The <see cref="T"/>.
+    /// </returns>
+    public T GetById(object id)
+    {
+      return _dbSet.Find(id);
+    }
   }
 }

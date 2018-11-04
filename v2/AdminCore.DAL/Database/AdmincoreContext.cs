@@ -44,6 +44,21 @@ namespace Admincore.DAL.Database
     public DbSet<Employee> Employees { get; set; }
 
     /// <summary>
+    /// Gets or sets the employee roles.
+    /// </summary>
+    public DbSet<EmployeeRole> EmployeeRoles { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employee statuses.
+    /// </summary>
+    public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
+
+    /// <summary>
+    /// Gets or sets the countries.
+    /// </summary>
+    public DbSet<Country> Countries { get; set; }
+
+    /// <summary>
     /// The on configuring.
     /// </summary>
     /// <param name="optionsBuilder">

@@ -1,25 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IConfiguration.cs" company="AdminCore">
+// <copyright file="CountryDto.cs" company="AdminCore">
 //   Unosquare
 // </copyright>
 // <summary>
-//   Defines the IConfiguration type.
+//   Defines the CountryDto type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+namespace AdminCore.DTOs
 {
   /// <summary>
-  /// The Configuration interface.
+  /// The country dto.
   /// </summary>
-  public interface IConfiguration
+  public class CountryDto
   {
     /// <summary>
-    /// The retrieve connection string.
+    /// Gets or sets the country code id.
     /// </summary>
-    /// <returns>
-    /// The <see cref="string"/>.
-    /// </returns>
-    string RetrieveConnectionString();
+    public int CountryId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the description.
+    /// </summary>
+    public string Description { get; set; }
   }
 }
