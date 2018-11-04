@@ -27,13 +27,7 @@ namespace Admincore.WebApi.Mappings
     {
       CreateMap<EmployeeDto, LoginRequestModel>();
 
-      CreateMap<RegisterEmployeeViewModel, EmployeeDto>()
-        .ForMember(x => x.Country, opt => opt.ResolveUsing(model => new CountryDto() { CountryId = model.CountryId }))
-        .ForMember(
-          x => x.Role,
-          opt => opt.ResolveUsing(model => new EmployeeRoleDto() { EmployeeRoleId = model.CountryId })).ForMember(
-          x => x.Status,
-          opt => opt.ResolveUsing(model => new EmployeeStatusDto() { EmployeeStatusId = model.EmployeeStatusId }));
+      CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
     }

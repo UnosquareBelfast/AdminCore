@@ -76,14 +76,29 @@ namespace Admincore.DAL.Database
     public DbSet<Event> Events { get; set; }
 
     /// <summary>
-    /// Gets or sets the event type.
+    /// Gets or sets the events dates.
     /// </summary>
-    public DbSet<EventType> EventTypes { get; set; }
+    public DbSet<EventDates> EventsDates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message.
+    /// </summary>
+    public DbSet<EventMessage> EventMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message type.
+    /// </summary>
+    public DbSet<Event> EventMessageType { get; set; }
 
     /// <summary>
     /// Gets or sets the event statuses.
     /// </summary>
     public DbSet<EventStatus> EventStatuses { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event type.
+    /// </summary>
+    public DbSet<EventType> EventTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the teams.

@@ -32,8 +32,14 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the employee.
     /// </summary>
-    [ForeignKey("employee_id")]
+    [Column("employee_id")]
     public int EmployeeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employee.
+    /// </summary>
+    [ForeignKey("EmployeeId")]
+    public Employee Employee { get; set; }
 
     /// <summary>
     /// Gets or sets the date created.
@@ -44,14 +50,38 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the event status.
     /// </summary>
-    [ForeignKey("event_status_id")]
+    [Column("event_status_id")]
     public int EventStatusId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event status.
+    /// </summary>
+    [ForeignKey("EventStatusId")]
+    public EventStatus EventStatus { get; set; }
 
     /// <summary>
     /// Gets or sets the event type.
     /// </summary>
-    [ForeignKey("event_type_id")]
+    [Column("event_type_id")]
     public int EventTypeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event type.
+    /// </summary>
+    [ForeignKey("EventTypeId")]
+    public EventType EventType { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message id.
+    /// </summary>
+    [Column("event_message_id")]
+    public int EventMessageId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message.
+    /// </summary>
+    [ForeignKey("EventMessageId")]
+    public EventMessage EventMessage { get; set; }
 
     /// <summary>
     /// Gets or sets the last modified.

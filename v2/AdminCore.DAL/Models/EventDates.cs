@@ -29,8 +29,14 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the event.
     /// </summary>
-    [ForeignKey("event_id")]
+    [Column("event_id")]
     public int EventId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event.
+    /// </summary>
+    [ForeignKey("EventId")]
+    public Event Event { get; set; }
 
     /// <summary>
     /// Gets or sets the start date.

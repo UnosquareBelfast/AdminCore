@@ -62,6 +62,21 @@ namespace Admincore.DAL.Entity_Framework
     private IRepository<Event> _eventRepository;
 
     /// <summary>
+    /// The _event dates repository.
+    /// </summary>
+    private IRepository<EventDates> _eventDatesRepository;
+
+    /// <summary>
+    /// The _event message repository.
+    /// </summary>
+    private IRepository<EventMessage> _eventMessageRepository;
+
+    /// <summary>
+    /// The _event message type repository.
+    /// </summary>
+    private IRepository<EventMessageType> _eventMessageTypeRepository;
+
+    /// <summary>
     /// The _ event status repository.
     /// </summary>
     private IRepository<EventStatus> _eventStatusRepository;
@@ -131,6 +146,25 @@ namespace Admincore.DAL.Entity_Framework
       _eventRepository ?? (_eventRepository = new EntityFrameworkRepository<Event>(this));
 
     /// <summary>
+    /// The event dates repository.
+    /// </summary>
+    public IRepository<EventDates> EventDatesRepository =>
+      _eventDatesRepository ?? (_eventDatesRepository = new EntityFrameworkRepository<EventDates>(this));
+
+    /// <summary>
+    /// The event message repository.
+    /// </summary>
+    public IRepository<EventMessage> EventMessageRepository =>
+      _eventMessageRepository ?? (_eventMessageRepository = new EntityFrameworkRepository<EventMessage>(this));
+
+    /// <summary>
+    /// The event message type repository.
+    /// </summary>
+    public IRepository<EventMessageType> EventMessageTypeRepository =>
+      _eventMessageTypeRepository ?? (_eventMessageTypeRepository = new EntityFrameworkRepository<EventMessageType>(this));
+
+
+    /// <summary>
     /// The event status repository.
     /// </summary>
     public IRepository<EventStatus> EventStatusRepository =>
@@ -145,7 +179,7 @@ namespace Admincore.DAL.Entity_Framework
     /// <summary>
     /// The team status repository.
     /// </summary>
-    public IRepository<Team> TeamStatusRepository =>
+    public IRepository<Team> TeamRepository =>
       _teamRepository ?? (_teamRepository = new EntityFrameworkRepository<Team>(this));
 
     /// <summary>

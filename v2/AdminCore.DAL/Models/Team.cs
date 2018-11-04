@@ -26,9 +26,15 @@ namespace AdminCore.DAL.Models
     public int TeamId { get; set; }
 
     /// <summary>
+    /// Gets or sets the client id.
+    /// </summary>
+    [Column("client_id")]
+    public int ClientId { get; set; }
+
+    /// <summary>
     /// Gets or sets the client.
     /// </summary>
-    [ForeignKey("client_id")]
+    [ForeignKey("ClientId")]
     public Client Client { get; set; }
 
     /// <summary>

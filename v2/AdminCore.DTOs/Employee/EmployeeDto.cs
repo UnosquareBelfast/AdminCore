@@ -19,7 +19,7 @@ namespace AdminCore.DTOs.Employee
     /// <summary>
     /// Gets or sets the country.
     /// </summary>
-    public CountryDto Country { get; set; }
+    public int CountryId { get; set; }
 
     /// <summary>
     /// Gets or sets the Email.
@@ -44,7 +44,7 @@ namespace AdminCore.DTOs.Employee
     /// <summary>
     /// Gets or sets the role.
     /// </summary>
-    public EmployeeRoleDto Role { get; set; }
+    public int EmployeeRoleId { get; set; }
 
     /// <summary>
     /// Gets or sets the StartDate.
@@ -54,7 +54,7 @@ namespace AdminCore.DTOs.Employee
     /// <summary>
     /// Gets or sets the status.
     /// </summary>
-    public EmployeeStatusDto Status { get; set; }
+    public int EmployeeStatusId { get; set; }
 
     /// <summary>
     /// Gets or sets the surname.

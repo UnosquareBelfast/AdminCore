@@ -24,6 +24,11 @@ namespace Admincore.DAL
     IRepository<Client> ClientRepository { get; }
 
     /// <summary>
+    /// Gets the contract repository.
+    /// </summary>
+    IRepository<Contract> ContractRepository { get; }
+
+    /// <summary>
     /// Gets the country repository.
     /// </summary>
     IRepository<Country> CountryRepository { get; }
@@ -42,6 +47,41 @@ namespace Admincore.DAL
     /// Gets the employee status repository.
     /// </summary>
     IRepository<EmployeeStatus> EmployeeStatusRepository { get; }
+
+    /// <summary>
+    /// Gets the event repository.
+    /// </summary>
+    IRepository<Event> EventRepository { get; }
+
+    /// <summary>
+    /// Gets the event dates repository.
+    /// </summary>
+    IRepository<EventDates> EventDatesRepository { get; }
+
+    /// <summary>
+    /// Gets the event message repository.
+    /// </summary>
+    IRepository<EventMessage> EventMessageRepository { get; }
+
+    /// <summary>
+    /// Gets the event message type repository.
+    /// </summary>
+    IRepository<EventMessageType> EventMessageTypeRepository { get; }
+
+    /// <summary>
+    /// Gets the event status repository.
+    /// </summary>
+    IRepository<EventStatus> EventStatusRepository { get; }
+
+    /// <summary>
+    /// Gets the event type repository.
+    /// </summary>
+    IRepository<EventType> EventTypeRepository { get; }
+
+    /// <summary>
+    /// Gets the team repository.
+    /// </summary>
+    IRepository<Team> TeamRepository { get; }
 
     /// <summary>
     /// The save changes.

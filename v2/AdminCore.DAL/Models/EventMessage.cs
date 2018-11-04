@@ -13,6 +13,8 @@ namespace AdminCore.DAL.Models
   using System.ComponentModel.DataAnnotations;
   using System.ComponentModel.DataAnnotations.Schema;
 
+  using Admincore.DAL.Models;
+
   /// <summary>
   /// The event message.
   /// </summary>
@@ -29,8 +31,14 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the event id.
     /// </summary>
-    [ForeignKey("event_id")]
+    [Column("event_id")]
     public int EventId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event.
+    /// </summary>
+    [ForeignKey("EventId")]
+    public Event Event { get; set; }
 
     /// <summary>
     /// Gets or sets the message.
@@ -41,8 +49,14 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the event message type id.
     /// </summary>
-    [ForeignKey("event_message_type_id")]
+    [Column("event_message_type_id")]
     public int EventMessageTypeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message type.
+    /// </summary>
+    [ForeignKey("EventMessageTypeId")]
+    public EventMessageType EventMessageType { get; set; }
 
     /// <summary>
     /// Gets or sets the last modified.
@@ -53,7 +67,13 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the employee id.
     /// </summary>
-    [ForeignKey("employee_id")]
+    [Column("employee_id")]
     public int EmployeeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employee.
+    /// </summary>
+    [ForeignKey("EmployeeId")]
+    public Employee Employee { get; set; }
   }
 }

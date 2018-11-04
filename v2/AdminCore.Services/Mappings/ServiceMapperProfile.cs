@@ -11,6 +11,7 @@ namespace Admincore.Services.Mappings
 {
   using Admincore.DAL.Models;
 
+  using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
 
   using AutoMapper;
@@ -27,6 +28,10 @@ namespace Admincore.Services.Mappings
     {
       CreateMap<Employee, EmployeeDto>();
       CreateMap<EmployeeDto, Employee>();
+
+      CreateMap<CountryDto, Country>().ReverseMap();
+      CreateMap<EmployeeStatusDto, EmployeeStatus>().ReverseMap();
+      CreateMap<EmployeeRoleDto, EmployeeRole>().ReverseMap();
     }
   }
 }

@@ -31,13 +31,25 @@ namespace AdminCore.DAL.Models
     /// <summary>
     /// Gets or sets the team.
     /// </summary>
-    [ForeignKey("team_id")]
+    [Column("team_id")]
+    public int TeamId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the team.
+    /// </summary>
+    [ForeignKey("TeamId")]
     public Team Team { get; set; }
 
     /// <summary>
     /// Gets or sets the employee.
     /// </summary>
-    [ForeignKey("employee_id")]
+    [Column("employee_id")]
+    public int EmployeeId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employee.
+    /// </summary>
+    [ForeignKey("EmployeeId")]
     public Employee Employee { get; set; }
 
     /// <summary>

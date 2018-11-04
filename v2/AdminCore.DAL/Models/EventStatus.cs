@@ -15,7 +15,7 @@ namespace AdminCore.DAL.Models
   /// <summary>
   /// The event status.
   /// </summary>
-  [Table("event_type")]
+  [Table("event_status")]
   public class EventStatus
   {
     /// <summary>

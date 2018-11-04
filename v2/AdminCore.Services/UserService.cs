@@ -65,9 +65,6 @@ namespace Admincore.Services
     public string CreateNewEmployee(EmployeeDto newEmployeeDto)
     {
       Employee employee = _mapper.Map<Employee>(newEmployeeDto);
-      employee.Country = GetCountryById(newEmployeeDto.Country.CountryId);
-      employee.EmployeeRole = GetEmployeeRole(newEmployeeDto.Role.EmployeeRoleId);
-      employee.EmployeeStatus = GetEmployeeStatus(newEmployeeDto.Status.EmployeeStatusId);
 
       employee.Password = EncodePasswordToBase64(employee.Password);
 
