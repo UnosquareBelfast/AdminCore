@@ -42,13 +42,13 @@ namespace Admincore.DAL.Models
     /// Gets or sets the employeeRole
     /// </summary>
     [ForeignKey("employee_role_id")]
-    public EmployeeRole EmployeeRole { get; set; }
+    public int EmployeeRoleId { get; set; }
 
     /// <summary>
     /// Gets or sets the employeeStatus
     /// </summary>
     [ForeignKey("employee_status_id")]
-    public EmployeeStatus EmployeeStatus { get; set; }
+    public int EmployeeStatusId { get; set; }
 
     /// <summary>
     /// Gets or sets the name.

@@ -41,6 +41,11 @@ namespace Admincore.DAL.Database
     }
 
     /// <summary>
+    /// Gets or sets the contract.
+    /// </summary>
+    public DbSet<Contract> Contracts { get; set; }
+
+    /// <summary>
     /// Gets or sets the clients.
     /// </summary>
     public DbSet<Client> Clients { get; set; }
@@ -64,6 +69,27 @@ namespace Admincore.DAL.Database
     /// Gets or sets the employee statuses.
     /// </summary>
     public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event.
+    /// </summary>
+    public DbSet<Event> Events { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event type.
+    /// </summary>
+    public DbSet<EventType> EventTypes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event statuses.
+    /// </summary>
+    public DbSet<EventStatus> EventStatuses { get; set; }
+
+    /// <summary>
+    /// Gets or sets the teams.
+    /// </summary>
+    public DbSet<Team> Teams { get; set; }
+
 
     /// <summary>
     /// The on configuring.
