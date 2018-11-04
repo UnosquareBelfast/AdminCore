@@ -60,6 +60,6 @@ namespace AdminCore.DAL.Models
     /// Gets or sets the end date.
     /// </summary>
     [Column("end_date")]
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
   }
 }
