@@ -48,6 +48,11 @@ namespace AdminCore.DAL.Models
     public DateTime DateCreated { get; set; }
 
     /// <summary>
+    /// Gets or sets the event dates.
+    /// </summary>
+    public ICollection<EventDates> EventDates { get; set; }
+
+    /// <summary>
     /// Gets or sets the event status.
     /// </summary>
     [Column("event_status_id")]
