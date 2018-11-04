@@ -11,12 +11,9 @@ namespace Admincore.WebApi.Controllers
 {
   using Admincore.Common.Interfaces;
   using Admincore.WebApi.Models;
-
   using AdminCore.DTOs.Employee;
   using AdminCore.WebApi.Models;
-
   using AutoMapper;
-
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
 
@@ -31,17 +28,17 @@ namespace Admincore.WebApi.Controllers
     /// <summary>
     /// The _hello service.
     /// </summary>
-    private readonly IUserService _userService;
-
-    /// <summary>
-    /// The _hello service.
-    /// </summary>
     private readonly IEmployeeService _employeeService;
 
     /// <summary>
     /// The _mapper.
     /// </summary>
     private readonly IMapper _mapper;
+
+    /// <summary>
+    /// The _hello service.
+    /// </summary>
+    private readonly IUserService _userService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthenticationController"/> class.

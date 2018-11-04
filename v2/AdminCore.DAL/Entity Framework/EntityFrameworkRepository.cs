@@ -9,19 +9,19 @@
 
 namespace Admincore.DAL.Entity_Framework
 {
+  using Microsoft.EntityFrameworkCore;
   using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Linq.Expressions;
-
-  using Microsoft.EntityFrameworkCore;
 
   /// <summary>
   /// The entity framework repository.
   /// </summary>
   /// <typeparam name="T">
   /// </typeparam>
-  public class EntityFrameworkRepository<T> : IRepository<T> where T : class
+  public class EntityFrameworkRepository<T> : IRepository<T>
+    where T : class
   {
     /// <summary>
     /// The _db set.
@@ -55,20 +55,6 @@ namespace Admincore.DAL.Entity_Framework
     }
 
     /// <summary>
-    /// The insert.
-    /// </summary>
-    /// <param name="entity">
-    /// The entity.
-    /// </param>
-    /// <returns>
-    /// The <see cref="T"/>.
-    /// </returns>
-    public T Insert(T entity)
-    {
-      return _dbSet.Add(entity)?.Entity;
-    }
-
-    /// <summary>
     /// The get by id.
     /// </summary>
     /// <param name="id">
@@ -80,6 +66,20 @@ namespace Admincore.DAL.Entity_Framework
     public T GetById(object id)
     {
       return _dbSet.Find(id);
+    }
+
+    /// <summary>
+    /// The insert.
+    /// </summary>
+    /// <param name="entity">
+    /// The entity.
+    /// </param>
+    /// <returns>
+    /// The <see cref="T"/>.
+    /// </returns>
+    public T Insert(T entity)
+    {
+      return _dbSet.Add(entity)?.Entity;
     }
   }
 }

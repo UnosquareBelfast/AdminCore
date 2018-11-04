@@ -9,18 +9,15 @@
 
 namespace AdminCore.Services.Configuration
 {
-  using System;
-
   using Admincore.Common.Interfaces;
   using Admincore.Constants;
+  using System;
 
   /// <summary>
   /// The configuration provider.
   /// </summary>
   public class ConfigurationProvider : IConfiguration
   {
-
-
     /// <summary>
     /// The retrieve connection string.
     /// </summary>
@@ -29,8 +26,8 @@ namespace AdminCore.Services.Configuration
     /// </returns>
     public string RetrieveConnectionString()
     {
-      return Environment.GetEnvironmentVariable(EnvironmentVariables.DbConnectionString) ??
-             "User ID=user;Password=password;Server=localhost;Port=5432;Database=HrManager;Integrated Security=true;Pooling=true;";
+      return Environment.GetEnvironmentVariable(EnvironmentVariables.DbConnectionString)
+             ?? "User ID=user;Password=password;Server=localhost;Port=5432;Database=HrManager;Integrated Security=true;Pooling=true;";
     }
   }
 }

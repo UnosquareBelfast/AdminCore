@@ -7,16 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace AdminCore.Services.Configuration
 {
+  using Admincore.Common.Interfaces;
+  using Npgsql;
   using System;
   using System.Collections.Generic;
   using System.Data;
   using System.Diagnostics.CodeAnalysis;
-  using Admincore.Common.Interfaces;
-
-  using Npgsql;
 
   /// <summary>
   /// The evolve data migration.
@@ -66,7 +64,7 @@ namespace AdminCore.Services.Configuration
       }
       catch (Exception ex)
       {
-        //TODO Add Logger
+        // TODO Add Logger
         throw;
       }
     }
@@ -97,10 +95,10 @@ namespace AdminCore.Services.Configuration
     public virtual Evolve.Evolve RetrieveEvolve(IDbConnection connection, Action<string> logger)
     {
       return new Evolve.Evolve(connection, logger)
-      {
-        Locations = new List<string> { "db/migrations" },
-        IsEraseDisabled = true
-      };
+               {
+                 Locations = new List<string> { "db/migrations" },
+                 IsEraseDisabled = true
+               };
     }
   }
 }

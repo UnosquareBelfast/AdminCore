@@ -17,6 +17,11 @@ namespace Admincore.DAL
   public interface IDatabaseContext
   {
     /// <summary>
+    /// Gets the country repository.
+    /// </summary>
+    IRepository<Country> CountryRepository { get; }
+
+    /// <summary>
     /// Gets the patient repository.
     /// </summary>
     IRepository<Employee> EmployeeRepository { get; }
@@ -30,12 +35,6 @@ namespace Admincore.DAL
     /// Gets the employee status repository.
     /// </summary>
     IRepository<EmployeeStatus> EmployeeStatusRepository { get; }
-
-    /// <summary>
-    /// Gets the country repository.
-    /// </summary>
-    IRepository<Country> CountryRepository { get; }
-
 
     /// <summary>
     /// The save changes.

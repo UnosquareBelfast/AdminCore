@@ -9,8 +9,8 @@
 
 namespace Admincore.Common.Interfaces
 {
-    public interface IDataMigration
-    {
-        void Migrate();
-    }
+  public interface IDataMigration
+  {
+    void Migrate();
+  }
 }

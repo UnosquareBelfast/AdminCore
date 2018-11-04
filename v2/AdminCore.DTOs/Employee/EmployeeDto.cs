@@ -17,6 +17,16 @@ namespace AdminCore.DTOs.Employee
   public class EmployeeDto
   {
     /// <summary>
+    /// Gets or sets the country.
+    /// </summary>
+    public CountryDto Country { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Email.
+    /// </summary>
+    public string Email { get; set; }
+
+    /// <summary>
     /// Gets or sets the employee id.
     /// </summary>
     public int EmployeeId { get; set; }
@@ -27,34 +37,9 @@ namespace AdminCore.DTOs.Employee
     public string Forename { get; set; }
 
     /// <summary>
-    /// Gets or sets the surname.
-    /// </summary>
-    public string Surname { get; set; }
-
-    /// <summary>
     /// Gets or sets the password.
     /// </summary>
     public string Password { get; set; }
-
-    /// <summary>
-    /// Gets or sets the Email.
-    /// </summary>
-    public string Email { get; set; }
-
-    /// <summary>
-    /// Gets or sets the TotalHolidays.
-    /// </summary>
-    public int TotalHolidays { get; set; }
-
-    /// <summary>
-    /// Gets or sets the StartDate.
-    /// </summary>
-    public DateTime StartDate { get; set; }
-
-    /// <summary>
-    /// Gets or sets the country.
-    /// </summary>
-    public CountryDto Country { get; set; }
 
     /// <summary>
     /// Gets or sets the role.
@@ -62,8 +47,23 @@ namespace AdminCore.DTOs.Employee
     public EmployeeRoleDto Role { get; set; }
 
     /// <summary>
+    /// Gets or sets the StartDate.
+    /// </summary>
+    public DateTime StartDate { get; set; }
+
+    /// <summary>
     /// Gets or sets the status.
     /// </summary>
     public EmployeeStatusDto Status { get; set; }
+
+    /// <summary>
+    /// Gets or sets the surname.
+    /// </summary>
+    public string Surname { get; set; }
+
+    /// <summary>
+    /// Gets or sets the TotalHolidays.
+    /// </summary>
+    public int TotalHolidays { get; set; }
   }
 }

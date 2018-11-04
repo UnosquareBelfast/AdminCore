@@ -20,32 +20,10 @@ namespace Admincore.DAL.Models
   public class Employee
   {
     /// <summary>
-    /// Gets or sets the employee id.
+    /// Gets or sets the country.
     /// </summary>
-    [Key]
-    [Column("employee_id")]
-    public int EmployeeId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the name.
-    /// </summary>
-    [StringLength(50)]
-    [Column("forename")]
-    public string Forename { get; set; }
-
-    /// <summary>
-    /// Gets or sets the surname.
-    /// </summary>
-    [StringLength(50)]
-    [Column("surname")]
-    public string Surname { get; set; }
-
-    /// <summary>
-    /// Gets or sets the password.
-    /// </summary>
-    [StringLength(50)]
-    [Column("password")]
-    public string Password { get; set; }
+    [ForeignKey("country_id")]
+    public Country Country { get; set; }
 
     /// <summary>
     /// Gets or sets the email.
@@ -54,22 +32,11 @@ namespace Admincore.DAL.Models
     public string Email { get; set; }
 
     /// <summary>
-    /// Gets or sets the totalHolidays
+    /// Gets or sets the employee id.
     /// </summary>
-    [Column("total_holidays")]
-    public int TotalHolidays { get; set; }
-
-    /// <summary>
-    /// Gets or sets the startDate
-    /// </summary>
-    [Column("start_date")]
-    public DateTime StartDate { get; set; }
-
-    /// <summary>
-    /// Gets or sets the country.
-    /// </summary>
-    [ForeignKey("country_id")]
-    public Country Country { get; set; }
+    [Key]
+    [Column("employee_id")]
+    public int EmployeeId { get; set; }
 
     /// <summary>
     /// Gets or sets the employeeRole
@@ -82,5 +49,38 @@ namespace Admincore.DAL.Models
     /// </summary>
     [ForeignKey("employee_status_id")]
     public EmployeeStatus EmployeeStatus { get; set; }
+
+    /// <summary>
+    /// Gets or sets the name.
+    /// </summary>
+    [StringLength(50)]
+    [Column("forename")]
+    public string Forename { get; set; }
+
+    /// <summary>
+    /// Gets or sets the password.
+    /// </summary>
+    [StringLength(50)]
+    [Column("password")]
+    public string Password { get; set; }
+
+    /// <summary>
+    /// Gets or sets the startDate
+    /// </summary>
+    [Column("start_date")]
+    public DateTime StartDate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the surname.
+    /// </summary>
+    [StringLength(50)]
+    [Column("surname")]
+    public string Surname { get; set; }
+
+    /// <summary>
+    /// Gets or sets the totalHolidays
+    /// </summary>
+    [Column("total_holidays")]
+    public int TotalHolidays { get; set; }
   }
 }

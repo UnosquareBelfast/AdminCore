@@ -18,18 +18,15 @@ namespace Admincore.Common.Interfaces
   public interface IUserService
   {
     /// <summary>
-    /// The jwt sign in.
+    /// The create new employee.
     /// </summary>
-    /// <param name="email">
-    /// The email.
-    /// </param>
-    /// <param name="password">
-    /// The password.
+    /// <param name="registerEmployeeDto">
+    /// The register employee dto.
     /// </param>
     /// <returns>
-    /// The <see cref="JwtAuthDto"/>.
+    /// The <see cref="string"/>.
     /// </returns>
-    JwtAuthDto JwtSignIn(string email, string password);
+    string CreateNewEmployee(EmployeeDto registerEmployeeDto);
 
     /// <summary>
     /// The does email already exist.
@@ -43,14 +40,17 @@ namespace Admincore.Common.Interfaces
     bool DoesEmailAlreadyExist(string email);
 
     /// <summary>
-    /// The create new employee.
+    /// The jwt sign in.
     /// </summary>
-    /// <param name="registerEmployeeDto">
-    /// The register employee dto.
+    /// <param name="email">
+    /// The email.
+    /// </param>
+    /// <param name="password">
+    /// The password.
     /// </param>
     /// <returns>
-    /// The <see cref="string"/>.
+    /// The <see cref="JwtAuthDto"/>.
     /// </returns>
-    string CreateNewEmployee(EmployeeDto registerEmployeeDto);
+    JwtAuthDto JwtSignIn(string email, string password);
   }
 }

@@ -10,11 +10,9 @@
 namespace Admincore.WebApi.Mappings
 {
   using Admincore.WebApi.Models;
-
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
   using AdminCore.WebApi.Models;
-
   using AutoMapper;
 
   /// <summary>
@@ -31,9 +29,12 @@ namespace Admincore.WebApi.Mappings
 
       CreateMap<RegisterEmployeeViewModel, EmployeeDto>()
         .ForMember(x => x.Country, opt => opt.ResolveUsing(model => new CountryDto() { CountryId = model.CountryId }))
-        .ForMember(x => x.Role, opt => opt.ResolveUsing(model => new EmployeeRoleDto() { EmployeeRoleId = model.CountryId }))
-        .ForMember(x => x.Status, opt => opt.ResolveUsing(model => new EmployeeStatusDto() { EmployeeStatusId = model.EmployeeStatusId }));
-        
+        .ForMember(
+          x => x.Role,
+          opt => opt.ResolveUsing(model => new EmployeeRoleDto() { EmployeeRoleId = model.CountryId })).ForMember(
+          x => x.Status,
+          opt => opt.ResolveUsing(model => new EmployeeStatusDto() { EmployeeStatusId = model.EmployeeStatusId }));
+
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
     }
   }

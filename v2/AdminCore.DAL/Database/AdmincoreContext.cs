@@ -9,12 +9,10 @@
 
 namespace Admincore.DAL.Database
 {
-  using System.Diagnostics.CodeAnalysis;
-
   using Admincore.DAL.Models;
-
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
+  using System.Diagnostics.CodeAnalysis;
 
   /// <summary>
   /// The Admincore context.
@@ -39,9 +37,9 @@ namespace Admincore.DAL.Database
     }
 
     /// <summary>
-    /// Gets or sets the patients.
+    /// Gets or sets the countries.
     /// </summary>
-    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Country> Countries { get; set; }
 
     /// <summary>
     /// Gets or sets the employee roles.
@@ -49,14 +47,14 @@ namespace Admincore.DAL.Database
     public DbSet<EmployeeRole> EmployeeRoles { get; set; }
 
     /// <summary>
+    /// Gets or sets the patients.
+    /// </summary>
+    public DbSet<Employee> Employees { get; set; }
+
+    /// <summary>
     /// Gets or sets the employee statuses.
     /// </summary>
     public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
-
-    /// <summary>
-    /// Gets or sets the countries.
-    /// </summary>
-    public DbSet<Country> Countries { get; set; }
 
     /// <summary>
     /// The on configuring.
