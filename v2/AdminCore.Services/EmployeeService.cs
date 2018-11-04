@@ -14,7 +14,7 @@ namespace Admincore.Services
   using System.Security.Cryptography;
   using System.Text;
 
-  using Admincore.Common.Interfaces;
+  using AdminCore.Common.Interfaces;
 
   using AdminCore.DAL;
   using AdminCore.DAL.Models;

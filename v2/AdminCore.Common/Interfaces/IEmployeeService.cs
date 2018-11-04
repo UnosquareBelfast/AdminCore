@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+namespace AdminCore.Common.Interfaces
 {
   using AdminCore.DTOs.Employee;
 

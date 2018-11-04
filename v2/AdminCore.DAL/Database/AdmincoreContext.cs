@@ -11,7 +11,7 @@ namespace AdminCore.DAL.Database
 {
   using System.Diagnostics.CodeAnalysis;
 
-  using Admincore.Common.Interfaces;
+  using Common.Interfaces;
 
   using AdminCore.DAL.Models;
 

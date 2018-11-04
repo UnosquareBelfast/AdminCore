@@ -7,34 +7,28 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using AutoMapper;
+using System.Text;
+using Admincore.Services.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
-namespace Admincore.WebApi
+namespace AdminCore.WebApi
 {
-  using System.Text;
-
-  using Admincore.Common;
-  using Admincore.Common.Interfaces;
-  using Admincore.Services.Configuration;
-  using Microsoft.AspNetCore.Authentication.JwtBearer;
-  using Microsoft.AspNetCore.Builder;
-  using Microsoft.AspNetCore.Hosting;
-  using Microsoft.Extensions.DependencyInjection;
-  using Microsoft.IdentityModel.Tokens;
-  using Swashbuckle.AspNetCore.Swagger;
-
-  using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
-
   /// <summary>
-  /// The startup.
+  ///   The startup.
   /// </summary>
   public class Startup
   {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Startup"/> class.
+    ///   Initializes a new instance of the <see cref="Startup" /> class.
     /// </summary>
     /// <param name="configuration">
-    /// The configuration.
+    ///   The configuration.
     /// </param>
     public Startup(IConfiguration configuration)
     {
@@ -42,15 +36,15 @@ namespace Admincore.WebApi
     }
 
     /// <summary>
-    /// Gets the configuration.
+    ///   Gets the configuration.
     /// </summary>
     public IConfiguration Configuration { get; }
 
     /// <summary>
-    /// This method gets called by the runtime. Use this method to add services to the container.
+    ///   This method gets called by the runtime. Use this method to add services to the container.
     /// </summary>
     /// <param name="services">
-    /// The services.
+    ///   The services.
     /// </param>
     public void ConfigureServices(IServiceCollection services)
     {
@@ -60,16 +54,16 @@ namespace Admincore.WebApi
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 
       services.AddAuthentication(options =>
-          {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-          })
+        {
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
         .AddJwtBearer(options =>
-          {
-            options.SaveToken = true;
-            options.RequireHttpsMetadata = true;
-            options.TokenValidationParameters = new TokenValidationParameters()
+        {
+          options.SaveToken = true;
+          options.RequireHttpsMetadata = true;
+          options.TokenValidationParameters = new TokenValidationParameters
           {
             ValidateIssuer = false,
             ValidateAudience = false,
@@ -79,36 +73,27 @@ namespace Admincore.WebApi
 
       services.AddSwaggerGen(c =>
       {
-        c.SwaggerDoc("v1", new Info { Title = "AdminCore Documentation", Version = "v1" });
+        c.SwaggerDoc("v1", new Info {Title = "AdminCore Documentation", Version = "v1"});
       });
 
       DependencyInjection.RegisterDependencyInjection(services);
-
-      #if DEBUG
-        var migration = ServiceLocator.Instance.GetInstance<IDataMigration>();
-        migration.Migrate();
-      #endif
     }
 
     /// <summary>
-    ///  This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    ///   This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     /// </summary>
     /// <param name="app">
-    /// The app.
+    ///   The app.
     /// </param>
     /// <param name="env">
-    /// The env.
+    ///   The env.
     /// </param>
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
       if (env.IsDevelopment())
-      {
         app.UseDeveloperExceptionPage();
-      }
       else
-      {
         app.UseHsts();
-      }
 
       app.UseCors(x => x
         .AllowAnyOrigin()
@@ -118,17 +103,8 @@ namespace Admincore.WebApi
 
       app.UseAuthentication();
 
-      app.UseHttpsRedirection();
-
-      // Enable middleware to serve generated Swagger as a JSON endpoint.
       app.UseSwagger();
-
-      // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-      // specifying the Swagger JSON endpoint.
-      app.UseSwaggerUI(c =>
-          {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "AdminCore Documentation V1");
-          });
+      app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "AdminCore Documentation V1"); });
 
       app.UseMvc();
     }

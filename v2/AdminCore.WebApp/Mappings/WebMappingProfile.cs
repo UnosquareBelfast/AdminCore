@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.WebApi.Mappings
+namespace AdminCore.WebApi.Mappings
 {
   using Admincore.WebApi.Models;
   using AdminCore.DTOs;

@@ -15,7 +15,7 @@ namespace Admincore.Services
   using System.Security.Claims;
   using System.Text;
 
-  using Admincore.Common.Interfaces;
+  using AdminCore.Common.Interfaces;
 
   using AdminCore.DAL;
   using AdminCore.DTOs;
@@ -78,22 +78,29 @@ namespace Admincore.Services
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 
       var tokenDescriptor = new SecurityTokenDescriptor
-                              {
-                                Subject =
-                                  new ClaimsIdentity(
-                                    new[]
-                                      {
-                                        new Claim(
-                                          ClaimTypes.Name,
-                                          employee.EmployeeId.ToString())
-                                      }),
-                                Expires = DateTime.UtcNow.AddDays(1),
-                                SigningCredentials = new SigningCredentials(
-                                  new SymmetricSecurityKey(key),
-                                  SecurityAlgorithms.HmacSha256Signature)
-                              };
+      {
+        Subject = new ClaimsIdentity 
+        (
+          new[]
+          {
+                new Claim(
+                  ClaimTypes.Name,
+                  employee.EmployeeId.ToString())
+          }
+        ),
+        Expires = DateTime.UtcNow.AddDays(1),
+        SigningCredentials = new SigningCredentials
+        (
+          new SymmetricSecurityKey(key),
+          SecurityAlgorithms.HmacSha256Signature
+        )
+      };
       var token = tokenHandler.CreateToken(tokenDescriptor);
-      var jwtResponseDto = new JwtAuthDto { AccessToken = tokenHandler.WriteToken(token), TokenType = "Bearer" };
+      var jwtResponseDto = new JwtAuthDto
+      {
+        AccessToken = tokenHandler.WriteToken(token), 
+        TokenType = "Bearer"
+      };
       return jwtResponseDto;
     }
   }

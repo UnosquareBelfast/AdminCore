@@ -7,13 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+namespace AdminCore.Common.Interfaces
 {
-  using AdminCore.DTOs;
-  using AdminCore.DTOs.Employee;
+  using DTOs;
 
   /// <summary>
-  /// The HelloService interface.
+  /// The Authentication Service.
   /// </summary>
   public interface IAuthenticationService
   {

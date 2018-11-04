@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <StartupObject>Admincore.WebApi.Program</StartupObject>
+    <StartupObject>AdminCore.WebApi.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,30 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AdminCore.DTOs\AdminCore.DTOs.csproj" />
     <ProjectReference Include="..\AdminCore.Services\AdminCore.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="db\migrations\V1.0__original_schema.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1.1__add_countries.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1.2__add_employee_roles.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1.3__add_event_status.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1.4__add_employee_status.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1.5__add_event_types.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="db\migrations\V1.6__add_event_message_type.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

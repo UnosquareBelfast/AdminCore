@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Constants
+namespace AdminCore.Constants
 {
   /// <summary>
   /// The environment variables.
@@ -15,13 +15,13 @@ namespace Admincore.Constants
   public static class EnvironmentVariables
     {
       /// <summary>
-      /// The db connection string key.
-      /// </summary>
-      private const string DbConnectionStringKey = "AdmincoreDatabase";
-
-      /// <summary>
       /// The db connection string.
       /// </summary>
-      public static string DbConnectionString => DbConnectionStringKey;
+      public static readonly string DbConnectionString = "DB_CONNECTION_STRING";
+      
+      /// <summary>
+      /// The db migration type string.
+      /// </summary>
+      public static readonly string DbMigrationType = "DB_MIGRATION_TYPE";
     }
 }

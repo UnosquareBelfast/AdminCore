@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdminCore.Constants\AdminCore.Constants.csproj" />
     <ProjectReference Include="..\AdminCore.DTOs\AdminCore.DTOs.csproj" />
   </ItemGroup>
 

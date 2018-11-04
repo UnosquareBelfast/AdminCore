@@ -1,0 +1,43 @@
+version: '3'
+services:
+  admincore-postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: AdminCore
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  admincore-migration:
+    build:
+      context: .
+      dockerfile: docker/migration.Dockerfile
+    image: unosquare/admincore-migration:latest
+    environment:
+      DB_CONNECTION_STRING: "User ID=user;Password=password;Server=admincore-postgres;Port=5432;Database=AdminCore;Integrated Security=true;Pooling=true;"
+      DB_MIGRATION_TYPE: "Migrate"
+    restart: on-failure
+    depends_on:
+      - admincore-postgres
+    links:
+      - admincore-postgres:postgres
+  admincore-api:
+    build:
+      context: .
+      dockerfile: docker/webapi.Dockerfile
+    image: unosquare/admincore:latest
+    environment:
+      DB_CONNECTION_STRING: "User ID=user;Password=password;Server=admincore-postgres;Port=5432;Database=AdminCore;Integrated Security=true;Pooling=true;"
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - admincore-postgres
+      - admincore-migration
+    links:
+      - admincore-postgres:postgres
+volumes:
+  postgres-data:

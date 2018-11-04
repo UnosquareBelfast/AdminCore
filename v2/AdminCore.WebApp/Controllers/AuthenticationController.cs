@@ -7,9 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.WebApi.Controllers
+namespace AdminCore.WebApi.Controllers
 {
-  using Admincore.Common.Interfaces;
+  using AdminCore.Common.Interfaces;
   using Admincore.WebApi.Models;
   using AdminCore.DTOs.Employee;
   using AdminCore.WebApi.Models;

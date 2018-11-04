@@ -7,9 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common
+using AdminCore.Common.DependencyInjection;
+
+namespace AdminCore.Common
 {
-  using Admincore.Common.DependencyInjection;
+  using Common.DependencyInjection;
 
   /// <summary>
   /// The service locator.
