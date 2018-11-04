@@ -10,7 +10,8 @@
 namespace Admincore.Services
 {
   using Admincore.Common.Interfaces;
-  using Admincore.DAL;
+
+  using AdminCore.DAL;
 
   using AutoMapper;
 

@@ -12,14 +12,18 @@ namespace Admincore.Services.Configuration
   using Admincore.Common;
   using Admincore.Common.DependencyInjection;
   using Admincore.Common.Interfaces;
-  using Admincore.DAL;
-  using Admincore.DAL.Database;
-  using Admincore.DAL.Entity_Framework;
+
   using AdminCore.Services.Configuration;
-  using AutoMapper;
+
   using Microsoft.Extensions.DependencyInjection;
   using System;
   using System.Diagnostics.CodeAnalysis;
+
+  using AdminCore.DAL;
+  using AdminCore.DAL.Database;
+  using AdminCore.DAL.Entity_Framework;
+
+  using AutoMapper;
 
   /// <summary>
   /// The dependency injection.

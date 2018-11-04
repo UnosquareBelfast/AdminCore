@@ -1,17 +1,15 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AdminCoreContext.cs" company="Admincore">
-//   Admincore
+// <copyright file="AdminCoreContext.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the AdminCoreContext type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL.Database
+namespace AdminCore.DAL.Database
 {
   using System.Diagnostics.CodeAnalysis;
-
-  using Admincore.DAL.Models;
 
   using AdminCore.DAL.Models;
 
@@ -19,7 +17,7 @@ namespace Admincore.DAL.Database
   using Microsoft.Extensions.Configuration;
 
   /// <summary>
-  /// The Admincore context.
+  /// The AdminCore context.
   /// </summary>
   [ExcludeFromCodeCoverage]
   public class AdminCoreContext : DbContext
@@ -114,7 +112,7 @@ namespace Admincore.DAL.Database
     /// </param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseNpgsql(_configuration.GetConnectionString("AdmincoreDatabase"));
+      optionsBuilder.UseNpgsql(_configuration.GetConnectionString("AdminCoreDatabase"));
     }
   }
 }

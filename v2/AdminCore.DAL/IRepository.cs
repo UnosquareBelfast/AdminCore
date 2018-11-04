@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRepository.cs" company="Admincore">
-//   Admincore
+// <copyright file="IRepository.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL
+namespace AdminCore.DAL
 {
   using System;
   using System.Collections.Generic;

@@ -9,8 +9,7 @@
 
 namespace Admincore.Services.Mappings
 {
-  using Admincore.DAL.Models;
-
+  using AdminCore.DAL.Models;
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
 

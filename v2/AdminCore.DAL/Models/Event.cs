@@ -14,7 +14,7 @@ namespace AdminCore.DAL.Models
   using System.ComponentModel.DataAnnotations;
   using System.ComponentModel.DataAnnotations.Schema;
 
-  using Admincore.DAL.Models;
+  using AdminCore.DAL.Models;
 
   /// <summary>
   /// The event.

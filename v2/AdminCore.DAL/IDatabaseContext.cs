@@ -1,16 +1,14 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IDatabaseContext.cs" company="Admincore">
-//   Admincore
+// <copyright file="IDatabaseContext.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IDatabaseContext type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL
+namespace AdminCore.DAL
 {
-  using Admincore.DAL.Models;
-
   using AdminCore.DAL.Models;
 
   /// <summary>

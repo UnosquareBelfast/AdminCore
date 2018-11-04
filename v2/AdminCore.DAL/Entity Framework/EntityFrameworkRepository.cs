@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityFrameworkRepository.cs" company="Admincore">
-//   Admincore
+// <copyright file="EntityFrameworkRepository.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the EntityFrameworkRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL.Entity_Framework
+namespace AdminCore.DAL.Entity_Framework
 {
   using Microsoft.EntityFrameworkCore;
   using System;

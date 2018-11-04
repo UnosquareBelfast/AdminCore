@@ -10,8 +10,7 @@
 namespace Admincore.Services
 {
   using Admincore.Common.Interfaces;
-  using Admincore.DAL;
-  using Admincore.DAL.Models;
+
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
   using AutoMapper;
@@ -22,6 +21,9 @@ namespace Admincore.Services
   using System.Security.Claims;
   using System.Security.Cryptography;
   using System.Text;
+
+  using AdminCore.DAL;
+  using AdminCore.DAL.Models;
 
   /// <summary>
   /// The hello service.

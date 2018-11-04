@@ -1,17 +1,15 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityFrameworkContext.cs" company="Admincore">
-//   Admincore
+// <copyright file="EntityFrameworkContext.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   The entity framework context.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL.Entity_Framework
+namespace AdminCore.DAL.Entity_Framework
 {
-  using Admincore.DAL.Database;
-  using Admincore.DAL.Models;
-
+  using AdminCore.DAL.Database;
   using AdminCore.DAL.Models;
 
   using Microsoft.EntityFrameworkCore;
@@ -22,7 +20,7 @@ namespace Admincore.DAL.Entity_Framework
   public class EntityFrameworkContext : IDatabaseContext
   {
     /// <summary>
-    /// The _Admincore context.
+    /// The _AdminCore context.
     /// </summary>
     private readonly AdminCoreContext adminCoreContext;
 
@@ -95,7 +93,7 @@ namespace Admincore.DAL.Entity_Framework
     /// Initializes a new instance of the <see cref="EntityFrameworkContext"/> class.
     /// </summary>
     /// <param name="adminCoreContext">
-    /// The Admincore context.
+    /// The AdminCore context.
     /// </param>
     public EntityFrameworkContext(AdminCoreContext adminCoreContext)
     {
