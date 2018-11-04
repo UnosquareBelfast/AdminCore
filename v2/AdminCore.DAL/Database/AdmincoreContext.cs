@@ -9,10 +9,14 @@
 
 namespace Admincore.DAL.Database
 {
+  using System.Diagnostics.CodeAnalysis;
+
   using Admincore.DAL.Models;
+
+  using AdminCore.DAL.Models;
+
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
-  using System.Diagnostics.CodeAnalysis;
 
   /// <summary>
   /// The Admincore context.
@@ -35,6 +39,11 @@ namespace Admincore.DAL.Database
     {
       _configuration = configuration;
     }
+
+    /// <summary>
+    /// Gets or sets the clients.
+    /// </summary>
+    public DbSet<Client> Clients { get; set; }
 
     /// <summary>
     /// Gets or sets the countries.

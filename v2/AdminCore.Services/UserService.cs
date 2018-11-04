@@ -95,22 +95,6 @@ namespace Admincore.Services
     }
 
     /// <summary>
-    /// The encode password to base 64.
-    /// </summary>
-    /// <param name="password">
-    /// The password.
-    /// </param>
-    /// <returns>
-    /// The <see cref="string"/>.
-    /// </returns>
-    public string EncodePasswordToBase64(string password)
-    {
-      byte[] bytes = Encoding.Unicode.GetBytes(password);
-      byte[] inArray = HashAlgorithm.Create("SHA1")?.ComputeHash(bytes);
-      return Convert.ToBase64String(inArray);
-    }
-
-    /// <summary>
     /// The jwt sign in.
     /// </summary>
     /// <param name="email">
@@ -132,6 +116,12 @@ namespace Admincore.Services
       {
         return null;
       }
+
+ /*     var decodedPassword = DecodePassword(password);
+      if (!decodedPassword.Equals(password))
+      {
+        return null;
+      }*/
 
       var tokenHandler = new JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
@@ -223,6 +213,22 @@ namespace Admincore.Services
     private EmployeeStatus GetEmployeeStatus(int id)
     {
       return _databaseContext.EmployeeStatusRepository.GetById(id);
+    }
+
+    /// <summary>
+    /// The encode password to base 64.
+    /// </summary>
+    /// <param name="password">
+    /// The password.
+    /// </param>
+    /// <returns>
+    /// The <see cref="string"/>.
+    /// </returns>
+    private string EncodePasswordToBase64(string password)
+    {
+      byte[] bytes = Encoding.Unicode.GetBytes(password);
+      byte[] inArray = HashAlgorithm.Create("SHA1")?.ComputeHash(bytes);
+      return Convert.ToBase64String(inArray);
     }
   }
 }

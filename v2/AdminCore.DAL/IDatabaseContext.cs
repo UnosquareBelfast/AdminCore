@@ -11,11 +11,18 @@ namespace Admincore.DAL
 {
   using Admincore.DAL.Models;
 
+  using AdminCore.DAL.Models;
+
   /// <summary>
   /// The DatabaseContext interface.
   /// </summary>
   public interface IDatabaseContext
   {
+    /// <summary>
+    /// Gets the client repository.
+    /// </summary>
+    IRepository<Client> ClientRepository { get; }
+
     /// <summary>
     /// Gets the country repository.
     /// </summary>

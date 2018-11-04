@@ -12,6 +12,8 @@ namespace Admincore.DAL.Entity_Framework
   using Admincore.DAL.Database;
   using Admincore.DAL.Models;
 
+  using AdminCore.DAL.Models;
+
   using Microsoft.EntityFrameworkCore;
 
   /// <summary>
@@ -23,6 +25,11 @@ namespace Admincore.DAL.Entity_Framework
     /// The _Admincore context.
     /// </summary>
     private readonly AdminCoreContext adminCoreContext;
+
+    /// <summary>
+    /// The _ client repository.
+    /// </summary>
+    private IRepository<Client> _ClientRepository;
 
     /// <summary>
     /// The _ country repository.
@@ -54,6 +61,9 @@ namespace Admincore.DAL.Entity_Framework
     {
       this.adminCoreContext = adminCoreContext;
     }
+
+    public IRepository<Client> ClientRepository =>
+      _ClientRepository ?? (_ClientRepository = new EntityFrameworkRepository<Client>(this));
 
     /// <summary>
     /// The country repository.
