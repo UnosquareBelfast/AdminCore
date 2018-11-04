@@ -173,48 +173,6 @@ namespace Admincore.Services
     }
 
     /// <summary>
-    /// The get country by id.
-    /// </summary>
-    /// <param name="id">
-    /// The id.
-    /// </param>
-    /// <returns>
-    /// The <see cref="Country"/>.
-    /// </returns>
-    private Country GetCountryById(int id)
-    {
-      return _databaseContext.CountryRepository.GetById(id);
-    }
-
-    /// <summary>
-    /// The get employee role.
-    /// </summary>
-    /// <param name="id">
-    /// The id.
-    /// </param>
-    /// <returns>
-    /// The <see cref="EmployeeRole"/>.
-    /// </returns>
-    private EmployeeRole GetEmployeeRole(int id)
-    {
-      return _databaseContext.EmployeeRoleRepository.GetById(id);
-    }
-
-    /// <summary>
-    /// The get employee status.
-    /// </summary>
-    /// <param name="id">
-    /// The id.
-    /// </param>
-    /// <returns>
-    /// The <see cref="EmployeeStatus"/>.
-    /// </returns>
-    private EmployeeStatus GetEmployeeStatus(int id)
-    {
-      return _databaseContext.EmployeeStatusRepository.GetById(id);
-    }
-
-    /// <summary>
     /// The encode password to base 64.
     /// </summary>
     /// <param name="password">

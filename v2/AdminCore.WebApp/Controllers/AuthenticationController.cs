@@ -26,11 +26,6 @@ namespace Admincore.WebApi.Controllers
   public class AuthenticationController : ControllerBase
   {
     /// <summary>
-    /// The _hello service.
-    /// </summary>
-    private readonly IEmployeeService _employeeService;
-
-    /// <summary>
     /// The _mapper.
     /// </summary>
     private readonly IMapper _mapper;
@@ -46,17 +41,13 @@ namespace Admincore.WebApi.Controllers
     /// <param name="userService">
     /// The user service.
     /// </param>
-    /// <param name="employeeService">
-    /// The employee service.
-    /// </param>
     /// <param name="mapper">
     /// The mapper.
     /// </param>
-    public AuthenticationController(IUserService userService, IEmployeeService employeeService, IMapper mapper)
+    public AuthenticationController(IUserService userService, IMapper mapper)
     {
       _userService = userService;
       _mapper = mapper;
-      _employeeService = employeeService;
     }
 
     /// <summary>
