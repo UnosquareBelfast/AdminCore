@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IUserService.cs" company="Admincore">
+// <copyright file="IAuthenticationService.cs" company="Admincore">
 //   Admincore
 // </copyright>
 // <summary>
-//   Defines the IUserService type.
+//   Defines the IAuthenticationService type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -15,30 +15,8 @@ namespace Admincore.Common.Interfaces
   /// <summary>
   /// The HelloService interface.
   /// </summary>
-  public interface IUserService
+  public interface IAuthenticationService
   {
-    /// <summary>
-    /// The create new employee.
-    /// </summary>
-    /// <param name="registerEmployeeDto">
-    /// The register employee dto.
-    /// </param>
-    /// <returns>
-    /// The <see cref="string"/>.
-    /// </returns>
-    string CreateNewEmployee(EmployeeDto registerEmployeeDto);
-
-    /// <summary>
-    /// The does email already exist.
-    /// </summary>
-    /// <param name="email">
-    /// The email.
-    /// </param>
-    /// <returns>
-    /// The <see cref="bool"/>.
-    /// </returns>
-    bool DoesEmailAlreadyExist(string email);
-
     /// <summary>
     /// The jwt sign in.
     /// </summary>

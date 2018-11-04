@@ -49,7 +49,7 @@ namespace Admincore.Services.Configuration
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
-        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
