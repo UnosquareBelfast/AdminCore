@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IDataMigration.cs" company="Admincore">
-//   Admincore
+// <copyright file="IDataMigration.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IDataMigration type.

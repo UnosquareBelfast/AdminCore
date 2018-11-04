@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuthenticationService.cs" company="Admincore">
-//   Admincore
+// <copyright file="AuthenticationService.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   The hello service.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Services
+namespace AdminCore.Services
 {
   using System;
   using System.IdentityModel.Tokens.Jwt;

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IAuthenticationService.cs" company="Admincore">
-//   Admincore
+// <copyright file="IAuthenticationService.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IAuthenticationService type.

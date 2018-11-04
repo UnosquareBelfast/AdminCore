@@ -87,7 +87,7 @@ namespace AdminCore.DAL.Database
     /// <summary>
     /// Gets or sets the event message type.
     /// </summary>
-    public DbSet<Event> EventMessageType { get; set; }
+    public DbSet<EventMessageType> EventMessageType { get; set; }
 
     /// <summary>
     /// Gets or sets the event statuses.
@@ -103,7 +103,6 @@ namespace AdminCore.DAL.Database
     /// Gets or sets the teams.
     /// </summary>
     public DbSet<Team> Teams { get; set; }
-
 
     /// <summary>
     /// The on configuring.

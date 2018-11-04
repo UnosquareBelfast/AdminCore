@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RegisterEmployeeViewModel.cs" company="Admincore">
-//   Admincore
+// <copyright file="RegisterEmployeeViewModel.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the RegisterEmployeeViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.WebApi.Models
+namespace AdminCore.WebApi.Models
 {
   using System;
 

@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Startup.cs" company="Admincore">
-//   Admincore
+// <copyright file="Startup.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   The startup.
@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Text;
-using Admincore.Services.Configuration;
+using AdminCore.Services.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Admincore.Services.Configuration;
 using AdminCore.Common;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
+using AdminCore.Services.Configuration;
 
 namespace AdminCore.DatabaseMigration
 {

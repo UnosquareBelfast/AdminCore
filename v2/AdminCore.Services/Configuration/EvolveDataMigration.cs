@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EvolveDataMigration.cs" company="Admincore">
-//   Admincore
+// <copyright file="EvolveDataMigration.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the EvolveDataMigration type.

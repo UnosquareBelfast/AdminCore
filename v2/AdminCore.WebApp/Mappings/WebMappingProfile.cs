@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WebMappingProfile.cs" company="Admincore">
-//   Admincore
+// <copyright file="WebMappingProfile.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   The web mapping profile.
@@ -9,10 +9,9 @@
 
 namespace AdminCore.WebApi.Mappings
 {
-  using Admincore.WebApi.Models;
+  using AdminCore.WebApi.Models;
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
-  using AdminCore.WebApi.Models;
   using AutoMapper;
 
   /// <summary>

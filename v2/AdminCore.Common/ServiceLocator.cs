@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ServiceLocator.cs" company="Admincore">
-//   Admincore
+// <copyright file="ServiceLocator.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the ServiceLocator type.
