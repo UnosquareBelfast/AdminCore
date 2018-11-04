@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserService.cs" company="Admincore">
+// <copyright file="AuthenticationService.cs" company="Admincore">
 //   Admincore
 // </copyright>
 // <summary>
@@ -10,17 +10,14 @@
 namespace Admincore.Services
 {
   using System;
-  using System.Collections.Generic;
   using System.IdentityModel.Tokens.Jwt;
   using System.Linq;
   using System.Security.Claims;
   using System.Text;
 
   using Admincore.Common.Interfaces;
-  using Admincore.DAL;
-  using Admincore.DAL.Models;
-  using Admincore.DTOs;
 
+  using AdminCore.DAL;
   using AdminCore.DTOs;
 
   using AutoMapper;
@@ -30,7 +27,7 @@ namespace Admincore.Services
   /// <summary>
   /// The hello service.
   /// </summary>
-  public class UserService : IUserService
+  public class AuthenticationService : IAuthenticationService
   {
     /// <summary>
     /// The _database context.
@@ -38,23 +35,14 @@ namespace Admincore.Services
     private readonly IDatabaseContext _databaseContext;
 
     /// <summary>
-    /// The _mapper.
-    /// </summary>
-    private readonly IMapper _mapper;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UserService"/> class.
+    /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
     /// </summary>
     /// <param name="databaseContext">
     /// The database context.
     /// </param>
-    /// <param name="mapper">
-    /// The mapper.
-    /// </param>
-    public UserService(IDatabaseContext databaseContext, IMapper mapper)
+    public AuthenticationService(IDatabaseContext databaseContext)
     {
       _databaseContext = databaseContext;
-      _mapper = mapper;
     }
 
     /// <summary>
@@ -80,17 +68,29 @@ namespace Admincore.Services
         return null;
       }
 
+ /*     var decodedPassword = DecodePassword(password);
+      if (!decodedPassword.Equals(password))
+      {
+        return null;
+      }*/
+
       var tokenHandler = new JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 
       var tokenDescriptor = new SecurityTokenDescriptor
                               {
-                                Subject = new ClaimsIdentity(new[]
-                                                               {
-                                                                 new Claim(ClaimTypes.Name, employee.EmployeeId.ToString())
-                                                               }),
+                                Subject =
+                                  new ClaimsIdentity(
+                                    new[]
+                                      {
+                                        new Claim(
+                                          ClaimTypes.Name,
+                                          employee.EmployeeId.ToString())
+                                      }),
                                 Expires = DateTime.UtcNow.AddDays(1),
-                                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                                SigningCredentials = new SigningCredentials(
+                                  new SymmetricSecurityKey(key),
+                                  SecurityAlgorithms.HmacSha256Signature)
                               };
       var token = tokenHandler.CreateToken(tokenDescriptor);
       var jwtResponseDto = new JwtAuthDto { AccessToken = tokenHandler.WriteToken(token), TokenType = "Bearer" };

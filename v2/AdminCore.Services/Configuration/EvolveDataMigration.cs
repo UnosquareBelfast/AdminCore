@@ -7,35 +7,51 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace AdminCore.Services.Configuration
 {
+  using Admincore.Common.Interfaces;
+  using Npgsql;
   using System;
   using System.Collections.Generic;
   using System.Data;
   using System.Diagnostics.CodeAnalysis;
-  using Admincore.Common.Interfaces;
-  using Admincore.Services.Configuration;
-  using Npgsql;
 
   /// <summary>
   /// The evolve data migration.
   /// </summary>
   public class EvolveDataMigration : IDataMigration
   {
+    /// <summary>
+    /// The _configuration.
+    /// </summary>
     private readonly IConfiguration _configuration;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EvolveDataMigration"/> class.
+    /// </summary>
+    /// <param name="configuration">
+    /// The configuration.
+    /// </param>
     public EvolveDataMigration(IConfiguration configuration)
     {
       _configuration = configuration;
     }
 
+    /// <summary>
+    /// The execute migration.
+    /// </summary>
+    /// <param name="evolve">
+    /// The evolve.
+    /// </param>
     [ExcludeFromCodeCoverage]
     public virtual void ExecuteMigration(Evolve.Evolve evolve)
     {
       evolve.Migrate();
     }
 
+    /// <summary>
+    /// The migrate.
+    /// </summary>
     public void Migrate()
     {
       try
@@ -48,7 +64,7 @@ namespace AdminCore.Services.Configuration
       }
       catch (Exception ex)
       {
-        //TODO Add Logger
+        // TODO Add Logger
         throw;
       }
     }
@@ -79,10 +95,10 @@ namespace AdminCore.Services.Configuration
     public virtual Evolve.Evolve RetrieveEvolve(IDbConnection connection, Action<string> logger)
     {
       return new Evolve.Evolve(connection, logger)
-      {
-        Locations = new List<string> { "db/migrations" },
-        IsEraseDisabled = true
-      };
+               {
+                 Locations = new List<string> { "db/migrations" },
+                 IsEraseDisabled = true
+               };
     }
   }
 }

@@ -22,6 +22,7 @@ namespace Admincore.Common.DependencyInjection
     /// <returns>
     /// The <see cref="T"/>.
     /// </returns>
-    T GetInstance<T>() where T : class;
+    T GetInstance<T>()
+      where T : class;
   }
 }

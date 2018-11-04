@@ -1,27 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityFrameworkRepository.cs" company="Admincore">
-//   Admincore
+// <copyright file="EntityFrameworkRepository.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the EntityFrameworkRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL.Entity_Framework
+namespace AdminCore.DAL.Entity_Framework
 {
+  using Microsoft.EntityFrameworkCore;
   using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Linq.Expressions;
-
-  using Microsoft.EntityFrameworkCore;
 
   /// <summary>
   /// The entity framework repository.
   /// </summary>
   /// <typeparam name="T">
   /// </typeparam>
-  public class EntityFrameworkRepository<T> : IRepository<T> where T : class
+  public class EntityFrameworkRepository<T> : IRepository<T>
+    where T : class
   {
     /// <summary>
     /// The _db set.
@@ -52,6 +52,20 @@ namespace Admincore.DAL.Entity_Framework
       }
 
       return queryableData.ToList();
+    }
+
+    /// <summary>
+    /// The get by id.
+    /// </summary>
+    /// <param name="id">
+    /// The id.
+    /// </param>
+    /// <returns>
+    /// The <see cref="T"/>.
+    /// </returns>
+    public T GetById(object id)
+    {
+      return _dbSet.Find(id);
     }
 
     /// <summary>

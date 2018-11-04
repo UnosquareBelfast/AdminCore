@@ -1,27 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EnvironmentVariables.cs" company="AdminCore">
+// <copyright file="EmployeeStatusViewModel.cs" company="AdminCore">
 //   Unosquare
 // </copyright>
 // <summary>
-//   Defines the EnvironmentVariables type.
+//   Defines the EmployeeStatusViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Constants
+namespace AdminCore.WebApi.Models.Employee
 {
   /// <summary>
-  /// The environment variables.
+  /// The employee status view model.
   /// </summary>
-  public static class EnvironmentVariables
+  public class EmployeeStatusViewModel
     {
       /// <summary>
-      /// The db connection string key.
+      /// Gets or sets the employee status id.
       /// </summary>
-      private const string DbConnectionStringKey = "AdmincoreDatabase";
+      public int EmployeeStatusId { get; set; }
 
       /// <summary>
-      /// The db connection string.
+      /// Gets or sets the description.
       /// </summary>
-      public static string DbConnectionString => DbConnectionStringKey;
+      public string Description { get; set; }
     }
 }

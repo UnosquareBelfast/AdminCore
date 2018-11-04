@@ -9,17 +9,21 @@
 
 namespace Admincore.Services.Configuration
 {
+  using Admincore.Common;
+  using Admincore.Common.DependencyInjection;
+  using Admincore.Common.Interfaces;
+
+  using AdminCore.Services.Configuration;
+
+  using Microsoft.Extensions.DependencyInjection;
   using System;
   using System.Diagnostics.CodeAnalysis;
-  using AdminCore.Services.Configuration;
+
+  using AdminCore.DAL;
+  using AdminCore.DAL.Database;
+  using AdminCore.DAL.Entity_Framework;
+
   using AutoMapper;
-  using Common;
-  using Common.Interfaces;
-  using DAL;
-  using DAL.Database;
-  using DAL.Entity_Framework;
-  using Microsoft.Extensions.DependencyInjection;
-  using IContainer = Common.DependencyInjection.IContainer;
 
   /// <summary>
   /// The dependency injection.
@@ -45,9 +49,10 @@ namespace Admincore.Services.Configuration
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
-        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
+        services.AddTransient<IEmployeeService, EmployeeService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 
@@ -93,4 +98,3 @@ namespace Admincore.Services.Configuration
     }
   }
 }
-

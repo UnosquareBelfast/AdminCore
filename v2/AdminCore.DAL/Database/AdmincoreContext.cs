@@ -1,23 +1,24 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AdminCoreContext.cs" company="Admincore">
-//   Admincore
+// <copyright file="AdminCoreContext.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the AdminCoreContext type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL.Database
+namespace AdminCore.DAL.Database
 {
   using System.Diagnostics.CodeAnalysis;
 
-  using Admincore.DAL.Models;
+  using Admincore.Common.Interfaces;
+
+  using AdminCore.DAL.Models;
 
   using Microsoft.EntityFrameworkCore;
-  using Microsoft.Extensions.Configuration;
 
   /// <summary>
-  /// The Admincore context.
+  /// The AdminCore context.
   /// </summary>
   [ExcludeFromCodeCoverage]
   public class AdminCoreContext : DbContext
@@ -39,9 +40,70 @@ namespace Admincore.DAL.Database
     }
 
     /// <summary>
+    /// Gets or sets the contract.
+    /// </summary>
+    public DbSet<Contract> Contracts { get; set; }
+
+    /// <summary>
+    /// Gets or sets the clients.
+    /// </summary>
+    public DbSet<Client> Clients { get; set; }
+
+    /// <summary>
+    /// Gets or sets the countries.
+    /// </summary>
+    public DbSet<Country> Countries { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employee roles.
+    /// </summary>
+    public DbSet<EmployeeRole> EmployeeRoles { get; set; }
+
+    /// <summary>
     /// Gets or sets the patients.
     /// </summary>
     public DbSet<Employee> Employees { get; set; }
+
+    /// <summary>
+    /// Gets or sets the employee statuses.
+    /// </summary>
+    public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event.
+    /// </summary>
+    public DbSet<Event> Events { get; set; }
+
+    /// <summary>
+    /// Gets or sets the events dates.
+    /// </summary>
+    public DbSet<EventDates> EventsDates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message.
+    /// </summary>
+    public DbSet<EventMessage> EventMessage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event message type.
+    /// </summary>
+    public DbSet<Event> EventMessageType { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event statuses.
+    /// </summary>
+    public DbSet<EventStatus> EventStatuses { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event type.
+    /// </summary>
+    public DbSet<EventType> EventTypes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the teams.
+    /// </summary>
+    public DbSet<Team> Teams { get; set; }
+
 
     /// <summary>
     /// The on configuring.
@@ -51,7 +113,7 @@ namespace Admincore.DAL.Database
     /// </param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseNpgsql(_configuration.GetConnectionString("AdmincoreDatabase"));
+      optionsBuilder.UseNpgsql(_configuration.RetrieveConnectionString());
     }
   }
 }

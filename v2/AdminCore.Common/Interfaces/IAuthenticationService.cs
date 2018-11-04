@@ -1,20 +1,21 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IUserService.cs" company="Admincore">
+// <copyright file="IAuthenticationService.cs" company="Admincore">
 //   Admincore
 // </copyright>
 // <summary>
-//   Defines the IUserService type.
+//   Defines the IAuthenticationService type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Admincore.Common.Interfaces
 {
   using AdminCore.DTOs;
+  using AdminCore.DTOs.Employee;
 
   /// <summary>
   /// The HelloService interface.
   /// </summary>
-  public interface IUserService
+  public interface IAuthenticationService
   {
     /// <summary>
     /// The jwt sign in.

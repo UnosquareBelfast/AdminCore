@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using AutoMapper;
+
 namespace Admincore.WebApi
 {
   using System.Text;
@@ -20,7 +22,6 @@ namespace Admincore.WebApi
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.IdentityModel.Tokens;
   using Swashbuckle.AspNetCore.Swagger;
-  using System.Text;
 
   using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 

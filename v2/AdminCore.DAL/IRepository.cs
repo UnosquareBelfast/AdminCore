@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRepository.cs" company="Admincore">
-//   Admincore
+// <copyright file="IRepository.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IRepository type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.DAL
+namespace AdminCore.DAL
 {
   using System;
   using System.Collections.Generic;
@@ -30,6 +30,17 @@ namespace Admincore.DAL
     /// The <see cref="IList"/>.
     /// </returns>
     IList<T> Get(Expression<Func<T, bool>> filter = null);
+
+    /// <summary>
+    /// The get by id.
+    /// </summary>
+    /// <param name="id">
+    /// The id.
+    /// </param>
+    /// <returns>
+    /// The <see cref="T"/>.
+    /// </returns>
+    T GetById(object id);
 
     /// <summary>
     /// The insert.

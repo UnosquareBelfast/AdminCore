@@ -1,27 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EnvironmentVariables.cs" company="AdminCore">
+// <copyright file="EmployeeRoleViewModel.cs" company="AdminCore">
 //   Unosquare
 // </copyright>
 // <summary>
-//   Defines the EnvironmentVariables type.
+//   Defines the EmployeeRoleViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Constants
+namespace AdminCore.WebApi.Models.Employee
 {
   /// <summary>
-  /// The environment variables.
+  /// The employee role view model.
   /// </summary>
-  public static class EnvironmentVariables
+  public class EmployeeRoleViewModel
     {
       /// <summary>
-      /// The db connection string key.
+      /// Gets or sets the employee role id.
       /// </summary>
-      private const string DbConnectionStringKey = "AdmincoreDatabase";
+      public int EmployeeRoleId { get; set; }
 
       /// <summary>
-      /// The db connection string.
+      /// Gets or sets the description.
       /// </summary>
-      public static string DbConnectionString => DbConnectionStringKey;
+      public string Description { get; set; }
     }
 }

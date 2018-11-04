@@ -268,12 +268,9 @@ CREATE TABLE IF NOT EXISTS public.event
 (
   event_id        integer NOT NULL DEFAULT nextval('event_event_id_seq' :: regclass),
   employee_id       integer,
-  start_date         date,
-  end_date           date,
   date_created      timestamp ,
   event_status_id integer,
   event_type_id integer,
-  is_half_day       boolean NOT NULL,
   last_modified     timestamp ,
   CONSTRAINT event_pkey PRIMARY KEY (event_id),
   CONSTRAINT event_employee_id_fkey FOREIGN KEY (employee_id)
@@ -297,6 +294,37 @@ TABLESPACE pg_default;
 
 ALTER SEQUENCE event_event_id_seq
     OWNED BY event.event_id;
+
+  ----------------------------------------------------------------------------------------
+
+/*
+                                  EVENT DATES TABLE
+*/
+
+  ----------------------------------------------------------------------------------------
+
+
+CREATE SEQUENCE IF NOT EXISTS public.event_dates_event_dates_id_seq;
+CREATE TABLE public.event_dates
+(
+    event_dates_id integer NOT NULL DEFAULT nextval('event_dates_event_dates_id_seq' :: regclass),
+    event_id integer NOT NULL,
+    start_date timestamp NOT NULL,
+    end_date timestamp NOT NULL,
+    is_half_day       boolean NOT NULL,
+    CONSTRAINT event_dates_pkey PRIMARY KEY (event_dates_id),
+	  CONSTRAINT event_id_fkey FOREIGN KEY (event_id)
+        REFERENCES public.event (event_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER SEQUENCE event_dates_event_dates_id_seq
+    OWNED BY event_dates.event_dates_id;
 
   ----------------------------------------------------------------------------------------
 
