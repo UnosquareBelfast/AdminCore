@@ -1,16 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IDataMigration.cs" company="Admincore">
-//   Admincore
+// <copyright file="IDataMigration.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IDataMigration type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+namespace AdminCore.Common.Interfaces
 {
   public interface IDataMigration
   {
     void Migrate();
+
+    void ClearDown();
   }
 }

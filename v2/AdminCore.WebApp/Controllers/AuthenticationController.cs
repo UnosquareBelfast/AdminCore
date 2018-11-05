@@ -1,18 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuthenticationController.cs" company="Admincore">
-//   Admincore
+// <copyright file="AuthenticationController.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the AuthenticationController type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.WebApi.Controllers
+namespace AdminCore.WebApi.Controllers
 {
-  using Admincore.Common.Interfaces;
-  using Admincore.WebApi.Models;
-  using AdminCore.DTOs.Employee;
+  using AdminCore.Common.Interfaces;
   using AdminCore.WebApi.Models;
+  using AdminCore.DTOs.Employee;
   using AutoMapper;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;

@@ -1,20 +1,20 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmployeeService.cs" company="Admincore">
-//   Admincore
+// <copyright file="EmployeeService.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   The hello service.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Services
+namespace AdminCore.Services
 {
   using System;
   using System.Linq;
   using System.Security.Cryptography;
   using System.Text;
 
-  using Admincore.Common.Interfaces;
+  using AdminCore.Common.Interfaces;
 
   using AdminCore.DAL;
   using AdminCore.DAL.Models;

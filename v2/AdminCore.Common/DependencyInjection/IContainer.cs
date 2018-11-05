@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IContainer.cs" company="Admincore">
-//   Admincore
+// <copyright file="IContainer.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IContainer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.DependencyInjection
+namespace AdminCore.Common.DependencyInjection
 {
   /// <summary>
   /// The Container interface.
@@ -22,7 +22,6 @@ namespace Admincore.Common.DependencyInjection
     /// <returns>
     /// The <see cref="T"/>.
     /// </returns>
-    T GetInstance<T>()
-      where T : class;
+    T GetInstance<T>() where T : class;
   }
 }

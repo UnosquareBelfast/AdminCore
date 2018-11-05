@@ -1,15 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ServiceLocator.cs" company="Admincore">
-//   Admincore
+// <copyright file="ServiceLocator.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the ServiceLocator type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common
+using AdminCore.Common.DependencyInjection;
+
+namespace AdminCore.Common
 {
-  using Admincore.Common.DependencyInjection;
+  using Common.DependencyInjection;
 
   /// <summary>
   /// The service locator.

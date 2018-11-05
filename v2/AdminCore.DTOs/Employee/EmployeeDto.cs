@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmployeeDto.cs" company="Admincore">
-//   Admincore
+// <copyright file="EmployeeDto.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the PatientDTO type.

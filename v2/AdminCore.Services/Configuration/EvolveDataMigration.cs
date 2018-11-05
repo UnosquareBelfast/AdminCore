@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EvolveDataMigration.cs" company="Admincore">
-//   Admincore
+// <copyright file="EvolveDataMigration.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the EvolveDataMigration type.
@@ -9,7 +9,7 @@
 
 namespace AdminCore.Services.Configuration
 {
-  using Admincore.Common.Interfaces;
+  using Common.Interfaces;
   using Npgsql;
   using System;
   using System.Collections.Generic;
@@ -36,6 +36,23 @@ namespace AdminCore.Services.Configuration
     {
       _configuration = configuration;
     }
+    
+    public void ClearDown()
+    {
+      ExecuteWithEvolve(ExecuteClearDown);
+    }
+    
+    /// <summary>
+    /// The execute clear down.
+    /// </summary>
+    /// <param name="evolve">
+    /// The evolve.
+    /// </param>
+    [ExcludeFromCodeCoverage]
+    public virtual void ExecuteClearDown(Evolve.Evolve evolve)
+    {
+      evolve.Erase();
+    }
 
     /// <summary>
     /// The execute migration.
@@ -54,12 +71,17 @@ namespace AdminCore.Services.Configuration
     /// </summary>
     public void Migrate()
     {
+      ExecuteWithEvolve(ExecuteMigration);
+    }
+    
+    private void ExecuteWithEvolve(Action<Evolve.Evolve> action)
+    {
       try
       {
         using (var dbConnectionString = RetrieveDatabaseConnection())
         {
           var evolve = RetrieveEvolve(dbConnectionString, Console.Write);
-          ExecuteMigration(evolve);
+          action(evolve);
         }
       }
       catch (Exception ex)
@@ -95,10 +117,10 @@ namespace AdminCore.Services.Configuration
     public virtual Evolve.Evolve RetrieveEvolve(IDbConnection connection, Action<string> logger)
     {
       return new Evolve.Evolve(connection, logger)
-               {
-                 Locations = new List<string> { "db/migrations" },
-                 IsEraseDisabled = true
-               };
+      {
+        Locations = new List<string> {"db/migrations"},
+        IsEraseDisabled = false
+      };
     }
   }
 }

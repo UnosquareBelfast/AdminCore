@@ -1,20 +1,19 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DependencyInjection.cs" company="Admincore">
-//   Admincore
+// <copyright file="DependencyInjection.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the DependencyInjection type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Services.Configuration
+using AdminCore.Services;
+
+namespace AdminCore.Services.Configuration
 {
-  using Admincore.Common;
-  using Admincore.Common.DependencyInjection;
-  using Admincore.Common.Interfaces;
-
-  using AdminCore.Services.Configuration;
-
+  using AdminCore.Common;
+  using AdminCore.Common.DependencyInjection;
+  using AdminCore.Common.Interfaces;
   using Microsoft.Extensions.DependencyInjection;
   using System;
   using System.Diagnostics.CodeAnalysis;
@@ -27,7 +26,7 @@ namespace Admincore.Services.Configuration
 
   /// <summary>
   /// The dependency injection.
-  /// </summary>
+  /// </summary> 
   [ExcludeFromCodeCoverage]
   public static class DependencyInjection
   {
@@ -42,10 +41,15 @@ namespace Admincore.Services.Configuration
     /// <param name="services">
     /// The services.
     /// </param>
-    public static void RegisterDependencyInjection(IServiceCollection services)
+    public static void RegisterDependencyInjection(IServiceCollection services = null)
     {
       if (!_registered)
       {
+        if (services == null)
+        {
+          services = new ServiceCollection();
+        }
+
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();

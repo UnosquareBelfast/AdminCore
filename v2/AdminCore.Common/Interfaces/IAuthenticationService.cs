@@ -1,19 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IAuthenticationService.cs" company="Admincore">
-//   Admincore
+// <copyright file="IAuthenticationService.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IAuthenticationService type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+namespace AdminCore.Common.Interfaces
 {
-  using AdminCore.DTOs;
-  using AdminCore.DTOs.Employee;
+  using DTOs;
 
   /// <summary>
-  /// The HelloService interface.
+  /// The Authentication Service.
   /// </summary>
   public interface IAuthenticationService
   {

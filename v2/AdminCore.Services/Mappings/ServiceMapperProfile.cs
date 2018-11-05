@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ServiceMapperProfile.cs" company="Admincore">
-//   Admincore
+// <copyright file="ServiceMapperProfile.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the ServiceMapperProfile type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Services.Mappings
+namespace AdminCore.Services.Mappings
 {
   using AdminCore.DAL.Models;
   using AdminCore.DTOs;

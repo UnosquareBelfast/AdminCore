@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IEmployeeService.cs" company="Admincore">
-//   Admincore
+// <copyright file="IEmployeeService.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the IAuthenticationService type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+namespace AdminCore.Common.Interfaces
 {
   using AdminCore.DTOs.Employee;
 

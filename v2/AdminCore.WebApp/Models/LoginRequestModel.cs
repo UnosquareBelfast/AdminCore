@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LoginRequestModel.cs" company="Admincore">
-//   Admincore
+// <copyright file="LoginRequestModel.cs" company="AdminCore">
+//   AdminCore
 // </copyright>
 // <summary>
 //   Defines the LoginRequestModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.WebApi.Models
+namespace AdminCore.WebApi.Models
 {
   /// <summary>
   /// The patient model.

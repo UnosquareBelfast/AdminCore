@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Admincore.WebApp": {
+    "AdminCore.WebApp": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -7,7 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Admincore.Common.Interfaces
+using AdminCore.Constants.Enums;
+
+namespace AdminCore.Common.Interfaces
 {
   /// <summary>
   /// The Configuration interface.
@@ -21,5 +23,11 @@ namespace Admincore.Common.Interfaces
     /// The <see cref="string"/>.
     /// </returns>
     string RetrieveConnectionString();
+
+    /// <summary>
+    /// Retrieves the type of migration to perform.
+    /// </summary>
+    /// <returns></returns>
+    MigrationTypes RetrieveMigrationType();
   }
 }
