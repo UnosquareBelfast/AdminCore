@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Models.Client;
@@ -67,6 +66,7 @@ namespace AdminCore.WebApi.Controllers
     public ActionResult DeleteClient([FromBody] ClientViewModel clientViewModel)
     {
       _clientService.DeleteClient(clientViewModel.ClientId);
+
       return Ok();
     }
 
@@ -77,17 +77,18 @@ namespace AdminCore.WebApi.Controllers
       _clientService.GetClientById(clientViewModel.ClientId);
       return Ok();
     }
-    //    @GetMapping(value = "/{clientId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    //    @ResponseBody
-    //    public ClientViewModel findClientById(@PathVariable("clientId") int id) {
-    //      return modelMapper.map(clientService.findById(id), ClientViewModel.class);
-    //    }
 
-    //    @GetMapping(value = "/findByClientNameContaining/{clientName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    //    @ResponseStatus(HttpStatus.OK)
-    //    public List<ClientViewModel> findByClientNameContaining(@PathVariable("clientName") String clientName) {
-    //      List clients = clientService.findByClientNameContaining(clientName);
-    //      return mapClientsToDtos(clients);
-    //    }
+    [HttpGet]
+    [AllowAnonymous]
+    public ActionResult GetClientByClientNameContaining([FromBody] ClientViewModel clientViewModel)
+    {
+      var client = _clientService.GetClientByClientNameContaining(clientViewModel.ClientName);
+      if (client != null)
+      {
+        return Accepted(_mapper.Map<ClientViewModel>(client));
+      }
+
+      return null;
+    }
   }
 }

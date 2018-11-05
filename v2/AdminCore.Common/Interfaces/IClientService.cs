@@ -16,5 +16,7 @@ namespace AdminCore.Common.Interfaces
     void DeleteClient(int clientId);
 
     ClientDto GetClientById(int clientId);
+
+    ClientDto GetClientByClientNameContaining(string clientName);
   }
 }
