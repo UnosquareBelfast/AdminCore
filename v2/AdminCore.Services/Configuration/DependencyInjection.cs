@@ -57,6 +57,7 @@ namespace AdminCore.Services.Configuration
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
+        services.AddTransient<IClientService, ClientService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 

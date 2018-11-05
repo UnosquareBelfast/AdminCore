@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using AdminCore.DTOs.Client;
+
 namespace AdminCore.Services.Mappings
 {
   using AdminCore.DAL.Models;
@@ -31,6 +33,9 @@ namespace AdminCore.Services.Mappings
       CreateMap<CountryDto, Country>().ReverseMap();
       CreateMap<EmployeeStatusDto, EmployeeStatus>().ReverseMap();
       CreateMap<EmployeeRoleDto, EmployeeRole>().ReverseMap();
+      
+      // TODO: Move into separate profile.
+      CreateMap<ClientDto, Client>().ReverseMap();
     }
   }
 }
