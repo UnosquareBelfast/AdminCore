@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using AdminCore.DTOs.Client;
+using AdminCore.DTOs.Holiday;
 
 namespace AdminCore.Services.Mappings
 {
@@ -36,6 +37,8 @@ namespace AdminCore.Services.Mappings
       
       // TODO: Move into separate profile.
       CreateMap<ClientDto, Client>().ReverseMap();
+
+      CreateMap<HolidayDto, Holiday>().ReverseMap();
     }
   }
 }
