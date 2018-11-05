@@ -31,7 +31,7 @@ namespace AdminCore.WebApi.Mappings
 
       CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
       
-      CreateMap<ClientDto, ClientViewModel>();
+      CreateMap<ClientDto, ClientViewModel>().ReverseMap();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
     }
