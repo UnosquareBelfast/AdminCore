@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace AdminCore.Common.Interfaces
 {
   using AdminCore.DTOs.Employee;
@@ -16,26 +18,20 @@ namespace AdminCore.Common.Interfaces
   /// </summary>
   public interface IEmployeeService
   {
-    /// <summary>
-    /// The create new employee.
-    /// </summary>
-    /// <param name="registerEmployeeDto">
-    /// The register employee dto.
-    /// </param>
-    /// <returns>
-    /// The <see cref="string"/>.
-    /// </returns>
     string CreateNewEmployee(EmployeeDto registerEmployeeDto);
 
-    /// <summary>
-    /// The does email already exist.
-    /// </summary>
-    /// <param name="email">
-    /// The email.
-    /// </param>
-    /// <returns>
-    /// The <see cref="bool"/>.
-    /// </returns>
     bool DoesEmailAlreadyExist(string email);
+
+    IList<EmployeeDto> GetAll();
+
+    void UpdateEmployee(EmployeeDto);
+
+    void DeleteEmployee(int employeeId);
+
+    IList<EmployeeDto> GetEmployeeById(int employeeId);
+
+    IList<EmployeeDto> GetEmployeeByForenameAndSurname(string forename, string surname);
+
+    IList<EmployeeDto> GetEmployeeByCountry(int countryId);
   }
 }

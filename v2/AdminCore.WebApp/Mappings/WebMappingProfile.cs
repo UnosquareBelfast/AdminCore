@@ -29,7 +29,7 @@ namespace AdminCore.WebApi.Mappings
     {
       CreateMap<EmployeeDto, LoginRequestModel>();
 
-      CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
+      CreateMap<EmployeeViewModel, EmployeeDto>();
       
       CreateMap<ClientDto, ClientViewModel>();
 

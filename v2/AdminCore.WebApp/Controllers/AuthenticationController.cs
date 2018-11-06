@@ -93,7 +93,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpPost]
     [AllowAnonymous]
     [Route("register")]
-    public ActionResult Register([FromBody] RegisterEmployeeViewModel registerEmployee)
+    public ActionResult Register([FromBody] EmployeeViewModel registerEmployee)
     {
       if (_employeeService.DoesEmailAlreadyExist(registerEmployee.Email))
       {
