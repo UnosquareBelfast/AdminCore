@@ -5,11 +5,12 @@ using AdminCore.Constants.Enums;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
+
 namespace AdminCore.Services
 {
   public class EventService : IEventService
   {
-    public List<EventDto> FindByType(EventTypes EventType)
+    public IList<EventDto> FindByType(EventTypes EventType)
     {
       throw new System.NotImplementedException();
     }
@@ -19,7 +20,7 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> FindByEmployee(int EmployeeID)
+    public IList<EventDto> FindByEmployee(int EmployeeID)
     {
       throw new System.NotImplementedException();
     }
@@ -29,12 +30,12 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> FindByDateBetween(DateTime RangeStart, DateTime RangeEnd, EventTypes EventType)
+    public IList<EventDto> FindByDateBetween(DateTime RangeStart, DateTime RangeEnd, EventTypes EventType)
     {
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> FindByStatusType(EventStatuses EventStatus, EventTypes EventType)
+    public IList<EventDto> FindByStatusType(EventStatuses EventStatus, EventTypes EventType)
     {
       throw new System.NotImplementedException();
     }
@@ -44,22 +45,22 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> FindAnnualLeaveByEmployee(int EmployeeID)
+    public IList<EventDto> FindAnnualLeaveByEmployee(int EmployeeID)
     {
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> FindWorkFromHomeByEmployee(int EmployeeID)
+    public IList<EventDto> FindWorkFromHomeByEmployee(int EmployeeID)
     {
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> MapEventsToDto(List<Event> Events)
+    public IList<EventDto> MapEventsToDto(List<Event> Events)
     {
       throw new System.NotImplementedException();
     }
 
-    public List<EventDto> MapToEventMessage(String Message, Event Event, Employee Employee, int EventMessageTypeID)
+    public IList<EventDto> MapToEventMessage(String Message, Event Event, Employee Employee, int EventMessageTypeID)
     {
       throw new System.NotImplementedException();
     }

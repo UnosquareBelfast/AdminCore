@@ -66,7 +66,7 @@ namespace AdminCore.WebApi.Controllers
       throw new System.NotImplementedException();
     }
 
-    [HttpPut("/")]
+    [HttpPut]
     [AllowAnonymous]
     public void UpdateEvent()
     {
