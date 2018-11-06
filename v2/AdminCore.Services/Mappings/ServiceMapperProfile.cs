@@ -13,12 +13,14 @@ using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Team;
 using AutoMapper;
+using System;
 
 namespace AdminCore.Services.Mappings
 {
     /// <summary>
     /// The service mapper profile.
     /// </summary>
+    [Obsolete("Not used anymore - Being replaced by individual mapping classes", true)]
     public class ServiceMapperProfile : Profile
     {
         /// <summary>
