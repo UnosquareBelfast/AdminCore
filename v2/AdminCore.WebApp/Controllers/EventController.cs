@@ -107,11 +107,5 @@ namespace AdminCore.WebApi.Controllers
     {
       throw new System.NotImplementedException();
     }
-
-    public List<EventViewModel> mapEventDtosToEvents()
-    {
-      throw new System.NotImplementedException();
-    }
-
   }
 }
