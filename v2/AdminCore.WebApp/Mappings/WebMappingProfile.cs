@@ -16,11 +16,13 @@ namespace AdminCore.WebApi.Mappings
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
   using AutoMapper;
+    using AdminCore.DTOs.Team;
+    using AdminCore.WebApi.Models.Team;
 
-  /// <summary>
-  /// The web mapping profile.
-  /// </summary>
-  public class WebMappingProfile : Profile
+    /// <summary>
+    /// The web mapping profile.
+    /// </summary>
+    public class WebMappingProfile : Profile
   {
     /// <summary>
     /// Initializes a new instance of the <see cref="WebMappingProfile"/> class.
@@ -34,6 +36,8 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<ClientDto, ClientViewModel>();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
+
+      CreateMap<TeamDto, TeamViewModel>();
     }
   }
 }
