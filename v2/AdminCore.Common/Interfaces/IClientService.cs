@@ -7,7 +7,7 @@ namespace AdminCore.Common.Interfaces
   {
     IList<ClientDto> GetAll();
 
-    void UpdateClient(ClientDto);
+    void UpdateClient(ClientDto clientDto);
 
     void CreateClient(ClientDto clientDto);
 

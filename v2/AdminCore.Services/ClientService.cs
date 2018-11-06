@@ -41,5 +41,10 @@ namespace AdminCore.Services
     {
       throw new System.NotImplementedException();
     }
+
+    public ClientDto GetClientByClientNameContaining(string clientName)
+    {
+      throw new System.NotImplementedException();
+    }
   }
 }

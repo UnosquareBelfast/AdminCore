@@ -72,17 +72,17 @@ namespace AdminCore.WebApi.Controllers
 
     [HttpGet]
     [AllowAnonymous]
-    public ActionResult GetClientById([FromBody] ClientViewModel clientViewModel)
+    public ActionResult GetClientById(int clientId)
     {
-      _clientService.GetClientById(clientViewModel.ClientId);
+      _clientService.GetClientById(clientId);
       return Ok();
     }
 
     [HttpGet]
     [AllowAnonymous]
-    public ActionResult GetClientByClientNameContaining([FromBody] ClientViewModel clientViewModel)
+    public ActionResult GetClientByClientNameContaining(string clientName)
     {
-      var client = _clientService.GetClientByClientNameContaining(clientViewModel.ClientName);
+      var client = _clientService.GetClientByClientNameContaining(clientName);
       if (client != null)
       {
         return Accepted(_mapper.Map<ClientViewModel>(client));
