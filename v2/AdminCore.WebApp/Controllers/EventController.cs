@@ -73,21 +73,21 @@ namespace AdminCore.WebApi.Controllers
       throw new System.NotImplementedException();
     }
 
-    [HttpPut("/{approveHoliday}")]
+    [HttpPut("/approveHoliday")]
     [AllowAnonymous]
     public void ApproveEvent()
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpPut("/{cancelHoliday}")]
+    [HttpPut("/cancelHoliday")]
     [AllowAnonymous]
     public void CancelEvent()
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpPut("/{rejectHoliday}")]
+    [HttpPut("/rejectHoliday")]
     [AllowAnonymous]
     public void RejectEvent()
     {
