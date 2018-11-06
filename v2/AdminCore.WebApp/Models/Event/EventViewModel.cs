@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using AdminCore.DAL.Models;
 
-namespace AdminCore.DTOs.Holiday
+namespace AdminCore.WebApi.Models.Event
 {
-  public class HolidayDto
+  public class EventViewModel
   {
     public int EventId { get; set; }
 
-    public DateTime StartDate { get; set; }
-
-    public DateTime EndDate { get; set; }
+    public IList<EventDates> EventDates { get; set; }
 
     public EmployeeViewModel Employee { get; set; }
 

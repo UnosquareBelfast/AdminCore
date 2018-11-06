@@ -58,7 +58,7 @@ namespace AdminCore.Services.Configuration
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IClientService, ClientService>();
-        services.AddTransient<IHolidayService, HolidayService>();
+        services.AddTransient<IEventService, EventService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 

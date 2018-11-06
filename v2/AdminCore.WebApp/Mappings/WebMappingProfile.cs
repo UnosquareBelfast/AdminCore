@@ -8,9 +8,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using AdminCore.DTOs.Client;
-using AdminCore.DTOs.Holiday;
+using AdminCore.DTOs.Event;
 using AdminCore.WebApi.Models.Client;
-using AdminCore.WebApi.Models.Holiday;
+using AdminCore.WebApi.Models.Event;
 
 namespace AdminCore.WebApi.Mappings
 {
@@ -37,7 +37,7 @@ namespace AdminCore.WebApi.Mappings
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
 
-      CreateMap<HolidayDto, HolidayViewModel>();
+      CreateMap<EventDto, EventViewModel>();
     }
   }
 }
