@@ -61,7 +61,7 @@ namespace AdminCore.WebApi.Controllers
 
     [HttpPost("/")]
     [AllowAnonymous]
-    public void CreateEvent()
+    public void CreateEvent([FromBody] EventViewModel eventViewModel)
     {
       throw new System.NotImplementedException();
     }
