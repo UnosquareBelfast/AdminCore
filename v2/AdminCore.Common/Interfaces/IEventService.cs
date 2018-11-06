@@ -8,21 +8,21 @@ namespace AdminCore.Common.Interfaces
 {
   public interface IEventService
   {
-    IList<EventDto> FindByType(EventTypes EventType);
+    IList<EventDto> FindAnnualLeaveByEmployee(int EmployeeID);
 
-    EventDto FindById(int ID);
+    IList<EventDto> FindByDateBetween(DateTime RangeStart, DateTime RangeEnd, EventTypes EventType);
 
     IList<EventDto> FindByEmployee(int EmployeeID);
 
     EventDto FindByEmployeeIDStartDateAndEndDate(int EmployeeID, DateTime StartDate, DateTime EndDate);
 
-    IList<EventDto> FindByDateBetween(DateTime RangeStart, DateTime RangeEnd, EventTypes EventType);
+    EventDto FindById(int ID);
 
     IList<EventDto> FindByStatusType(EventStatuses EventStatus, EventTypes EventType);
 
-    EmployeeDto FindEmployeeFromEmployeeID(int EmployeeID);
+    IList<EventDto> FindByType(EventTypes EventType);
 
-    IList<EventDto> FindAnnualLeaveByEmployee(int EmployeeID);
+    EmployeeDto FindEmployeeFromEmployeeID(int EmployeeID);
 
     IList<EventDto> FindWorkFromHomeByEmployee(int EmployeeID);
   }
