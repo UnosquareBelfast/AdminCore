@@ -32,7 +32,6 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public ActionResult GetAllClients()
     {
       var clients = _clientService.GetAll();
@@ -45,7 +44,6 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPut]
-    [AllowAnonymous]
     public void UpdateClient(ClientViewModel model)
     {
       var clientDto = _mapper.Map<ClientViewModel, ClientDto>(model);
@@ -54,7 +52,6 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPost]
-    [AllowAnonymous]
     public ActionResult CreateClient([FromBody] ClientViewModel clientViewModel)
     {
       _clientService.CreateClient(_mapper.Map<ClientDto>(clientViewModel));
@@ -62,7 +59,6 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpDelete]
-    [AllowAnonymous]
     public ActionResult DeleteClient([FromBody] ClientViewModel clientViewModel)
     {
       _clientService.DeleteClient(clientViewModel.ClientId);
@@ -70,19 +66,17 @@ namespace AdminCore.WebApi.Controllers
       return Ok();
     }
 
-    [HttpGet]
-    [AllowAnonymous]
-    public ActionResult GetClientById(int clientId)
+    [HttpGet("/getClientById/{id}")]
+    public ActionResult GetClientById(int id)
     {
-      _clientService.GetClientById(clientId);
+      _clientService.GetClientById(id);
       return Ok();
     }
 
-    [HttpGet]
-    [AllowAnonymous]
-    public ActionResult GetClientByClientNameContaining(string clientName)
+    [HttpGet("/getClientByName/{clientName}")]
+    public ActionResult GetClientByClientName(string clientName)
     {
-      var client = _clientService.GetClientByClientNameContaining(clientName);
+      var client = _clientService.GetClientByClientName(clientName);
       if (client != null)
       {
         return Accepted(_mapper.Map<ClientViewModel>(client));

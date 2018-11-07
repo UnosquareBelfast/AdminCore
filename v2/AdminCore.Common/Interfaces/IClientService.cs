@@ -13,10 +13,10 @@ namespace AdminCore.Common.Interfaces
 
     void SaveClient(ClientDto clientDto);
 
-    void DeleteClient(int clientId);
+    void DeleteClient(int id);
 
-    ClientDto GetClientById(int clientId);
+    ClientDto GetClientById(int id);
 
-    ClientDto GetClientByClientNameContaining(string clientName);
+    ClientDto GetClientByClientName(string clientName);
   }
 }

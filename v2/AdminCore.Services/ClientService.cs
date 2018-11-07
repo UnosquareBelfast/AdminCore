@@ -32,17 +32,17 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public void DeleteClient(int clientId)
+    public void DeleteClient(int id)
     {
       throw new System.NotImplementedException();
     }
 
-    public ClientDto GetClientById(int clientId)
+    public ClientDto GetClientById(int id)
     {
       throw new System.NotImplementedException();
     }
 
-    public ClientDto GetClientByClientNameContaining(string clientName)
+    public ClientDto GetClientByClientName(string clientName)
     {
       throw new System.NotImplementedException();
     }

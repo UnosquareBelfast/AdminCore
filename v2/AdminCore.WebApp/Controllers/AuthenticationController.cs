@@ -10,8 +10,8 @@
 namespace AdminCore.WebApi.Controllers
 {
   using AdminCore.Common.Interfaces;
-  using AdminCore.WebApi.Models;
   using AdminCore.DTOs.Employee;
+  using AdminCore.WebApi.Models;
   using AutoMapper;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
