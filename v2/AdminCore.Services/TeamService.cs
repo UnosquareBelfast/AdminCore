@@ -10,22 +10,22 @@ namespace AdminCore.Services
 {
     public class TeamService : ITeamService
     {
-        public IList<TeamDto> findAll()
+        public IList<TeamDto> FindAll()
         {
             throw new NotImplementedException();
         }
 
-        public List<TeamDto> findByClient(int clientId)
+        public List<TeamDto> FindByClient(int clientId)
         {
             throw new NotImplementedException();
         }
 
-        public TeamDto findById(int id)
+        public TeamDto FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public TeamDto save(TeamDto teamDto)
+        public TeamDto Save(TeamDto teamDto)
         {
             throw new NotImplementedException();
         }

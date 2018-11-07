@@ -27,23 +27,23 @@ namespace AdminCore.WebApi.Controllers
         [AllowAnonymous]
         public List<TeamViewModel> findAllTeamsForClientId(int clientId)
         {
-            return mapTeamsToDtos(_teamService.findByClient(clientId));
+            return mapTeamsToDtos(_teamService.FindByClient(clientId));
         }
 
-        [HttpPost("/")]
+        [HttpPost]
         [AllowAnonymous]
         public void createTeam([FromBody] TeamViewModel teamViewModel)
         {
             TeamDto teamDto = _mapper.Map<TeamDto>(teamViewModel);
-            _teamService.save(teamDto);
+            _teamService.Save(teamDto);
         }
 
-        [HttpPut("/")]
+        [HttpPut]
         [AllowAnonymous]
         public void saveTeam([FromBody] TeamViewModel teamViewModel)
         {
             TeamDto teamDto = _mapper.Map<TeamDto>(teamViewModel);
-            _teamService.save(teamDto);
+            _teamService.Save(teamDto);
         }
 
         private List<TeamViewModel> mapTeamsToDtos(List<TeamDto> teams)

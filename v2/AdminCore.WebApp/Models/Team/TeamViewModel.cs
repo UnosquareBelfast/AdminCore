@@ -7,8 +7,10 @@ namespace AdminCore.WebApi.Models.Team
 {
     public class TeamViewModel
     {
-        private int clientId;
-        private int teamId;
-        private string teamName;
+        public int ClientId;
+
+        public int TeamId;
+
+        public string TeamName;
     }
 }
