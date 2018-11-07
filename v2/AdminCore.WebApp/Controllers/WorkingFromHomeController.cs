@@ -21,28 +21,24 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public IList<WorkingFromHomeViewModel> findAll()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{workingFromHomeId}")]
-    [AllowAnonymous]
     public WorkingFromHomeViewModel findWorkingFromHomeByID(int eventId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findByEmployeeId/{employeeId}")]
-    [AllowAnonymous]
     public IList<WorkingFromHomeViewModel> findWorkingFromHomeByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPost("/")]
-    [AllowAnonymous]
     public void createWorkingFromHome([FromBody] CreateEventViewModel createEventViewModel)
     {
       throw new System.NotImplementedException();
