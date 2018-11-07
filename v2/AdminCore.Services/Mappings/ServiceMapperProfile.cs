@@ -23,13 +23,13 @@ namespace AdminCore.Services.Mappings
     [Obsolete("Not used anymore - Being replaced by individual mapping classes", true)]
     public class ServiceMapperProfile : Profile
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceMapperProfile"/> class.
         /// </summary>
         public ServiceMapperProfile()
         {
-            CreateMap<Employee, EmployeeDto>();
-            CreateMap<EmployeeDto, Employee>();
+            CreateMap<Employee, EmployeeDto>().ReverseMap();
 
             CreateMap<CountryDto, Country>().ReverseMap();
             CreateMap<EmployeeStatusDto, EmployeeStatus>().ReverseMap();

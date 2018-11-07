@@ -12,9 +12,9 @@ using AdminCore.WebApi.Models.Client;
 
 namespace AdminCore.WebApi.Mappings
 {
-  using AdminCore.WebApi.Models;
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
+  using AdminCore.WebApi.Models;
   using AutoMapper;
     using AdminCore.DTOs.Team;
     using AdminCore.WebApi.Models.Team;
@@ -29,14 +29,16 @@ namespace AdminCore.WebApi.Mappings
     /// </summary>
     public WebMappingProfile()
     {
+      CreateMap<ClientDto, ClientViewModel>();
+    
       CreateMap<EmployeeDto, LoginRequestModel>();
 
-      CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
-      
-      CreateMap<ClientDto, ClientViewModel>();
+      CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
 
+      CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
+      
       CreateMap<TeamDto, TeamViewModel>();
     }
   }
