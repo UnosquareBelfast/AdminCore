@@ -27,7 +27,7 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("/{workingFromHomeId}")]
-    public WorkingFromHomeViewModel findWorkingFromHomeByID(int eventId)
+    public WorkingFromHomeViewModel findWorkingFromHomeById(int eventId)
     {
       throw new System.NotImplementedException();
     }
