@@ -23,11 +23,11 @@ namespace AdminCore.WebApi.Controllers
   {
     private readonly IMapper _mapper;
 
-    private readonly IEventService _EventService;
+    private readonly IEventService _eventService;
 
-    public EventController(IEventService EventService, IMapper mapper)
+    public EventController(IEventService eventService, IMapper mapper)
     {
-      _EventService = EventService;
+      _eventService = eventService;
       _mapper = mapper;
     }
 
@@ -37,20 +37,20 @@ namespace AdminCore.WebApi.Controllers
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/{eventId}")]
-    public EventViewModel FindEventByEventID(int EventID)
+    [HttpGet("/{eventID}")]
+    public EventViewModel FindEventByEventID(int eventID)
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/{findByEmployeeId/{employeeId}}")]
-    public List<EventViewModel> FindEventByEmployeeID(int EmployeeID)
+    [HttpGet("/{findByEmployeeId/{employeeID}}")]
+    public List<EventViewModel> FindEventByEmployeeID(int employeeID)
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/{findEventsByEmployeeId/{employeeId}}")]
-    public List<List<EventViewModel>> FindEventsByEmployeeID(int EmployeeID)
+    [HttpGet("/{findEventsByEmployeeId/{employeeID}}")]
+    public List<List<EventViewModel>> FindEventsByEmployeeID(int employeeID)
     {
       throw new System.NotImplementedException();
     }
