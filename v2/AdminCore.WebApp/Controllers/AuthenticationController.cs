@@ -19,7 +19,6 @@ namespace AdminCore.WebApi.Controllers
   /// <summary>
   /// The values controller.
   /// </summary>
-  [Authorize]
   [Route("[controller]")]
   [ApiController]
   public class AuthenticationController : ControllerBase
@@ -68,7 +67,6 @@ namespace AdminCore.WebApi.Controllers
     /// The <see cref="ActionResult"/>.
     /// </returns>
     [HttpPost]
-    [AllowAnonymous]
     [Route("login")]
     public ActionResult Login([FromBody] LoginRequestModel model)
     {
@@ -91,7 +89,6 @@ namespace AdminCore.WebApi.Controllers
     /// The <see cref="ActionResult"/>.
     /// </returns>
     [HttpPost]
-    [AllowAnonymous]
     [Route("register")]
     public ActionResult Register([FromBody] RegisterEmployeeViewModel registerEmployee)
     {

@@ -11,7 +11,7 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public void UpdateClient(ClientDto missing_name)
+    public void UpdateClient(ClientDto clientDto)
     {
       throw new System.NotImplementedException();
     }

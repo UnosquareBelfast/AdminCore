@@ -10,7 +10,6 @@ using System.Linq;
 namespace AdminCore.WebApi.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("[controller]")]
     public class TeamController : ControllerBase
     {
@@ -24,14 +23,12 @@ namespace AdminCore.WebApi.Controllers
         }
 
         [HttpGet("/{clientId}")]
-        [AllowAnonymous]
         public List<TeamViewModel> findAllTeamsForClientId(int clientId)
         {
             return mapTeamsToDtos(_teamService.FindByClient(clientId));
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public void createTeam([FromBody] TeamViewModel teamViewModel)
         {
             TeamDto teamDto = _mapper.Map<TeamDto>(teamViewModel);
@@ -39,7 +36,6 @@ namespace AdminCore.WebApi.Controllers
         }
 
         [HttpPut]
-        [AllowAnonymous]
         public void saveTeam([FromBody] TeamViewModel teamViewModel)
         {
             TeamDto teamDto = _mapper.Map<TeamDto>(teamViewModel);

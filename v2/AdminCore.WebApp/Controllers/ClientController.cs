@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdminCore.WebApi.Controllers
 {
-  [Authorize]
   [Route("[controller]")]
   [ApiController]
   public class ClientController : ControllerBase
@@ -32,7 +31,6 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public ActionResult GetAllClients()
     {
       var clients = _clientService.GetAll();
@@ -45,7 +43,6 @@ namespace AdminCore.WebApi.Controllers
     }
     
     [HttpPut]
-    [AllowAnonymous]
     public void UpdateClient(ClientViewModel model)
     {
       var clientDto = _mapper.Map<ClientViewModel, ClientDto>(model);
