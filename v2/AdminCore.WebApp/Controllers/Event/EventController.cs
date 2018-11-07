@@ -37,20 +37,20 @@ namespace AdminCore.WebApi.Controllers
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/{eventID}")]
-    public EventViewModel FindEventByEventID(int eventID)
+    [HttpGet("/{eventId}")]
+    public EventViewModel FindEventByEventId(int eventId)
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/{findByEmployeeId/{employeeID}}")]
-    public List<EventViewModel> FindEventByEmployeeID(int employeeID)
+    [HttpGet("/{findByEmployeeId/{employeeId}}")]
+    public List<EventViewModel> FindEventByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/{findEventsByEmployeeId/{employeeID}}")]
-    public List<List<EventViewModel>> FindEventsByEmployeeID(int employeeID)
+    [HttpGet("/{findEventsByEmployeeId/{employeeId}}")]
+    public List<List<EventViewModel>> FindEventsByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }

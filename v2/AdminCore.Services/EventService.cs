@@ -20,12 +20,12 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindByEmployee(int employeeID)
+    public IList<EventDto> FindByEmployee(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    public EventDto FindByEmployeeIDStartDateAndEndDate(int employeeID, DateTime startDate, DateTime endDate)
+    public EventDto FindByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate)
     {
       throw new System.NotImplementedException();
     }
@@ -40,17 +40,17 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public EmployeeDto FindEmployeeFromEmployeeID(int employeeID)
+    public EmployeeDto FindEmployeeFromEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindAnnualLeaveByEmployee(int employeeID)
+    public IList<EventDto> FindAnnualLeaveByEmployee(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindWorkFromHomeByEmployee(int employeeID)
+    public IList<EventDto> FindWorkFromHomeByEmployee(int employeeId)
     {
       throw new System.NotImplementedException();
     }
@@ -60,7 +60,7 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> MapToEventMessage(String message, Event events, Employee employee, int eventMessageTypeID)
+    public IList<EventDto> MapToEventMessage(String message, Event events, Employee employee, int eventMessageTypeId)
     {
       throw new System.NotImplementedException();
     }
@@ -75,17 +75,17 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public void ApproveEvent(int eventID)
+    public void ApproveEvent(int eventId)
     {
       throw new System.NotImplementedException();
     }
 
-    public void CancelEvent(int eventID)
+    public void CancelEvent(int eventId)
     {
       throw new System.NotImplementedException();
     }
 
-    public void RejectEvent(int eventID, String message, int employeeID)
+    public void RejectEvent(int eventId, String message, int employeeId)
     {
       throw new System.NotImplementedException();
     }

@@ -21,7 +21,7 @@ namespace AdminCore.DTOs.Event
 
     public String EventTypeDescription { get; set; }
 
-    public int EventTypeID { get; set; }
+    public int EventTypeId { get; set; }
 
     public bool IsHalfDay { get; set; }
 
