@@ -20,7 +20,7 @@ namespace AdminCore.WebApi.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("/")]
+    [HttpGet]
     [AllowAnonymous]
     public IList<WorkingFromHomeViewModel> findAll()
     {
