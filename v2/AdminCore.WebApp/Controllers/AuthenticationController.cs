@@ -10,8 +10,8 @@
 namespace AdminCore.WebApi.Controllers
 {
   using AdminCore.Common.Interfaces;
-  using AdminCore.WebApi.Models;
   using AdminCore.DTOs.Employee;
+  using AdminCore.WebApi.Models;
   using AutoMapper;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
@@ -81,26 +81,17 @@ namespace AdminCore.WebApi.Controllers
       return NotFound("Sorry incorrect username or password");
     }
 
-    /// <summary>
-    /// The create patient.
-    /// </summary>
-    /// <param name="registerEmployee">
-    /// The model.
-    /// </param>
-    /// <returns>
-    /// The <see cref="ActionResult"/>.
-    /// </returns>
     [HttpPost]
     [AllowAnonymous]
     [Route("register")]
-    public ActionResult Register([FromBody] EmployeeViewModel registerEmployee)
+    public ActionResult Register([FromBody] RegisterEmployeeViewModel registerEmployeeViewModel)
     {
-      if (_employeeService.DoesEmailAlreadyExist(registerEmployee.Email))
+      if (_employeeService.DoesEmailAlreadyExist(registerEmployeeViewModel.Email))
       {
         return BadRequest("Email already exists.");
       }
 
-      string email = _employeeService.CreateNewEmployee(_mapper.Map<EmployeeDto>(registerEmployee));
+      string email = _employeeService.CreateNewEmployee(_mapper.Map<EmployeeDto>(registerEmployeeViewModel));
 
       return Ok(string.Format("Employee registered:{0}", email));
     }

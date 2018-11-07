@@ -24,7 +24,7 @@ namespace AdminCore.Common.Interfaces
 
     IList<EmployeeDto> GetAll();
 
-    void UpdateEmployee(EmployeeDto);
+    void UpdateEmployee(EmployeeDto employeeDto);
 
     void DeleteEmployee(int employeeId);
 

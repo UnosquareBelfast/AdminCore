@@ -7,14 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using AdminCore.DTOs.Client;
-using AdminCore.WebApi.Models.Client;
-
 namespace AdminCore.WebApi.Mappings
 {
-  using AdminCore.WebApi.Models;
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
+  using AdminCore.WebApi.Models;
   using AutoMapper;
 
   /// <summary>
@@ -30,8 +27,8 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<EmployeeDto, LoginRequestModel>();
 
       CreateMap<EmployeeViewModel, EmployeeDto>();
-      
-      CreateMap<ClientDto, ClientViewModel>();
+
+      CreateMap<EmployeeDto, EmployeeViewModel>();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
     }

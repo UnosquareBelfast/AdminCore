@@ -7,26 +7,22 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using AdminCore.Services;
-
 namespace AdminCore.Services.Configuration
 {
   using AdminCore.Common;
   using AdminCore.Common.DependencyInjection;
   using AdminCore.Common.Interfaces;
+  using AdminCore.DAL;
+  using AdminCore.DAL.Database;
+  using AdminCore.DAL.Entity_Framework;
+  using AutoMapper;
   using Microsoft.Extensions.DependencyInjection;
   using System;
   using System.Diagnostics.CodeAnalysis;
 
-  using AdminCore.DAL;
-  using AdminCore.DAL.Database;
-  using AdminCore.DAL.Entity_Framework;
-
-  using AutoMapper;
-
   /// <summary>
   /// The dependency injection.
-  /// </summary> 
+  /// </summary>
   [ExcludeFromCodeCoverage]
   public static class DependencyInjection
   {
@@ -57,7 +53,6 @@ namespace AdminCore.Services.Configuration
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
-        services.AddTransient<IClientService, ClientService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 
