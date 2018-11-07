@@ -11,7 +11,7 @@ namespace AdminCore.Services
       throw new System.NotImplementedException();
     }
 
-    public void UpdateClient(ClientDto clientDto)
+    public void UpdateClient(ClientDto client)
     {
       throw new System.NotImplementedException();
     }
