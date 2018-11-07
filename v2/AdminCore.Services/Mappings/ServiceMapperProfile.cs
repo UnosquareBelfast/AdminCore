@@ -25,11 +25,12 @@ namespace AdminCore.Services.Mappings
     /// </summary>
     public ServiceMapperProfile()
     {
-      CreateMap<Employee, EmployeeDto>();
-      CreateMap<EmployeeDto, Employee>();
+      CreateMap<Employee, EmployeeDto>().ReverseMap();
 
       CreateMap<CountryDto, Country>().ReverseMap();
+
       CreateMap<EmployeeStatusDto, EmployeeStatus>().ReverseMap();
+
       CreateMap<EmployeeRoleDto, EmployeeRole>().ReverseMap();
     }
   }

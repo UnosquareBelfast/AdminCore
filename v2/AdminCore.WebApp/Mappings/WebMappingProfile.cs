@@ -9,9 +9,9 @@
 
 namespace AdminCore.WebApi.Mappings
 {
-  using AdminCore.WebApi.Models;
   using AdminCore.DTOs;
   using AdminCore.DTOs.Employee;
+  using AdminCore.WebApi.Models;
   using AutoMapper;
 
   /// <summary>
@@ -26,7 +26,9 @@ namespace AdminCore.WebApi.Mappings
     {
       CreateMap<EmployeeDto, LoginRequestModel>();
 
-      CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
+      CreateMap<EmployeeViewModel, EmployeeDto>();
+
+      CreateMap<EmployeeDto, EmployeeViewModel>();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
     }
