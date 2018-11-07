@@ -11,6 +11,7 @@ using AdminCore.DAL.Models;
 using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
+using AdminCore.DTOs.Event;
 using AdminCore.DTOs.Team;
 using AutoMapper;
 using System;
@@ -38,6 +39,7 @@ namespace AdminCore.Services.Mappings
             // TODO: Move into separate profile.
             CreateMap<ClientDto, Client>().ReverseMap();
             CreateMap<TeamDto, Team>().ReverseMap();
-        }
+            CreateMap<EventDto, Event>().ReverseMap();
+    }
     }
 }
