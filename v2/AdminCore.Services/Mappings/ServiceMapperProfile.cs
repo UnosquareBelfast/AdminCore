@@ -32,6 +32,7 @@ namespace AdminCore.Services.Mappings
       CreateMap<CountryDto, Country>().ReverseMap();
 
       CreateMap<EmployeeStatusDto, EmployeeStatus>().ReverseMap();
+
       CreateMap<EmployeeRoleDto, EmployeeRole>().ReverseMap();
 
       CreateMap<ClientDto, Client>().ReverseMap();
