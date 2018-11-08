@@ -32,7 +32,7 @@ namespace AdminCore.WebApi.Controllers
       throw new System.NotImplementedException();
     }
 
-    [HttpGet("/findByEmployeeId/{employeeId}")]
+    [HttpGet("/getByEmployeeId/{employeeId}")]
     public IList<WorkingFromHomeViewModel> GetWorkingFromHomeByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
