@@ -21,25 +21,25 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    public IList<WorkingFromHomeViewModel> findAll()
+    public IList<WorkingFromHomeViewModel> GetAllWorkingFromHomeEvents()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{workingFromHomeId}")]
-    public WorkingFromHomeViewModel findWorkingFromHomeById(int eventId)
+    public WorkingFromHomeViewModel GetWorkingFromHomeById(int eventId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findByEmployeeId/{employeeId}")]
-    public IList<WorkingFromHomeViewModel> findWorkingFromHomeByEmployeeId(int employeeId)
+    public IList<WorkingFromHomeViewModel> GetWorkingFromHomeByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPost("/")]
-    public void createWorkingFromHome([FromBody] CreateEventViewModel createEventViewModel)
+    public void CreateWorkingFromHome([FromBody] CreateEventViewModel createEventViewModel)
     {
       throw new System.NotImplementedException();
     }

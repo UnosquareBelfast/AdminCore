@@ -4,8 +4,8 @@ namespace AdminCore.WebApi.Models.WorkingFromHome
 {
   public class CreateWorkingFromHomeViewModel
   {
-    private int employeeId;
+    public int EmployeeId { get; set; }
 
-    private EventDates eventDates;
+    public EventDates EventDates { get; set; }
   }
 }

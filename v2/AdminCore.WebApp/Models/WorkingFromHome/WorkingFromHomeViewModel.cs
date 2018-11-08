@@ -5,18 +5,18 @@ namespace AdminCore.WebApi.Models.WorkingFromHome
 {
   public class WorkingFromHomeViewModel
   {
-    private DateTime dateCreated;
+    public DateTime DateCreated { get; set; }
 
-    private EmployeeDTO employee;
+    public EmployeeDTO Employee { get; set; }
 
-    private EventDates eventDates;
+    public EventDates EventDates { get; set; }
 
-    private int eventId;
+    public int EventId { get; set; }
 
-    private String eventStatusDescription;
+    public String EventStatusDescription { get; set; }
 
-    private int eventStatusId;
+    public int EventStatusId { get; set; }
 
-    private DateTime lastModified;
+    public DateTime LastModified { get; set; }
   }
 }
