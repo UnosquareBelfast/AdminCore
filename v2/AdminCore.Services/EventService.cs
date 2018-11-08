@@ -10,47 +10,47 @@ namespace AdminCore.Services
 {
   public class EventService : IEventService
   {
-    public IList<EventDto> FindByType(EventTypes eventType)
+    public IList<EventDto> GetByType(EventTypes eventType)
     {
       throw new System.NotImplementedException();
     }
 
-    public EventDto FindById(int id)
+    public EventDto GetById(int id)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindByEmployee(int employeeId)
+    public IList<EventDto> GetByEmployee(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    public EventDto FindByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate)
+    public EventDto GetByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindByDateBetween(DateTime rangeStart, DateTime rangeEnd, EventTypes eventType)
+    public IList<EventDto> GetByDateBetween(DateTime rangeStart, DateTime rangeEnd, EventTypes eventType)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindByStatusType(EventStatuses eventStatus, EventTypes eventType)
+    public IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType)
     {
       throw new System.NotImplementedException();
     }
 
-    public EmployeeDto FindEmployeeFromEmployeeId(int employeeId)
+    public EmployeeDto GetEmployeeFromEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindAnnualLeaveByEmployee(int employeeId)
+    public IList<EventDto> GetAnnualLeaveByEmployee(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    public IList<EventDto> FindWorkFromHomeByEmployee(int employeeId)
+    public IList<EventDto> GetWorkFromHomeByEmployee(int employeeId)
     {
       throw new System.NotImplementedException();
     }

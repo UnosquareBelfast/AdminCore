@@ -32,25 +32,25 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("/")]
-    public List<EventViewModel> FindAllEvents()
+    public List<EventViewModel> GetAllEvents()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{eventId}")]
-    public EventViewModel FindEventByEventId(int eventId)
+    public EventViewModel GetEventByEventId(int eventId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{findByEmployeeId/{employeeId}}")]
-    public List<EventViewModel> FindEventByEmployeeId(int employeeId)
+    public List<EventViewModel> GetEventByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{findEventsByEmployeeId/{employeeId}}")]
-    public List<List<EventViewModel>> FindEventsByEmployeeId(int employeeId)
+    public List<List<EventViewModel>> GetEventsByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
@@ -86,13 +86,13 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("/findByDateBetween/{rangeStart}/{rangeEnd}")]
-    public List<EventViewModel> FindEventByDateBetween()
+    public List<EventViewModel> GetEventByDateBetween()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findByHolidayStatus/{holidayStatusId}")]
-    public List<EventViewModel> FindEventByStatus()
+    public List<EventViewModel> GetEventByStatus()
     {
       throw new System.NotImplementedException();
     }
