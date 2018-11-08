@@ -8,7 +8,7 @@ using AdminCore.DTOs.Event;
 
 namespace AdminCore.Services
 {
-  public class EventService : IEventService
+  public class HolidayService : IEventService
   {
     public IList<EventDto> GetByType(EventTypes eventType)
     {
@@ -56,11 +56,6 @@ namespace AdminCore.Services
     }
 
     public IList<EventDto> MapEventsToDto(List<Event> events)
-    {
-      throw new System.NotImplementedException();
-    }
-
-    public IList<EventDto> MapToEventMessage(String message, Event events, Employee employee, int eventMessageTypeId)
     {
       throw new System.NotImplementedException();
     }
