@@ -44,7 +44,7 @@ namespace AdminCore.WebApi.Tests
         const int numberOfClients = 9;
 
         var clients = _fixture.CreateMany<ClientDto>(numberOfClients).ToList();
-        var clientViewModels = _fixture.CreateMany<ClientViewModel>(numberOfClients);
+        var clientViewModels = _fixture.CreateMany<ClientViewModel>(numberOfClients).ToList();
 
         _clientService.GetAll().Returns(clients);
 
@@ -52,7 +52,7 @@ namespace AdminCore.WebApi.Tests
 
         // Act
         var result = _controller.GetAllClients();
-        result.ExecuteResultAsync(new ActionContext());
+        //result.ExecuteResultAsync(new ActionContext());
         // Assert
         //Assert.Equal(numberOfClients,  );
       }
