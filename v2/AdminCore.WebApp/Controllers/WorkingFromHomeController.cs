@@ -5,7 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdminCore.WebApi.Controllers.WorkingFromHome
+namespace AdminCore.WebApi.Controllers
 {
   [ApiController]
   [Authorize]
@@ -19,24 +19,6 @@ namespace AdminCore.WebApi.Controllers.WorkingFromHome
     {
       _eventService = eventService;
       _mapper = mapper;
-    }
-
-    [HttpGet]
-    public IActionResult GetAllWorkingFromHomeEvents()
-    {
-      throw new NotImplementedException();
-    }
-
-    [HttpGet("/{workingFromHomeId}")]
-    public IActionResult GetWorkingFromHomeById(int workingFromHomeId)
-    {
-      throw new NotImplementedException();
-    }
-
-    [HttpGet("/getByEmployeeId/{employeeId}")]
-    public IActionResult GetWorkingFromHomeByEmployeeId(int employeeId)
-    {
-      throw new NotImplementedException();
     }
 
     [HttpPost]

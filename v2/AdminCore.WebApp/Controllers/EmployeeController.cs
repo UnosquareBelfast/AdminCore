@@ -21,6 +21,7 @@ namespace AdminCore.WebApi.Controllers
   public class EmployeeController : ControllerBase
   {
     private readonly IEmployeeService _employeeService;
+    
     private readonly IMapper _mapper;
 
     public EmployeeController(IEmployeeService employeeService, IMapper mapper)
@@ -30,37 +31,32 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    public ActionResult GetAllEmployees()
+    public IActionResult GetAllEmployees()
     {
       return Ok();
     }
 
-    [HttpPut]
-    public IActionResult UpdateEmployee(EmployeeViewModel employeeViewModel)
-    {
-      return Ok();
-    }
-
-    [HttpDelete]
-    public IActionResult DeleteEmployee(EmployeeViewModel employeeViewModel)
-    {
-      return Ok();
-    }
-
-    [HttpGet]
+    [HttpGet("{employeeId}")]
     public IActionResult GetEmployeeById(int employeeId)
     {
       return Ok();
     }
 
-    [HttpGet]
-    public IActionResult GetEmployeeByCountry(int employeeCountryId)
+    [HttpPut]
+    public IActionResult UpdateEmployee(UpdateEmployeeViewModel viewModel)
     {
       return Ok();
     }
 
-    [HttpGet]
-    public IActionResult GetEmployeeByForenameAndSurname(string employeeForename, string employeeSurname)
+
+    [HttpGet("findByForenameAndSurname/{forename}/{surname}")]
+    public IActionResult GetByForenameAndSurname(string forename, string surname)
+    {
+      return Ok();
+    }
+
+    [HttpGet("findByCountry/{countryId}")]
+    public IActionResult GetByCountryId(int countryId)
     {
       return Ok();
     }
