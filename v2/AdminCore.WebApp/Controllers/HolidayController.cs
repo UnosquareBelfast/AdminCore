@@ -51,7 +51,7 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("/findHolidaysByEmployeeId/{employeeId}}")]
-    public List<List<EventViewModel>> GetHolidaysByEmployeeId(int employeeId)
+    public List<EventViewModel> GetHolidaysByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }

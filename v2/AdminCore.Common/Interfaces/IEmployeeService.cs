@@ -18,20 +18,20 @@ namespace AdminCore.Common.Interfaces
   /// </summary>
   public interface IEmployeeService
   {
-    string CreateNewEmployee(EmployeeDto registerEmployeeDto);
+    string Create(EmployeeDto registerEmployeeDto);
 
-    bool DoesEmailAlreadyExist(string email);
+    bool VerifyEmailExists(string email);
 
     IList<EmployeeDto> GetAll();
 
-    void UpdateEmployee(EmployeeDto employeeDto);
+    void Update(EmployeeDto employeeDto);
 
-    void DeleteEmployee(int employeeId);
+    void Delete(int employeeId);
 
-    IList<EmployeeDto> GetEmployeeById(int employeeId);
+    IList<EmployeeDto> Get(int employeeId);
 
-    IList<EmployeeDto> GetEmployeeByForenameAndSurname(string forename, string surname);
+    IList<EmployeeDto> GetByForenameAndSurname(string forename, string surname);
 
-    IList<EmployeeDto> GetEmployeeByCountry(int countryId);
+    IList<EmployeeDto> GetByCountryId(int countryId);
   }
 }

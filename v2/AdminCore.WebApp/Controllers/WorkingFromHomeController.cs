@@ -1,18 +1,20 @@
-﻿using AdminCore.WebApi.Models.WorkingFromHome;
+﻿using System.Collections.Generic;
+using AdminCore.Common.Interfaces;
+using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
-namespace AdminCore.WebApi.Controllers
+namespace AdminCore.WebApi.Controllers.WorkingFromHome
 {
   [ApiController]
   [Authorize]
   [Route("[controller]")]
   public class WorkingFromHomeController : ControllerBase
   {
-    private IMapper _mapper;
-    private IEventService _eventService;
+    private readonly IMapper _mapper;
+    
+    private readonly IEventService _eventService;
 
     public WorkingFromHomeController(IEventService eventService, IMapper mapper)
     {
@@ -27,7 +29,7 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("/{workingFromHomeId}")]
-    public WorkingFromHomeViewModel GetWorkingFromHomeById(int eventId)
+    public WorkingFromHomeViewModel GetWorkingFromHomeById(int workingFromHomeId)
     {
       throw new System.NotImplementedException();
     }
@@ -39,7 +41,7 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPost("/")]
-    public void CreateWorkingFromHome([FromBody] CreateEventViewModel createEventViewModel)
+    public void CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
     {
       throw new System.NotImplementedException();
     }

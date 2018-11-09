@@ -8,7 +8,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using AdminCore.DTOs.Client;
+using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Client;
+using AdminCore.WebApi.Models.Employee;
 
 namespace AdminCore.WebApi.Mappings
 {

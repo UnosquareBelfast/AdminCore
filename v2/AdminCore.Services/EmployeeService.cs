@@ -33,12 +33,10 @@ namespace AdminCore.Services
       _mapper = mapper;
     }
 
-    public string CreateNewEmployee(EmployeeDto newEmployeeDto)
+    public string Create(EmployeeDto newEmployeeDto)
     {
-      Employee employee = _mapper.Map<Employee>(newEmployeeDto);
-
+      var employee = _mapper.Map<Employee>(newEmployeeDto);
       employee.Password = EncodePasswordToBase64(employee.Password);
-
       employee.TotalHolidays = CalculateTotalHolidaysFromStartDate(employee, 33);
 
       _databaseContext.EmployeeRepository.Insert(employee);
@@ -46,8 +44,8 @@ namespace AdminCore.Services
 
       return employee.Email;
     }
-
-    public bool DoesEmailAlreadyExist(string email)
+    
+    public bool VerifyEmailExists(string email)
     {
       return _databaseContext.EmployeeRepository
         .Get(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)).Any();
@@ -58,32 +56,32 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
-    public void UpdateEmployee(EmployeeDto employeeDto)
+    public void Update(EmployeeDto employeeDto)
     {
       throw new NotImplementedException();
     }
 
-    public void DeleteEmployee(int employeeId)
+    public void Delete(int employeeId)
     {
       throw new NotImplementedException();
     }
 
-    public IList<EmployeeDto> GetEmployeeById(int employeeId)
+    public IList<EmployeeDto> Get(int employeeId)
     {
       throw new NotImplementedException();
     }
 
-    public IList<EmployeeDto> GetEmployeeByForenameAndSurname(string forename, string surname)
+    public IList<EmployeeDto> GetByForenameAndSurname(string forename, string surname)
     {
       throw new NotImplementedException();
     }
 
-    public IList<EmployeeDto> GetEmployeeByCountry(int countryId)
+    public IList<EmployeeDto> GetByCountryId(int countryId)
     {
       throw new NotImplementedException();
     }
 
-    private short CalculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays)
+    private static short CalculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays)
     {
       short totalHolidays;
       if (employee.StartDate.Year == DateTime.Now.Year)
@@ -98,10 +96,10 @@ namespace AdminCore.Services
       return totalHolidays;
     }
 
-    private string EncodePasswordToBase64(string password)
+    private static string EncodePasswordToBase64(string password)
     {
-      byte[] bytes = Encoding.Unicode.GetBytes(password);
-      byte[] inArray = HashAlgorithm.Create("SHA1")?.ComputeHash(bytes);
+      var bytes = Encoding.Unicode.GetBytes(password);
+      var inArray = HashAlgorithm.Create("SHA1")?.ComputeHash(bytes);
       return Convert.ToBase64String(inArray);
     }
   }

@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AdminCore.WebApi.Models
-{
-  using System;
+using System;
 
+namespace AdminCore.WebApi.Models.Employee
+{
   /// <summary>
   /// The patient model.
   /// </summary>

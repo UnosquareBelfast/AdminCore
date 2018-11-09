@@ -10,6 +10,7 @@
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Models;
+using AdminCore.WebApi.Models.Employee;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,15 +51,13 @@ namespace AdminCore.WebApi.Controllers
     {
       var employeeDto = _mapper.Map<EmployeeViewModel, EmployeeDto>(employeeViewModel);
 
-      _employeeService.UpdateEmployee(employeeDto);
+      _employeeService.Update(employeeDto);
     }
 
     [HttpDelete]
     [AllowAnonymous]
-    public ActionResult DeleteEmployee([FromBody] EmployeeViewModel employeeViewModel)
+    public ActionResult DeleteEmployee(EmployeeViewModel employeeViewModel)
     {
-      _employeeService.DeleteEmployee(employeeViewModel.EmployeeId);
-
       return Ok();
     }
 
@@ -66,7 +65,7 @@ namespace AdminCore.WebApi.Controllers
     [AllowAnonymous]
     public ActionResult GetEmployeeById(int employeeId)
     {
-      _employeeService.GetEmployeeById(employeeId);
+      _employeeService.Get(employeeId);
       return Ok();
     }
 
@@ -74,7 +73,7 @@ namespace AdminCore.WebApi.Controllers
     [AllowAnonymous]
     public ActionResult GetEmployeeByCountry(int employeeCountryId)
     {
-      _employeeService.GetEmployeeByCountry(employeeCountryId);
+      _employeeService.GetByCountryId(employeeCountryId);
       return Ok();
     }
 
@@ -82,7 +81,7 @@ namespace AdminCore.WebApi.Controllers
     [AllowAnonymous]
     public ActionResult GetEmployeeByForenameAndSurname(string employeeForename, string employeeSurname)
     {
-      _employeeService.GetEmployeeByForenameAndSurname(employeeForename, employeeSurname);
+      _employeeService.GetByForenameAndSurname(employeeForename, employeeSurname);
       return Ok();
     }
   }

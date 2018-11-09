@@ -14,14 +14,5 @@ namespace AdminCore.WebApi.Models.Employee
   /// </summary>
   public class CountryViewModel
   {
-    /// <summary>
-    /// Gets or sets the country id.
-    /// </summary>
-    public int CountryId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the description.
-    /// </summary>
-    public string Description { get; set; }
   }
 }

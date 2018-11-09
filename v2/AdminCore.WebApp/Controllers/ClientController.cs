@@ -47,35 +47,32 @@ namespace AdminCore.WebApi.Controllers
     {
       var clientDto = _mapper.Map<ClientViewModel, ClientDto>(model);
 
-      _clientService.UpdateClient(clientDto);
+      _clientService.Update(clientDto);
     }
 
     [HttpPost]
     public ActionResult CreateClient([FromBody] ClientViewModel clientViewModel)
     {
-      _clientService.CreateClient(_mapper.Map<ClientDto>(clientViewModel));
+      _clientService.Create(_mapper.Map<ClientDto>(clientViewModel));
       return Ok();
     }
 
     [HttpDelete]
     public ActionResult DeleteClient([FromBody] ClientViewModel clientViewModel)
     {
-      _clientService.DeleteClient(clientViewModel.ClientId);
-
       return Ok();
     }
 
     [HttpGet("/getClientById/{id}")]
     public ActionResult GetClientById(int id)
     {
-      _clientService.GetClientById(id);
       return Ok();
     }
 
     [HttpGet("/getClientByName/{clientName}")]
     public ActionResult GetClientByClientName(string clientName)
     {
-      var client = _clientService.GetClientByClientName(clientName);
+      var client = _clientService.GetByClientName(clientName);
       if (client != null)
       {
         return Accepted(_mapper.Map<ClientViewModel>(client));

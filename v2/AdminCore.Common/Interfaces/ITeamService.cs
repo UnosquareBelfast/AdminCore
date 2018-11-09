@@ -5,11 +5,11 @@ namespace AdminCore.Common.Interfaces
 {
     public interface ITeamService
     {
-        IList<TeamDto> FindAll();
+        IList<TeamDto> GetAll();
 
-        List<TeamDto> FindByClient(int clientId);
+        List<TeamDto> GetByClientId(int clientId);
 
-        TeamDto FindById(int id);
+        TeamDto Get(int id);
 
         TeamDto Save(TeamDto teamDto);
     }

@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using AdminCore.WebApi.Models.Authentication;
+using AdminCore.WebApi.Models.Employee;
+
 namespace AdminCore.WebApi.Controllers
 {
   using AdminCore.Common.Interfaces;
@@ -83,12 +86,12 @@ namespace AdminCore.WebApi.Controllers
     [Route("register")]
     public ActionResult Register([FromBody] RegisterEmployeeViewModel registerEmployeeViewModel)
     {
-      if (_employeeService.DoesEmailAlreadyExist(registerEmployeeViewModel.Email))
+      if (_employeeService.VerifyEmailExists(registerEmployeeViewModel.Email))
       {
         return BadRequest("Email already exists.");
       }
 
-      string email = _employeeService.CreateNewEmployee(_mapper.Map<EmployeeDto>(registerEmployeeViewModel));
+      var email = _employeeService.Create(_mapper.Map<EmployeeDto>(registerEmployeeViewModel));
 
       return Ok(string.Format("Employee registered:{0}", email));
     }

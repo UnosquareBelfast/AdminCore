@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AdminCore.WebApi.Models
+namespace AdminCore.WebApi.Models.Authentication
 {
   /// <summary>
   /// The patient model.

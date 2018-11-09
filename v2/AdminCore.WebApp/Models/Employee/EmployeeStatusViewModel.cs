@@ -14,14 +14,5 @@ namespace AdminCore.WebApi.Models.Employee
   /// </summary>
   public class EmployeeStatusViewModel
     {
-      /// <summary>
-      /// Gets or sets the employee status id.
-      /// </summary>
-      public int EmployeeStatusId { get; set; }
-
-      /// <summary>
-      /// Gets or sets the description.
-      /// </summary>
-      public string Description { get; set; }
     }
 }
