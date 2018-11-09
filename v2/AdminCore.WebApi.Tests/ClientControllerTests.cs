@@ -33,7 +33,7 @@ namespace AdminCore.WebApi.Tests
       {
         _clientService = Substitute.For<IClientService>();
         _mapper = Substitute.For<IMapper>();
-
+        _fixture = new Fixture();
         _controller = new ClientController(_clientService, _mapper);
       }
 
