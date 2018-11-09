@@ -1,8 +1,7 @@
-﻿using AdminCore.Constants.Enums;
-using AdminCore.DTOs.Employee;
-using AdminCore.DTOs.Event;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AdminCore.Constants.Enums;
+using AdminCore.DTOs.Event;
 
 namespace AdminCore.Common.Interfaces
 {
@@ -12,18 +11,14 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetByDateBetween(DateTime rangeStart, DateTime rangeEnd, EventTypes eventType);
 
-    IList<EventDto> GetByEmployee(int employeeId);
+    IList<EventDto> GetByEmployeeId(int employeeId);
 
     EventDto GetByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate);
 
-    EventDto GetById(int id);
+    EventDto Get(int id);
 
     IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
 
     IList<EventDto> GetByType(EventTypes eventType);
-
-    EmployeeDto GetEmployeeFromEmployeeId(int employeeId);
-
-    IList<EventDto> GetWorkFromHomeByEmployee(int employeeId);
   }
 }

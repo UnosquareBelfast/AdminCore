@@ -1,7 +1,8 @@
-﻿using AdminCore.DTOs.Employee;
-using AdminCore.DTOs.EventDates;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AdminCore.DTOs.Employee;
+using AdminCore.DTOs.EventDates;
+using AdminCore.DTOs.Team;
 
 namespace AdminCore.DTOs.Event
 {
@@ -11,15 +12,15 @@ namespace AdminCore.DTOs.Event
 
     public EmployeeDto Employee { get; set; }
 
-    public IList<EventDatesDto> EventDates { get; set; }
+    public IList<EventDateDto> EventDates { get; set; }
 
     public int EventId { get; set; }
 
-    public String EventStatusDescription { get; set; }
+    public string EventStatusDescription { get; set; }
 
     public int EventStatusId { get; set; }
 
-    public String EventTypeDescription { get; set; }
+    public string EventTypeDescription { get; set; }
 
     public int EventTypeId { get; set; }
 

@@ -7,44 +7,41 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Diagnostics.CodeAnalysis;
+using AdminCore.Common;
+using AdminCore.Common.DependencyInjection;
+using AdminCore.Common.Interfaces;
+using AdminCore.DAL;
+using AdminCore.DAL.Database;
+using AdminCore.DAL.Entity_Framework;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace AdminCore.Services.Configuration
 {
-  using AdminCore.Common;
-  using AdminCore.Common.DependencyInjection;
-  using AdminCore.Common.Interfaces;
-  using AdminCore.DAL;
-  using AdminCore.DAL.Database;
-  using AdminCore.DAL.Entity_Framework;
-  using AutoMapper;
-  using Microsoft.Extensions.DependencyInjection;
-  using System;
-  using System.Diagnostics.CodeAnalysis;
-
   /// <summary>
-  /// The dependency injection.
+  ///   The dependency injection.
   /// </summary>
   [ExcludeFromCodeCoverage]
   public static class DependencyInjection
   {
     /// <summary>
-    /// The _registered.
+    ///   The _registered.
     /// </summary>
     private static bool _registered;
 
     /// <summary>
-    /// The register dependency injection.
+    ///   The register dependency injection.
     /// </summary>
     /// <param name="services">
-    /// The services.
+    ///   The services.
     /// </param>
     public static void RegisterDependencyInjection(IServiceCollection services = null)
     {
       if (!_registered)
       {
-        if (services == null)
-        {
-          services = new ServiceCollection();
-        }
+        if (services == null) services = new ServiceCollection();
 
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
@@ -54,6 +51,7 @@ namespace AdminCore.Services.Configuration
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IClientService, ClientService>();
+        services.AddTransient<ITeamService, TeamService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 
@@ -63,21 +61,21 @@ namespace AdminCore.Services.Configuration
   }
 
   /// <summary>
-  /// The dependency injection container.
+  ///   The dependency injection container.
   /// </summary>
   [ExcludeFromCodeCoverage]
   public class DependencyInjectionContainer : IContainer
   {
     /// <summary>
-    /// The _container.
+    ///   The _container.
     /// </summary>
     private readonly IServiceProvider _container;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DependencyInjectionContainer"/> class.
+    ///   Initializes a new instance of the <see cref="DependencyInjectionContainer" /> class.
     /// </summary>
     /// <param name="container">
-    /// The container.
+    ///   The container.
     /// </param>
     internal DependencyInjectionContainer(IServiceProvider container)
     {
@@ -85,12 +83,12 @@ namespace AdminCore.Services.Configuration
     }
 
     /// <summary>
-    /// The get instance.
+    ///   The get instance.
     /// </summary>
     /// <typeparam name="T">
     /// </typeparam>
     /// <returns>
-    /// The <see cref="T"/>.
+    ///   The <see cref="T" />.
     /// </returns>
     public T GetInstance<T>()
       where T : class

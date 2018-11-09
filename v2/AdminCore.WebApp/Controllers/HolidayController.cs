@@ -9,11 +9,10 @@
 
 using System;
 using AdminCore.Common.Interfaces;
+using AdminCore.WebApi.Models.Event;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using AdminCore.WebApi.Models.Event;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -22,9 +21,8 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   public class HolidayController : ControllerBase
   {
-    private readonly IMapper _mapper;
-
     private readonly IEventService _eventService;
+    private readonly IMapper _mapper;
 
     public HolidayController(IEventService holidayService, IMapper mapper)
     {
@@ -32,70 +30,70 @@ namespace AdminCore.WebApi.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("/")]
-    public List<EventViewModel> GetAllHolidays()
+    [HttpGet]
+    public IActionResult GetAllHolidays()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/{holidayId}")]
-    public EventViewModel GetHolidayByHolidayId(int holidayId)
+    public IActionResult GetHolidayByHolidayId(int holidayId)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/findByEmployeeId/{employeeId}}")]
-    public List<EventViewModel> GetHolidayByEmployeeId(int employeeId)
+    public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/findHolidaysByEmployeeId/{employeeId}}")]
-    public List<List<EventViewModel>> GetHolidaysByEmployeeId(int employeeId)
+    public IActionResult GetHolidaysByEmployeeId(int employeeId)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpPost]
-    public void CreateHoliday([FromBody] EventViewModel holidayViewModel)
+    public IActionResult CreateHoliday([FromBody] EventViewModel holidayViewModel)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpPut]
-    public void UpdateHoliday()
+    public IActionResult UpdateHoliday()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpPut("/approveHoliday")]
-    public void ApproveHoliday()
+    public IActionResult ApproveHoliday()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpPut("/cancelHoliday")]
-    public void CancelHoliday()
+    public IActionResult CancelHoliday()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpPut("/rejectHoliday")]
-    public void RejectHoliday()
+    public IActionResult RejectHoliday()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/findByDateBetween/{rangeStart}/{rangeEnd}")]
-    public List<EventViewModel> GetHolidayByDateBetween(DateTime rangeStart, DateTime rangeEnd)
+    public IActionResult GetHolidayByDateBetween(DateTime rangeStart, DateTime rangeEnd)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/findByHolidayStatus/{holidayStatusId}")]
-    public List<EventViewModel> GetHolidayByStatus(int holidayStatusId)
+    public IActionResult GetHolidayByStatus(int holidayStatusId)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
   }
 }

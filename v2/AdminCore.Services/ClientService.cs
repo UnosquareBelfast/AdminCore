@@ -1,50 +1,45 @@
-using AdminCore.Common.Interfaces;
-using AdminCore.DAL;
-using AdminCore.DTOs.Client;
-using AutoMapper;
+using System;
 using System.Collections.Generic;
+using AdminCore.Common.Interfaces;
+using AdminCore.DTOs.Client;
 
 namespace AdminCore.Services
 {
   public class ClientService : IClientService
   {
-    private readonly IDatabaseContext _databaseContext;
-
-    private readonly IMapper _mapper;
-
     public IList<ClientDto> GetAll()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
-    public void UpdateClient(ClientDto clientDto)
+    public void Update(ClientDto clientDto)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
-    public void CreateClient(ClientDto clientDto)
+    public void Create(ClientDto clientDto)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
-    public void SaveClient(ClientDto clientDto)
+    public void Save(ClientDto clientDto)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
-    public void DeleteClient(int id)
+    public void Delete(int id)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
-    public ClientDto GetClientById(int id)
+    public ClientDto Get(int id)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
-    public ClientDto GetClientByClientName(string clientName)
+    public ClientDto GetByClientName(string clientName)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
   }
 }

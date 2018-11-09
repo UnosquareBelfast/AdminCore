@@ -10,18 +10,18 @@
 namespace AdminCore.WebApi.Models
 {
   /// <summary>
-  /// The jwt authentication response view model.
+  ///   The jwt authentication response view model.
   /// </summary>
   public class JwtAuthViewModel
-    {
-      /// <summary>
-      /// Gets or sets the access token.
-      /// </summary>
-      public string AccessToken { get; set; }
+  {
+    /// <summary>
+    ///   Gets or sets the access token.
+    /// </summary>
+    public string AccessToken { get; set; }
 
-      /// <summary>
-      /// Gets or sets the token type.
-      /// </summary>
-      public string TokenType { get; set; }
-    }
+    /// <summary>
+    ///   Gets or sets the token type.
+    /// </summary>
+    public string TokenType { get; set; }
+  }
 }

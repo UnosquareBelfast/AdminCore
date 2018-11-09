@@ -7,38 +7,33 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using AdminCore.Common.Interfaces;
+using AdminCore.DAL;
+using AdminCore.DTOs;
+using Microsoft.IdentityModel.Tokens;
+
 namespace AdminCore.Services
 {
-  using System;
-  using System.IdentityModel.Tokens.Jwt;
-  using System.Linq;
-  using System.Security.Claims;
-  using System.Text;
-
-  using AdminCore.Common.Interfaces;
-
-  using AdminCore.DAL;
-  using AdminCore.DTOs;
-
-  using AutoMapper;
-
-  using Microsoft.IdentityModel.Tokens;
-
   /// <summary>
-  /// The hello service.
+  ///   The hello service.
   /// </summary>
   public class AuthenticationService : IAuthenticationService
   {
     /// <summary>
-    /// The _database context.
+    ///   The _database context.
     /// </summary>
     private readonly IDatabaseContext _databaseContext;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
+    ///   Initializes a new instance of the <see cref="AuthenticationService" /> class.
     /// </summary>
     /// <param name="databaseContext">
-    /// The database context.
+    ///   The database context.
     /// </param>
     public AuthenticationService(IDatabaseContext databaseContext)
     {
@@ -46,16 +41,16 @@ namespace AdminCore.Services
     }
 
     /// <summary>
-    /// The jwt sign in.
+    ///   The jwt sign in.
     /// </summary>
     /// <param name="email">
-    /// The email.
+    ///   The email.
     /// </param>
     /// <param name="password">
-    /// The password.
+    ///   The password.
     /// </param>
     /// <returns>
-    /// The <see cref="string"/>.
+    ///   The <see cref="string" />.
     /// </returns>
     /// <exception cref="NotImplementedException">
     /// </exception>
@@ -63,12 +58,9 @@ namespace AdminCore.Services
     {
       var employee = _databaseContext.EmployeeRepository.Get(x => x.Email.Equals(email)).FirstOrDefault();
 
-      if (employee == null)
-      {
-        return null;
-      }
+      if (employee == null) return null;
 
- /*     var decodedPassword = DecodePassword(password);
+      /*     var decodedPassword = DecodePassword(password);
       if (!decodedPassword.Equals(password))
       {
         return null;
@@ -79,13 +71,13 @@ namespace AdminCore.Services
 
       var tokenDescriptor = new SecurityTokenDescriptor
       {
-        Subject = new ClaimsIdentity 
+        Subject = new ClaimsIdentity
         (
           new[]
           {
-                new Claim(
-                  ClaimTypes.Name,
-                  employee.EmployeeId.ToString())
+            new Claim(
+              ClaimTypes.Name,
+              employee.EmployeeId.ToString())
           }
         ),
         Expires = DateTime.UtcNow.AddDays(1),
@@ -98,7 +90,7 @@ namespace AdminCore.Services
       var token = tokenHandler.CreateToken(tokenDescriptor);
       var jwtResponseDto = new JwtAuthDto
       {
-        AccessToken = tokenHandler.WriteToken(token), 
+        AccessToken = tokenHandler.WriteToken(token),
         TokenType = "Bearer"
       };
       return jwtResponseDto;

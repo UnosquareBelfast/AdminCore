@@ -7,26 +7,26 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AdminCore.DAL.Models
 {
-  using System.ComponentModel.DataAnnotations;
-  using System.ComponentModel.DataAnnotations.Schema;
-
   /// <summary>
-  /// The country.
+  ///   The country.
   /// </summary>
   [Table("country")]
   public class Country
   {
     /// <summary>
-    /// Gets or sets the country id.
+    ///   Gets or sets the country id.
     /// </summary>
     [Key]
     [Column("country_id")]
     public int CountryId { get; set; }
 
     /// <summary>
-    /// Gets or sets the description.
+    ///   Gets or sets the description.
     /// </summary>
     [StringLength(50)]
     [Column("description")]

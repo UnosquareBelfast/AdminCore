@@ -10,17 +10,17 @@
 namespace AdminCore.DTOs
 {
   /// <summary>
-  /// The jwt authentication response dto.
+  ///   The jwt authentication response dto.
   /// </summary>
   public class JwtAuthDto
   {
     /// <summary>
-    /// Gets or sets the token.
+    ///   Gets or sets the token.
     /// </summary>
     public string AccessToken { get; set; }
 
     /// <summary>
-    /// Gets or sets the token type.
+    ///   Gets or sets the token type.
     /// </summary>
     public string TokenType { get; set; }
   }

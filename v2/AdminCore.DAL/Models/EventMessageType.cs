@@ -7,26 +7,26 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AdminCore.DAL.Models
 {
-  using System.ComponentModel.DataAnnotations;
-  using System.ComponentModel.DataAnnotations.Schema;
-
   /// <summary>
-  /// The event message type.
+  ///   The event message type.
   /// </summary>
   [Table("event_message_type")]
   public class EventMessageType
   {
     /// <summary>
-    /// Gets or sets the event message id.
+    ///   Gets or sets the event message id.
     /// </summary>
     [Key]
     [Column("event_message_type_id")]
     public int EventMessageId { get; set; }
 
     /// <summary>
-    /// Gets or sets the description.
+    ///   Gets or sets the description.
     /// </summary>
     [Column("description")]
     public string Description { get; set; }
