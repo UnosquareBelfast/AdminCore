@@ -7,7 +7,7 @@ namespace AdminCore.Common.Interfaces
     {
         IList<TeamDto> GetAll();
 
-        List<TeamDto> GetByClientId(int clientId);
+        IList<TeamDto> GetByClientId(int clientId);
 
         TeamDto Get(int id);
 

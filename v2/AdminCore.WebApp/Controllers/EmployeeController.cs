@@ -33,55 +33,38 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public ActionResult GetAllEmployees()
     {
-      var employee = _employeeService.GetAll();
-      if (employee != null)
-      {
-        return Accepted(_mapper.Map<EmployeeViewModel>(employee));
-      }
-
-      return null;
+      return Ok();
     }
 
     [HttpPut]
-    [AllowAnonymous]
-    public void UpdateEmployee(EmployeeViewModel employeeViewModel)
+    public IActionResult UpdateEmployee(EmployeeViewModel employeeViewModel)
     {
-      var employeeDto = _mapper.Map<EmployeeViewModel, EmployeeDto>(employeeViewModel);
-
-      _employeeService.Update(employeeDto);
+      return Ok();
     }
 
     [HttpDelete]
-    [AllowAnonymous]
-    public ActionResult DeleteEmployee(EmployeeViewModel employeeViewModel)
+    public IActionResult DeleteEmployee(EmployeeViewModel employeeViewModel)
     {
       return Ok();
     }
 
     [HttpGet]
-    [AllowAnonymous]
-    public ActionResult GetEmployeeById(int employeeId)
+    public IActionResult GetEmployeeById(int employeeId)
     {
-      _employeeService.Get(employeeId);
       return Ok();
     }
 
     [HttpGet]
-    [AllowAnonymous]
-    public ActionResult GetEmployeeByCountry(int employeeCountryId)
+    public IActionResult GetEmployeeByCountry(int employeeCountryId)
     {
-      _employeeService.GetByCountryId(employeeCountryId);
       return Ok();
     }
 
     [HttpGet]
-    [AllowAnonymous]
-    public ActionResult GetEmployeeByForenameAndSurname(string employeeForename, string employeeSurname)
+    public IActionResult GetEmployeeByForenameAndSurname(string employeeForename, string employeeSurname)
     {
-      _employeeService.GetByForenameAndSurname(employeeForename, employeeSurname);
       return Ok();
     }
   }

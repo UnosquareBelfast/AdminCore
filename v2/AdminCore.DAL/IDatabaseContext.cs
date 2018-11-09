@@ -54,7 +54,7 @@ namespace AdminCore.DAL
     /// <summary>
     /// Gets the event dates repository.
     /// </summary>
-    IRepository<EventDates> EventDatesRepository { get; }
+    IRepository<EventDate> EventDatesRepository { get; }
 
     /// <summary>
     /// Gets the event message repository.

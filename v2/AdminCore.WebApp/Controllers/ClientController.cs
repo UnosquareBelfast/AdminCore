@@ -33,27 +33,18 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public ActionResult GetAllClients()
     {
-      var clients = _clientService.GetAll();
-      if (clients != null)
-      {
-        return Accepted(_mapper.Map<ClientViewModel>(clients));
-      }
-
-      return null;
+      return Ok();
     }
 
     [HttpPut]
-    public void UpdateClient(ClientViewModel model)
+    public ActionResult UpdateClient([FromBody] ClientViewModel model)
     {
-      var clientDto = _mapper.Map<ClientViewModel, ClientDto>(model);
-
-      _clientService.Update(clientDto);
+      return Ok();
     }
 
     [HttpPost]
     public ActionResult CreateClient([FromBody] ClientViewModel clientViewModel)
     {
-      _clientService.Create(_mapper.Map<ClientDto>(clientViewModel));
       return Ok();
     }
 
@@ -72,13 +63,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("/getClientByName/{clientName}")]
     public ActionResult GetClientByClientName(string clientName)
     {
-      var client = _clientService.GetByClientName(clientName);
-      if (client != null)
-      {
-        return Accepted(_mapper.Map<ClientViewModel>(client));
-      }
-
-      return null;
+      return Ok();
     }
   }
 }

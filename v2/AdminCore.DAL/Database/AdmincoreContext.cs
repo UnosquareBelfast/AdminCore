@@ -77,17 +77,17 @@ namespace AdminCore.DAL.Database
     /// <summary>
     /// Gets or sets the events dates.
     /// </summary>
-    public DbSet<EventDates> EventsDates { get; set; }
+    public DbSet<EventDate> EventsDates { get; set; }
 
     /// <summary>
     /// Gets or sets the event message.
     /// </summary>
-    public DbSet<EventMessage> EventMessage { get; set; }
+    public DbSet<EventMessage> EventMessages { get; set; }
 
     /// <summary>
     /// Gets or sets the event message type.
     /// </summary>
-    public DbSet<EventMessageType> EventMessageType { get; set; }
+    public DbSet<EventMessageType> EventMessageTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the event statuses.

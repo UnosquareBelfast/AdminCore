@@ -17,7 +17,7 @@ namespace AdminCore.DAL.Models
   /// The event dates.
   /// </summary>
   [Table("event_dates")]
-  public class EventDates
+  public class EventDate
   {
     /// <summary>
     /// Gets or sets the event dates id.

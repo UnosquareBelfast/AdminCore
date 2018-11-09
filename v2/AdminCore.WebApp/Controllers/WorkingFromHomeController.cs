@@ -23,24 +23,24 @@ namespace AdminCore.WebApi.Controllers.WorkingFromHome
     }
 
     [HttpGet]
-    public IList<WorkingFromHomeViewModel> GetAllWorkingFromHomeEvents()
+    public IActionResult GetAllWorkingFromHomeEvents()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{workingFromHomeId}")]
-    public WorkingFromHomeViewModel GetWorkingFromHomeById(int workingFromHomeId)
+    public IActionResult GetWorkingFromHomeById(int workingFromHomeId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/getByEmployeeId/{employeeId}")]
-    public IList<WorkingFromHomeViewModel> GetWorkingFromHomeByEmployeeId(int employeeId)
+    public IActionResult GetWorkingFromHomeByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
-    [HttpPost("/")]
+    [HttpPost]
     public void CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
     {
       throw new System.NotImplementedException();

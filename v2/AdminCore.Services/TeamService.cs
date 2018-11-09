@@ -12,7 +12,7 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
-    public List<TeamDto> GetByClientId(int clientId)
+    public IList<TeamDto> GetByClientId(int clientId)
     {
       throw new NotImplementedException();
     }

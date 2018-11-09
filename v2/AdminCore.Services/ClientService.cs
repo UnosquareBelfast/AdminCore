@@ -8,10 +8,6 @@ namespace AdminCore.Services
 {
   public class ClientService : IClientService
   {
-    private readonly IDatabaseContext _databaseContext;
-
-    private readonly IMapper _mapper;
-
     public IList<ClientDto> GetAll()
     {
       throw new System.NotImplementedException();

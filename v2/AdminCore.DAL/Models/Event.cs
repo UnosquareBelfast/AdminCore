@@ -49,7 +49,7 @@ namespace AdminCore.DAL.Models
     /// Gets or sets the event dates.
     /// </summary>
     [ForeignKey("EventId")]
-    public ICollection<EventDates> EventDates { get; set; }
+    public ICollection<EventDate> EventDates { get; set; }
 
     /// <summary>
     /// Gets or sets the event status.

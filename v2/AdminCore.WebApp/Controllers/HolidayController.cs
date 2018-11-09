@@ -32,68 +32,68 @@ namespace AdminCore.WebApi.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("/")]
-    public List<EventViewModel> GetAllHolidays()
+    [HttpGet]
+    public IActionResult GetAllHolidays()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/{holidayId}")]
-    public EventViewModel GetHolidayByHolidayId(int holidayId)
+    public IActionResult GetHolidayByHolidayId(int holidayId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findByEmployeeId/{employeeId}}")]
-    public List<EventViewModel> GetHolidayByEmployeeId(int employeeId)
+    public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findHolidaysByEmployeeId/{employeeId}}")]
-    public List<EventViewModel> GetHolidaysByEmployeeId(int employeeId)
+    public IActionResult GetHolidaysByEmployeeId(int employeeId)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPost]
-    public void CreateHoliday([FromBody] EventViewModel holidayViewModel)
+    public IActionResult CreateHoliday([FromBody] EventViewModel holidayViewModel)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPut]
-    public void UpdateHoliday()
+    public IActionResult UpdateHoliday()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPut("/approveHoliday")]
-    public void ApproveHoliday()
+    public IActionResult ApproveHoliday()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPut("/cancelHoliday")]
-    public void CancelHoliday()
+    public IActionResult CancelHoliday()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpPut("/rejectHoliday")]
-    public void RejectHoliday()
+    public IActionResult RejectHoliday()
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findByDateBetween/{rangeStart}/{rangeEnd}")]
-    public List<EventViewModel> GetHolidayByDateBetween(DateTime rangeStart, DateTime rangeEnd)
+    public IActionResult GetHolidayByDateBetween(DateTime rangeStart, DateTime rangeEnd)
     {
       throw new System.NotImplementedException();
     }
 
     [HttpGet("/findByHolidayStatus/{holidayStatusId}")]
-    public List<EventViewModel> GetHolidayByStatus(int holidayStatusId)
+    public IActionResult GetHolidayByStatus(int holidayStatusId)
     {
       throw new System.NotImplementedException();
     }
