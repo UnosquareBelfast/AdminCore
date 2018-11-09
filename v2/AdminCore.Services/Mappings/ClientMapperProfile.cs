@@ -9,7 +9,6 @@ namespace AdminCore.Services.Mappings
         public ClientMapperProfile()
         {
             CreateMap<ClientDto, Client>().ReverseMap();
-            // TODO: Additional mappings required
         }
     }
 }
