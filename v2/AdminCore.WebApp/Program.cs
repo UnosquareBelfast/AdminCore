@@ -41,6 +41,7 @@ namespace AdminCore.WebApi
     {
       return WebHost.CreateDefaultBuilder(args)
         .UseUrls("http://*:8081")
+        .UseKestrel()
         .UseStartup<Startup>();
     }
   }

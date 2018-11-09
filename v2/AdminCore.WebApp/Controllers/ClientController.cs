@@ -10,15 +10,18 @@
 using AdminCore.Common.Interfaces;
 using AdminCore.WebApi.Models.Client;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminCore.WebApi.Controllers
 {
   [Route("[controller]")]
   [ApiController]
+  [Authorize]
   public class ClientController : ControllerBase
   {
     private readonly IClientService _clientService;
+    
     private readonly IMapper _mapper;
 
     public ClientController(IClientService clientService, IMapper mapper)
@@ -28,37 +31,31 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    public ActionResult GetAllClients()
+    public IActionResult GetAllClients()
     {
       return Ok();
     }
 
     [HttpPut]
-    public ActionResult UpdateClient([FromBody] ClientViewModel model)
+    public IActionResult UpdateClient(UpdateClientViewModel viewModel)
     {
       return Ok();
     }
 
     [HttpPost]
-    public ActionResult CreateClient([FromBody] ClientViewModel clientViewModel)
+    public IActionResult CreateClient(CreateClientViewModel viewModel)
     {
       return Ok();
     }
 
-    [HttpDelete]
-    public ActionResult DeleteClient([FromBody] ClientViewModel clientViewModel)
+    [HttpGet("{id}")]
+    public IActionResult GetClientById(int id)
     {
       return Ok();
     }
 
-    [HttpGet("/getClientById/{id}")]
-    public ActionResult GetClientById(int id)
-    {
-      return Ok();
-    }
-
-    [HttpGet("/getClientByName/{clientName}")]
-    public ActionResult GetClientByClientName(string clientName)
+    [HttpGet("findByClientNameContaining/{clientName}")]
+    public IActionResult GetClientByClientName(string clientName)
     {
       return Ok();
     }

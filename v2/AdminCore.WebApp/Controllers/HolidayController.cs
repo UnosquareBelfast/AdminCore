@@ -9,7 +9,7 @@
 
 using System;
 using AdminCore.Common.Interfaces;
-using AdminCore.WebApi.Models.Event;
+using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +22,7 @@ namespace AdminCore.WebApi.Controllers
   public class HolidayController : ControllerBase
   {
     private readonly IEventService _eventService;
+    
     private readonly IMapper _mapper;
 
     public HolidayController(IEventService holidayService, IMapper mapper)
@@ -36,61 +37,50 @@ namespace AdminCore.WebApi.Controllers
       throw new NotImplementedException();
     }
 
-    [HttpGet("/{holidayId}")]
+    [HttpGet("{holidayId}")]
     public IActionResult GetHolidayByHolidayId(int holidayId)
     {
       throw new NotImplementedException();
     }
 
-    [HttpGet("/findByEmployeeId/{employeeId}}")]
+    [HttpGet("findByEmployeeId/{employeeId}")]
     public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
       throw new NotImplementedException();
     }
 
-    [HttpGet("/findHolidaysByEmployeeId/{employeeId}}")]
-    public IActionResult GetHolidaysByEmployeeId(int employeeId)
-    {
-      throw new NotImplementedException();
-    }
-
-    [HttpPost]
-    public IActionResult CreateHoliday([FromBody] EventViewModel holidayViewModel)
-    {
-      throw new NotImplementedException();
-    }
 
     [HttpPut]
-    public IActionResult UpdateHoliday()
+    public IActionResult CreateHoliday(CreateHolidayViewModel viewModel)
+    {
+      throw new NotImplementedException();
+    }
+    
+    [HttpPut("approveHoliday")]
+    public IActionResult ApproveHoliday(ApproveHolidayViewModel viewModel)
     {
       throw new NotImplementedException();
     }
 
-    [HttpPut("/approveHoliday")]
-    public IActionResult ApproveHoliday()
+    [HttpPut("cancelHoliday")]
+    public IActionResult CancelHoliday(CancelHolidayViewModel viewModel)
     {
       throw new NotImplementedException();
     }
 
-    [HttpPut("/cancelHoliday")]
-    public IActionResult CancelHoliday()
+    [HttpPut("rejectHoliday")]
+    public IActionResult RejectHoliday(RejectHolidayViewModel viewModel)
     {
       throw new NotImplementedException();
     }
 
-    [HttpPut("/rejectHoliday")]
-    public IActionResult RejectHoliday()
+    [HttpGet("findByDateBetween/{startDate}/{endDate}")]
+    public IActionResult GetHolidayByDateBetween(DateTime startDate, DateTime endDate)
     {
       throw new NotImplementedException();
     }
 
-    [HttpGet("/findByDateBetween/{rangeStart}/{rangeEnd}")]
-    public IActionResult GetHolidayByDateBetween(DateTime rangeStart, DateTime rangeEnd)
-    {
-      throw new NotImplementedException();
-    }
-
-    [HttpGet("/findByHolidayStatus/{holidayStatusId}")]
+    [HttpGet("findByHolidayStatus/{holidayStatusId}")]
     public IActionResult GetHolidayByStatus(int holidayStatusId)
     {
       throw new NotImplementedException();
