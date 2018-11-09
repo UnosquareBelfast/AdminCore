@@ -35,6 +35,9 @@ namespace AdminCore.Services.Mappings
             CreateMap<EmployeeStatusDto, EmployeeStatus>().ReverseMap();
             CreateMap<EmployeeRoleDto, EmployeeRole>().ReverseMap();
 
+      CreateMap<EmployeeRoleDto, EmployeeRole>().ReverseMap();
+
+      CreateMap<ClientDto, Client>().ReverseMap();
             // TODO: Move into separate profile.
             CreateMap<ClientDto, Client>().ReverseMap();
             CreateMap<TeamDto, Team>().ReverseMap();

@@ -33,6 +33,11 @@ namespace AdminCore.WebApi.Mappings
     
       CreateMap<EmployeeDto, LoginRequestModel>();
 
+      CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
+      
+      CreateMap<ClientDto, ClientViewModel>().ReverseMap();
+      CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
+
       CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();

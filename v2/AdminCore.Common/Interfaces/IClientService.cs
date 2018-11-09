@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using AdminCore.DTOs.Client;
+using System.Collections.Generic;
 
 namespace AdminCore.Common.Interfaces
 {
@@ -7,6 +7,16 @@ namespace AdminCore.Common.Interfaces
   {
     IList<ClientDto> GetAll();
 
-    void UpdateClient(ClientDto client);
+    void UpdateClient(ClientDto clientDto);
+
+    void CreateClient(ClientDto clientDto);
+
+    void SaveClient(ClientDto clientDto);
+
+    void DeleteClient(int id);
+
+    ClientDto GetClientById(int id);
+
+    ClientDto GetClientByClientName(string clientName);
   }
 }
