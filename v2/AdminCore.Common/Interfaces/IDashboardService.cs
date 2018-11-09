@@ -7,13 +7,13 @@ namespace AdminCore.Common.Interfaces
 {
   public interface IDashboardService
   {
-    IList<EventDto> GetEmployeeDashboardEvents(int employeeId, DateTime date);
+    IList<EventDto> GetEmployeeEvents(int employeeId, DateTime date);
 
     IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeTeamSnapshot(int employeeId);
 
-    IList<EventMessageDto> GetEventMessagesByEventId(int eventid);
+    IList<EventMessageDto> GetEventMessagesByEventId(int eventId);
 
-    IList<EventDto> GetTeamDashboardEvents(int employeeId, DateTime date);
+    IList<EventDto> GetTeamEvents(int employeeId, DateTime date);
 
     IDictionary<string, List<EmployeeSnapshotDto>> GetTeamSnapshotDashboardEvents();
   }
