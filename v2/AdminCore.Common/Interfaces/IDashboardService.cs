@@ -9,12 +9,12 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventDto> GetEmployeeEvents(int employeeId, DateTime date);
 
-    IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeTeamSnapshot(int employeeId);
+    IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeSnapshotsByEmployeeId(int employeeId);
 
     IList<EventMessageDto> GetEventMessagesByEventId(int eventId);
 
-    IList<EventDto> GetTeamEvents(int employeeId, DateTime date);
+    IDictionary<string, List<EmployeeSnapshotDto>> GetTeamEmployeeSnapshots();
 
-    IDictionary<string, List<EmployeeSnapshotDto>> GetTeamSnapshotDashboardEvents();
+    IList<EventDto> GetTeamEvents(int employeeId, DateTime date);
   }
 }

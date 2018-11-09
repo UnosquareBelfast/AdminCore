@@ -13,7 +13,7 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
-    public IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeTeamSnapshot(int employeeId)
+    public IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeSnapshotsByEmployeeId(int employeeId)
     {
       throw new NotImplementedException();
     }
@@ -23,12 +23,12 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
-    public IList<EventDto> GetTeamEvents(int employeeId, DateTime date)
+    public IDictionary<string, List<EmployeeSnapshotDto>> GetTeamEmployeeSnapshots()
     {
       throw new NotImplementedException();
     }
 
-    public IDictionary<string, List<EmployeeSnapshotDto>> GetTeamSnapshotDashboardEvents()
+    public IList<EventDto> GetTeamEvents(int employeeId, DateTime date)
     {
       throw new NotImplementedException();
     }
