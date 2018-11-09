@@ -7,49 +7,49 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
 namespace AdminCore.DAL
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Linq.Expressions;
-
   /// <summary>
-  /// The Repository interface.
+  ///   The Repository interface.
   /// </summary>
   /// <typeparam name="T">
   /// </typeparam>
   public interface IRepository<T>
   {
     /// <summary>
-    /// The get.
+    ///   The get.
     /// </summary>
     /// <param name="filter">
-    /// The filter.
+    ///   The filter.
     /// </param>
     /// <returns>
-    /// The <see cref="IList"/>.
+    ///   The <see cref="IList" />.
     /// </returns>
     IList<T> Get(Expression<Func<T, bool>> filter = null);
 
     /// <summary>
-    /// The get by id.
+    ///   The get by id.
     /// </summary>
     /// <param name="id">
-    /// The id.
+    ///   The id.
     /// </param>
     /// <returns>
-    /// The <see cref="T"/>.
+    ///   The <see cref="T" />.
     /// </returns>
     T GetById(object id);
 
     /// <summary>
-    /// The insert.
+    ///   The insert.
     /// </summary>
     /// <param name="entity">
-    /// The entity.
+    ///   The entity.
     /// </param>
     /// <returns>
-    /// The <see cref="T"/>.
+    ///   The <see cref="T" />.
     /// </returns>
     T Insert(T entity);
   }

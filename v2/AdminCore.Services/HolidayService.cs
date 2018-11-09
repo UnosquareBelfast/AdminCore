@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
-using AdminCore.DAL.Models;
-using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
 
 namespace AdminCore.Services

@@ -10,7 +10,7 @@
 namespace AdminCore.WebApi.Models.Employee
 {
   /// <summary>
-  /// The country view model.
+  ///   The country view model.
   /// </summary>
   public class CountryViewModel
   {

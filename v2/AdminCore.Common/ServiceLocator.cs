@@ -11,15 +11,13 @@ using AdminCore.Common.DependencyInjection;
 
 namespace AdminCore.Common
 {
-  using Common.DependencyInjection;
-
   /// <summary>
-  /// The service locator.
+  ///   The service locator.
   /// </summary>
   public static class ServiceLocator
   {
     /// <summary>
-    /// Gets or sets the instance.
+    ///   Gets or sets the instance.
     /// </summary>
     public static IContainer Instance { get; set; }
   }

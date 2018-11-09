@@ -10,17 +10,17 @@
 namespace AdminCore.WebApi.Models.Authentication
 {
   /// <summary>
-  /// The patient model.
+  ///   The patient model.
   /// </summary>
   public class LoginRequestModel
   {
     /// <summary>
-    /// Gets or sets the email.
+    ///   Gets or sets the email.
     /// </summary>
     public string Email { get; set; }
 
     /// <summary>
-    /// Gets or sets the password.
+    ///   Gets or sets the password.
     /// </summary>
     public string Password { get; set; }
   }

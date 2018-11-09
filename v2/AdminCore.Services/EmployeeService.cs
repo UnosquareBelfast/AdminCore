@@ -7,20 +7,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using AdminCore.Common.Interfaces;
+using AdminCore.DAL;
+using AdminCore.DAL.Models;
+using AdminCore.DTOs.Employee;
+using AutoMapper;
 
 namespace AdminCore.Services
 {
-  using AdminCore.Common.Interfaces;
-  using AdminCore.DAL;
-  using AdminCore.DAL.Models;
-  using AdminCore.DTOs.Employee;
-  using AutoMapper;
-  using System;
-  using System.Linq;
-  using System.Security.Cryptography;
-  using System.Text;
-
   public class EmployeeService : IEmployeeService
   {
     private readonly IDatabaseContext _databaseContext;
@@ -44,7 +43,7 @@ namespace AdminCore.Services
 
       return employee.Email;
     }
-    
+
     public bool VerifyEmailExists(string email)
     {
       return _databaseContext.EmployeeRepository
@@ -85,13 +84,9 @@ namespace AdminCore.Services
     {
       short totalHolidays;
       if (employee.StartDate.Year == DateTime.Now.Year)
-      {
-        totalHolidays = (short)((maxHolidays / 12) * (12 - employee.StartDate.Month));
-      }
+        totalHolidays = (short) (maxHolidays / 12 * (12 - employee.StartDate.Month));
       else
-      {
-        totalHolidays = (short)maxHolidays;
-      }
+        totalHolidays = (short) maxHolidays;
 
       return totalHolidays;
     }

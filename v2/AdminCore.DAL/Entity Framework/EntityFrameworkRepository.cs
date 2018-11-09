@@ -7,16 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+
 namespace AdminCore.DAL.Entity_Framework
 {
-  using Microsoft.EntityFrameworkCore;
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Linq.Expressions;
-
   /// <summary>
-  /// The entity framework repository.
+  ///   The entity framework repository.
   /// </summary>
   /// <typeparam name="T">
   /// </typeparam>
@@ -24,44 +24,41 @@ namespace AdminCore.DAL.Entity_Framework
     where T : class
   {
     /// <summary>
-    /// The _db set.
+    ///   The _db set.
     /// </summary>
     private readonly DbSet<T> _dbSet;
 
     public EntityFrameworkRepository(IDatabaseContext databaseContext)
     {
-      _dbSet = ((EntityFrameworkContext)databaseContext).Set<T>();
+      _dbSet = ((EntityFrameworkContext) databaseContext).Set<T>();
     }
 
     /// <summary>
-    /// The get.
+    ///   The get.
     /// </summary>
     /// <param name="filter">
-    /// The filter.
+    ///   The filter.
     /// </param>
     /// <returns>
-    /// The <see cref="IList"/>.
+    ///   The <see cref="IList" />.
     /// </returns>
     public IList<T> Get(Expression<Func<T, bool>> filter = null)
     {
       var queryableData = _dbSet.AsQueryable();
 
-      if (filter != null)
-      {
-        queryableData = queryableData.Where(filter);
-      }
+      if (filter != null) queryableData = queryableData.Where(filter);
 
       return queryableData.ToList();
     }
 
     /// <summary>
-    /// The get by id.
+    ///   The get by id.
     /// </summary>
     /// <param name="id">
-    /// The id.
+    ///   The id.
     /// </param>
     /// <returns>
-    /// The <see cref="T"/>.
+    ///   The <see cref="T" />.
     /// </returns>
     public T GetById(object id)
     {
@@ -69,13 +66,13 @@ namespace AdminCore.DAL.Entity_Framework
     }
 
     /// <summary>
-    /// The insert.
+    ///   The insert.
     /// </summary>
     /// <param name="entity">
-    /// The entity.
+    ///   The entity.
     /// </param>
     /// <returns>
-    /// The <see cref="T"/>.
+    ///   The <see cref="T" />.
     /// </returns>
     public T Insert(T entity)
     {

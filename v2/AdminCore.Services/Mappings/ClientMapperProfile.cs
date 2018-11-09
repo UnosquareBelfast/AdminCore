@@ -4,11 +4,11 @@ using AutoMapper;
 
 namespace AdminCore.Services.Mappings
 {
-    public class ClientMapperProfile : Profile
+  public class ClientMapperProfile : Profile
+  {
+    public ClientMapperProfile()
     {
-        public ClientMapperProfile()
-        {
-            CreateMap<ClientDto, Client>().ReverseMap();
-        }
+      CreateMap<ClientDto, Client>().ReverseMap();
     }
+  }
 }

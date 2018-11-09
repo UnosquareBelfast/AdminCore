@@ -12,20 +12,20 @@ using AdminCore.Constants.Enums;
 namespace AdminCore.Common.Interfaces
 {
   /// <summary>
-  /// The Configuration interface.
+  ///   The Configuration interface.
   /// </summary>
   public interface IConfiguration
   {
     /// <summary>
-    /// The retrieve connection string.
+    ///   The retrieve connection string.
     /// </summary>
     /// <returns>
-    /// The <see cref="string"/>.
+    ///   The <see cref="string" />.
     /// </returns>
     string RetrieveConnectionString();
 
     /// <summary>
-    /// Retrieves the type of migration to perform.
+    ///   Retrieves the type of migration to perform.
     /// </summary>
     /// <returns></returns>
     MigrationTypes RetrieveMigrationType();

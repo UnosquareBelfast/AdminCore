@@ -1,8 +1,7 @@
-﻿using AdminCore.Constants.Enums;
-using AdminCore.DTOs.Employee;
-using AdminCore.DTOs.Event;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using AdminCore.Constants.Enums;
+using AdminCore.DTOs.Event;
 
 namespace AdminCore.Common.Interfaces
 {

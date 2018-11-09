@@ -10,17 +10,17 @@
 namespace AdminCore.DTOs
 {
   /// <summary>
-  /// The country dto.
+  ///   The country dto.
   /// </summary>
   public class CountryDto
   {
     /// <summary>
-    /// Gets or sets the country code id.
+    ///   Gets or sets the country code id.
     /// </summary>
     public int CountryId { get; set; }
 
     /// <summary>
-    /// Gets or sets the description.
+    ///   Gets or sets the description.
     /// </summary>
     public string Description { get; set; }
   }

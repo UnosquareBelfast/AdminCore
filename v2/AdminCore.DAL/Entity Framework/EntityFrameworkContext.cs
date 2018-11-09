@@ -63,7 +63,7 @@ namespace AdminCore.DAL.Entity_Framework
     public IRepository<Employee> EmployeeRepository =>
       _employeeRepository ?? (_employeeRepository = new EntityFrameworkRepository<Employee>(this));
 
-    public IRepository<EmployeeRole> EmployeeRoleRepository => 
+    public IRepository<EmployeeRole> EmployeeRoleRepository =>
       _employeeRoleRepository ?? (_employeeRoleRepository = new EntityFrameworkRepository<EmployeeRole>(this));
 
     public IRepository<EmployeeStatus> EmployeeStatusRepository =>
@@ -76,7 +76,8 @@ namespace AdminCore.DAL.Entity_Framework
       _eventMessageRepository ?? (_eventMessageRepository = new EntityFrameworkRepository<EventMessage>(this));
 
     public IRepository<EventMessageType> EventMessageTypeRepository =>
-      _eventMessageTypeRepository ?? (_eventMessageTypeRepository = new EntityFrameworkRepository<EventMessageType>(this));
+      _eventMessageTypeRepository ??
+      (_eventMessageTypeRepository = new EntityFrameworkRepository<EventMessageType>(this));
 
 
     public IRepository<EventStatus> EventStatusRepository =>

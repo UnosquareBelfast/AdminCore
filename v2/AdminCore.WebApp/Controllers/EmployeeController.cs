@@ -8,8 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using AdminCore.Common.Interfaces;
-using AdminCore.DTOs.Employee;
-using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Employee;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -22,9 +20,8 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   public class EmployeeController : ControllerBase
   {
-    private readonly IMapper _mapper;
-
     private readonly IEmployeeService _employeeService;
+    private readonly IMapper _mapper;
 
     public EmployeeController(IEmployeeService employeeService, IMapper mapper)
     {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoMapper;
@@ -12,9 +12,8 @@ namespace AdminCore.WebApi.Controllers.WorkingFromHome
   [Route("[controller]")]
   public class WorkingFromHomeController : ControllerBase
   {
-    private readonly IMapper _mapper;
-    
     private readonly IEventService _eventService;
+    private readonly IMapper _mapper;
 
     public WorkingFromHomeController(IEventService eventService, IMapper mapper)
     {
@@ -25,25 +24,25 @@ namespace AdminCore.WebApi.Controllers.WorkingFromHome
     [HttpGet]
     public IActionResult GetAllWorkingFromHomeEvents()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/{workingFromHomeId}")]
     public IActionResult GetWorkingFromHomeById(int workingFromHomeId)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpGet("/getByEmployeeId/{employeeId}")]
     public IActionResult GetWorkingFromHomeByEmployeeId(int employeeId)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     [HttpPost]
     public void CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
   }
 }

@@ -10,17 +10,17 @@
 namespace AdminCore.DTOs.Employee
 {
   /// <summary>
-  /// The employee role dto.
+  ///   The employee role dto.
   /// </summary>
   public class EmployeeRoleDto
   {
     /// <summary>
-    /// Gets or sets the description.
+    ///   Gets or sets the description.
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the employee role id.
+    ///   Gets or sets the employee role id.
     /// </summary>
     public int EmployeeRoleId { get; set; }
   }

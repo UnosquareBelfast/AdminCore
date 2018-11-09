@@ -7,32 +7,29 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Diagnostics.CodeAnalysis;
+using AdminCore.Common.Interfaces;
+using AdminCore.DAL.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace AdminCore.DAL.Database
 {
-  using System.Diagnostics.CodeAnalysis;
-
-  using Common.Interfaces;
-
-  using AdminCore.DAL.Models;
-
-  using Microsoft.EntityFrameworkCore;
-
   /// <summary>
-  /// The AdminCore context.
+  ///   The AdminCore context.
   /// </summary>
   [ExcludeFromCodeCoverage]
   public class AdminCoreContext : DbContext
   {
     /// <summary>
-    /// The _configuration.
+    ///   The _configuration.
     /// </summary>
     private readonly IConfiguration _configuration;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AdminCoreContext"/> class.
+    ///   Initializes a new instance of the <see cref="AdminCoreContext" /> class.
     /// </summary>
     /// <param name="configuration">
-    /// The configuration.
+    ///   The configuration.
     /// </param>
     public AdminCoreContext(IConfiguration configuration)
     {
@@ -40,75 +37,75 @@ namespace AdminCore.DAL.Database
     }
 
     /// <summary>
-    /// Gets or sets the contract.
+    ///   Gets or sets the contract.
     /// </summary>
     public DbSet<Contract> Contracts { get; set; }
 
     /// <summary>
-    /// Gets or sets the clients.
+    ///   Gets or sets the clients.
     /// </summary>
     public DbSet<Client> Clients { get; set; }
 
     /// <summary>
-    /// Gets or sets the countries.
+    ///   Gets or sets the countries.
     /// </summary>
     public DbSet<Country> Countries { get; set; }
 
     /// <summary>
-    /// Gets or sets the employee roles.
+    ///   Gets or sets the employee roles.
     /// </summary>
     public DbSet<EmployeeRole> EmployeeRoles { get; set; }
 
     /// <summary>
-    /// Gets or sets the patients.
+    ///   Gets or sets the patients.
     /// </summary>
     public DbSet<Employee> Employees { get; set; }
 
     /// <summary>
-    /// Gets or sets the employee statuses.
+    ///   Gets or sets the employee statuses.
     /// </summary>
     public DbSet<EmployeeStatus> EmployeeStatuses { get; set; }
 
     /// <summary>
-    /// Gets or sets the event.
+    ///   Gets or sets the event.
     /// </summary>
     public DbSet<Event> Events { get; set; }
 
     /// <summary>
-    /// Gets or sets the events dates.
+    ///   Gets or sets the events dates.
     /// </summary>
     public DbSet<EventDate> EventsDates { get; set; }
 
     /// <summary>
-    /// Gets or sets the event message.
+    ///   Gets or sets the event message.
     /// </summary>
     public DbSet<EventMessage> EventMessages { get; set; }
 
     /// <summary>
-    /// Gets or sets the event message type.
+    ///   Gets or sets the event message type.
     /// </summary>
     public DbSet<EventMessageType> EventMessageTypes { get; set; }
 
     /// <summary>
-    /// Gets or sets the event statuses.
+    ///   Gets or sets the event statuses.
     /// </summary>
     public DbSet<EventStatus> EventStatuses { get; set; }
 
     /// <summary>
-    /// Gets or sets the event type.
+    ///   Gets or sets the event type.
     /// </summary>
     public DbSet<EventType> EventTypes { get; set; }
 
     /// <summary>
-    /// Gets or sets the teams.
+    ///   Gets or sets the teams.
     /// </summary>
     public DbSet<Team> Teams { get; set; }
 
     /// <summary>
-    /// The on configuring.
+    ///   The on configuring.
     /// </summary>
     /// <param name="optionsBuilder">
-    /// The options builder.
+    ///   The options builder.
     /// </param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

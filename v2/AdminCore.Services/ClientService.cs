@@ -1,8 +1,7 @@
-using AdminCore.Common.Interfaces;
-using AdminCore.DAL;
-using AdminCore.DTOs.Client;
-using AutoMapper;
+using System;
 using System.Collections.Generic;
+using AdminCore.Common.Interfaces;
+using AdminCore.DTOs.Client;
 
 namespace AdminCore.Services
 {
@@ -10,37 +9,37 @@ namespace AdminCore.Services
   {
     public IList<ClientDto> GetAll()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void Update(ClientDto clientDto)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void Create(ClientDto clientDto)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void Save(ClientDto clientDto)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void Delete(int id)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public ClientDto Get(int id)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public ClientDto GetByClientName(string clientName)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
   }
 }

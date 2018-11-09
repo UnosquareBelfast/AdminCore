@@ -10,7 +10,7 @@
 namespace AdminCore.WebApi.Models.Employee
 {
   /// <summary>
-  /// The patient model.
+  ///   The patient model.
   /// </summary>
   public class EmployeeViewModel
   {

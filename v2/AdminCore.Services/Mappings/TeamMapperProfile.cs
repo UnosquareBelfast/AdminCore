@@ -3,11 +3,11 @@ using AdminCore.DTOs.Team;
 
 namespace AdminCore.Services.Mappings
 {
-    public class TeamMapperProfile : ClientMapperProfile
+  public class TeamMapperProfile : ClientMapperProfile
+  {
+    public TeamMapperProfile()
     {
-        public TeamMapperProfile()
-        {
-            CreateMap<TeamDto, Team>().ReverseMap();
-        }
+      CreateMap<TeamDto, Team>().ReverseMap();
     }
+  }
 }

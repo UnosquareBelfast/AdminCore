@@ -2,11 +2,7 @@
 
 namespace AdminCore.Services.Mappings
 {
-    public class EventMapperProfile : Profile
-    {
-        public EventMapperProfile()
-        {
-            // TODO: Add event mappings
-        }
-    }
+  public class EventMapperProfile : Profile
+  {
+  }
 }

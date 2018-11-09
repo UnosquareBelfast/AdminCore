@@ -32,18 +32,15 @@ namespace AdminCore.Services.Configuration
     }
 
     /// <summary>
-    /// Retrieves the migration to use.
+    ///   Retrieves the migration to use.
     /// </summary>
     /// <returns>The migration type to use.</returns>
     public MigrationTypes RetrieveMigrationType()
     {
       var migrationType = Environment.GetEnvironmentVariable(EnvironmentVariables.DbMigrationType);
 
-      if (Enum.TryParse(typeof(MigrationTypes), migrationType, out var migration))
-      {
-        return (MigrationTypes) migration;
-      }
-      
+      if (Enum.TryParse(typeof(MigrationTypes), migrationType, out var migration)) return (MigrationTypes) migration;
+
       return MigrationTypes.Migrate;
     }
   }

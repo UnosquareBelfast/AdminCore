@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using AdminCore.Common.Interfaces;
-using AdminCore.DTOs.Team;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.WebApi.Models.Team;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

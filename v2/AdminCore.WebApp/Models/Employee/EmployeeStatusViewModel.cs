@@ -10,9 +10,9 @@
 namespace AdminCore.WebApi.Models.Employee
 {
   /// <summary>
-  /// The employee status view model.
+  ///   The employee status view model.
   /// </summary>
   public class EmployeeStatusViewModel
-    {
-    }
+  {
+  }
 }

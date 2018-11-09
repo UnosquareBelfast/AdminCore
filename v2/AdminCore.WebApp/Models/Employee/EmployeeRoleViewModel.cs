@@ -10,9 +10,9 @@
 namespace AdminCore.WebApi.Models.Employee
 {
   /// <summary>
-  /// The employee role view model.
+  ///   The employee role view model.
   /// </summary>
   public class EmployeeRoleViewModel
-    {
-    }
+  {
+  }
 }

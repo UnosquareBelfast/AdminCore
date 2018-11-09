@@ -8,13 +8,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using AdminCore.DTOs.Employee;
 
 namespace AdminCore.Common.Interfaces
 {
-  using AdminCore.DTOs.Employee;
-
   /// <summary>
-  /// The HelloService interface.
+  ///   The HelloService interface.
   /// </summary>
   public interface IEmployeeService
   {

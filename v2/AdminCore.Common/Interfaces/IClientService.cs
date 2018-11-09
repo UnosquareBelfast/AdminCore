@@ -1,5 +1,5 @@
-using AdminCore.DTOs.Client;
 using System.Collections.Generic;
+using AdminCore.DTOs.Client;
 
 namespace AdminCore.Common.Interfaces
 {

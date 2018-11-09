@@ -8,10 +8,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using AdminCore.Common.Interfaces;
-using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Models.Client;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminCore.WebApi.Controllers
@@ -20,9 +18,8 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   public class ClientController : ControllerBase
   {
-    private readonly IMapper _mapper;
-
     private readonly IClientService _clientService;
+    private readonly IMapper _mapper;
 
     public ClientController(IClientService clientService, IMapper mapper)
     {
