@@ -49,5 +49,32 @@ namespace AdminCore.WebApi.Tests
       Assert.True(result is List<TeamDto>);
       Assert.Equal(numberOfTeams, (result as List<TeamDto>).Count());
     }
+
+    [Fact]
+    public void CreateTeam_WhenCalled_ReturnsCreatedTeam()
+    {
+      // Arrange
+      var teamToSaveModel = _fixture.Build<CreateTeamViewModel>().Create();
+      var teamToSaveDto = _fixture.Build<TeamDto>().Create();
+
+      var teamSavedDto = _fixture.Build<TeamDto>().Create();
+      var teamSavedModel = _fixture.Build<TeamViewModel>().Create();
+
+      _mapper.Map<CreateTeamViewModel, TeamDto>(Arg.Is(teamToSaveModel)).Returns(teamToSaveDto);
+      _teamService.Save(teamToSaveDto).Returns(teamSavedDto);
+      _mapper.Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto)).Returns(teamSavedModel);
+
+      // Act
+      var result = _controller.CreateTeam(teamToSaveModel);
+
+      // Assert
+      Assert.True(result is TeamDto);
+    }
+
+    [Fact]
+    public void UpdateTeam_WhenCalled_ReturnsUpdatedTeam()
+    {
+
+    }
   }
 }
