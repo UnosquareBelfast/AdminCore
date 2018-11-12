@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-
 namespace AdminCore.WebApi.Tests
 {
   public class TeamControllerTests
@@ -27,12 +26,14 @@ namespace AdminCore.WebApi.Tests
       _controller = new TeamController(_teamService, _mapper);
     }
 
-    [Fact]
-    public void GetAllTeamsForClientId_WhenCalled_ReturnsTeamsForClient()
+    [Theory]
+    [InlineData(4)]
+    [InlineData(10)]
+    [InlineData(22)]
+    public void GetAllTeamsForClientId_WhenCalled_ReturnsAllTeamsForClient(int clientId)
     {
       // Arrange
       const int numberOfTeams = 9;
-      const int clientId = 22;
 
       var teams = _fixture.CreateMany<TeamDto>(numberOfTeams).ToList();
       var teamViewModels = _fixture.CreateMany<TeamViewModel>(numberOfTeams).ToList();
