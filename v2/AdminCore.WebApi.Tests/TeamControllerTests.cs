@@ -47,7 +47,9 @@ namespace AdminCore.WebApi.Tests
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
-      // TODO:
+      // TODO: Check result wrapper 
+      // payload is null 
+      // error message is not null
     }
 
     [Fact]
@@ -69,7 +71,9 @@ namespace AdminCore.WebApi.Tests
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
-      Assert.True(result is TeamViewModel);
+      // TODO: Check result wrapper 
+      // payload is not null 
+      // error message is null
     }
 
     [Fact]
@@ -90,8 +94,10 @@ namespace AdminCore.WebApi.Tests
       var result = _teamController.GetAllTeamsForClientId(clientId);
 
       // Assert
-      Assert.True(result is List<TeamDto>);
-      Assert.Equal(numberOfTeams, (result as List<TeamDto>).Count());
+      // TODO: Check result wrapper 
+      // payload is not null 
+      // error message is null
+      // collection count = numberOfTeams
     }
 
     [Fact]
@@ -104,7 +110,9 @@ namespace AdminCore.WebApi.Tests
       // TODO:
 
       // Assert
-      // TODO:
+      // TODO: Check result wrapper 
+      // payload is null 
+      // error message is not null
     }
 
     [Fact]
@@ -126,7 +134,9 @@ namespace AdminCore.WebApi.Tests
       var result = _teamController.UpdateTeam(teamToUpdateModel);
 
       // Assert
-      Assert.True(result is TeamViewModel);
+      // TODO: Check result wrapper 
+      // payload is not null 
+      // error message is null
     }
   }
 }
