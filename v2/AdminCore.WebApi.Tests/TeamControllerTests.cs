@@ -31,7 +31,7 @@ namespace AdminCore.WebApi.Tests
     {
       // Arrange
       var teamToSaveModel = _fixture.Build<CreateTeamViewModel>()
-        .With(x => x.teamName, null)
+        .With(x => x.teamName, string.Empty)
         .Create();
       var teamToSaveDto = _fixture.Build<TeamDto>().Create();
 
@@ -48,8 +48,8 @@ namespace AdminCore.WebApi.Tests
 
       // Assert
       // TODO: Check result wrapper 
-      // payload is null 
-      // error message is not null
+      // Assert.Null(payloadReturned);
+      // Assert.False(IsNullOrWhiteSpace(errorReturned)) 
     }
 
     [Fact]
@@ -72,8 +72,8 @@ namespace AdminCore.WebApi.Tests
 
       // Assert
       // TODO: Check result wrapper 
-      // payload is not null 
-      // error message is null
+      // Assert.NotNull(payloadReturned);
+      // Assert.True(IsNullOrWhiteSpace(errorReturned)) 
     }
 
     [Fact]
@@ -95,24 +95,9 @@ namespace AdminCore.WebApi.Tests
 
       // Assert
       // TODO: Check result wrapper 
-      // payload is not null 
-      // error message is null
-      // collection count = numberOfTeams
-    }
-
-    [Fact]
-    public void UpdateTeam_WhenInvalidNamePassed_ReturnsError()
-    {
-      // Arrange
-      // TODO:
-
-      // Act
-      // TODO:
-
-      // Assert
-      // TODO: Check result wrapper 
-      // payload is null 
-      // error message is not null
+      // Assert.NotNull(payloadReturned);
+      // Assert.True(IsNullOrWhiteSpace(errorReturned)) 
+      // Assert.Equal(payloadReturned.Count(), numberOfTeams); 
     }
   }
 }
