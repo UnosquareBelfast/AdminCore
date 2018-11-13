@@ -7,6 +7,8 @@ namespace AdminCore.Common.Interfaces
 {
   public interface IDashboardService
   {
+    IList<EventDto> GetEmployeeDashboardEvents(int employeeId, DateTime date);
+
     IList<EventDto> GetEmployeeEvents(int employeeId, DateTime date);
 
     IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeSnapshotsByEmployeeId(int employeeId);

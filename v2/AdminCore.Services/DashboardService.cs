@@ -8,6 +8,11 @@ namespace AdminCore.Services
 {
   public class DashboardService : IDashboardService
   {
+    public IList<EventDto> GetEmployeeDashboardEvents(int employeeId, DateTime date)
+    {
+      throw new NotImplementedException();
+    }
+
     public IList<EventDto> GetEmployeeEvents(int employeeId, DateTime date)
     {
       throw new NotImplementedException();
