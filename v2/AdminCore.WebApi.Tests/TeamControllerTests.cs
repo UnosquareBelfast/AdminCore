@@ -114,29 +114,5 @@ namespace AdminCore.WebApi.Tests
       // payload is null 
       // error message is not null
     }
-
-    [Fact]
-    public void UpdateTeam_WhenValidTeamPassed_ReturnsUpdatedTeam()
-    {
-      // Arrange
-      var teamToUpdateModel = _fixture.Build<UpdateTeamViewModel>().Create();
-      var teamToUpdateDto = _fixture.Build<TeamDto>().Create();
-
-      var teamUpdatedDto = _fixture.Build<TeamDto>().Create();
-      var teamUpdatedModel = _fixture.Build<TeamViewModel>().Create();
-
-      _teamService.Save(teamToUpdateDto).Returns(teamUpdatedDto);
-
-      _mapper.Map<UpdateTeamViewModel, TeamDto>(Arg.Is(teamToUpdateModel)).Returns(teamToUpdateDto);
-      _mapper.Map<TeamDto, TeamViewModel>(Arg.Is(teamUpdatedDto)).Returns(teamUpdatedModel);
-
-      // Act
-      var result = _teamController.UpdateTeam(teamToUpdateModel);
-
-      // Assert
-      // TODO: Check result wrapper 
-      // payload is not null 
-      // error message is null
-    }
   }
 }

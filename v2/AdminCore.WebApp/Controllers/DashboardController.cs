@@ -21,31 +21,31 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    public IActionResult GetDashboardEventsByEmployeeId(DateTime date)
-    {
-      return Ok();
-    }
-
-    [HttpGet]
     public IActionResult GetDashboardSnapshot()
     {
       return Ok();
     }
 
     [HttpGet]
-    public IActionResult GetEmployeeTeamsSnapshot()
-    {
-      return Ok();
-    }
-
-    [HttpGet("/{eventId}")]
-    public IActionResult GetMessagesByEventId(int eventId)
+    public IActionResult GetEmployeeEvents(DateTime date)
     {
       return Ok();
     }
 
     [HttpGet]
-    public IActionResult GetTeamEventsByEmployeeId(DateTime date)
+    public IActionResult GetEmployeeTeamSnapshot()
+    {
+      return Ok();
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetMessagesByEventId(int id)
+    {
+      return Ok();
+    }
+
+    [HttpGet]
+    public IActionResult GetTeamEvents(DateTime date)
     {
       return Ok();
     }

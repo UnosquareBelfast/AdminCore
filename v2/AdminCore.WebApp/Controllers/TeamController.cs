@@ -20,7 +20,7 @@ namespace AdminCore.WebApi.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("findTeamsForClient/{clientId}")]
+    [HttpGet("{clientId}")]
     public IActionResult GetAllTeamsForClientId(int clientId)
     {
       throw new NotImplementedException();
@@ -28,12 +28,6 @@ namespace AdminCore.WebApi.Controllers
 
     [HttpPost]
     public IActionResult CreateTeam(CreateTeamViewModel teamViewModel)
-    {
-      throw new NotImplementedException();
-    }
-
-    [HttpPut]
-    public IActionResult UpdateTeam(UpdateTeamViewModel teamViewModel)
     {
       throw new NotImplementedException();
     }

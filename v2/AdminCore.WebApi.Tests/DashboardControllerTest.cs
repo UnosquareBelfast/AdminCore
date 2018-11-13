@@ -16,10 +16,26 @@ namespace AdminCore.WebApi.Tests
 
     public DashboardControllerTest()
     {
-      _dashboardController = new DashboardController(_dashboardService, _mapper);
       _dashboardService = Substitute.For<IDashboardService>();
       _fixture = new Fixture();
       _mapper = Substitute.For<IMapper>();
+      _dashboardController = new DashboardController(_dashboardService, _mapper);
+    }
+
+    [Fact]
+    public void GetTeamEventsByEmployeeId_WhenValidIdPassed_ReturnsEvents()
+    {
+
+    }
+
+    [Fact]
+    public void GetDashboardEventsByEmployeeId_WhenValidIdPassed_ReturnsDashboardEvents()
+    {
+      // Arrange
+
+      // Act
+
+      // Assert
     }
 
     [Fact]
