@@ -28,11 +28,23 @@ namespace AdminCore.WebApi.Tests
       _dashboardController = new DashboardController(_dashboardService, _mapper);
     }
 
-    [Fact]
-    public void GetEmployeeEvents_WhenCalled_ReturnsEmployeeEvents()
+    public static IEnumerable<object[]> GetEmployeeEventsTestData()
+    {
+      var testData = new List<object[]>
+        {
+            new object[] { DateTime.Now },
+            new object[] { DateTime.Now },
+            new object[] { DateTime.Now }
+        };
+
+      return testData;
+    }
+
+    [Theory]
+    [MemberData(nameof(GetEmployeeEventsTestData))]
+    public void GetEmployeeEvents_WhenCalled_ReturnsEmployeeEvents(DateTime searchDate)
     {
       // Arrange
-      var searchDate = DateTime.Now;
       var numberOfEvents = 5;
       var employeeId = 88;
 
