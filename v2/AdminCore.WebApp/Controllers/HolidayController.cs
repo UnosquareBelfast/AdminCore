@@ -9,6 +9,7 @@
 
 using System;
 using AdminCore.Common.Interfaces;
+using AdminCore.DAL.Models;
 using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,7 @@ namespace AdminCore.WebApi.Controllers
   public class HolidayController : ControllerBase
   {
     private readonly IEventService _eventService;
-    
+
     private readonly IMapper _mapper;
 
     public HolidayController(IEventService holidayService, IMapper mapper)
@@ -34,56 +35,61 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllHolidays()
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
     [HttpGet("{holidayId}")]
     public IActionResult GetHolidayByHolidayId(int holidayId)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
     [HttpGet("findByEmployeeId/{employeeId}")]
     public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
-
-    [HttpPut]
+    [HttpPost]
     public IActionResult CreateHoliday(CreateHolidayViewModel viewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
-    
+
+    [HttpPut]
+    public IActionResult UpdateHoliday(UpdateHolidayViewModel viewModel)
+    {
+      return Ok();
+    }
+
     [HttpPut("approveHoliday")]
     public IActionResult ApproveHoliday(ApproveHolidayViewModel viewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel viewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel viewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
-    [HttpGet("findByDateBetween/{startDate}/{endDate}")]
-    public IActionResult GetHolidayByDateBetween(DateTime startDate, DateTime endDate)
+    [HttpGet("findByDateBetween/{startDate}/{endDate}")]//TODO Endpoint vs parameter
+    public IActionResult GetHolidayByDateBetween(EventDate eventDate)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
     [HttpGet("findByHolidayStatus/{holidayStatusId}")]
     public IActionResult GetHolidayByStatus(int holidayStatusId)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
   }
 }
