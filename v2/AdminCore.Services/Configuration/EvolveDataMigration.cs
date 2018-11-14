@@ -24,7 +24,7 @@ namespace AdminCore.Services.Configuration
     /// <summary>
     ///   The _configuration.
     /// </summary>
-    private readonly IConfiguration _configuration;
+    private readonly IEmployeeCredentials _configuration;
 
     /// <summary>
     ///   Initializes a new instance of the <see cref="EvolveDataMigration" /> class.
@@ -32,7 +32,7 @@ namespace AdminCore.Services.Configuration
     /// <param name="configuration">
     ///   The configuration.
     /// </param>
-    public EvolveDataMigration(IConfiguration configuration)
+    public EvolveDataMigration(IEmployeeCredentials configuration)
     {
       _configuration = configuration;
     }

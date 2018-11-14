@@ -17,7 +17,7 @@ namespace AdminCore.Services.Configuration
   /// <summary>
   ///   The configuration provider.
   /// </summary>
-  public class ConfigurationProvider : IConfiguration
+  public class ConfigurationProvider : IEmployeeCredentials
   {
     /// <summary>
     ///   The retrieve connection string.

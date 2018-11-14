@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace AdminCore.WebApi.Tests
+namespace AdminCore.WebApi.Tests.Controllers
 {
   public class DashboardControllerTest
   {
@@ -19,13 +19,17 @@ namespace AdminCore.WebApi.Tests
     private readonly IDashboardService _dashboardService;
     private readonly Fixture _fixture;
     private readonly IMapper _mapper;
+    private readonly IEmployeeCredentials _employeeCredentials;
 
     public DashboardControllerTest()
     {
-      _dashboardService = Substitute.For<IDashboardService>();
       _fixture = new Fixture();
+
+      _dashboardService = Substitute.For<IDashboardService>();
+      _employeeCredentials = Substitute.For<IEmployeeCredentials>();
       _mapper = Substitute.For<IMapper>();
-      _dashboardController = new DashboardController(_dashboardService, _mapper);
+      
+      _dashboardController = new DashboardController(_dashboardService, _employeeCredentials, _mapper);
     }
 
     [Fact]
@@ -40,6 +44,9 @@ namespace AdminCore.WebApi.Tests
       var result = _dashboardController.GetDashboardSnapshot();
 
       // Assert
+      _dashboardService.Received(1).GetTeamSnapshotDashboardEvents();
+
+
     }
 
     [Fact]
@@ -57,7 +64,7 @@ namespace AdminCore.WebApi.Tests
 
       _mapper.Map<List<EventDto>, List<DashboardEventViewModel>>(Arg.Is(employeeEventDtos)).Returns(dashboardEventModels);
 
-      // TODO: Mock out service credentials method for employeeId
+      _employeeCredentials.GetUserId().Returns(employeeId);
 
       // Act
       var result = _dashboardController.GetEmployeeEvents(searchDate);
@@ -117,7 +124,7 @@ namespace AdminCore.WebApi.Tests
       // Arrange
 
       // Act
-      
+
       // Assert
     }
   }

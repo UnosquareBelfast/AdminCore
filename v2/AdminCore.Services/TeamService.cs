@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Team;
+using System;
+using System.Collections.Generic;
 
 namespace AdminCore.Services
 {

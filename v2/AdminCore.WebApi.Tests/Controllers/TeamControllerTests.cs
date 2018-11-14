@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace AdminCore.WebApi.Tests
+namespace AdminCore.WebApi.Tests.Controllers
 {
   public class TeamControllerTests
   {
@@ -52,9 +52,9 @@ namespace AdminCore.WebApi.Tests
 
       _teamService.DidNotReceive().Save(Arg.Any<TeamDto>());
 
-      // TODO: Check result wrapper 
+      // TODO: Check result wrapper
       // Assert.Null(payloadReturned);
-      // Assert.False(IsNullOrWhiteSpace(errorReturned)) 
+      // Assert.False(IsNullOrWhiteSpace(errorReturned))
     }
 
     [Fact]
@@ -80,10 +80,10 @@ namespace AdminCore.WebApi.Tests
       _mapper.Received(1).Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto));
 
       _teamService.Received(1).Save(Arg.Is<TeamDto>(x => x == teamToSaveDto));
-      
-      // TODO: Check result wrapper 
+
+      // TODO: Check result wrapper
       // Assert.NotNull(payloadReturned);
-      // Assert.True(IsNullOrWhiteSpace(errorReturned)) 
+      // Assert.True(IsNullOrWhiteSpace(errorReturned))
     }
 
     [Fact]
@@ -107,11 +107,11 @@ namespace AdminCore.WebApi.Tests
       _mapper.Received(1).Map<IList<TeamDto>, List<TeamViewModel>>(Arg.Is(teams));
 
       _teamService.Received(1).GetByClientId(Arg.Is<int>(x => x == clientId));
-      
-      // TODO: Check result wrapper 
+
+      // TODO: Check result wrapper
       // Assert.NotNull(payloadReturned);
-      // Assert.True(IsNullOrWhiteSpace(errorReturned)) 
-      // Assert.Equal(payloadReturned.Count(), numberOfTeams); 
+      // Assert.True(IsNullOrWhiteSpace(errorReturned))
+      // Assert.Equal(payloadReturned.Count(), numberOfTeams);
     }
   }
 }

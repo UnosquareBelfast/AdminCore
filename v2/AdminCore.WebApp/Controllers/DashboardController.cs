@@ -13,11 +13,13 @@ namespace AdminCore.WebApi.Controllers
   {
     private readonly IDashboardService _dashboardService;
     private readonly IMapper _mapper;
+    private readonly IEmployeeCredentials _employeeCredentials;
 
-    public DashboardController(IDashboardService dashboardService, IMapper mapper)
+    public DashboardController(IDashboardService dashboardService, IEmployeeCredentials employeeCredentials, IMapper mapper)
     {
       _dashboardService = dashboardService;
       _mapper = mapper;
+      _employeeCredentials = employeeCredentials;
     }
 
     [HttpGet]
