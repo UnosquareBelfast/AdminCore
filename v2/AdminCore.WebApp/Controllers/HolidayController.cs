@@ -22,13 +22,13 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   public class HolidayController : ControllerBase
   {
-    private readonly IEventService _eventService;
+    private readonly IEventService _holidayEventService;
 
     private readonly IMapper _mapper;
 
-    public HolidayController(IEventService holidayService, IMapper mapper)
+    public HolidayController(IEventService holidayEventService, IMapper mapper)
     {
-      _eventService = holidayService;
+      _holidayEventService = holidayEventService;
       _mapper = mapper;
     }
 
@@ -63,24 +63,24 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPut("approveHoliday")]
-    public IActionResult ApproveHoliday(ApproveHolidayViewModel viewModel)
+    public IActionResult ApproveHoliday(ApproveHolidayViewModel approveHoliday)
     {
       return Ok();
     }
 
     [HttpPut("cancelHoliday")]
-    public IActionResult CancelHoliday(CancelHolidayViewModel viewModel)
+    public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
       return Ok();
     }
 
     [HttpPut("rejectHoliday")]
-    public IActionResult RejectHoliday(RejectHolidayViewModel viewModel)
+    public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
       return Ok();
     }
 
-    [HttpGet("findByDateBetween/{startDate}/{endDate}")]//TODO Endpoint vs parameter
+    [HttpGet("findByDateBetween/{eventDate}")]
     public IActionResult GetHolidayByDateBetween(EventDate eventDate)
     {
       return Ok();

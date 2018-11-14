@@ -20,7 +20,6 @@ namespace AdminCore.WebApi.Tests
     private readonly HolidayController _controller;
     private readonly IEventService _eventService;
     private readonly IFixture _fixture;
-
     private readonly IMapper _mapper;
 
     public HolidayControllerTests()
@@ -35,98 +34,72 @@ namespace AdminCore.WebApi.Tests
     public void ApproveHoliday_WhenCalled_ReturnsApprovedHoliday()
     {
       // Arrange
-      var holidayToApproveModel = _fixture.Build<ApproveHolidayViewModel>().Create();
-      var holidayToApproveDto = _fixture.Build<EventDto>().Create();
-      var holidayApprovedDto = _fixture.Build<EventDto>().Create();
-      var holidayApprovedModel = _fixture.Build<HolidayViewModel>().Create();
-      _eventService.ApproveEvent(holidayToApproveDto).Returns(holidayApprovedDto);
+      var approveViewModel = _fixture.Build<ApproveHolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-      _mapper.Map<ApproveHolidayViewModel, EventDto>(Arg.Is(holidayToApproveModel)).Returns(holidayToApproveDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(holidayApprovedDto)).Returns(holidayApprovedModel);
-      // Act
-      var result = _controller.ApproveHoliday(holidayToApproveModel);
-      // Assert
-      // TODO: Check result wrapper
-      // payload is not null
-      // error message is null
-    }
+      _eventService.ApproveEvent(eventDto).Returns(eventDto);
+      _mapper.Map<EventDto, ApproveHolidayViewModel>(Arg.Is(eventDto)).Returns(approveViewModel);
 
-    [Fact]
-    public void UpdateHoliday_WhenCalled_ReturnsUpdatedHoliday()
-    {
-      // Arrange
-      var holidayToUpdateModel = _fixture.Build<UpdateHolidayViewModel>().Create();
-      var holidayToUpdateDto = _fixture.Build<EventDto>().Create();
-      var holidayUpdatedDto = _fixture.Build<EventDto>().Create();
-      var holidayUpdatedModel = _fixture.Build<HolidayViewModel>().Create();
-      _eventService.UpdateEvent(holidayToUpdateDto).Returns(holidayUpdatedDto);
-      _mapper.Map<UpdateHolidayViewModel, EventDto>(Arg.Is(holidayToUpdateModel)).Returns(holidayToUpdateDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(holidayUpdatedDto)).Returns(holidayUpdatedModel);
       // Act
-      var result = _controller.UpdateHoliday(holidayToUpdateModel);
+      var result = _controller.ApproveHoliday(approveViewModel);
+
       // Assert
-      // TODO: Check result wrapper
-      // payload is not null
-      // error message is null
+      _eventService.Received(1).ApproveEvent(eventDto);
     }
 
     [Fact]
     public void CancelHoliday_WhenCalled_ReturnsCancelledHoliday()
     {
       // Arrange
-      var holidayToCancelModel = _fixture.Build<CancelHolidayViewModel>().Create();
-      var holidayToCancelDto = _fixture.Build<EventDto>().Create();
-      var holidayCanceldDto = _fixture.Build<EventDto>().Create();
-      var holidayCanceldModel = _fixture.Build<HolidayViewModel>().Create();
-      _eventService.CancelEvent(holidayToCancelDto).Returns(holidayCanceldDto);
-      _mapper.Map<CancelHolidayViewModel, EventDto>(Arg.Is(holidayToCancelModel)).Returns(holidayToCancelDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(holidayCanceldDto)).Returns(holidayCanceldModel);
+      var cancelViewModel = _fixture.Build<CancelHolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
+
+      _eventService.CancelEvent(eventDto);
+      _mapper.Map<EventDto, CancelHolidayViewModel>(Arg.Is(eventDto)).Returns(cancelViewModel);
+
       // Act
-      var result = _controller.CancelHoliday(holidayToCancelModel);
+      var result = _controller.CancelHoliday(cancelViewModel);
+
       // Assert
-      // TODO: Check result wrapper
-      // payload is not null
-      // error message is null
+      _eventService.Received(1).CancelEvent(eventDto);
     }
 
     [Fact]
     public void CreateHolidayWithCorrectType_WhenCalled_ReturnsCreatedHoliday()
     {
       // Arrange
-      var holidayToSaveModel = _fixture.Build<CreateHolidayViewModel>().Create();
-      var holidayToSaveDto = _fixture.Build<EventDto>().Create();
-      var holidaySavedDto = _fixture.Build<EventDto>().Create();
-      var holidaySavedModel = _fixture.Build<HolidayViewModel>().Create();
-      _eventService.SaveEvent(holidayToSaveDto).Returns(holidaySavedDto);
-      _mapper.Map<CreateHolidayViewModel, EventDto>(Arg.Is(holidayToSaveModel)).Returns(holidayToSaveDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(holidaySavedDto)).Returns(holidaySavedModel);
+      var createViewModel = _fixture.Build<CreateHolidayViewModel>()
+        .With(x => x.EventType, EventTypes.AnnualLeave)
+        .Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
+
+      _eventService.SaveEvent(eventDto);
+      _mapper.Map<EventDto, CreateHolidayViewModel>(Arg.Is(eventDto)).Returns(createViewModel);
+
       // Act
-      var result = _controller.CreateHoliday(holidayToSaveModel);
+      var result = _controller.CreateHoliday(createViewModel);
+
       // Assert
-      // TODO: Check result wrapper
-      // payload is not null
-      // error message is null
+      _eventService.Received(1).SaveEvent(eventDto);
     }
 
     [Fact]
     public void CreateHolidayWithIncorrectType_WhenCalled_ReturnsError()
     {
       // Arrange
-      var holidayToSaveModel = _fixture.Build<CreateHolidayViewModel>()
-        .With(x => x.eventType, null)
+      var createViewModel = _fixture.Build<CreateHolidayViewModel>()
+        .With(x => x.EventType, EventTypes.WorkingFromHome)
         .Create();
-      var holidayToSaveDto = _fixture.Build<EventDto>().Create();
-      var holidaySavedDto = _fixture.Build<EventDto>().Create();
-      var holidaySavedModel = _fixture.Build<HolidayViewModel>().Create();
-      _eventService.SaveEvent(holidayToSaveDto).Returns(holidaySavedDto);
-      _mapper.Map<CreateHolidayViewModel, EventDto>(Arg.Is(holidayToSaveModel)).Returns(holidayToSaveDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(holidaySavedDto)).Returns(holidaySavedModel);
+      var eventDto = _fixture.Build<EventDto>().Create();
+
+      _eventService.SaveEvent(eventDto);
+      _mapper.Map<EventDto, CreateHolidayViewModel>(Arg.Is(eventDto)).Returns(createViewModel);
+
       // Act
-      var result = _controller.CreateHoliday(holidayToSaveModel);
+      var result = _controller.CreateHoliday(createViewModel);
+
       // Assert
-      // TODO: Check result wrapper
-      // payload is null
-      // error message is not null
+      _eventService.Received(1).SaveEvent(eventDto);
     }
 
     [Fact]
@@ -139,13 +112,14 @@ namespace AdminCore.WebApi.Tests
       var holidayViewModels = _fixture.CreateMany<HolidayViewModel>(numberOfHolidays).ToList();
 
       _eventService.GetByType(EventTypes.AnnualLeave).Returns(holidays);
-
       _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
 
       // Act
       var result = _controller.GetAllHolidays();
 
       // Assert
+      Assert.True(result is List<EventDto>);
+      Assert.Equal(numberOfHolidays, (result as List<EventDto>).Count());
     }
 
     [Fact]
@@ -153,183 +127,166 @@ namespace AdminCore.WebApi.Tests
     {
       // Arrange
       const int employeeId = 123;
+
       var employee = _fixture.Build<EmployeeDto>().With(x => x.EmployeeId, employeeId).Create();
       var eventDto = _fixture.Build<EventDto>().With(x => x.Employee, employee).Create();
-
-      var fixture = new Fixture { RepeatCount = 1 };
-      var eventDtoList = fixture.Repeat(() => fixture.Build<EventDto>()
-        .With(x => x.Employee, employee)
-        .Create()).ToList();
-
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
 
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.GetByEmployeeId(employeeId).Returns(eventDtoList);
+      _eventService.GetByEmployeeId(employeeId);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
       var result = _controller.GetHolidayByEmployeeId(employeeId);
 
       // Assert
+      _eventService.Received(1).GetByEmployeeId(employeeId);
     }
 
     [Fact]
     public void GetAllHolidaysByHolidayId_WhenCalled_ReturnsAllHolidaysOfHolidayId()
     {
       // Arrange
-      const int holidayID = 123;
-
-      var eventDto = _fixture.Build<EventDto>().With(x => x.EventId, holidayID).Create();
+      const int holidayId = 123;
 
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.Get(holidayID).Returns(eventDto);
+      _eventService.Get(holidayId);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
-      var result = _controller.GetHolidayByHolidayId(holidayID);
+      var result = _controller.GetHolidayByHolidayId(holidayId);
 
       // Assert
+      _eventService.Received(1).Get(Arg.Is(holidayId));
     }
 
     [Fact]
     public void GetHolidayByDateBetween_WhenCalled_ReturnsAllHolidaysBetweenTwoDates()
     {
-      // Arrange
-      var eventDate = _fixture.Build<EventDate>().Create();
+      var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
       var eventDateDto = _fixture.Build<EventDateDto>().Create();
 
-      var eventDto = _fixture.Build<EventDto>().With(x => x.EventDates).Create();
-      var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
-
-      var fixture = new Fixture { RepeatCount = 1 };
-      var eventDtoList = fixture.Repeat(() => fixture.Build<EventDto>()
-        .Create()).ToList();
-
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.GetByDateBetween(eventDateDto, EventTypes.AnnualLeave).Returns(eventDtoList);
+      _eventService.GetByDateBetween(eventDateDto, EventTypes.AnnualLeave);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
-      var result = _controller.GetHolidayByDateBetween(eventDate);
+      var result = _controller.GetHolidayByDateBetween(new EventDate());
 
       // Assert
+      _eventService.Received(1).GetByDateBetween(eventDateDto, EventTypes.AnnualLeave);
     }
 
     [Fact]
     public void GetHolidayByStatusApproved_WhenCalled_ReturnsAllHolidaysOfThatHolidayStatus()
     {
       // Arrange
-      const EventStatuses eventStatuses = EventStatuses.Approved;
-      const EventTypes eventTypes = EventTypes.AnnualLeave;
+      const int holidayId = 1;
 
-      var eventDto = _fixture.Build<EventDto>().With(x => x.EventStatusDescription, eventStatuses.ToString()).Create();
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-      var fixture = new Fixture { RepeatCount = 1 };
-      var eventDtoList = fixture.Repeat(() => fixture.Build<EventDto>()
-        .Create()).ToList();
-
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.GetByStatusType(eventStatuses, eventTypes).Returns(eventDtoList);
+      _eventService.GetByStatusType(EventStatuses.Approved, EventTypes.AnnualLeave);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
-      var result = _controller.GetHolidayByStatus((int)eventStatuses);
+      var result = _controller.GetHolidayByStatus(holidayId);
 
       // Assert
+      _eventService.Received(1).GetByStatusType(EventStatuses.Approved, EventTypes.AnnualLeave);
     }
 
     [Fact]
     public void GetHolidayByStatusAwaitingApproval_WhenCalled_ReturnsAllHolidaysOfThatHolidayStatus()
     {
       // Arrange
-      const EventStatuses eventStatuses = EventStatuses.AwaitingApproval;
-      const EventTypes eventTypes = EventTypes.AnnualLeave;
+      const int holidayId = 1;
 
-      var eventDto = _fixture.Build<EventDto>().With(x => x.EventStatusDescription, eventStatuses.ToString()).Create();
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-      var fixture = new Fixture { RepeatCount = 1 };
-      var eventDtoList = fixture.Repeat(() => fixture.Build<EventDto>()
-        .Create()).ToList();
-
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.GetByStatusType(eventStatuses, eventTypes).Returns(eventDtoList);
+      _eventService.GetByStatusType(EventStatuses.AwaitingApproval, EventTypes.AnnualLeave);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
-      var result = _controller.GetHolidayByStatus((int)eventStatuses);
+      var result = _controller.GetHolidayByStatus(holidayId);
 
       // Assert
+      _eventService.Received(1).GetByStatusType(EventStatuses.AwaitingApproval, EventTypes.AnnualLeave);
     }
 
     [Fact]
     public void GetHolidayByStatusCancelled_WhenCalled_ReturnsAllHolidaysOfThatHolidayStatus()
     {
       // Arrange
-      const EventStatuses eventStatuses = EventStatuses.Cancelled;
-      const EventTypes eventTypes = EventTypes.AnnualLeave;
+      const int holidayId = 1;
 
-      var eventDto = _fixture.Build<EventDto>().With(x => x.EventStatusDescription, eventStatuses.ToString()).Create(); //TODO Check to string method is correct
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-      var fixture = new Fixture { RepeatCount = 1 };
-      var eventDtoList = fixture.Repeat(() => fixture.Build<EventDto>()
-        .Create()).ToList();
-
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.GetByStatusType(eventStatuses, eventTypes).Returns(eventDtoList);
+      _eventService.GetByStatusType(EventStatuses.Cancelled, EventTypes.AnnualLeave);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
-      var result = _controller.GetHolidayByStatus((int)eventStatuses);
+      var result = _controller.GetHolidayByStatus(holidayId);
 
       // Assert
+      _eventService.Received(1).GetByStatusType(EventStatuses.Cancelled, EventTypes.AnnualLeave);
     }
 
     [Fact]
     public void GetHolidayByStatusRejected_WhenCalled_ReturnsAllHolidaysOfThatHolidayStatus()
     {
       // Arrange
-      const EventStatuses eventStatuses = EventStatuses.Rejected;
-      const EventTypes eventTypes = EventTypes.AnnualLeave;
+      const int holidayId = 1;
 
-      var eventDto = _fixture.Build<EventDto>().With(x => x.EventStatusDescription, eventStatuses.ToString()).Create();
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-      var fixture = new Fixture { RepeatCount = 1 };
-      var eventDtoList = fixture.Repeat(() => fixture.Build<EventDto>()
-        .Create()).ToList();
-
-      _mapper.Map<HolidayViewModel, EventDto>(Arg.Is(holidayViewModelModel)).Returns(eventDto);
-
-      _eventService.GetByStatusType(eventStatuses, eventTypes).Returns(eventDtoList);
+      _eventService.GetByStatusType(EventStatuses.Rejected, EventTypes.AnnualLeave);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
 
       // Act
-      var result = _controller.GetHolidayByStatus((int)eventStatuses);
+      var result = _controller.GetHolidayByStatus(holidayId);
 
       // Assert
+      _eventService.Received(1).GetByStatusType(EventStatuses.Rejected, EventTypes.AnnualLeave);
     }
 
     [Fact]
     public void RejectHoliday_WhenCalled_ReturnsRejectedHoliday()
     {
       // Arrange
-      var holidayToRejectModel = _fixture.Build<RejectHolidayViewModel>().Create();
-      var holidayToRejectDto = _fixture.Build<EventDto>().Create();
-      var holidayRejectdDto = _fixture.Build<EventDto>().Create();
-      var holidayRejectdModel = _fixture.Build<HolidayViewModel>().Create();
-      _eventService.RejectEvent(holidayToRejectDto).Returns(holidayRejectdDto);
-      _mapper.Map<RejectHolidayViewModel, EventDto>(Arg.Is(holidayToRejectModel)).Returns(holidayToRejectDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(holidayRejectdDto)).Returns(holidayRejectdModel);
+      var rejectedViewModel = _fixture.Build<RejectHolidayViewModel>().Create();
+      var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
+
+      _eventService.RejectEvent(eventDto);
+      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
+
       // Act
-      var result = _controller.RejectHoliday(holidayToRejectModel);
+      var result = _controller.RejectHoliday(rejectedViewModel);
+
       // Assert
-      // TODO: Check result wrapper
-      // payload is not null
-      // error message is null
+      _eventService.Received(1).RejectEvent(eventDto);
+    }
+
+    [Fact]
+    public void UpdateHoliday_WhenCalled_ReturnsUpdatedHoliday()
+    {
+      // Arrange
+      var updateViewModel = _fixture.Build<UpdateHolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
+
+      _eventService.UpdateEvent(eventDto);
+      _mapper.Map<EventDto, UpdateHolidayViewModel>(Arg.Is(eventDto)).Returns(updateViewModel);
+
+      // Act
+      var result = _controller.UpdateHoliday(updateViewModel);
+
+      // Assert
+      _eventService.Received(1).UpdateEvent(eventDto);
     }
   }
 }
