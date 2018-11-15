@@ -2,7 +2,7 @@
 using System.Net;
 using Xunit;
 
-namespace AdminCore.WebApi.Tests
+namespace AdminCore.WebApi.Tests.Controllers
 {
   public abstract class BaseControllerTest
   {

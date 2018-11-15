@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace AdminCore.WebApi.Tests
+namespace AdminCore.WebApi.Tests.Controllers
 {
   public class WorkingFromHomeControllerTests : BaseControllerTest
   {

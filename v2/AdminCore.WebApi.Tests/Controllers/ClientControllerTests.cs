@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace AdminCore.WebApi.Tests
+namespace AdminCore.WebApi.Tests.Controllers
 {
   using AdminCore.Common.Interfaces;
   using AdminCore.DTOs.Client;
@@ -20,6 +20,7 @@ namespace AdminCore.WebApi.Tests
     private readonly IFixture _fixture;
 
     private readonly IMapper _mapper;
+
     public ClientControllerTests()
     {
       _clientService = Substitute.For<IClientService>();
