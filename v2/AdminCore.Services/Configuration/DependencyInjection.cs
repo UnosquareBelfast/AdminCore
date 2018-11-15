@@ -48,7 +48,7 @@ namespace AdminCore.Services.Configuration
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
         services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
-        services.AddSingleton<IEmployeeCredentials, ConfigurationProvider>();
+        services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IClientService, ClientService>();
         services.AddTransient<ITeamService, TeamService>();

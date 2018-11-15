@@ -14,13 +14,13 @@ namespace AdminCore.DatabaseMigration
     {
       DependencyInjection.RegisterDependencyInjection();
 
-      var configuration = ServiceLocator.Instance.GetInstance<IEmployeeCredentials>();
+      var configuration = ServiceLocator.Instance.GetInstance<IConfiguration>();
       var migration = ServiceLocator.Instance.GetInstance<IDataMigration>();
 
       MigrateDatabase(configuration, migration);
     }
 
-    public static void MigrateDatabase(IEmployeeCredentials configuration, IDataMigration dataMigration)
+    public static void MigrateDatabase(IConfiguration configuration, IDataMigration dataMigration)
     {
       switch (configuration.RetrieveMigrationType())
       {

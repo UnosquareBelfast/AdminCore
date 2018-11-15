@@ -23,7 +23,7 @@ namespace AdminCore.DAL.Database
     /// <summary>
     ///   The _configuration.
     /// </summary>
-    private readonly IEmployeeCredentials _configuration;
+    private readonly IConfiguration _configuration;
 
     /// <summary>
     ///   Initializes a new instance of the <see cref="AdminCoreContext" /> class.
@@ -31,7 +31,7 @@ namespace AdminCore.DAL.Database
     /// <param name="configuration">
     ///   The configuration.
     /// </param>
-    public AdminCoreContext(IEmployeeCredentials configuration)
+    public AdminCoreContext(IConfiguration configuration)
     {
       _configuration = configuration;
     }
