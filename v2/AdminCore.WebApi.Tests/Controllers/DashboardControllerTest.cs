@@ -50,6 +50,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       _dashboardService.Received(1).GetTeamSnapshotDashboardEvents();
 
       _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));
+
+      // TODO: Verify Returned Value
     }
 
     [Fact]
@@ -77,10 +79,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _dashboardService.Received(1).GetEmployeeDashboardEvents(Arg.Is<int>(x => x == employeeId), Arg.Is<DateTime>(x => x == searchDate));
 
-      // TODO: Check result
-      // Assert.NotNull(EmployeeEventViewModel);
-      // Assert.True(IsNullOrWhiteSpace(errorReturned));
-      // Assert.Equal(EmployeeEventViewModel.Count(), numberOfEvents);
+      // TODO: Verify Returned Value
     }
 
     [Fact]
@@ -92,9 +91,9 @@ namespace AdminCore.WebApi.Tests.Controllers
       var snapshotReturnedFromService = _fixture.Create<Dictionary<string, List<EmployeeSnapshotDto>>>();
       var snapshotModel = _fixture.Create<TeamSnapshotViewModel>();
 
-      _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(snapshotReturnedFromService).Returns(snapshotModel);
-
       _dashboardService.GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId)).Returns(snapshotReturnedFromService);
+
+      _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(snapshotReturnedFromService).Returns(snapshotModel);      
 
       _employeeCredentials.GetUserId().Returns(employeeId);
 
@@ -105,6 +104,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       _dashboardService.Received(1).GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId));
 
       _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));
+
+      // TODO: Verify Returned Value
     }
 
     [Fact]
@@ -129,10 +130,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _dashboardService.Received(1).GetEventMessagesByEventId(Arg.Is(eventId));
 
-      // TODO: Check result wrapper
-      // Assert.NotNull(payloadReturned);
-      // Assert.True(IsNullOrWhiteSpace(errorReturned))
-      // Assert.Equal(payloadReturned.Count(), numberOfMessages);
+      // TODO: Verify Returned Value
     }
 
     [Fact]
@@ -160,10 +158,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _mapper.Received(1).Map<IList<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService));
 
-      // TODO: Check result wrapper
-      // Assert.NotNull(payloadReturned);
-      // Assert.True(IsNullOrWhiteSpace(errorReturned))
-      // Assert.Equal(payloadReturned.Count(), numberOfEvents);
+      // TODO: Verify Returned Value
     }
   }
 }
