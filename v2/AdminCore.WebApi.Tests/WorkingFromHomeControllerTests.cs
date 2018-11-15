@@ -1,22 +1,19 @@
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
-using AdminCore.DAL.Models;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
-using AdminCore.DTOs.EventDates;
 using AdminCore.WebApi.Controllers;
-using AdminCore.WebApi.Models.Holiday;
+using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoFixture;
 using AutoMapper;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
-using AdminCore.WebApi.Models.WorkingFromHome;
 using Xunit;
 
 namespace AdminCore.WebApi.Tests
 {
-  public class WorkingFromHomeControllerTests
+  public class WorkingFromHomeControllerTests : BaseControllerTest
   {
     private readonly WorkingFromHomeController _controller;
     private readonly IEventService _eventService;
@@ -32,21 +29,40 @@ namespace AdminCore.WebApi.Tests
     }
 
     [Fact]
-    public void CreateWorkingFromHome_WhenCalled_ReturnsWorkingFromHome()
+    public void CreateWorkingFromHome_WhenCalledWithCorrectType_ReturnsWorkingFromHome()
     {
       // Arrange
       var createViewModel = _fixture.Build<CreateWorkingFromHomeViewModel>()
         .With(x => x.EventType, EventTypes.WorkingFromHome)
         .Create();
-      var eventDto = _fixture.Build<EventDto>().Create();
+      var eventDto = _fixture.Create<EventDto>();
 
-      _eventService.SaveEvent(eventDto);
       _mapper.Map<EventDto, CreateWorkingFromHomeViewModel>(Arg.Is(eventDto)).Returns(createViewModel);
 
       // Act
       var result = _controller.CreateWorkingFromHome(createViewModel);
 
       // Assert
+      RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+      _eventService.Received(1).SaveEvent(eventDto);
+    }
+
+    [Fact]
+    public void CreateWorkingFromHome_WhenCalledWithIncorrectType_ReturnsError()
+    {
+      // Arrange
+      var createViewModel = _fixture.Build<CreateWorkingFromHomeViewModel>()
+        .With(x => x.EventType, EventTypes.AnnualLeave)
+        .Create();
+      var eventDto = _fixture.Create<EventDto>();
+
+      _mapper.Map<EventDto, CreateWorkingFromHomeViewModel>(Arg.Is(eventDto)).Returns(createViewModel);
+
+      // Act
+      var result = _controller.CreateWorkingFromHome(createViewModel);
+
+      // Assert
+      RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
       _eventService.Received(1).SaveEvent(eventDto);
     }
 
@@ -54,10 +70,10 @@ namespace AdminCore.WebApi.Tests
     public void GetAllWorkingFromHomeEvents_WhenCalled_ReturnsAllWorkingFromHomeEvents()
     {
       // Arrange
-      const int numberOfWfhEvents = 9;
+      const int numOfWfhEvents = 9;
 
-      var wfhEvents = _fixture.CreateMany<EventDto>(numberOfWfhEvents).ToList();
-      var wfhViewModels = _fixture.CreateMany<WorkingFromHomeViewModel>(numberOfWfhEvents).ToList();
+      var wfhEvents = _fixture.CreateMany<EventDto>(numOfWfhEvents).ToList();
+      var wfhViewModels = _fixture.CreateMany<WorkingFromHomeViewModel>(numOfWfhEvents).ToList();
 
       _eventService.GetByType(EventTypes.WorkingFromHome).Returns(wfhEvents);
       _mapper.Map<IList<EventDto>, List<WorkingFromHomeViewModel>>(Arg.Is(wfhEvents)).Returns(wfhViewModels);
@@ -66,47 +82,56 @@ namespace AdminCore.WebApi.Tests
       var result = _controller.GetAllWorkingFromHomeEvents();
 
       // Assert
-      Assert.True(result is List<EventDto>);
-      Assert.Equal(numberOfWfhEvents, (result as List<EventDto>).Count());
+      var returnedWfhEvents = RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+
+      Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }
 
     [Fact]
     public void GetAllWorkingFromHomeEventsBId_WhenCalled_ReturnsAllWorkingFromHomeEventsById()
     {
       // Arrange
-      const int id = 123;
+      const int wfhId = 123;
 
+      var wfhViewModel = _fixture.Build<WorkingFromHomeViewModel>().Create();
       var eventDto = _fixture.Build<EventDto>().Create();
-      var workingFromHomeViewModel = _fixture.Build<WorkingFromHomeViewModel>().Create();
 
-      _eventService.Get(id);
-      _mapper.Map<EventDto, WorkingFromHomeViewModel>(Arg.Is(eventDto)).Returns(workingFromHomeViewModel);
+      _eventService.Get(wfhId).Returns(eventDto);
+      _mapper.Map<EventDto, WorkingFromHomeViewModel>(Arg.Is(eventDto)).Returns(wfhViewModel);
 
       // Act
-      var result = _controller.GetWorkingFromHomeById(id);
+      var result = _controller.GetWorkingFromHomeById(wfhId);
 
       // Assert
-      _eventService.Received(1).Get(id);
+      _eventService.Received(1).Get(Arg.Is(wfhId));
+      RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
     }
 
     [Fact]
     public void GetAllWorkingFromHomeEventsByEmployeeId_WhenCalled_ReturnsAllWorkingFromHomeEventsByEmployeeId()
     {
       // Arrange
+      const int numOfWfhEvents = 9;
       const int employeeId = 123;
 
+      var wfhViewModels = _fixture.CreateMany<WorkingFromHomeViewModel>(numOfWfhEvents).ToList();
       var employee = _fixture.Build<EmployeeDto>().With(x => x.EmployeeId, employeeId).Create();
       var eventDto = _fixture.Build<EventDto>().With(x => x.Employee, employee).Create();
-      var workingFromHomeViewModel = _fixture.Build<WorkingFromHomeViewModel>().Create();
+      List<EventDto> wfhEvents = new List<EventDto>
+      {
+        eventDto
+      };
 
-      _eventService.GetByEmployeeId(employeeId);
-      _mapper.Map<EventDto, WorkingFromHomeViewModel>(Arg.Is(eventDto)).Returns(workingFromHomeViewModel);
+      _eventService.GetByEmployeeId(employeeId).Returns(wfhEvents);
+      _mapper.Map<IList<EventDto>, List<WorkingFromHomeViewModel>>(Arg.Is(wfhEvents)).Returns(wfhViewModels);
 
       // Act
       var result = _controller.GetWorkingFromHomeByEmployeeId(employeeId);
 
       // Assert
-      _eventService.Received(1).GetByEmployeeId(employeeId);
+      var returnedWfhEvents = RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+
+      Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }
   }
 }
