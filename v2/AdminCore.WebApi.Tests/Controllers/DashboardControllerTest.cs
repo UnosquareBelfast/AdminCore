@@ -17,9 +17,9 @@ namespace AdminCore.WebApi.Tests.Controllers
   {
     private readonly DashboardController _dashboardController;
     private readonly IDashboardService _dashboardService;
+    private readonly IEmployeeCredentials _employeeCredentials;
     private readonly Fixture _fixture;
     private readonly IMapper _mapper;
-    private readonly IEmployeeCredentials _employeeCredentials;
 
     public DashboardControllerTest()
     {
@@ -28,7 +28,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _dashboardService = Substitute.For<IDashboardService>();
       _employeeCredentials = Substitute.For<IEmployeeCredentials>();
       _mapper = Substitute.For<IMapper>();
-      
+
       _dashboardController = new DashboardController(_dashboardService, _employeeCredentials, _mapper);
     }
 
@@ -36,9 +36,12 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void GetDashboardSnapshot_WhenCalled_ReturnsDashboardSnapshot()
     {
       // Arrange
-      var employeeSnapshots = _fixture.Create<Dictionary<string, List<EmployeeSnapshotDto>>>();
+      var snapshotModel = _fixture.Create<TeamSnapshotViewModel>();
+      var snapshotReturnedFromService = _fixture.Create<Dictionary<string, List<EmployeeSnapshotDto>>>();
 
-      _dashboardService.GetTeamSnapshotDashboardEvents().Returns(employeeSnapshots);
+      _dashboardService.GetTeamSnapshotDashboardEvents().Returns(snapshotReturnedFromService);
+
+      _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(snapshotReturnedFromService).Returns(snapshotModel);
 
       // Act
       var result = _dashboardController.GetDashboardSnapshot();
@@ -46,23 +49,23 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       _dashboardService.Received(1).GetTeamSnapshotDashboardEvents();
 
-
+      _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));
     }
 
     [Fact]
     public void GetEmployeeEvents_WhenCalled_ReturnsEmployeeEvents()
     {
       // Arrange
-      var numberOfEvents = 5;
       var employeeId = 88;
+      var numberOfEvents = 5;
       var searchDate = DateTime.Now;
 
-      var employeeEventDtos = _fixture.CreateMany<EventDto>(numberOfEvents).ToList();
-      var dashboardEventModels = _fixture.CreateMany<DashboardEventViewModel>(numberOfEvents).ToList();
+      var eventsReturnedFromService = _fixture.CreateMany<EventDto>(numberOfEvents).ToList();
+      var eventModels = _fixture.CreateMany<DashboardEventViewModel>(numberOfEvents).ToList();
 
-      _dashboardService.GetEmployeeDashboardEvents(employeeId, searchDate).Returns(employeeEventDtos);
+      _dashboardService.GetEmployeeDashboardEvents(employeeId, searchDate).Returns(eventsReturnedFromService);
 
-      _mapper.Map<List<EventDto>, List<DashboardEventViewModel>>(Arg.Is(employeeEventDtos)).Returns(dashboardEventModels);
+      _mapper.Map<IList<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService)).Returns(eventModels);
 
       _employeeCredentials.GetUserId().Returns(employeeId);
 
@@ -70,24 +73,38 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetEmployeeEvents(searchDate);
 
       // Assert
-      _mapper.Received(1).Map<List<EventDto>, List<DashboardEventViewModel>>(Arg.Is(employeeEventDtos));
+      _mapper.Received(1).Map<List<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService));
 
       _dashboardService.Received(1).GetEmployeeDashboardEvents(Arg.Is<int>(x => x == employeeId), Arg.Is<DateTime>(x => x == searchDate));
 
-      // TODO: Check result wrapper
+      // TODO: Check result
       // Assert.NotNull(EmployeeEventViewModel);
       // Assert.True(IsNullOrWhiteSpace(errorReturned));
-      // Assert.Equal(EmployeeEventViewModel.Events.Count(), numberOfEvents);
+      // Assert.Equal(EmployeeEventViewModel.Count(), numberOfEvents);
     }
 
     [Fact]
     public void GetEmployeeTeamSnapshot_WhenCalled_ReturnsEmployeeTeamSnapshot()
     {
       // Arrange
+      var employeeId = 41;
+
+      var snapshotReturnedFromService = _fixture.Create<Dictionary<string, List<EmployeeSnapshotDto>>>();
+      var snapshotModel = _fixture.Create<TeamSnapshotViewModel>();
+
+      _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(snapshotReturnedFromService).Returns(snapshotModel);
+
+      _dashboardService.GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId)).Returns(snapshotReturnedFromService);
+
+      _employeeCredentials.GetUserId().Returns(employeeId);
 
       // Act
+      var result = _dashboardController.GetEmployeeTeamSnapshot();
 
       // Assert
+      _dashboardService.Received(1).GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId));
+
+      _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));
     }
 
     [Fact]
@@ -97,18 +114,18 @@ namespace AdminCore.WebApi.Tests.Controllers
       var eventId = 74;
       var numberOfMessages = 7;
 
-      var eventMessageModels = _fixture.CreateMany<EventMessageViewModel>(numberOfMessages).ToList();
-      var eventMessageDtos = _fixture.CreateMany<EventMessageDto>(numberOfMessages).ToList();
+      var messagesReturnedFromService = _fixture.CreateMany<EventMessageDto>(numberOfMessages).ToList();
+      var messageModels = _fixture.CreateMany<EventMessageViewModel>(numberOfMessages);
 
-      _dashboardService.GetEventMessagesByEventId(Arg.Is(eventId)).Returns(eventMessageDtos);
+      _dashboardService.GetEventMessagesByEventId(Arg.Is(eventId)).Returns(messagesReturnedFromService);
 
-      _mapper.Map<List<EventMessageDto>, List<EventMessageViewModel>>(Arg.Is(eventMessageDtos)).Returns(eventMessageModels);
+      _mapper.Map<IList<EventMessageDto>, List<EventMessageViewModel>>(Arg.Is(messagesReturnedFromService)).Returns(messageModels);
 
       // Act
       var result = _dashboardController.GetMessagesByEventId(eventId);
 
       // Assert
-      _mapper.Received(1).Map<List<EventMessageDto>, List<EventMessageViewModel>>(Arg.Is(eventMessageDtos));
+      _mapper.Received(1).Map<List<EventMessageDto>, List<EventMessageViewModel>>(Arg.Is(messagesReturnedFromService));
 
       _dashboardService.Received(1).GetEventMessagesByEventId(Arg.Is(eventId));
 
@@ -122,10 +139,31 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void GetTeamEvents_WhenCalled_ReturnsTeamEvents()
     {
       // Arrange
+      var employeeId = 89;
+      var numberOfEvents = 22;
+      var searchDate = DateTime.Now;
+
+      var eventsReturnedFromService = _fixture.CreateMany<EventDto>(numberOfEvents).ToList();
+      var dashboardEventModels = _fixture.CreateMany<DashboardEventViewModel>(numberOfEvents);
+
+      _dashboardService.GetTeamDashboardEvents(Arg.Is(employeeId), searchDate).Returns(eventsReturnedFromService);
+
+      _mapper.Map<IList<EventDto>, List<DashboardEventViewModel>>(eventsReturnedFromService).Returns(dashboardEventModels);
+
+      _employeeCredentials.GetUserId().Returns(employeeId);
 
       // Act
+      var result = _dashboardController.GetTeamEvents(searchDate);
 
       // Assert
+      _dashboardService.Received(1).GetTeamDashboardEvents(Arg.Is(employeeId), Arg.Is(searchDate));
+
+      _mapper.Received(1).Map<IList<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService));
+
+      // TODO: Check result wrapper
+      // Assert.NotNull(payloadReturned);
+      // Assert.True(IsNullOrWhiteSpace(errorReturned))
+      // Assert.Equal(payloadReturned.Count(), numberOfEvents);
     }
   }
 }
