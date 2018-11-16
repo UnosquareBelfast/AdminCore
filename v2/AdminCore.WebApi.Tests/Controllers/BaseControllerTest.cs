@@ -16,6 +16,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       return (T)objectResult.Value;
     }
 
+    protected void AssertObjectResultIsNull<T>(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK) where T : class
+    {
+      VerifyHttpStatusCode<T>(result, expectedStatus);
+
+      var objectResult = result as ObjectResult;
+      Assert.Null(objectResult);
+    }
+
     private static void VerifyHttpStatusCode<T>(IActionResult result, HttpStatusCode expectedStatus) where T : class
     {
       switch (expectedStatus)

@@ -11,7 +11,7 @@ using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers
 {
-  public class TeamControllerTests
+  public class TeamControllerTests : BaseControllerTest
   {
     private readonly ITeamService _teamService;
     private readonly Fixture _fixture;
@@ -38,12 +38,12 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
+      AssertObjectResultIsNull<TeamDto>(result);
+
       _mapper.DidNotReceive().Map<CreateTeamViewModel, TeamDto>(Arg.Any<CreateTeamViewModel>());
       _mapper.DidNotReceive().Map<TeamDto, TeamViewModel>(Arg.Any<TeamDto>());
 
-      _teamService.DidNotReceive().Save(Arg.Any<TeamDto>());
-
-      // TODO: Verify Returned Value
+      _teamService.DidNotReceive().Save(Arg.Any<TeamDto>());      
     }
 
     [Fact]
@@ -65,12 +65,12 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
+      RetrieveValueFromResult<TeamDto>(result);
+
       _mapper.Received(1).Map<CreateTeamViewModel, TeamDto>(Arg.Is(teamToSaveModel));
       _mapper.Received(1).Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto));
 
-      _teamService.Received(1).Save(Arg.Is<TeamDto>(x => x == teamToSaveDto));
-
-      // TODO: Verify Returned Value
+      _teamService.Received(1).Save(Arg.Is<TeamDto>(x => x == teamToSaveDto));      
     }
 
     [Fact]
@@ -88,14 +88,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       _mapper.Map<IList<TeamDto>, List<TeamViewModel>>(Arg.Is(teams)).Returns(teamViewModels);
 
       // Act
-      var result = _teamController.GetAllTeamsForClientId(clientId); // as OkNegotiatedContentResult<TeamViewModel>;
+      var result = _teamController.GetAllTeamsForClientId(clientId);
 
       // Assert
+      RetrieveValueFromResult<List<TeamViewModel>>(result);
+
       _mapper.Received(1).Map<IList<TeamDto>, List<TeamViewModel>>(Arg.Is(teams));
 
-      _teamService.Received(1).GetByClientId(Arg.Is<int>(x => x == clientId));
-
-      // TODO: Verify Returned Value
+      _teamService.Received(1).GetByClientId(Arg.Is<int>(x => x == clientId));      
     }
   }
 }

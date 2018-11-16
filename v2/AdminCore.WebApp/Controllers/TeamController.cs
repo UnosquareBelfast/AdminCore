@@ -23,13 +23,13 @@ namespace AdminCore.WebApi.Controllers
     [HttpPost]
     public IActionResult CreateTeam(CreateTeamViewModel teamViewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
     [HttpGet("{clientId}")]
     public IActionResult GetAllTeamsForClientId(int clientId)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
   }
 }
