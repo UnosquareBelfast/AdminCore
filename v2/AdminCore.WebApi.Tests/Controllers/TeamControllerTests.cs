@@ -13,10 +13,10 @@ namespace AdminCore.WebApi.Tests.Controllers
 {
   public class TeamControllerTests : BaseControllerTest
   {
-    private readonly ITeamService _teamService;
     private readonly Fixture _fixture;
     private readonly IMapper _mapper;
     private readonly TeamController _teamController;
+    private readonly ITeamService _teamService;
 
     public TeamControllerTests()
     {
@@ -43,7 +43,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _mapper.DidNotReceive().Map<CreateTeamViewModel, TeamDto>(Arg.Any<CreateTeamViewModel>());
       _mapper.DidNotReceive().Map<TeamDto, TeamViewModel>(Arg.Any<TeamDto>());
 
-      _teamService.DidNotReceive().Save(Arg.Any<TeamDto>());      
+      _teamService.DidNotReceive().Save(Arg.Any<TeamDto>());
     }
 
     [Fact]
@@ -59,18 +59,18 @@ namespace AdminCore.WebApi.Tests.Controllers
       _teamService.Save(teamToSaveDto).Returns(teamSavedDto);
 
       _mapper.Map<CreateTeamViewModel, TeamDto>(Arg.Is(teamToSaveModel)).Returns(teamToSaveDto);
-      _mapper.Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto)).Returns(teamSavedModel);      
+      _mapper.Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto)).Returns(teamSavedModel);
 
       // Act
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
-      RetrieveValueFromResult<TeamDto>(result);
+      var resultValue = RetrieveValueFromResult<TeamDto>(result);
 
       _mapper.Received(1).Map<CreateTeamViewModel, TeamDto>(Arg.Is(teamToSaveModel));
       _mapper.Received(1).Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto));
 
-      _teamService.Received(1).Save(Arg.Is<TeamDto>(x => x == teamToSaveDto));      
+      _teamService.Received(1).Save(Arg.Is<TeamDto>(x => x == teamToSaveDto));
     }
 
     [Fact]
@@ -91,11 +91,11 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.GetAllTeamsForClientId(clientId);
 
       // Assert
-      RetrieveValueFromResult<List<TeamViewModel>>(result);
+      var resultValue = RetrieveValueFromResult<List<TeamViewModel>>(result);
 
       _mapper.Received(1).Map<IList<TeamDto>, List<TeamViewModel>>(Arg.Is(teams));
 
-      _teamService.Received(1).GetByClientId(Arg.Is<int>(x => x == clientId));      
+      _teamService.Received(1).GetByClientId(Arg.Is<int>(x => x == clientId));
     }
   }
 }

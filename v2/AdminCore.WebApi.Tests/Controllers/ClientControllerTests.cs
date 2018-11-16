@@ -11,7 +11,7 @@ using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers
 {
-  public class ClientControllerTests
+  public class ClientControllerTests : BaseControllerTest
   {
     private readonly IClientService _clientService;
     private readonly ClientController _controller;
@@ -43,8 +43,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetAllClients();
 
       // Assert
-      Assert.True(result is List<ClientDto>);
-      Assert.Equal(numberOfClients, (result as List<ClientDto>).Count());
+      var resultValue = RetrieveValueFromResult<List<ClientViewModel>>(result);
+      Assert.Equal(numberOfClients, resultValue.Count());
     }
   }
 }

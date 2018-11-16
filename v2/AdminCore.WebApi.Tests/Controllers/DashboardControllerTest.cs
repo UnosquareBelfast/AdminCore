@@ -49,11 +49,13 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetDashboardSnapshot();
 
       // Assert
-      RetrieveValueFromResult<List<TeamSnapshotViewModel>>(result);
+      var resultValue = RetrieveValueFromResult<List<TeamSnapshotViewModel>>(result);
+
+      Assert.NotNull(resultValue);
 
       _dashboardService.Received(1).GetTeamSnapshotDashboardEvents();
 
-      _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));      
+      _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));
     }
 
     [Fact]
@@ -77,11 +79,11 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetEmployeeEvents(searchDate);
 
       // Assert
-      RetrieveValueFromResult<EmployeeEventViewModel>(result);
+      var resultValue = RetrieveValueFromResult<EmployeeEventViewModel>(result);
 
       _dashboardService.Received(1).GetEmployeeDashboardEvents(Arg.Is<int>(x => x == employeeId), Arg.Is<DateTime>(x => x == searchDate));
 
-      _mapper.Received(1).Map<List<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService));      
+      _mapper.Received(1).Map<List<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService));
     }
 
     [Fact]
@@ -96,7 +98,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _dashboardService.GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId)).Returns(snapshotReturnedFromService);
 
-      _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, List<TeamSnapshotViewModel>>(snapshotReturnedFromService).Returns(snapshotModels);      
+      _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, List<TeamSnapshotViewModel>>(snapshotReturnedFromService).Returns(snapshotModels);
 
       _employeeCredentials.GetUserId().Returns(employeeId);
 
@@ -104,11 +106,11 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetEmployeeTeamSnapshot();
 
       // Assert
-      RetrieveValueFromResult<List<EmployeeEventViewModel>>(result);
+      var resultValue = RetrieveValueFromResult<List<EmployeeEventViewModel>>(result);
 
       _dashboardService.Received(1).GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId));
 
-      _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));      
+      _mapper.Received(1).Map<Dictionary<string, List<EmployeeSnapshotDto>>, TeamSnapshotViewModel>(Arg.Is(snapshotReturnedFromService));
     }
 
     [Fact]
@@ -129,7 +131,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetMessagesByEventId(eventId);
 
       // Assert
-      RetrieveValueFromResult<List<EventMessageViewModel>>(result);
+      var resultValue = RetrieveValueFromResult<List<EventMessageViewModel>>(result);
 
       _mapper.Received(1).Map<List<EventMessageDto>, List<EventMessageViewModel>>(Arg.Is(messagesReturnedFromService));
 
@@ -157,7 +159,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetTeamEvents(searchDate);
 
       // Assert
-      RetrieveValueFromResult<EmployeeEventViewModel>(result);
+      var resultValue = RetrieveValueFromResult<EmployeeEventViewModel>(result);
 
       _dashboardService.Received(1).GetTeamDashboardEvents(Arg.Is(employeeId), Arg.Is(searchDate));
 
