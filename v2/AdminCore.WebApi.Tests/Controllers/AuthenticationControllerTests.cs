@@ -47,8 +47,6 @@ namespace AdminCore.WebApi.Tests.Controllers
       var jwtAuthDto = _fixture.Create<JwtAuthDto>();
       _authenticationService.JwtSignIn(loginRequest.Email, loginRequest.Password).Returns(jwtAuthDto);
 
-      //TODO Accept "correct" login mock
-
       //Act
       var result = _controller.Login(loginRequest);
 
