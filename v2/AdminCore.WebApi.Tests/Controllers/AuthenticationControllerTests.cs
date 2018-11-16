@@ -1,4 +1,5 @@
-﻿using AdminCore.DTOs.Employee;
+﻿using AdminCore.DTOs;
+using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Employee;
 using Microsoft.AspNetCore.Mvc;
@@ -43,26 +44,27 @@ namespace AdminCore.WebApi.Tests.Controllers
         .With(x => x.Password, "correctPassword")
         .Create();
 
+      var jwtAuthDto = _fixture.Create<JwtAuthDto>();
+      _authenticationService.JwtSignIn(loginRequest.Email, loginRequest.Password).Returns(jwtAuthDto);
+
       //TODO Accept "correct" login mock
 
       //Act
       var result = _controller.Login(loginRequest);
 
       //Assert
-      RetrieveValueFromActionResult<LoginRequestModel>(result);
+      Assert.IsType<AcceptedResult>(result);
       _authenticationService.Received(1).JwtSignIn(loginRequest.Email, loginRequest.Password);
     }
 
     [Fact]
     public void LoginWithInCorrectUserDetails_WhenCalled_ReturnsRejected()
     {
-      //Arange
+      //Arrange
       var loginRequest = _fixture.Build<LoginRequestModel>()
         .With(x => x.Email, "incorrectEmail@address.com")
         .With(x => x.Password, "incorrectPassword")
         .Create();
-
-      //TODO Decline "incorrect" login mock
 
       //Act
       var result = _controller.Login(loginRequest);
@@ -79,17 +81,15 @@ namespace AdminCore.WebApi.Tests.Controllers
       var registerModel = _fixture.Build<RegisterEmployeeViewModel>()
         .With(x => x.Email, "correctEmail@address.com")
         .Create();
-      var employee = _fixture.Create<EmployeeDto>();
 
-      //TODO Accept "correct" register mock
+      _employeeService.Create(_mapper.Map<EmployeeDto>(registerModel)).Returns(registerModel.Email);
 
       //Act
       var result = _controller.Register(registerModel);
 
       //Assert
       _employeeService.Received(1).VerifyEmailExists(registerModel.Email);
-      _employeeService.Received(1).Create(employee);
-      RetrieveValueFromActionResult<RegisterEmployeeViewModel>(result);
+      Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
@@ -100,7 +100,7 @@ namespace AdminCore.WebApi.Tests.Controllers
         .With(x => x.Email, "incorrectEmail@address.com")
         .Create();
 
-      //TODO Decline "incorrect" register mock
+      _employeeService.VerifyEmailExists(registerModel.Email).Returns(true);
 
       //Act
       var result = _controller.Register(registerModel);
