@@ -1,8 +1,9 @@
 ﻿using AdminCore.DTOs;
 using AdminCore.DTOs.Employee;
+using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Employee;
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers
@@ -36,7 +37,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     }
 
     [Fact]
-    public void LoginWithCorrectUserDetails_WhenCalled_ReturnsAccepted()
+    public void LoginWithCorrectUserDetails_WhenCalled_ReturnsAuthorizationToken()
     {
       // Arrange
       var loginRequest = _fixture.Build<LoginRequestModel>()
@@ -44,14 +45,28 @@ namespace AdminCore.WebApi.Tests.Controllers
         .With(x => x.Password, "correctPassword")
         .Create();
 
-      var jwtAuthDto = _fixture.Create<JwtAuthDto>();
+      var jwtAuthDto = _fixture.Build<JwtAuthDto>()
+        .With(x => x.AccessToken, "AccessToken")
+        .With(x => x.TokenType, "TokenType")
+        .Create();
+
+      var jwtAuthViewModel = _fixture.Build<JwtAuthViewModel>()
+        .With(x => x.AccessToken, jwtAuthDto.AccessToken)
+        .With(x => x.TokenType, jwtAuthDto.TokenType)
+        .Create();
+
+      _mapper.Map<JwtAuthViewModel>(Arg.Is(jwtAuthDto)).Returns(jwtAuthViewModel);
       _authenticationService.JwtSignIn(loginRequest.Email, loginRequest.Password).Returns(jwtAuthDto);
 
       //Act
       var result = _controller.Login(loginRequest);
 
       //Assert
-      Assert.IsType<AcceptedResult>(result);
+      var actionResult = RetrieveValueFromActionResult<JwtAuthViewModel>(result, HttpStatusCode.Accepted);
+
+      Assert.Equal(jwtAuthDto.AccessToken, actionResult.AccessToken);
+      Assert.Equal(jwtAuthDto.TokenType, actionResult.TokenType);
+
       _authenticationService.Received(1).JwtSignIn(loginRequest.Email, loginRequest.Password);
     }
 
@@ -66,9 +81,10 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       //Act
       var result = _controller.Login(loginRequest);
-
+      //ObjectResult obj = result.v
       //Assert
-      Assert.IsType<NotFoundObjectResult>(result);
+      //Assert.IsType<NotFoundObjectResult>(result);
+      RetrieveValueFromActionResult<string>(result, HttpStatusCode.NotFound);
       _authenticationService.Received(1).JwtSignIn(loginRequest.Email, loginRequest.Password);
     }
 
@@ -86,8 +102,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.Register(registerModel);
 
       //Assert
+      RetrieveValueFromActionResult<string>(result, HttpStatusCode.OK);
       _employeeService.Received(1).VerifyEmailExists(registerModel.Email);
-      Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
@@ -104,8 +120,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.Register(registerModel);
 
       //Assert
+      RetrieveValueFromActionResult<string>(result, HttpStatusCode.BadRequest);
       _employeeService.Received(1).VerifyEmailExists(registerModel.Email);
-      Assert.IsType<BadRequestObjectResult>(result);
     }
   }
 }
