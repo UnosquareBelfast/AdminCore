@@ -12,19 +12,37 @@ namespace AdminCore.WebApi.Controllers
   [Route("[controller]")]
   public class WorkingFromHomeController : ControllerBase
   {
-    private readonly IEventService _eventService;
+    private readonly IEventService _wfhEventService;
     private readonly IMapper _mapper;
 
-    public WorkingFromHomeController(IEventService eventService, IMapper mapper)
+    public WorkingFromHomeController(IEventService wfhEventService, IMapper mapper)
     {
-      _eventService = eventService;
+      _wfhEventService = wfhEventService;
       _mapper = mapper;
     }
 
     [HttpPost]
-    public void CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
+    public IActionResult CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
+    }
+
+    [HttpGet]
+    public IActionResult GetAllWorkingFromHomeEvents()
+    {
+      return Ok();
+    }
+
+    [HttpGet("{workingFromHomeId}")]
+    public IActionResult GetWorkingFromHomeById(int workingFromHomeId)
+    {
+      return Ok();
+    }
+
+    [HttpGet("getByEmployeeId/{employeeId}")]
+    public IActionResult GetWorkingFromHomeByEmployeeId(int employeeId)
+    {
+      return Ok();
     }
   }
 }

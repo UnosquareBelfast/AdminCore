@@ -12,7 +12,7 @@ namespace AdminCore.DTOs.Event
 
     public EmployeeDto Employee { get; set; }
 
-    public IList<EventDateDto> EventDates { get; set; }
+    public EventDateDto EventDates { get; set; }
 
     public int EventId { get; set; }
 
