@@ -39,7 +39,12 @@ namespace AdminCore.WebApi.Controllers
     public IActionResult Login(LoginRequestModel model)
     {
       var response = _authenticationService.JwtSignIn(model.Email, model.Password);
-      if (response != null) return Accepted(_mapper.Map<JwtAuthViewModel>(response));
+      if (response != null)
+      {
+        var authViewModel = _mapper.Map<JwtAuthViewModel>(response);
+
+        return Accepted(authViewModel);
+      }
 
       return NotFound("Sorry incorrect username or password");
     }
@@ -48,11 +53,13 @@ namespace AdminCore.WebApi.Controllers
     public IActionResult Register(RegisterEmployeeViewModel registerEmployeeViewModel)
     {
       if (_employeeService.VerifyEmailExists(registerEmployeeViewModel.Email))
+      {
         return BadRequest("Email already exists.");
+      }
 
       var email = _employeeService.Create(_mapper.Map<EmployeeDto>(registerEmployeeViewModel));
 
-      return Ok(string.Format("Employee registered:{0}", email));
+      return Ok($"Employee registered:{email}");
     }
   }
 }
