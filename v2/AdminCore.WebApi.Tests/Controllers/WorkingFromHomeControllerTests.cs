@@ -43,7 +43,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.CreateWorkingFromHome(createViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+      RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
       _eventService.Received(1).SaveEvent(eventDto);
     }
 
@@ -62,7 +62,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.CreateWorkingFromHome(createViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+      RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
       _eventService.Received(1).SaveEvent(eventDto);
     }
 
@@ -82,7 +82,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetAllWorkingFromHomeEvents();
 
       // Assert
-      var returnedWfhEvents = RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+      var returnedWfhEvents = RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
 
       Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }
@@ -104,7 +104,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       // Assert
       _eventService.Received(1).Get(Arg.Is(wfhId));
-      RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+      RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
     }
 
     [Fact]
@@ -129,7 +129,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetWorkingFromHomeByEmployeeId(employeeId);
 
       // Assert
-      var returnedWfhEvents = RetrieveValueFromResult<List<WorkingFromHomeViewModel>>(result);
+      var returnedWfhEvents = RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
 
       Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }

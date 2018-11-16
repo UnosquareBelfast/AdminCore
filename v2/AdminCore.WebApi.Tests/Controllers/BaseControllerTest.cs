@@ -6,17 +6,24 @@ namespace AdminCore.WebApi.Tests.Controllers
 {
   public abstract class BaseControllerTest
   {
-    protected T RetrieveValueFromResult<T>(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK) where T : class
+    protected T RetrieveValueFromActionResult<T>(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK) where T : class
     {
-      VerifyHttpStatusCode<T>(result, expectedStatus);
-
-      var objectResult = result as ObjectResult;
-      Assert.NotNull(objectResult);
+      var objectResult = VerifyActionResult(result, expectedStatus);
 
       return (T)objectResult.Value;
     }
 
-    private static void VerifyHttpStatusCode<T>(IActionResult result, HttpStatusCode expectedStatus) where T : class
+    protected ObjectResult VerifyActionResult(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK)
+    {
+      VerifyHttpStatusCode(result, expectedStatus);
+
+      var objectResult = result as ObjectResult;
+      Assert.NotNull(objectResult);
+
+      return objectResult;
+    }
+
+    private static void VerifyHttpStatusCode(IActionResult result, HttpStatusCode expectedStatus)
     {
       switch (expectedStatus)
       {

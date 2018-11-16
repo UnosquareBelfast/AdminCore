@@ -42,13 +42,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       var approveViewModel = _fixture.Create<ApproveHolidayViewModel>();
       var eventDto = _fixture.Create<EventDto>();
 
-      _mapper.Map<EventDto, ApproveHolidayViewModel>(Arg.Is(eventDto)).Returns(approveViewModel);
+      _mapper.Map<ApproveHolidayViewModel, EventDto>(Arg.Is(approveViewModel)).Returns(eventDto);
 
       // Act
       var result = _controller.ApproveHoliday(approveViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      VerifyActionResult(result);
+
       _eventService.Received(1).ApproveEvent(eventDto);
     }
 
@@ -65,7 +66,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.CancelHoliday(cancelViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      VerifyActionResult(result);
+
       _eventService.Received(1).CancelEvent(eventDto);
     }
 
@@ -78,13 +80,14 @@ namespace AdminCore.WebApi.Tests.Controllers
         .Create();
       var eventDto = _fixture.Create<EventDto>();
 
-      _mapper.Map<EventDto, CreateHolidayViewModel>(Arg.Is(eventDto)).Returns(createViewModel);
+      _mapper.Map<CreateHolidayViewModel, EventDto>(Arg.Is(createViewModel)).Returns(eventDto);
 
       // Act
       var result = _controller.CreateHoliday(createViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      VerifyActionResult(result);
+
       _eventService.Received(1).SaveEvent(eventDto);
     }
 
@@ -97,13 +100,14 @@ namespace AdminCore.WebApi.Tests.Controllers
         .Create();
       var eventDto = _fixture.Create<EventDto>();
 
-      _mapper.Map<EventDto, CreateHolidayViewModel>(Arg.Is(eventDto)).Returns(createViewModel);
+      _mapper.Map<CreateHolidayViewModel, EventDto>(Arg.Is(createViewModel)).Returns(eventDto);
 
       // Act
       var result = _controller.CreateHoliday(createViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      VerifyActionResult(result);
+
       _eventService.Received(1).SaveEvent(eventDto);
     }
 
@@ -123,7 +127,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetAllHolidays();
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -150,7 +154,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetHolidayByEmployeeId(employeeId);
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -172,7 +176,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       // Assert
       _eventService.Received(1).Get(Arg.Is(holidayId));
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
     }
 
     [Fact]
@@ -202,7 +206,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetHolidayByDateBetween(new EventDate()); //Needs set
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -233,7 +237,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetHolidayByStatus(approvedId);
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -264,7 +268,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetHolidayByStatus(awaitingApprovalId);
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -295,7 +299,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetHolidayByStatus(cancelledId);
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -326,7 +330,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetHolidayByStatus(rejectedId);
 
       // Assert
-      var returnedHolidays = RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
 
       Assert.Equal(numberOfHolidays, returnedHolidays.Count);
     }
@@ -344,7 +348,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.RejectHoliday(rejectedViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      VerifyActionResult(result);
+
       _eventService.Received(1).RejectEvent(eventDto);
     }
 
@@ -361,7 +366,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.UpdateHoliday(updateViewModel);
 
       // Assert
-      RetrieveValueFromResult<List<HolidayViewModel>>(result);
+      VerifyActionResult(result);
+
       _eventService.Received(1).UpdateEvent(eventDto);
     }
   }
