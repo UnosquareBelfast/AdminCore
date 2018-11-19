@@ -2,8 +2,8 @@
 {
   public class CreateTeamViewModel
   {
-    public int clientId { get; set; }
-    public int teamId { get; set; }
-    public string teamName { get; set; }
+    public int ClientId { get; set; }
+    public int TeamId { get; set; }
+    public string TeamName { get; set; }
   }
 }

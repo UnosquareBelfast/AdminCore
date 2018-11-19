@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
+using AdminCore.DTOs.EventDates;
 
 namespace AdminCore.Services
 {
@@ -13,7 +14,7 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
-    public IList<EventDto> GetByDateBetween(DateTime rangeStart, DateTime rangeEnd, EventTypes eventType)
+    public IList<EventDto> GetByDateBetween(EventDateDto eventDateDto, EventTypes eventType)
     {
       throw new NotImplementedException();
     }
@@ -39,6 +40,31 @@ namespace AdminCore.Services
     }
 
     public IList<EventDto> GetByType(EventTypes eventType)
+    {
+      throw new NotImplementedException();
+    }
+
+    public EventDto SaveEvent(EventDto eventDto)
+    {
+      throw new NotImplementedException();
+    }
+
+    public EventDto UpdateEvent(EventDto eventDto)
+    {
+      throw new NotImplementedException();
+    }
+
+    public EventDto ApproveEvent(EventDto eventDto)
+    {
+      throw new NotImplementedException();
+    }
+
+    public EventDto CancelEvent(EventDto eventDto)
+    {
+      throw new NotImplementedException();
+    }
+
+    public EventDto RejectEvent(EventDto eventDto)
     {
       throw new NotImplementedException();
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
+using AdminCore.DTOs.EventDates;
 
 namespace AdminCore.Common.Interfaces
 {
@@ -9,7 +10,7 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventDto> GetAnnualLeaveByEmployee(int employeeId);
 
-    IList<EventDto> GetByDateBetween(DateTime rangeStart, DateTime rangeEnd, EventTypes eventType);
+    IList<EventDto> GetByDateBetween(EventDateDto eventDateDto, EventTypes eventType);
 
     IList<EventDto> GetByEmployeeId(int employeeId);
 
@@ -20,5 +21,15 @@ namespace AdminCore.Common.Interfaces
     IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
 
     IList<EventDto> GetByType(EventTypes eventType);
+
+    EventDto SaveEvent(EventDto eventDto);
+
+    EventDto UpdateEvent(EventDto eventDto);
+
+    EventDto ApproveEvent(EventDto eventDto);
+
+    EventDto CancelEvent(EventDto eventDto);
+
+    EventDto RejectEvent(EventDto eventDto);
   }
 }
