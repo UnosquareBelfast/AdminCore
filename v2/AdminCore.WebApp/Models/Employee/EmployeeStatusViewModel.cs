@@ -14,5 +14,8 @@ namespace AdminCore.WebApi.Models.Employee
   /// </summary>
   public class EmployeeStatusViewModel
   {
+    public string Description { get; set; }
+
+    public int EmployeeStatusId { get; set; }
   }
 }
