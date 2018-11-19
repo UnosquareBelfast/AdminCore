@@ -38,7 +38,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
-      AssertObjectResultIsNull<TeamDto>(result);
+      AssertObjectResultIsNull<TeamViewModel>(result);
 
       _mapper.DidNotReceive().Map<CreateTeamViewModel, TeamDto>(Arg.Any<CreateTeamViewModel>());
       _mapper.DidNotReceive().Map<TeamDto, TeamViewModel>(Arg.Any<TeamDto>());
@@ -65,7 +65,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
-      var resultValue = RetrieveValueFromResult<TeamDto>(result);
+      var resultValue = RetrieveValueFromResult<TeamViewModel>(result);
 
       _mapper.Received(1).Map<CreateTeamViewModel, TeamDto>(Arg.Is(teamToSaveModel));
       _mapper.Received(1).Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto));
@@ -92,6 +92,8 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       // Assert
       var resultValue = RetrieveValueFromResult<List<TeamViewModel>>(result);
+
+      Assert.Equal(resultValue.Count(), numberOfTeams);
 
       _mapper.Received(1).Map<IList<TeamDto>, List<TeamViewModel>>(Arg.Is(teams));
 

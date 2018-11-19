@@ -51,7 +51,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       var resultValue = RetrieveValueFromResult<List<TeamSnapshotViewModel>>(result);
 
-      Assert.NotNull(resultValue);
+      Assert.Equal(resultValue.Count(), numberOfSnapshotModels);
 
       _dashboardService.Received(1).GetTeamSnapshotDashboardEvents();
 
