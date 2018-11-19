@@ -8,7 +8,7 @@ namespace AdminCore.WebApi.Tests.Controllers
   {
     protected void AssertObjectResultIsNull<T>(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK) where T : class
     {
-      VerifyHttpStatusCode<T>(result, expectedStatus);
+      VerifyHttpStatusCode(result, expectedStatus);
 
       var objectResult = result as ObjectResult;
       Assert.Null(objectResult);
@@ -24,7 +24,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     protected ObjectResult VerifyActionResult(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK)
     {
       VerifyHttpStatusCode(result, expectedStatus);
-      
+
       var objectResult = result as ObjectResult;
       Assert.NotNull(objectResult);
 

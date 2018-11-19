@@ -31,7 +31,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       // Arrange
       var teamToSaveModel = _fixture.Build<CreateTeamViewModel>()
-        .With(x => x.teamName, string.Empty)
+        .With(x => x.TeamName, string.Empty)
         .Create();
 
       // Act
@@ -65,7 +65,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.CreateTeam(teamToSaveModel);
 
       // Assert
-      var resultValue = RetrieveValueFromResult<TeamViewModel>(result);
+      var resultValue = RetrieveValueFromActionResult<TeamViewModel>(result);
 
       _mapper.Received(1).Map<CreateTeamViewModel, TeamDto>(Arg.Is(teamToSaveModel));
       _mapper.Received(1).Map<TeamDto, TeamViewModel>(Arg.Is(teamSavedDto));
@@ -91,7 +91,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _teamController.GetAllTeamsForClientId(clientId);
 
       // Assert
-      var resultValue = RetrieveValueFromResult<List<TeamViewModel>>(result);
+      var resultValue = RetrieveValueFromActionResult<List<TeamViewModel>>(result);
 
       Assert.Equal(resultValue.Count(), numberOfTeams);
 

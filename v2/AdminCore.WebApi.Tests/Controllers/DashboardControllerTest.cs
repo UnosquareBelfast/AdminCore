@@ -49,7 +49,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetDashboardSnapshot();
 
       // Assert
-      var resultValue = RetrieveValueFromResult<List<TeamSnapshotViewModel>>(result);
+      var resultValue = RetrieveValueFromActionResult<List<TeamSnapshotViewModel>>(result);
 
       Assert.Equal(resultValue.Count(), numberOfSnapshotModels);
 
@@ -79,7 +79,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetEmployeeEvents(searchDate);
 
       // Assert
-      var resultValue = RetrieveValueFromResult<EmployeeEventViewModel>(result);
+      var resultValue = RetrieveValueFromActionResult<EmployeeEventViewModel>(result);
 
       _dashboardService.Received(1).GetEmployeeDashboardEvents(Arg.Is<int>(x => x == employeeId), Arg.Is<DateTime>(x => x == searchDate));
 
@@ -106,7 +106,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetEmployeeTeamSnapshot();
 
       // Assert
-      var resultValue = RetrieveValueFromResult<List<EmployeeEventViewModel>>(result);
+      var resultValue = RetrieveValueFromActionResult<List<EmployeeEventViewModel>>(result);
 
       _dashboardService.Received(1).GetEmployeeSnapshotsByEmployeeId(Arg.Is(employeeId));
 
@@ -131,7 +131,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetMessagesByEventId(eventId);
 
       // Assert
-      var resultValue = RetrieveValueFromResult<List<EventMessageViewModel>>(result);
+      var resultValue = RetrieveValueFromActionResult<List<EventMessageViewModel>>(result);
 
       _mapper.Received(1).Map<List<EventMessageDto>, List<EventMessageViewModel>>(Arg.Is(messagesReturnedFromService));
 
@@ -159,7 +159,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _dashboardController.GetTeamEvents(searchDate);
 
       // Assert
-      var resultValue = RetrieveValueFromResult<EmployeeEventViewModel>(result);
+      var resultValue = RetrieveValueFromActionResult<EmployeeEventViewModel>(result);
 
       _dashboardService.Received(1).GetTeamDashboardEvents(Arg.Is(employeeId), Arg.Is(searchDate));
 

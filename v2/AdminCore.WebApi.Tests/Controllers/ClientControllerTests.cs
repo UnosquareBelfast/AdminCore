@@ -43,7 +43,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.GetAllClients();
 
       // Assert
-      var resultValue = RetrieveValueFromResult<List<ClientViewModel>>(result);
+      var resultValue = RetrieveValueFromActionResult<List<ClientViewModel>>(result);
       Assert.Equal(resultValue.Count(), numberOfClients);
     }
   }
