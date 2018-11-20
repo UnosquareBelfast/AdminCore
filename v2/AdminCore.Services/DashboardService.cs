@@ -8,6 +8,11 @@ namespace AdminCore.Services
 {
   public class DashboardService : IDashboardService
   {
+    public IList<EventDto> GetEmployeeDashboardEvents(int employeeId, DateTime date)
+    {
+      throw new NotImplementedException();
+    }
+
     public IList<EventDto> GetEmployeeEvents(int employeeId, DateTime date)
     {
       throw new NotImplementedException();
@@ -18,17 +23,16 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
+    public IDictionary<string, List<EmployeeSnapshotDto>> GetTeamSnapshotDashboardEvents()
+    {
+      throw new NotImplementedException();
+    }
+
     public IList<EventMessageDto> GetEventMessagesByEventId(int eventId)
     {
       throw new NotImplementedException();
     }
-
-    public IDictionary<string, List<EmployeeSnapshotDto>> GetTeamEmployeeSnapshots()
-    {
-      throw new NotImplementedException();
-    }
-
-    public IList<EventDto> GetTeamEvents(int employeeId, DateTime date)
+    public IList<EventDto> GetTeamDashboardEvents(int employeeId, DateTime date)
     {
       throw new NotImplementedException();
     }

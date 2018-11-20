@@ -6,6 +6,14 @@ namespace AdminCore.WebApi.Tests.Controllers
 {
   public abstract class BaseControllerTest
   {
+    protected void AssertObjectResultIsNull<T>(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK) where T : class
+    {
+      VerifyHttpStatusCode(result, expectedStatus);
+
+      var objectResult = result as ObjectResult;
+      Assert.Null(objectResult);
+    }
+
     protected T RetrieveValueFromActionResult<T>(IActionResult result, HttpStatusCode expectedStatus = HttpStatusCode.OK) where T : class
     {
       var objectResult = VerifyActionResult(result, expectedStatus);
@@ -24,11 +32,12 @@ namespace AdminCore.WebApi.Tests.Controllers
     }
 
     private static void VerifyHttpStatusCode(IActionResult result, HttpStatusCode expectedStatus)
+
     {
       switch (expectedStatus)
       {
         case HttpStatusCode.OK:
-          Assert.IsType<OkObjectResult>(result);
+          Assert.IsType<OkResult>(result);
           break;
 
         case HttpStatusCode.NotFound:
@@ -41,6 +50,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
         case HttpStatusCode.BadRequest:
           Assert.IsType<BadRequestObjectResult>(result);
+
           break;
       }
     }

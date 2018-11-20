@@ -1,8 +1,8 @@
-﻿using System;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.WebApi.Models.Team;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -20,22 +20,16 @@ namespace AdminCore.WebApi.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet("findTeamsForClient/{clientId}")]
-    public IActionResult GetAllTeamsForClientId(int clientId)
-    {
-      throw new NotImplementedException();
-    }
-
     [HttpPost]
     public IActionResult CreateTeam(CreateTeamViewModel teamViewModel)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
 
-    [HttpPut]
-    public IActionResult UpdateTeam(UpdateTeamViewModel teamViewModel)
+    [HttpGet("{clientId}")]
+    public IActionResult GetAllTeamsForClientId(int clientId)
     {
-      throw new NotImplementedException();
+      return Ok();
     }
   }
 }

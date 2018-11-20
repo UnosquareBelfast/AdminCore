@@ -13,17 +13,13 @@ namespace AdminCore.WebApi.Controllers
   {
     private readonly IDashboardService _dashboardService;
     private readonly IMapper _mapper;
+    private readonly IEmployeeCredentials _employeeCredentials;
 
-    public DashboardController(IDashboardService dashboardService, IMapper mapper)
+    public DashboardController(IDashboardService dashboardService, IEmployeeCredentials employeeCredentials, IMapper mapper)
     {
       _dashboardService = dashboardService;
       _mapper = mapper;
-    }
-
-    [HttpGet]
-    public IActionResult GetDashboardEventsByEmployeeId(DateTime date)
-    {
-      return Ok();
+      _employeeCredentials = employeeCredentials;
     }
 
     [HttpGet]
@@ -33,19 +29,25 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet]
-    public IActionResult GetEmployeeTeamsSnapshot()
-    {
-      return Ok();
-    }
-
-    [HttpGet("/{eventId}")]
-    public IActionResult GetMessagesByEventId(int eventId)
+    public IActionResult GetEmployeeEvents(DateTime date)
     {
       return Ok();
     }
 
     [HttpGet]
-    public IActionResult GetTeamEventsByEmployeeId(DateTime date)
+    public IActionResult GetEmployeeTeamSnapshot()
+    {
+      return Ok();
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetMessagesByEventId(int id)
+    {
+      return Ok();
+    }
+
+    [HttpGet]
+    public IActionResult GetTeamEvents(DateTime date)
     {
       return Ok();
     }
