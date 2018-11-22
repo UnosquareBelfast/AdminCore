@@ -37,7 +37,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       switch (expectedStatus)
       {
         case HttpStatusCode.OK:
-          Assert.IsType<OkResult>(result);
+          Assert.IsType<OkObjectResult>(result);
           break;
 
         case HttpStatusCode.NotFound:
