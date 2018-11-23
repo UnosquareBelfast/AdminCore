@@ -10,11 +10,11 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventDto> GetAnnualLeaveByEmployee(int employeeId);
 
-    IList<EventDto> GetByDateBetween(EventDateDto eventDateDto, EventTypes eventType);
+    IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
     IList<EventDto> GetByEmployeeId(int employeeId);
 
-    EventDto GetByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate);
+    EventDto GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
 
     EventDto Get(int id);
 
@@ -22,14 +22,14 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetByType(EventTypes eventType);
 
-    EventDto SaveEvent(EventDto eventDto);
+    void SaveEvent(EventDto eventDto);
 
-    EventDto UpdateEvent(EventDto eventDto);
+    void UpdateEvent(EventDto eventDto);
 
-    EventDto ApproveEvent(EventDto eventDto);
+    void ApproveEvent(EventDto eventDto);
 
-    EventDto CancelEvent(EventDto eventDto);
+    void CancelEvent(EventDto eventDto);
 
-    EventDto RejectEvent(EventDto eventDto);
+    List<string> RejectEvent(EventDto eventDto, String message, int employeeId);
   }
 }

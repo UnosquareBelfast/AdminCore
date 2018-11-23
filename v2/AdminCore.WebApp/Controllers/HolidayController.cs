@@ -7,13 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using AdminCore.Common.Interfaces;
-using AdminCore.DAL.Models;
+using AdminCore.Constants.Enums;
+using AdminCore.DTOs.Event;
 using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -35,19 +37,24 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllHolidays()
     {
-      return Ok();
+      IList<EventDto> holidaysDtos = _holidayEventService.GetByType(EventTypes.AnnualLeave);
+      var holidays = _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(holidaysDtos);
+      return Ok(holidays);
     }
 
     [HttpGet("{holidayId}")]
     public IActionResult GetHolidayByHolidayId(int holidayId)
     {
-      return Ok();
+      EventDto holiday = _holidayEventService.Get(holidayId);
+      return Ok(_mapper.Map<EventDto, HolidayViewModel>(holiday));
     }
 
     [HttpGet("findByEmployeeId/{employeeId}")]
     public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
-      return Ok();
+      IList<EventDto> holidaysDtos = _holidayEventService.GetByEmployeeId(employeeId);
+      var holidays = _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(holidaysDtos);
+      return Ok(holidays);
     }
 
     [HttpPost]
@@ -59,12 +66,15 @@ namespace AdminCore.WebApi.Controllers
     [HttpPut]
     public IActionResult UpdateHoliday(UpdateHolidayViewModel viewModel)
     {
+      //_mapper.Map(viewModel, EventDto);
       return Ok();
     }
 
     [HttpPut("approveHoliday")]
     public IActionResult ApproveHoliday(ApproveHolidayViewModel approveHoliday)
     {
+      EventDto eventDto = _mapper.Map(approveHoliday, new EventDto());
+      _holidayEventService.ApproveEvent(eventDto);
       return Ok();
     }
 
@@ -80,16 +90,49 @@ namespace AdminCore.WebApi.Controllers
       return Ok();
     }
 
-    [HttpGet("findByDateBetween/{eventDate}")]
-    public IActionResult GetHolidayByDateBetween(EventDate eventDate)
+    [HttpGet("findByDateBetween/{startDate}/{endDate}")]
+    public IActionResult GetHolidayByDateBetween(string startDate, string endDate)
     {
-      return Ok();
+      if (IsDatesValid(startDate, endDate))
+      {
+        return Ok(GetEventsBetweenDates(startDate, endDate));
+      }
+      return BadRequest("Please use a valid date format for start and/or end dates");
+    }
+
+    private IList<HolidayViewModel> GetEventsBetweenDates(string startDate, string endDate)
+    {
+      IList<EventDto> holidaysDtos = _holidayEventService.GetByDateBetween(Convert.ToDateTime(startDate),
+        Convert.ToDateTime(endDate), EventTypes.AnnualLeave);
+      var holidays = _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(holidaysDtos);
+      return holidays;
+    }
+
+    private bool IsDatesValid(string startDate, string endDate)
+    {
+      return ValidateDate(startDate) && ValidateDate(endDate);
     }
 
     [HttpGet("findByHolidayStatus/{holidayStatusId}")]
     public IActionResult GetHolidayByStatus(int holidayStatusId)
     {
-      return Ok();
+      var holidaysDtos = _holidayEventService.GetByStatusType((EventStatuses)holidayStatusId, EventTypes.AnnualLeave);
+      var holidays = _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(holidaysDtos);
+
+      return Ok(holidays);
+    }
+
+    protected bool ValidateDate(string date)
+    {
+      try
+      {
+        DateTime dt = DateTime.Parse(date);
+        return true;
+      }
+      catch
+      {
+        return false;
+      }
     }
   }
 }

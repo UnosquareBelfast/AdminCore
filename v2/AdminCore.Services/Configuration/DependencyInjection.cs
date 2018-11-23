@@ -52,6 +52,7 @@ namespace AdminCore.Services.Configuration
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IClientService, ClientService>();
         services.AddTransient<ITeamService, TeamService>();
+        services.AddTransient<IEventService, EventService>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 
