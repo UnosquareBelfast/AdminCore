@@ -88,9 +88,7 @@ namespace AdminCore.Services
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
       {
-        Event eventToUpdate = _mapper.Map(eventDto, existingEvent);
-
-        Save(eventToUpdate);
+        UpdateEventToChangedEvent(eventDto, existingEvent);
         return DatabaseStatus.Success;
       }
 
@@ -102,9 +100,7 @@ namespace AdminCore.Services
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
       {
-        Event eventToUpdate = existingEvent;
-        eventToUpdate.EventStatus.EventStatusId = (int)EventStatuses.Approved;
-        Save(eventToUpdate);
+        UpdateStatusToApproved(existingEvent);
         return DatabaseStatus.Success;
       }
 
@@ -116,11 +112,7 @@ namespace AdminCore.Services
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
       {
-        Event eventToCancel = existingEvent;
-        eventToCancel.EventStatus.EventStatusId = (int)EventStatuses.Cancelled;
-        _mapper.Map(eventDto, existingEvent);
-
-        Save(eventToCancel);
+        UpdateStatusToCancelled(eventDto, existingEvent);
         return DatabaseStatus.Success;
       }
 
@@ -133,21 +125,7 @@ namespace AdminCore.Services
       var existingEvent = _databaseContext.EventRepository.GetById(eventId);
       if (existingEvent != null)
       {
-        Event eventToReject = existingEvent;
-        eventToReject.EventStatus.EventStatusId = (int)EventStatuses.Rejected;
-        Employee employee = GetEmployeeFromEmployeeId(employeeId);
-        if (employee != null)
-        {
-          if (eventToReject.EventStatus.EventStatusId != (int)EventStatuses.Rejected)
-          {
-            _mapper.Map(eventId, existingEvent);
-            Save(eventToReject);
-          }
-        }
-        else
-        {
-          responses.Add("No Employee found with an ID of: " + employeeId);
-        }
+        UpdateStatusToRejected(eventId, employeeId, existingEvent, responses);
       }
       else
       {
@@ -173,6 +151,51 @@ namespace AdminCore.Services
       var employee = _databaseContext.EmployeeRepository.GetById(employeeId);
 
       return employee;
+    }
+
+    private void UpdateEventToChangedEvent(EventDto eventDto, Event existingEvent)
+    {
+      Event eventToUpdate = _mapper.Map(eventDto, existingEvent);
+
+      Save(eventToUpdate);
+    }
+
+    private void UpdateStatusToApproved(Event existingEvent)
+    {
+      Event eventToApprove = existingEvent;
+      eventToApprove.EventStatus.EventStatusId = (int)EventStatuses.Approved;
+      Save(eventToApprove);
+    }
+
+    private void UpdateStatusToCancelled(EventDto eventDto, Event existingEvent)
+    {
+      Event eventToCancel = existingEvent;
+      eventToCancel.EventStatus.EventStatusId = (int)EventStatuses.Cancelled;
+      _mapper.Map(eventDto, existingEvent);
+
+      Save(eventToCancel);
+    }
+
+    private void UpdateStatusToRejected(int eventId, int employeeId, Event existingEvent, List<string> responses)
+    {
+      var eventToReject = SetEventStatusToRejected(employeeId, existingEvent, out var employee);
+      if (employee != null)
+      {
+        _mapper.Map(eventId, existingEvent);
+        Save(eventToReject);
+      }
+      else
+      {
+        responses.Add("No Employee found with an ID of: " + employeeId);
+      }
+    }
+
+    private Event SetEventStatusToRejected(int employeeId, Event existingEvent, out Employee employee)
+    {
+      Event eventToReject = existingEvent;
+      eventToReject.EventStatus.EventStatusId = (int)EventStatuses.Rejected;
+      employee = GetEmployeeFromEmployeeId(employeeId);
+      return eventToReject;
     }
   }
 }
