@@ -43,7 +43,9 @@ namespace AdminCore.WebApi.Controllers
     [HttpPut]
     public IActionResult UpdateClient(UpdateClientViewModel viewModel)
     {
-      return Ok();
+      ClientDto clientDto = _mapper.Map<ClientDto>(viewModel);
+      _clientService.Update(clientDto);
+      return Ok($"Client with ID {clientDto.ClientId}'s name has been updated to {clientDto.ClientName}");
     }
 
     [HttpPost]

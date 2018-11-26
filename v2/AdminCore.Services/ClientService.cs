@@ -25,9 +25,11 @@ namespace AdminCore.Services
       return clientDtos;
     }
 
-    public void Update(ClientDto clientDto)
+    public void Update(ClientDto newClientInfo)
     {
-      throw new NotImplementedException();
+      var oldClientInfo = _dbContext.ClientRepository.GetById(newClientInfo.ClientId);
+      oldClientInfo.ClientName = newClientInfo.ClientName;
+      _dbContext.SaveChanges();
     }
 
     public void Create(ClientDto clientDto)
