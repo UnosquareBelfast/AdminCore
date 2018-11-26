@@ -28,10 +28,13 @@ namespace AdminCore.WebApi.Controllers
 
     private readonly IMapper _mapper;
 
-    public HolidayController(IEventService holidayEventService, IMapper mapper)
+    private IEmployeeCredentials _employeeCredentials;
+
+    public HolidayController(IEventService holidayEventService, IMapper mapper, IEmployeeCredentials employeeCredentials)
     {
       _holidayEventService = holidayEventService;
       _mapper = mapper;
+      _employeeCredentials = employeeCredentials;
     }
 
     [HttpGet]
@@ -60,34 +63,39 @@ namespace AdminCore.WebApi.Controllers
     [HttpPost]
     public IActionResult CreateHoliday(CreateHolidayViewModel viewModel)
     {
-      return Ok();
+      //TODO BaseContoller Create By Type
+      return Ok("Okay");
     }
 
     [HttpPut]
-    public IActionResult UpdateHoliday(UpdateHolidayViewModel viewModel)
+    public IActionResult UpdateHoliday(UpdateHolidayViewModel updateHoliday)
     {
-      //_mapper.Map(viewModel, EventDto);
-      return Ok();
+      EventDto eventDto = _mapper.Map<UpdateHolidayViewModel, EventDto>(updateHoliday);
+      return Ok(_holidayEventService.UpdateEvent(eventDto));
     }
 
     [HttpPut("approveHoliday")]
     public IActionResult ApproveHoliday(ApproveHolidayViewModel approveHoliday)
     {
-      EventDto eventDto = _mapper.Map(approveHoliday, new EventDto());
-      _holidayEventService.ApproveEvent(eventDto);
-      return Ok();
+      EventDto eventDto = _mapper.Map<ApproveHolidayViewModel, EventDto>(approveHoliday);
+      return Ok(_holidayEventService.ApproveEvent(eventDto));
     }
 
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
-      return Ok();
+      EventDto eventDto = _mapper.Map<CancelHolidayViewModel, EventDto>(cancelHoliday);
+      return Ok(_holidayEventService.CancelEvent(eventDto));
     }
 
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      return Ok();
+      List<string> responses = _holidayEventService.RejectEvent(
+        _holidayEventService.Get(rejectHoliday.EventId),
+        rejectHoliday.Message,
+        _employeeCredentials.GetUserId());
+      return Ok(responses);
     }
 
     [HttpGet("findByDateBetween/{startDate}/{endDate}")]

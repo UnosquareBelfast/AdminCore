@@ -2,5 +2,6 @@
 {
   public class ApproveHolidayViewModel
   {
+    public int EventId { get; set; }
   }
 }

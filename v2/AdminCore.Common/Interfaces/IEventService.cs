@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AdminCore.Constants.Enums;
+﻿using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
-using AdminCore.DTOs.EventDates;
+using System;
+using System.Collections.Generic;
 
 namespace AdminCore.Common.Interfaces
 {
@@ -22,14 +21,14 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetByType(EventTypes eventType);
 
-    void SaveEvent(EventDto eventDto);
+    DatabaseStatus SaveEvent(EventDto eventDto);
 
-    void UpdateEvent(EventDto eventDto);
+    DatabaseStatus UpdateEvent(EventDto eventDto);
 
-    void ApproveEvent(EventDto eventDto);
+    DatabaseStatus ApproveEvent(EventDto eventDto);
 
-    void CancelEvent(EventDto eventDto);
+    DatabaseStatus CancelEvent(EventDto eventDto);
 
-    List<string> RejectEvent(EventDto eventDto, String message, int employeeId);
+    List<string> RejectEvent(EventDto eventDto, string message, int employeeId);
   }
 }

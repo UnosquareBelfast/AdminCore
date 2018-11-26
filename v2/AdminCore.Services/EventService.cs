@@ -78,12 +78,12 @@ namespace AdminCore.Services
       return _mapper.Map<List<EventDto>>(events);
     }
 
-    public void SaveEvent(EventDto eventDto)
+    public DatabaseStatus SaveEvent(EventDto eventDto)
     {
       throw new NotImplementedException();
     }
 
-    public void UpdateEvent(EventDto eventDto)
+    public DatabaseStatus UpdateEvent(EventDto eventDto)
     {
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
@@ -91,13 +91,13 @@ namespace AdminCore.Services
         _mapper.Map(eventDto, existingEvent);
 
         _databaseContext.SaveChanges();
-        //Success
+        return DatabaseStatus.Success;
       }
 
-      //Failure
+      return DatabaseStatus.Failure;
     }
 
-    public void ApproveEvent(EventDto eventDto)
+    public DatabaseStatus ApproveEvent(EventDto eventDto)
     {
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
@@ -105,13 +105,13 @@ namespace AdminCore.Services
         Event eventToUpdate = existingEvent;
         eventToUpdate.EventStatus.EventStatusId = (int)EventStatuses.Approved;
         Save(eventToUpdate);
-        //Success
+        return DatabaseStatus.Success;
       }
 
-      //Failure
+      return DatabaseStatus.Failure;
     }
 
-    public void CancelEvent(EventDto eventDto)
+    public DatabaseStatus CancelEvent(EventDto eventDto)
     {
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
@@ -121,10 +121,10 @@ namespace AdminCore.Services
         _mapper.Map(eventDto, existingEvent);
 
         Save(eventToCancel);
-        //Success
+        return DatabaseStatus.Success;
       }
 
-      //Failure
+      return DatabaseStatus.Failure;
     }
 
     public List<string> RejectEvent(EventDto eventDto, String message, int employeeId)
