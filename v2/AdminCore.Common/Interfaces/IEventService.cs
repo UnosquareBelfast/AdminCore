@@ -29,6 +29,6 @@ namespace AdminCore.Common.Interfaces
 
     DatabaseStatus CancelEvent(EventDto eventDto);
 
-    List<string> RejectEvent(EventDto eventDto, string message, int employeeId);
+    List<string> RejectEvent(int eventId, string message, int employeeId);
   }
 }

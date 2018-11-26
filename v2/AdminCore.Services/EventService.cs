@@ -127,10 +127,10 @@ namespace AdminCore.Services
       return DatabaseStatus.Failure;
     }
 
-    public List<string> RejectEvent(EventDto eventDto, String message, int employeeId)
+    public List<string> RejectEvent(int eventId, string message, int employeeId)
     {
       List<string> responses = new List<string>();
-      var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
+      var existingEvent = _databaseContext.EventRepository.GetById(eventId);
       if (existingEvent != null)
       {
         Event eventToReject = existingEvent;
@@ -140,7 +140,7 @@ namespace AdminCore.Services
         {
           if (eventToReject.EventStatus.EventStatusId != (int)EventStatuses.Rejected)
           {
-            _mapper.Map(eventDto, existingEvent);
+            _mapper.Map(eventId, existingEvent);
             Save(eventToReject);
           }
         }
@@ -151,7 +151,7 @@ namespace AdminCore.Services
       }
       else
       {
-        responses.Add("No Event found with an ID of: " + eventDto.EventId);
+        responses.Add("No Event found with an ID of: " + eventId);
       }
 
       return responses;

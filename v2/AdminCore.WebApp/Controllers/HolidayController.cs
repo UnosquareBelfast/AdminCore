@@ -92,7 +92,7 @@ namespace AdminCore.WebApi.Controllers
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
       List<string> responses = _holidayEventService.RejectEvent(
-        _holidayEventService.Get(rejectHoliday.EventId),
+        rejectHoliday.EventId,
         rejectHoliday.Message,
         _employeeCredentials.GetUserId());
       return Ok(responses);

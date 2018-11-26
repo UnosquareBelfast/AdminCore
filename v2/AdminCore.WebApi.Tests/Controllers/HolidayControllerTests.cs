@@ -25,13 +25,16 @@ namespace AdminCore.WebApi.Tests.Controllers
 
     private readonly IMapper _mapper;
 
+    private readonly IEmployeeCredentials _employeeCredentials;
+
     public HolidayControllerTests()
     {
+      _employeeCredentials = Substitute.For<IEmployeeCredentials>();
       _eventService = Substitute.For<IEventService>();
       _mapper = Substitute.For<IMapper>();
       _fixture = new Fixture();
 
-      _controller = new HolidayController(_eventService, _mapper);
+      _controller = new HolidayController(_eventService, _mapper, _employeeCredentials);
     }
 
     [Fact]
@@ -337,19 +340,19 @@ namespace AdminCore.WebApi.Tests.Controllers
     [Fact]
     public void RejectHoliday_WhenCalled_ReturnsRejectedHoliday()
     {
-      /*      // Arrange
-            var rejectedViewModel = _fixture.Build<RejectHolidayViewModel>().Create();
-            var eventDto = _fixture.Build<EventDto>().Create();
+      // Arrange
+      var rejectedViewModel = _fixture.Build<RejectHolidayViewModel>().Create();
+      var eventDto = _fixture.Build<EventDto>().Create();
 
-            _mapper.Map<RejectHolidayViewModel, EventDto>(Arg.Is(rejectedViewModel)).Returns(eventDto);
+      _mapper.Map<RejectHolidayViewModel, EventDto>(Arg.Is(rejectedViewModel)).Returns(eventDto);
 
-            // Act
-            var result = _controller.RejectHoliday(rejectedViewModel);
+      // Act
+      var result = _controller.RejectHoliday(rejectedViewModel);
 
-            // Assert
-            VerifyActionResult(result);
+      // Assert
+      VerifyActionResult(result);
 
-            _eventService.Received(1).RejectEvent(eventDto);*/
+      _eventService.Received(1).RejectEvent(rejectedViewModel.EventId, rejectedViewModel.Message, _employeeCredentials.GetUserId());
     }
 
     [Fact]
