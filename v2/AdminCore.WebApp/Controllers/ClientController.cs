@@ -7,7 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using AdminCore.Common.Interfaces;
+using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Models.Client;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +35,9 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllClients()
     {
-      return Ok();
+      var allClients = _clientService.GetAll();
+      var allClientsViewModel = _mapper.Map<List<ClientViewModel>>(allClients);
+      return Ok(allClientsViewModel);
     }
 
     [HttpPut]

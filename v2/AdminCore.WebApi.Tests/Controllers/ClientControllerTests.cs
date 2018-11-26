@@ -37,7 +37,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _clientService.GetAll().Returns(clients);
 
-      _mapper.Map<IList<ClientDto>, List<ClientViewModel>>(Arg.Is(clients)).Returns(clientViewModels);
+      _mapper.Map<List<ClientViewModel>>(Arg.Is(clients)).Returns(clientViewModels);
 
       // Act
       var result = _controller.GetAllClients();

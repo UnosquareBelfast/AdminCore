@@ -1,15 +1,28 @@
+using AdminCore.Common.Interfaces;
+using AdminCore.DAL;
+using AdminCore.DTOs.Client;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
-using AdminCore.Common.Interfaces;
-using AdminCore.DTOs.Client;
 
 namespace AdminCore.Services
 {
   public class ClientService : IClientService
   {
+    private readonly IDatabaseContext _dbContext;
+    private readonly IMapper _mapper;
+
+    public ClientService(IDatabaseContext dbContext, IMapper mapper)
+    {
+      _dbContext = dbContext;
+      _mapper = mapper;
+    }
+
     public IList<ClientDto> GetAll()
     {
-      throw new NotImplementedException();
+      var clients = _dbContext.ClientRepository.Get();
+      var clientDtos = _mapper.Map<IList<ClientDto>>(clients);
+      return clientDtos;
     }
 
     public void Update(ClientDto clientDto)
