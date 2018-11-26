@@ -88,9 +88,9 @@ namespace AdminCore.Services
       var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
       if (existingEvent != null)
       {
-        _mapper.Map(eventDto, existingEvent);
+        Event eventToUpdate = _mapper.Map(eventDto, existingEvent);
 
-        _databaseContext.SaveChanges();
+        Save(eventToUpdate);
         return DatabaseStatus.Success;
       }
 
@@ -159,13 +159,12 @@ namespace AdminCore.Services
 
     private void Save(Event eventToSave)
     {
-      if (eventToSave.EventId > 0)
+      if (eventToSave.EventId == 0)
       {
         eventToSave.DateCreated = DateTime.Now;
       }
 
       eventToSave.LastModified = DateTime.Now;
-      _databaseContext.EventRepository.Insert(eventToSave);
       _databaseContext.SaveChanges();
     }
 
