@@ -13,12 +13,14 @@ using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Employee;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminCore.WebApi.Controllers
 {
   [Route("[controller]")]
   [ApiController]
+  [EnableCors("CorsPolicy")]
   public class AuthenticationController : ControllerBase
   {
     private readonly IAuthenticationService _authenticationService;
