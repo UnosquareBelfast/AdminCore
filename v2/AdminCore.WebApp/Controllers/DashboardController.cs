@@ -22,19 +22,19 @@ namespace AdminCore.WebApi.Controllers
       _employeeCredentials = employeeCredentials;
     }
 
-    [HttpGet]
+    [HttpGet("getDashboardSnapshot")]
     public IActionResult GetDashboardSnapshot()
     {
       return Ok();
     }
 
-    [HttpGet]
+    [HttpGet("getEmployeeEvents/{date}")]
     public IActionResult GetEmployeeEvents(DateTime date)
     {
       return Ok();
     }
 
-    [HttpGet]
+    [HttpGet("getEmployeeTeamSnapshot")]
     public IActionResult GetEmployeeTeamSnapshot()
     {
       return Ok();
@@ -46,7 +46,7 @@ namespace AdminCore.WebApi.Controllers
       return Ok();
     }
 
-    [HttpGet]
+    [HttpGet("getTeamEvents/{date}")]
     public IActionResult GetTeamEvents(DateTime date)
     {
       return Ok();
