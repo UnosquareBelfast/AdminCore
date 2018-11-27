@@ -10,6 +10,7 @@
 using AdminCore.DAL.Database;
 using AdminCore.DAL.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace AdminCore.DAL.Entity_Framework
 {
@@ -93,8 +94,13 @@ namespace AdminCore.DAL.Entity_Framework
     {
       _adminCoreContext.SaveChanges();
     }
+    
+    public EntityEntry Entry<T>(T entity) where T : class
+    {
+      return _adminCoreContext.Entry(entity);
+    }
 
-    public virtual DbSet<T> Set<T>() where T : class
+    public DbSet<T> Set<T>() where T : class
     {
       return _adminCoreContext.Set<T>();
     }

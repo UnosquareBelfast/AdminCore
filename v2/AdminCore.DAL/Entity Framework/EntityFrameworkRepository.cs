@@ -23,60 +23,85 @@ namespace AdminCore.DAL.Entity_Framework
   public class EntityFrameworkRepository<T> : IRepository<T>
     where T : class
   {
-    /// <summary>
-    ///   The _db set.
-    /// </summary>
+    private readonly IDatabaseContext _context;
     private readonly DbSet<T> _dbSet;
 
     public EntityFrameworkRepository(IDatabaseContext databaseContext)
     {
+      _context = databaseContext;
       _dbSet = ((EntityFrameworkContext) databaseContext).Set<T>();
     }
-
-    /// <summary>
-    ///   The get.
-    /// </summary>
-    /// <param name="filter">
-    ///   The filter.
-    /// </param>
-    /// <returns>
-    ///   The <see cref="IList" />.
-    /// </returns>
-    public IList<T> Get(Expression<Func<T, bool>> filter = null)
+    
+    public void Delete(object id)
     {
-      var queryableData = _dbSet.AsQueryable();
-
-      if (filter != null) queryableData = queryableData.Where(filter);
-
-      return queryableData.ToList();
+      var entityToDelete = _dbSet.Find(id);
+      Delete(entityToDelete);
     }
 
-    /// <summary>
-    ///   The get by id.
-    /// </summary>
-    /// <param name="id">
-    ///   The id.
-    /// </param>
-    /// <returns>
-    ///   The <see cref="T" />.
-    /// </returns>
-    public T GetById(object id)
+    public void Delete(T entityToDelete)
     {
-      return _dbSet.Find(id);
+      if (((EntityFrameworkContext) _context).Entry(entityToDelete).State == EntityState.Detached)
+      {
+        _dbSet.Attach(entityToDelete);
+      }
+
+      _dbSet.Remove(entityToDelete);
     }
 
-    /// <summary>
-    ///   The insert.
-    /// </summary>
-    /// <param name="entity">
-    ///   The entity.
-    /// </param>
-    /// <returns>
-    ///   The <see cref="T" />.
-    /// </returns>
+    public IList<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, params Expression<Func<T, object>>[] includeProperties)
+    {
+      return GetAsQueryable(filter, orderBy, includeProperties).ToList();
+    }
+
+    public T GetSingle(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includes)
+    {
+      var query = GetAsQueryable(filter, null, includes);
+
+      return query.SingleOrDefault();
+    }
+    
     public T Insert(T entity)
     {
       return _dbSet.Add(entity)?.Entity;
+    }
+    
+    public IQueryable<T> GetAsQueryable(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, params Expression<Func<T, object>>[] includes)
+    {
+      var queryableData = _dbSet.AsQueryable();
+
+      if (filter != null)
+      {
+        queryableData = queryableData.Where(filter);
+      }
+
+      queryableData = IncludeEntities(queryableData, includes);
+
+
+      if (orderBy != null)
+      {
+        queryableData = queryableData.OrderBy(x => orderBy);
+      }
+
+      return queryableData;
+    }
+    
+    public void Update(T entityToUpdate)
+    {
+      _dbSet.Attach(entityToUpdate);
+      ((EntityFrameworkContext) _context).Entry(entityToUpdate).State = EntityState.Modified;
+    }
+    
+    public IQueryable<T> IncludeEntities(IQueryable<T> query, Expression<Func<T, object>>[] includeProperties)
+    {
+      if (includeProperties != null)
+      {
+        foreach (var includeProperty in includeProperties)
+        {
+          query = query.Include(includeProperty);
+        }
+      }
+
+      return query;
     }
   }
 }

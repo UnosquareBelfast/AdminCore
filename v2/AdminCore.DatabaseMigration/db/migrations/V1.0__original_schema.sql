@@ -1,7 +1,7 @@
--- -- Database: HrManager
---  DROP DATABASE "HrManager";
+-- -- Database: AdminCore
+--  DROP DATABASE "AdminCore";
 --
--- CREATE DATABASE "HrManager"
+-- CREATE DATABASE "AdminCore"
 -- WITH
 -- OWNER = postgres
 -- ENCODING = 'UTF8'
@@ -322,9 +322,6 @@ WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER SEQUENCE event_date_event_date_id_seq
-    OWNED BY event_date.event_date_id;
 
   ----------------------------------------------------------------------------------------
 
