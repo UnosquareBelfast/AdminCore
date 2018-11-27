@@ -70,6 +70,14 @@ namespace AdminCore.WebApi
             IssuerSigningKey = new SymmetricSecurityKey(key)
           };
         });
+      
+      services.AddCors(
+        options =>
+        {
+          options.AddPolicy(
+            "CorsPolicy",
+            builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+        });
 
       services.AddSwaggerGen(c =>
       {

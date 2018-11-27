@@ -46,6 +46,7 @@ namespace AdminCore.Services.Configuration
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
+        services.AddTransient<IAuthenticatedUser, AuthenticatedUser>();
         services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
