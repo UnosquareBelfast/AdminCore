@@ -1,9 +1,10 @@
 using System.Security.Claims;
+using AdminCore.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace AdminCore.Services
 {
-    public class AuthenticatedUser
+    public class AuthenticatedUser : IAuthenticatedUser
     {
         private readonly IHttpContextAccessor _httpContentAccessor;
         
