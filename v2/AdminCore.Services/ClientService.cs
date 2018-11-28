@@ -4,6 +4,9 @@ using AdminCore.DTOs.Client;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using AdminCore.DAL.Models;
+using AdminCore.DAL.Models.Message;
 
 namespace AdminCore.Services
 {
@@ -18,18 +21,34 @@ namespace AdminCore.Services
       _mapper = mapper;
     }
 
-    public IList<ClientDto> GetAll()
+    public ResponseMessage<IList<ClientDto>> GetAll()
     {
       var clients = _dbContext.ClientRepository.Get();
       var clientDtos = _mapper.Map<IList<ClientDto>>(clients);
-      return clientDtos;
+      return new ResponseMessage<IList<ClientDto>>(clientDtos);
     }
 
-    public void Update(ClientDto newClientInfo)
+    public ResponseMessage<string> Update(ClientDto newClientInfo)
     {
-      var oldClientInfo = _dbContext.ClientRepository.GetById(newClientInfo.ClientId);
+      var oldClientInfo = _dbContext.ClientRepository.GetSingle(x => x.ClientId == newClientInfo.ClientId);
+      return oldClientInfo != null
+        ? UpdateClientNameAndSaveToDb(oldClientInfo, newClientInfo)
+        : ReturnUpdateFailed_NotFoundError(newClientInfo); 
+    }
+
+    private ResponseMessage<string> ReturnUpdateFailed_NotFoundError(ClientDto newClientInfo)
+    {
+      return new ResponseMessage<string>($"Client with ID {newClientInfo.ClientId} could not be found")
+      {
+        Status = MessageConstants.MsgStatusNoRecords
+      };
+    }
+
+    private ResponseMessage<string> UpdateClientNameAndSaveToDb(Client oldClientInfo, ClientDto newClientInfo)
+    {
       oldClientInfo.ClientName = newClientInfo.ClientName;
       _dbContext.SaveChanges();
+      return new ResponseMessage<string>($"Client with ID {newClientInfo.ClientId}'s name has been updated to '{newClientInfo.ClientName}'");
     }
 
     public void Create(ClientDto clientDto)

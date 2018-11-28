@@ -1,3 +1,4 @@
+using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Controllers;
@@ -7,8 +8,10 @@ using AutoMapper;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
+using AdminCore.DAL.Models.Message;
 using AdminCore.Services;
 using Xunit;
 
@@ -20,13 +23,11 @@ namespace AdminCore.WebApi.Tests.Controllers
     private readonly ClientController _controller;
     private readonly IFixture _fixture;
     private readonly IMapper _mapper;
-    private IDatabaseContext _dbContext;
 
     public ClientControllerTests()
     {
-      _dbContext = Substitute.For<IDatabaseContext>();
       _mapper = Substitute.For<IMapper>();
-      _clientService = new ClientService(_dbContext, _mapper);
+      _clientService = Substitute.For<IClientService>();
       _fixture = new Fixture();
       _controller = new ClientController(_clientService, _mapper);
     }
@@ -37,14 +38,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Arrange
       const int numberOfClients = 9;
 
-      var clients = _fixture.CreateMany<Client>(numberOfClients).ToList();
       var clientViewModels = _fixture.CreateMany<ClientViewModel>(numberOfClients).ToList();
       var clientDtos = _fixture.CreateMany<ClientDto>(numberOfClients).ToList();
 
-      _dbContext.ClientRepository.Get().Returns(clients);
+      var clientsResponseMessage = new ResponseMessage<IList<ClientDto>>(clientDtos);
+
+      _clientService.GetAll().Returns(clientsResponseMessage);
 
       _mapper.Map<List<ClientViewModel>>(Arg.Is(clientDtos)).Returns(clientViewModels);
-      _mapper.Map<IList<ClientDto>>(Arg.Is(clients)).Returns(clientDtos);
 
       // Act
       var result = _controller.GetAllClients();
@@ -59,39 +60,32 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       // Arrange
       const int testId = 1;
-      const string newName = "Niall";
-      const string oldName = "Not Niall";
+      const string name = "Niall";
+      var successMsg = $"Client with ID {testId}'s name has been updated to '{name}'";
 
       var updateClientViewModel = new UpdateClientViewModel()
       {
         ClientId = testId,
-        ClientName = newName
+        ClientName = name
       };
 
       var clientDtoMappedFromViewModel = new ClientDto()
       {
         ClientId = testId,
-        ClientName = newName
-      };
-
-      var clientResultReturnedFromDb = new Client()
-      {
-        ClientId = testId,
-        ClientName = oldName
+        ClientName = name
       };
 
       //Setup Mocks
-      _dbContext.ClientRepository.GetById(testId).Returns(clientResultReturnedFromDb);
+      var updateResponseMessage = new ResponseMessage<string>(successMsg);
+      _clientService.Update(clientDtoMappedFromViewModel).Returns(updateResponseMessage);
       _mapper.Map<ClientDto>(Arg.Is(updateClientViewModel)).Returns(clientDtoMappedFromViewModel);
 
       // Act
-      var result = _controller.UpdateClient(updateClientViewModel);
+      _controller.UpdateClient(updateClientViewModel);
 
       // Assert
-      var resultValue = RetrieveValueFromActionResult<string>(result);
+      _clientService.Received(1).Update(clientDtoMappedFromViewModel);
 
-      Assert.Equal(newName, clientResultReturnedFromDb.ClientName);
-      Assert.Equal($"Client with ID {testId}'s name has been updated to {newName}", resultValue);
     }
   }
 }

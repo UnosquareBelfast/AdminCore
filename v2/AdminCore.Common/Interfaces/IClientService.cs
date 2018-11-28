@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using AdminCore.DAL.Models.Message;
 using AdminCore.DTOs.Client;
 
 namespace AdminCore.Common.Interfaces
 {
   public interface IClientService
   {
-    IList<ClientDto> GetAll();
+    ResponseMessage<IList<ClientDto>> GetAll();
 
-    void Update(ClientDto clientDto);
+    ResponseMessage<string> Update(ClientDto clientDto);
 
     void Create(ClientDto clientDto);
 

@@ -9,6 +9,7 @@
 
 using System.Collections.Generic;
 using AdminCore.Common.Interfaces;
+using AdminCore.DAL.Models.Message;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Models.Client;
 using AutoMapper;
@@ -35,17 +36,36 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllClients()
     {
-      var allClients = _clientService.GetAll();
+      var allClients = _clientService.GetAll().Payload;
       var allClientsViewModel = _mapper.Map<List<ClientViewModel>>(allClients);
-      return Ok(allClientsViewModel);
+      if (allClientsViewModel != null)
+      {
+        return Ok(allClientsViewModel);
+      }
+      else
+      {
+        return NotFound("There are currently no clients in the DB");
+      }
     }
 
     [HttpPut]
     public IActionResult UpdateClient(UpdateClientViewModel viewModel)
     {
-      ClientDto clientDto = _mapper.Map<ClientDto>(viewModel);
-      _clientService.Update(clientDto);
-      return Ok($"Client with ID {clientDto.ClientId}'s name has been updated to {clientDto.ClientName}");
+      var clientDto = _mapper.Map<ClientDto>(viewModel);
+      var updateClientResponse = _clientService.Update(clientDto);
+      return GetResultFromUpdateResponse(updateClientResponse);
+    }
+
+    private IActionResult GetResultFromUpdateResponse(ResponseMessage<string> updateClientResult)
+    {
+      if (MessageConstants.MsgStatusSuccess.Equals(updateClientResult.Status))
+      {
+        return Ok(updateClientResult.Payload);
+      }
+      else
+      {
+        return NotFound(updateClientResult.Payload);
+      }
     }
 
     [HttpPost]
