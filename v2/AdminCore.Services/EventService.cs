@@ -7,6 +7,8 @@ using AdminCore.DTOs.EventDates;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using AdminCore.Common.Message;
 
 namespace AdminCore.Services
 {
@@ -22,16 +24,27 @@ namespace AdminCore.Services
       _mapper = mapper;
     }
 
-    public IList<EventDto> GetAnnualLeaveByEmployee(int employeeId)
+    public ResponseMessage<IList<EventDto>> GetAnnualLeaveByEmployee(int employeeId)
     {
+      ResponseMessage<IList<EventDto>> responseMessage = new ResponseMessage<IList<EventDto>>(null);
       var annualLeave = _databaseContext.EventRepository.Get(x =>
         x.EventType.EventTypeId == (int)EventTypes.AnnualLeave
         && x.Employee.EmployeeId == employeeId);
-      return _mapper.Map<List<EventDto>>(annualLeave);
+      if (!annualLeave.Any())
+      {
+        responseMessage.Payload = _mapper.Map<IList<EventDto>>(annualLeave);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType)
+    public ResponseMessage<IList<EventDto>> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType)
     {
+      ResponseMessage<IList<EventDto>> responseMessage = new ResponseMessage<IList<EventDto>>(null);
       EventDateDto eventDateDto = new EventDateDto
       {
         StartDate = startDate,
@@ -42,97 +55,190 @@ namespace AdminCore.Services
                                                                               && x.EndDate <= eventDateDto.EndDate
                                                                               && x.Event.EventTypeId ==
                                                                               (int)EventTypes.AnnualLeave);
-      return _mapper.Map<List<EventDto>>(eventsBetweenDates);
+      if (!eventsBetweenDates.Any())
+      {
+        responseMessage.Payload = _mapper.Map<IList<EventDto>>(eventsBetweenDates);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public IList<EventDto> GetByEmployeeId(int employeeId)
+    public ResponseMessage<IList<EventDto>> GetEventsByEmployeeId(int employeeId)
     {
+      ResponseMessage<IList<EventDto>> responseMessage = new ResponseMessage<IList<EventDto>>(null);
       var events = _databaseContext.EventRepository.Get(x => x.Employee.EmployeeId == employeeId);
-      return _mapper.Map<List<EventDto>>(events);
+      if (!events.Any())
+      {
+        responseMessage.Payload = _mapper.Map<IList<EventDto>>(events);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public EventDto GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate)
+    public ResponseMessage<IList<EventDto>> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate,
+      DateTime endDate)
     {
+      ResponseMessage<IList<EventDto>> responseMessage = new ResponseMessage<IList<EventDto>>(null);
       var eventsBetweenDates = _databaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                               && x.EndDate <= endDate
                                                                               && x.Event.EmployeeId == employeeId);
-      return _mapper.Map<EventDto>(eventsBetweenDates);
+      if (!eventsBetweenDates.Any())
+      {
+        responseMessage.Payload = _mapper.Map<IList<EventDto>>(eventsBetweenDates);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public EventDto Get(int id)
+    public ResponseMessage<EventDto> GetEvent(int id)
     {
-      var eventById = _databaseContext.EventRepository.Get(x => x.EventId == id);
-      return _mapper.Map<EventDto>(eventById);
+      ResponseMessage<EventDto> responseMessage = new ResponseMessage<EventDto>(null);
+      var eventById = GetEventById(id);
+      if (eventById != null)
+      {
+        responseMessage.Payload = _mapper.Map<EventDto>(eventById);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType)
+    public ResponseMessage<IList<EventDto>> GetByStatusType(EventStatuses eventStatus, EventTypes eventType)
     {
+      ResponseMessage<IList<EventDto>> responseMessage = new ResponseMessage<IList<EventDto>>(null);
       var events = _databaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == (int)eventStatus
                                                              && x.EventType.EventTypeId == (int)eventType);
-      return _mapper.Map<List<EventDto>>(events);
+      if (!events.Any())
+      {
+        responseMessage.Payload = _mapper.Map<IList<EventDto>>(events);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public IList<EventDto> GetByType(EventTypes eventType)
+    public ResponseMessage<IList<EventDto>> GetByType(EventTypes eventType)
     {
+      ResponseMessage<IList<EventDto>> responseMessage = new ResponseMessage<IList<EventDto>>(null);
       var events = _databaseContext.EventRepository.Get(x => x.EventType.EventTypeId == (int)eventType);
-      return _mapper.Map<List<EventDto>>(events);
+      if (!events.Any())
+      {
+        responseMessage.Payload = _mapper.Map<IList<EventDto>>(events);
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+      }
+      else
+      {
+        responseMessage.Status = MessageConstants.MsgStatusNoRecords;
+      }
+      return responseMessage;
     }
 
-    public DatabaseStatus SaveEvent(EventDto eventDto)
+    public ResponseMessage<string> SaveEvent(EventDto eventDto)
     {
       throw new NotImplementedException();
     }
 
-    public DatabaseStatus UpdateEvent(EventDto eventDto)
+    public ResponseMessage<string> UpdateEvent(EventDto eventDto)
     {
-      var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
+      ResponseMessage<string> responseMessage = new ResponseMessage<string>(null);
+      var existingEvent = GetEventById(eventDto.EventId);
       if (existingEvent != null)
       {
         UpdateEventToChangedEvent(eventDto, existingEvent);
-        return DatabaseStatus.Success;
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+        return responseMessage;
       }
 
-      return DatabaseStatus.Failure;
+      responseMessage.Status = MessageConstants.MsgStatusFailed;
+      return responseMessage;
     }
 
-    public DatabaseStatus ApproveEvent(EventDto eventDto)
+    public ResponseMessage<string> ApproveEvent(EventDto eventDto)
     {
-      var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
+      ResponseMessage<string> responseMessage = new ResponseMessage<string>(null);
+      var existingEvent = GetEventById(eventDto.EventId);
       if (existingEvent != null)
       {
         UpdateStatusToApproved(existingEvent);
-        return DatabaseStatus.Success;
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+        return responseMessage;
       }
 
-      return DatabaseStatus.Failure;
+      responseMessage.Status = MessageConstants.MsgStatusFailed;
+      return responseMessage;
     }
 
-    public DatabaseStatus CancelEvent(EventDto eventDto)
+    public ResponseMessage<string> CancelEvent(EventDto eventDto)
     {
-      var existingEvent = _databaseContext.EventRepository.GetById(eventDto);
+      ResponseMessage<string> responseMessage = new ResponseMessage<string>(null);
+      var existingEvent = GetEventById(eventDto.EventId);
       if (existingEvent != null)
       {
         UpdateStatusToCancelled(eventDto, existingEvent);
-        return DatabaseStatus.Success;
+        responseMessage.Status = MessageConstants.MsgStatusSuccess;
+        return responseMessage;
       }
 
-      return DatabaseStatus.Failure;
+      responseMessage.Status = MessageConstants.MsgStatusFailed;
+      return responseMessage;
     }
 
-    public List<string> RejectEvent(int eventId, string message, int employeeId)
+    public ResponseMessage<List<string>> RejectEvent(int eventId, string message, int employeeId)
     {
-      List<string> responses = new List<string>();
-      var existingEvent = _databaseContext.EventRepository.GetById(eventId);
-      if (existingEvent != null)
-      {
-        UpdateStatusToRejected(eventId, employeeId, existingEvent, responses);
-      }
-      else
-      {
-        responses.Add("No Event found with an ID of: " + eventId);
-      }
+      return null;
+      /*      ResponseMessage<string> responseMessage = new ResponseMessage<string>(null);
+            List<string> responses = new List<string>();
+            var existingEvent = GetEventById(eventId);
+            if (existingEvent != null)
+            {
+              //responses = UpdateStatusToRejected(eventId, employeeId, existingEvent, responses);
+              //var eventToReject = SetEventStatusToRejected(employeeId, existingEvent, out var employee);
+              Event eventToReject = existingEvent;
+              eventToReject.EventStatus.EventStatusId = (int)EventStatuses.Rejected;
+              Employee employee = GetEmployeeFromEmployeeId(employeeId);
+              if (employee != null)
+              {
+                _mapper.Map(eventId, existingEvent);
+                Save(eventToReject);
+                responseMessage.Status = MessageConstants.MsgStatusSuccess;
+                responseMessage.Payload = "Success";
+                return responseMessage;
+              }
+              else
+              {
+                responses.Add("No Employee found with an ID of: " + employeeId);
+              }
+            }
+            else
+            {
+              responses.Add("No Event found with an ID of: " + eventId);
+            }
 
-      return responses;
+            responseMessage.Payload = responses;
+            return responses;*/
+    }
+
+    private Event GetEventById(int id)
+    {
+      return _databaseContext.EventRepository.GetSingle(x => x.EventId == id);
     }
 
     private void Save(Event eventToSave)
@@ -148,7 +254,7 @@ namespace AdminCore.Services
 
     private Employee GetEmployeeFromEmployeeId(int employeeId)
     {
-      var employee = _databaseContext.EmployeeRepository.GetById(employeeId);
+      var employee = _databaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == employeeId);
 
       return employee;
     }
@@ -176,7 +282,7 @@ namespace AdminCore.Services
       Save(eventToCancel);
     }
 
-    private void UpdateStatusToRejected(int eventId, int employeeId, Event existingEvent, List<string> responses)
+    private List<string> UpdateStatusToRejected(int eventId, int employeeId, Event existingEvent, List<string> responses)
     {
       var eventToReject = SetEventStatusToRejected(employeeId, existingEvent, out var employee);
       if (employee != null)
@@ -188,6 +294,8 @@ namespace AdminCore.Services
       {
         responses.Add("No Employee found with an ID of: " + employeeId);
       }
+
+      return responses;
     }
 
     private Event SetEventStatusToRejected(int employeeId, Event existingEvent, out Employee employee)

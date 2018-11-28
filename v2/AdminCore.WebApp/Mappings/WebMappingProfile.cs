@@ -7,14 +7,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using AdminCore.Common.Message;
 using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
+using AdminCore.DTOs.Event;
 using AdminCore.DTOs.Team;
 using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Client;
 using AdminCore.WebApi.Models.Employee;
+using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.Team;
 using AutoMapper;
 
@@ -46,6 +50,9 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
 
       CreateMap<TeamDto, TeamViewModel>();
+
+      CreateMap<EventDto, HolidayViewModel>().ReverseMap();
+      CreateMap<ResponseMessage<EventDto>, HolidayViewModel>().ReverseMap();
     }
   }
 }

@@ -2,33 +2,34 @@
 using AdminCore.DTOs.Event;
 using System;
 using System.Collections.Generic;
+using AdminCore.Common.Message;
 
 namespace AdminCore.Common.Interfaces
 {
   public interface IEventService
   {
-    IList<EventDto> GetAnnualLeaveByEmployee(int employeeId);
+    ResponseMessage<IList<EventDto>> GetAnnualLeaveByEmployee(int employeeId);
 
-    IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
+    ResponseMessage<IList<EventDto>> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
-    IList<EventDto> GetByEmployeeId(int employeeId);
+    ResponseMessage<IList<EventDto>> GetEventsByEmployeeId(int employeeId);
 
-    EventDto GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
+    ResponseMessage<IList<EventDto>> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
 
-    EventDto Get(int id);
+    ResponseMessage<EventDto> GetEvent(int id);
 
-    IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
+    ResponseMessage<IList<EventDto>> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
 
-    IList<EventDto> GetByType(EventTypes eventType);
+    ResponseMessage<IList<EventDto>> GetByType(EventTypes eventType);
 
-    DatabaseStatus SaveEvent(EventDto eventDto);
+    ResponseMessage<string> SaveEvent(EventDto eventDto);
 
-    DatabaseStatus UpdateEvent(EventDto eventDto);
+    ResponseMessage<string> UpdateEvent(EventDto eventDto);
 
-    DatabaseStatus ApproveEvent(EventDto eventDto);
+    ResponseMessage<string> ApproveEvent(EventDto eventDto);
 
-    DatabaseStatus CancelEvent(EventDto eventDto);
+    ResponseMessage<string> CancelEvent(EventDto eventDto);
 
-    List<string> RejectEvent(int eventId, string message, int employeeId);
+    ResponseMessage<List<string>> RejectEvent(int eventId, string message, int employeeId);
   }
 }

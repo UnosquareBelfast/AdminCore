@@ -2,5 +2,6 @@
 {
   public class CancelHolidayViewModel
   {
+    public int EventId { get; set; }
   }
 }

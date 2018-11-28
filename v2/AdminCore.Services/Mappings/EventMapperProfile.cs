@@ -8,7 +8,7 @@ namespace AdminCore.Services.Mappings
   {
     public EventMapperProfile()
     {
-      CreateMap<Event, EventDto>();
+      CreateMap<Event, EventDto>().ReverseMap();
     }
   }
 }

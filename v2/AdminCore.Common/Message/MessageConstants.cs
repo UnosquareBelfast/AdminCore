@@ -1,10 +1,10 @@
-namespace AdminCore.DAL.Models.Message
+namespace AdminCore.Common.Message
 {
-    public class MessageConstants
-    {
-        public const string MsgStatusSuccess = "SUCCESS";
-        public const string MsgStatusFailed = "FAILED";
-        public const string MsgStatusValidation = "FAILED_VALIDATION";
-        public const string MsgStatusNoRecords = "NO RECORDS RETURNED";
-    }
+  public class MessageConstants
+  {
+    public const string MsgStatusSuccess = "SUCCESS";
+    public const string MsgStatusFailed = "FAILED";
+    public const string MsgStatusValidation = "FAILED_VALIDATION";
+    public const string MsgStatusNoRecords = "NO RECORDS RETURNED";
+  }
 }

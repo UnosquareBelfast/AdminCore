@@ -9,6 +9,7 @@ using AutoMapper;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Linq;
+using AdminCore.Common.Message;
 using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers
@@ -75,8 +76,11 @@ namespace AdminCore.WebApi.Tests.Controllers
       var wfhEvents = _fixture.CreateMany<EventDto>(numOfWfhEvents).ToList();
       var wfhViewModels = _fixture.CreateMany<WorkingFromHomeViewModel>(numOfWfhEvents).ToList();
 
-      _eventService.GetByType(EventTypes.WorkingFromHome).Returns(wfhEvents);
-      _mapper.Map<IList<EventDto>, List<WorkingFromHomeViewModel>>(Arg.Is(wfhEvents)).Returns(wfhViewModels);
+      ResponseMessage<IList<EventDto>> wfhResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = wfhEvents };
+
+      _eventService.GetByType(EventTypes.WorkingFromHome).Returns(wfhResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<WorkingFromHomeViewModel>>(Arg.Is(wfhResponseMessage)).Returns(wfhViewModels);
 
       // Act
       var result = _controller.GetAllWorkingFromHomeEvents();
@@ -96,14 +100,17 @@ namespace AdminCore.WebApi.Tests.Controllers
       var wfhViewModel = _fixture.Build<WorkingFromHomeViewModel>().Create();
       var eventDto = _fixture.Build<EventDto>().Create();
 
-      _eventService.Get(wfhId).Returns(eventDto);
-      _mapper.Map<EventDto, WorkingFromHomeViewModel>(Arg.Is(eventDto)).Returns(wfhViewModel);
+      ResponseMessage<EventDto> wfhResponseMessage =
+        new ResponseMessage<EventDto>(null) { Payload = eventDto };
+
+      _eventService.GetEvent(wfhId).Returns(wfhResponseMessage);
+      _mapper.Map<ResponseMessage<EventDto>, WorkingFromHomeViewModel>(Arg.Is(wfhResponseMessage)).Returns(wfhViewModel);
 
       // Act
       var result = _controller.GetWorkingFromHomeById(wfhId);
 
       // Assert
-      _eventService.Received(1).Get(Arg.Is(wfhId));
+      _eventService.Received(1).GetEvent(Arg.Is(wfhId));
       RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
     }
 
@@ -122,8 +129,11 @@ namespace AdminCore.WebApi.Tests.Controllers
         eventDto
       };
 
-      _eventService.GetByEmployeeId(employeeId).Returns(wfhEvents);
-      _mapper.Map<IList<EventDto>, List<WorkingFromHomeViewModel>>(Arg.Is(wfhEvents)).Returns(wfhViewModels);
+      ResponseMessage<IList<EventDto>> wfhResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = wfhEvents };
+
+      _eventService.GetEventsByEmployeeId(employeeId).Returns(wfhResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<WorkingFromHomeViewModel>>(Arg.Is(wfhResponseMessage)).Returns(wfhViewModels);
 
       // Act
       var result = _controller.GetWorkingFromHomeByEmployeeId(employeeId);
