@@ -1,22 +1,24 @@
 using System.Collections.Generic;
+using AdminCore.Common.Message;
+using AdminCore.Common.Message.Elements;
 using AdminCore.DTOs.Client;
 
 namespace AdminCore.Common.Interfaces
 {
   public interface IClientService
   {
-    IList<ClientDto> GetAll();
+    ResponseMessage<IList<ClientDto>> GetAll();
 
-    void Update(ClientDto clientDto);
+    ResponseMessage<EmptyMessage> Update(ClientDto clientDto);
 
-    void Create(ClientDto clientDto);
+    ResponseMessage<ClientDto> Create(ClientDto clientDto);
 
-    void Save(ClientDto clientDto);
+    ResponseMessage<EmptyMessage> Save(ClientDto clientDto);
 
-    void Delete(int id);
+    ResponseMessage<EmptyMessage> Delete(int id);
 
-    ClientDto Get(int id);
+    ResponseMessage<ClientDto> GetByClientId(int id);
 
-    ClientDto GetByClientName(string clientName);
+    ResponseMessage<IList<ClientDto>> GetByClientName(string clientName);
   }
 }

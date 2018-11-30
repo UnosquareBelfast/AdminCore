@@ -1,35 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AdminCore.Common.Message;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
-using AdminCore.DTOs.EventDates;
+using System;
+using System.Collections.Generic;
+using AdminCore.Common.Message.Elements;
 
 namespace AdminCore.Common.Interfaces
 {
   public interface IEventService
   {
-    IList<EventDto> GetAnnualLeaveByEmployee(int employeeId);
+    ResponseMessage<IList<EventDto>> GetAnnualLeaveByEmployee(int employeeId);
 
-    IList<EventDto> GetByDateBetween(EventDateDto eventDateDto, EventTypes eventType);
+    ResponseMessage<IList<EventDto>> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
-    IList<EventDto> GetByEmployeeId(int employeeId);
+    ResponseMessage<IList<EventDto>> GetEventsByEmployeeId(int employeeId);
 
-    EventDto GetByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate);
+    ResponseMessage<IList<EventDto>> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
 
-    EventDto Get(int id);
+    ResponseMessage<EventDto> GetEvent(int id);
 
-    IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
+    ResponseMessage<IList<EventDto>> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
 
-    IList<EventDto> GetByType(EventTypes eventType);
+    ResponseMessage<IList<EventDto>> GetByType(EventTypes eventType);
 
-    EventDto SaveEvent(EventDto eventDto);
+    ResponseMessage<EventDto> CreateEvent(EventDto eventDto);
 
-    EventDto UpdateEvent(EventDto eventDto);
+    ResponseMessage<EmptyMessage> UpdateEvent(EventDto eventDto);
 
-    EventDto ApproveEvent(EventDto eventDto);
+    ResponseMessage<EmptyMessage> ApproveEvent(EventDto eventDto);
 
-    EventDto CancelEvent(EventDto eventDto);
+    ResponseMessage<EmptyMessage> CancelEvent(EventDto eventDto);
 
-    EventDto RejectEvent(EventDto eventDto);
+    ResponseMessage<List<string>> RejectEvent(int eventId, string message, int employeeId);
   }
 }

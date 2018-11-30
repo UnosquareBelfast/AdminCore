@@ -1,6 +1,6 @@
-namespace AdminCore.DAL.Models.Message.Elements
+namespace AdminCore.Common.Message.Elements
 {
-    public class EmptyMessage
-    {
-    }
+  public class EmptyMessage
+  {
+  }
 }

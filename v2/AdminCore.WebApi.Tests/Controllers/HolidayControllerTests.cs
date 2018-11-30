@@ -1,9 +1,8 @@
 using AdminCore.Common.Interfaces;
+using AdminCore.Common.Message;
 using AdminCore.Constants.Enums;
-using AdminCore.DAL.Models;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
-using AdminCore.DTOs.EventDates;
 using AdminCore.WebApi.Controllers;
 using AdminCore.WebApi.Models.Holiday;
 using AutoFixture;
@@ -20,19 +19,26 @@ namespace AdminCore.WebApi.Tests.Controllers
   {
     private readonly HolidayController _controller;
 
+    private readonly IAuthenticatedUser _authenticatedUser;
+
     private readonly IEventService _eventService;
 
     private readonly IFixture _fixture;
 
     private readonly IMapper _mapper;
 
+    private readonly IEmployeeService _employeeService;
+
     public HolidayControllerTests()
     {
+      _authenticatedUser = Substitute.For<IAuthenticatedUser>();
+      _employeeService = Substitute.For<IEmployeeService>();
       _eventService = Substitute.For<IEventService>();
       _mapper = Substitute.For<IMapper>();
       _fixture = new Fixture();
 
-      _controller = new HolidayController(_eventService, _mapper);
+      //_controller = new HolidayController(_eventService, _mapper, _employeeCredentials);
+      _controller = new HolidayController(_authenticatedUser, _eventService, _employeeService, _mapper);
     }
 
     [Fact]
@@ -76,7 +82,6 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       // Arrange
       var createViewModel = _fixture.Build<CreateHolidayViewModel>()
-        .With(x => x.EventType, EventTypes.AnnualLeave)
         .Create();
       var eventDto = _fixture.Create<EventDto>();
 
@@ -88,7 +93,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       VerifyActionResult(result);
 
-      _eventService.Received(1).SaveEvent(eventDto);
+      _eventService.Received(1).CreateEvent(eventDto);
     }
 
     [Fact]
@@ -96,7 +101,6 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       // Arrange
       var createViewModel = _fixture.Build<CreateHolidayViewModel>()
-        .With(x => x.EventType, EventTypes.WorkingFromHome)
         .Create();
       var eventDto = _fixture.Create<EventDto>();
 
@@ -108,7 +112,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       VerifyActionResult(result);
 
-      _eventService.Received(1).SaveEvent(eventDto);
+      _eventService.Received(1).CreateEvent(eventDto);
     }
 
     [Fact]
@@ -116,12 +120,13 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       // Arrange
       const int numberOfHolidays = 9;
-
       var holidays = _fixture.CreateMany<EventDto>(numberOfHolidays).ToList();
       var holidayViewModels = _fixture.CreateMany<HolidayViewModel>(numberOfHolidays).ToList();
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
 
-      _eventService.GetByType(EventTypes.AnnualLeave).Returns(holidays);//gets back
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      _eventService.GetByType(EventTypes.AnnualLeave).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
       var result = _controller.GetAllHolidays();
@@ -133,7 +138,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     }
 
     [Fact]
-    public void GetAllHolidaysByEmployeeId_WhenCalled_ReturnsAllHolidaysOfEmployeedId()
+    public void GetAllHolidaysByEmployeeId_WhenCalled_ReturnsAllHolidaysOfEmployeeId()
     {
       // Arrange
       const int numberOfHolidays = 9;
@@ -147,8 +152,11 @@ namespace AdminCore.WebApi.Tests.Controllers
         eventDto
       };
 
-      _eventService.GetByEmployeeId(employeeId).Returns(holidays);
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
+
+      _eventService.GetEventsByEmployeeId(employeeId).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
       var result = _controller.GetHolidayByEmployeeId(employeeId);
@@ -168,15 +176,17 @@ namespace AdminCore.WebApi.Tests.Controllers
       var holidayViewModelModel = _fixture.Build<HolidayViewModel>().Create();
       var eventDto = _fixture.Build<EventDto>().Create();
 
-      _eventService.Get(holidayId).Returns(eventDto);
-      _mapper.Map<EventDto, HolidayViewModel>(Arg.Is(eventDto)).Returns(holidayViewModelModel);
+      ResponseMessage<EventDto> holidaysResponseMessage = new ResponseMessage<EventDto>(null) { Payload = eventDto };
+
+      _eventService.GetEvent(holidayId).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<EventDto>, HolidayViewModel>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModelModel);
 
       // Act
       var result = _controller.GetHolidayByHolidayId(holidayId);
 
       // Assert
-      _eventService.Received(1).Get(Arg.Is(holidayId));
-      RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
+      _eventService.Received(1).GetEvent(Arg.Is(holidayId));
+      RetrieveValueFromActionResult<HolidayViewModel>(result);
     }
 
     [Fact]
@@ -186,24 +196,25 @@ namespace AdminCore.WebApi.Tests.Controllers
       const int numberOfHolidays = 9;
       var holidayViewModels = _fixture.CreateMany<HolidayViewModel>(numberOfHolidays).ToList();
       var eventDateDto = _fixture.Build<EventDateDto>()
-        .With(x => x.startDate, new DateTime(2018, 11, 13))
-        .With(x => x.endDate, new DateTime(2018, 11, 15))
+        .With(x => x.StartDate, new DateTime(2018, 11, 13))
+        .With(x => x.EndDate, new DateTime(2018, 11, 15))
         .Create();
 
-      var eventDto = _fixture.Build<EventDto>()
-        .With(x => x.EventDates, eventDateDto)
-        .Create();
+      var eventDto = _fixture.Create<EventDto>();
 
       List<EventDto> holidays = new List<EventDto>
       {
         eventDto
       };
 
-      _eventService.GetByDateBetween(eventDateDto, EventTypes.AnnualLeave).Returns(holidays);
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
+
+      _eventService.GetByDateBetween(eventDateDto.StartDate, eventDateDto.EndDate, EventTypes.AnnualLeave).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
-      var result = _controller.GetHolidayByDateBetween(new EventDate()); //Needs set
+      var result = _controller.GetHolidayByDateBetween(eventDateDto.StartDate.ToShortDateString(), eventDateDto.EndDate.ToShortDateString());
 
       // Assert
       var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
@@ -212,7 +223,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     }
 
     [Fact]
-    public void GetHolidayByStatusApproved_WhenCalled_ReturnsAllHolidaysOfThatHolidayStatus() //TODO
+    public void GetHolidayByStatusApproved_WhenCalled_ReturnsAllHolidaysOfThatHolidayStatus()
     {
       // Arrange
       const int approvedId = (int)EventStatuses.Approved;
@@ -230,11 +241,14 @@ namespace AdminCore.WebApi.Tests.Controllers
         eventDto
       };
 
-      _eventService.GetByStatusType(approvedEventStatus, annualLeave).Returns(holidays);
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
+
+      _eventService.GetByStatusType(approvedEventStatus, annualLeave).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
-      var result = _controller.GetHolidayByStatus(approvedId);
+      var result = _controller.GetHolidayByStatusType(approvedId);
 
       // Assert
       var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
@@ -261,11 +275,14 @@ namespace AdminCore.WebApi.Tests.Controllers
         eventDto
       };
 
-      _eventService.GetByStatusType(awaitingApprovalEventStatus, annualLeave).Returns(holidays);
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
+
+      _eventService.GetByStatusType(awaitingApprovalEventStatus, annualLeave).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
-      var result = _controller.GetHolidayByStatus(awaitingApprovalId);
+      var result = _controller.GetHolidayByStatusType(awaitingApprovalId);
 
       // Assert
       var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
@@ -292,11 +309,14 @@ namespace AdminCore.WebApi.Tests.Controllers
         eventDto
       };
 
-      _eventService.GetByStatusType(cancelledEventStatus, annualLeave).Returns(holidays);
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
+
+      _eventService.GetByStatusType(cancelledEventStatus, annualLeave).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
-      var result = _controller.GetHolidayByStatus(cancelledId);
+      var result = _controller.GetHolidayByStatusType(cancelledId);
 
       // Assert
       var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
@@ -323,11 +343,14 @@ namespace AdminCore.WebApi.Tests.Controllers
         eventDto
       };
 
-      _eventService.GetByStatusType(rejectedEventStatus, annualLeave).Returns(holidays);
-      _mapper.Map<IList<EventDto>, List<HolidayViewModel>>(Arg.Is(holidays)).Returns(holidayViewModels);
+      ResponseMessage<IList<EventDto>> holidaysResponseMessage =
+        new ResponseMessage<IList<EventDto>>(null) { Payload = holidays };
+
+      _eventService.GetByStatusType(rejectedEventStatus, annualLeave).Returns(holidaysResponseMessage);
+      _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(Arg.Is(holidaysResponseMessage)).Returns(holidayViewModels);
 
       // Act
-      var result = _controller.GetHolidayByStatus(rejectedId);
+      var result = _controller.GetHolidayByStatusType(rejectedId);
 
       // Assert
       var returnedHolidays = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
@@ -350,7 +373,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       VerifyActionResult(result);
 
-      _eventService.Received(1).RejectEvent(eventDto);
+      _eventService.Received(1).RejectEvent(rejectedViewModel.EventId, rejectedViewModel.Message, int.Parse(_authenticatedUser.RetrieveUserId()));
     }
 
     [Fact]

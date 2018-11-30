@@ -7,14 +7,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using AdminCore.Common.Message;
 using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
+using AdminCore.DTOs.Event;
 using AdminCore.DTOs.Team;
 using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Client;
 using AdminCore.WebApi.Models.Employee;
+using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.Team;
 using AutoMapper;
 
@@ -31,12 +35,14 @@ namespace AdminCore.WebApi.Mappings
     public WebMappingProfile()
     {
       CreateMap<ClientDto, ClientViewModel>();
+      CreateMap<ClientDto, CreateClientViewModel>();
 
       CreateMap<EmployeeDto, LoginRequestModel>();
 
       CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
 
       CreateMap<ClientDto, ClientViewModel>().ReverseMap();
+      CreateMap<ClientDto, CreateClientViewModel>().ReverseMap();
       CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
 
       CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
@@ -46,6 +52,17 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<RegisterEmployeeViewModel, EmployeeDto>();
 
       CreateMap<TeamDto, TeamViewModel>();
+
+      CreateMap<EventDto, HolidayViewModel>().ReverseMap();
+      CreateMap<EventDto, CreateHolidayViewModel>().ReverseMap();
+      CreateMap<EventDto, RejectHolidayViewModel>().ReverseMap();
+      CreateMap<EventDto, ApproveHolidayViewModel>().ReverseMap();
+      CreateMap<EventDto, UpdateHolidayViewModel>().ReverseMap();
+      CreateMap<EventDto, CancelHolidayViewModel>().ReverseMap();
+      CreateMap<ResponseMessage<EventDto>, HolidayViewModel>().ReverseMap();
+      CreateMap<EventDateDto, DateViewModel>().ReverseMap();
+      CreateMap<ICollection<EventDateDto>, DateViewModel>().ReverseMap();
+      CreateMap<ICollection<EventDateDto>, EventDateDto>().ReverseMap();
     }
   }
 }

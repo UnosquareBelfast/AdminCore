@@ -27,7 +27,7 @@ namespace AdminCore.Common.Interfaces
 
     void Delete(int employeeId);
 
-    IList<EmployeeDto> Get(int employeeId);
+    EmployeeDto Get(int employeeId);
 
     IList<EmployeeDto> GetByForenameAndSurname(string forename, string surname);
 
