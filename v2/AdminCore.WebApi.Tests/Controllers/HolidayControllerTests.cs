@@ -1,4 +1,4 @@
-using AdminCore.Common.Interfaces;
+/*using AdminCore.Common.Interfaces;
 using AdminCore.Common.Message;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Employee;
@@ -394,4 +394,4 @@ namespace AdminCore.WebApi.Tests.Controllers
       _eventService.Received(1).UpdateEvent(eventDto);
     }
   }
-}
+}*/

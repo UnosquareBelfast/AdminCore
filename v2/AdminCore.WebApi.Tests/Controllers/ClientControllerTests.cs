@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Controllers;
@@ -236,4 +236,4 @@ namespace AdminCore.WebApi.Tests.Controllers
       _clientService.Received(1).GetByClientName(testName);
     }
   }
-}
+}*/

@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using AdminCore.Common.Message;
 using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
@@ -59,7 +58,7 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<EventDto, ApproveHolidayViewModel>().ReverseMap();
       CreateMap<EventDto, UpdateHolidayViewModel>().ReverseMap();
       CreateMap<EventDto, CancelHolidayViewModel>().ReverseMap();
-      CreateMap<ResponseMessage<EventDto>, HolidayViewModel>().ReverseMap();
+      CreateMap<EventDto, HolidayViewModel>().ReverseMap();
       CreateMap<EventDateDto, DateViewModel>().ReverseMap();
       CreateMap<ICollection<EventDateDto>, DateViewModel>().ReverseMap();
       CreateMap<ICollection<EventDateDto>, EventDateDto>().ReverseMap();

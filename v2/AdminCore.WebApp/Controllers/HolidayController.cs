@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using AdminCore.Common.Interfaces;
-using AdminCore.Common.Message;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
 using AdminCore.WebApi.Models;
@@ -18,7 +17,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -28,15 +26,15 @@ namespace AdminCore.WebApi.Controllers
   public class HolidayController : ControllerBase
   {
     private readonly IAuthenticatedUser _authenticatedUser;
-    private readonly IEventService _holidayEventService;
+    private readonly IEventService _eventService;
     private readonly IEmployeeService _employeeService;
     private readonly IMapper _mapper;
 
-    public HolidayController(IAuthenticatedUser authenticatedUser, IEventService holidayEventService,
+    public HolidayController(IAuthenticatedUser authenticatedUser, IEventService eventService,
       IEmployeeService employeeService, IMapper mapper)
     {
       _authenticatedUser = authenticatedUser;
-      _holidayEventService = holidayEventService;
+      _eventService = eventService;
       _employeeService = employeeService;
       _mapper = mapper;
     }
@@ -44,67 +42,92 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllHolidays()
     {
-      var holidaysDtos = _holidayEventService.GetByType(EventTypes.AnnualLeave);
-      var holidays = _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(holidaysDtos);
-      return Ok(holidays);
+      var holidays = _eventService.GetEventByType(EventTypes.AnnualLeave);
+      if (holidays != null)
+      {
+        return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
+      }
+
+      return Ok("No holidays found");
     }
 
     [HttpGet("{holidayId}")]
-    public IActionResult GetHolidayByHolidayId(int holidayId)
+    public IActionResult GetHolidayByEventId(int eventId)
     {
-      var holiday = _holidayEventService.GetEvent(holidayId);
-      if (holiday.Status == MessageConstants.MsgStatusSuccess)
+      var holiday = _eventService.GetEvent(eventId);
+      if (holiday!= null)
       {
-        return Ok(_mapper.Map<HolidayViewModel>(holiday.Payload));
+        return Ok(_mapper.Map<HolidayViewModel>(holiday));
       }
 
-      return Ok(holiday.Payload);
+      return Ok($"No holiday found for event ID: { eventId.ToString() }");
     }
 
     [HttpGet("findByEmployeeId/{employeeId}")]
     public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
-      ResponseMessage<IList<EventDto>> holidaysDtos = _holidayEventService.GetEventsByEmployeeId(employeeId);
-      var holidays = _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(holidaysDtos);
-      return Ok(holidays);
+      var holiday = _eventService.GetEventsByEmployeeId(employeeId);
+      if (holiday!= null)
+      {
+        return Ok(_mapper.Map<HolidayViewModel>(holiday));
+      }
+
+      return Ok($"No holiday found for employee ID: { employeeId.ToString() }");
     }
 
     [HttpPost]
     public IActionResult CreateHoliday(CreateHolidayViewModel viewModel)
     {
-      IList<string> errors = ValidateCreateHolidayViewModel(viewModel);
-      return CreateResponseBasedOnErrors(errors, viewModel);
+      ValidateCreateHolidayViewModel(viewModel);
+      return Ok();
     }
 
     [HttpPut]
     public IActionResult UpdateHoliday(UpdateHolidayViewModel updateHoliday)
     {
-      var eventDto = _mapper.Map<UpdateHolidayViewModel, EventDto>(updateHoliday);
-      return Ok(_holidayEventService.UpdateEvent(eventDto));
+      var eventDto = _mapper.Map<EventDto>(updateHoliday);
+      try
+      {
+        _eventService.UpdateEvent(eventDto);
+        return Ok();
+      }
+      catch (Exception ex)
+      {
+        //Log error
+      }
+      
+      return Ok("Holiday failed to update");
     }
 
     [HttpPut("approveHoliday")]
     public IActionResult ApproveHoliday(ApproveHolidayViewModel approveHoliday)
     {
-      var eventDto = _mapper.Map<ApproveHolidayViewModel, EventDto>(approveHoliday);
-      return Ok(_holidayEventService.ApproveEvent(eventDto));
+      var eventDto = _mapper.Map<EventDto>(approveHoliday);
+      try
+      {
+        _eventService.ApproveEvent(eventDto);
+        return Ok();
+      }
+      catch (Exception ex)
+      {
+        // Log exception
+      }
+
+      return Ok("Holiday failed to get approved");
     }
 
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
-      var eventDto = _mapper.Map<CancelHolidayViewModel, EventDto>(cancelHoliday);
-      return Ok(_holidayEventService.CancelEvent(eventDto));
+       _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled );
+      return Ok();
     }
 
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      var responses = _holidayEventService.RejectEvent(
-        rejectHoliday.EventId,
-        rejectHoliday.Message,
-        int.Parse(_authenticatedUser.RetrieveUserId()));
-      return Ok(responses);
+      _eventService.RejectEvent(rejectHoliday.EventId,rejectHoliday.Message, int.Parse(_authenticatedUser.RetrieveUserId()));
+      return Ok();
     }
 
     [HttpGet("findByDateBetween/{startDate}/{endDate}")]
@@ -120,13 +143,15 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("findByHolidayStatus/{holidayStatusId}")]
     public IActionResult GetHolidayByStatusType(int holidayStatusId)
     {
-      var holidaysDtos = _holidayEventService.GetByStatusType((EventStatuses)holidayStatusId, EventTypes.AnnualLeave);
-      var holidays = _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(holidaysDtos);
-
-      return Ok(holidays);
+      var holidays = _eventService.GetEventByStatus((EventStatuses)holidayStatusId, EventTypes.AnnualLeave);
+      if (holidays != null)
+      {
+        return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
+      }
+      return Ok("No holidays found");
     }
 
-    protected bool ValidateDate(string date)
+    private bool ValidateDate(string date)
     {
       try
       {
@@ -139,22 +164,6 @@ namespace AdminCore.WebApi.Controllers
       }
     }
 
-    private IActionResult CreateResponseBasedOnErrors(IList<string> errors, CreateHolidayViewModel createHolidayViewModel)
-    {
-      return errors.Any() ? CreateBadRequestResponseWithListOfErrors(errors) : CreateOkResponseWithNewEvent(createHolidayViewModel);
-    }
-
-    private IActionResult CreateOkResponseWithNewEvent(CreateHolidayViewModel createHolidayViewModel)
-    {
-      var eventDto = _mapper.Map<EventDto>(createHolidayViewModel);
-      var eventDateDto = _mapper.Map<EventDateDto>(createHolidayViewModel.DateRange);
-      eventDto.EventDates = new List<EventDateDto>
-      {
-        eventDateDto
-      };
-      return Ok(_holidayEventService.CreateEvent(eventDto));
-    }
-
     private IList<string> ValidateCreateHolidayViewModel(CreateHolidayViewModel createHolidayViewModel)
     {
       IList<string> errorResponses = new List<string>();
@@ -165,8 +174,8 @@ namespace AdminCore.WebApi.Controllers
 
     private void CheckIfHolidayHasAlreadyBeenBooked(CreateHolidayViewModel createHolidayViewModel, DateViewModel dateRange, IList<string> errorResponses)
     {
-      var holidaysAlreadyBooked = _holidayEventService.GetEventsByEmployeeIdAndStartAndEndDates(createHolidayViewModel.EmployeeId,
-        dateRange.StartDate, dateRange.EndDate).Payload;
+      var holidaysAlreadyBooked = _eventService.GetEventsByEmployeeIdAndStartAndEndDates(createHolidayViewModel.EmployeeId,
+        dateRange.StartDate, dateRange.EndDate);
 
       if (holidaysAlreadyBooked != null)
       {
@@ -201,10 +210,8 @@ namespace AdminCore.WebApi.Controllers
 
     private IList<HolidayViewModel> GetEventsBetweenDates(string startDate, string endDate)
     {
-      var holidaysDtos = _holidayEventService.GetByDateBetween(Convert.ToDateTime(startDate),
-        Convert.ToDateTime(endDate), EventTypes.AnnualLeave);
-      var holidays = _mapper.Map<ResponseMessage<IList<EventDto>>, List<HolidayViewModel>>(holidaysDtos);
-      return holidays;
+      var holidays = _eventService.GetByDateBetween(Convert.ToDateTime(startDate), Convert.ToDateTime(endDate));
+      return _mapper.Map<IList<HolidayViewModel>>(holidays);
     }
   }
 }
