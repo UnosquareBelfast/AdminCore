@@ -56,10 +56,10 @@ namespace AdminCore.Services
     /// </exception>
     public JwtAuthDto JwtSignIn(string email, string password)
     {
-      var employee = _databaseContext.EmployeeRepository.Get(x => x.Email.Equals(email)).FirstOrDefault();
+      var employee = _databaseContext.EmployeeRepository.GetSingle(x => x.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase));
 
       if (employee == null) return null;
-
+      //TODO Decrypt and check password!
       /*     var decodedPassword = DecodePassword(password);
       if (!decodedPassword.Equals(password))
       {

@@ -74,7 +74,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok("Something went wrong, client was not created.");
       }
       
-      return Ok();
+      return Ok($"Client {viewModel.ClientName} has successfully been created");
     }
 
     [HttpGet("{id}")]

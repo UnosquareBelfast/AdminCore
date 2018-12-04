@@ -7,6 +7,8 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using AdminCore.Extensions;
 using AdminCore.Services.Base;
 
 namespace AdminCore.Services
@@ -102,24 +104,30 @@ namespace AdminCore.Services
         eventToUpdate.EventStatusId = (int)status;
       }
     }
-    
-    public void CreateEvent(EventDto newEvent)
+
+    public void CreateEvent(int employeeId, EventDateDto dates)
     {
-      var eventDates = new List<EventDateDto>();
-      var newEventDates = SplitEventIfFallsOnAWeekend(newEvent, newEvent.EventDates.Last().EndDate, eventDates);
-      //eventDto.EventDates = eventDates;
+      var newEvent = new Event()
+      {
+        DateCreated = DateTime.Now,
+        EmployeeId = employeeId,
+        EventStatusId = (int) EventStatuses.AwaitingApproval,
+        EventTypeId = (int) EventTypes.AnnualLeave
+      };
+      
+      SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates);
     }
-    
-    private IList<EventDateDto> SplitEventIfFallsOnAWeekend(EventDto eventDto, DateTime originalEndDate, IList<EventDateDto> eventDates)
+
+    private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, EventDateDto dates)
     {
-      var startDate = eventDto.EventDates.First().StartDate;
-      var endDate = eventDto.EventDates.Last().EndDate;
-      foreach (var day in EachDay(startDate, endDate))
+      var startDate = dates.StartDate;
+      var endDate = dates.EndDate;
+      var dateRanges = startDate.Range(endDate);
+      foreach (var day in dateRanges)
       {
         if (day.DayOfWeek == DayOfWeek.Saturday)
         {
           // Set end date
-          eventDates.Add(SetEndDateForNewEvent(eventDto, eventDates, day));
           // Create new event
           var nextEvent = MapEventDto(eventDto, originalEndDate, day, 2);
           // Check again
@@ -130,7 +138,7 @@ namespace AdminCore.Services
 
       if (eventDto.EventDates.Last().EndDate == originalEndDate)
       {
-        EventDateDto eventDateDto = new EventDateDto
+        var eventDateDto = new EventDateDto
         {
           StartDate = eventDto.EventDates.First().StartDate,
           EndDate = eventDto.EventDates.Last().EndDate
@@ -142,67 +150,6 @@ namespace AdminCore.Services
       }
 
       return eventDates;
-    }
-
-    private IList<EventDto> BuildEventDtoFromEventDates(IList<EventDate> eventDates)
-    {
-      IList<EventDto> eventDto = new List<EventDto>();
-      int lastEventId = 0;
-      foreach (var eventDate in eventDates)
-      {
-        lastEventId = IfIsTheFirstElementSetTheEventId(lastEventId, eventDate);
-        lastEventId = IfNewEventThenAddPreviousEventToList(eventDate, lastEventId, eventDto);
-      }
-
-      IfOnlyOneEventAddToList(eventDates, eventDto);
-
-      return eventDto;
-    }
-
-    private void IfOnlyOneEventAddToList(IList<EventDate> eventDates, IList<EventDto> eventDto)
-    {
-      if (!eventDto.Any())
-      {
-        eventDto.Add(GetEvent(eventDates.First().EventId));
-      }
-    }
-
-    private int IfNewEventThenAddPreviousEventToList(EventDate eventDate, int lastEventId, IList<EventDto> eventDto)
-    {
-      if (eventDate.EventId != lastEventId)
-      {
-        eventDto.Add(GetEvent(lastEventId));
-        lastEventId = eventDate.EventId;
-      }
-
-      return lastEventId;
-    }
-
-    private static int IfIsTheFirstElementSetTheEventId(int lastEventId, EventDate eventDate)
-    {
-      if (lastEventId == 0)
-      {
-        lastEventId = eventDate.EventId;
-      }
-
-      return lastEventId;
-    }
-    
-    private EventDateDto SetEndDateForNewEvent(EventDto eventDto, ICollection<EventDateDto> eventDates, DateTime day)
-    {
-      eventDto.EventDates.Last().EndDate = day.AddDays(-1);
-      EventDateDto eventDateDto = new EventDateDto
-      {
-        StartDate = eventDto.EventDates.First().StartDate,
-        EndDate = eventDto.EventDates.Last().EndDate
-      };
-      return eventDateDto;
-    }
-
-    public IEnumerable<DateTime> EachDay(DateTime from, DateTime thru)
-    {
-      for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
-        yield return day;
     }
 
     private EventDto MapEventDto(EventDto priorEvent, DateTime originalEndDate, DateTime eventDate, int plusDays)

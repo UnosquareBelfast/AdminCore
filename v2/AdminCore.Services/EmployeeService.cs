@@ -16,19 +16,18 @@ using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs.Employee;
+using AdminCore.Services.Base;
 using AutoMapper;
 
 namespace AdminCore.Services
 {
-  public class EmployeeService : IEmployeeService
+  public class EmployeeService : BaseService, IEmployeeService
   {
-    private readonly IDatabaseContext _databaseContext;
-
     private readonly IMapper _mapper;
 
-    public EmployeeService(IDatabaseContext databaseContext, IMapper mapper)
+    public EmployeeService(IDatabaseContext databaseContext, IMapper mapper) : 
+      base(databaseContext)
     {
-      _databaseContext = databaseContext;
       _mapper = mapper;
     }
 
@@ -38,15 +37,15 @@ namespace AdminCore.Services
       employee.Password = EncodePasswordToBase64(employee.Password);
       employee.TotalHolidays = CalculateTotalHolidaysFromStartDate(employee, 33);
 
-      _databaseContext.EmployeeRepository.Insert(employee);
-      _databaseContext.SaveChanges();
+      DatabaseContext.EmployeeRepository.Insert(employee);
+      DatabaseContext.SaveChanges();
 
       return employee.Email;
     }
 
     public bool VerifyEmailExists(string email)
     {
-      return _databaseContext.EmployeeRepository
+      return DatabaseContext.EmployeeRepository
         .Get(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase)).Any();
     }
 
