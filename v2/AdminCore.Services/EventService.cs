@@ -7,10 +7,8 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AdminCore.Extensions;
 using AdminCore.Services.Base;
-using Microsoft.Build.Utilities;
 
 namespace AdminCore.Services
 {
@@ -122,9 +120,16 @@ namespace AdminCore.Services
       DatabaseContext.SaveChanges();
     }
     
-    public void UpdateEvent(EventDto events)
+    public void UpdateEvent(EventDateDto eventDateDto)
     {
-      throw new NotImplementedException();
+      var eventToUpdate = GetEventById(eventDateDto.EventId);
+
+      if (eventToUpdate != null)
+      {
+          eventToUpdate.EventDates.Clear();
+          SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
+          DatabaseContext.SaveChanges();
+      }
     }
 
 
@@ -161,7 +166,8 @@ namespace AdminCore.Services
 
     private Event GetEventById(int id)
     {
-      return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id);
+      return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id, 
+        x => x.EventDates);
     }
 
     private Employee GetEmployeeFromEmployeeId(int employeeId)

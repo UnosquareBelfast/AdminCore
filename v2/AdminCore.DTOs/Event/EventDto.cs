@@ -26,10 +26,10 @@ namespace AdminCore.DTOs.Event
     
     public ICollection<EventMessageDto> EventMessageDtos { get; set; }
     
-    public EventMessageDto LatestMessage { get; set; }
+    public string LatestMessage { get; set; }
 
     public ICollection<EventDateDto> EventDates { get; set; }
-
+   
     public DateTime LastModified { get; set; }
   }
 }

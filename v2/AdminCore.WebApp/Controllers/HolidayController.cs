@@ -79,22 +79,31 @@ namespace AdminCore.WebApi.Controllers
     {
       var employeeId = _authenticatedUser.RetrieveUserId();
       var eventDates = _mapper.Map<EventDateDto>(model);
-      _eventService.CreateEvent(employeeId, eventDates);
-      return Ok();
+      try
+      {
+        _eventService.CreateEvent(employeeId, eventDates);
+        return Ok($"Holiday has been created successfully");
+      }
+      catch (Exception e)
+      {
+        //Log Exception
+      }
+      
+      return Ok("Something has gone wrong - holiday creation failed");
     }
 
     [HttpPut]
     public IActionResult UpdateHoliday(UpdateEventViewModel updateHoliday)
     {
-      var eventDto = _mapper.Map<EventDto>(updateHoliday);
+      var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
-        _eventService.UpdateEvent(eventDto);
+        _eventService.UpdateEvent(eventDatesToUpdate);
         return Ok();
       }
       catch (Exception ex)
       {
-        //Log error
+        //Log Exception
       }
       
       return Ok("Holiday failed to update");

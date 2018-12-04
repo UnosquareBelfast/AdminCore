@@ -23,7 +23,7 @@ namespace AdminCore.Common.Interfaces
 
     void CreateEvent(int employeeId, EventDateDto dates);
 
-    void UpdateEvent(EventDto events);
+    void UpdateEvent(EventDateDto eventDateDto);
     
     void UpdateEventStatus(int eventId, EventStatuses status);
 
