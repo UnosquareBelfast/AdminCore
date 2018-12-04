@@ -44,8 +44,7 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(events);
     }
 
-    public IList<EventDto> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate,
-      DateTime endDate)
+    public IList<EventDto> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate)
     {
       var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                      && x.EndDate <= endDate
@@ -90,6 +89,7 @@ namespace AdminCore.Services
              LastModified = DateTime.Now
            };
           eventToReject.EventMessages.Add(eventMessage);
+          DatabaseContext.SaveChanges();
         }
       }
     }
