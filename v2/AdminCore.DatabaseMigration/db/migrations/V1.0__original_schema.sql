@@ -90,20 +90,16 @@ ALTER SEQUENCE employee_role_employee_role_id_seq
 
   ----------------------------------------------------------------------------------------
 
-CREATE SEQUENCE IF NOT EXISTS public.event_status_event_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_status
 (
-    event_status_id integer NOT NULL DEFAULT nextval('event_status_event_status_id_seq'::regclass),
+    event_status_id        integer,
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT event_status_pkey PRIMARY KEY (event_status_id)
 )
 WITH (
-    OIDS = FALSE
+OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER SEQUENCE event_status_event_status_id_seq
-    OWNED BY event_status.event_status_id;
 
   ----------------------------------------------------------------------------------------
 
@@ -113,10 +109,9 @@ ALTER SEQUENCE event_status_event_status_id_seq
 
   ----------------------------------------------------------------------------------------
 
-CREATE SEQUENCE IF NOT EXISTS public.event_type_event_type_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_type
 (
-    event_type_id        integer NOT NULL DEFAULT nextval('event_type_event_type_id_seq' :: regclass),
+    event_type_id        integer,
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT event_type_pkey PRIMARY KEY (event_type_id)
 )
@@ -124,9 +119,6 @@ WITH (
 OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER SEQUENCE event_type_event_type_id_seq
-    OWNED BY event_type.event_type_id;
 
   ----------------------------------------------------------------------------------------
 
@@ -266,7 +258,7 @@ TABLESPACE pg_default;
 CREATE SEQUENCE IF NOT EXISTS public.event_event_id_seq;
 CREATE TABLE IF NOT EXISTS public.event
 (
-  event_id        integer NOT NULL  nextval('event_event_id_seq' :: regclass),
+  event_id        integer NOT NULL DEFAULT nextval('event_event_id_seq' :: regclass),
   employee_id       integer,
   date_created      timestamp ,
   event_status_id integer,
@@ -355,7 +347,7 @@ TABLESPACE pg_default;
   ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_id_seq;
-CREATE TABLE public.event_message
+CREATE TABLE IF NOT EXISTS public.event_message
 (
     event_message_id integer NOT NULL DEFAULT nextval('event_message_event_message_id_seq' :: regclass),
     event_id integer NOT NULL,
