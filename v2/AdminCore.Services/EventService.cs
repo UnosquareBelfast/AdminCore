@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using AdminCore.Extensions;
 using AdminCore.Services.Base;
+using Microsoft.Build.Utilities;
 
 namespace AdminCore.Services
 {
@@ -51,7 +52,7 @@ namespace AdminCore.Services
       var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                      && x.EndDate <= endDate
                                                                      && x.Event.EmployeeId == employeeId);
-      return BuildEventDtoFromEventDates(eventDates);
+      return null;
     }
     
     public EventDto GetEvent(int id)
@@ -95,7 +96,7 @@ namespace AdminCore.Services
         }
       }
     }
-
+    
     public void UpdateEventStatus(int eventId, EventStatuses status)
     {
       var eventToUpdate = GetEventById(eventId);
@@ -112,89 +113,55 @@ namespace AdminCore.Services
         DateCreated = DateTime.Now,
         EmployeeId = employeeId,
         EventStatusId = (int) EventStatuses.AwaitingApproval,
-        EventTypeId = (int) EventTypes.AnnualLeave
+        EventTypeId = (int) EventTypes.AnnualLeave,
+        EventDates = new List<EventDate>()
       };
-      
-      SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates);
+
+      SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates.StartDate);
+      DatabaseContext.EventRepository.Insert(newEvent);
+      DatabaseContext.SaveChanges();
+    }
+    
+    public void UpdateEvent(EventDto events)
+    {
+      throw new NotImplementedException();
     }
 
-    private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, EventDateDto dates)
+
+    private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
     {
-      var startDate = dates.StartDate;
-      var endDate = dates.EndDate;
-      var dateRanges = startDate.Range(endDate);
-      foreach (var day in dateRanges)
+      var dates = startDate.Range(originalEndDate).ToList();
+      foreach(var day in dates)
       {
-        if (day.DayOfWeek == DayOfWeek.Saturday)
+        if (day.DayOfWeek == DayOfWeek.Friday)
         {
-          // Set end date
-          // Create new event
-          var nextEvent = MapEventDto(eventDto, originalEndDate, day, 2);
-          // Check again
-          SplitEventIfFallsOnAWeekend(nextEvent, nextEvent.EventDates.Last().EndDate, eventDates);
+          newEvent.EventDates.Add(new EventDate()
+          {
+            StartDate = startDate, 
+            EndDate = day,
+            IsHalfDay = false
+          });
+
+          var nextStartDate = day.AddDays(3);
+          SplitEventIfFallsOnAWeekend(newEvent, originalEndDate, nextStartDate);
           break;
         }
       }
 
-      if (eventDto.EventDates.Last().EndDate == originalEndDate)
+      if (dates.Last().Date == originalEndDate && dates.Count < 5)
       {
-        var eventDateDto = new EventDateDto
+        var lastDate = new EventDate()
         {
-          StartDate = eventDto.EventDates.First().StartDate,
-          EndDate = eventDto.EventDates.Last().EndDate
+          StartDate = startDate,
+          EndDate = originalEndDate
         };
-        if (eventDates.Last().StartDate != eventDateDto.StartDate && eventDates.Last().EndDate != eventDateDto.EndDate)
-        {
-          eventDates.Add(eventDateDto);
-        }
-      }
-
-      return eventDates;
-    }
-
-    private EventDto MapEventDto(EventDto priorEvent, DateTime originalEndDate, DateTime eventDate, int plusDays)
-    {
-      EventDto nextEvent = _mapper.Map<EventDto>(priorEvent);
-      nextEvent.DateCreated = DateTime.Now;
-      nextEvent.EventDates.First().StartDate = eventDate.AddDays(plusDays);
-      nextEvent.EventDates.Last().EndDate = originalEndDate;
-      nextEvent.LastModified = DateTime.Now;
-      return nextEvent;
-    }
-
-    public void UpdateEvent(EventDto eventDto)
-    {
-      var existingEvent = GetEventById(eventDto.EventId);
-      if (existingEvent != null)
-      {
-        //UpdateEventToChangedEvent(eventDto, existingEvent);
-      }
-    }
-
-    public void ApproveEvent(EventDto eventDto)
-    {
-      var existingEvent = GetEventById(eventDto.EventId);
-      if (existingEvent != null)
-      {
-        //UpdateStatusToApproved(existingEvent);
+        newEvent.EventDates.Add(lastDate); 
       }
     }
 
     private Event GetEventById(int id)
     {
       return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id);
-    }
-
-    private void Save(Event eventToSave)
-    {
-      if (eventToSave.EventId == 0)
-      {
-        eventToSave.DateCreated = DateTime.Now;
-        DatabaseContext.EventRepository.Insert(eventToSave);
-      }
-
-      eventToSave.LastModified = DateTime.Now;
-      DatabaseContext.SaveChanges();
     }
 
     private Employee GetEmployeeFromEmployeeId(int employeeId)

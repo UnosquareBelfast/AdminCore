@@ -75,16 +75,16 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPost]
-    public IActionResult CreateHoliday(CreateHolidayViewModel viewModel)
+    public IActionResult CreateHoliday(CreateHolidayViewModel model)
     {
       var employeeId = _authenticatedUser.RetrieveUserId();
-      var eventDates = _mapper.Map<EventDateDto>(viewModel);
+      var eventDates = _mapper.Map<EventDateDto>(model);
       _eventService.CreateEvent(employeeId, eventDates);
       return Ok();
     }
 
     [HttpPut]
-    public IActionResult UpdateHoliday(UpdateHolidayViewModel updateHoliday)
+    public IActionResult UpdateHoliday(UpdateEventViewModel updateHoliday)
     {
       var eventDto = _mapper.Map<EventDto>(updateHoliday);
       try
@@ -106,7 +106,7 @@ namespace AdminCore.WebApi.Controllers
       var eventDto = _mapper.Map<EventDto>(approveHoliday);
       try
       {
-        _eventService.ApproveEvent(eventDto);
+        //_eventService.ApproveEvent(eventDto);
         return Ok();
       }
       catch (Exception ex)

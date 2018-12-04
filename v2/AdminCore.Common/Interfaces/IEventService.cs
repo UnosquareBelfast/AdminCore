@@ -22,11 +22,9 @@ namespace AdminCore.Common.Interfaces
     IList<EventDto> GetEventByType(EventTypes eventType);
 
     void CreateEvent(int employeeId, EventDateDto dates);
+
+    void UpdateEvent(EventDto events);
     
-    void UpdateEvent(EventDto eventDto);
-
-    void ApproveEvent(EventDto eventDto);
-
     void UpdateEventStatus(int eventId, EventStatuses status);
 
     void RejectEvent(int eventId, string message, int employeeId);
