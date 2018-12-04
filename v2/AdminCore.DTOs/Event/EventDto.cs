@@ -10,9 +10,11 @@ namespace AdminCore.DTOs.Event
   {
     public DateTime DateCreated { get; set; }
 
+    public int EmployeeId { get; set; }
+
     public EmployeeDto Employee { get; set; }
 
-    public EventDateDto EventDates { get; set; }
+    public ICollection<EventDateDto> EventDates { get; set; }
 
     public int EventId { get; set; }
 

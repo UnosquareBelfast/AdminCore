@@ -90,20 +90,16 @@ ALTER SEQUENCE employee_role_employee_role_id_seq
 
   ----------------------------------------------------------------------------------------
 
-CREATE SEQUENCE IF NOT EXISTS public.event_status_event_status_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_status
 (
-    event_status_id integer NOT NULL DEFAULT nextval('event_status_event_status_id_seq'::regclass),
+    event_status_id        integer,
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT event_status_pkey PRIMARY KEY (event_status_id)
 )
 WITH (
-    OIDS = FALSE
+OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER SEQUENCE event_status_event_status_id_seq
-    OWNED BY event_status.event_status_id;
 
   ----------------------------------------------------------------------------------------
 
@@ -113,10 +109,9 @@ ALTER SEQUENCE event_status_event_status_id_seq
 
   ----------------------------------------------------------------------------------------
 
-CREATE SEQUENCE IF NOT EXISTS public.event_type_event_type_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_type
 (
-    event_type_id        integer NOT NULL DEFAULT nextval('event_type_event_type_id_seq' :: regclass),
+    event_type_id        integer,
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT event_type_pkey PRIMARY KEY (event_type_id)
 )
@@ -124,9 +119,6 @@ WITH (
 OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER SEQUENCE event_type_event_type_id_seq
-    OWNED BY event_type.event_type_id;
 
   ----------------------------------------------------------------------------------------
 
@@ -304,15 +296,15 @@ ALTER SEQUENCE event_event_id_seq
   ----------------------------------------------------------------------------------------
 
 
-CREATE SEQUENCE IF NOT EXISTS public.event_dates_event_date_id_seq;
-CREATE TABLE public.event_date
+CREATE SEQUENCE IF NOT EXISTS public.event_dates_event_dates_id_seq;
+CREATE TABLE public.event_dates
 (
-    event_date_id integer NOT NULL DEFAULT nextval('event_dates_event_date_id_seq' :: regclass),
+    event_dates_id integer NOT NULL DEFAULT nextval('event_dates_event_dates_id_seq' :: regclass),
     event_id integer NOT NULL,
     start_date timestamp NOT NULL,
     end_date timestamp NOT NULL,
     is_half_day       boolean NOT NULL,
-    CONSTRAINT event_date_pkey PRIMARY KEY (event_date_id),
+    CONSTRAINT event_dates_pkey PRIMARY KEY (event_dates_id),
 	  CONSTRAINT event_id_fkey FOREIGN KEY (event_id)
         REFERENCES public.event (event_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -323,6 +315,10 @@ WITH (
 )
 TABLESPACE pg_default;
 
+ALTER SEQUENCE event_dates_event_dates_id_seq
+    OWNED BY event_dates.event_dates_id;
+
+
   ----------------------------------------------------------------------------------------
 
 /*
@@ -331,10 +327,9 @@ TABLESPACE pg_default;
 
   ----------------------------------------------------------------------------------------
 
-CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_type_id_seq;
 CREATE TABLE IF NOT EXISTS public.event_message_type
 (
-    event_message_type_id        integer NOT NULL DEFAULT nextval('event_message_event_message_type_id_seq' :: regclass),
+    event_message_type_id        integer,
     description character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT event_message_type_pkey PRIMARY KEY (event_message_type_id)
 )
@@ -342,9 +337,6 @@ WITH (
 OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER SEQUENCE event_message_event_message_type_id_seq
-    OWNED BY event_message_type.event_message_type_id;
 
   ----------------------------------------------------------------------------------------
 
@@ -355,7 +347,7 @@ ALTER SEQUENCE event_message_event_message_type_id_seq
   ----------------------------------------------------------------------------------------
 
 CREATE SEQUENCE IF NOT EXISTS public.event_message_event_message_id_seq;
-CREATE TABLE public.event_message
+CREATE TABLE IF NOT EXISTS public.event_message
 (
     event_message_id integer NOT NULL DEFAULT nextval('event_message_event_message_id_seq' :: regclass),
     event_id integer NOT NULL,

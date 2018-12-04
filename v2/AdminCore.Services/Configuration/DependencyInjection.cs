@@ -16,6 +16,7 @@ using AdminCore.DAL;
 using AdminCore.DAL.Database;
 using AdminCore.DAL.Entity_Framework;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AdminCore.Services.Configuration
@@ -48,11 +49,14 @@ namespace AdminCore.Services.Configuration
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
         services.AddTransient<IAuthenticatedUser, AuthenticatedUser>();
         services.AddTransient<IAuthenticationService, AuthenticationService>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IClientService, ClientService>();
         services.AddTransient<ITeamService, TeamService>();
+        services.AddTransient<IEventService, EventService>();
+        services.AddTransient<IEmployeeCredentials, EmployeeCredentials>();
 
         ServiceLocator.Instance = new DependencyInjectionContainer(services.BuildServiceProvider());
 

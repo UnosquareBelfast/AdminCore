@@ -65,7 +65,7 @@ namespace AdminCore.Services
       throw new NotImplementedException();
     }
 
-    public IList<EmployeeDto> Get(int employeeId)
+    public EmployeeDto Get(int employeeId)
     {
       throw new NotImplementedException();
     }

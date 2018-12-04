@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using AdminCore.Constants.Enums;
+﻿using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
-using AdminCore.DTOs.EventDates;
+using System;
+using System.Collections.Generic;
 
 namespace AdminCore.Common.Interfaces
 {
@@ -10,26 +9,27 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventDto> GetAnnualLeaveByEmployee(int employeeId);
 
-    IList<EventDto> GetByDateBetween(EventDateDto eventDateDto, EventTypes eventType);
+    IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate);
 
-    IList<EventDto> GetByEmployeeId(int employeeId);
+    IList<EventDto> GetEventsByEmployeeId(int employeeId);
 
-    EventDto GetByEmployeeIdStartDateAndEndDate(int employeeId, DateTime startDate, DateTime endDate);
+    IList<EventDto> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
 
-    EventDto Get(int id);
+    EventDto GetEvent(int id);
 
-    IList<EventDto> GetByStatusType(EventStatuses eventStatus, EventTypes eventType);
+    IList<EventDto> GetEventByStatus(EventStatuses eventStatus, EventTypes eventType);
 
-    IList<EventDto> GetByType(EventTypes eventType);
+    IList<EventDto> GetEventByType(EventTypes eventType);
 
-    EventDto SaveEvent(EventDto eventDto);
+    void CreateEvent(EventDto eventDto);
 
-    EventDto UpdateEvent(EventDto eventDto);
+    void UpdateEvent(EventDto eventDto);
 
-    EventDto ApproveEvent(EventDto eventDto);
+    void ApproveEvent(EventDto eventDto);
 
-    EventDto CancelEvent(EventDto eventDto);
+    void UpdateEventStatus(int eventId, EventStatuses status);
 
-    EventDto RejectEvent(EventDto eventDto);
+    void RejectEvent(int eventId, string message, int employeeId);
+    
   }
 }

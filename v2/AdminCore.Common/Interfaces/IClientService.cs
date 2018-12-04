@@ -7,16 +7,12 @@ namespace AdminCore.Common.Interfaces
   {
     IList<ClientDto> GetAll();
 
-    void Update(ClientDto clientDto);
-
-    void Create(ClientDto clientDto);
-
     void Save(ClientDto clientDto);
 
     void Delete(int id);
 
-    ClientDto Get(int id);
+    ClientDto GetByClientId(int id);
 
-    ClientDto GetByClientName(string clientName);
+    IList<ClientDto> GetByClientName(string clientName);
   }
 }
