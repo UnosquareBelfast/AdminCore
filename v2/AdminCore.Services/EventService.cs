@@ -104,9 +104,9 @@ namespace AdminCore.Services
       }
     }
 
-    public void CreateEvent(int employeeId, EventDateDto dates)
+    public EventDto CreateEvent(int employeeId, EventDateDto dates)
     {
-      var newEvent = new Event()
+      var newEvent = new Event
       {
         DateCreated = DateTime.Now,
         EmployeeId = employeeId,
@@ -118,6 +118,7 @@ namespace AdminCore.Services
       SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates.StartDate);
       DatabaseContext.EventRepository.Insert(newEvent);
       DatabaseContext.SaveChanges();
+      return _mapper.Map<EventDto>(newEvent);
     }
 
     public void UpdateEvent(EventDateDto eventDateDto)
@@ -132,7 +133,7 @@ namespace AdminCore.Services
       }
     }
 
-    public Event SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
+    private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
     {
       var dates = startDate.Range(originalEndDate).ToList();
       foreach (var day in dates)
@@ -161,8 +162,6 @@ namespace AdminCore.Services
         };
         newEvent.EventDates.Add(lastDate);
       }
-
-      return newEvent;
     }
 
     private Event GetEventById(int id)

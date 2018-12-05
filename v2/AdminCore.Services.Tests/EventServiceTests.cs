@@ -1,11 +1,10 @@
-using AdminCore.Constants.Enums;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs.Event;
+using AdminCore.Services.Mappings;
 using AutoMapper;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace AdminCore.Services.Tests
@@ -20,8 +19,8 @@ namespace AdminCore.Services.Tests
 
     public EventServiceTests()
     {
+      _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new EventMapperProfile())));
       _databaseContext = Substitute.For<IDatabaseContext>();
-      _mapper = Substitute.For<IMapper>();
       _eventService = new EventService(_databaseContext, _mapper);
     }
 
@@ -30,7 +29,7 @@ namespace AdminCore.Services.Tests
     {
       // Arrange
       const int employeeId = 1;
-      EventDateDto eventDateDto = new EventDateDto
+      var eventDateDto = new EventDateDto
       {
         EventId = 1,
         StartDate = new DateTime(2018, 12, 03),
@@ -50,19 +49,15 @@ namespace AdminCore.Services.Tests
       // Arrange
       const int numOfWeeksShouldReturn = 3;
       const int employeeId = 1;
-      DateTime startDate = new DateTime(2018, 11, 21);
-      DateTime originalEndDate = new DateTime(2018, 12, 05);
-      var eventToSplit = new Event()
+      var eventDateDto = new EventDateDto
       {
-        DateCreated = DateTime.Now,
-        EmployeeId = employeeId,
-        EventStatusId = (int)EventStatuses.AwaitingApproval,
-        EventTypeId = (int)EventTypes.AnnualLeave,
-        EventDates = new List<EventDate>()
+        EventId = 1,
+        StartDate = new DateTime(2018, 11, 21),
+        EndDate = new DateTime(2018, 12, 05)
       };
 
       // Act
-      var result = _eventService.SplitEventIfFallsOnAWeekend(eventToSplit, originalEndDate, startDate);
+      var result = _eventService.CreateEvent(employeeId, eventDateDto);
 
       // Assert
       Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);
@@ -74,19 +69,15 @@ namespace AdminCore.Services.Tests
       // Arrange
       const int numOfWeeksShouldReturn = 1;
       const int employeeId = 1;
-      DateTime startDate = new DateTime(2018, 12, 05);
-      DateTime originalEndDate = new DateTime(2018, 12, 05);
-      var eventToSplit = new Event
+      var eventDateDto = new EventDateDto
       {
-        DateCreated = DateTime.Now,
-        EmployeeId = employeeId,
-        EventStatusId = (int)EventStatuses.AwaitingApproval,
-        EventTypeId = (int)EventTypes.AnnualLeave,
-        EventDates = new List<EventDate>()
+        EventId = 1,
+        StartDate = new DateTime(2018, 12, 05),
+        EndDate = new DateTime(2018, 12, 05)
       };
 
       // Act
-      var result = _eventService.SplitEventIfFallsOnAWeekend(eventToSplit, originalEndDate, startDate);
+      var result = _eventService.CreateEvent(employeeId, eventDateDto);
 
       // Assert
       Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);
