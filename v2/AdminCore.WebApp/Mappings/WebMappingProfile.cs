@@ -45,6 +45,8 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
 
       CreateMap<EmployeeViewModel, EmployeeDto>().ReverseMap();
+      CreateMap<UpdateEmployeeViewModel, EmployeeDto>();
+      CreateMap<UpdateEmployeeViewModel, EmployeeDto>().ReverseMap();
 
       CreateMap<JwtAuthDto, JwtAuthViewModel>();
 
