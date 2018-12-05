@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Controllers;
@@ -10,11 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
-using AdminCore.Common.Message;
-using AdminCore.Common.Message.Elements;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.Services;
+using Microsoft.AspNetCore.Mvc;
+using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using Xunit;
 using ClientDto = AdminCore.DTOs.Client.ClientDto;
 
@@ -44,9 +45,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var clientViewModels = _fixture.CreateMany<ClientViewModel>(numberOfClients).ToList();
       var clientDtos = _fixture.CreateMany<ClientDto>(numberOfClients).ToList();
 
-      var clientsResponseMessage = new ResponseMessage<IList<ClientDto>>(clientDtos);
-
-      _clientService.GetAll().Returns(clientsResponseMessage);
+      _clientService.GetAll().Returns(clientDtos);
 
       _mapper.Map<List<ClientViewModel>>(Arg.Is(clientDtos)).Returns(clientViewModels);
 
@@ -59,181 +58,166 @@ namespace AdminCore.WebApi.Tests.Controllers
     }
 
     [Fact]
-    public void TestUpdateClientChangesClientNameFromNotNiallToNiall()
+    public void GetAllClientReturnsErrorMsgWhenNoClientsInDb()
     {
-      // Arrange
-      const int testId = 1;
-      const string name = "Niall";
-
-      var updateClientViewModel = new UpdateClientViewModel()
-      {
-        ClientId = testId,
-        ClientName = name
-      };
-
-      var clientDtoMappedFromViewModel = new ClientDto()
-      {
-        ClientId = testId,
-        ClientName = name
-      };
-
-      //Setup Mocks
-      var updateResponseMessage = new ResponseMessage<EmptyMessage>(new EmptyMessage());
-      _clientService.Update(clientDtoMappedFromViewModel).Returns(updateResponseMessage);
-      _mapper.Map<ClientDto>(Arg.Is(updateClientViewModel)).Returns(clientDtoMappedFromViewModel);
+      // Service returns empty list.
+      _clientService.GetAll().Returns(new List<ClientDto>());
 
       // Act
-      _controller.UpdateClient(updateClientViewModel);
+      var result = _controller.GetAllClients();
 
       // Assert
-      _clientService.Received(1).Update(clientDtoMappedFromViewModel);
-
+      var resultValue = RetrieveValueFromActionResult<string>(result, HttpStatusCode.InternalServerError);
+      Assert.Equal("No client exist", resultValue);
     }
 
     [Fact]
-    public void TestCreateClientReturnsOkResponseWhenClientServiceReturnsSuccess()
+    public void TestUpdateClientReturnsEmptyOkResponseWhenGivenValidInput()
     {
-      const string testName = "testName";
-
-      var createClientViewModel = new CreateClientViewModel()
+      var updateViewModel = new UpdateClientViewModel()
       {
-        ClientName = testName
+        ClientId = 1,
+        ClientName = "TestClient"
       };
 
-      var clientDtoPassedToService = new ClientDto()
+      var result = _controller.UpdateClient(updateViewModel);
+
+      Assert.IsType<OkResult>(result);
+    }
+
+    [Fact]
+    public void TestUpdateClientReturnsOkResponseWithErrorMessageWhenSaveThrowsAnException()
+    {
+      var updateViewModel = new UpdateClientViewModel()
       {
-        ClientName = testName
+        ClientId = 1,
+        ClientName = "TestClient"
       };
+
+      _clientService.When(x => x.Save(Arg.Any<ClientDto>())).Throw(new Exception("Test Exception"));
+
+      var result = _controller.UpdateClient(updateViewModel);
+
+      var resultValue = RetrieveValueFromActionResult<string>(result, HttpStatusCode.InternalServerError);
+      Assert.Equal("Something went wrong, client was not updated.", resultValue);
+    }
+
+    [Fact]
+    public void TestCreateClientReturnsEmptyOkResponseWhenGivenValidInput()
+    {
+      var updateViewModel = new CreateClientViewModel()
+      {
+        ClientName = "TestClient"
+      };
+
+      var result = _controller.CreateClient(updateViewModel);
+
+      Assert.IsType<OkResult>(result);
+    }
+
+    [Fact]
+    public void TestCreateClientReturnsOkResponseWithErrorMessageWhenSaveThrowsAnException()
+    {
+      var updateViewModel = new CreateClientViewModel()
+      {
+        ClientName = "TestClient"
+      };
+
+      _clientService.When(x => x.Save(Arg.Any<ClientDto>())).Throw(new Exception("Test Exception"));
+
+      var result = _controller.CreateClient(updateViewModel);
+
+      var resultValue = RetrieveValueFromActionResult<string>(result, HttpStatusCode.InternalServerError);
+      Assert.Equal("Something went wrong, client was not created.", resultValue);
+    }
+
+    [Fact]
+    public void TestGetClientByIdReturnsOkObjectResultWithViewModelWhenGivenValidId()
+    {
+      const int testId = 1;
+      const string testClientName = "testClient";
 
       var clientDtoReturnedFromService = new ClientDto()
       {
-        ClientId = 1,
-        ClientName = testName
+        ClientId = testId,
+        ClientName = testClientName
       };
 
-      var clientViewModelPassedToUi = new ClientViewModel()
-      {
-        ClientId = 1,
-        ClientName = testName
-      };
-
-      _mapper.Map<ClientDto>(createClientViewModel).Returns(clientDtoPassedToService);
-      _mapper.Map<ClientViewModel>(clientDtoReturnedFromService).Returns(clientViewModelPassedToUi);
-      _clientService.Create(clientDtoPassedToService).Returns(new ResponseMessage<ClientDto>(clientDtoReturnedFromService));
-
-      var result = _controller.CreateClient(createClientViewModel);
-
-      VerifyActionResult(result);
-      _clientService.Received(1).Create(clientDtoPassedToService);
-    }
-
-    [Fact]
-    public void TestCreateClientReturnsStatusCode500ResponseWhenClientServiceReturnsFailure()
-    {
-      const string testName = "testName";
-
-      var createClientViewModel = new CreateClientViewModel()
-      {
-        ClientName = testName
-      };
-
-      var clientDtoPassedToService = new ClientDto()
-      {
-        ClientName = testName
-      };
-
-      _mapper.Map<ClientDto>(createClientViewModel).Returns(clientDtoPassedToService);
-      _clientService.Create(clientDtoPassedToService).Returns(new ResponseMessage<ClientDto>(null).WithStatus(MessageConstants.MsgStatusFailed));
-
-      var result = _controller.CreateClient(createClientViewModel);
-
-      VerifyActionResult(result, HttpStatusCode.InternalServerError);
-      _clientService.Received(1).Create(clientDtoPassedToService);
-    }
-
-    [Fact]
-    public void TestGetClientByIdReturnsOkResponseWhenClientServiceReturnsAResult()
-    {
-      const int testId = 1;
-      const string testName = "Client";
-
-      ClientViewModel viewModelReturned = new ClientViewModel()
+      var viewModelReturnedFromMapper = new ClientViewModel()
       {
         ClientId = testId,
-        ClientName = testName
+        ClientName = testClientName
       };
 
-      ClientDto clientDtoReturned = new ClientDto()
-      {
-        ClientId = testId,
-        ClientName = testName
-      };
-
-      _mapper.Map<ClientViewModel>(clientDtoReturned).Returns(viewModelReturned);
-      _clientService.GetByClientId(testId).Returns(new ResponseMessage<ClientDto>(clientDtoReturned));
+      _mapper.Map<ClientViewModel>(clientDtoReturnedFromService).Returns(viewModelReturnedFromMapper);
+      _clientService.GetByClientId(testId).Returns(clientDtoReturnedFromService);
 
       var result = _controller.GetClientById(testId);
 
-      VerifyActionResult(result);
-      _clientService.Received(1).GetByClientId(testId);
+      var resultValue = RetrieveValueFromActionResult<ClientViewModel>(result);
+      Assert.Equal(viewModelReturnedFromMapper, resultValue);
     }
 
     [Fact]
-    public void TestGetClientByIdReturnsNotFoundResponseWhenClientServiceDoesNotReturnAResult()
+    public void TestGetClientByIdReturnsOkObjectResultWithErrorMsgWhenGivenInvalidId()
     {
       const int testId = 1;
 
-      _clientService.GetByClientId(testId).Returns(new ResponseMessage<ClientDto>(null).WithStatus(MessageConstants.MsgStatusNoRecords));
+      _clientService.GetByClientId(testId).ReturnsNull();
 
       var result = _controller.GetClientById(testId);
 
-      VerifyActionResult(result, HttpStatusCode.NotFound);
-      _clientService.Received(1).GetByClientId(testId);
+      var resultValue = RetrieveValueFromActionResult<string>(result, HttpStatusCode.InternalServerError);
+      Assert.Equal("No client found with an ID of 1", resultValue);
     }
 
     [Fact]
-    public void TestGetClientByNameReturnOkResponseWhenClientServiceReturnsAResult()
+    public void TestGetClientByClientNameReturnsOkObjectResultWithClientViewModelWhenClientNameExists()
     {
       const int testId = 1;
-      const string testName = "Niall";
+      const string testClientName = "testClient";
 
-      var viewModelReturned = new ClientViewModel()
+      var listOfViewModelsReturnedFromMapper = new List<ClientViewModel>()
       {
-        ClientId = testId,
-        ClientName = testName
+        new ClientViewModel()
+        {
+          ClientId = testId,
+          ClientName = testClientName
+        }
       };
 
-      var clientDtoReturned = new ClientDto()
+      var listOfDtosReturnedFromService = new List<ClientDto>()
       {
-        ClientId = testId,
-        ClientName = testName
+        new ClientDto()
+        {
+          ClientId = testId,
+          ClientName = testClientName
+        }
       };
 
-      var listReturned = new List<ClientDto>()
-      {
-        clientDtoReturned
-      };
+      _clientService.GetByClientName(testClientName).Returns(listOfDtosReturnedFromService);
+      _mapper.Map<IList<ClientViewModel>>(listOfDtosReturnedFromService).Returns(listOfViewModelsReturnedFromMapper);
 
-      _mapper.Map<ClientViewModel>(clientDtoReturned).Returns(viewModelReturned);
-      _clientService.GetByClientName(testName).Returns(new ResponseMessage<IList<ClientDto>>(listReturned));
+      var result = _controller.GetClientByClientName(testClientName);
 
-      var result = _controller.GetClientByClientName(testName);
+      var resultValue = RetrieveValueFromActionResult<IList<ClientViewModel>>(result);
+      Assert.Equal(listOfViewModelsReturnedFromMapper, resultValue);
 
-      VerifyActionResult(result);
-      _clientService.Received(1).GetByClientName(testName);
     }
 
     [Fact]
-    public void TestGetClientByNameReturnNotFoundResponseWhenClientServiceDoesNotReturnAResult()
+    public void TestGetClientByClientNameReturnsOkObjectResultWithErrorMsgWhenClientNameDoesNotExist()
     {
-      const string testName = "Niall";
+      const string testClientName = "testClient";
 
-      _clientService.GetByClientName(testName).Returns(new ResponseMessage<IList<ClientDto>>(null).WithStatus(MessageConstants.MsgStatusNoRecords));
+      var listOfDtosReturnedFromService = new List<ClientDto>();
+      _clientService.GetByClientName(testClientName).Returns(listOfDtosReturnedFromService);
 
-      var result = _controller.GetClientByClientName(testName);
+      var result = _controller.GetClientByClientName(testClientName);
 
-      VerifyActionResult(result, HttpStatusCode.NotFound);
-      _clientService.Received(1).GetByClientName(testName);
+      var resultValue = RetrieveValueFromActionResult<string>(result, HttpStatusCode.InternalServerError);
+      Assert.Equal("No client found with client name testClient", resultValue);
     }
+
   }
-}*/
+}

@@ -34,7 +34,7 @@ namespace AdminCore.Services
         }
         else
         {
-          var client = GetByClientId(clientDto.ClientId);
+          var client = GetById(clientDto.ClientId);
           client.ClientName = clientDto.ClientName;
         }
      
@@ -53,15 +53,20 @@ namespace AdminCore.Services
 
     public ClientDto GetByClientId(int id)
     {
-      var client = DatabaseContext.ClientRepository.GetSingle(x => x.ClientId == id);
+      var client = GetById(id);
       return _mapper.Map<ClientDto>(client);
     }
 
     public IList<ClientDto> GetByClientName(string clientName)
     {
-      var client = DatabaseContext.ClientRepository.GetSingle(x =>
+      var client = DatabaseContext.ClientRepository.Get(x =>
         x.ClientName.Equals(clientName, StringComparison.CurrentCultureIgnoreCase));
       return _mapper.Map<IList<ClientDto>>(client);
+    }
+
+    private Client GetById(int id)
+    {
+      return DatabaseContext.ClientRepository.GetSingle(x => x.ClientId == id);
     }
   }
 }
