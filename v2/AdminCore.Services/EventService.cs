@@ -132,7 +132,7 @@ namespace AdminCore.Services
       }
     }
 
-    private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
+    public Event SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
     {
       var dates = startDate.Range(originalEndDate).ToList();
       foreach (var day in dates)
@@ -161,6 +161,8 @@ namespace AdminCore.Services
         };
         newEvent.EventDates.Add(lastDate);
       }
+
+      return newEvent;
     }
 
     private Event GetEventById(int id)
