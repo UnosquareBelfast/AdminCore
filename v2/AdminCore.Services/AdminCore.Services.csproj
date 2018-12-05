@@ -17,6 +17,7 @@
     <ProjectReference Include="..\AdminCore.Constants\AdminCore.Constants.csproj" />
     <ProjectReference Include="..\AdminCore.DAL\AdminCore.DAL.csproj" />
     <ProjectReference Include="..\AdminCore.DTOs\AdminCore.DTOs.csproj" />
+    <ProjectReference Include="..\AdminCore.Extensions\AdminCore.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

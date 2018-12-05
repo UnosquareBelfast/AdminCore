@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AdminCore.Constants.Enums;
-using AdminCore.DAL.Models;
+﻿using System;
 
 namespace AdminCore.WebApi.Models.Holiday
 {
   public class CreateHolidayViewModel
   {
-    public DateViewModel DateRange { get; set; }
-
-    public int EmployeeId { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public bool IsHalfDay { get; set; }
   }
 }

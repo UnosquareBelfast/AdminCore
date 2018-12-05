@@ -10,7 +10,6 @@
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
-using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -76,24 +75,35 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPost]
-    public IActionResult CreateHoliday(CreateHolidayViewModel viewModel)
+    public IActionResult CreateHoliday(CreateHolidayViewModel model)
     {
-      ValidateCreateHolidayViewModel(viewModel);
-      return Ok();
+      var employeeId = _authenticatedUser.RetrieveUserId();
+      var eventDates = _mapper.Map<EventDateDto>(model);
+      try
+      {
+        _eventService.CreateEvent(employeeId, eventDates);
+        return Ok($"Holiday has been created successfully");
+      }
+      catch (Exception e)
+      {
+        //Log Exception
+      }
+      
+      return Ok("Something has gone wrong - holiday creation failed");
     }
 
     [HttpPut]
-    public IActionResult UpdateHoliday(UpdateHolidayViewModel updateHoliday)
+    public IActionResult UpdateHoliday(UpdateEventViewModel updateHoliday)
     {
-      var eventDto = _mapper.Map<EventDto>(updateHoliday);
+      var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
-        _eventService.UpdateEvent(eventDto);
+        _eventService.UpdateEvent(eventDatesToUpdate);
         return Ok();
       }
       catch (Exception ex)
       {
-        //Log error
+        //Log Exception
       }
       
       return Ok("Holiday failed to update");
@@ -105,7 +115,7 @@ namespace AdminCore.WebApi.Controllers
       var eventDto = _mapper.Map<EventDto>(approveHoliday);
       try
       {
-        _eventService.ApproveEvent(eventDto);
+        //_eventService.ApproveEvent(eventDto);
         return Ok();
       }
       catch (Exception ex)
@@ -126,7 +136,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      _eventService.RejectEvent(rejectHoliday.EventId,rejectHoliday.Message, int.Parse(_authenticatedUser.RetrieveUserId()));
+      //_eventService.RejectEvent(rejectHoliday.EventId,rejectHoliday.Message, int.Parse(_authenticatedUser.RetrieveUserId()));
       return Ok();
     }
 
@@ -164,32 +174,32 @@ namespace AdminCore.WebApi.Controllers
       }
     }
 
-    private IList<string> ValidateCreateHolidayViewModel(CreateHolidayViewModel createHolidayViewModel)
-    {
-      IList<string> errorResponses = new List<string>();
-      CheckIfHolidayHasAlreadyBeenBooked(createHolidayViewModel, createHolidayViewModel.DateRange, errorResponses);
-      CheckDateRangeStartDateIsBeforeEndDate(createHolidayViewModel.DateRange, errorResponses);
-      return errorResponses;
-    }
-
-    private void CheckIfHolidayHasAlreadyBeenBooked(CreateHolidayViewModel createHolidayViewModel, DateViewModel dateRange, IList<string> errorResponses)
-    {
-      var holidaysAlreadyBooked = _eventService.GetEventsByEmployeeIdAndStartAndEndDates(createHolidayViewModel.EmployeeId,
-        dateRange.StartDate, dateRange.EndDate);
-
-      if (holidaysAlreadyBooked != null)
-      {
-        errorResponses.Add($"Holidays have already been booked for Employee ID {createHolidayViewModel.EmployeeId} between the dates {dateRange.StartDate} and {dateRange.EndDate}");
-      }
-    }
-
-    private void CheckDateRangeStartDateIsBeforeEndDate(DateViewModel dateRange, IList<string> errorResponses)
-    {
-      if (dateRange.StartDate.CompareTo(dateRange.EndDate) > 0)
-      {
-        errorResponses.Add($"Start date {dateRange.StartDate.Date} is after End Date {dateRange.EndDate.Date}");
-      }
-    }
+//    private IList<string> ValidateCreateHolidayViewModel(CreateHolidayViewModel createHolidayViewModel)
+//    {
+//      IList<string> errorResponses = new List<string>();
+//      CheckIfHolidayHasAlreadyBeenBooked(createHolidayViewModel, createHolidayViewModel.DateRange, errorResponses);
+//      CheckDateRangeStartDateIsBeforeEndDate(createHolidayViewModel.DateRange, errorResponses);
+//      return errorResponses;
+//    }
+//
+//    private void CheckIfHolidayHasAlreadyBeenBooked(CreateHolidayViewModel createHolidayViewModel, DateViewModel dateRange, IList<string> errorResponses)
+//    {
+//      var holidaysAlreadyBooked = _eventService.GetEventsByEmployeeIdAndStartAndEndDates(createHolidayViewModel.EmployeeId,
+//        dateRange.StartDate, dateRange.EndDate);
+//
+//      if (holidaysAlreadyBooked != null)
+//      {
+//        errorResponses.Add($"Holidays have already been booked for Employee ID {createHolidayViewModel.EmployeeId} between the dates {dateRange.StartDate} and {dateRange.EndDate}");
+//      }
+//    }
+//
+//    private void CheckDateRangeStartDateIsBeforeEndDate(DateViewModel dateRange, IList<string> errorResponses)
+//    {
+//      if (dateRange.StartDate.CompareTo(dateRange.EndDate) > 0)
+//      {
+//        errorResponses.Add($"Start date {dateRange.StartDate.Date} is after End Date {dateRange.EndDate.Date}");
+//      }
+//    }
 
     private IActionResult CreateBadRequestResponseWithListOfErrors(IList<string> errors)
     {

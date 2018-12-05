@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text;
 using AdminCore.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 
@@ -13,9 +14,10 @@ namespace AdminCore.Services
             _httpContentAccessor = httpContextAccessor;
         }
 
-        public string RetrieveUserId()
+        public int RetrieveUserId()
         {
-            return _httpContentAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var employeeId = _httpContentAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            return int.Parse(employeeId);
         }
     }
 }
