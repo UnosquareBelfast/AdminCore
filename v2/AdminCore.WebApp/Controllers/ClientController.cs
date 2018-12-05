@@ -15,6 +15,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using Microsoft.Extensions.Logging;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -24,38 +27,36 @@ namespace AdminCore.WebApi.Controllers
   public class ClientController : BaseController
   {
     private readonly IClientService _clientService;
-    private readonly IMapper _mapper;
 
-    public ClientController(IClientService clientService, IMapper mapper)
+    public ClientController(IClientService clientService, IMapper mapper) : base(mapper)
     {
       _clientService = clientService;
-      _mapper = mapper;
     }
 
     [HttpGet]
     public IActionResult GetAllClients()
     {
       var clients = _clientService.GetAll();
-      if (clients != null)
+      if (clients.Any())
       {
-        return Ok(_mapper.Map<List<ClientViewModel>>(clients));
+        return Ok(Mapper.Map<List<ClientViewModel>>(clients));
       }
 
-      return Ok("No client exist");
+      return StatusCode((int)HttpStatusCode.InternalServerError, "No client exist");
     }
 
     [HttpPut]
     public IActionResult UpdateClient(UpdateClientViewModel viewModel)
     {
-      var clientDto = _mapper.Map<ClientDto>(viewModel);
+      var clientDto = Mapper.Map<ClientDto>(viewModel);
       try
       {
         _clientService.Save(clientDto);
       }
       catch (Exception ex)
       {
-        //Log Exception
-        return Ok("Something went wrong, client was not updated.");
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong, client was not updated.");
       }
       return Ok();
     }
@@ -63,15 +64,15 @@ namespace AdminCore.WebApi.Controllers
     [HttpPost]
     public IActionResult CreateClient(CreateClientViewModel viewModel)
     {
-      var clientDto = _mapper.Map<ClientDto>(viewModel);
+      var clientDto = Mapper.Map<ClientDto>(viewModel);
       try
       {
         _clientService.Save(clientDto);
       }
       catch (Exception ex)
       {
-        //Log Exception
-        return Ok("Something went wrong, client was not created.");
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong, client was not created.");
       }
       
       return Ok();
@@ -83,21 +84,21 @@ namespace AdminCore.WebApi.Controllers
       var client = _clientService.GetByClientId(id);
       if (client != null)
       {
-        return Ok(_mapper.Map<ClientViewModel>(client));
+        return Ok(Mapper.Map<ClientViewModel>(client));
       }
 
-      return Ok($"No client found with an ID of { id.ToString() }");
+      return StatusCode((int)HttpStatusCode.InternalServerError, $"No client found with an ID of { id.ToString() }");
     }
 
     [HttpGet("findByClientName/{clientName}")]
     public IActionResult GetClientByClientName(string clientName)
     {
       var client = _clientService.GetByClientName(clientName);
-      if (client != null)
+      if (client.Any())
       {
-        return Ok( _mapper.Map<IList<ClientViewModel>>(client));
+        return Ok( Mapper.Map<IList<ClientViewModel>>(client));
       }
-      return Ok($"No client found with an ID of { clientName }");      
+      return StatusCode((int)HttpStatusCode.InternalServerError, $"No client found with client name { clientName }");      
     }
   }
 }

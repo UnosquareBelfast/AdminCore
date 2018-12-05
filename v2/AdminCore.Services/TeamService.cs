@@ -1,30 +1,63 @@
 ﻿using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Team;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using AdminCore.DAL;
+using AdminCore.DAL.Models;
+using AdminCore.Services.Base;
+using AutoMapper;
 
 namespace AdminCore.Services
 {
-  public class TeamService : ITeamService
+  public class TeamService : BaseService, ITeamService
   {
+    private readonly IMapper _mapper;
+
+    public TeamService(IMapper mapper, IDatabaseContext databaseContext) : base(databaseContext)
+    {
+      _mapper = mapper;
+    }
+
     public IList<TeamDto> GetAll()
     {
-      throw new NotImplementedException();
+      var teams = DatabaseContext.TeamRepository.Get();
+      return _mapper.Map<IList<TeamDto>>(teams);
     }
 
     public IList<TeamDto> GetByClientId(int clientId)
     {
-      throw new NotImplementedException();
+      var teamDbEntry = DatabaseContext.TeamRepository.Get(x => x.ClientId == clientId);
+      return _mapper.Map<IList<TeamDto>>(teamDbEntry);
     }
 
     public TeamDto Get(int id)
     {
-      throw new NotImplementedException();
+      var teamDbEntry = GetByTeamId(id);
+      return _mapper.Map<TeamDto>(teamDbEntry);
     }
 
-    public TeamDto Save(TeamDto teamDto)
+    public void Save(TeamDto newTeamDto)
     {
-      throw new NotImplementedException();
+      if (newTeamDto.TeamId == 0)
+      {
+        var newTeamEntry = _mapper.Map<Team>(newTeamDto);
+        DatabaseContext.TeamRepository.Insert(newTeamEntry);
+      }
+      else
+      {
+        var team = GetByTeamId(newTeamDto.TeamId);
+        _mapper.Map(newTeamDto, team);
+      }
+
+      DatabaseContext.SaveChanges();
+    }
+
+    private Team GetByTeamId(int teamId)
+    {
+      var teams = DatabaseContext.TeamRepository.Get(x => x.TeamId == teamId);
+      return teams.Any() ? teams.First() : null;
     }
   }
 }
