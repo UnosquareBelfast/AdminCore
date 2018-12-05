@@ -3,12 +3,12 @@ using AdminCore.Constants.Enums;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs.Event;
+using AdminCore.Extensions;
+using AdminCore.Services.Base;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdminCore.Extensions;
-using AdminCore.Services.Base;
 
 namespace AdminCore.Services
 {
@@ -16,7 +16,7 @@ namespace AdminCore.Services
   {
     private readonly IMapper _mapper;
 
-    public EventService(IDatabaseContext databaseContext, IMapper mapper) 
+    public EventService(IDatabaseContext databaseContext, IMapper mapper)
       : base(databaseContext)
     {
       _mapper = mapper;
@@ -25,7 +25,7 @@ namespace AdminCore.Services
     public IList<EventDto> GetAnnualLeaveByEmployee(int employeeId)
     {
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
-        x.EventType.EventTypeId == (int) EventTypes.AnnualLeave
+        x.EventType.EventTypeId == (int)EventTypes.AnnualLeave
         && x.Employee.EmployeeId == employeeId);
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
@@ -35,7 +35,7 @@ namespace AdminCore.Services
       var eventsBetweenDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                              && x.EndDate <= endDate
                                                                              && x.Event.EventTypeId ==
-                                                                             (int) EventTypes.AnnualLeave);
+                                                                             (int)EventTypes.AnnualLeave);
       return _mapper.Map<IList<EventDto>>(eventsBetweenDates);
     }
 
@@ -52,7 +52,7 @@ namespace AdminCore.Services
                                                                      && x.Event.EmployeeId == employeeId);
       return null;
     }
-    
+
     public EventDto GetEvent(int id)
     {
       var eventById = GetEventById(id);
@@ -61,18 +61,18 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetEventByStatus(EventStatuses eventStatus, EventTypes eventType)
     {
-      var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == (int) eventStatus
-                                                            && x.EventType.EventTypeId == (int) eventType);
+      var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == (int)eventStatus
+                                                            && x.EventType.EventTypeId == (int)eventType);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
-    
+
     public IList<EventDto> GetEventByType(EventTypes eventType)
     {
-      var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == (int) eventType);
+      var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == (int)eventType);
       return _mapper.Map<IList<EventDto>>(events);
     }
-    
+
     public void RejectEvent(int eventId, string message, int employeeId)
     {
       var eventToReject = GetEventById(eventId);
@@ -82,19 +82,19 @@ namespace AdminCore.Services
         var employee = GetEmployeeFromEmployeeId(employeeId);
         if (employee != null)
         {
-           var eventMessage = new EventMessage()
-           {
-             EmployeeId = employeeId,
-             EventMessageTypeId = (int)MessageType.Rejected,
-             Message = message,
-             LastModified = DateTime.Now
-           };
+          var eventMessage = new EventMessage()
+          {
+            EmployeeId = employeeId,
+            EventMessageTypeId = (int)MessageType.Rejected,
+            Message = message,
+            LastModified = DateTime.Now
+          };
           eventToReject.EventMessages.Add(eventMessage);
           DatabaseContext.SaveChanges();
         }
       }
     }
-    
+
     public void UpdateEventStatus(int eventId, EventStatuses status)
     {
       var eventToUpdate = GetEventById(eventId);
@@ -110,8 +110,8 @@ namespace AdminCore.Services
       {
         DateCreated = DateTime.Now,
         EmployeeId = employeeId,
-        EventStatusId = (int) EventStatuses.AwaitingApproval,
-        EventTypeId = (int) EventTypes.AnnualLeave,
+        EventStatusId = (int)EventStatuses.AwaitingApproval,
+        EventTypeId = (int)EventTypes.AnnualLeave,
         EventDates = new List<EventDate>()
       };
 
@@ -119,54 +119,53 @@ namespace AdminCore.Services
       DatabaseContext.EventRepository.Insert(newEvent);
       DatabaseContext.SaveChanges();
     }
-    
+
     public void UpdateEvent(EventDateDto eventDateDto)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
 
       if (eventToUpdate != null)
       {
-          eventToUpdate.EventDates.Clear();
-          SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
-          DatabaseContext.SaveChanges();
+        eventToUpdate.EventDates.Clear();
+        SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
+        DatabaseContext.SaveChanges();
       }
     }
-
 
     private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
     {
       var dates = startDate.Range(originalEndDate).ToList();
-      foreach(var day in dates)
+      foreach (var day in dates)
       {
-        if (day.DayOfWeek == DayOfWeek.Friday)
+        if (day.DayOfWeek == DayOfWeek.Saturday)
         {
           newEvent.EventDates.Add(new EventDate()
           {
-            StartDate = startDate, 
-            EndDate = day,
+            StartDate = startDate,
+            EndDate = day.AddDays(-1),
             IsHalfDay = false
           });
 
-          var nextStartDate = day.AddDays(3);
+          var nextStartDate = day.AddDays(2);
           SplitEventIfFallsOnAWeekend(newEvent, originalEndDate, nextStartDate);
           break;
         }
       }
 
-      if (dates.Last().Date == originalEndDate && dates.Count < 5)
+      if (dates.Last().Date.Day == originalEndDate.Day && dates.Count <= 5)
       {
         var lastDate = new EventDate()
         {
           StartDate = startDate,
           EndDate = originalEndDate
         };
-        newEvent.EventDates.Add(lastDate); 
+        newEvent.EventDates.Add(lastDate);
       }
     }
 
     private Event GetEventById(int id)
     {
-      return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id, 
+      return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id,
         x => x.EventDates);
     }
 
