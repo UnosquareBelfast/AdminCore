@@ -48,7 +48,11 @@ namespace AdminCore.WebApi
     /// </param>
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddMvc();
+      services.AddMvc().AddJsonOptions(options =>
+      {
+        options.SerializerSettings.ReferenceLoopHandling =
+          Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+      });
       services.AddCors();
 
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
