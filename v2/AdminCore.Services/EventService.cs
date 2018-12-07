@@ -156,15 +156,14 @@ namespace AdminCore.Services
         }
       }
 
-      if (dates.Last().Date.Day == originalEndDate.Day && dates.Count <= 5)
+      if (dates.Last().Date.Day != originalEndDate.Day || dates.Count > 5 ||
+          dates.First().Date.DayOfWeek == DayOfWeek.Friday) return;
+      var lastDate = new EventDate()
       {
-        var lastDate = new EventDate()
-        {
-          StartDate = startDate,
-          EndDate = originalEndDate
-        };
-        newEvent.EventDates.Add(lastDate);
-      }
+        StartDate = startDate,
+        EndDate = originalEndDate
+      };
+      newEvent.EventDates.Add(lastDate);
     }
 
     private Event GetEventById(int id)
