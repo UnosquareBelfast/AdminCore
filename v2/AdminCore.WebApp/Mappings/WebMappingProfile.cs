@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
@@ -67,6 +66,7 @@ namespace AdminCore.WebApi.Mappings
       //      CreateMap<EventDto, HolidayViewModel>().ReverseMap();
       //      CreateMap<ICollection<EventDateDto>, EventDateDto>().ReverseMap();
 
+      CreateMap<HolidayViewModel, EventDto>().ReverseMap();
       CreateMap<CreateHolidayViewModel, EventDateDto>().ReverseMap();
       CreateMap<UpdateEventViewModel, EventDateDto>().ReverseMap();
     }

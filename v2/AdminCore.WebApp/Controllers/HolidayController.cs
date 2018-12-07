@@ -68,7 +68,7 @@ namespace AdminCore.WebApi.Controllers
       var holiday = _eventService.GetEventsByEmployeeId(employeeId);
       if (holiday != null)
       {
-        return Ok(_mapper.Map<HolidayViewModel>(holiday));
+        return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
       return Ok($"No holiday found for employee ID: { employeeId.ToString() }");
