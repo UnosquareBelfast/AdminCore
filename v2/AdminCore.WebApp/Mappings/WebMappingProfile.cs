@@ -69,6 +69,7 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<HolidayViewModel, EventDto>().ReverseMap();
       CreateMap<CreateHolidayViewModel, EventDateDto>().ReverseMap();
       CreateMap<UpdateEventViewModel, EventDateDto>().ReverseMap();
+      CreateMap<HolidayStatsViewModel, HolidayStatsDto>().ReverseMap();
     }
   }
 }
