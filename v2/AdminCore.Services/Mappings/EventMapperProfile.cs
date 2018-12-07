@@ -10,6 +10,7 @@ namespace AdminCore.Services.Mappings
     public EventMapperProfile()
     {
       CreateMap<Event, EventDto>().ReverseMap();
+      CreateMap<EventDate, EventDto>().ReverseMap();
       CreateMap<EventDate, EventDateDto>().ReverseMap();
       CreateMap<EventType, EventTypes>().ReverseMap();
     }
