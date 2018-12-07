@@ -15,6 +15,7 @@ namespace AdminCore.Services
   public class EventService : BaseService, IEventService
   {
     private readonly IMapper _mapper;
+    private const int AnnualLeaveId = (int)EventTypes.AnnualLeave;
 
     public EventService(IDatabaseContext databaseContext, IMapper mapper)
       : base(databaseContext)
@@ -25,7 +26,7 @@ namespace AdminCore.Services
     public IList<EventDto> GetAnnualLeaveByEmployee(int employeeId)
     {
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
-        x.EventType.EventTypeId == (int)EventTypes.AnnualLeave
+        x.EventType.EventTypeId == AnnualLeaveId
         && x.Employee.EmployeeId == employeeId);
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
@@ -35,7 +36,7 @@ namespace AdminCore.Services
       var eventsBetweenDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                              && x.EndDate <= endDate
                                                                              && x.Event.EventTypeId ==
-                                                                             (int)EventTypes.AnnualLeave);
+                                                                             AnnualLeaveId);
       return _mapper.Map<IList<EventDto>>(eventsBetweenDates);
     }
 
@@ -61,15 +62,18 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetEventByStatus(EventStatuses eventStatus, EventTypes eventType)
     {
-      var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == (int)eventStatus
-                                                            && x.EventType.EventTypeId == (int)eventType);
+      var eventStatusId = (int)eventStatus;
+      var eventTypeId = (int)eventType;
+      var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
+                                                            && x.EventType.EventTypeId == eventTypeId);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
 
     public IList<EventDto> GetEventByType(EventTypes eventType)
     {
-      var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == (int)eventType);
+      int eventTypeId = (int)eventType;
+      var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == eventTypeId);
       return _mapper.Map<IList<EventDto>>(events);
     }
 
