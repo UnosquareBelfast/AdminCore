@@ -51,6 +51,7 @@ namespace AdminCore.Services.Configuration
         services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
+        services.AddTransient<IDateService, DateService>();
         services.AddSingleton<IConfiguration, ConfigurationProvider>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IClientService, ClientService>();

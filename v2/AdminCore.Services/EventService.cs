@@ -9,18 +9,21 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace AdminCore.Services
 {
   public class EventService : BaseService, IEventService
   {
     private readonly IMapper _mapper;
+    private readonly IDateService _dateService;
     private const int AnnualLeaveId = (int)EventTypes.AnnualLeave;
 
-    public EventService(IDatabaseContext databaseContext, IMapper mapper)
+    public EventService(IDatabaseContext databaseContext, IMapper mapper, IDateService dateService)
       : base(databaseContext)
     {
       _mapper = mapper;
+      _dateService = dateService;
     }
 
     public IList<EventDto> GetAnnualLeaveByEmployee(int employeeId)
@@ -42,7 +45,15 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetEventsByEmployeeId(int employeeId)
     {
-      var events = DatabaseContext.EventRepository.Get(x => x.Employee.EmployeeId == employeeId);
+      var startDate = _dateService.GetStartOfYearDate();
+      var endDate = _dateService.GetEndOfYearDate();
+
+      var eventIds = DatabaseContext.EventDatesRepository
+        .GetAsQueryable(RetrieveEventsWithinRange(startDate, endDate))
+        .Where(x => x.Event.Employee.EmployeeId == employeeId).Select(x => x.EventId).ToList();
+
+      var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId), null, x => x.EventDates);
+      
       return _mapper.Map<IList<EventDto>>(events);
     }
 
@@ -148,6 +159,14 @@ namespace AdminCore.Services
       holidayStatsDto.AvailableHolidays = holidayStatsDto.TotalHolidays -
                                          (holidayStatsDto.ApprovedHolidays + holidayStatsDto.PendingHolidays);
       return holidayStatsDto;
+    }
+    
+    private static Expression<Func<EventDate, bool>> RetrieveEventsWithinRange(DateTime startDate, DateTime endDate)
+    {
+      return x => (startDate < x.StartDate && endDate > x.EndDate) || 
+                  (startDate > x.StartDate && endDate > x.StartDate) ||
+                  (startDate > x.StartDate && startDate > x.EndDate) ||
+                  (startDate > x.StartDate && endDate > x.EndDate);
     }
 
     private int GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus, int employeeId)
