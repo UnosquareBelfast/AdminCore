@@ -135,6 +135,7 @@ namespace AdminCore.Services
       {
         eventToUpdate.EventDates.Clear();
         SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
+        eventToUpdate.LastModified = DateTime.Now;
         DatabaseContext.SaveChanges();
       }
     }
