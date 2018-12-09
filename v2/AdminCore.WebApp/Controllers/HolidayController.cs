@@ -51,27 +51,40 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("{holidayId}")]
-    public IActionResult GetHolidayByEventId(int eventId)
+    public IActionResult GetHolidayByEventId(int holidayId)
     {
-      var holiday = _eventService.GetEvent(eventId);
-      if (holiday!= null)
+
+      var holiday = _eventService.GetEvent(holidayId);
+      if (holiday != null)
       {
         return Ok(_mapper.Map<HolidayViewModel>(holiday));
       }
 
-      return Ok($"No holiday found for event ID: { eventId.ToString() }");
+      return Ok($"No holiday found for event ID: { holidayId.ToString() }");
     }
 
     [HttpGet("findByEmployeeId/{employeeId}")]
     public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
       var holiday = _eventService.GetEventsByEmployeeId(employeeId);
-      if (holiday!= null)
+      if (holiday != null)
       {
-        return Ok(_mapper.Map<HolidayViewModel>(holiday));
+        return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
       return Ok($"No holiday found for employee ID: { employeeId.ToString() }");
+    }
+
+    [HttpGet("findEmployeeHolidayStats/{employeeId}")]
+    public IActionResult GetEmployeeHolidayStats(int employeeId)
+    {
+      var holidayStats = _eventService.GetHolidayStatsForUser(employeeId);
+      if (holidayStats != null)
+      {
+        return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
+      }
+
+      return Ok("No Holiday information available");
     }
 
     [HttpPost]
@@ -79,17 +92,17 @@ namespace AdminCore.WebApi.Controllers
     {
       var employeeId = _authenticatedUser.RetrieveUserId();
       var eventDates = _mapper.Map<EventDateDto>(model);
+
       try
       {
+        _eventService.IsHolidayValid(employeeId, eventDates, model.IsHalfDay);
         _eventService.CreateEvent(employeeId, eventDates);
         return Ok($"Holiday has been created successfully");
       }
       catch (Exception e)
       {
-        //Log Exception
+        return Ok(e.Message);
       }
-      
-      return Ok("Something has gone wrong - holiday creation failed");
     }
 
     [HttpPut]
@@ -105,7 +118,7 @@ namespace AdminCore.WebApi.Controllers
       {
         //Log Exception
       }
-      
+
       return Ok("Holiday failed to update");
     }
 
@@ -129,7 +142,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
-       _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled );
+      _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled);
       return Ok();
     }
 
@@ -172,45 +185,6 @@ namespace AdminCore.WebApi.Controllers
       {
         return false;
       }
-    }
-
-//    private IList<string> ValidateCreateHolidayViewModel(CreateHolidayViewModel createHolidayViewModel)
-//    {
-//      IList<string> errorResponses = new List<string>();
-//      CheckIfHolidayHasAlreadyBeenBooked(createHolidayViewModel, createHolidayViewModel.DateRange, errorResponses);
-//      CheckDateRangeStartDateIsBeforeEndDate(createHolidayViewModel.DateRange, errorResponses);
-//      return errorResponses;
-//    }
-//
-//    private void CheckIfHolidayHasAlreadyBeenBooked(CreateHolidayViewModel createHolidayViewModel, DateViewModel dateRange, IList<string> errorResponses)
-//    {
-//      var holidaysAlreadyBooked = _eventService.GetEventsByEmployeeIdAndStartAndEndDates(createHolidayViewModel.EmployeeId,
-//        dateRange.StartDate, dateRange.EndDate);
-//
-//      if (holidaysAlreadyBooked != null)
-//      {
-//        errorResponses.Add($"Holidays have already been booked for Employee ID {createHolidayViewModel.EmployeeId} between the dates {dateRange.StartDate} and {dateRange.EndDate}");
-//      }
-//    }
-//
-//    private void CheckDateRangeStartDateIsBeforeEndDate(DateViewModel dateRange, IList<string> errorResponses)
-//    {
-//      if (dateRange.StartDate.CompareTo(dateRange.EndDate) > 0)
-//      {
-//        errorResponses.Add($"Start date {dateRange.StartDate.Date} is after End Date {dateRange.EndDate.Date}");
-//      }
-//    }
-
-    private IActionResult CreateBadRequestResponseWithListOfErrors(IList<string> errors)
-    {
-      var errorString = "";
-      var count = 1;
-      foreach (var error in errors)
-      {
-        errorString += $"Error #{count++}: {error}\n";
-      }
-
-      return BadRequest(errorString);
     }
 
     private bool IsDatesValid(string startDate, string endDate)

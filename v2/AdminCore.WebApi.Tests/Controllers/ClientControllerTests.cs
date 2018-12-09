@@ -111,8 +111,9 @@ namespace AdminCore.WebApi.Tests.Controllers
       };
 
       var result = _controller.CreateClient(updateViewModel);
+      var resultValue = RetrieveValueFromActionResult<string>(result);
+      Assert.Equal("Client TestClient has successfully been created", resultValue);
 
-      Assert.IsType<OkResult>(result);
     }
 
     [Fact]
