@@ -46,12 +46,12 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(events);
     }
 
-    public IList<EventDto> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate)
+    public IList<EventDateDto> GetEventDatesByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate)
     {
       var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                      && x.EndDate <= endDate
                                                                      && x.Event.EmployeeId == employeeId);
-      return null;
+      return _mapper.Map<IList<EventDateDto>>(eventDates);
     }
 
     public EventDto GetEvent(int id)
@@ -222,6 +222,40 @@ namespace AdminCore.Services
     {
       var employee = DatabaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == employeeId);
       return employee;
+    }
+
+    public void IsHolidayValid(int employeeId, EventDateDto eventDates, bool modelIsHalfDay)
+    {
+      if (IsHolidayDatesAlreadyBooked(employeeId, eventDates))
+        throw new Exception("Already Booked");
+
+      if (!IsDateRangeLessThanTotalHolidaysRemaining(employeeId, eventDates))
+        throw new Exception("Not enough holidays remaining.");
+
+      if (modelIsHalfDay)
+        throw new Exception("Holiday booked is a half day.");
+    }
+
+    private bool IsDateRangeLessThanTotalHolidaysRemaining(int employeeId, EventDateDto eventDates)
+    {
+      var employee = GetEmployeeFromEmployeeId(employeeId);
+      if (employee.TotalHolidays < (eventDates.EndDate - eventDates.StartDate).TotalDays)
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    private bool IsHolidayDatesAlreadyBooked(int employeeId, EventDateDto eventDates)
+    {
+      var employeeEvents = GetEventDatesByEmployeeIdAndStartAndEndDates(employeeId, eventDates.StartDate, eventDates.EndDate);
+      if (!employeeEvents.Any())
+      {
+        return false;
+      }
+
+      return true;
     }
   }
 }

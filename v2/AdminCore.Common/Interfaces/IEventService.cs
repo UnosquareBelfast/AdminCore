@@ -13,7 +13,7 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetEventsByEmployeeId(int employeeId);
 
-    IList<EventDto> GetEventsByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
+    IList<EventDateDto> GetEventDatesByEmployeeIdAndStartAndEndDates(int employeeId, DateTime startDate, DateTime endDate);
 
     EventDto GetEvent(int id);
 
@@ -30,5 +30,7 @@ namespace AdminCore.Common.Interfaces
     void UpdateEventStatus(int eventId, EventStatuses status);
 
     void RejectEvent(int eventId, string message, int employeeId);
+
+    void IsHolidayValid(int employeeId, EventDateDto eventDates, bool modelIsHalfDay);
   }
 }
