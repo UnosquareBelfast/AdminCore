@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminCore.DatabaseMigration
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminCore.WebApi.Tests", "AdminCore.WebApi.Tests\AdminCore.WebApi.Tests.csproj", "{12D0AFE6-4CA8-4B88-8F9E-3C0987C1FAD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminCore.Extensions", "AdminCore.Extensions\AdminCore.Extensions.csproj", "{69046AAF-A835-4587-8C75-D81F7FE8DB3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminCore.Extensions", "AdminCore.Extensions\AdminCore.Extensions.csproj", "{69046AAF-A835-4587-8C75-D81F7FE8DB3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminCore.Services.Tests", "AdminCore.Services.Tests\AdminCore.Services.Tests.csproj", "{6F9CE2E9-2B9F-4117-B9BB-7E9B5E6DC4F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{69046AAF-A835-4587-8C75-D81F7FE8DB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69046AAF-A835-4587-8C75-D81F7FE8DB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69046AAF-A835-4587-8C75-D81F7FE8DB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F9CE2E9-2B9F-4117-B9BB-7E9B5E6DC4F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F9CE2E9-2B9F-4117-B9BB-7E9B5E6DC4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F9CE2E9-2B9F-4117-B9BB-7E9B5E6DC4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F9CE2E9-2B9F-4117-B9BB-7E9B5E6DC4F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

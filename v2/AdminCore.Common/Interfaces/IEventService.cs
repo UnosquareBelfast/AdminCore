@@ -23,7 +23,7 @@ namespace AdminCore.Common.Interfaces
 
     HolidayStatsDto GetHolidayStatsForUser(int employeeId);
 
-    void CreateEvent(int employeeId, EventDateDto dates);
+    EventDto CreateEvent(int employeeId, EventDateDto dates);
 
     void UpdateEvent(EventDateDto eventDateDto);
 
