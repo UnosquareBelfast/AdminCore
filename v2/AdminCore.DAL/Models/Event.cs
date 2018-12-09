@@ -31,7 +31,7 @@ namespace AdminCore.DAL.Models
     ///   Gets or sets the employee.
     /// </summary>
     [Column("employee_id")]
-    public int EmployeeId { get; set; }
+    public virtual int EmployeeId { get; set; }
 
     /// <summary>
     ///   Gets or sets the employee.
@@ -75,7 +75,7 @@ namespace AdminCore.DAL.Models
     [ForeignKey("EventId")]
     public ICollection<EventMessage> EventMessages { get; set; }
 
-    public ICollection<EventDate> EventDates { get; set; }
+    public virtual ICollection<EventDate> EventDates { get; set; }
 
     /// <summary>
     ///   Gets or sets the last modified.

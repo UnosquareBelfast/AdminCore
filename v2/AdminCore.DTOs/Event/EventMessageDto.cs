@@ -1,4 +1,4 @@
-namespace AdminCore.DTOs.EventDates
+namespace AdminCore.DTOs.Event
 {
   public class EventMessageDto
   {

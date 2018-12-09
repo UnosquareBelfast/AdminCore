@@ -51,32 +51,61 @@ namespace AdminCore.Services
 
     public IList<EmployeeDto> GetAll()
     {
-      throw new NotImplementedException();
-    }
-
-    public void Update(EmployeeDto employeeDto)
-    {
-      throw new NotImplementedException();
+      var employees = DatabaseContext.EmployeeRepository.Get();
+      return _mapper.Map<IList<EmployeeDto>>(employees);
     }
 
     public void Delete(int employeeId)
     {
-      throw new NotImplementedException();
+      var employeeDbEntry = GetEmployeeById(employeeId);
+      if (employeeDbEntry == null)
+      {
+        throw new Exception($"Employee could not be delete. Employee ID {employeeId} not found.");
+      }
+      DatabaseContext.EmployeeRepository.Delete(employeeDbEntry);
+      DatabaseContext.SaveChanges();
     }
 
     public EmployeeDto Get(int employeeId)
     {
-      throw new NotImplementedException();
+      var employeeDbEntry = GetEmployeeById(employeeId);
+      return _mapper.Map<EmployeeDto>(employeeDbEntry);
     }
 
     public IList<EmployeeDto> GetByForenameAndSurname(string forename, string surname)
     {
-      throw new NotImplementedException();
+      var employee = DatabaseContext.EmployeeRepository.Get(x =>
+        x.Forename.Equals(forename, StringComparison.CurrentCultureIgnoreCase) &&
+        x.Surname.Equals(surname, StringComparison.CurrentCultureIgnoreCase));
+      return _mapper.Map<IList<EmployeeDto>>(employee);
     }
 
     public IList<EmployeeDto> GetByCountryId(int countryId)
     {
-      throw new NotImplementedException();
+      var employee = DatabaseContext.EmployeeRepository.Get(x => x.CountryId == countryId);
+      return _mapper.Map<IList<EmployeeDto>>(employee);
+    }
+
+    public void Save(EmployeeDto employeeDto)
+    {
+      if (employeeDto.EmployeeId == 0)
+      {
+        var newEmployeeEntry = _mapper.Map<Employee>(employeeDto);
+        DatabaseContext.EmployeeRepository.Insert(newEmployeeEntry);
+      }
+      else
+      {
+        var employee = GetEmployeeById(employeeDto.EmployeeId);
+        _mapper.Map(employeeDto, employee);
+      }
+
+      DatabaseContext.SaveChanges();
+    }
+
+    private Employee GetEmployeeById(int id)
+    {
+      var employee = DatabaseContext.EmployeeRepository.Get(x => x.EmployeeId == id);
+      return employee.Any() ? employee.First() : null;
     }
 
     private static short CalculateTotalHolidaysFromStartDate(Employee employee, int maxHolidays)

@@ -21,6 +21,8 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetEventByType(EventTypes eventType);
 
+    HolidayStatsDto GetHolidayStatsForUser(int employeeId);
+
     void CreateEvent(int employeeId, EventDateDto dates);
 
     void UpdateEvent(EventDateDto eventDateDto);
