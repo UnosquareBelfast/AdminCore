@@ -117,7 +117,8 @@ namespace AdminCore.Services
         EmployeeId = employeeId,
         EventStatusId = (int)EventStatuses.AwaitingApproval,
         EventTypeId = (int)EventTypes.AnnualLeave,
-        EventDates = new List<EventDate>()
+        EventDates = new List<EventDate>(),
+        LastModified = DateTime.Now
       };
 
       SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates.StartDate);
