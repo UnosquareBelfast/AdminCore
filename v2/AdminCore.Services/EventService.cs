@@ -65,7 +65,8 @@ namespace AdminCore.Services
       var eventStatusId = (int)eventStatus;
       var eventTypeId = (int)eventType;
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
-                                                            && x.EventType.EventTypeId == eventTypeId);
+                                                            && x.EventType.EventTypeId == eventTypeId,
+                                                            null, x => x.EventDates);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
@@ -134,6 +135,51 @@ namespace AdminCore.Services
         SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
         DatabaseContext.SaveChanges();
       }
+    }
+
+    public HolidayStatsDto GetHolidayStatsForUser(int employeeId)
+    {
+      var holidayStatsDto = new HolidayStatsDto
+      {
+        ApprovedHolidays = GetHolidaysByEmployeeAndStatus(EventStatuses.Approved, employeeId),
+        PendingHolidays = GetHolidaysByEmployeeAndStatus(EventStatuses.AwaitingApproval, employeeId),
+        TotalHolidays = DatabaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == employeeId).TotalHolidays
+      };
+      holidayStatsDto.AvailableHolidays = holidayStatsDto.TotalHolidays -
+                                         (holidayStatsDto.ApprovedHolidays + holidayStatsDto.PendingHolidays);
+      return holidayStatsDto;
+    }
+
+    private int GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus, int employeeId)
+    {
+      var annualLeaveId = (int)EventTypes.AnnualLeave;
+      var eventStatusId = (int)eventStatus;
+      var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
+                                                            && x.EventType.EventTypeId == annualLeaveId
+                                                            && x.EmployeeId == employeeId,
+                                                            null, x => x.EventDates);
+      return GetHolidaysFromReturnedEvents(events);
+    }
+
+    private static int GetHolidaysFromReturnedEvents(IList<Event> events)
+    {
+      var holidays = 0;
+      foreach (var holiday in events)
+      {
+        holidays = IncrementHolidays(holiday, holidays);
+      }
+
+      return holidays;
+    }
+
+    private static int IncrementHolidays(Event holiday, int holidays)
+    {
+      foreach (var eventDate in holiday.EventDates)
+      {
+        holidays += (eventDate.EndDate.Day - eventDate.StartDate.Day) + 1;
+      }
+
+      return holidays;
     }
 
     private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)

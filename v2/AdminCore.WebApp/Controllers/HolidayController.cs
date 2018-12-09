@@ -74,6 +74,18 @@ namespace AdminCore.WebApi.Controllers
       return Ok($"No holiday found for employee ID: { employeeId.ToString() }");
     }
 
+    [HttpGet("findEmployeeHolidayStats/{employeeId}")]
+    public IActionResult GetEmployeeHolidayStats(int employeeId)
+    {
+      var holidayStats = _eventService.GetHolidayStatsForUser(employeeId);
+      if (holidayStats != null)
+      {
+        return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
+      }
+
+      return Ok("No Holiday information available");
+    }
+
     [HttpPost]
     public IActionResult CreateHoliday(CreateHolidayViewModel model)
     {
