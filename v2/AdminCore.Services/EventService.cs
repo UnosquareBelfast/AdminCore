@@ -40,9 +40,10 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(eventsBetweenDates);
     }
 
-    public IList<EventDto> GetEventsByEmployeeId(int employeeId)
+    public IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType)
     {
-      var events = DatabaseContext.EventRepository.Get(x => x.Employee.EmployeeId == employeeId);
+      int eventTypeId = (int)eventType;
+      var events = DatabaseContext.EventRepository.Get(x => x.Employee.EmployeeId == employeeId && x.EventTypeId == eventTypeId);
       return _mapper.Map<IList<EventDto>>(events);
     }
 
@@ -109,14 +110,14 @@ namespace AdminCore.Services
       }
     }
 
-    public EventDto CreateEvent(int employeeId, EventDateDto dates)
+    public EventDto CreateEvent(int employeeId, EventDateDto dates, EventTypes eventTypes)
     {
       var newEvent = new Event
       {
         DateCreated = DateTime.Now,
         EmployeeId = employeeId,
         EventStatusId = (int)EventStatuses.AwaitingApproval,
-        EventTypeId = (int)EventTypes.AnnualLeave,
+        EventTypeId = (int)eventTypes,
         EventDates = new List<EventDate>()
       };
 

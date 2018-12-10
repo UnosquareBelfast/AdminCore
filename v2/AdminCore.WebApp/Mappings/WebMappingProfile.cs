@@ -18,6 +18,7 @@ using AdminCore.WebApi.Models.Client;
 using AdminCore.WebApi.Models.Employee;
 using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.Team;
+using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoMapper;
 
 namespace AdminCore.WebApi.Mappings
@@ -66,10 +67,12 @@ namespace AdminCore.WebApi.Mappings
       //      CreateMap<EventDto, HolidayViewModel>().ReverseMap();
       //      CreateMap<ICollection<EventDateDto>, EventDateDto>().ReverseMap();
 
-      CreateMap<HolidayViewModel, EventDto>().ReverseMap();
       CreateMap<CreateHolidayViewModel, EventDateDto>().ReverseMap();
       CreateMap<UpdateEventViewModel, EventDateDto>().ReverseMap();
       CreateMap<HolidayStatsViewModel, HolidayStatsDto>().ReverseMap();
+
+      CreateMap<WorkingFromHomeViewModel, EventDto>().ReverseMap();
+      CreateMap<CreateWorkingFromHomeViewModel, EventDateDto>().ReverseMap();
     }
   }
 }
