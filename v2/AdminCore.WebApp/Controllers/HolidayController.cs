@@ -38,18 +38,6 @@ namespace AdminCore.WebApi.Controllers
       _mapper = mapper;
     }
 
-    [HttpGet]
-    public IActionResult GetAllHolidays()
-    {
-      var holidays = _eventService.GetEventByType(EventTypes.AnnualLeave);
-      if (holidays != null)
-      {
-        return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
-      }
-
-      return Ok("No holidays found");
-    }
-
     [HttpGet("{holidayId}")]
     public IActionResult GetHolidayByEventId(int holidayId)
     {
@@ -60,25 +48,25 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<HolidayViewModel>(holiday));
       }
 
-      return Ok($"No holiday found for event ID: { holidayId.ToString() }");
+      return NoContent();
     }
 
-    [HttpGet("findByEmployeeId/{employeeId}")]
-    public IActionResult GetHolidayByEmployeeId(int employeeId)
+    [HttpGet("findByEmployeeId")]
+    public IActionResult GetHolidayByEmployeeId()
     {
-      var holiday = _eventService.GetEventsByEmployeeId(employeeId);
+      var holiday = _eventService.GetEventsByEmployeeId(_authenticatedUser.RetrieveUserId());
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
-      return Ok($"No holiday found for employee ID: { employeeId.ToString() }");
+      return NoContent();
     }
 
-    [HttpGet("findEmployeeHolidayStats/{employeeId}")]
-    public IActionResult GetEmployeeHolidayStats(int employeeId)
+    [HttpGet("findEmployeeHolidayStats")]
+    public IActionResult GetEmployeeHolidayStats()
     {
-      var holidayStats = _eventService.GetHolidayStatsForUser(employeeId);
+      var holidayStats = _eventService.GetHolidayStatsForUser(_authenticatedUser.RetrieveUserId());
       if (holidayStats != null)
       {
         return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
