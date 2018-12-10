@@ -38,7 +38,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var employeeId = 1;
       var createViewModel = _fixture.Create<CreateWorkingFromHomeViewModel>();
 
-      _authenticatedUser.RetrieveUserId().Returns(1);
+      _authenticatedUser.RetrieveUserId().Returns(employeeId);
 
       // Act
       var result = _controller.CreateWorkingFromHome(createViewModel);
