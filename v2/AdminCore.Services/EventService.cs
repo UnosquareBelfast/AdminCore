@@ -45,15 +45,15 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetEventsByEmployeeId(int employeeId)
     {
-      var startDate = _dateService.GetStartOfYearDate();
-      var endDate = _dateService.GetEndOfYearDate();
+      var startOfYearDate = _dateService.GetStartOfYearDate();
+      var endOfYearDate = _dateService.GetEndOfYearDate();
 
       var eventIds = DatabaseContext.EventDatesRepository
-        .GetAsQueryable(RetrieveEventsWithinRange(startDate, endDate))
+        .GetAsQueryable(RetrieveEventsWithinRange(startOfYearDate, endOfYearDate))
         .Where(x => x.Event.Employee.EmployeeId == employeeId).Select(x => x.EventId).ToList();
 
       var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId), null, x => x.EventDates);
-      
+
       return _mapper.Map<IList<EventDto>>(events);
     }
 
@@ -160,10 +160,10 @@ namespace AdminCore.Services
                                          (holidayStatsDto.ApprovedHolidays + holidayStatsDto.PendingHolidays);
       return holidayStatsDto;
     }
-    
+
     private static Expression<Func<EventDate, bool>> RetrieveEventsWithinRange(DateTime startDate, DateTime endDate)
     {
-      return x => (startDate < x.StartDate && endDate > x.EndDate) || 
+      return x => (startDate < x.StartDate && endDate > x.EndDate) ||
                   (startDate > x.StartDate && endDate > x.StartDate) ||
                   (startDate > x.StartDate && startDate > x.EndDate) ||
                   (startDate > x.StartDate && endDate > x.EndDate);
