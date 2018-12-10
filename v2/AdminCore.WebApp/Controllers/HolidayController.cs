@@ -53,7 +53,6 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("{holidayId}")]
     public IActionResult GetHolidayByEventId(int holidayId)
     {
-
       var holiday = _eventService.GetEvent(holidayId);
       if (holiday != null)
       {
@@ -99,9 +98,9 @@ namespace AdminCore.WebApi.Controllers
         _eventService.CreateEvent(employeeId, eventDates);
         return Ok($"Holiday has been created successfully");
       }
-      catch (Exception e)
+      catch (Exception ex)
       {
-        return Ok(e.Message);
+        return Ok(ex.Message);
       }
     }
 
@@ -112,45 +111,40 @@ namespace AdminCore.WebApi.Controllers
       try
       {
         _eventService.UpdateEvent(eventDatesToUpdate);
-        return Ok();
+        return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)
       {
-        //Log Exception
+        return Ok("Holiday failed to update: " + ex.Message);
       }
-
-      return Ok("Holiday failed to update");
     }
 
     [HttpPut("approveHoliday")]
     public IActionResult ApproveHoliday(ApproveHolidayViewModel approveHoliday)
     {
-      var eventDto = _mapper.Map<EventDto>(approveHoliday);
       try
       {
-        //_eventService.ApproveEvent(eventDto);
-        return Ok();
+        _eventService.UpdateEventStatus(approveHoliday.EventId, EventStatuses.Approved);
+        return Ok("Successfully Approved");
       }
       catch (Exception ex)
       {
-        // Log exception
+        return Ok("Holiday failed to get approved: " + ex.Message);
       }
-
-      return Ok("Holiday failed to get approved");
     }
 
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
       _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled);
-      return Ok();
+      return Ok("Successfully Cancelled");
     }
 
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      //_eventService.RejectEvent(rejectHoliday.EventId,rejectHoliday.Message, int.Parse(_authenticatedUser.RetrieveUserId()));
-      return Ok();
+      _eventService.RejectEvent(rejectHoliday.EventId, rejectHoliday.Message, _authenticatedUser.RetrieveUserId());
+      return Ok("Successfully Rejected");
     }
 
     [HttpGet("findByDateBetween/{startDate}/{endDate}")]
