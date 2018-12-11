@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
@@ -8,19 +9,21 @@ using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace AdminCore.WebApi.Controllers
 {
   [ApiController]
   [Authorize]
   [Route("[controller]")]
-  public class WorkingFromHomeController : ControllerBase
+  public class WorkingFromHomeController : BaseController
   {
     private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
     private readonly IMapper _mapper;
 
     public WorkingFromHomeController(IAuthenticatedUser authenticatedUser, IEventService wfhEventService, IMapper mapper)
+      : base(mapper)
     {
       _authenticatedUser = authenticatedUser;
       _eventService = wfhEventService;
@@ -40,7 +43,8 @@ namespace AdminCore.WebApi.Controllers
       }
       catch (Exception e)
       {
-        return Ok(e.Message);
+        Logger.LogError(e.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Could not create event");
       }
     }
 
