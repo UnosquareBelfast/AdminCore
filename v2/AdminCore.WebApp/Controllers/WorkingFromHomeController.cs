@@ -58,7 +58,7 @@ namespace AdminCore.WebApi.Controllers
           return Ok(_mapper.Map<IList<WorkingFromHomeViewModel>>(wfhEvents));
         }
 
-        return Ok("No holidays found");
+        return StatusCode((int)HttpStatusCode.NoContent, "No work from home event exists");
       }
     }
 
