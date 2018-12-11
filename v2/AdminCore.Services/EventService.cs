@@ -128,7 +128,8 @@ namespace AdminCore.Services
         EmployeeId = employeeId,
         EventStatusId = (int)EventStatuses.AwaitingApproval,
         EventTypeId = (int)EventTypes.AnnualLeave,
-        EventDates = new List<EventDate>()
+        EventDates = new List<EventDate>(),
+        LastModified = _dateService.GetCurrentDateTime()
       };
 
       SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates.StartDate);
@@ -145,6 +146,7 @@ namespace AdminCore.Services
       {
         eventToUpdate.EventDates.Clear();
         SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
+        eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
         DatabaseContext.SaveChanges();
       }
     }
