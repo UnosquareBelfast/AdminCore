@@ -14,12 +14,12 @@ namespace AdminCore.WebApi.Controllers
   public class DashboardController : BaseController
   {
     private readonly IDashboardService _dashboardService;
-    private readonly IEmployeeCredentials _employeeCredentials;
+    private readonly IAuthenticatedUser _authenticatedUser;
 
-    public DashboardController(IDashboardService dashboardService, IEmployeeCredentials employeeCredentials, IMapper mapper) : base(mapper)
+    public DashboardController(IDashboardService dashboardService, IAuthenticatedUser authenticatedUser, IMapper mapper) : base(mapper)
     {
       _dashboardService = dashboardService;
-      _employeeCredentials = employeeCredentials;
+      _authenticatedUser = authenticatedUser;
     }
 
     [HttpGet("getDashboardSnapshot")]
@@ -31,7 +31,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("getEmployeeEvents/{date}")]
     public IActionResult GetEmployeeEvents(DateTime date)
     {
-      var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(_employeeCredentials.GetUserId(), date);
+      var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(_authenticatedUser.RetrieveUserId(), date);
       return Ok(Mapper.Map<IList<HolidayViewModel>>(employeeEvents));
     }
 
