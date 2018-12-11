@@ -7,9 +7,16 @@ namespace AdminCore.Services
 {
   public class EmployeeCredentials : IEmployeeCredentials
   {
+    private readonly IAuthenticatedUser _authenticatedUser;
+
+    public EmployeeCredentials(IAuthenticatedUser authenticatedUser)
+    {
+      _authenticatedUser = authenticatedUser;
+    }
+
     public int GetUserId()
     {
-      throw new NotImplementedException();
+      return _authenticatedUser.RetrieveUserId();
     }
   }
 }

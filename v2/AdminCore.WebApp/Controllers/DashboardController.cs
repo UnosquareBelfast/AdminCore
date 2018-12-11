@@ -3,22 +3,22 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using AdminCore.WebApi.Models.Holiday;
 
 namespace AdminCore.WebApi.Controllers
 {
   [ApiController]
   [Authorize]
   [Route("[controller]")]
-  public class DashboardController : ControllerBase
+  public class DashboardController : BaseController
   {
     private readonly IDashboardService _dashboardService;
-    private readonly IMapper _mapper;
     private readonly IEmployeeCredentials _employeeCredentials;
 
-    public DashboardController(IDashboardService dashboardService, IEmployeeCredentials employeeCredentials, IMapper mapper)
+    public DashboardController(IDashboardService dashboardService, IEmployeeCredentials employeeCredentials, IMapper mapper) : base(mapper)
     {
       _dashboardService = dashboardService;
-      _mapper = mapper;
       _employeeCredentials = employeeCredentials;
     }
 
@@ -31,7 +31,8 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("getEmployeeEvents/{date}")]
     public IActionResult GetEmployeeEvents(DateTime date)
     {
-      return Ok();
+      var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(_employeeCredentials.GetUserId(), date);
+      return Ok(Mapper.Map<IList<HolidayViewModel>>(employeeEvents));
     }
 
     [HttpGet("getEmployeeTeamSnapshot")]

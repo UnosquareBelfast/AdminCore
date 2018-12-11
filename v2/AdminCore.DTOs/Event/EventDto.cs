@@ -11,19 +11,19 @@ namespace AdminCore.DTOs.Event
     
     public int EmployeeId { get; set; }
     
-    public EmployeeDto EmployeeDto { get; set; }
+    public EmployeeDto Employee { get; set; }
 
     public DateTime DateCreated { get; set; }
     
     public int EventStatusId { get; set; }
     
-    public EventStatusDto EventStatusDto { get; set; }
+    public EventStatusDto EventStatus { get; set; }
     
     public int EventTypeId { get; set; }
     
-    public EventTypeDto EventTypeDto { get; set; }
+    public EventTypeDto EventType { get; set; }
     
-    public ICollection<EventMessageDto> EventMessageDtos { get; set; }
+    public ICollection<EventMessageDto> EventMessage { get; set; }
     
     public string LatestMessage { get; set; }
 
