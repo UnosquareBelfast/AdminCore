@@ -14,15 +14,17 @@ using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace AdminCore.WebApi.Controllers
 {
   [Authorize]
   [Route("[controller]")]
   [ApiController]
-  public class HolidayController : ControllerBase
+  public class HolidayController : BaseController
   {
     private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
@@ -30,7 +32,7 @@ namespace AdminCore.WebApi.Controllers
     private readonly IMapper _mapper;
 
     public HolidayController(IAuthenticatedUser authenticatedUser, IEventService eventService,
-      IEmployeeService employeeService, IMapper mapper)
+      IEmployeeService employeeService, IMapper mapper) : base(mapper)
     {
       _authenticatedUser = authenticatedUser;
       _eventService = eventService;
@@ -47,7 +49,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
       }
 
-      return Ok("No holidays found");
+      return StatusCode((int)HttpStatusCode.NoContent, "No Holiday exist");
     }
 
     [HttpGet("{holidayId}")]
@@ -59,31 +61,31 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<HolidayViewModel>(holiday));
       }
 
-      return Ok($"No holiday found for event ID: { holidayId.ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for event ID: { holidayId.ToString() }");
     }
 
-    [HttpGet("findByEmployeeId/{employeeId}")]
-    public IActionResult GetHolidayByEmployeeId(int employeeId)
+    [HttpGet("findByEmployeeId")]
+    public IActionResult GetHolidayByEmployeeId()
     {
-      var holiday = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
+      var holiday = _eventService.GetEventsByEmployeeId(employeeId);
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
-      return Ok($"No holiday found for employee ID: { employeeId.ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { employeeId.ToString() }");
     }
 
-    [HttpGet("findEmployeeHolidayStats/{employeeId}")]
-    public IActionResult GetEmployeeHolidayStats(int employeeId)
+    [HttpGet("findEmployeeHolidayStats")]
+    public IActionResult GetEmployeeHolidayStats()
     {
-      var holidayStats = _eventService.GetHolidayStatsForUser(employeeId);
+      var holidayStats = _eventService.GetHolidayStatsForUser(_authenticatedUser.RetrieveUserId());
       if (holidayStats != null)
       {
         return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
       }
 
-      return Ok("No Holiday information available");
+      return StatusCode((int)HttpStatusCode.NoContent, "No Holiday exists");
     }
 
     [HttpPost]
@@ -98,9 +100,10 @@ namespace AdminCore.WebApi.Controllers
         _eventService.CreateEvent(employeeId, eventDates, EventTypes.AnnualLeave);
         return Ok($"Holiday has been created successfully");
       }
-      catch (Exception e)
+      catch (Exception ex)
       {
-        return Ok(e.Message);
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong creating holiday");
       }
     }
 
@@ -111,45 +114,42 @@ namespace AdminCore.WebApi.Controllers
       try
       {
         _eventService.UpdateEvent(eventDatesToUpdate);
-        return Ok();
+        return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)
       {
-        //Log Exception
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong approving holiday");
       }
-
-      return Ok("Holiday failed to update");
     }
 
     [HttpPut("approveHoliday")]
     public IActionResult ApproveHoliday(ApproveHolidayViewModel approveHoliday)
     {
-      var eventDto = _mapper.Map<EventDto>(approveHoliday);
       try
       {
-        //_eventService.ApproveEvent(eventDto);
-        return Ok();
+        _eventService.UpdateEventStatus(approveHoliday.EventId, EventStatuses.Approved);
+        return Ok("Successfully Approved");
       }
       catch (Exception ex)
       {
-        // Log exception
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong approving holiday");
       }
-
-      return Ok("Holiday failed to get approved");
     }
 
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
       _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled);
-      return Ok();
+      return Ok("Successfully Cancelled");
     }
 
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      //_eventService.RejectEvent(rejectHoliday.EventId,rejectHoliday.Message, int.Parse(_authenticatedUser.RetrieveUserId()));
-      return Ok();
+      _eventService.RejectEvent(rejectHoliday.EventId, rejectHoliday.Message, _authenticatedUser.RetrieveUserId());
+      return Ok("Successfully Rejected");
     }
 
     [HttpGet("findByDateBetween/{startDate}/{endDate}")]
@@ -170,7 +170,7 @@ namespace AdminCore.WebApi.Controllers
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
       }
-      return Ok("No holidays found");
+      return StatusCode((int)HttpStatusCode.NoContent, "No Holiday exists");
     }
 
     private bool ValidateDate(string date)
