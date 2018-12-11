@@ -60,25 +60,27 @@ namespace AdminCore.WebApi.Controllers
       {
         return Ok(_mapper.Map<HolidayViewModel>(holiday));
       }
-
+      
       return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for event ID: { holidayId.ToString() }");
     }
 
-    [HttpGet("findByEmployeeId/{employeeId}")]
-    public IActionResult GetHolidayByEmployeeId(int employeeId)
+    [HttpGet("findByEmployeeId")]
+    public IActionResult GetHolidayByEmployeeId()
     {
-      var holiday = _eventService.GetEventsByEmployeeId(employeeId);
+      var holiday = _eventService.GetEventsByEmployeeId(_authenticatedUser.RetrieveUserId());
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
+
       return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { employeeId.ToString() }");
+
     }
 
-    [HttpGet("findEmployeeHolidayStats/{employeeId}")]
-    public IActionResult GetEmployeeHolidayStats(int employeeId)
+    [HttpGet("findEmployeeHolidayStats")]
+    public IActionResult GetEmployeeHolidayStats()
     {
-      var holidayStats = _eventService.GetHolidayStatsForUser(employeeId);
+      var holidayStats = _eventService.GetHolidayStatsForUser(_authenticatedUser.RetrieveUserId());
       if (holidayStats != null)
       {
         return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
