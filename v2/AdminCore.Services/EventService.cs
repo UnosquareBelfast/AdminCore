@@ -47,12 +47,15 @@ namespace AdminCore.Services
     {
       var startOfYearDate = _dateService.GetStartOfYearDate();
       var endOfYearDate = _dateService.GetEndOfYearDate();
+      int eventTypeId = (int)eventType;
 
       var eventIds = DatabaseContext.EventDatesRepository
         .GetAsQueryable(RetrieveEventsWithinRange(startOfYearDate, endOfYearDate))
         .Where(x => x.Event.Employee.EmployeeId == employeeId).Select(x => x.EventId).ToList();
 
-      var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId), null, x => x.EventDates);
+      var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId)
+                                                            && x.EventTypeId == eventTypeId,
+                                                            null, x => x.EventDates);
 
       return _mapper.Map<IList<EventDto>>(events);
     }

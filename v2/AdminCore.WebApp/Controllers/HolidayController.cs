@@ -67,13 +67,14 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("findByEmployeeId")]
     public IActionResult GetHolidayByEmployeeId()
     {
-      var holiday = _eventService.GetEventsByEmployeeId(employeeId);
+      var holiday = _eventService.GetEventsByEmployeeId(_authenticatedUser.RetrieveUserId(), EventTypes.AnnualLeave);
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
-      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { employeeId.ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: " +
+                                                       $"{ _authenticatedUser.RetrieveUserId().ToString() }");
     }
 
     [HttpGet("findEmployeeHolidayStats")]
