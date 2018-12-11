@@ -71,7 +71,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<WorkingFromHomeViewModel>(wfhEvent));
       }
 
-      return Ok($"No Work From Home Event found for event ID: { workingFromHomeId.ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No Work From Home Event found for event ID: { workingFromHomeId.ToString() }");
     }
 
     [HttpGet("getByEmployeeId/{employeeId}")]
@@ -83,7 +83,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<WorkingFromHomeViewModel>>(wfhEvents));
       }
 
-      return Ok($"No Work From Home found for employee ID: { employeeId.ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No Work From Home found for employee ID: { employeeId.ToString() }");
     }
   }
 }
