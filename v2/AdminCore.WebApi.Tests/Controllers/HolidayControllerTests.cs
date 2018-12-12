@@ -102,11 +102,12 @@ namespace AdminCore.WebApi.Tests.Controllers
       const int numOfHolidays = 9;
       var holidayEvents = _fixture.CreateMany<EventDto>(numOfHolidays).ToList();
 
+      _authenticatedUser.RetrieveUserId().Returns(employeeId);
       _eventService.GetEventsByEmployeeId(employeeId).Returns(holidayEvents);
       _mapper.Map<List<HolidayViewModel>>(holidayEvents);
 
       // Act
-      var result = _controller.GetHolidayByEmployeeId(1);
+      var result = _controller.GetHolidayByEmployeeId();
 
       // Assert
       _eventService.Received(1).GetEventsByEmployeeId(1);
@@ -232,10 +233,11 @@ namespace AdminCore.WebApi.Tests.Controllers
       const int employeeId = 1;
       var holidayStatsDto = _fixture.Create<HolidayStatsDto>();
 
+      _authenticatedUser.RetrieveUserId().Returns(employeeId);
       _eventService.GetHolidayStatsForUser(employeeId).Returns(holidayStatsDto);
 
       // Act
-      var result = _controller.GetEmployeeHolidayStats(employeeId);
+      var result = _controller.GetEmployeeHolidayStats();
 
       // Assert
       VerifyActionResult(result);
