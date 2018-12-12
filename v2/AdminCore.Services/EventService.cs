@@ -40,7 +40,17 @@ namespace AdminCore.Services
                                                                              && x.EndDate <= endDate
                                                                              && x.Event.EventTypeId ==
                                                                              AnnualLeaveId);
-      return _mapper.Map<IList<EventDto>>(eventsBetweenDates);
+
+      var events = DatabaseContext.EventRepository.Get(x => eventsBetweenDates.First().StartDate >= startDate
+                                                            && eventsBetweenDates.Last().EndDate <= endDate
+                                                            && x.EventTypeId == AnnualLeaveId,
+                                                            null,
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
+
+      return _mapper.Map<IList<EventDto>>(events);
     }
 
     public IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType)
