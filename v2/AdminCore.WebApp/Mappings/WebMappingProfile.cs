@@ -19,6 +19,7 @@ using AdminCore.WebApi.Models.Contract;
 using AdminCore.WebApi.Models.Employee;
 using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.Team;
+using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoMapper;
 
 namespace AdminCore.WebApi.Mappings
@@ -65,10 +66,12 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<EventDto, ApproveHolidayViewModel>().ReverseMap();
       CreateMap<EventDto, CancelHolidayViewModel>().ReverseMap();
 
-      CreateMap<HolidayViewModel, EventDto>().ReverseMap();
       CreateMap<CreateHolidayViewModel, EventDateDto>().ReverseMap();
       CreateMap<UpdateEventViewModel, EventDateDto>().ReverseMap();
       CreateMap<HolidayStatsViewModel, HolidayStatsDto>().ReverseMap();
+
+      CreateMap<WorkingFromHomeViewModel, EventDto>().ReverseMap();
+      CreateMap<CreateWorkingFromHomeViewModel, EventDateDto>().ReverseMap();
 
       CreateMap<ContractDto, ContractViewModel>();
       CreateMap<ContractDto, CreateContractViewModel>();
@@ -77,7 +80,6 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<ContractDto, ContractViewModel>().ReverseMap();
       CreateMap<ContractDto, CreateContractViewModel>().ReverseMap();
       CreateMap<ContractDto, UpdateContractViewModel>().ReverseMap();
-
     }
   }
 }

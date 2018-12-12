@@ -43,16 +43,19 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(eventsBetweenDates);
     }
 
-    public IList<EventDto> GetEventsByEmployeeId(int employeeId)
+    public IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType)
     {
       var startOfYearDate = _dateService.GetStartOfYearDate();
       var endOfYearDate = _dateService.GetEndOfYearDate();
+      int eventTypeId = (int)eventType;
 
       var eventIds = DatabaseContext.EventDatesRepository
         .GetAsQueryable(RetrieveEventsWithinRange(startOfYearDate, endOfYearDate))
         .Where(x => x.Event.Employee.EmployeeId == employeeId).Select(x => x.EventId).ToList();
 
-      var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId), null, x => x.EventDates);
+      var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId)
+                                                            && x.EventTypeId == eventTypeId,
+                                                            null, x => x.EventDates);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
@@ -120,7 +123,7 @@ namespace AdminCore.Services
       }
     }
 
-    public EventDto CreateEvent(int employeeId, EventDateDto dates)
+    public EventDto CreateEvent(int employeeId, EventDateDto dates, EventTypes eventTypes)
     {
       var newEvent = new Event
       {

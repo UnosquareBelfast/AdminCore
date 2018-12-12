@@ -5,6 +5,7 @@ using AdminCore.Services.Mappings;
 using AutoMapper;
 using NSubstitute;
 using System;
+using AdminCore.Constants.Enums;
 using AdminCore.Common.Interfaces;
 using Xunit;
 
@@ -41,7 +42,7 @@ namespace AdminCore.Services.Tests
       };
 
       // Act
-      _eventService.CreateEvent(employeeId, eventDateDto);
+      _eventService.CreateEvent(employeeId, eventDateDto, EventTypes.AnnualLeave);
 
       // Assert
       _databaseContext.Received(1).EventRepository.Insert(Arg.Any<Event>());
@@ -61,7 +62,7 @@ namespace AdminCore.Services.Tests
       };
 
       // Act
-      var result = _eventService.CreateEvent(employeeId, eventDateDto);
+      var result = _eventService.CreateEvent(employeeId, eventDateDto, EventTypes.AnnualLeave);
 
       // Assert
       Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);
@@ -81,7 +82,7 @@ namespace AdminCore.Services.Tests
       };
 
       // Act
-      var result = _eventService.CreateEvent(employeeId, eventDateDto);
+      var result = _eventService.CreateEvent(employeeId, eventDateDto, EventTypes.AnnualLeave);
 
       // Assert
       Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);

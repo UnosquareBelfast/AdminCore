@@ -67,7 +67,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("findByEmployeeId")]
     public IActionResult GetHolidayByEmployeeId()
     {
-      var holiday = _eventService.GetEventsByEmployeeId(_authenticatedUser.RetrieveUserId());
+      var holiday = _eventService.GetEventsByEmployeeId(_authenticatedUser.RetrieveUserId(), EventTypes.AnnualLeave);
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
@@ -97,7 +97,7 @@ namespace AdminCore.WebApi.Controllers
       try
       {
         _eventService.IsHolidayValid(employeeId, eventDates, model.IsHalfDay);
-        _eventService.CreateEvent(employeeId, eventDates);
+        _eventService.CreateEvent(employeeId, eventDates, EventTypes.AnnualLeave);
         return Ok($"Holiday has been created successfully");
       }
       catch (Exception ex)
