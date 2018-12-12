@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS public.employee
     password character varying(255) COLLATE pg_catalog."default",
     start_date date NOT NULL,
     surname character varying(255) COLLATE pg_catalog."default",
-    total_holidays integer NOT NULL,
+    total_holidays decimal NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
     CONSTRAINT employee_country_id_fkey FOREIGN KEY (country_id)
         REFERENCES public.country (country_id) MATCH SIMPLE

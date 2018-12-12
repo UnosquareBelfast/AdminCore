@@ -113,7 +113,7 @@ namespace AdminCore.WebApi.Controllers
       var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
-        _eventService.UpdateEvent(eventDatesToUpdate);
+        _eventService.UpdateEvent(_authenticatedUser.RetrieveUserId(), eventDatesToUpdate);
         return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)

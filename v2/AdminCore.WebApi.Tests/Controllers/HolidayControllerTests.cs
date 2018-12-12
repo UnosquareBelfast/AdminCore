@@ -72,7 +72,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
 
       VerifyActionResult(result);
-      _eventService.Received(1).UpdateEvent(Arg.Any<EventDateDto>());
+      _eventService.Received(1).UpdateEvent(Arg.Any<int>(), Arg.Any<EventDateDto>());
     }
 
     [Fact]
