@@ -143,14 +143,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       const int numOfHolidays = 9;
       var holidayEvents = _fixture.CreateMany<EventDto>(numOfHolidays).ToList();
 
-      _eventService.GetByDateBetween(startDate, endDate).Returns(holidayEvents);
+      _eventService.GetByDateBetween(startDate, endDate, EventTypes.AnnualLeave).Returns(holidayEvents);
       _mapper.Map<List<HolidayViewModel>>(holidayEvents);
 
       // Act
       var result = _controller.GetHolidayByDateBetween(startDate.ToString(), endDate.ToString());
 
       // Assert
-      _eventService.Received(1).GetByDateBetween(Arg.Any<DateTime>(), Arg.Any<DateTime>());
+      _eventService.Received(1).GetByDateBetween(Arg.Any<DateTime>(), Arg.Any<DateTime>(), EventTypes.AnnualLeave);
       var returnedHolidayEvents = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
       Assert.Equal(numOfHolidays, returnedHolidayEvents.Count);
     }
