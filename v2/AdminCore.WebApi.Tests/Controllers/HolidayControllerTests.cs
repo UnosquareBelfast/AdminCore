@@ -54,7 +54,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
 
       VerifyActionResult(result);
-      _eventService.Received(1).CreateEvent(employeeId, Arg.Any<EventDateDto>());
+      _eventService.Received(1).CreateEvent(employeeId, Arg.Any<EventDateDto>(), EventTypes.AnnualLeave);
     }
 
     [Fact]
@@ -103,14 +103,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       var holidayEvents = _fixture.CreateMany<EventDto>(numOfHolidays).ToList();
 
       _authenticatedUser.RetrieveUserId().Returns(employeeId);
-      _eventService.GetEventsByEmployeeId(employeeId).Returns(holidayEvents);
+      _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave).Returns(holidayEvents);
       _mapper.Map<List<HolidayViewModel>>(holidayEvents);
 
       // Act
       var result = _controller.GetHolidayByEmployeeId();
 
       // Assert
-      _eventService.Received(1).GetEventsByEmployeeId(1);
+      _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
       var returnedHolidayEvents = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
       Assert.Equal(numOfHolidays, returnedHolidayEvents.Count);
     }
