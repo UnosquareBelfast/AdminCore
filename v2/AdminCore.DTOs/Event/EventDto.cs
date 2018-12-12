@@ -23,7 +23,7 @@ namespace AdminCore.DTOs.Event
 
     public EventTypeDto EventType { get; set; }
 
-    public ICollection<EventMessageDto> EventMessage { get; set; }
+    public ICollection<EventMessageDto> EventMessages { get; set; }
 
     public string LatestMessage { get; set; }
 
