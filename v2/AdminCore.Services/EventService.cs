@@ -55,7 +55,11 @@ namespace AdminCore.Services
 
       var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId)
                                                             && x.EventTypeId == eventTypeId,
-                                                            null, x => x.EventDates);
+                                                            null,
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
@@ -80,7 +84,11 @@ namespace AdminCore.Services
       var eventTypeId = (int)eventType;
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
                                                             && x.EventType.EventTypeId == eventTypeId,
-                                                            null, x => x.EventDates);
+                                                            null,
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
@@ -88,7 +96,12 @@ namespace AdminCore.Services
     public IList<EventDto> GetEventByType(EventTypes eventType)
     {
       int eventTypeId = (int)eventType;
-      var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == eventTypeId);
+      var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == eventTypeId,
+                                                            null,
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
       return _mapper.Map<IList<EventDto>>(events);
     }
 
@@ -182,7 +195,11 @@ namespace AdminCore.Services
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
                                                             && x.EventType.EventTypeId == annualLeaveId
                                                             && x.EmployeeId == employeeId,
-                                                            null, x => x.EventDates);
+                                                            null,
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
       return GetHolidaysFromReturnedEvents(events);
     }
 
@@ -240,7 +257,10 @@ namespace AdminCore.Services
     private Event GetEventById(int id)
     {
       return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id,
-        x => x.EventDates);
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
     }
 
     private Employee GetEmployeeFromEmployeeId(int employeeId)
