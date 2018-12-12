@@ -73,8 +73,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
-      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: " +
-                                                       $"{ _authenticatedUser.RetrieveUserId().ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { _authenticatedUser.RetrieveUserId().ToString() }");
     }
 
     [HttpGet("findEmployeeHolidayStats")]

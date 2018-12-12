@@ -6,6 +6,7 @@ using AutoMapper;
 using NSubstitute;
 using System;
 using AdminCore.Constants.Enums;
+using AdminCore.Common.Interfaces;
 using Xunit;
 
 namespace AdminCore.Services.Tests
@@ -13,6 +14,8 @@ namespace AdminCore.Services.Tests
   public class EventServiceTests
   {
     private readonly IDatabaseContext _databaseContext;
+
+    private readonly IDateService _dateService;
 
     private readonly IMapper _mapper;
 
@@ -22,7 +25,8 @@ namespace AdminCore.Services.Tests
     {
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new EventMapperProfile())));
       _databaseContext = Substitute.For<IDatabaseContext>();
-      _eventService = new EventService(_databaseContext, _mapper);
+      _dateService = Substitute.For<IDateService>();
+      _eventService = new EventService(_databaseContext, _mapper, _dateService);
     }
 
     [Fact]
