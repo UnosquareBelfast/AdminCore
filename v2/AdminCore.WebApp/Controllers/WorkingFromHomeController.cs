@@ -76,7 +76,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("getByEmployeeId/{employeeId}")]
     public IActionResult GetWorkingFromHomeByEmployeeId(int employeeId)
     {
-      var wfhEvents = _eventService.GetEventsByEmployeeId(EventTypes.WorkingFromHome);
+      var wfhEvents = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
       if (wfhEvents != null)
       {
         return Ok(_mapper.Map<IList<WorkingFromHomeViewModel>>(wfhEvents));

@@ -11,7 +11,7 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
-    IList<EventDto> GetEventsByEmployeeId(EventTypes eventType);
+    IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType);
 
     IList<EventDateDto> GetEventDatesByEmployeeIdAndStartAndEndDates(DateTime startDate, DateTime endDate);
 

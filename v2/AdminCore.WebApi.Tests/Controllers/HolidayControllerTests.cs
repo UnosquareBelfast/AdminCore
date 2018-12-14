@@ -97,18 +97,19 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void GetAllHolidaysByEmployeeId_WhenCalled_ReturnsAllHolidaysOfEmployeeId()
     {
       // Arrange
+      const int employeeId = 1;
       const int numOfHolidays = 9;
       var holidayEvents = _fixture.CreateMany<EventDto>(numOfHolidays).ToList();
 
       _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
-      _eventService.GetEventsByEmployeeId(EventTypes.AnnualLeave).Returns(holidayEvents);
+      _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave).Returns(holidayEvents);
       _mapper.Map<List<HolidayViewModel>>(holidayEvents);
 
       // Act
-      var result = _controller.GetHolidayByEmployeeId();
+      var result = _controller.GetHolidayByEmployeeId(employeeId);
 
       // Assert
-      _eventService.Received(1).GetEventsByEmployeeId(EventTypes.AnnualLeave);
+      _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
       var returnedHolidayEvents = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
       Assert.Equal(numOfHolidays, returnedHolidayEvents.Count);
     }

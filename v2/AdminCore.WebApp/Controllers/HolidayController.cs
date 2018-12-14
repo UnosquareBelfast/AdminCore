@@ -65,9 +65,9 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpGet("findByEmployeeId")]
-    public IActionResult GetHolidayByEmployeeId()
+    public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
-      var holiday = _eventService.GetEventsByEmployeeId(EventTypes.AnnualLeave);
+      var holiday = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));

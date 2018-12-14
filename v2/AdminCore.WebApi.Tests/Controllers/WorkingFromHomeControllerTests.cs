@@ -91,17 +91,18 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void GetAllWorkingFromHomeEventsByEmployeeId_WhenCalled_ReturnsAllWorkingFromHomeEventsByEmployeeId()
     {
       // Arrange
+      const int employeeId = 1;
       const int numOfWfhEvents = 9;
       var wfhEvents = _fixture.CreateMany<EventDto>(numOfWfhEvents).ToList();
 
-      _eventService.GetEventsByEmployeeId(EventTypes.WorkingFromHome).Returns(wfhEvents);
+      _eventService.GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome).Returns(wfhEvents);
       _mapper.Map<List<WorkingFromHomeViewModel>>(wfhEvents);
 
       // Act
       var result = _controller.GetWorkingFromHomeByEmployeeId(_authenticatedUser.RetrieveUserId());
 
       // Assert
-      _eventService.Received(1).GetEventsByEmployeeId(EventTypes.WorkingFromHome);
+      _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
       var returnedWfhEvents = RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
       Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }
