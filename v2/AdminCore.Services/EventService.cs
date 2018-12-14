@@ -156,7 +156,7 @@ namespace AdminCore.Services
         SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates.StartDate);
       }
 
-      if (DoesEmployeeHaveEnoughHolidays(employeeId, newEvent))
+      if (EmployeeHasEnoughHolidays(employeeId, newEvent))
       {
         DatabaseContext.EventRepository.Insert(newEvent);
         DatabaseContext.SaveChanges();
@@ -181,7 +181,7 @@ namespace AdminCore.Services
           SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
         }
 
-        if (DoesEmployeeHaveEnoughHolidays(employeeId, eventToUpdate))
+        if (EmployeeHasEnoughHolidays(employeeId, eventToUpdate))
         {
           eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
           DatabaseContext.SaveChanges();
@@ -334,7 +334,7 @@ namespace AdminCore.Services
       return true;
     }
 
-    private bool DoesEmployeeHaveEnoughHolidays(int employeeId, Event newEvent)
+    private bool EmployeeHasEnoughHolidays(int employeeId, Event newEvent)
     {
       return GetHolidayStatsForUser(employeeId).AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
     }
