@@ -9,7 +9,7 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventDto> GetAnnualLeaveByEmployee(int employeeId);
 
-    IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate);
+    IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
     IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType);
 

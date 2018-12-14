@@ -34,12 +34,12 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
 
-    public IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate)
+    public IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType)
     {
-      var eventsBetweenDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
-                                                                             && x.EndDate <= endDate
-                                                                             && x.Event.EventTypeId ==
-                                                                             AnnualLeaveId);
+      int eventTypeId = (int)eventType;
+      var eventsBetweenDates = DatabaseContext.EventDatesRepository.GetAsQueryable(RetrieveEventsWithinRange(startDate, endDate))
+        .Where(x => x.Event.EventTypeId == eventTypeId);
+
       return _mapper.Map<IList<EventDto>>(eventsBetweenDates);
     }
 

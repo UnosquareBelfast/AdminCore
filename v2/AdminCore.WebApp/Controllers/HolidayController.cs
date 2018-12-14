@@ -193,7 +193,7 @@ namespace AdminCore.WebApi.Controllers
 
     private IList<HolidayViewModel> GetEventsBetweenDates(string startDate, string endDate)
     {
-      var holidays = _eventService.GetByDateBetween(Convert.ToDateTime(startDate), Convert.ToDateTime(endDate));
+      var holidays = _eventService.GetByDateBetween(Convert.ToDateTime(startDate), Convert.ToDateTime(endDate), EventTypes.AnnualLeave);
       return _mapper.Map<IList<HolidayViewModel>>(holidays);
     }
   }
