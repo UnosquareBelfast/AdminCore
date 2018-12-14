@@ -24,6 +24,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     public WorkingFromHomeControllerTests()
     {
       _authenticatedUser = Substitute.For<IAuthenticatedUser>();
+      _authenticatedUser.RetrieveUserId().Returns(1);
       _eventService = Substitute.For<IEventService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
@@ -35,10 +36,9 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void CreateWorkingFromHome_WhenCalledWithCorrectType_ReturnsWorkingFromHome()
     {
       // Arrange
-      var employeeId = 1;
       var createViewModel = _fixture.Create<CreateWorkingFromHomeViewModel>();
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
 
       // Act
       var result = _controller.CreateWorkingFromHome(createViewModel);
@@ -46,7 +46,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
 
       VerifyActionResult(result);
-      _eventService.Received(1).CreateEvent(employeeId, Arg.Any<EventDateDto>(), EventTypes.WorkingFromHome);
+      _eventService.Received(1).CreateEvent(Arg.Any<EventDateDto>(), EventTypes.WorkingFromHome);
     }
 
     [Fact]
@@ -91,18 +91,17 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void GetAllWorkingFromHomeEventsByEmployeeId_WhenCalled_ReturnsAllWorkingFromHomeEventsByEmployeeId()
     {
       // Arrange
-      const int employeeId = 1;
       const int numOfWfhEvents = 9;
       var wfhEvents = _fixture.CreateMany<EventDto>(numOfWfhEvents).ToList();
 
-      _eventService.GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome).Returns(wfhEvents);
+      _eventService.GetEventsByEmployeeId(EventTypes.WorkingFromHome).Returns(wfhEvents);
       _mapper.Map<List<WorkingFromHomeViewModel>>(wfhEvents);
 
       // Act
-      var result = _controller.GetWorkingFromHomeByEmployeeId(employeeId);
+      var result = _controller.GetWorkingFromHomeByEmployeeId(_authenticatedUser.RetrieveUserId());
 
       // Assert
-      _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
+      _eventService.Received(1).GetEventsByEmployeeId(EventTypes.WorkingFromHome);
       var returnedWfhEvents = RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
       Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }

@@ -31,6 +31,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     public HolidayControllerTests()
     {
       _authenticatedUser = Substitute.For<IAuthenticatedUser>();
+      _authenticatedUser.RetrieveUserId().Returns(1);
       _employeeService = Substitute.For<IEmployeeService>();
       _eventService = Substitute.For<IEventService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
@@ -43,10 +44,9 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void CreateHoliday_WhenCalled_ReturnsCreatedHoliday()
     {
       // Arrange
-      var employeeId = 1;
       var createViewModel = _fixture.Create<CreateHolidayViewModel>();
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
 
       // Act
       var result = _controller.CreateHoliday(createViewModel);
@@ -54,17 +54,16 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
 
       VerifyActionResult(result);
-      _eventService.Received(1).CreateEvent(employeeId, Arg.Any<EventDateDto>(), EventTypes.AnnualLeave);
+      _eventService.Received(1).CreateEvent(Arg.Any<EventDateDto>(), EventTypes.AnnualLeave);
     }
 
     [Fact]
     public void UpdateHoliday_WhenCalled_ReturnsUpdatedHoliday()
     {
       // Arrange
-      var employeeId = 1;
       var updateViewModel = _fixture.Create<UpdateEventViewModel>();
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
 
       // Act
       var result = _controller.UpdateHoliday(updateViewModel);
@@ -98,19 +97,18 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void GetAllHolidaysByEmployeeId_WhenCalled_ReturnsAllHolidaysOfEmployeeId()
     {
       // Arrange
-      const int employeeId = 1;
       const int numOfHolidays = 9;
       var holidayEvents = _fixture.CreateMany<EventDto>(numOfHolidays).ToList();
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
-      _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave).Returns(holidayEvents);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
+      _eventService.GetEventsByEmployeeId(EventTypes.AnnualLeave).Returns(holidayEvents);
       _mapper.Map<List<HolidayViewModel>>(holidayEvents);
 
       // Act
       var result = _controller.GetHolidayByEmployeeId();
 
       // Assert
-      _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
+      _eventService.Received(1).GetEventsByEmployeeId(EventTypes.AnnualLeave);
       var returnedHolidayEvents = RetrieveValueFromActionResult<List<HolidayViewModel>>(result);
       Assert.Equal(numOfHolidays, returnedHolidayEvents.Count);
     }
@@ -178,8 +176,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void ApproveHoliday_WhenCalled_CallsApproveHoliday()
     {
       // Arrange
-      const int employeeId = 1;
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
       var approvedViewModel = _fixture.Create<ApproveHolidayViewModel>();
 
       // Act
@@ -195,8 +192,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void CancelHoliday_WhenCalled_CallsCancelHoliday()
     {
       // Arrange
-      const int employeeId = 1;
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
       var cancelledViewModel = _fixture.Create<CancelHolidayViewModel>();
 
       // Act
@@ -212,8 +208,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void RejectHoliday_WhenCalled_ReturnsRejectedHoliday()
     {
       // Arrange
-      const int employeeId = 1;
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
       var rejectedViewModel = _fixture.Create<RejectHolidayViewModel>();
 
       // Act
@@ -222,19 +217,17 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       VerifyActionResult(result);
 
-      _eventService.Received(1).RejectEvent(rejectedViewModel.EventId, rejectedViewModel.Message,
-        _authenticatedUser.RetrieveUserId());
+      _eventService.Received(1).RejectEvent(rejectedViewModel.EventId, rejectedViewModel.Message);
     }
 
     [Fact]
     public void GetHolidayStats_WhenCalled_ReturnsHolidayStats()
     {
       // Arrange
-      const int employeeId = 1;
       var holidayStatsDto = _fixture.Create<HolidayStatsDto>();
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
-      _eventService.GetHolidayStatsForUser(employeeId).Returns(holidayStatsDto);
+      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
+      _eventService.GetHolidayStatsForUser().Returns(holidayStatsDto);
 
       // Act
       var result = _controller.GetEmployeeHolidayStats();
@@ -242,7 +235,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
       VerifyActionResult(result);
 
-      _eventService.Received(1).GetHolidayStatsForUser(employeeId);
+      _eventService.Received(1).GetHolidayStatsForUser();
     }
   }
 }

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
-using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.WorkingFromHome;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -38,7 +37,7 @@ namespace AdminCore.WebApi.Controllers
 
       try
       {
-        _eventService.CreateEvent(employeeId, eventDates, EventTypes.WorkingFromHome);
+        _eventService.CreateEvent(eventDates, EventTypes.WorkingFromHome);
         return Ok($"Work From Home has been created successfully");
       }
       catch (Exception e)
@@ -77,7 +76,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("getByEmployeeId/{employeeId}")]
     public IActionResult GetWorkingFromHomeByEmployeeId(int employeeId)
     {
-      var wfhEvents = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
+      var wfhEvents = _eventService.GetEventsByEmployeeId(EventTypes.WorkingFromHome);
       if (wfhEvents != null)
       {
         return Ok(_mapper.Map<IList<WorkingFromHomeViewModel>>(wfhEvents));
