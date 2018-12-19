@@ -64,7 +64,7 @@ namespace AdminCore.WebApi.Controllers
       return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for event ID: { holidayId.ToString() }");
     }
 
-    [HttpGet("findByEmployeeId")]
+    [HttpGet("findByEmployeeId/{employeeId}")]
     public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
       var holiday = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
