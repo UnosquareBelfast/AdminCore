@@ -2,12 +2,12 @@
 {
   public class HolidayStatsViewModel
   {
-    public int AvailableHolidays { get; set; }
+    public double AvailableHolidays { get; set; }
 
-    public int PendingHolidays { get; set; }
+    public double PendingHolidays { get; set; }
 
-    public int ApprovedHolidays { get; set; }
+    public double ApprovedHolidays { get; set; }
 
-    public int TotalHolidays { get; set; }
+    public double TotalHolidays { get; set; }
   }
 }

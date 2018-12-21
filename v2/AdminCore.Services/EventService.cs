@@ -140,32 +140,23 @@ namespace AdminCore.Services
 
     public EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes)
     {
-      var newEvent = new Event
-      {
-        DateCreated = DateTime.Now,
-        EmployeeId = _authenticatedUser.RetrieveUserId(),
-        EventStatusId = (int)EventStatuses.AwaitingApproval,
-        EventTypeId = (int)EventTypes.AnnualLeave,
-        EventDates = new List<EventDate>(),
-        LastModified = _dateService.GetCurrentDateTime()
-      };
+      var newEvent = BuildNewEvent(employeeId);
 
-      SplitEventIfFallsOnAWeekend(newEvent, dates.EndDate, dates.StartDate);
-      DatabaseContext.EventRepository.Insert(newEvent);
-      DatabaseContext.SaveChanges();
-      return _mapper.Map<EventDto>(newEvent);
+      UpdateEventDates(dates, newEvent);
+
+      return ValidateRemainingHolidaysAndCreate(employeeId, newEvent);
     }
 
-    public void UpdateEvent(EventDateDto eventDateDto)
+    public void UpdateEvent(int employeeId, EventDateDto eventDateDto)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
 
       if (eventToUpdate != null)
       {
         eventToUpdate.EventDates.Clear();
-        SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
-        eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
-        DatabaseContext.SaveChanges();
+        UpdateEventDates(eventDateDto, eventToUpdate);
+
+        ValidateRemainingHolidaysAndUpdate(employeeId, eventToUpdate);
       }
     }
 
@@ -182,6 +173,18 @@ namespace AdminCore.Services
       return holidayStatsDto;
     }
 
+    public void IsHolidayValid(int employeeId, EventDateDto eventDates, bool modelIsHalfDay)
+    {
+      if (IsHolidayDatesAlreadyBooked(employeeId, eventDates))
+        throw new Exception("Already Booked");
+
+      if (!IsDateRangeLessThanTotalHolidaysRemaining(employeeId, eventDates))
+        throw new Exception("Not enough holidays remaining.");
+
+      if (modelIsHalfDay && !IsSameDay(_mapper.Map<EventDate>(eventDates)))
+        throw new Exception("Holiday booked contains a half day whilst being more than one day.");
+    }
+
     private static Expression<Func<EventDate, bool>> RetrieveEventsWithinRange(DateTime startDate, DateTime endDate)
     {
       return x => (startDate < x.StartDate && endDate > x.EndDate) ||
@@ -190,7 +193,8 @@ namespace AdminCore.Services
                   (startDate > x.StartDate && endDate > x.EndDate);
     }
 
-    private int GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus)
+    private double GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus)
+
     {
       var annualLeaveId = (int)EventTypes.AnnualLeave;
       var eventStatusId = (int)eventStatus;
@@ -202,28 +206,19 @@ namespace AdminCore.Services
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);
-      return GetHolidaysFromReturnedEvents(events);
+      var countHolidays = CountHolidays(events);
+      return countHolidays;
     }
 
-    private static int GetHolidaysFromReturnedEvents(IList<Event> events)
+    private double CountHolidays(IList<Event> events)
     {
-      var holidays = 0;
-      foreach (var holiday in events)
+      double countHolidays = 0;
+      foreach (var holidayEvent in events)
       {
-        holidays = IncrementHolidays(holiday, holidays);
+        countHolidays += GetDaysInEvent(holidayEvent.EventDates);
       }
 
-      return holidays;
-    }
-
-    private static int IncrementHolidays(Event holiday, int holidays)
-    {
-      foreach (var eventDate in holiday.EventDates)
-      {
-        holidays += (eventDate.EndDate.Day - eventDate.StartDate.Day) + 1;
-      }
-
-      return holidays;
+      return countHolidays;
     }
 
     private void SplitEventIfFallsOnAWeekend(Event newEvent, DateTime originalEndDate, DateTime startDate)
@@ -271,18 +266,6 @@ namespace AdminCore.Services
       return employee;
     }
 
-    public void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay)
-    {
-      if (IsHolidayDatesAlreadyBooked(eventDates))
-        throw new Exception("Already Booked");
-
-      if (!IsDateRangeLessThanTotalHolidaysRemaining(eventDates))
-        throw new Exception("Not enough holidays remaining.");
-
-      if (modelIsHalfDay)
-        throw new Exception("Holiday booked is a half day.");
-    }
-
     private bool IsDateRangeLessThanTotalHolidaysRemaining(EventDateDto eventDates)
     {
       var employee = GetEmployeeFromEmployeeId();
@@ -303,6 +286,97 @@ namespace AdminCore.Services
       }
 
       return true;
+    }
+
+    private bool EmployeeHasEnoughHolidays(int employeeId, Event newEvent)
+    {
+      return GetHolidayStatsForUser(employeeId).AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
+    }
+
+    private double GetDaysInEvent(ICollection<EventDate> newEventEventDates)
+    {
+      double totalDays = 0;
+      foreach (var eventDate in newEventEventDates)
+      {
+        totalDays = GetDaysFromEventDate(eventDate, totalDays);
+      }
+
+      return totalDays;
+    }
+
+    private static double GetDaysFromEventDate(EventDate eventDate, double totalDays)
+    {
+      if (IsSameDay(eventDate) && eventDate.IsHalfDay)
+      {
+        totalDays += 0.5;
+      }
+      else
+      {
+        totalDays += eventDate.EndDate.Day - eventDate.StartDate.Day;
+      }
+
+      return totalDays;
+    }
+
+    private static bool IsSameDay(EventDate eventDate)
+    {
+      return eventDate.StartDate.Day == eventDate.EndDate.Day;
+    }
+
+    private bool IsHalfDay(EventDateDto dates)
+    {
+      return IsSameDay(_mapper.Map<EventDate>(dates)) && dates.IsHalfDay;
+    }
+
+    private void UpdateEventDates(EventDateDto eventDateDto, Event eventToUpdate)
+    {
+      if (IsHalfDay(eventDateDto))
+      {
+        eventToUpdate.EventDates.Add(_mapper.Map<EventDate>(eventDateDto));
+      }
+      else
+      {
+        SplitEventIfFallsOnAWeekend(eventToUpdate, eventDateDto.EndDate, eventDateDto.StartDate);
+      }
+    }
+
+    private void ValidateRemainingHolidaysAndUpdate(int employeeId, Event eventToUpdate)
+    {
+      if (EmployeeHasEnoughHolidays(employeeId, eventToUpdate))
+      {
+        eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
+        DatabaseContext.SaveChanges();
+      }
+      else
+      {
+        throw new Exception("Not enough holidays to book");
+      }
+    }
+
+    private EventDto ValidateRemainingHolidaysAndCreate(int employeeId, Event newEvent)
+    {
+      if (EmployeeHasEnoughHolidays(employeeId, newEvent))
+      {
+        DatabaseContext.EventRepository.Insert(newEvent);
+        DatabaseContext.SaveChanges();
+        return _mapper.Map<EventDto>(newEvent);
+      }
+
+      throw new Exception("Not enough holidays to book");
+    }
+
+    private Event BuildNewEvent(int employeeId)
+    {
+      var newEvent = new Event
+      {
+        DateCreated = DateTime.Now,
+        EmployeeId = employeeId,
+        EventStatusId = (int)EventStatuses.AwaitingApproval,
+        EventTypeId = (int)EventTypes.AnnualLeave,
+        EventDates = new List<EventDate>(),
+        LastModified = _dateService.GetCurrentDateTime()
+      };
+      return newEvent;
     }
   }
 }

@@ -25,7 +25,7 @@ namespace AdminCore.Common.Interfaces
 
     EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes);
 
-    void UpdateEvent(EventDateDto eventDateDto);
+    void UpdateEvent(int employeeId, EventDateDto eventDateDto);
 
     void UpdateEventStatus(int eventId, EventStatuses status);
 
