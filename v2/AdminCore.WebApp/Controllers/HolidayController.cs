@@ -64,10 +64,10 @@ namespace AdminCore.WebApi.Controllers
       return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for event ID: { holidayId.ToString() }");
     }
 
-    [HttpGet("findByEmployeeId")]
-    public IActionResult GetHolidayByEmployeeId()
+    [HttpGet("findByEmployeeId/{employeeId}")]
+    public IActionResult GetHolidayByEmployeeId(int employeeId)
     {
-      var holiday = _eventService.GetEventsByEmployeeId(_authenticatedUser.RetrieveUserId(), EventTypes.AnnualLeave);
+      var holiday = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.AnnualLeave);
       if (holiday != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
@@ -79,7 +79,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("findEmployeeHolidayStats")]
     public IActionResult GetEmployeeHolidayStats()
     {
-      var holidayStats = _eventService.GetHolidayStatsForUser(_authenticatedUser.RetrieveUserId());
+      var holidayStats = _eventService.GetHolidayStatsForUser();
       if (holidayStats != null)
       {
         return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
@@ -96,8 +96,8 @@ namespace AdminCore.WebApi.Controllers
 
       try
       {
-        _eventService.IsHolidayValid(employeeId, eventDates, model.IsHalfDay);
-        _eventService.CreateEvent(employeeId, eventDates, EventTypes.AnnualLeave);
+        _eventService.IsHolidayValid(eventDates, model.IsHalfDay);
+        _eventService.CreateEvent(eventDates, EventTypes.AnnualLeave);
         return Ok($"Holiday has been created successfully");
       }
       catch (Exception ex)
@@ -148,7 +148,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      _eventService.RejectEvent(rejectHoliday.EventId, rejectHoliday.Message, _authenticatedUser.RetrieveUserId());
+      _eventService.RejectEvent(rejectHoliday.EventId, rejectHoliday.Message);
       return Ok("Successfully Rejected");
     }
 
@@ -193,7 +193,7 @@ namespace AdminCore.WebApi.Controllers
 
     private IList<HolidayViewModel> GetEventsBetweenDates(string startDate, string endDate)
     {
-      var holidays = _eventService.GetByDateBetween(Convert.ToDateTime(startDate), Convert.ToDateTime(endDate));
+      var holidays = _eventService.GetByDateBetween(Convert.ToDateTime(startDate), Convert.ToDateTime(endDate), EventTypes.AnnualLeave);
       return _mapper.Map<IList<HolidayViewModel>>(holidays);
     }
   }
