@@ -18,7 +18,6 @@ namespace AdminCore.Services
     private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IMapper _mapper;
     private readonly IDateService _dateService;
-    private const int AnnualLeaveId = (int)EventTypes.AnnualLeave;
 
     public EventService(IDatabaseContext databaseContext, IMapper mapper, IDateService dateService, IAuthenticatedUser authenticatedUser)
       : base(databaseContext)
@@ -28,11 +27,12 @@ namespace AdminCore.Services
       _dateService = dateService;
     }
 
-    public IList<EventDto> GetAnnualLeaveByEmployee()
+    public IList<EventDto> GetEventByEmployee(int employeeId, EventTypes eventType)
     {
+      int eventTypeId = (int)eventType;
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
-        x.EventType.EventTypeId == AnnualLeaveId
-        && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId());
+        x.EventType.EventTypeId == eventTypeId
+        && x.Employee.EmployeeId == employeeId);
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
 
