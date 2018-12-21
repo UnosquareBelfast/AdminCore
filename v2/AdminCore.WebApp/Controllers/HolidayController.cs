@@ -43,7 +43,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllHolidays()
     {
-      var holidays = _eventService.GetEventByType(EventTypes.AnnualLeave);
+      var holidays = _eventService.GetEmployeeEvents(EventTypes.AnnualLeave);
       if (holidays != null)
       {
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
@@ -113,7 +113,7 @@ namespace AdminCore.WebApi.Controllers
       var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
-        _eventService.UpdateEvent(_authenticatedUser.RetrieveUserId(), eventDatesToUpdate);
+        _eventService.UpdateEvent(eventDatesToUpdate);
         return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)

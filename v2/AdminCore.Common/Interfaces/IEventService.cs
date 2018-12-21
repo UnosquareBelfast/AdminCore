@@ -7,13 +7,13 @@ namespace AdminCore.Common.Interfaces
 {
   public interface IEventService
   {
-    IList<EventDto> GetEventByEmployee(int employeeId, EventTypes eventType);
+    IList<EventDto> GetEmployeeEvents(EventTypes eventType);
 
     IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
     IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType);
 
-    IList<EventDateDto> GetEventDatesByEmployeeIdAndStartAndEndDates(DateTime startDate, DateTime endDate);
+    IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate);
 
     EventDto GetEvent(int id);
 
@@ -25,7 +25,7 @@ namespace AdminCore.Common.Interfaces
 
     EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes);
 
-    void UpdateEvent(int employeeId, EventDateDto eventDateDto);
+    void UpdateEvent(EventDateDto eventDateDto);
 
     void UpdateEventStatus(int eventId, EventStatuses status);
 

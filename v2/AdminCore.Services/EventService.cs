@@ -27,12 +27,12 @@ namespace AdminCore.Services
       _dateService = dateService;
     }
 
-    public IList<EventDto> GetEventByEmployee(int employeeId, EventTypes eventType)
+    public IList<EventDto> GetEmployeeEvents(EventTypes eventType)
     {
       int eventTypeId = (int)eventType;
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
         x.EventType.EventTypeId == eventTypeId
-        && x.Employee.EmployeeId == employeeId);
+        && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId());
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
 
@@ -66,7 +66,7 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(events);
     }
 
-    public IList<EventDateDto> GetEventDatesByEmployeeIdAndStartAndEndDates(DateTime startDate, DateTime endDate)
+    public IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate)
     {
       var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                      && x.EndDate <= endDate
@@ -140,14 +140,14 @@ namespace AdminCore.Services
 
     public EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes)
     {
-      var newEvent = BuildNewEvent(employeeId);
+      var newEvent = BuildNewEvent(_authenticatedUser.RetrieveUserId());
 
       UpdateEventDates(dates, newEvent);
 
-      return ValidateRemainingHolidaysAndCreate(employeeId, newEvent);
+      return ValidateRemainingHolidaysAndCreate(newEvent);
     }
 
-    public void UpdateEvent(int employeeId, EventDateDto eventDateDto)
+    public void UpdateEvent(EventDateDto eventDateDto)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
 
@@ -156,7 +156,7 @@ namespace AdminCore.Services
         eventToUpdate.EventDates.Clear();
         UpdateEventDates(eventDateDto, eventToUpdate);
 
-        ValidateRemainingHolidaysAndUpdate(employeeId, eventToUpdate);
+        ValidateRemainingHolidaysAndUpdate(eventToUpdate);
       }
     }
 
@@ -173,12 +173,12 @@ namespace AdminCore.Services
       return holidayStatsDto;
     }
 
-    public void IsHolidayValid(int employeeId, EventDateDto eventDates, bool modelIsHalfDay)
+    public void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay)
     {
-      if (IsHolidayDatesAlreadyBooked(employeeId, eventDates))
+      if (IsHolidayDatesAlreadyBooked(eventDates))
         throw new Exception("Already Booked");
 
-      if (!IsDateRangeLessThanTotalHolidaysRemaining(employeeId, eventDates))
+      if (!IsDateRangeLessThanTotalHolidaysRemaining(eventDates))
         throw new Exception("Not enough holidays remaining.");
 
       if (modelIsHalfDay && !IsSameDay(_mapper.Map<EventDate>(eventDates)))
@@ -279,7 +279,7 @@ namespace AdminCore.Services
 
     private bool IsHolidayDatesAlreadyBooked(EventDateDto eventDates)
     {
-      var employeeEvents = GetEventDatesByEmployeeIdAndStartAndEndDates(eventDates.StartDate, eventDates.EndDate);
+      var employeeEvents = GetEventDatesByEmployeeAndStartAndEndDates(eventDates.StartDate, eventDates.EndDate);
       if (!employeeEvents.Any())
       {
         return false;
@@ -288,9 +288,9 @@ namespace AdminCore.Services
       return true;
     }
 
-    private bool EmployeeHasEnoughHolidays(int employeeId, Event newEvent)
+    private bool EmployeeHasEnoughHolidays(Event newEvent)
     {
-      return GetHolidayStatsForUser(employeeId).AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
+      return GetHolidayStatsForUser().AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
     }
 
     private double GetDaysInEvent(ICollection<EventDate> newEventEventDates)
@@ -340,9 +340,9 @@ namespace AdminCore.Services
       }
     }
 
-    private void ValidateRemainingHolidaysAndUpdate(int employeeId, Event eventToUpdate)
+    private void ValidateRemainingHolidaysAndUpdate(Event eventToUpdate)
     {
-      if (EmployeeHasEnoughHolidays(employeeId, eventToUpdate))
+      if (EmployeeHasEnoughHolidays(eventToUpdate))
       {
         eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
         DatabaseContext.SaveChanges();
@@ -353,9 +353,9 @@ namespace AdminCore.Services
       }
     }
 
-    private EventDto ValidateRemainingHolidaysAndCreate(int employeeId, Event newEvent)
+    private EventDto ValidateRemainingHolidaysAndCreate(Event newEvent)
     {
-      if (EmployeeHasEnoughHolidays(employeeId, newEvent))
+      if (EmployeeHasEnoughHolidays(newEvent))
       {
         DatabaseContext.EventRepository.Insert(newEvent);
         DatabaseContext.SaveChanges();
