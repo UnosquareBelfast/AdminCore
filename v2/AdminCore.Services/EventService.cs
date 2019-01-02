@@ -29,7 +29,7 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetEmployeeEvents(EventTypes eventType)
     {
-      int eventTypeId = (int)eventType;
+      var eventTypeId = (int)eventType;
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
         x.EventType.EventTypeId == eventTypeId
         && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId());
@@ -38,7 +38,7 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType)
     {
-      int eventTypeId = (int)eventType;
+      var eventTypeId = (int)eventType;
       var eventsBetweenDates = DatabaseContext.EventDatesRepository.GetAsQueryable(RetrieveEventsWithinRange(startDate, endDate))
         .Where(x => x.Event.EventTypeId == eventTypeId);
 
@@ -49,7 +49,7 @@ namespace AdminCore.Services
     {
       var startOfYearDate = _dateService.GetStartOfYearDate();
       var endOfYearDate = _dateService.GetEndOfYearDate();
-      int eventTypeId = (int)eventType;
+      var eventTypeId = (int)eventType;
 
       var eventIds = DatabaseContext.EventDatesRepository
         .GetAsQueryable(RetrieveEventsWithinRange(startOfYearDate, endOfYearDate))
@@ -97,7 +97,7 @@ namespace AdminCore.Services
 
     public IList<EventDto> GetEventByType(EventTypes eventType)
     {
-      int eventTypeId = (int)eventType;
+      var eventTypeId = (int)eventType;
       var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == eventTypeId,
                                                             null,
                                                             x => x.EventDates,
@@ -116,13 +116,8 @@ namespace AdminCore.Services
         var employee = GetEmployeeFromEmployeeId();
         if (employee != null)
         {
-          var eventMessage = new EventMessage()
-          {
-            EmployeeId = _authenticatedUser.RetrieveUserId(),
-            EventMessageTypeId = (int)MessageType.Rejected,
-            Message = message,
-            LastModified = DateTime.Now
-          };
+          var eventMessage = BuildRejectEventMessage(message);
+
           eventToReject.EventMessages.Add(eventMessage);
           DatabaseContext.SaveChanges();
         }
@@ -135,6 +130,7 @@ namespace AdminCore.Services
       if (eventToUpdate != null)
       {
         eventToUpdate.EventStatusId = (int)status;
+        DatabaseContext.SaveChanges();
       }
     }
 
@@ -150,7 +146,6 @@ namespace AdminCore.Services
     public void UpdateEvent(EventDateDto eventDateDto)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
-
       if (eventToUpdate != null)
       {
         eventToUpdate.EventDates.Clear();
@@ -194,13 +189,13 @@ namespace AdminCore.Services
     }
 
     private double GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus)
-
     {
       var annualLeaveId = (int)EventTypes.AnnualLeave;
       var eventStatusId = (int)eventStatus;
+      var employeeId = _authenticatedUser.RetrieveUserId();
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
                                                             && x.EventType.EventTypeId == annualLeaveId
-                                                            && x.EmployeeId == _authenticatedUser.RetrieveUserId(),
+                                                            && x.EmployeeId == employeeId,
                                                             null,
                                                             x => x.EventDates,
                                                             x => x.Employee,
@@ -228,13 +223,7 @@ namespace AdminCore.Services
       {
         if (day.DayOfWeek == DayOfWeek.Saturday)
         {
-          newEvent.EventDates.Add(new EventDate()
-          {
-            StartDate = startDate,
-            EndDate = day.AddDays(-1),
-            IsHalfDay = false
-          });
-
+          SetEventDateToPreviousFriday(newEvent, startDate, day);
           var nextStartDate = day.AddDays(2);
           SplitEventIfFallsOnAWeekend(newEvent, originalEndDate, nextStartDate);
           break;
@@ -249,6 +238,16 @@ namespace AdminCore.Services
         EndDate = originalEndDate
       };
       newEvent.EventDates.Add(lastDate);
+    }
+
+    private static void SetEventDateToPreviousFriday(Event newEvent, DateTime startDate, DateTime day)
+    {
+      newEvent.EventDates.Add(new EventDate()
+      {
+        StartDate = startDate,
+        EndDate = day.AddDays(-1),
+        IsHalfDay = false
+      });
     }
 
     private Event GetEventById(int id)
@@ -269,23 +268,14 @@ namespace AdminCore.Services
     private bool IsDateRangeLessThanTotalHolidaysRemaining(EventDateDto eventDates)
     {
       var employee = GetEmployeeFromEmployeeId();
-      if (employee.TotalHolidays < (eventDates.EndDate - eventDates.StartDate).TotalDays)
-      {
-        return false;
-      }
 
-      return true;
+      return !(employee.TotalHolidays < (eventDates.EndDate - eventDates.StartDate).TotalDays);
     }
 
     private bool IsHolidayDatesAlreadyBooked(EventDateDto eventDates)
     {
       var employeeEvents = GetEventDatesByEmployeeAndStartAndEndDates(eventDates.StartDate, eventDates.EndDate);
-      if (!employeeEvents.Any())
-      {
-        return false;
-      }
-
-      return true;
+      return employeeEvents.Any();
     }
 
     private bool EmployeeHasEnoughHolidays(Event newEvent)
@@ -293,7 +283,7 @@ namespace AdminCore.Services
       return GetHolidayStatsForUser().AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
     }
 
-    private double GetDaysInEvent(ICollection<EventDate> newEventEventDates)
+    private static double GetDaysInEvent(ICollection<EventDate> newEventEventDates)
     {
       double totalDays = 0;
       foreach (var eventDate in newEventEventDates)
@@ -355,14 +345,10 @@ namespace AdminCore.Services
 
     private EventDto ValidateRemainingHolidaysAndCreate(Event newEvent)
     {
-      if (EmployeeHasEnoughHolidays(newEvent))
-      {
-        DatabaseContext.EventRepository.Insert(newEvent);
-        DatabaseContext.SaveChanges();
-        return _mapper.Map<EventDto>(newEvent);
-      }
-
-      throw new Exception("Not enough holidays to book");
+      if (!EmployeeHasEnoughHolidays(newEvent)) throw new Exception("Not enough holidays to book");
+      DatabaseContext.EventRepository.Insert(newEvent);
+      DatabaseContext.SaveChanges();
+      return _mapper.Map<EventDto>(newEvent);
     }
 
     private Event BuildNewEvent(int employeeId)
@@ -377,6 +363,18 @@ namespace AdminCore.Services
         LastModified = _dateService.GetCurrentDateTime()
       };
       return newEvent;
+    }
+
+    private EventMessage BuildRejectEventMessage(string message)
+    {
+      var eventMessage = new EventMessage
+      {
+        EmployeeId = _authenticatedUser.RetrieveUserId(),
+        EventMessageTypeId = (int)MessageType.Rejected,
+        Message = message,
+        LastModified = _dateService.GetCurrentDateTime()
+      };
+      return eventMessage;
     }
   }
 }
