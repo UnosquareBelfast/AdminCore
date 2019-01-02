@@ -116,7 +116,7 @@ namespace AdminCore.Services
         var employee = GetEmployeeFromEmployeeId();
         if (employee != null)
         {
-          var eventMessage = BuildRejectEventMessage(message);
+          var eventMessage = BuildEventMessage(message, MessageType.Rejected);
 
           eventToReject.EventMessages.Add(eventMessage);
           DatabaseContext.SaveChanges();
@@ -223,7 +223,7 @@ namespace AdminCore.Services
       {
         if (day.DayOfWeek == DayOfWeek.Saturday)
         {
-          SetEventDateToPreviousFriday(newEvent, startDate, day);
+          SetEndDateToPreviousDay(newEvent, startDate, day);
           var nextStartDate = day.AddDays(2);
           SplitEventIfFallsOnAWeekend(newEvent, originalEndDate, nextStartDate);
           break;
@@ -240,7 +240,7 @@ namespace AdminCore.Services
       newEvent.EventDates.Add(lastDate);
     }
 
-    private static void SetEventDateToPreviousFriday(Event newEvent, DateTime startDate, DateTime day)
+    private static void SetEndDateToPreviousDay(Event newEvent, DateTime startDate, DateTime day)
     {
       newEvent.EventDates.Add(new EventDate()
       {
@@ -345,10 +345,14 @@ namespace AdminCore.Services
 
     private EventDto ValidateRemainingHolidaysAndCreate(Event newEvent)
     {
-      if (!EmployeeHasEnoughHolidays(newEvent)) throw new Exception("Not enough holidays to book");
-      DatabaseContext.EventRepository.Insert(newEvent);
-      DatabaseContext.SaveChanges();
-      return _mapper.Map<EventDto>(newEvent);
+      if (EmployeeHasEnoughHolidays(newEvent))
+      {
+        var insertedEvent = DatabaseContext.EventRepository.Insert(newEvent);
+        DatabaseContext.SaveChanges();
+        return _mapper.Map<EventDto>(insertedEvent);
+      }
+
+      throw new Exception("Not enough holidays to book");
     }
 
     private Event BuildNewEvent(int employeeId)
@@ -365,12 +369,12 @@ namespace AdminCore.Services
       return newEvent;
     }
 
-    private EventMessage BuildRejectEventMessage(string message)
+    private EventMessage BuildEventMessage(string message, MessageType messageType)
     {
       var eventMessage = new EventMessage
       {
         EmployeeId = _authenticatedUser.RetrieveUserId(),
-        EventMessageTypeId = (int)MessageType.Rejected,
+        EventMessageTypeId = (int)messageType,
         Message = message,
         LastModified = _dateService.GetCurrentDateTime()
       };
