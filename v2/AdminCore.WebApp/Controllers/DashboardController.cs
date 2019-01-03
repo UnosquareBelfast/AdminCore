@@ -3,53 +3,79 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using AdminCore.WebApi.Models.Dashboard;
+using AdminCore.WebApi.Models.Holiday;
 
 namespace AdminCore.WebApi.Controllers
 {
   [ApiController]
   [Authorize]
   [Route("[controller]")]
-  public class DashboardController : ControllerBase
+  public class DashboardController : BaseController
   {
     private readonly IDashboardService _dashboardService;
-    private readonly IMapper _mapper;
-    private readonly IEmployeeCredentials _employeeCredentials;
+    private readonly IAuthenticatedUser _authenticatedUser;
 
-    public DashboardController(IDashboardService dashboardService, IEmployeeCredentials employeeCredentials, IMapper mapper)
+    public DashboardController(IDashboardService dashboardService, IAuthenticatedUser authenticatedUser, IMapper mapper) : base(mapper)
     {
       _dashboardService = dashboardService;
-      _mapper = mapper;
-      _employeeCredentials = employeeCredentials;
+      _authenticatedUser = authenticatedUser;
     }
 
     [HttpGet("getDashboardSnapshot")]
     public IActionResult GetDashboardSnapshot()
     {
-      return Ok();
+      var dashboardSnapshot = _dashboardService.GetEmployeeDashboardEvents(_authenticatedUser.RetrieveUserId(), DateTime.Today);
+      if (dashboardSnapshot.Any())
+      {
+        return Ok(Mapper.Map<IList<DashboardEventViewModel>>(dashboardSnapshot));
+      }
+
+      return NoContent();
     }
 
     [HttpGet("getEmployeeEvents/{date}")]
     public IActionResult GetEmployeeEvents(DateTime date)
     {
-      return Ok();
+      var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(_authenticatedUser.RetrieveUserId(), date);
+      return Ok(Mapper.Map<IList<HolidayViewModel>>(employeeEvents));
     }
 
     [HttpGet("getEmployeeTeamSnapshot")]
     public IActionResult GetEmployeeTeamSnapshot()
     {
-      return Ok();
+      var employeeTeamSnapshot = _dashboardService.GetTeamDashboardEvents(_authenticatedUser.RetrieveUserId(), DateTime.Today);
+      if (employeeTeamSnapshot.Any())
+      {
+        return Ok(Mapper.Map<IList<DashboardEventViewModel>>(employeeTeamSnapshot));
+      }
+
+      return NoContent();
     }
 
     [HttpGet("{id}")]
     public IActionResult GetMessagesByEventId(int id)
     {
-      return Ok();
+      var messages = _dashboardService.GetEventMessagesByEventId(id);
+      if (messages.Any())
+      {
+        return Ok(Mapper.Map<IList<EventMessageViewModel>>(messages));
+      }
+
+      return NoContent();
     }
 
     [HttpGet("getTeamEvents/{date}")]
     public IActionResult GetTeamEvents(DateTime date)
     {
-      return Ok();
+      var teamEvents = _dashboardService.GetTeamDashboardEvents(_authenticatedUser.RetrieveUserId(), date);
+      if (teamEvents.Any())
+      {
+        return Ok(Mapper.Map<IList<HolidayViewModel>>(teamEvents));
+      }
+      return NoContent();
     }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -49,5 +50,9 @@ namespace AdminCore.DAL.Models
     
     [ForeignKey("EmployeeStatusId")]
     public virtual EmployeeStatus EmployeeStatus { get; set; }
+
+    public virtual ICollection<Event> Events { get; set; }
+
+    public virtual ICollection<Contract> Contracts { get; set; }
   }
 }
