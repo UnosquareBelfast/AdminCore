@@ -31,8 +31,13 @@ namespace AdminCore.Services
     {
       int eventTypeId = (int)eventType;
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
-        x.EventType.EventTypeId == eventTypeId
-        && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId());
+                                                            x.EventType.EventTypeId == eventTypeId
+                                                            && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId(),
+                                                            null,
+                                                            x => x.EventDates,
+                                                            x => x.Employee,
+                                                            x => x.EventType,
+                                                            x => x.EventStatus);
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
 
