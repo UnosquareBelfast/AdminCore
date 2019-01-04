@@ -34,7 +34,7 @@ namespace AdminCore.Services
                                                             x.EventType.EventTypeId == eventTypeId
                                                             && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId(),
                                                             null,
-                                                            x => x.EventDates,
+                                                            x => x.EventDate,
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);

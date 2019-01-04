@@ -17,6 +17,7 @@ using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Client;
 using AdminCore.WebApi.Models.Contract;
 using AdminCore.WebApi.Models.Employee;
+using AdminCore.WebApi.Models.Event;
 using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.Team;
 using AdminCore.WebApi.Models.WorkingFromHome;
@@ -65,6 +66,10 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<EventDto, RejectHolidayViewModel>().ReverseMap();
       CreateMap<EventDto, ApproveHolidayViewModel>().ReverseMap();
       CreateMap<EventDto, CancelHolidayViewModel>().ReverseMap();
+
+      CreateMap<EventDateDto, EventDateViewModel>().ReverseMap();
+      CreateMap<EventStatusDto, EventStatusViewModel>().ReverseMap();
+      CreateMap<EventTypeDto, EventTypeViewModel>().ReverseMap();
 
       CreateMap<CreateHolidayViewModel, EventDateDto>().ReverseMap();
       CreateMap<UpdateEventViewModel, EventDateDto>().ReverseMap();
