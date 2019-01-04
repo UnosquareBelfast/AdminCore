@@ -53,7 +53,6 @@ namespace AdminCore.WebApi
         options.SerializerSettings.ReferenceLoopHandling =
           Newtonsoft.Json.ReferenceLoopHandling.Ignore;
       });
-      services.AddCors();
 
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 
@@ -73,14 +72,6 @@ namespace AdminCore.WebApi
             ValidateAudience = false,
             IssuerSigningKey = new SymmetricSecurityKey(key)
           };
-        });
-      
-      services.AddCors(
-        options =>
-        {
-          options.AddPolicy(
-            "CorsPolicy",
-            builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
         });
 
       services.AddSwaggerGen(c =>
@@ -103,15 +94,16 @@ namespace AdminCore.WebApi
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
       if (env.IsDevelopment())
+      {
         app.UseDeveloperExceptionPage();
+        app.UseCors(x => x
+          .AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials());
+      }
       else
         app.UseHsts();
-
-      app.UseCors(x => x
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials());
 
       app.UseAuthentication();
 
