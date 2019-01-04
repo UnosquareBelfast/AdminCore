@@ -28,7 +28,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _eventService = Substitute.For<IEventService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
-      _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
+      _fixture.Customize<EventDto>(x => x.Without(z => z.EventDate));
       _controller = new WorkingFromHomeController(_authenticatedUser, _eventService, _mapper);
     }
 
