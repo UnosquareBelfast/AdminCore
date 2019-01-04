@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AdminCore.DTOs.Team;
 
 namespace AdminCore.DTOs
 {
@@ -8,7 +9,7 @@ namespace AdminCore.DTOs
   {
     public int ContractId { get; set; }
 
-    public int TeamId { get; set; }
+    public TeamDto Team { get; set; }
 
     public int EmployeeId { get; set; }
 
