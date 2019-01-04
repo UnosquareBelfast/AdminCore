@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs;
+using AdminCore.DTOs.Team;
 using AdminCore.WebApi.Controllers;
 using AdminCore.WebApi.Mappings;
 using AdminCore.WebApi.Models.Contract;
@@ -205,7 +206,10 @@ namespace AdminCore.WebApi.Tests.Controllers
       {
         ContractId = 1,
         EmployeeId = 1,
-        TeamId = 1,
+        Team = new TeamDto()
+        {
+          TeamId = 1
+        },
         StartDate = new DateTime(2018, 12, 10),
         EndDate = new DateTime(2019, 1, 10)
       };
@@ -238,7 +242,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       Assert.Equal(contractViewModel.ContractId, contractDto.ContractId);
       Assert.Equal(contractViewModel.EmployeeId, contractDto.EmployeeId);
-      Assert.Equal(contractViewModel.TeamId, contractDto.TeamId);
+      Assert.Equal(contractViewModel.Team.TeamId, contractDto.Team.TeamId);
       Assert.Equal(0, contractViewModel.StartDate.CompareTo(contractDto.StartDate));
       Assert.Equal(0, contractViewModel.EndDate.CompareTo(contractDto.EndDate));
     }

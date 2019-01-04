@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
@@ -9,6 +11,7 @@ using AdminCore.DAL.Database;
 using AdminCore.DAL.Entity_Framework;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs;
+using AdminCore.DTOs.Team;
 using AdminCore.Services.Mappings;
 using AutoMapper;
 using NSubstitute;
@@ -25,7 +28,12 @@ namespace AdminCore.Services.Tests
     public ContractServiceTests()
     {
       _databaseContext = Substitute.For<IDatabaseContext>();
-      IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new ContractMapperProfile())));
+      IEnumerable<Type> profiles = new List<Type>()
+      {
+        new ContractMapperProfile().GetType(),
+        new TeamMapperProfile().GetType()
+      };
+      IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfiles(profiles)));
       _contractService = new ContractService(_databaseContext, mapper);
     }
 
@@ -33,7 +41,7 @@ namespace AdminCore.Services.Tests
     public void TestGetContractByIdReturnsNotNullContractDtoWhenDatabaseReturnsContract()
     {
       var contract = BuildContractModel();
-      _databaseContext.ContractRepository.GetSingle(Arg.Any<Expression<Func<Contract, bool>>>()).Returns(contract);
+      _databaseContext.ContractRepository.GetSingle(Arg.Any<Expression<Func<Contract, bool>>>(), Arg.Any<Expression<Func<Contract, object>>>(), Arg.Any<Expression<Func<Contract, object>>>()).Returns(contract);
 
       var result = _contractService.GetContractById(contract.ContractId);
       AssertContractAndContractDtoAreIdentical(contract, result);
@@ -55,7 +63,7 @@ namespace AdminCore.Services.Tests
         contract
       };
 
-      _databaseContext.ContractRepository.Get(Arg.Any<Expression<Func<Contract, bool>>>()).Returns(contractList);
+      _databaseContext.ContractRepository.Get(Arg.Any<Expression<Func<Contract, bool>>>(), Arg.Any<Func<IQueryable<Contract>, IOrderedQueryable<Contract>>>(), Arg.Any<Expression<Func<Contract, object>>>()).Returns(contractList);
 
       var result = _contractService.GetContractByEmployeeId(contract.EmployeeId);
       AssertContractAndContractDtoAreIdentical(contract, result.First());
@@ -77,7 +85,7 @@ namespace AdminCore.Services.Tests
         contract
       };
 
-      _databaseContext.ContractRepository.Get(Arg.Any<Expression<Func<Contract, bool>>>()).Returns(contractList);
+      _databaseContext.ContractRepository.Get(Arg.Any<Expression<Func<Contract, bool>>>(), Arg.Any<Func<IQueryable<Contract>, IOrderedQueryable<Contract>>>(), Arg.Any<Expression<Func<Contract, object>>>()).Returns(contractList);
 
       var result = _contractService.GetContractByTeamId(contract.TeamId);
       AssertContractAndContractDtoAreIdentical(contract, result.First());
@@ -99,7 +107,7 @@ namespace AdminCore.Services.Tests
         contract
       };
 
-      _databaseContext.ContractRepository.Get(Arg.Any<Expression<Func<Contract, bool>>>()).Returns(contractList);
+      _databaseContext.ContractRepository.Get(Arg.Any<Expression<Func<Contract, bool>>>(), Arg.Any<Func<IQueryable<Contract>, IOrderedQueryable<Contract>>>(), Arg.Any<Expression<Func<Contract, object>>>()).Returns(contractList);
 
       var result = _contractService.GetContractByEmployeeIdAndTeamId(contract.EmployeeId, contract.TeamId);
       AssertContractAndContractDtoAreIdentical(contract, result.First());
@@ -116,7 +124,7 @@ namespace AdminCore.Services.Tests
     public void TestDeleteContractAttemptsDeleteIfExistingContractIsFound()
     {
       var contract = BuildContractModel();
-      _databaseContext.ContractRepository.GetSingle(Arg.Any<Expression<Func<Contract, bool>>>()).Returns(contract);
+      _databaseContext.ContractRepository.GetSingle(Arg.Any<Expression<Func<Contract, bool>>>(), Arg.Any<Expression<Func<Contract, object>>>(), Arg.Any<Expression<Func<Contract, object>>>()).Returns(contract);
 
       _contractService.DeleteContract(contract.ContractId);
       _databaseContext.ContractRepository.Received(1).Delete(contract);
@@ -143,7 +151,7 @@ namespace AdminCore.Services.Tests
     public void TestSaveContractAttemptsUpdateIfContractToBeSavedHasIdOfNotZeroAndContractExists()
     {
       var newContractDto = BuildContractDto();
-      _databaseContext.ContractRepository.GetSingle(Arg.Any<Expression<Func<Contract, bool>>>()).Returns(BuildContractModel());
+      _databaseContext.ContractRepository.GetSingle(Arg.Any<Expression<Func<Contract, bool>>>(), Arg.Any<Expression<Func<Contract, object>>>(), Arg.Any<Expression<Func<Contract, object>>>()).Returns(BuildContractModel());
       _contractService.SaveContract(newContractDto);
       _databaseContext.ContractRepository.Received(0).Insert(Arg.Any<Contract>());
       _databaseContext.Received(1).SaveChanges();
@@ -163,6 +171,10 @@ namespace AdminCore.Services.Tests
         ContractId = 1,
         EmployeeId = 1,
         TeamId = 1,
+        Team = new Team()
+        {
+          TeamId = 1
+        },
         StartDate = new DateTime(2018, 12, 10),
         EndDate = new DateTime(2019, 1, 10)
       };
@@ -174,7 +186,10 @@ namespace AdminCore.Services.Tests
       {
         ContractId = 1,
         EmployeeId = 1,
-        TeamId = 1,
+        Team = new TeamDto()
+        {
+          TeamId = 1
+        },
         StartDate = new DateTime(2018, 12, 10),
         EndDate = new DateTime(2019, 1, 10)
       };
@@ -184,7 +199,7 @@ namespace AdminCore.Services.Tests
     {
       Assert.Equal(contract.ContractId, contractDto.ContractId);
       Assert.Equal(contract.EmployeeId, contractDto.EmployeeId);
-      Assert.Equal(contract.TeamId, contractDto.TeamId);
+      Assert.Equal(contract.TeamId, contractDto.Team.TeamId);
       Assert.Equal(0, contract.StartDate.CompareTo(contractDto.StartDate));
       if (contract.EndDate.HasValue)
       {
