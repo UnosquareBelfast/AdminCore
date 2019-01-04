@@ -58,7 +58,7 @@ namespace AdminCore.Services
       var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId)
                                                             && x.EventTypeId == eventTypeId,
                                                             null,
-                                                            x => x.EventDates,
+                                                            x => x.EventDate,
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);
@@ -87,7 +87,7 @@ namespace AdminCore.Services
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
                                                             && x.EventType.EventTypeId == eventTypeId,
                                                             null,
-                                                            x => x.EventDates,
+                                                            x => x.EventDate,
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);
@@ -100,7 +100,7 @@ namespace AdminCore.Services
       int eventTypeId = (int)eventType;
       var events = DatabaseContext.EventRepository.Get(x => x.EventType.EventTypeId == eventTypeId,
                                                             null,
-                                                            x => x.EventDates,
+                                                            x => x.EventDate,
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);
@@ -153,7 +153,7 @@ namespace AdminCore.Services
 
       if (eventToUpdate != null)
       {
-        eventToUpdate.EventDates.Clear();
+        eventToUpdate.EventDate.Clear();
         UpdateEventDates(eventDateDto, eventToUpdate);
 
         ValidateRemainingHolidaysAndUpdate(eventToUpdate);
@@ -202,7 +202,7 @@ namespace AdminCore.Services
                                                             && x.EventType.EventTypeId == annualLeaveId
                                                             && x.EmployeeId == _authenticatedUser.RetrieveUserId(),
                                                             null,
-                                                            x => x.EventDates,
+                                                            x => x.EventDate,
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);
@@ -215,7 +215,7 @@ namespace AdminCore.Services
       double countHolidays = 0;
       foreach (var holidayEvent in events)
       {
-        countHolidays += GetDaysInEvent(holidayEvent.EventDates);
+        countHolidays += GetDaysInEvent(holidayEvent.EventDate);
       }
 
       return countHolidays;
@@ -228,7 +228,7 @@ namespace AdminCore.Services
       {
         if (day.DayOfWeek == DayOfWeek.Saturday)
         {
-          newEvent.EventDates.Add(new EventDate()
+          newEvent.EventDate.Add(new EventDate()
           {
             StartDate = startDate,
             EndDate = day.AddDays(-1),
@@ -248,13 +248,13 @@ namespace AdminCore.Services
         StartDate = startDate,
         EndDate = originalEndDate
       };
-      newEvent.EventDates.Add(lastDate);
+      newEvent.EventDate.Add(lastDate);
     }
 
     private Event GetEventById(int id)
     {
       return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id,
-                                                            x => x.EventDates,
+                                                            x => x.EventDate,
                                                             x => x.Employee,
                                                             x => x.EventType,
                                                             x => x.EventStatus);
@@ -290,7 +290,7 @@ namespace AdminCore.Services
 
     private bool EmployeeHasEnoughHolidays(Event newEvent)
     {
-      return GetHolidayStatsForUser().AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
+      return GetHolidayStatsForUser().AvailableHolidays >= GetDaysInEvent(newEvent.EventDate);
     }
 
     private double GetDaysInEvent(ICollection<EventDate> newEventEventDates)
@@ -332,7 +332,7 @@ namespace AdminCore.Services
     {
       if (IsHalfDay(eventDateDto))
       {
-        eventToUpdate.EventDates.Add(_mapper.Map<EventDate>(eventDateDto));
+        eventToUpdate.EventDate.Add(_mapper.Map<EventDate>(eventDateDto));
       }
       else
       {
@@ -373,7 +373,7 @@ namespace AdminCore.Services
         EmployeeId = employeeId,
         EventStatusId = (int)EventStatuses.AwaitingApproval,
         EventTypeId = (int)EventTypes.AnnualLeave,
-        EventDates = new List<EventDate>(),
+        EventDate = new List<EventDate>(),
         LastModified = _dateService.GetCurrentDateTime()
       };
       return newEvent;

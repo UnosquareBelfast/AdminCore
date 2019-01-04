@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdminCore.DAL.Models
 {
-  [Table("event_dates")]
+  [Table("event_date")]
   public class EventDate
   {
     [Key]
-    [Column("event_dates_id")]
-    public int EventDatesId { get; set; }
+    [Column("event_date_id")]
+    public int EventDateId { get; set; }
 
     [Column("event_id")]
     public int EventId { get; set; }
@@ -22,7 +22,7 @@ namespace AdminCore.DAL.Models
 
     [Column("is_half_day")]
     public bool IsHalfDay { get; set; }
-    
+
     [ForeignKey("EventId")]
     public Event Event { get; set; }
   }
