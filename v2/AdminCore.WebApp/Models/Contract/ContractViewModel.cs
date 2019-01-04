@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdminCore.WebApi.Models.Team;
 
 namespace AdminCore.WebApi.Models.Contract
 {
@@ -9,7 +10,7 @@ namespace AdminCore.WebApi.Models.Contract
   {
     public int ContractId { get; set; }
 
-    public int TeamId { get; set; }
+    public TeamViewModel Team { get; set; }
 
     public int EmployeeId { get; set; }
 
