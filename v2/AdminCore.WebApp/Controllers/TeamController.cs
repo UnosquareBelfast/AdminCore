@@ -79,7 +79,7 @@ namespace AdminCore.WebApi.Controllers
       return Ok();
     }
 
-    [HttpGet("{clientId}")]
+    [HttpGet("getByClientId/{clientId}")]
     public IActionResult GetAllTeamsForClientId(int clientId)
     {
       var teams = _teamService.GetByClientId(clientId);

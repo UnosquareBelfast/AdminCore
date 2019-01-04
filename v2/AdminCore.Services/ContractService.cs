@@ -28,19 +28,19 @@ namespace AdminCore.Services
 
     public IList<ContractDto> GetContractByEmployeeId(int employeeId)
     {
-      var contract = DatabaseContext.ContractRepository.Get(x => x.EmployeeId == employeeId);
+      var contract = DatabaseContext.ContractRepository.Get(x => x.EmployeeId == employeeId, null, x => x.Team);
       return _mapper.Map<IList<ContractDto>>(contract);
     }
 
     public IList<ContractDto> GetContractByTeamId(int teamId)
     {
-      var contract = DatabaseContext.ContractRepository.Get(x => x.TeamId == teamId);
+      var contract = DatabaseContext.ContractRepository.Get(x => x.TeamId == teamId, null, x => x.Team);
       return _mapper.Map<IList<ContractDto>>(contract);
     }
 
     public IList<ContractDto> GetContractByEmployeeIdAndTeamId(int employeeId, int teamId)
     {
-      var contract = DatabaseContext.ContractRepository.Get(x => x.TeamId == teamId && x.EmployeeId == employeeId);
+      var contract = DatabaseContext.ContractRepository.Get(x => x.TeamId == teamId && x.EmployeeId == employeeId, null, x => x.Team);
       return _mapper.Map<IList<ContractDto>>(contract);
     }
 
@@ -70,7 +70,7 @@ namespace AdminCore.Services
 
     private Contract GetById(int id)
     {
-      return DatabaseContext.ContractRepository.GetSingle(x => x.ContractId == id);
+      return DatabaseContext.ContractRepository.GetSingle(x => x.ContractId == id, null, x => x.Team);
     }
 
     private void UpdateExistingContract(ContractDto contractToBeSaved)
