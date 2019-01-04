@@ -4,7 +4,7 @@ namespace AdminCore.DTOs.Event
 {
   public class EventDateDto
   {
-    public int EventDateId { get; set; }
+    public int EventDatesId { get; set; }
 
     public DateTime StartDate { get; set; }
 
