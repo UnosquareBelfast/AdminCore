@@ -140,6 +140,7 @@ CREATE TABLE IF NOT EXISTS public.employee
     start_date date NOT NULL,
     surname character varying(255) COLLATE pg_catalog."default",
     total_holidays decimal NOT NULL,
+    deleted        boolean NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (employee_id),
     CONSTRAINT employee_country_id_fkey FOREIGN KEY (country_id)
         REFERENCES public.country (country_id) MATCH SIMPLE
@@ -175,6 +176,7 @@ CREATE TABLE IF NOT EXISTS public.client
 (
   client_id                  integer  NOT NULL DEFAULT nextval('client_client_id_seq' :: regclass),
   client_name                character varying(255) COLLATE pg_catalog."default",
+  deleted                    boolean NOT NULL,
   CONSTRAINT client_pkey PRIMARY KEY (client_id)
 )
 WITH (
@@ -201,6 +203,7 @@ CREATE TABLE IF NOT EXISTS public.team
   team_name                  character varying(255) COLLATE pg_catalog."default",
   contact_email              character varying(255) COLLATE pg_catalog."default",
   contact_name               character varying(255) COLLATE pg_catalog."default",
+  deleted                    boolean NOT NULL,
   CONSTRAINT team_pkey PRIMARY KEY (team_id),
   CONSTRAINT team_client_id_fkey FOREIGN KEY (client_id)
         REFERENCES public.client (client_id) MATCH SIMPLE
@@ -231,6 +234,7 @@ CREATE TABLE IF NOT EXISTS public.contract
   employee_id        integer NOT NULL,
   start_date         date NOT NULL,
   end_date         date NULL,
+  deleted            boolean NOT NULL,
   CONSTRAINT contract_pkey PRIMARY KEY (contract_id),
   CONSTRAINT contract_team_id_fkey FOREIGN KEY (team_id)
         REFERENCES public.team (team_id) MATCH SIMPLE

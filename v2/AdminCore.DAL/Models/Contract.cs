@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AdminCore.DAL.Models
 {
   [Table("contract")]
-  public class Contract
+  public class Contract : ISoftDeletable
   {
     [Key]
     [Column("contract_id")]
