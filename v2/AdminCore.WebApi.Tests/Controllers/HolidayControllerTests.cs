@@ -36,7 +36,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _eventService = Substitute.For<IEventService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
-      _fixture.Customize<EventDto>(x => x.Without(z => z.EventDate));
+      _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
       _controller = new HolidayController(_authenticatedUser, _eventService, _employeeService, _mapper);
     }
 

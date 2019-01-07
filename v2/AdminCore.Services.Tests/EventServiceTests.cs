@@ -67,7 +67,7 @@ namespace AdminCore.Services.Tests
       var result = _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave);
 
       // Assert
-      Assert.Equal(numOfWeeksShouldReturn, result.EventDate.Count);
+      Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);
     }
 
     [Fact]
@@ -86,7 +86,7 @@ namespace AdminCore.Services.Tests
       var result = _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave);
 
       // Assert
-      Assert.Equal(numOfWeeksShouldReturn, result.EventDate.Count);
+      Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);
     }
   }
 }

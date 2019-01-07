@@ -27,7 +27,7 @@ namespace AdminCore.DTOs.Event
 
     public string LatestMessage { get; set; }
 
-    public ICollection<EventDateDto> EventDate { get; set; }
+    public ICollection<EventDateDto> EventDates { get; set; }
 
     public DateTime LastModified { get; set; }
   }

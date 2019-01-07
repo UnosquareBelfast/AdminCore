@@ -9,7 +9,7 @@ namespace AdminCore.WebApi.Models.Holiday
   {
     public int EventId { get; set; }
 
-    public ICollection<EventDate> EventDate { get; set; }
+    public ICollection<EventDate> EventDates { get; set; }
 
     public EmployeeViewModel Employee { get; set; }
 

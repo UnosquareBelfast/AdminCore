@@ -39,6 +39,6 @@ namespace AdminCore.DAL.Models
     [ForeignKey("EventTypeId")]
     public virtual EventType EventType { get; set; }
 
-    public virtual ICollection<EventDate> EventDate { get; set; }
+    public virtual ICollection<EventDate> EventDates { get; set; }
   }
 }
