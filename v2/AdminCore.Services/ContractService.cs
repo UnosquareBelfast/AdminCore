@@ -70,7 +70,7 @@ namespace AdminCore.Services
 
     private Contract GetById(int id)
     {
-      return DatabaseContext.ContractRepository.GetSingle(x => x.ContractId == id, null, x => x.Team);
+      return DatabaseContext.ContractRepository.GetSingle(x => x.ContractId == id, x => x.Team);
     }
 
     private void UpdateExistingContract(ContractDto contractToBeSaved)
