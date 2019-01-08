@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AdminCore.DTOs.Event;
 
-namespace AdminCore.DTOs.Event
+namespace AdminCore.WebApi.Models.Event
 {
-  public class EventDateDto
+  public class EventDateViewModel
   {
     public int EventDateId { get; set; }
 
@@ -11,8 +15,6 @@ namespace AdminCore.DTOs.Event
     public DateTime EndDate { get; set; }
 
     public bool IsHalfDay { get; set; }
-
-    public EventDto Event { get; set; }
 
     public int EventId { get; set; }
   }

@@ -296,15 +296,15 @@ ALTER SEQUENCE event_event_id_seq
   ----------------------------------------------------------------------------------------
 
 
-CREATE SEQUENCE IF NOT EXISTS public.event_dates_event_dates_id_seq;
-CREATE TABLE public.event_dates
+CREATE SEQUENCE IF NOT EXISTS public.event_date_event_date_id_seq;
+CREATE TABLE public.event_date
 (
-    event_dates_id integer NOT NULL DEFAULT nextval('event_dates_event_dates_id_seq' :: regclass),
+    event_date_id integer NOT NULL DEFAULT nextval('event_date_event_date_id_seq' :: regclass),
     event_id integer NOT NULL,
     start_date timestamp NOT NULL,
     end_date timestamp NOT NULL,
     is_half_day       boolean NOT NULL,
-    CONSTRAINT event_dates_pkey PRIMARY KEY (event_dates_id),
+    CONSTRAINT event_date_pkey PRIMARY KEY (event_date_id),
 	  CONSTRAINT event_id_fkey FOREIGN KEY (event_id)
         REFERENCES public.event (event_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -315,8 +315,8 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER SEQUENCE event_dates_event_dates_id_seq
-    OWNED BY event_dates.event_dates_id;
+ALTER SEQUENCE event_date_event_date_id_seq
+    OWNED BY event_date.event_date_id;
 
 
   ----------------------------------------------------------------------------------------
