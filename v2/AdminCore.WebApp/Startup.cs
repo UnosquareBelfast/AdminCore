@@ -9,9 +9,15 @@
 
 using System.Text;
 using AdminCore.Services.Configuration;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -54,27 +60,25 @@ namespace AdminCore.WebApi
           Newtonsoft.Json.ReferenceLoopHandling.Ignore;
       });
       services.AddCors();
+    
+      services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
+        .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
-      var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
+      services.Configure<OpenIdConnectOptions>(AzureADDefaults.OpenIdScheme, options =>
+      {
+        options.Authority = options.Authority + "/v2.0/";
+        options.TokenValidationParameters.ValidateIssuer = false;
+      });
 
-      services.AddAuthentication(options =>
+      services.AddMvc(options =>
         {
-          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-          options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+          var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+          options.Filters.Add(new AuthorizeFilter(policy));
         })
-        .AddJwtBearer(options =>
-        {
-          options.SaveToken = true;
-          options.RequireHttpsMetadata = true;
-          options.TokenValidationParameters = new TokenValidationParameters
-          {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            IssuerSigningKey = new SymmetricSecurityKey(key)
-          };
-        });
-      
+        .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
       services.AddCors(
         options =>
         {
@@ -114,11 +118,17 @@ namespace AdminCore.WebApi
         .AllowCredentials());
 
       app.UseAuthentication();
+      app.UseHttpsRedirection();
 
       app.UseSwagger();
       app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "AdminCore Documentation V1"); });
 
-      app.UseMvc();
+      app.UseMvc(routes =>
+      {
+        routes.MapRoute(
+          name: "default",
+          template: "{controller=SingleSignOn}/{action=AzureLogin}/{id?}");
+      });
     }
   }
 }

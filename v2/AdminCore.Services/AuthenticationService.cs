@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
+using AdminCore.DAL.Models;
 using AdminCore.DTOs;
 using Microsoft.IdentityModel.Tokens;
 
@@ -66,6 +67,17 @@ namespace AdminCore.Services
         return null;
       }*/
 
+      return GenerateJwtToken(employee);
+    }
+
+    public JwtAuthDto JwtSignIn(string email)
+    {
+      var employee = _databaseContext.EmployeeRepository.GetSingle(x => x.Email.Equals(email, StringComparison.CurrentCultureIgnoreCase));
+      return employee == null ? null : GenerateJwtToken(employee);
+    }
+
+    private static JwtAuthDto GenerateJwtToken(Employee employee)
+    {
       var tokenHandler = new JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes("veryVerySecretKey");
 

@@ -29,5 +29,7 @@ namespace AdminCore.Common.Interfaces
     ///   The <see cref="JwtAuthDto" />.
     /// </returns>
     JwtAuthDto JwtSignIn(string email, string password);
+
+    JwtAuthDto JwtSignIn(string email);
   }
 }

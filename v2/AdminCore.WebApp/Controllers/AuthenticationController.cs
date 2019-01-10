@@ -7,14 +7,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Security.Claims;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Employee;
+using AdminCore.WebApi.Util;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using IAuthenticationService = AdminCore.Common.Interfaces.IAuthenticationService;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -62,6 +66,13 @@ namespace AdminCore.WebApi.Controllers
       var email = _employeeService.Create(_mapper.Map<EmployeeDto>(registerEmployeeViewModel));
 
       return Ok($"Employee registered:{email}");
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+      HttpContext.SignOutAsync();
+      return SignOut();
     }
   }
 }
