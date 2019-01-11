@@ -109,7 +109,10 @@ namespace AdminCore.WebApi
       if (env.IsDevelopment())
         app.UseDeveloperExceptionPage();
       else
+      {
         app.UseHsts();
+        app.UseAuthentication();
+      }
 
       app.UseCors(x => x
         .AllowAnyOrigin()
@@ -117,7 +120,6 @@ namespace AdminCore.WebApi
         .AllowAnyHeader()
         .AllowCredentials());
 
-      app.UseAuthentication();
       app.UseHttpsRedirection();
 
       app.UseSwagger();
