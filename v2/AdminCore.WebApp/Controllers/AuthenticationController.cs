@@ -24,7 +24,6 @@ namespace AdminCore.WebApi.Controllers
 {
   [Route("[controller]")]
   [ApiController]
-  [EnableCors("CorsPolicy")]
   public class AuthenticationController : ControllerBase
   {
     private readonly IAuthenticationService _authenticationService;
