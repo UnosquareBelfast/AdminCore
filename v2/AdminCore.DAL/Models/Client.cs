@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AdminCore.DAL.Models
 {
   [Table("client")]
-  public class Client
+  public class Client : ISoftDeletable
   {
     [Key]
     [Column("client_id")]

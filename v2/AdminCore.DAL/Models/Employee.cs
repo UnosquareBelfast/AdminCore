@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AdminCore.DAL.Models
 {
   [Table("employee")]
-  public class Employee
+  public class Employee : ISoftDeletable
   {  
     [Key]
     [Column("employee_id")]
