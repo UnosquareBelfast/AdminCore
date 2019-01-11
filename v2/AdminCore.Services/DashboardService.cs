@@ -89,7 +89,9 @@ namespace AdminCore.Services
         null,
         evnt => evnt.EventStatus,
         evnt => evnt.EventType,
-        evnt => evnt.EventMessages
+        evnt => evnt.EventMessages,
+        evnt => evnt.EventDates,
+        evnt => evnt.Employee
       );
       return _mapper.Map<IList<EventDto>>(eventList);
     }
