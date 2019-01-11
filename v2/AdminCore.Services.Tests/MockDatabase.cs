@@ -26,6 +26,7 @@ namespace AdminCore.Services.Tests
     private void PopulateRepositories()
     {
       #region Hardcoded Database Values
+
       // Countries
       var northernIreland = BuildCountry(1, "Northern Ireland");
       var mexico = BuildCountry(2, "Mexico");
@@ -105,7 +106,6 @@ namespace AdminCore.Services.Tests
       var employeeKurtis = BuildEmployee(4, "Kurtis", "Moore", "kurtis@test.com", northernIreland, user, active);
       var employeeLee = BuildEmployee(4, "Lee", "McKay", "lee@test.com", northernIreland, user, active);
 
-
       EmployeeRepository = new List<Employee>()
       {
         employeeNiall,
@@ -132,7 +132,6 @@ namespace AdminCore.Services.Tests
       var kurtisFmiContract = BuildContract(4, teamFmi, employeeKurtis, new DateTime(2018, 12, 17), null);
       var leeHarvardContract = BuildContract(5, teamHarvard, employeeLee, new DateTime(2018, 12, 17), new DateTime(2019, 02, 17));
       var eoinExternalContract = BuildContract(6, teamHarvard, employeeEoin, new DateTime(2018, 12, 03), null);
-
 
       ContractRepository = new List<Contract>()
       {
@@ -215,7 +214,7 @@ namespace AdminCore.Services.Tests
         event3,
         event15
       };
-      
+
       employeeJamie.Events = new List<Event>()
       {
         event4,
@@ -223,25 +222,25 @@ namespace AdminCore.Services.Tests
         event6,
         event16
       };
-      
+
       employeeEoin.Events = new List<Event>()
       {
         event7,
         event8,
-        event9      
+        event9
       };
-      
+
       employeeKurtis.Events = new List<Event>()
       {
         event10,
         event11,
-        event12      
+        event12
       };
-      
+
       employeeLee.Events = new List<Event>()
       {
         event13,
-        event14     
+        event14
       };
 
       // Event Dates
@@ -284,7 +283,6 @@ namespace AdminCore.Services.Tests
       var eventDate37 = BuildEventDate(37, event14, new DateTime(2019, 03, 11), new DateTime(2019, 03, 14));
       var eventDate38 = BuildEventDate(38, event15, new DateTime(2019, 02, 18), new DateTime(2019, 02, 22));
       var eventDate39 = BuildEventDate(39, event16, new DateTime(2019, 03, 04), new DateTime(2019, 03, 07));
-
 
       EventDateRepository = new List<EventDate>()
       {
@@ -432,15 +430,16 @@ namespace AdminCore.Services.Tests
         eventDate39
       };
 
-      #endregion
+      #endregion Hardcoded Database Values
     }
 
     #region Builders
+
     private static EventDate BuildEventDate(int id, Event evnt, DateTime startDate, DateTime endDate)
     {
       return new EventDate()
       {
-        EventDatesId = id,
+        EventDateId = id,
         Event = evnt,
         EventId = evnt.EventId,
         StartDate = startDate,
@@ -551,6 +550,7 @@ namespace AdminCore.Services.Tests
         EventTypeId = eventType.EventTypeId,
       };
     }
+
     private static Employee BuildEmployee(int employeeId, string forename, string surname, string email, Country country, EmployeeRole role, EmployeeStatus status)
     {
       return new Employee()
@@ -568,6 +568,6 @@ namespace AdminCore.Services.Tests
       };
     }
 
-    #endregion
+    #endregion Builders
   }
 }
