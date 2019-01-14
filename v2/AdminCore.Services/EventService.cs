@@ -37,7 +37,9 @@ namespace AdminCore.Services
                                                             x => x.EventDates,
                                                             x => x.Employee,
                                                             x => x.EventType,
-                                                            x => x.EventStatus);
+                                                            x => x.EventStatus,
+                                                            x => x.EventMessages);
+
       return _mapper.Map<IList<EventDto>>(annualLeave);
     }
 
@@ -66,7 +68,8 @@ namespace AdminCore.Services
                                                             x => x.EventDates,
                                                             x => x.Employee,
                                                             x => x.EventType,
-                                                            x => x.EventStatus);
+                                                            x => x.EventStatus,
+                                                            x => x.EventMessages);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
@@ -95,7 +98,8 @@ namespace AdminCore.Services
                                                             x => x.EventDates,
                                                             x => x.Employee,
                                                             x => x.EventType,
-                                                            x => x.EventStatus);
+                                                            x => x.EventStatus,
+                                                            x => x.EventMessages);
 
       return _mapper.Map<IList<EventDto>>(events);
     }
@@ -108,24 +112,24 @@ namespace AdminCore.Services
                                                             x => x.EventDates,
                                                             x => x.Employee,
                                                             x => x.EventType,
-                                                            x => x.EventStatus);
+                                                            x => x.EventStatus,
+                                                            x => x.EventMessages);
+
       return _mapper.Map<IList<EventDto>>(events);
     }
 
     public void RejectEvent(int eventId, string message)
     {
       var eventToReject = GetEventById(eventId);
-      if (eventToReject != null)
+      if (eventToReject != null && eventToReject.EventStatusId == (int)EventStatuses.AwaitingApproval)
       {
         eventToReject.EventStatusId = (int)EventStatuses.Rejected;
-        var employee = GetEmployeeFromEmployeeId();
-        if (employee != null)
-        {
-          var eventMessage = BuildEventMessage(message, MessageType.Rejected);
-
-          eventToReject.EventMessages.Add(eventMessage);
-          DatabaseContext.SaveChanges();
-        }
+        AddEventMessage(eventToReject, EventMessageTypes.Reject, message);
+        DatabaseContext.SaveChanges();
+      }
+      else
+      {
+        throw new Exception("Event " + eventId + "doesn't exist or is already rejected");
       }
     }
 
@@ -148,15 +152,14 @@ namespace AdminCore.Services
       return ValidateRemainingHolidaysAndCreate(newEvent);
     }
 
-    public void UpdateEvent(EventDateDto eventDateDto)
+    public void UpdateEvent(EventDateDto eventDateDto, string message)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
       if (eventToUpdate != null)
       {
         eventToUpdate.EventDates.Clear();
         UpdateEventDates(eventDateDto, eventToUpdate);
-
-        ValidateRemainingHolidaysAndUpdate(eventToUpdate);
+        ValidateRemainingHolidaysAndUpdate(eventToUpdate, message);
       }
     }
 
@@ -205,7 +208,8 @@ namespace AdminCore.Services
                                                             x => x.EventDates,
                                                             x => x.Employee,
                                                             x => x.EventType,
-                                                            x => x.EventStatus);
+                                                            x => x.EventStatus,
+                                                            x => x.EventMessages);
       var countHolidays = CountHolidays(events);
       return countHolidays;
     }
@@ -258,10 +262,11 @@ namespace AdminCore.Services
     private Event GetEventById(int id)
     {
       return DatabaseContext.EventRepository.GetSingle(x => x.EventId == id,
-                                                            x => x.EventDates,
-                                                            x => x.Employee,
-                                                            x => x.EventType,
-                                                            x => x.EventStatus);
+        x => x.EventDates,
+        x => x.Employee,
+        x => x.EventType,
+        x => x.EventStatus,
+        x => x.EventMessages);
     }
 
     private Employee GetEmployeeFromEmployeeId()
@@ -335,10 +340,11 @@ namespace AdminCore.Services
       }
     }
 
-    private void ValidateRemainingHolidaysAndUpdate(Event eventToUpdate)
+    private void ValidateRemainingHolidaysAndUpdate(Event eventToUpdate, string message)
     {
       if (EmployeeHasEnoughHolidays(eventToUpdate))
       {
+        eventToUpdate = AddEventMessage(eventToUpdate, EventMessageTypes.Update, message);
         eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
         DatabaseContext.SaveChanges();
       }
@@ -374,15 +380,28 @@ namespace AdminCore.Services
       return newEvent;
     }
 
-    private EventMessage BuildEventMessage(string message, MessageType messageType)
+    private Event AddEventMessage(Event eventToUpdate, EventMessageTypes eventMessageTypes, string message)
     {
-      var eventMessage = new EventMessage
+      if (eventToUpdate.EventMessages == null)
       {
+        eventToUpdate.EventMessages = new List<EventMessage>();
+      }
+
+      eventToUpdate.EventMessages.Add(AddEventMessageToEvent(eventToUpdate, eventMessageTypes, message));
+      return eventToUpdate;
+    }
+
+    private EventMessage AddEventMessageToEvent(Event eventToAddMessageTo, EventMessageTypes eventMessageType, string message)
+    {
+      EventMessage eventMessage = new EventMessage
+      {
+        EventId = eventToAddMessageTo.EventId,
+        EventMessageTypeId = (int)eventMessageType,
         EmployeeId = _authenticatedUser.RetrieveUserId(),
-        EventMessageTypeId = (int)messageType,
+        LastModified = _dateService.GetCurrentDateTime(),
         Message = message,
-        LastModified = _dateService.GetCurrentDateTime()
       };
+
       return eventMessage;
     }
   }

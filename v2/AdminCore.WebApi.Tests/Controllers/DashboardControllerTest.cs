@@ -9,6 +9,8 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdminCore.DTOs.EventMessage;
+using AdminCore.WebApi.Models.EventMessage;
 using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers

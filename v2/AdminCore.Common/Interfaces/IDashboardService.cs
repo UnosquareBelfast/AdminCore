@@ -2,6 +2,7 @@
 using AdminCore.DTOs.Event;
 using System;
 using System.Collections.Generic;
+using AdminCore.DTOs.EventMessage;
 
 namespace AdminCore.Common.Interfaces
 {

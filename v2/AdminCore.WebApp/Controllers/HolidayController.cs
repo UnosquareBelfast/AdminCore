@@ -10,6 +10,7 @@
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
+using AdminCore.WebApi.Models.EventMessage;
 using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -28,15 +29,15 @@ namespace AdminCore.WebApi.Controllers
   {
     private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
-    private readonly IEmployeeService _employeeService;
+    private readonly IEventMessageService _eventMessageService;
     private readonly IMapper _mapper;
 
     public HolidayController(IAuthenticatedUser authenticatedUser, IEventService eventService,
-      IEmployeeService employeeService, IMapper mapper) : base(mapper)
+      IEventMessageService eventMessageService, IMapper mapper) : base(mapper)
     {
       _authenticatedUser = authenticatedUser;
       _eventService = eventService;
-      _employeeService = employeeService;
+      _eventMessageService = eventMessageService;
       _mapper = mapper;
     }
 
@@ -49,7 +50,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
       }
 
-      return StatusCode((int)HttpStatusCode.NoContent, "No Holiday exist");
+      return StatusCode((int)HttpStatusCode.NoContent, "No Holiday exists");
     }
 
     [HttpGet("{holidayId}")]
@@ -91,7 +92,6 @@ namespace AdminCore.WebApi.Controllers
     [HttpPost]
     public IActionResult CreateHoliday(CreateHolidayViewModel model)
     {
-      var employeeId = _authenticatedUser.RetrieveUserId();
       var eventDates = _mapper.Map<EventDateDto>(model);
 
       try
@@ -113,13 +113,13 @@ namespace AdminCore.WebApi.Controllers
       var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
-        _eventService.UpdateEvent(eventDatesToUpdate);
+        _eventService.UpdateEvent(eventDatesToUpdate, updateHoliday.Message);
         return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)
       {
         Logger.LogError(ex.Message);
-        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong approving holiday");
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong updating holiday");
       }
     }
 
@@ -141,15 +141,31 @@ namespace AdminCore.WebApi.Controllers
     [HttpPut("cancelHoliday")]
     public IActionResult CancelHoliday(CancelHolidayViewModel cancelHoliday)
     {
-      _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled);
-      return Ok("Successfully Cancelled");
+      try
+      {
+        _eventService.UpdateEventStatus(cancelHoliday.EventId, EventStatuses.Cancelled);
+        return Ok("Successfully Cancelled");
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong cancelling holiday");
+      }
     }
 
     [HttpPut("rejectHoliday")]
     public IActionResult RejectHoliday(RejectHolidayViewModel rejectHoliday)
     {
-      _eventService.RejectEvent(rejectHoliday.EventId, rejectHoliday.Message);
-      return Ok("Successfully Rejected");
+      try
+      {
+        _eventService.RejectEvent(rejectHoliday.EventId, rejectHoliday.Message);
+        return Ok("Successfully Rejected");
+      }
+      catch (Exception ex)
+      {
+        Logger.LogError(ex.Message);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong rejecting holiday");
+      }
     }
 
     [HttpGet("findByDateBetween/{startDate}/{endDate}")]
@@ -171,6 +187,31 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holidays));
       }
       return StatusCode((int)HttpStatusCode.NoContent, "No Holiday exists");
+    }
+
+    [HttpGet("findEventMessages/{eventId}")]
+    public IActionResult GetEventMessages(int eventId)
+    {
+      var eventMessages = _eventMessageService.GetAllEventMessagesForEvent(eventId);
+      if (eventMessages != null)
+      {
+        return Ok(_mapper.Map<IList<EventMessageViewModel>>(eventMessages));
+      }
+
+      return StatusCode((int)HttpStatusCode.NoContent, "No Messages exists");
+    }
+
+    [HttpPut("addMessageToEvent")]
+    public IActionResult AddMessageToEvent(CreateEventMessageViewModel eventMessageViewModel)
+    {
+      var returnedEvent = _eventService.GetEvent(eventMessageViewModel.EventId);
+      if (returnedEvent != null)
+      {
+        _eventMessageService.CreateGeneralEventMessage(eventMessageViewModel.EventId, eventMessageViewModel.Message);
+        return Ok("Successfully Added Message");
+      }
+
+      return StatusCode((int)HttpStatusCode.NoContent, "No Messages exists");
     }
 
     private bool ValidateDate(string date)
