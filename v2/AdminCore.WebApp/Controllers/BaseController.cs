@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -17,12 +16,6 @@ namespace AdminCore.WebApi.Controllers
         .AddConsole()
         .AddDebug();
       Logger = loggerFactory.CreateLogger<BaseController>();
-    }
-
-    // Leaving method here unused. Will chat with Mark about possible usage.
-    public IActionResult GenerateGetAllResponse<TypeOfList, TypeBeingReturned>(IList<TypeOfList> getAllResults, string errorMsg)
-    {
-      return getAllResults != null ? Ok(Mapper.Map<TypeBeingReturned>(getAllResults)) : Ok(errorMsg);
     }
   }
 }

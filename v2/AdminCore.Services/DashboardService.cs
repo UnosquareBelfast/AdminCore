@@ -16,12 +16,10 @@ namespace AdminCore.Services
   public class DashboardService : BaseService, IDashboardService
   {
     private readonly IMapper _mapper;
-    private readonly IEventService _eventService;
 
-    public DashboardService(IDatabaseContext databaseContext, IEventService eventService, IMapper mapper) : base(databaseContext)
+    public DashboardService(IDatabaseContext databaseContext, IMapper mapper) : base(databaseContext)
     {
       _mapper = mapper;
-      _eventService = eventService;
     }
 
     public IList<EventDto> GetEmployeeDashboardEvents(int employeeId, DateTime date)

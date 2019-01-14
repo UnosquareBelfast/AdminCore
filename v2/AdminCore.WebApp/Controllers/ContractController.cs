@@ -16,7 +16,7 @@ namespace AdminCore.WebApi.Controllers
   [Authorize]
   public class ContractController : BaseController
   {
-    private IContractService _contractService;
+    private readonly IContractService _contractService;
 
     public ContractController(IMapper mapper, IContractService contractService) : base(mapper)
     {
