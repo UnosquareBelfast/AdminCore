@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmployeeService.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   The hello service.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs.Employee;

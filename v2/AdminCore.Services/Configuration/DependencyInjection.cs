@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DependencyInjection.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the DependencyInjection type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using AdminCore.Common;
+﻿using AdminCore.Common;
 using AdminCore.Common.DependencyInjection;
 using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
@@ -21,23 +12,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace AdminCore.Services.Configuration
 {
-  /// <summary>
-  ///   The dependency injection.
-  /// </summary>
   [ExcludeFromCodeCoverage]
   public static class DependencyInjection
   {
-    /// <summary>
-    ///   The _registered.
-    /// </summary>
     private static bool _registered;
 
-    /// <summary>
-    ///   The register dependency injection.
-    /// </summary>
-    /// <param name="services">
-    ///   The services.
-    /// </param>
     public static void RegisterDependencyInjection(IServiceCollection services = null)
     {
       if (!_registered)
@@ -68,36 +47,16 @@ namespace AdminCore.Services.Configuration
     }
   }
 
-  /// <summary>
-  ///   The dependency injection container.
-  /// </summary>
   [ExcludeFromCodeCoverage]
   public class DependencyInjectionContainer : IContainer
   {
-    /// <summary>
-    ///   The _container.
-    /// </summary>
     private readonly IServiceProvider _container;
 
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="DependencyInjectionContainer" /> class.
-    /// </summary>
-    /// <param name="container">
-    ///   The container.
-    /// </param>
     internal DependencyInjectionContainer(IServiceProvider container)
     {
       _container = container;
     }
 
-    /// <summary>
-    ///   The get instance.
-    /// </summary>
-    /// <typeparam name="T">
-    /// </typeparam>
-    /// <returns>
-    ///   The <see cref="T" />.
-    /// </returns>
     public T GetInstance<T>()
       where T : class
     {

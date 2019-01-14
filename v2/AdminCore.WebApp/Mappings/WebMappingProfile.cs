@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="WebMappingProfile.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   The web mapping profile.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using AdminCore.DTOs;
+﻿using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
@@ -27,14 +18,8 @@ using AutoMapper;
 
 namespace AdminCore.WebApi.Mappings
 {
-  /// <summary>
-  ///   The web mapping profile.
-  /// </summary>
   public class WebMappingProfile : Profile
   {
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="WebMappingProfile" /> class.
-    /// </summary>
     public WebMappingProfile()
     {
       CreateMap<ClientDto, ClientViewModel>();

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="HolidayController.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the HolidayController type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
 using AdminCore.WebApi.Models.EventMessage;

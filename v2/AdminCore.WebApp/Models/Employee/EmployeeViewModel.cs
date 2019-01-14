@@ -1,19 +1,7 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmployeeViewModel.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the RegisterEmployeeViewModel type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 
 namespace AdminCore.WebApi.Models.Employee
 {
-  /// <summary>
-  ///   The patient model.
-  /// </summary>
   public class EmployeeViewModel
   {
     public string CountryDescription { get; set; }

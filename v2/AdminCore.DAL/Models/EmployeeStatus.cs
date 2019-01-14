@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmployeeStatus.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   The patient.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdminCore.DAL.Models

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityFrameworkRepository.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the EntityFrameworkRepository type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +6,6 @@ using System.Linq.Expressions;
 
 namespace AdminCore.DAL.Entity_Framework
 {
-  /// <summary>
-  ///   The entity framework repository.
-  /// </summary>
-  /// <typeparam name="T">
-  /// </typeparam>
   public class EntityFrameworkRepository<T> : IRepository<T>
     where T : class
   {

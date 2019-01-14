@@ -1,24 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRepository.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the IRepository type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace AdminCore.DAL
 {
-  /// <summary>
-  ///   The Repository interface.
-  /// </summary>
-  /// <typeparam name="T">
-  /// </typeparam>
   public interface IRepository<T>
   {
     void Delete(object id);

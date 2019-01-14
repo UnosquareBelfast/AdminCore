@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuthenticationController.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the AuthenticationController type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Models.Client;

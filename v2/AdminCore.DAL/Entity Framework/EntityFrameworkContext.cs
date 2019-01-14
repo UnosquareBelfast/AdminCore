@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityFrameworkContext.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   The entity framework context.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using AdminCore.DAL.Database;
+﻿using AdminCore.DAL.Database;
 using AdminCore.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
