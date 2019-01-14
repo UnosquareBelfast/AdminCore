@@ -1,5 +1,4 @@
 ﻿using AdminCore.DAL.Models;
-using AdminCore.DTOs.Event;
 using AdminCore.DTOs.EventMessage;
 using AutoMapper;
 

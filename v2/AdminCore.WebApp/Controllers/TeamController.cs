@@ -1,13 +1,13 @@
 ﻿using AdminCore.Common.Interfaces;
+using AdminCore.DTOs.Team;
 using AdminCore.WebApi.Models.Team;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using AdminCore.DTOs.Team;
-using Microsoft.Extensions.Logging;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -89,7 +89,6 @@ namespace AdminCore.WebApi.Controllers
       }
 
       return StatusCode((int)HttpStatusCode.InternalServerError, $"No teams found with client ID {clientId}");
-
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AdminCore.DAL.Models.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdminCore.DAL.Models
@@ -21,7 +22,7 @@ namespace AdminCore.DAL.Models
 
     [Column("contact_name")]
     public string ContactName { get; set; }
-    
+
     [ForeignKey("ClientId")]
     public virtual Client Client { get; set; }
   }

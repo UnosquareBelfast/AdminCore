@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EntityFrameworkContext.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   The entity framework context.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using AdminCore.DAL.Database;
+﻿using AdminCore.DAL.Database;
 using AdminCore.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -80,7 +71,6 @@ namespace AdminCore.DAL.Entity_Framework
       _eventMessageTypeRepository ??
       (_eventMessageTypeRepository = new EntityFrameworkRepository<EventMessageType>(this));
 
-
     public IRepository<EventStatus> EventStatusRepository =>
       _eventStatusRepository ?? (_eventStatusRepository = new EntityFrameworkRepository<EventStatus>(this));
 
@@ -94,7 +84,7 @@ namespace AdminCore.DAL.Entity_Framework
     {
       _adminCoreContext.SaveChanges();
     }
-    
+
     public EntityEntry Entry<T>(T entity) where T : class
     {
       return _adminCoreContext.Entry(entity);

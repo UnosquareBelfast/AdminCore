@@ -1,11 +1,11 @@
 using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
+using AdminCore.DAL.Models;
 using AdminCore.DTOs.Client;
+using AdminCore.Services.Base;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
-using AdminCore.DAL.Models;
-using AdminCore.Services.Base;
 
 namespace AdminCore.Services
 {
@@ -13,7 +13,7 @@ namespace AdminCore.Services
   {
     private readonly IMapper _mapper;
 
-    public ClientService(IDatabaseContext databaseContext, IMapper mapper) 
+    public ClientService(IDatabaseContext databaseContext, IMapper mapper)
       : base(databaseContext)
     {
       _mapper = mapper;
@@ -27,18 +27,18 @@ namespace AdminCore.Services
 
     public void Save(ClientDto clientDto)
     {
-        if (clientDto.ClientId == 0)
-        {
-          var newClientEntry = _mapper.Map<Client>(clientDto);
-          DatabaseContext.ClientRepository.Insert(newClientEntry);
-        }
-        else
-        {
-          var client = GetById(clientDto.ClientId);
-          client.ClientName = clientDto.ClientName;
-        }
-     
-        DatabaseContext.SaveChanges();
+      if (clientDto.ClientId == 0)
+      {
+        var newClientEntry = _mapper.Map<Client>(clientDto);
+        DatabaseContext.ClientRepository.Insert(newClientEntry);
+      }
+      else
+      {
+        var client = GetById(clientDto.ClientId);
+        client.ClientName = clientDto.ClientName;
+      }
+
+      DatabaseContext.SaveChanges();
     }
 
     public void Delete(int id)

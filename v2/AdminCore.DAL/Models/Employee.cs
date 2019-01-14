@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminCore.DAL.Models.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ namespace AdminCore.DAL.Models
 {
   [Table("employee")]
   public class Employee : ISoftDeletable
-  {  
+  {
     [Key]
     [Column("employee_id")]
     public int EmployeeId { get; set; }
@@ -44,10 +45,10 @@ namespace AdminCore.DAL.Models
 
     [ForeignKey("CountryId")]
     public virtual Country Country { get; set; }
-    
+
     [ForeignKey("EmployeeRoleId")]
     public virtual EmployeeRole EmployeeRole { get; set; }
-    
+
     [ForeignKey("EmployeeStatusId")]
     public virtual EmployeeStatus EmployeeStatus { get; set; }
 

@@ -1,19 +1,15 @@
 ﻿using AdminCore.Common.Interfaces;
-using AdminCore.DTOs.Dashboard;
-using AdminCore.DTOs.Event;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using AdminCore.DTOs.EventMessage;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Linq.Expressions;
 using AdminCore.Constants.Enums;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
+using AdminCore.DTOs.Dashboard;
+using AdminCore.DTOs.Event;
+using AdminCore.DTOs.EventMessage;
 using AdminCore.Services.Base;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AdminCore.Services
 {
@@ -96,10 +92,10 @@ namespace AdminCore.Services
       );
       return _mapper.Map<IList<EventDto>>(eventList);
     }
-    
+
     public static bool EmployeeDashboardEventsQuery(int employeeId, DateTime date, Event evnt)
     {
-      const int cancelled = (int) EventStatuses.Cancelled;
+      const int cancelled = (int)EventStatuses.Cancelled;
       var startOfMonth = DateService.GetMonthStartDate(date);
       var endOfMonth = DateService.GetMonthEndDate(date);
 
@@ -120,7 +116,7 @@ namespace AdminCore.Services
              DateService.ContractIsActiveDuringDate(contract, date) &&
              contract.Employee.Events.Any(evnt => DateService.EventContainsEventDatesThatHappenDuringMonth(evnt.EventDates, date));
     }
-    
+
     private static bool GetTeamSnapshotDashboardEventsQuery(Contract contract, DateTime date)
     {
       return DateService.ContractIsActiveDuringDate(contract, date) &&

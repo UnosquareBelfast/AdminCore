@@ -9,7 +9,7 @@ namespace AdminCore.DAL.Models
     [Key]
     [Column("event_type_id")]
     public int EventTypeId { get; set; }
- 
+
     [Column("description")]
     public string Description { get; set; }
   }

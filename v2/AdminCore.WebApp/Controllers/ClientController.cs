@@ -1,23 +1,14 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuthenticationController.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the AuthenticationController type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Models.Client;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.Extensions.Logging;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -74,7 +65,7 @@ namespace AdminCore.WebApi.Controllers
         Logger.LogError(ex.Message);
         return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong, client was not created.");
       }
-      
+
       return Ok($"Client {viewModel.ClientName} has successfully been created");
     }
 
@@ -96,9 +87,9 @@ namespace AdminCore.WebApi.Controllers
       var client = _clientService.GetByClientName(clientName);
       if (client.Any())
       {
-        return Ok( Mapper.Map<IList<ClientViewModel>>(client));
+        return Ok(Mapper.Map<IList<ClientViewModel>>(client));
       }
-      return StatusCode((int)HttpStatusCode.InternalServerError, $"No client found with client name { clientName }");      
+      return StatusCode((int)HttpStatusCode.InternalServerError, $"No client found with client name { clientName }");
     }
   }
 }

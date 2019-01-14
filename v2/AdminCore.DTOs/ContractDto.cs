@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AdminCore.DTOs.Team;
+﻿using AdminCore.DTOs.Team;
+using System;
 
 namespace AdminCore.DTOs
 {

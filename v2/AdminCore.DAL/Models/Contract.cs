@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminCore.DAL.Models.Base;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,12 +21,12 @@ namespace AdminCore.DAL.Models
     [Column("start_date")]
     public DateTime StartDate { get; set; }
 
-    [Column("end_date")] 
+    [Column("end_date")]
     public DateTime? EndDate { get; set; }
-    
+
     [ForeignKey("EmployeeId")]
     public Employee Employee { get; set; }
-    
+
     [ForeignKey("TeamId")]
     public Team Team { get; set; }
   }

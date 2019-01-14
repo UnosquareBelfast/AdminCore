@@ -9,7 +9,7 @@ namespace AdminCore.DAL.Models
     [Key]
     [Column("country_id")]
     public int CountryId { get; set; }
-    
+
     [StringLength(50)]
     [Column("description")]
     public string Description { get; set; }

@@ -1,23 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="EmployeeService.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   The hello service.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs.Employee;
 using AdminCore.Services.Base;
 using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AdminCore.Services
 {
@@ -25,7 +16,7 @@ namespace AdminCore.Services
   {
     private readonly IMapper _mapper;
 
-    public EmployeeService(IDatabaseContext databaseContext, IMapper mapper) : 
+    public EmployeeService(IDatabaseContext databaseContext, IMapper mapper) :
       base(databaseContext)
     {
       _mapper = mapper;
@@ -112,9 +103,9 @@ namespace AdminCore.Services
     {
       short totalHolidays;
       if (employee.StartDate.Year == DateTime.Now.Year)
-        totalHolidays = (short) (maxHolidays / 12 * (12 - employee.StartDate.Month));
+        totalHolidays = (short)(maxHolidays / 12 * (12 - employee.StartDate.Month));
       else
-        totalHolidays = (short) maxHolidays;
+        totalHolidays = (short)maxHolidays;
 
       return totalHolidays;
     }

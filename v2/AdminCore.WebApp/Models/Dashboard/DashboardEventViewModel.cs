@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AdminCore.DTOs.Employee;
-using AdminCore.DTOs.Event;
+﻿using AdminCore.DTOs.Event;
 using AdminCore.DTOs.EventMessage;
+using System;
+using System.Collections.Generic;
 
 namespace AdminCore.WebApi.Models.Dashboard
 {
