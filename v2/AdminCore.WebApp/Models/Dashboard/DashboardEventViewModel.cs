@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
+using AdminCore.DTOs.EventMessage;
 
 namespace AdminCore.WebApi.Models.Dashboard
 {

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AdminCore.WebApi.Models.Dashboard;
+using AdminCore.WebApi.Models.EventMessage;
 using AdminCore.WebApi.Models.Holiday;
 
 namespace AdminCore.WebApi.Controllers
