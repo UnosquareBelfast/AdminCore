@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
 using AdminCore.DTOs;
 using AdminCore.Services.Base;
 using AutoMapper;
+using System;
+using System.Collections.Generic;
 
 namespace AdminCore.Services
 {

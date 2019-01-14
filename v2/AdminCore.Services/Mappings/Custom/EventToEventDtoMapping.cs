@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using AdminCore.DAL.Models;
+﻿using AdminCore.DAL.Models;
 using AdminCore.DTOs.Event;
 using AutoMapper;
+using System.Linq;
 
 namespace AdminCore.Services.Mappings.Custom
 {

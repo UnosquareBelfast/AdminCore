@@ -1,8 +1,5 @@
-﻿using System;
+﻿using AdminCore.DTOs.EventMessage;
 using System.Collections.Generic;
-using System.Text;
-using AdminCore.DTOs.Event;
-using AdminCore.DTOs.EventMessage;
 
 namespace AdminCore.Common.Interfaces
 {

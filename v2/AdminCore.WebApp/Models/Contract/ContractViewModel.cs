@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AdminCore.WebApi.Models.Team;
+﻿using AdminCore.WebApi.Models.Team;
+using System;
 
 namespace AdminCore.WebApi.Models.Contract
 {

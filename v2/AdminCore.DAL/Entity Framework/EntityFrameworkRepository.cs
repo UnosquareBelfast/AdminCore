@@ -7,11 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 
 namespace AdminCore.DAL.Entity_Framework
 {
@@ -29,9 +29,9 @@ namespace AdminCore.DAL.Entity_Framework
     public EntityFrameworkRepository(IDatabaseContext databaseContext)
     {
       _context = databaseContext;
-      _dbSet = ((EntityFrameworkContext) databaseContext).Set<T>();
+      _dbSet = ((EntityFrameworkContext)databaseContext).Set<T>();
     }
-    
+
     public void Delete(object id)
     {
       var entityToDelete = _dbSet.Find(id);
@@ -40,7 +40,7 @@ namespace AdminCore.DAL.Entity_Framework
 
     public void Delete(T entityToDelete)
     {
-      if (((EntityFrameworkContext) _context).Entry(entityToDelete).State == EntityState.Detached)
+      if (((EntityFrameworkContext)_context).Entry(entityToDelete).State == EntityState.Detached)
       {
         _dbSet.Attach(entityToDelete);
       }
@@ -59,12 +59,12 @@ namespace AdminCore.DAL.Entity_Framework
 
       return query.SingleOrDefault();
     }
-    
+
     public T Insert(T entity)
     {
       return _dbSet.Add(entity)?.Entity;
     }
-    
+
     public IQueryable<T> GetAsQueryable(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, params Expression<Func<T, object>>[] includes)
     {
       var queryableData = _dbSet.AsQueryable();
@@ -76,7 +76,6 @@ namespace AdminCore.DAL.Entity_Framework
 
       queryableData = IncludeEntities(queryableData, includes);
 
-
       if (orderBy != null)
       {
         queryableData = queryableData.OrderBy(x => orderBy);
@@ -84,13 +83,13 @@ namespace AdminCore.DAL.Entity_Framework
 
       return queryableData;
     }
-    
+
     public void Update(T entityToUpdate)
     {
       _dbSet.Attach(entityToUpdate);
-      ((EntityFrameworkContext) _context).Entry(entityToUpdate).State = EntityState.Modified;
+      ((EntityFrameworkContext)_context).Entry(entityToUpdate).State = EntityState.Modified;
     }
-    
+
     public IQueryable<T> IncludeEntities(IQueryable<T> query, Expression<Func<T, object>>[] includeProperties)
     {
       if (includeProperties != null)

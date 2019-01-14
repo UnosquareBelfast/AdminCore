@@ -1,7 +1,5 @@
-﻿using System;
+﻿using AdminCore.DTOs;
 using System.Collections.Generic;
-using System.Text;
-using AdminCore.DTOs;
 
 namespace AdminCore.Common.Interfaces
 {

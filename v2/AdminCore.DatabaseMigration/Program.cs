@@ -1,9 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using AdminCore.Common;
+﻿using AdminCore.Common;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.Services.Configuration;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AdminCore.DatabaseMigration
 {
@@ -27,9 +27,11 @@ namespace AdminCore.DatabaseMigration
         case MigrationTypes.Migrate:
           dataMigration.Migrate();
           break;
+
         case MigrationTypes.ClearDown:
           dataMigration.ClearDown();
           break;
+
         default:
           throw new ArgumentOutOfRangeException();
       }

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using AdminCore.DTOs.Team;
+using System.Collections.Generic;
 
 namespace AdminCore.Common.Interfaces
 {

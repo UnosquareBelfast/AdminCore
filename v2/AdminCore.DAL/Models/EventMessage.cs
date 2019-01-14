@@ -31,7 +31,7 @@ namespace AdminCore.DAL.Models
 
     [ForeignKey("EmployeeId")]
     public Employee Employee { get; set; }
-       
+
     [ForeignKey("EventId")]
     public Event Event { get; set; }
   }

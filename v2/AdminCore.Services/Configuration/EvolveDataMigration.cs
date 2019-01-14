@@ -7,12 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using AdminCore.Common.Interfaces;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using AdminCore.Common.Interfaces;
-using Npgsql;
 
 namespace AdminCore.Services.Configuration
 {
@@ -110,7 +110,7 @@ namespace AdminCore.Services.Configuration
     {
       return new Evolve.Evolve(connection, logger)
       {
-        Locations = new List<string> {"db/migrations"},
+        Locations = new List<string> { "db/migrations" },
         IsEraseDisabled = false
       };
     }

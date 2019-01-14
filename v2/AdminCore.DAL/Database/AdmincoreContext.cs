@@ -7,16 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 using AdminCore.Common.Interfaces;
 using AdminCore.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
+using AdminCore.DAL.Models.Base;
 using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 using EntityState = Microsoft.EntityFrameworkCore.EntityState;
 
@@ -194,6 +195,7 @@ namespace AdminCore.DAL.Database
         case EntityState.Added:
           entry.CurrentValues[DeletedProperty] = false;
           break;
+
         case EntityState.Deleted:
           entry.State = EntityState.Modified;
           entry.CurrentValues[DeletedProperty] = true;

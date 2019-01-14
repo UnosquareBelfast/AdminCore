@@ -7,10 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Models.Employee;
@@ -18,6 +14,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -42,7 +42,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(Mapper.Map<List<EmployeeViewModel>>(employees));
       }
 
-      return StatusCode((int) HttpStatusCode.InternalServerError, "No employees currently exist.");
+      return StatusCode((int)HttpStatusCode.InternalServerError, "No employees currently exist.");
     }
 
     [HttpPost]
@@ -104,7 +104,6 @@ namespace AdminCore.WebApi.Controllers
       }
       return Ok($"Employee with Employee ID {employeeId} has been successfully deleted.");
     }
-
 
     [HttpGet("findByForenameAndSurname/{forename}/{surname}")]
     public IActionResult GetByForenameAndSurname(string forename, string surname)

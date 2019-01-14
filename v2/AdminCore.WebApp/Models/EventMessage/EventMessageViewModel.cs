@@ -1,5 +1,5 @@
-﻿using System;
-using AdminCore.WebApi.Models.Employee;
+﻿using AdminCore.WebApi.Models.Employee;
+using System;
 
 namespace AdminCore.WebApi.Models.EventMessage
 {

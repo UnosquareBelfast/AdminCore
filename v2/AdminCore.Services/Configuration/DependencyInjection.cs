@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics.CodeAnalysis;
 using AdminCore.Common;
 using AdminCore.Common.DependencyInjection;
 using AdminCore.Common.Interfaces;
@@ -18,6 +16,8 @@ using AdminCore.DAL.Entity_Framework;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AdminCore.Services.Configuration
 {

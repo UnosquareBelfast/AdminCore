@@ -7,8 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using AdminCore.DTOs.Employee;
+using System.Collections.Generic;
 
 namespace AdminCore.Common.Interfaces
 {

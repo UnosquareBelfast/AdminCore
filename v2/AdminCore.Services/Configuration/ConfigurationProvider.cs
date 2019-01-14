@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants;
 using AdminCore.Constants.Enums;
+using System;
 
 namespace AdminCore.Services.Configuration
 {
@@ -39,7 +39,7 @@ namespace AdminCore.Services.Configuration
     {
       var migrationType = Environment.GetEnvironmentVariable(EnvironmentVariables.DbMigrationType);
 
-      if (Enum.TryParse(typeof(MigrationTypes), migrationType, out var migration)) return (MigrationTypes) migration;
+      if (Enum.TryParse(typeof(MigrationTypes), migrationType, out var migration)) return (MigrationTypes)migration;
 
       return MigrationTypes.Migrate;
     }

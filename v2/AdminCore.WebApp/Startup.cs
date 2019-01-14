@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Text;
 using AdminCore.Services.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Text;
 
 namespace AdminCore.WebApi
 {
@@ -76,7 +76,7 @@ namespace AdminCore.WebApi
 
       services.AddSwaggerGen(c =>
       {
-        c.SwaggerDoc("v1", new Info {Title = "AdminCore Documentation", Version = "v1"});
+        c.SwaggerDoc("v1", new Info { Title = "AdminCore Documentation", Version = "v1" });
       });
 
       DependencyInjection.RegisterDependencyInjection(services);
