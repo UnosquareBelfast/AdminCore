@@ -10,7 +10,7 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventDto> GetEmployeeDashboardEvents(int employeeId, DateTime date);
 
-    IList<EventDto> GetEmployeeEvents(int employeeId, DateTime date);
+    IList<EventDto> GetEmployeeEventsForMonth(int employeeId, DateTime date);
 
     IDictionary<string, List<EmployeeSnapshotDto>> GetEmployeeSnapshotsByEmployeeId(int employeeId);
 
