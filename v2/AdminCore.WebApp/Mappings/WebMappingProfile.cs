@@ -11,6 +11,7 @@ using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
+using AdminCore.DTOs.EventMessage;
 using AdminCore.DTOs.Team;
 using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
@@ -18,6 +19,7 @@ using AdminCore.WebApi.Models.Client;
 using AdminCore.WebApi.Models.Contract;
 using AdminCore.WebApi.Models.Employee;
 using AdminCore.WebApi.Models.Event;
+using AdminCore.WebApi.Models.EventMessage;
 using AdminCore.WebApi.Models.Holiday;
 using AdminCore.WebApi.Models.Team;
 using AdminCore.WebApi.Models.WorkingFromHome;
@@ -70,6 +72,8 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<EventDateDto, EventDateViewModel>().ReverseMap();
       CreateMap<EventStatusDto, EventStatusViewModel>().ReverseMap();
       CreateMap<EventTypeDto, EventTypeViewModel>().ReverseMap();
+
+      CreateMap<EventMessageDto, EventMessageViewModel>().ReverseMap();
 
       CreateMap<CreateHolidayViewModel, EventDateDto>().ReverseMap();
       CreateMap<UpdateEventViewModel, EventDateDto>().ReverseMap();

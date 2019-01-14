@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AdminCore.DTOs.Employee;
+using AdminCore.DTOs.EventMessage;
 using AdminCore.DTOs.Team;
 
 namespace AdminCore.DTOs.Event

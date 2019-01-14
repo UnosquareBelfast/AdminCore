@@ -26,18 +26,18 @@ namespace AdminCore.WebApi.Tests.Controllers
 
     private readonly IMapper _mapper;
 
-    private readonly IEmployeeService _employeeService;
+    private readonly IEventMessageService _eventMessageService;
 
     public HolidayControllerTests()
     {
       _authenticatedUser = Substitute.For<IAuthenticatedUser>();
       _authenticatedUser.RetrieveUserId().Returns(1);
-      _employeeService = Substitute.For<IEmployeeService>();
+      _eventMessageService = Substitute.For<IEventMessageService>();
       _eventService = Substitute.For<IEventService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
       _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
-      _controller = new HolidayController(_authenticatedUser, _eventService, _employeeService, _mapper);
+      _controller = new HolidayController(_authenticatedUser, _eventService, _eventMessageService, _mapper);
     }
 
     [Fact]
@@ -71,7 +71,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Assert
 
       VerifyActionResult(result);
-      _eventService.Received(1).UpdateEvent(Arg.Any<EventDateDto>());
+      _eventService.Received(1).UpdateEvent(Arg.Any<EventDateDto>(), Arg.Any<string>());
     }
 
     [Fact]

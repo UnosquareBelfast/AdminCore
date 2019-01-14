@@ -3,6 +3,7 @@ using AdminCore.DTOs.Dashboard;
 using AdminCore.DTOs.Event;
 using System;
 using System.Collections.Generic;
+using AdminCore.DTOs.EventMessage;
 
 namespace AdminCore.Services
 {
