@@ -17,14 +17,12 @@ namespace AdminCore.WebApi.Controllers
   [Route("[controller]")]
   public class WorkingFromHomeController : BaseController
   {
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
     private readonly IMapper _mapper;
 
-    public WorkingFromHomeController(IAuthenticatedUser authenticatedUser, IEventService wfhEventService, IMapper mapper)
+    public WorkingFromHomeController(IEventService wfhEventService, IMapper mapper)
       : base(mapper)
     {
-      _authenticatedUser = authenticatedUser;
       _eventService = wfhEventService;
       _mapper = mapper;
     }
@@ -32,7 +30,6 @@ namespace AdminCore.WebApi.Controllers
     [HttpPost]
     public IActionResult CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
     {
-      var employeeId = _authenticatedUser.RetrieveUserId();
       var eventDates = _mapper.Map<EventDateDto>(createWorkingFromHomeViewModel);
 
       try

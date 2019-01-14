@@ -18,15 +18,13 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   public class HolidayController : BaseController
   {
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
     private readonly IEventMessageService _eventMessageService;
     private readonly IMapper _mapper;
 
-    public HolidayController(IAuthenticatedUser authenticatedUser, IEventService eventService,
+    public HolidayController(IEventService eventService,
       IEventMessageService eventMessageService, IMapper mapper) : base(mapper)
     {
-      _authenticatedUser = authenticatedUser;
       _eventService = eventService;
       _eventMessageService = eventMessageService;
       _mapper = mapper;
@@ -65,7 +63,7 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<HolidayViewModel>>(holiday));
       }
 
-      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { _authenticatedUser.RetrieveUserId().ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { employeeId }");
     }
 
     [HttpGet("findEmployeeHolidayStats")]

@@ -29,7 +29,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
       _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
-      _controller = new WorkingFromHomeController(_authenticatedUser, _eventService, _mapper);
+      _controller = new WorkingFromHomeController(_eventService, _mapper);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _mapper.Map<List<WorkingFromHomeViewModel>>(wfhEvents);
 
       // Act
-      var result = _controller.GetWorkingFromHomeByEmployeeId(_authenticatedUser.RetrieveUserId());
+      var result = _controller.GetWorkingFromHomeByEmployeeId(employeeId);
 
       // Assert
       _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
