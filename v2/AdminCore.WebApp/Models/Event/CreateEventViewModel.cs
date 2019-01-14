@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AdminCore.WebApi.Models.Holiday
+namespace AdminCore.WebApi.Models.Event
 {
-  public class CreateHolidayViewModel
+  public class CreateEventViewModel
   {
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }

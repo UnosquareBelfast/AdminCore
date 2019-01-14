@@ -145,7 +145,7 @@ namespace AdminCore.Services
 
     public EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes)
     {
-      var newEvent = BuildNewEvent(_authenticatedUser.RetrieveUserId());
+      var newEvent = BuildNewEvent(_authenticatedUser.RetrieveUserId(), eventTypes);
 
       UpdateEventDates(dates, newEvent);
 
@@ -366,14 +366,14 @@ namespace AdminCore.Services
       throw new Exception("Not enough holidays to book");
     }
 
-    private Event BuildNewEvent(int employeeId)
+    private Event BuildNewEvent(int employeeId, EventTypes eventTypes)
     {
       var newEvent = new Event
       {
         DateCreated = DateTime.Now,
         EmployeeId = employeeId,
         EventStatusId = (int)EventStatuses.AwaitingApproval,
-        EventTypeId = (int)EventTypes.AnnualLeave,
+        EventTypeId = (int)eventTypes,
         EventDates = new List<EventDate>(),
         LastModified = _dateService.GetCurrentDateTime()
       };

@@ -1,7 +1,7 @@
 ﻿using AdminCore.Common.Interfaces;
 using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
-using AdminCore.WebApi.Models.WorkingFromHome;
+using AdminCore.WebApi.Models.Event;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,7 @@ namespace AdminCore.WebApi.Controllers
     }
 
     [HttpPost]
-    public IActionResult CreateWorkingFromHome(CreateWorkingFromHomeViewModel createWorkingFromHomeViewModel)
+    public IActionResult CreateWorkingFromHome(CreateEventViewModel createWorkingFromHomeViewModel)
     {
       var employeeId = _authenticatedUser.RetrieveUserId();
       var eventDates = _mapper.Map<EventDateDto>(createWorkingFromHomeViewModel);
@@ -54,7 +54,7 @@ namespace AdminCore.WebApi.Controllers
         var wfhEvents = _eventService.GetEventByType(EventTypes.WorkingFromHome);
         if (wfhEvents != null)
         {
-          return Ok(_mapper.Map<IList<WorkingFromHomeViewModel>>(wfhEvents));
+          return Ok(_mapper.Map<IList<EventViewModel>>(wfhEvents));
         }
 
         return StatusCode((int)HttpStatusCode.NoContent, "No work from home event exists");
@@ -67,7 +67,7 @@ namespace AdminCore.WebApi.Controllers
       var wfhEvent = _eventService.GetEvent(workingFromHomeId);
       if (wfhEvent != null)
       {
-        return Ok(_mapper.Map<WorkingFromHomeViewModel>(wfhEvent));
+        return Ok(_mapper.Map<EventViewModel>(wfhEvent));
       }
 
       return StatusCode((int)HttpStatusCode.NoContent, $"No Work From Home Event found for event ID: { workingFromHomeId.ToString() }");
@@ -79,7 +79,7 @@ namespace AdminCore.WebApi.Controllers
       var wfhEvents = _eventService.GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
       if (wfhEvents != null)
       {
-        return Ok(_mapper.Map<IList<WorkingFromHomeViewModel>>(wfhEvents));
+        return Ok(_mapper.Map<IList<EventViewModel>>(wfhEvents));
       }
 
       return StatusCode((int)HttpStatusCode.NoContent, $"No Work From Home found for employee ID: { employeeId.ToString() }");
