@@ -15,24 +15,22 @@ namespace AdminCore.Services
 {
   public class EventService : BaseService, IEventService
   {
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IMapper _mapper;
     private readonly IDateService _dateService;
 
-    public EventService(IDatabaseContext databaseContext, IMapper mapper, IDateService dateService, IAuthenticatedUser authenticatedUser)
+    public EventService(IDatabaseContext databaseContext, IMapper mapper, IDateService dateService)
       : base(databaseContext)
     {
-      _authenticatedUser = authenticatedUser;
       _mapper = mapper;
       _dateService = dateService;
     }
 
-    public IList<EventDto> GetEmployeeEvents(EventTypes eventType)
+    public IList<EventDto> GetEmployeeEvents(EventTypes eventType, int employeeId)
     {
       var eventTypeId = (int)eventType;
       var annualLeave = DatabaseContext.EventRepository.Get(x =>
                                                             x.EventType.EventTypeId == eventTypeId
-                                                            && x.Employee.EmployeeId == _authenticatedUser.RetrieveUserId(),
+                                                            && x.Employee.EmployeeId == employeeId,
                                                             null,
                                                             x => x.EventDates,
                                                             x => x.Employee,
@@ -74,11 +72,11 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventDto>>(events);
     }
 
-    public IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate)
+    public IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate, int employeeId)
     {
       var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
                                                                      && x.EndDate <= endDate
-                                                                     && x.Event.EmployeeId == _authenticatedUser.RetrieveUserId());
+                                                                     && x.Event.EmployeeId == employeeId);
       return _mapper.Map<IList<EventDateDto>>(eventDates);
     }
 
@@ -143,45 +141,45 @@ namespace AdminCore.Services
       }
     }
 
-    public EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes)
+    public EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes, int employeeId)
     {
-      var newEvent = BuildNewEvent(_authenticatedUser.RetrieveUserId(), eventTypes);
+      var newEvent = BuildNewEvent(employeeId, eventTypes);
 
       UpdateEventDates(dates, newEvent);
 
       return ValidateRemainingHolidaysAndCreate(newEvent);
     }
 
-    public void UpdateEvent(EventDateDto eventDateDto, string message)
+    public void UpdateEvent(EventDateDto eventDateDto, string message, int employeeId)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
       if (eventToUpdate != null)
       {
         eventToUpdate.EventDates.Clear();
         UpdateEventDates(eventDateDto, eventToUpdate);
-        ValidateRemainingHolidaysAndUpdate(eventToUpdate, message);
+        ValidateRemainingHolidaysAndUpdate(eventToUpdate, message, employeeId);
       }
     }
 
-    public HolidayStatsDto GetHolidayStatsForUser()
+    public HolidayStatsDto GetHolidayStatsForUser(int employeeId)
     {
       var holidayStatsDto = new HolidayStatsDto
       {
-        ApprovedHolidays = GetHolidaysByEmployeeAndStatus(EventStatuses.Approved),
-        PendingHolidays = GetHolidaysByEmployeeAndStatus(EventStatuses.AwaitingApproval),
-        TotalHolidays = DatabaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == _authenticatedUser.RetrieveUserId()).TotalHolidays
+        ApprovedHolidays = GetHolidaysByEmployeeAndStatus(EventStatuses.Approved, employeeId),
+        PendingHolidays = GetHolidaysByEmployeeAndStatus(EventStatuses.AwaitingApproval, employeeId),
+        TotalHolidays = DatabaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == employeeId).TotalHolidays
       };
       holidayStatsDto.AvailableHolidays = holidayStatsDto.TotalHolidays -
                                          (holidayStatsDto.ApprovedHolidays + holidayStatsDto.PendingHolidays);
       return holidayStatsDto;
     }
 
-    public void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay)
+    public void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay, int employeeId)
     {
-      if (IsHolidayDatesAlreadyBooked(eventDates))
+      if (IsHolidayDatesAlreadyBooked(eventDates, employeeId))
         throw new Exception("Already Booked");
 
-      if (!IsDateRangeLessThanTotalHolidaysRemaining(eventDates))
+      if (!IsDateRangeLessThanTotalHolidaysRemaining(eventDates, employeeId))
         throw new Exception("Not enough holidays remaining.");
 
       if (modelIsHalfDay && !IsSameDay(_mapper.Map<EventDate>(eventDates)))
@@ -196,11 +194,10 @@ namespace AdminCore.Services
                   (startDate > x.StartDate && endDate > x.EndDate);
     }
 
-    private double GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus)
+    private double GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus, int employeeId)
     {
       var annualLeaveId = (int)EventTypes.AnnualLeave;
       var eventStatusId = (int)eventStatus;
-      var employeeId = _authenticatedUser.RetrieveUserId();
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
                                                             && x.EventType.EventTypeId == annualLeaveId
                                                             && x.EmployeeId == employeeId,
@@ -269,28 +266,28 @@ namespace AdminCore.Services
         x => x.EventMessages);
     }
 
-    private Employee GetEmployeeFromEmployeeId()
+    private Employee GetEmployeeFromEmployeeId(int employeeId)
     {
-      var employee = DatabaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == _authenticatedUser.RetrieveUserId());
+      var employee = DatabaseContext.EmployeeRepository.GetSingle(x => x.EmployeeId == employeeId);
       return employee;
     }
 
-    private bool IsDateRangeLessThanTotalHolidaysRemaining(EventDateDto eventDates)
+    private bool IsDateRangeLessThanTotalHolidaysRemaining(EventDateDto eventDates, int employeeId)
     {
-      var employee = GetEmployeeFromEmployeeId();
+      var employee = GetEmployeeFromEmployeeId(employeeId);
 
       return !(employee.TotalHolidays < (eventDates.EndDate - eventDates.StartDate).TotalDays);
     }
 
-    private bool IsHolidayDatesAlreadyBooked(EventDateDto eventDates)
+    private bool IsHolidayDatesAlreadyBooked(EventDateDto eventDates, int employeeId)
     {
-      var employeeEvents = GetEventDatesByEmployeeAndStartAndEndDates(eventDates.StartDate, eventDates.EndDate);
+      var employeeEvents = GetEventDatesByEmployeeAndStartAndEndDates(eventDates.StartDate, eventDates.EndDate, employeeId);
       return employeeEvents.Any();
     }
 
     private bool EmployeeHasEnoughHolidays(Event newEvent)
     {
-      return GetHolidayStatsForUser().AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
+      return GetHolidayStatsForUser(newEvent.EmployeeId).AvailableHolidays >= GetDaysInEvent(newEvent.EventDates);
     }
 
     private static double GetDaysInEvent(ICollection<EventDate> newEventEventDates)
@@ -340,7 +337,7 @@ namespace AdminCore.Services
       }
     }
 
-    private void ValidateRemainingHolidaysAndUpdate(Event eventToUpdate, string message)
+    private void ValidateRemainingHolidaysAndUpdate(Event eventToUpdate, string message, int employeeId)
     {
       if (EmployeeHasEnoughHolidays(eventToUpdate))
       {
@@ -397,7 +394,7 @@ namespace AdminCore.Services
       {
         EventId = eventToAddMessageTo.EventId,
         EventMessageTypeId = (int)eventMessageType,
-        EmployeeId = _authenticatedUser.RetrieveUserId(),
+        EmployeeId = eventToAddMessageTo.EmployeeId,
         LastModified = _dateService.GetCurrentDateTime(),
         Message = message,
       };

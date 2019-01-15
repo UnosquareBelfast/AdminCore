@@ -14,14 +14,12 @@ namespace AdminCore.Services
 {
   public class EventMessageService : BaseService, IEventMessageService
   {
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IMapper _mapper;
     private readonly IDateService _dateService;
 
-    public EventMessageService(IDatabaseContext databaseContext, IMapper mapper, IDateService dateService, IAuthenticatedUser authenticatedUser)
+    public EventMessageService(IDatabaseContext databaseContext, IMapper mapper, IDateService dateService)
       : base(databaseContext)
     {
-      _authenticatedUser = authenticatedUser;
       _mapper = mapper;
       _dateService = dateService;
     }
@@ -34,12 +32,12 @@ namespace AdminCore.Services
       return _mapper.Map<IList<EventMessageDto>>(eventMessages);
     }
 
-    public void CreateGeneralEventMessage(int eventId, string message)
+    public void CreateGeneralEventMessage(int eventId, string message, int employeeId)
     {
       var returnedEvent = DatabaseContext.EventRepository.GetSingle(x => x.EventId == eventId);
       if (returnedEvent != null)
       {
-        var eventMessage = BuildEventMessage(message, returnedEvent);
+        var eventMessage = BuildEventMessage(message, returnedEvent, employeeId);
         AddEventMessageToEvent(returnedEvent, eventMessage);
 
         InsertEventMessageIntoDb(eventMessage);
@@ -50,14 +48,14 @@ namespace AdminCore.Services
       }
     }
 
-    private EventMessage BuildEventMessage(string message, Event returnedEvent)
+    private EventMessage BuildEventMessage(string message, Event returnedEvent, int employeeId)
     {
       var eventMessage = new EventMessage
       {
         EventId = returnedEvent.EventId,
         Message = message,
         LastModified = _dateService.GetCurrentDateTime(),
-        EmployeeId = _authenticatedUser.RetrieveUserId(),
+        EmployeeId = employeeId,
         EventMessageTypeId = (int)EventMessageTypes.General,
       };
       return eventMessage;

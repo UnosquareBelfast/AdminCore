@@ -93,6 +93,12 @@ namespace AdminCore.Services
       DatabaseContext.SaveChanges();
     }
 
+    public EmployeeDto getEmployeeByEmail(string email)
+    {
+      var result = DatabaseContext.EmployeeRepository.GetSingle(employee => employee.Email == email);
+      return _mapper.Map<EmployeeDto>(result);
+    }
+
     private Employee GetEmployeeById(int id)
     {
       var employee = DatabaseContext.EmployeeRepository.Get(x => x.EmployeeId == id);

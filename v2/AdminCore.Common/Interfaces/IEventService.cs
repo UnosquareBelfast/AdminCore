@@ -7,13 +7,13 @@ namespace AdminCore.Common.Interfaces
 {
   public interface IEventService
   {
-    IList<EventDto> GetEmployeeEvents(EventTypes eventType);
+    IList<EventDto> GetEmployeeEvents(EventTypes eventType, int employeeId);
 
     IList<EventDto> GetByDateBetween(DateTime startDate, DateTime endDate, EventTypes eventType);
 
     IList<EventDto> GetEventsByEmployeeId(int employeeId, EventTypes eventType);
 
-    IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate);
+    IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate, int employeeId);
 
     EventDto GetEvent(int id);
 
@@ -21,16 +21,16 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventDto> GetEventByType(EventTypes eventType);
 
-    HolidayStatsDto GetHolidayStatsForUser();
+    HolidayStatsDto GetHolidayStatsForUser(int employeeId);
 
-    EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes);
+    EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes, int employeeId);
 
-    void UpdateEvent(EventDateDto eventDateDto, string message);
+    void UpdateEvent(EventDateDto eventDateDto, string message, int employeeId);
 
     void UpdateEventStatus(int eventId, EventStatuses status);
 
     void RejectEvent(int eventId, string message);
 
-    void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay);
+    void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay, int employeeId);
   }
 }
