@@ -3,7 +3,7 @@ using AdminCore.Constants.Enums;
 using AdminCore.DTOs.Event;
 using AdminCore.WebApi.Controllers;
 using AdminCore.WebApi.Mappings;
-using AdminCore.WebApi.Models.WorkingFromHome;
+using AdminCore.WebApi.Models.Event;
 using AutoFixture;
 using AutoMapper;
 using NSubstitute;
@@ -36,7 +36,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     public void CreateWorkingFromHome_WhenCalledWithCorrectType_ReturnsWorkingFromHome()
     {
       // Arrange
-      var createViewModel = _fixture.Create<CreateWorkingFromHomeViewModel>();
+      var createViewModel = _fixture.Create<CreateEventViewModel>();
 
       _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
 
@@ -57,14 +57,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       var wfhEvents = _fixture.CreateMany<EventDto>(numOfWfhEvents).ToList();
 
       _eventService.GetEventByType(EventTypes.WorkingFromHome).Returns(wfhEvents);
-      _mapper.Map<List<WorkingFromHomeViewModel>>(wfhEvents);
+      _mapper.Map<List<EventViewModel>>(wfhEvents);
 
       // Act
       var result = _controller.GetAllWorkingFromHomeEvents();
 
       // Assert
       _eventService.Received(1).GetEventByType(EventTypes.WorkingFromHome);
-      var returnedWfhEvents = RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
+      var returnedWfhEvents = RetrieveValueFromActionResult<List<EventViewModel>>(result);
       Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }
 
@@ -76,14 +76,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       var wfhEvent = _fixture.Create<EventDto>();
 
       _eventService.GetEvent(eventId).Returns(wfhEvent);
-      _mapper.Map<WorkingFromHomeViewModel>(wfhEvent);
+      _mapper.Map<EventViewModel>(wfhEvent);
 
       // Act
       var result = _controller.GetWorkingFromHomeById(eventId);
 
       // Assert
       _eventService.Received(1).GetEvent(eventId);
-      var returnedWfhEvent = RetrieveValueFromActionResult<WorkingFromHomeViewModel>(result);
+      var returnedWfhEvent = RetrieveValueFromActionResult<EventViewModel>(result);
       Assert.NotNull(returnedWfhEvent);
     }
 
@@ -96,14 +96,14 @@ namespace AdminCore.WebApi.Tests.Controllers
       var wfhEvents = _fixture.CreateMany<EventDto>(numOfWfhEvents).ToList();
 
       _eventService.GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome).Returns(wfhEvents);
-      _mapper.Map<List<WorkingFromHomeViewModel>>(wfhEvents);
+      _mapper.Map<List<EventViewModel>>(wfhEvents);
 
       // Act
       var result = _controller.GetWorkingFromHomeByEmployeeId(_authenticatedUser.RetrieveUserId());
 
       // Assert
       _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);
-      var returnedWfhEvents = RetrieveValueFromActionResult<List<WorkingFromHomeViewModel>>(result);
+      var returnedWfhEvents = RetrieveValueFromActionResult<List<EventViewModel>>(result);
       Assert.Equal(numOfWfhEvents, returnedWfhEvents.Count);
     }
   }

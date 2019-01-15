@@ -1,4 +1,4 @@
-﻿namespace AdminCore.WebApi.Models.Holiday
+﻿namespace AdminCore.WebApi.Models.Event
 {
   public class HolidayStatsViewModel
   {

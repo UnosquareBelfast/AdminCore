@@ -1,13 +1,13 @@
 ﻿using AdminCore.Common.Interfaces;
 using AdminCore.WebApi.Models.Dashboard;
 using AdminCore.WebApi.Models.EventMessage;
-using AdminCore.WebApi.Models.Holiday;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdminCore.WebApi.Models.Event;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -41,7 +41,7 @@ namespace AdminCore.WebApi.Controllers
     public IActionResult GetEmployeeEvents(DateTime date)
     {
       var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(_authenticatedUser.RetrieveUserId(), date);
-      return Ok(Mapper.Map<IList<HolidayViewModel>>(employeeEvents));
+      return Ok(Mapper.Map<IList<EventViewModel>>(employeeEvents));
     }
 
     [HttpGet("getEmployeeTeamSnapshot")]
@@ -74,7 +74,7 @@ namespace AdminCore.WebApi.Controllers
       var teamEvents = _dashboardService.GetTeamDashboardEvents(_authenticatedUser.RetrieveUserId(), date);
       if (teamEvents.Any())
       {
-        return Ok(Mapper.Map<IList<HolidayViewModel>>(teamEvents));
+        return Ok(Mapper.Map<IList<EventViewModel>>(teamEvents));
       }
       return NoContent();
     }

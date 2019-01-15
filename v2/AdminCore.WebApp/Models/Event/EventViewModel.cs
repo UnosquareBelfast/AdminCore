@@ -1,12 +1,11 @@
 ﻿using AdminCore.WebApi.Models.Employee;
-using AdminCore.WebApi.Models.Event;
 using AdminCore.WebApi.Models.EventMessage;
 using System;
 using System.Collections.Generic;
 
-namespace AdminCore.WebApi.Models.Holiday
+namespace AdminCore.WebApi.Models.Event
 {
-  public class HolidayViewModel
+  public class EventViewModel
   {
     public int EventId { get; set; }
 
