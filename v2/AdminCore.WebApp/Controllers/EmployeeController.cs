@@ -18,10 +18,12 @@ namespace AdminCore.WebApi.Controllers
   public class EmployeeController : BaseController
   {
     private readonly IEmployeeService _employeeService;
+    private readonly IAuthenticatedUser _authenticatedUser;
 
-    public EmployeeController(IEmployeeService employeeService, IMapper mapper) : base(mapper)
+    public EmployeeController(IEmployeeService employeeService, IMapper mapper, IAuthenticatedUser authenticatedUser) : base(mapper)
     {
       _employeeService = employeeService;
+      _authenticatedUser = authenticatedUser;
     }
 
     [HttpGet]
@@ -116,6 +118,13 @@ namespace AdminCore.WebApi.Controllers
         return Ok(Mapper.Map<IList<EmployeeViewModel>>(employees));
       }
       return StatusCode((int)HttpStatusCode.InternalServerError, $"No employee found with country ID {countryId}");
+    }
+
+    [HttpGet("getSignedInUser")]
+    public IActionResult GetSignedInUser()
+    {
+      var signedInUser = _authenticatedUser.RetrieveLoggedInUser();
+      return Ok(Mapper.Map<EmployeeViewModel>(signedInUser));
     }
   }
 }
