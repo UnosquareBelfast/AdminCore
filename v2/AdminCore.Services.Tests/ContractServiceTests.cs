@@ -28,13 +28,14 @@ namespace AdminCore.Services.Tests
     public ContractServiceTests()
     {
       _databaseContext = Substitute.For<IDatabaseContext>();
+      var authenticatedUser = Substitute.For<IAuthenticatedUser>();
       IEnumerable<Type> profiles = new List<Type>()
       {
         new ContractMapperProfile().GetType(),
         new TeamMapperProfile().GetType()
       };
       IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfiles(profiles)));
-      _contractService = new ContractService(_databaseContext, mapper);
+      _contractService = new ContractService(_databaseContext, mapper, authenticatedUser);
     }
 
     [Fact]

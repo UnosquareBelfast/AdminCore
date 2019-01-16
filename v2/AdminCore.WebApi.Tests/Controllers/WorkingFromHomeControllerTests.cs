@@ -26,7 +26,8 @@ namespace AdminCore.WebApi.Tests.Controllers
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
       _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
-      _controller = new WorkingFromHomeController(_eventService, _mapper, Substitute.For<IEmployeeService>());
+      var authenticatedUser = Substitute.For<IAuthenticatedUser>();
+      _controller = new WorkingFromHomeController(_eventService, _mapper, authenticatedUser);
     }
 
     [Fact]

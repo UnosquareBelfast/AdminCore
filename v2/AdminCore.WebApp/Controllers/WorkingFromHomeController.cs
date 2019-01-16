@@ -15,27 +15,29 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   [Authorize]
   [Route("[controller]")]
-  public class WorkingFromHomeController : LoggedInUserController
+  public class WorkingFromHomeController : BaseController
   {
     private readonly IEventService _eventService;
     private readonly IMapper _mapper;
+    private readonly IAuthenticatedUser _authenticatedUser;
 
-    public WorkingFromHomeController(IEventService wfhEventService, IMapper mapper, IEmployeeService employeeService)
-      : base(mapper, employeeService)
+    public WorkingFromHomeController(IEventService wfhEventService, IMapper mapper, IAuthenticatedUser authenticatedUser)
+      : base(mapper)
     {
       _eventService = wfhEventService;
       _mapper = mapper;
+      _authenticatedUser = authenticatedUser;
     }
 
     [HttpPost]
     public IActionResult CreateWorkingFromHome(CreateEventViewModel createWorkingFromHomeViewModel)
     {
-      var employeeId = RetrieveLoggedInUserId();
+      var employeeId = _authenticatedUser.RetrieveLoggedInUser().EmployeeId;
       var eventDates = _mapper.Map<EventDateDto>(createWorkingFromHomeViewModel);
 
       try
       {
-        _eventService.CreateEvent(eventDates, EventTypes.WorkingFromHome, RetrieveLoggedInUserId());
+        _eventService.CreateEvent(eventDates, EventTypes.WorkingFromHome, _authenticatedUser.RetrieveLoggedInUser().EmployeeId);
         return Ok($"Work From Home has been created successfully");
       }
       catch (Exception e)

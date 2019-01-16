@@ -10,24 +10,26 @@ using AdminCore.WebApi.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 namespace AdminCore.WebApi.Controllers
 {
-  public class SingleSignOnController : LoggedInUserController
+  public class SingleSignOnController : BaseController
   {
+    private readonly IAuthenticatedUser _authenticatedUser;
+    private readonly IEmployeeService _employeeService;
 
-    public SingleSignOnController(IMapper mapper, IEmployeeService employeeService) : base(mapper, employeeService){}
+    public SingleSignOnController(IMapper mapper, IAuthenticatedUser authenticatedUser, IEmployeeService employeeService) : base(mapper)
+    {
+      _authenticatedUser = authenticatedUser;
+      _employeeService = employeeService;
+    }
 
     public IActionResult AzureLogin()
     {
-      try
+      var loggedInUser = _authenticatedUser.RetrieveLoggedInUser();
+      if (loggedInUser != null)
       {
-        RefreshLoggedInUser();
-        return Ok($"User {LoggedInUser.Forename} {LoggedInUser.Surname} has been successfully signed in.");
+        return Ok($"User {loggedInUser.Forename} {loggedInUser.Surname} has been successfully signed in.");
       }
-      catch (UserNotRegisteredException)
-      {
-        var userDetails = GetLoggedInUserDetails();
-        return RegisterNewUser(userDetails);
-      }
-      
+      var userDetails = _authenticatedUser.GetLoggedInUserDetails();
+      return RegisterNewUser(userDetails);
     }
 
     private IActionResult RegisterNewUser(UserDetailsHelper userDetails)
@@ -35,7 +37,7 @@ namespace AdminCore.WebApi.Controllers
       var registerEmployeeViewModel = BuildRegisterEmployeeViewModel(userDetails);
       try
       {
-        var newUserEmail = EmployeeService.Create(Mapper.Map<EmployeeDto>(registerEmployeeViewModel));
+        var newUserEmail = _employeeService.Create(Mapper.Map<EmployeeDto>(registerEmployeeViewModel));
         return Ok($"User with email address {newUserEmail} successfully registered.");
       }
       catch (Exception exception)
