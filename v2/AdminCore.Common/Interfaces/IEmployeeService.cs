@@ -20,5 +20,7 @@ namespace AdminCore.Common.Interfaces
     IList<EmployeeDto> GetByForenameAndSurname(string forename, string surname);
 
     IList<EmployeeDto> GetByCountryId(int countryId);
+
+    EmployeeDto getEmployeeByEmail(string email);
   }
 }

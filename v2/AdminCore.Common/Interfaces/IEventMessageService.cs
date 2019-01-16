@@ -7,6 +7,6 @@ namespace AdminCore.Common.Interfaces
   {
     IList<EventMessageDto> GetAllEventMessagesForEvent(int eventId);
 
-    void CreateGeneralEventMessage(int eventId, string message);
+    void CreateGeneralEventMessage(int eventId, string message, int employeeId);
   }
 }

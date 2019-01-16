@@ -16,20 +16,17 @@ namespace AdminCore.WebApi.Tests.Controllers
   public class WorkingFromHomeControllerTests : BaseControllerTest
   {
     private readonly WorkingFromHomeController _controller;
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
     private readonly IFixture _fixture;
     private readonly IMapper _mapper;
 
     public WorkingFromHomeControllerTests()
     {
-      _authenticatedUser = Substitute.For<IAuthenticatedUser>();
-      _authenticatedUser.RetrieveUserId().Returns(1);
       _eventService = Substitute.For<IEventService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
       _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
-      _controller = new WorkingFromHomeController(_authenticatedUser, _eventService, _mapper);
+      _controller = new WorkingFromHomeController(_eventService, _mapper, Substitute.For<IEmployeeService>());
     }
 
     [Fact]
@@ -38,15 +35,13 @@ namespace AdminCore.WebApi.Tests.Controllers
       // Arrange
       var createViewModel = _fixture.Create<CreateEventViewModel>();
 
-      _authenticatedUser.RetrieveUserId().Returns(_authenticatedUser.RetrieveUserId());
-
       // Act
       var result = _controller.CreateWorkingFromHome(createViewModel);
 
       // Assert
 
       VerifyActionResult(result);
-      _eventService.Received(1).CreateEvent(Arg.Any<EventDateDto>(), EventTypes.WorkingFromHome);
+      _eventService.Received(1).CreateEvent(Arg.Any<EventDateDto>(), EventTypes.WorkingFromHome, 1);
     }
 
     [Fact]
@@ -99,7 +94,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _mapper.Map<List<EventViewModel>>(wfhEvents);
 
       // Act
-      var result = _controller.GetWorkingFromHomeByEmployeeId(_authenticatedUser.RetrieveUserId());
+      var result = _controller.GetWorkingFromHomeByEmployeeId(1);
 
       // Assert
       _eventService.Received(1).GetEventsByEmployeeId(employeeId, EventTypes.WorkingFromHome);

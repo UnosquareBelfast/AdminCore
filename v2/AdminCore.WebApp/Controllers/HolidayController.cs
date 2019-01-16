@@ -16,17 +16,15 @@ namespace AdminCore.WebApi.Controllers
   [Authorize]
   [Route("[controller]")]
   [ApiController]
-  public class HolidayController : BaseController
+  public class HolidayController : LoggedInUserController
   {
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly IEventService _eventService;
     private readonly IEventMessageService _eventMessageService;
     private readonly IMapper _mapper;
 
-    public HolidayController(IAuthenticatedUser authenticatedUser, IEventService eventService,
-      IEventMessageService eventMessageService, IMapper mapper) : base(mapper)
+    public HolidayController(IEventService eventService,
+      IEventMessageService eventMessageService, IMapper mapper, IEmployeeService employeeService) : base(mapper, employeeService)
     {
-      _authenticatedUser = authenticatedUser;
       _eventService = eventService;
       _eventMessageService = eventMessageService;
       _mapper = mapper;
@@ -35,7 +33,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet]
     public IActionResult GetAllHolidays()
     {
-      var holidays = _eventService.GetEmployeeEvents(EventTypes.AnnualLeave);
+      var holidays = _eventService.GetEmployeeEvents(EventTypes.AnnualLeave, RetrieveLoggedInUserId());
       if (holidays != null)
       {
         return Ok(_mapper.Map<IList<EventViewModel>>(holidays));
@@ -65,13 +63,13 @@ namespace AdminCore.WebApi.Controllers
         return Ok(_mapper.Map<IList<EventViewModel>>(holiday));
       }
 
-      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { _authenticatedUser.RetrieveUserId().ToString() }");
+      return StatusCode((int)HttpStatusCode.NoContent, $"No holiday found for employee ID: { RetrieveLoggedInUserId() }");
     }
 
     [HttpGet("findEmployeeHolidayStats")]
     public IActionResult GetEmployeeHolidayStats()
     {
-      var holidayStats = _eventService.GetHolidayStatsForUser();
+      var holidayStats = _eventService.GetHolidayStatsForUser(RetrieveLoggedInUserId());
       if (holidayStats != null)
       {
         return Ok(_mapper.Map<HolidayStatsViewModel>(holidayStats));
@@ -87,8 +85,8 @@ namespace AdminCore.WebApi.Controllers
 
       try
       {
-        _eventService.IsHolidayValid(eventDates, model.IsHalfDay);
-        _eventService.CreateEvent(eventDates, EventTypes.AnnualLeave);
+        _eventService.IsHolidayValid(eventDates, model.IsHalfDay, RetrieveLoggedInUserId());
+        _eventService.CreateEvent(eventDates, EventTypes.AnnualLeave, RetrieveLoggedInUserId());
         return Ok($"Holiday has been created successfully");
       }
       catch (Exception ex)
@@ -104,7 +102,7 @@ namespace AdminCore.WebApi.Controllers
       var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
-        _eventService.UpdateEvent(eventDatesToUpdate, updateHoliday.Message);
+        _eventService.UpdateEvent(eventDatesToUpdate, updateHoliday.Message, RetrieveLoggedInUserId());
         return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)
@@ -198,7 +196,7 @@ namespace AdminCore.WebApi.Controllers
       var returnedEvent = _eventService.GetEvent(eventMessageViewModel.EventId);
       if (returnedEvent != null)
       {
-        _eventMessageService.CreateGeneralEventMessage(eventMessageViewModel.EventId, eventMessageViewModel.Message);
+        _eventMessageService.CreateGeneralEventMessage(eventMessageViewModel.EventId, eventMessageViewModel.Message, RetrieveLoggedInUserId());
         return Ok("Successfully Added Message");
       }
 

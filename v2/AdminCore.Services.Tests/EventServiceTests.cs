@@ -13,7 +13,6 @@ namespace AdminCore.Services.Tests
 {
   public class EventServiceTests
   {
-    private readonly IAuthenticatedUser _authenticatedUser;
 
     private readonly IDatabaseContext _databaseContext;
 
@@ -25,18 +24,17 @@ namespace AdminCore.Services.Tests
 
     public EventServiceTests()
     {
-      _authenticatedUser = Substitute.For<IAuthenticatedUser>();
-      _authenticatedUser.RetrieveUserId().Returns(1);
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new EventMapperProfile())));
       _databaseContext = Substitute.For<IDatabaseContext>();
       _dateService = Substitute.For<IDateService>();
-      _eventService = new EventService(_databaseContext, _mapper, _dateService, _authenticatedUser);
+      _eventService = new EventService(_databaseContext, _mapper, _dateService);
     }
 
     [Fact]
     public void CreateEvent_WhenCalled_SuccessfullyInsertsNewEventIntoDb()
     {
       // Arrange
+      const int employeeId = 1;
       var eventDateDto = new EventDateDto
       {
         EventId = 1,
@@ -45,7 +43,7 @@ namespace AdminCore.Services.Tests
       };
 
       // Act
-      _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave);
+      _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave, employeeId);
 
       // Assert
       _databaseContext.Received(1).EventRepository.Insert(Arg.Any<Event>());
@@ -56,6 +54,7 @@ namespace AdminCore.Services.Tests
     {
       // Arrange
       const int numOfWeeksShouldReturn = 3;
+      const int employeeId = 1;
       var eventDateDto = new EventDateDto
       {
         EventId = 1,
@@ -64,7 +63,7 @@ namespace AdminCore.Services.Tests
       };
 
       // Act
-      var result = _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave);
+      var result = _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave, employeeId);
 
       // Assert
       Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);
@@ -75,6 +74,7 @@ namespace AdminCore.Services.Tests
     {
       // Arrange
       const int numOfWeeksShouldReturn = 1;
+      const int employeeId = 1;
       var eventDateDto = new EventDateDto
       {
         EventId = 1,
@@ -83,7 +83,7 @@ namespace AdminCore.Services.Tests
       };
 
       // Act
-      var result = _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave);
+      var result = _eventService.CreateEvent(eventDateDto, EventTypes.AnnualLeave, employeeId);
 
       // Assert
       Assert.Equal(numOfWeeksShouldReturn, result.EventDates.Count);

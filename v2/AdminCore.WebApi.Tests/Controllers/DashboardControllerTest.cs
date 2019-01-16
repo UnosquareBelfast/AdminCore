@@ -19,7 +19,6 @@ namespace AdminCore.WebApi.Tests.Controllers
   {
     private readonly DashboardController _dashboardController;
     private readonly IDashboardService _dashboardService;
-    private readonly IAuthenticatedUser _authenticatedUser;
     private readonly Fixture _fixture;
     private readonly IMapper _mapper;
 
@@ -28,10 +27,10 @@ namespace AdminCore.WebApi.Tests.Controllers
       _fixture = new Fixture();
 
       _dashboardService = Substitute.For<IDashboardService>();
-      _authenticatedUser = Substitute.For<IAuthenticatedUser>();
+      var employeeService = Substitute.For<IEmployeeService>();
       _mapper = Substitute.For<IMapper>();
 
-      _dashboardController = new DashboardController(_dashboardService, _authenticatedUser, _mapper);
+      _dashboardController = new DashboardController(_dashboardService, _mapper, employeeService);
     }
 
     [Fact]
@@ -75,8 +74,6 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _mapper.Map<IList<EventDto>, List<DashboardEventViewModel>>(Arg.Is(eventsReturnedFromService)).Returns(eventModels);
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
-
       // Act
       var result = _dashboardController.GetEmployeeEvents(searchDate);
 
@@ -102,7 +99,6 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       _mapper.Map<Dictionary<string, List<EmployeeSnapshotDto>>, List<TeamSnapshotViewModel>>(snapshotReturnedFromService).Returns(snapshotModels);
 
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
 
       // Act
       var result = _dashboardController.GetEmployeeTeamSnapshot();
@@ -154,8 +150,6 @@ namespace AdminCore.WebApi.Tests.Controllers
       _dashboardService.GetTeamDashboardEvents(Arg.Is(employeeId), searchDate).Returns(eventsReturnedFromService);
 
       _mapper.Map<IList<EventDto>, List<DashboardEventViewModel>>(eventsReturnedFromService).Returns(dashboardEventModels);
-
-      _authenticatedUser.RetrieveUserId().Returns(employeeId);
 
       // Act
       var result = _dashboardController.GetTeamEvents(searchDate);

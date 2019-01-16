@@ -26,8 +26,6 @@ namespace AdminCore.Services.Configuration
         services.AddAutoMapper();
         services.AddDbContext<AdminCoreContext>();
         services.AddScoped<IDatabaseContext, EntityFrameworkContext>();
-        services.AddTransient<IAuthenticatedUser, AuthenticatedUser>();
-        services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddTransient<IDataMigration, EvolveDataMigration>();
         services.AddTransient<IDateService, DateService>();
