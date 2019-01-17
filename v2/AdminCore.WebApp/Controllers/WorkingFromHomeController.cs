@@ -41,7 +41,7 @@ namespace AdminCore.WebApi.Controllers
       catch (Exception e)
       {
         Logger.LogError(e.Message);
-        return StatusCode((int)HttpStatusCode.InternalServerError, "Could not create event");
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Error creating event: " + e.Message);
       }
     }
 
