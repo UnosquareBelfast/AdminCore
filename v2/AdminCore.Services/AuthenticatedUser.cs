@@ -1,7 +1,9 @@
-﻿using AdminCore.Common.Interfaces;
+﻿using System.Security.Authentication;
+using AdminCore.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using AdminCore.Common;
+using AdminCore.Constants;
 using AdminCore.DTOs.Employee;
 
 namespace AdminCore.Services
@@ -20,7 +22,9 @@ namespace AdminCore.Services
     public EmployeeDto RetrieveLoggedInUser()
     {
       var userDetails = GetLoggedInUserDetails();
-      var employee = _employeeService.GetEmployeeByEmail(userDetails["preferred_username"]);
+      if (!userDetails.ContainsKey(UserDetailsConstants.UserEmail))
+        throw new AuthenticationException("No user currently authenticated.");
+      var employee = _employeeService.GetEmployeeByEmail(userDetails[UserDetailsConstants.UserEmail]);
       return employee;
     }
 
