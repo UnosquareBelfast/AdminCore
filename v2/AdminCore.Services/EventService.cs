@@ -237,7 +237,7 @@ namespace AdminCore.Services
       }
 
       if (dates.Last().Date.Day != originalEndDate.Day || dates.Count > 5 ||
-          dates.First().Date.DayOfWeek == DayOfWeek.Friday) return;
+          dates.First().Date.DayOfWeek == DayOfWeek.Friday && dates.Count > 1) return;
       var lastDate = new EventDate()
       {
         StartDate = startDate,
@@ -343,11 +343,36 @@ namespace AdminCore.Services
       {
         eventToUpdate = AddEventMessage(eventToUpdate, EventMessageTypes.Update, message);
         eventToUpdate.LastModified = _dateService.GetCurrentDateTime();
-        DatabaseContext.SaveChanges();
+        UpdateEventDatesInDb(eventToUpdate);
       }
       else
       {
         throw new Exception("Not enough holidays to book");
+      }
+    }
+
+    private void UpdateEventDatesInDb(Event eventToUpdate)
+    {
+      RemoveOldEventDates(eventToUpdate);
+      InsertNewEventDates(eventToUpdate);
+      DatabaseContext.SaveChanges();
+    }
+
+    private void InsertNewEventDates(Event eventToUpdate)
+    {
+      foreach (var eventDate in eventToUpdate.EventDates)
+      {
+        eventDate.EventId = eventToUpdate.EventId;
+        DatabaseContext.EventDatesRepository.Insert(eventDate);
+      }
+    }
+
+    private void RemoveOldEventDates(Event eventToUpdate)
+    {
+      var oldEventDates = DatabaseContext.EventDatesRepository.Get(x => x.EventId == eventToUpdate.EventId);
+      foreach (var eventDate in oldEventDates)
+      {
+        DatabaseContext.EventDatesRepository.Delete(eventDate.EventDateId);
       }
     }
 
