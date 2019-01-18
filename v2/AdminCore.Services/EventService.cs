@@ -75,8 +75,9 @@ namespace AdminCore.Services
     public IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate, int employeeId)
     {
       var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
-                                                                     && x.EndDate <= endDate
-                                                                     && x.Event.EmployeeId == employeeId);
+                                                                     && x.EndDate <= endDate.AddDays(1)
+                                                                     && x.Event.EmployeeId == employeeId,
+                                                              null, x => x.Event);
       return _mapper.Map<IList<EventDateDto>>(eventDates);
     }
 
@@ -174,10 +175,10 @@ namespace AdminCore.Services
       return holidayStatsDto;
     }
 
-    public void IsHolidayValid(EventDateDto eventDates, bool modelIsHalfDay, int employeeId)
+    public void IsEventValid(EventDateDto eventDates, bool modelIsHalfDay, int employeeId)
     {
-      if (IsHolidayDatesAlreadyBooked(eventDates, employeeId))
-        throw new Exception("Already Booked");
+      if (IsEventDatesAlreadyBooked(eventDates, employeeId))
+        throw new Exception("Holiday Dates have already been booked");
 
       if (!IsDateRangeLessThanTotalHolidaysRemaining(eventDates, employeeId))
         throw new Exception("Not enough holidays remaining.");
@@ -279,7 +280,7 @@ namespace AdminCore.Services
       return !(employee.TotalHolidays < (eventDates.EndDate - eventDates.StartDate).TotalDays);
     }
 
-    private bool IsHolidayDatesAlreadyBooked(EventDateDto eventDates, int employeeId)
+    private bool IsEventDatesAlreadyBooked(EventDateDto eventDates, int employeeId)
     {
       var employeeEvents = GetEventDatesByEmployeeAndStartAndEndDates(eventDates.StartDate, eventDates.EndDate, employeeId);
       return employeeEvents.Any();

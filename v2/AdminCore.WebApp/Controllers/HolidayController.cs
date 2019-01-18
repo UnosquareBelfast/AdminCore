@@ -85,14 +85,14 @@ namespace AdminCore.WebApi.Controllers
 
       try
       {
-        _eventService.IsHolidayValid(eventDates, model.IsHalfDay, RetrieveLoggedInUserId());
+        _eventService.IsEventValid(eventDates, model.IsHalfDay, RetrieveLoggedInUserId());
         _eventService.CreateEvent(eventDates, EventTypes.AnnualLeave, RetrieveLoggedInUserId());
         return Ok($"Holiday has been created successfully");
       }
       catch (Exception ex)
       {
         Logger.LogError(ex.Message);
-        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong creating holiday");
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Error creating holiday: " + ex.Message);
       }
     }
 
@@ -102,13 +102,14 @@ namespace AdminCore.WebApi.Controllers
       var eventDatesToUpdate = _mapper.Map<EventDateDto>(updateHoliday);
       try
       {
+        _eventService.IsEventValid(eventDatesToUpdate, updateHoliday.IsHalfDay, RetrieveLoggedInUserId());
         _eventService.UpdateEvent(eventDatesToUpdate, updateHoliday.Message, RetrieveLoggedInUserId());
         return Ok("Holiday has been successfully updated");
       }
       catch (Exception ex)
       {
         Logger.LogError(ex.Message);
-        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong updating holiday");
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Error updating holiday: " + ex.Message);
       }
     }
 
