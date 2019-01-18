@@ -74,15 +74,11 @@ namespace AdminCore.Services
 
     public IList<EventDateDto> GetEventDatesByEmployeeAndStartAndEndDates(DateTime startDate, DateTime endDate, int employeeId)
     {
-      endDate = SetEndDateToEndOfDay(endDate);
-
-      var eventIds = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate && x.EndDate <= endDate)
-                                                         .Select(x => x.EventId).ToList().ToList();
-
-      var events = DatabaseContext.EventRepository.Get(x => eventIds.Contains(x.EventId)
-                                                                && x.EmployeeId == employeeId).ToList();
-
-      return _mapper.Map<IList<EventDateDto>>(GetEventDatesForEmployeeBetweenStartAndEndDates(events));
+      var eventDates = DatabaseContext.EventDatesRepository.Get(x => x.StartDate >= startDate
+                                                                     && x.EndDate <= endDate.AddDays(1)
+                                                                     && x.Event.EmployeeId == employeeId,
+                                                              null, x => x.Event);
+      return _mapper.Map<IList<EventDateDto>>(eventDates);
     }
 
     public EventDto GetEvent(int id)
@@ -430,25 +426,6 @@ namespace AdminCore.Services
       };
 
       return eventMessage;
-    }
-
-    private static IList<EventDate> GetEventDatesForEmployeeBetweenStartAndEndDates(List<Event> events)
-    {
-      IList<EventDate> eventDates = new List<EventDate>();
-      foreach (var eventWithDate in events)
-      {
-        foreach (var eventDate in eventWithDate.EventDates)
-        {
-          eventDates.Add(eventDate);
-        }
-      }
-      return eventDates;
-    }
-
-    private static DateTime SetEndDateToEndOfDay(DateTime endDate)
-    {
-      endDate = endDate.AddHours(23).AddMinutes(59).AddSeconds(59);
-      return endDate;
     }
   }
 }

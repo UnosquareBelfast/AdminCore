@@ -24,6 +24,6 @@ namespace AdminCore.DAL.Models
     public bool IsHalfDay { get; set; }
 
     [ForeignKey("EventId")]
-    public Event Event { get; set; }
+    public virtual Event Event { get; set; }
   }
 }
