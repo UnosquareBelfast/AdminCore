@@ -30,11 +30,10 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       _eventMessageService = Substitute.For<IEventMessageService>();
       _eventService = Substitute.For<IEventService>();
-      var employeeService = Substitute.For<IEmployeeService>();
       _mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
       _fixture.Customize<EventDto>(x => x.Without(z => z.EventDates));
-      _controller = new HolidayController(_eventService, _eventMessageService, _mapper, employeeService);
+      _controller = new HolidayController(_eventService, _eventMessageService, _mapper, Substitute.For<IAuthenticatedUser>());
     }
 
     [Fact]
