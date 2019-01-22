@@ -7,6 +7,8 @@ namespace AdminCore.DTOs
   {
     public int ContractId { get; set; }
 
+    public int TeamId { get; set; }
+
     public TeamDto Team { get; set; }
 
     public int EmployeeId { get; set; }
