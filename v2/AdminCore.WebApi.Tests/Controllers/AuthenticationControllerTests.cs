@@ -1,5 +1,6 @@
 ﻿using AdminCore.Common.Interfaces;
 using AdminCore.WebApi.Controllers;
+using AutoMapper;
 using NSubstitute;
 
 namespace AdminCore.WebApi.Tests.Controllers
@@ -12,7 +13,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
     public AuthenticationControllerTests()
     {
-      _controller = new AuthenticationController(Substitute.For<IAuthenticatedUser>(), Substitute.For<IEmployeeService>());
+      _controller = new AuthenticationController(Substitute.For<IAuthenticatedUser>(), Substitute.For<IEmployeeService>(), Substitute.For<IMapper>());
     }
   }
 }

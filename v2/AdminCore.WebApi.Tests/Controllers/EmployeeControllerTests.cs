@@ -28,7 +28,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       _employeeService = Substitute.For<IEmployeeService>();
       IMapper mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile(new WebMappingProfile())));
       _fixture = new Fixture();
-      _employeeController = new EmployeeController(_employeeService, mapper);
+      _employeeController = new EmployeeController(_employeeService, mapper, Substitute.For<IAuthenticatedUser>());
     }
 
     [Fact]
