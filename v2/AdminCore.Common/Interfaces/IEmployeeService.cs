@@ -21,6 +21,6 @@ namespace AdminCore.Common.Interfaces
 
     IList<EmployeeDto> GetByCountryId(int countryId);
 
-    EmployeeDto getEmployeeByEmail(string email);
+    EmployeeDto GetEmployeeByEmail(string email);
   }
 }

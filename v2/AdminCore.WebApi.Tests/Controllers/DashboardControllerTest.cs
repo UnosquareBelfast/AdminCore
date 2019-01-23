@@ -27,10 +27,9 @@ namespace AdminCore.WebApi.Tests.Controllers
       _fixture = new Fixture();
 
       _dashboardService = Substitute.For<IDashboardService>();
-      var employeeService = Substitute.For<IEmployeeService>();
       _mapper = Substitute.For<IMapper>();
 
-      _dashboardController = new DashboardController(_dashboardService, _mapper, employeeService);
+      _dashboardController = new DashboardController(_dashboardService, _mapper, Substitute.For<IAuthenticatedUser>());
     }
 
     [Fact]

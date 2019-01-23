@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Models.Dashboard;
 using AdminCore.WebApi.Models.Event;
 using AdminCore.WebApi.Models.EventMessage;
@@ -14,19 +15,21 @@ namespace AdminCore.WebApi.Controllers
   [ApiController]
   [Authorize]
   [Route("[controller]")]
-  public class DashboardController : LoggedInUserController
+  public class DashboardController : BaseController
   {
     private readonly IDashboardService _dashboardService;
+    private readonly EmployeeDto _employee;
 
-    public DashboardController(IDashboardService dashboardService, IMapper mapper, IEmployeeService employeeService) : base(mapper, employeeService)
+    public DashboardController(IDashboardService dashboardService, IMapper mapper, IAuthenticatedUser authenticatedUser) : base(mapper)
     {
       _dashboardService = dashboardService;
+      _employee = authenticatedUser.RetrieveLoggedInUser();
     }
 
     [HttpGet("getDashboardSnapshot")]
     public IActionResult GetDashboardSnapshot()
     {
-      var dashboardSnapshot = _dashboardService.GetEmployeeDashboardEvents(RetrieveLoggedInUserId(), DateTime.Today);
+      var dashboardSnapshot = _dashboardService.GetEmployeeDashboardEvents(_employee.EmployeeId, DateTime.Today);
       if (dashboardSnapshot.Any())
       {
         return Ok(Mapper.Map<IList<DashboardEventViewModel>>(dashboardSnapshot));
@@ -38,14 +41,14 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("getEmployeeEvents/{date}")]
     public IActionResult GetEmployeeEvents(DateTime date)
     {
-      var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(RetrieveLoggedInUserId(), date);
+      var employeeEvents = _dashboardService.GetEmployeeEventsForMonth(_employee.EmployeeId, date);
       return Ok(Mapper.Map<IList<EventViewModel>>(employeeEvents));
     }
 
     [HttpGet("getEmployeeTeamSnapshot")]
     public IActionResult GetEmployeeTeamSnapshot()
     {
-      var employeeTeamSnapshot = _dashboardService.GetTeamDashboardEvents(RetrieveLoggedInUserId(), DateTime.Today);
+      var employeeTeamSnapshot = _dashboardService.GetTeamDashboardEvents(_employee.EmployeeId, DateTime.Today);
       if (employeeTeamSnapshot.Any())
       {
         return Ok(Mapper.Map<IList<DashboardEventViewModel>>(employeeTeamSnapshot));
@@ -69,7 +72,7 @@ namespace AdminCore.WebApi.Controllers
     [HttpGet("getTeamEvents/{date}")]
     public IActionResult GetTeamEvents(DateTime date)
     {
-      var teamEvents = _dashboardService.GetTeamDashboardEvents(RetrieveLoggedInUserId(), date);
+      var teamEvents = _dashboardService.GetTeamDashboardEvents(_employee.EmployeeId, date);
       if (teamEvents.Any())
       {
         return Ok(Mapper.Map<IList<EventViewModel>>(teamEvents));
