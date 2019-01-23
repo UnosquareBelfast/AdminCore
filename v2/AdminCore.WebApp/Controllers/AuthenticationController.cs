@@ -10,6 +10,7 @@
 using System;
 using AdminCore.Common;
 using AdminCore.Common.Interfaces;
+using AdminCore.Constants;
 using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Exceptions;
 using AdminCore.WebApi.Models.Employee;
@@ -34,49 +35,43 @@ namespace AdminCore.WebApi.Controllers
       _employeeService = employeeService;
     }
 
-    [HttpPost("login")]
-    public IActionResult AzureLogin()
+    [HttpPost("register")]
+    public IActionResult Register(RegisterEmployeeViewModel newEmployee)
     {
       try
       {
         var loggedInUser = _authenticatedUser.RetrieveLoggedInUser();
-        return Ok($"User {loggedInUser.Forename} {loggedInUser.Surname} has been successfully signed in.");
+        return Ok($"User with email {loggedInUser.Email} already exists. If you need to change details, use update.");
       }
       catch (UserNotRegisteredException)
       {
         var userDetails = _authenticatedUser.GetLoggedInUserDetails();
-        return RegisterNewUser(userDetails);
+        return RegisterNewUser(userDetails, newEmployee);
       }
 
     }
 
-    private IActionResult RegisterNewUser(UserDetailsHelper userDetails)
+    private IActionResult RegisterNewUser(UserDetailsHelper userDetails, RegisterEmployeeViewModel newEmployee)
     {
-      var registerEmployeeViewModel = BuildRegisterEmployeeViewModel(userDetails);
+      var newEmployeeDto = Mapper.Map<EmployeeDto>(newEmployee);
+      AddAzureDetailsToEmployeeDto(newEmployeeDto, userDetails);
       try
       {
-        var newUserEmail = _employeeService.Create(Mapper.Map<EmployeeDto>(registerEmployeeViewModel));
+        var newUserEmail = _employeeService.Create(newEmployeeDto);
         return Ok($"User with email address {newUserEmail} successfully registered.");
       }
       catch (Exception exception)
       {
-        return StatusCode(500, $"An error has occurred while registering new employee {registerEmployeeViewModel.Email}: {exception.Message}");
+        return StatusCode(500, $"An error has occurred while registering new employee {newEmployeeDto.Email}: {exception.Message}");
       }
     }
 
-    private static RegisterEmployeeViewModel BuildRegisterEmployeeViewModel(UserDetailsHelper userDetails)
+    private static void AddAzureDetailsToEmployeeDto(EmployeeDto newEmployeeDto, UserDetailsHelper userDetails)
     {
-      return new RegisterEmployeeViewModel()
-      {
-        Email = userDetails["preferred_username"],
-        Forename = GetWordFromString(userDetails["name"], 0),
-        Surname = GetWordFromString(userDetails["name"], 1),
-        CountryId = 1,
-        EmployeeRoleId = 1,
-        EmployeeStatusId = 1,
-        StartDate = DateTime.Now,
-        Password = ""
-      };
+      newEmployeeDto.Email = userDetails[UserDetailsConstants.UserEmail];
+      newEmployeeDto.Forename = GetWordFromString(userDetails[UserDetailsConstants.Name], 0);
+      newEmployeeDto.Surname = GetWordFromString(userDetails[UserDetailsConstants.Name], 1);
+      newEmployeeDto.Password = "";
     }
 
     private static string GetWordFromString(string fullString, int wordIndex)
