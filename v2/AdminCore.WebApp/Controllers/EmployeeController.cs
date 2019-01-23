@@ -38,23 +38,6 @@ namespace AdminCore.WebApi.Controllers
       return StatusCode((int)HttpStatusCode.InternalServerError, "No employees currently exist.");
     }
 
-    [HttpPost]
-    public IActionResult CreateEmployee(RegisterEmployeeViewModel viewModel)
-    {
-      var employeeDto = Mapper.Map<EmployeeDto>(viewModel);
-      try
-      {
-        _employeeService.Save(employeeDto);
-      }
-      catch (Exception ex)
-      {
-        Logger.LogError(ex.Message);
-        return StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong, employee was not created.");
-      }
-
-      return Ok($"Employee {viewModel.Forename} {viewModel.Surname} has successfully been created");
-    }
-
     [HttpGet("{employeeId}")]
     public IActionResult GetEmployeeById(int employeeId)
     {
