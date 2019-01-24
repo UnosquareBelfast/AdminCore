@@ -9,6 +9,8 @@ namespace AdminCore.WebApi.Models.Contract
 
     public TeamViewModel Team { get; set; }
 
+    public string ClientName { get; set; }
+
     public int EmployeeId { get; set; }
 
     public DateTime StartDate { get; set; }
