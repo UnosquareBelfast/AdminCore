@@ -2,6 +2,8 @@
 {
   public enum EventTypes
   {
+    PublicHoliday = 0,
+
     AnnualLeave = 1,
 
     WorkingFromHome = 2,
