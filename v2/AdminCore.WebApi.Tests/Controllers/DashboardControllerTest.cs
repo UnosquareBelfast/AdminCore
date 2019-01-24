@@ -100,7 +100,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
 
       // Act
-      var result = _dashboardController.GetEmployeeTeamSnapshot(1);
+      var result = _dashboardController.GetEmployeeTeamSnapshot();
 
       // Assert
       var resultValue = RetrieveValueFromActionResult<List<EmployeeEventViewModel>>(result);
