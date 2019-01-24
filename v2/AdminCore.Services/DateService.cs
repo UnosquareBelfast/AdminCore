@@ -56,6 +56,16 @@ namespace AdminCore.Services
       return eventDates.Any(eventDate => EventDateFallsWithinMonth(date, eventDate));
     }
 
+    public static bool EventContainsEventDatesThatHappenDuringAGivenDay(ICollection<EventDate> eventDates, DateTime date)
+    {
+      return eventDates.Any(eventDate => EventDateFallsOnDay(date, eventDate));
+    }
+
+    private static bool EventDateFallsOnDay(DateTime date, EventDate eventDate)
+    {
+      return eventDate.StartDate <= date && eventDate.EndDate >= date;
+    }
+
     public static bool EventDateFallsWithinMonth(DateTime date, EventDate eventDate)
     {
       return EventDateHappensDuringMonth(date, eventDate) && EventDateIsInTheSameYear(date, eventDate);

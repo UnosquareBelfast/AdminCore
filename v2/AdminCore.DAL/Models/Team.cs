@@ -1,4 +1,5 @@
-﻿using AdminCore.DAL.Models.Base;
+﻿using System.Collections.Generic;
+using AdminCore.DAL.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,5 +26,7 @@ namespace AdminCore.DAL.Models
 
     [ForeignKey("ClientId")]
     public virtual Client Client { get; set; }
+
+    public virtual ICollection<Contract> Contracts { get; set; }
   }
 }
