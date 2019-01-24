@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
-using AdminCore.DAL.Database;
-using AdminCore.DAL.Entity_Framework;
 using AdminCore.DAL.Models;
-using AdminCore.DTOs;
+using AdminCore.DTOs.Contract;
 using AdminCore.DTOs.Team;
 using AdminCore.Services.Mappings;
 using AutoMapper;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace AdminCore.Services.Tests
@@ -128,7 +123,6 @@ namespace AdminCore.Services.Tests
 
       _contractService.DeleteContract(contract.ContractId);
       _databaseContext.ContractRepository.Received(1).Delete(contract);
-
     }
 
     [Fact]
@@ -161,7 +155,7 @@ namespace AdminCore.Services.Tests
     public void TestSaveContractThrowsExceptionIfContractToBeSavedHasIdOfNotZeroAndContractDoesNotExist()
     {
       var newContractDto = BuildContractDto();
-      Assert.Throws<Exception>(() => _contractService.SaveContract(newContractDto));      
+      Assert.Throws<Exception>(() => _contractService.SaveContract(newContractDto));
     }
 
     private static Contract BuildContractModel()

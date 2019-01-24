@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using AdminCore.Common.Interfaces;
-using AdminCore.DTOs;
+﻿using AdminCore.Common.Interfaces;
+using AdminCore.DTOs.Contract;
 using AdminCore.DTOs.Team;
 using AdminCore.WebApi.Controllers;
 using AdminCore.WebApi.Mappings;
@@ -12,6 +8,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers

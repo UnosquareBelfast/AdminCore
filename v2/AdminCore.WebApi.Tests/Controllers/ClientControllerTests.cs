@@ -1,21 +1,15 @@
-using System;
 using AdminCore.Common.Interfaces;
-using AdminCore.DTOs.Client;
 using AdminCore.WebApi.Controllers;
 using AdminCore.WebApi.Models.Client;
 using AutoFixture;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
-using AdminCore.DAL;
-using AdminCore.DAL.Models;
-using AdminCore.Services;
-using Microsoft.AspNetCore.Mvc;
-using NSubstitute.ExceptionExtensions;
-using NSubstitute.ReturnsExtensions;
 using Xunit;
 using ClientDto = AdminCore.DTOs.Client.ClientDto;
 
@@ -113,7 +107,6 @@ namespace AdminCore.WebApi.Tests.Controllers
       var result = _controller.CreateClient(updateViewModel);
       var resultValue = RetrieveValueFromActionResult<string>(result);
       Assert.Equal("Client TestClient has successfully been created", resultValue);
-
     }
 
     [Fact]
@@ -203,7 +196,6 @@ namespace AdminCore.WebApi.Tests.Controllers
 
       var resultValue = RetrieveValueFromActionResult<IList<ClientViewModel>>(result);
       Assert.Equal(listOfViewModelsReturnedFromMapper, resultValue);
-
     }
 
     [Fact]
@@ -219,6 +211,5 @@ namespace AdminCore.WebApi.Tests.Controllers
       var resultValue = RetrieveValueFromActionResult<string>(result, HttpStatusCode.InternalServerError);
       Assert.Equal("No client found with client name testClient", resultValue);
     }
-
   }
 }

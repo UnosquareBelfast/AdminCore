@@ -1,4 +1,4 @@
-﻿using AdminCore.DTOs;
+﻿using AdminCore.DTOs.Contract;
 using System.Collections.Generic;
 
 namespace AdminCore.Common.Interfaces

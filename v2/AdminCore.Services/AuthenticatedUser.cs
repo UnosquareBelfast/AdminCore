@@ -3,9 +3,9 @@ using AdminCore.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using AdminCore.Common;
+using AdminCore.Common.Exceptions;
 using AdminCore.Constants;
 using AdminCore.DTOs.Employee;
-using AdminCore.WebApi.Exceptions;
 
 namespace AdminCore.Services
 {
@@ -34,5 +34,4 @@ namespace AdminCore.Services
       return userDetails.Count > 0 ? userDetails : throw new AuthenticationException("No user is currently authenticated");
     }
   }
-
 }

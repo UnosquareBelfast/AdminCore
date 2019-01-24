@@ -10,7 +10,7 @@ namespace AdminCore.Services
   {
     public DateTime GetCurrentDateTime()
     {
-      return DateTime.Now; ;
+      return DateTime.Now;
     }
 
     public DateTime GetStartOfYearDate()

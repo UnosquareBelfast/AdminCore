@@ -1,5 +1,6 @@
 ﻿using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
+using AdminCore.DTOs.Contract;
 using AdminCore.DTOs.Dashboard;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;

@@ -1,4 +1,5 @@
 ﻿using AdminCore.Common.Interfaces;
+using AdminCore.Constants;
 using AdminCore.Constants.Enums;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
@@ -7,13 +8,11 @@ using AdminCore.DTOs.Event;
 using AdminCore.DTOs.EventMessage;
 using AdminCore.Services.Base;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using AdminCore.Constants;
-using AdminCore.DAL.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace AdminCore.Services
 {
@@ -214,12 +213,16 @@ namespace AdminCore.Services
       {
         case 1:
           return EmployeeLocationConstants.OnHoliday;
+
         case 2:
           return EmployeeLocationConstants.WorkingFromHome;
+
         case 3:
           return EmployeeLocationConstants.SickLeave;
+
         case 4:
           return EmployeeLocationConstants.WorkRelatedTravel;
+
         default:
           throw new Exception($"There is no employee location mapping for event type id {@event.EventTypeId}");
       }

@@ -1,13 +1,11 @@
-﻿using System;
-using AdminCore.Services.Configuration;
+﻿using AdminCore.Services.Configuration;
+using AdminCore.WebApi.ErrorHandling;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Text;
 
 namespace AdminCore.WebApi
 {
@@ -53,7 +51,7 @@ namespace AdminCore.WebApi
 
       DependencyInjection.RegisterDependencyInjection(services);
     }
-    
+
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
       if (env.IsDevelopment())

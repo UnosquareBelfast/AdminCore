@@ -1,7 +1,7 @@
 ﻿using AdminCore.Common.Interfaces;
 using AdminCore.DAL;
 using AdminCore.DAL.Models;
-using AdminCore.DTOs;
+using AdminCore.DTOs.Contract;
 using AdminCore.Services.Base;
 using AutoMapper;
 using System;

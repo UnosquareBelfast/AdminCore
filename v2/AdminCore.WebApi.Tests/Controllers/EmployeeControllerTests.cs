@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using AdminCore.Common.Interfaces;
+﻿using AdminCore.Common.Interfaces;
 using AdminCore.DTOs.Employee;
 using AdminCore.WebApi.Controllers;
 using AdminCore.WebApi.Mappings;
@@ -13,6 +8,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using Xunit;
 
 namespace AdminCore.WebApi.Tests.Controllers
@@ -40,8 +39,6 @@ namespace AdminCore.WebApi.Tests.Controllers
       var employeeDtos = _fixture.CreateMany<EmployeeDto>(numberOfEmployees).ToList();
 
       _employeeService.GetAll().Returns(employeeDtos);
-
-      
 
       // Act
       var result = _employeeController.GetAllEmployees();
@@ -117,7 +114,7 @@ namespace AdminCore.WebApi.Tests.Controllers
     {
       const int testId = 1;
       var employeeDtoReturnedFromService = BuildEmployeeDto();
-      
+
       _employeeService.Get(testId).Returns(employeeDtoReturnedFromService);
 
       var result = _employeeController.GetEmployeeById(testId);
@@ -266,6 +263,5 @@ namespace AdminCore.WebApi.Tests.Controllers
         StartDate = new DateTime()
       };
     }
-
   }
-} 
+}

@@ -1,23 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AuthenticationController.cs" company="AdminCore">
-//   AdminCore
-// </copyright>
-// <summary>
-//   Defines the AuthenticationController type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-using System;
-using AdminCore.Common;
+﻿using AdminCore.Common;
 using AdminCore.Common.Interfaces;
 using AdminCore.Constants;
 using AdminCore.DTOs.Employee;
-using AdminCore.WebApi.Exceptions;
 using AdminCore.WebApi.Models.Employee;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using AdminCore.Common.Exceptions;
 
 namespace AdminCore.WebApi.Controllers
 {
@@ -48,7 +38,6 @@ namespace AdminCore.WebApi.Controllers
         var userDetails = _authenticatedUser.GetLoggedInUserDetails();
         return RegisterNewUser(userDetails, newEmployee);
       }
-
     }
 
     private IActionResult RegisterNewUser(UserDetailsHelper userDetails, RegisterEmployeeViewModel newEmployee)
@@ -77,7 +66,7 @@ namespace AdminCore.WebApi.Controllers
     private static string GetWordFromString(string fullString, int wordIndex)
     {
       var words = fullString.Split(" ");
-      return words.Length-1 >= wordIndex ? words[wordIndex] : "";
+      return words.Length - 1 >= wordIndex ? words[wordIndex] : "";
     }
   }
 }

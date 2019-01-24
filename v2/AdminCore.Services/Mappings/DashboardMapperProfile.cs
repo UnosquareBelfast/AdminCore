@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AdminCore.DAL.Models;
-using AdminCore.DTOs;
+﻿using AdminCore.DAL.Models;
 using AdminCore.DTOs.Dashboard;
 using AutoMapper;
 

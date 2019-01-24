@@ -1,5 +1,5 @@
 ﻿using AdminCore.DAL.Models;
-using AdminCore.DTOs;
+using AdminCore.DTOs.Country;
 using AdminCore.DTOs.Employee;
 using AutoMapper;
 

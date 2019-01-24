@@ -1,7 +1,7 @@
-﻿using AdminCore.DTOs.Team;
-using System;
+﻿using System;
+using AdminCore.DTOs.Team;
 
-namespace AdminCore.DTOs
+namespace AdminCore.DTOs.Contract
 {
   public class ContractDto
   {

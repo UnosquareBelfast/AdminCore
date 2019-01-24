@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace AdminCore.WebApi.Models.Dashboard
 {
@@ -10,7 +6,7 @@ namespace AdminCore.WebApi.Models.Dashboard
   {
     public int ClientId { get; set; }
 
-    public string ClientName { get; set; } 
+    public string ClientName { get; set; }
 
     public ICollection<TeamSnapshotViewModel> Teams { get; set; }
   }

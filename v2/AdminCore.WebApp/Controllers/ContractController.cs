@@ -1,5 +1,5 @@
 ﻿using AdminCore.Common.Interfaces;
-using AdminCore.DTOs;
+using AdminCore.DTOs.Contract;
 using AdminCore.WebApi.Models.Contract;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;

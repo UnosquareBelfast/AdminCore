@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-
-namespace AdminCore.WebApi.Models.Dashboard
+﻿namespace AdminCore.WebApi.Models.Dashboard
 {
   public class EmployeeSnapshotViewModel
   {

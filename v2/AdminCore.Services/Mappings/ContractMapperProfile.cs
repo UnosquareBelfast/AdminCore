@@ -1,5 +1,5 @@
 ﻿using AdminCore.DAL.Models;
-using AdminCore.DTOs;
+using AdminCore.DTOs.Contract;
 using AutoMapper;
 
 namespace AdminCore.Services.Mappings

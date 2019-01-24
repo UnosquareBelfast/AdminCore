@@ -1,41 +1,43 @@
-﻿using System;
-using System.Net;
-using System.Security.Authentication;
-using System.Threading.Tasks;
-using AdminCore.WebApi.Exceptions;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using AdminCore.Common.Exceptions;
 
-public class ErrorHandlingMiddleware
+namespace AdminCore.WebApi.ErrorHandling
 {
-  private readonly RequestDelegate next;
-
-  public ErrorHandlingMiddleware(RequestDelegate next)
+  public class ErrorHandlingMiddleware
   {
-    this.next = next;
-  }
+    private readonly RequestDelegate next;
 
-  public async Task Invoke(HttpContext context /* other dependencies */)
-  {
-    try
+    public ErrorHandlingMiddleware(RequestDelegate next)
     {
-      await next(context);
+      this.next = next;
     }
-    catch (Exception ex)
+
+    public async Task Invoke(HttpContext context /* other dependencies */)
     {
-      await HandleExceptionAsync(context, ex);
+      try
+      {
+        await next(context);
+      }
+      catch (Exception ex)
+      {
+        await HandleExceptionAsync(context, ex);
+      }
     }
-  }
 
-  private static Task HandleExceptionAsync(HttpContext context, Exception exception)
-  {
-    var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+      var code = HttpStatusCode.InternalServerError; // 500 if unexpected
 
-    if (exception is UserNotRegisteredException) code = HttpStatusCode.Forbidden;
+      if (exception is UserNotRegisteredException) code = HttpStatusCode.Forbidden;
 
-    var result = JsonConvert.SerializeObject(new { error = exception.Message });
-    context.Response.ContentType = "application/json";
-    context.Response.StatusCode = (int)code;
-    return context.Response.WriteAsync(result);
+      var result = JsonConvert.SerializeObject(new { error = exception.Message });
+      context.Response.ContentType = "application/json";
+      context.Response.StatusCode = (int)code;
+      return context.Response.WriteAsync(result);
+    }
   }
 }
