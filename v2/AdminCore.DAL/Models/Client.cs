@@ -1,4 +1,5 @@
-﻿using AdminCore.DAL.Models.Base;
+﻿using System.Collections.Generic;
+using AdminCore.DAL.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,5 +15,8 @@ namespace AdminCore.DAL.Models
     [StringLength(50)]
     [Column("client_name")]
     public string ClientName { get; set; }
+
+    [ForeignKey("TeamId")]
+    public virtual ICollection<Team> Teams { get; set; }
   }
 }

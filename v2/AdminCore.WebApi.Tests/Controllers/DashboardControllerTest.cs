@@ -100,7 +100,7 @@ namespace AdminCore.WebApi.Tests.Controllers
 
 
       // Act
-      var result = _dashboardController.GetEmployeeTeamSnapshot();
+      var result = _dashboardController.GetEmployeeTeamSnapshot(1);
 
       // Assert
       var resultValue = RetrieveValueFromActionResult<List<EmployeeEventViewModel>>(result);
@@ -146,7 +146,7 @@ namespace AdminCore.WebApi.Tests.Controllers
       var eventsReturnedFromService = _fixture.CreateMany<EventDto>(numberOfEvents).ToList();
       var dashboardEventModels = _fixture.CreateMany<DashboardEventViewModel>(numberOfEvents);
 
-      _dashboardService.GetTeamDashboardEvents(Arg.Is(employeeId), searchDate).Returns(eventsReturnedFromService);
+      //_dashboardService.GetTeamDashboardEvents(Arg.Is(employeeId), searchDate).Returns(eventsReturnedFromService);
 
       _mapper.Map<IList<EventDto>, List<DashboardEventViewModel>>(eventsReturnedFromService).Returns(dashboardEventModels);
 

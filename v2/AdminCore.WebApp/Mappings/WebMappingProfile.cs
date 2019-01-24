@@ -1,5 +1,6 @@
 ﻿using AdminCore.DTOs;
 using AdminCore.DTOs.Client;
+using AdminCore.DTOs.Dashboard;
 using AdminCore.DTOs.Employee;
 using AdminCore.DTOs.Event;
 using AdminCore.DTOs.EventMessage;
@@ -8,6 +9,7 @@ using AdminCore.WebApi.Models;
 using AdminCore.WebApi.Models.Authentication;
 using AdminCore.WebApi.Models.Client;
 using AdminCore.WebApi.Models.Contract;
+using AdminCore.WebApi.Models.Dashboard;
 using AdminCore.WebApi.Models.Employee;
 using AdminCore.WebApi.Models.Event;
 using AdminCore.WebApi.Models.EventMessage;
@@ -69,6 +71,10 @@ namespace AdminCore.WebApi.Mappings
       CreateMap<ContractDto, ContractViewModel>().ReverseMap();
       CreateMap<ContractDto, CreateContractViewModel>().ReverseMap();
       CreateMap<ContractDto, UpdateContractViewModel>().ReverseMap();
+
+      CreateMap<ClientSnapshotDto, ClientSnapshotViewModel>().ReverseMap();
+      CreateMap<TeamSnapshotDto, TeamSnapshotViewModel>().ReverseMap();
+      CreateMap<EmployeeSnapshotDto, EmployeeSnapshotViewModel>().ReverseMap();
     }
   }
 }

@@ -51,7 +51,7 @@ namespace AdminCore.WebApi.Controllers
       var employeeTeamSnapshot = _dashboardService.GetTeamDashboardEvents(_employee.EmployeeId, DateTime.Today);
       if (employeeTeamSnapshot.Any())
       {
-        return Ok(Mapper.Map<IList<DashboardEventViewModel>>(employeeTeamSnapshot));
+        return Ok(Mapper.Map<IList<ClientSnapshotViewModel>>(employeeTeamSnapshot));
       }
 
       return NoContent();

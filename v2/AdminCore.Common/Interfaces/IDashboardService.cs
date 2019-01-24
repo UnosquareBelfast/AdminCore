@@ -18,6 +18,6 @@ namespace AdminCore.Common.Interfaces
 
     IList<EventMessageDto> GetEventMessagesByEventId(int eventId);
 
-    IList<EventDto> GetTeamDashboardEvents(int employeeId, DateTime date);
+    IList<ClientSnapshotDto> GetTeamDashboardEvents(int employeeId, DateTime date);
   }
 }
