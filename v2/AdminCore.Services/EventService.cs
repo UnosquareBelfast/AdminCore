@@ -151,6 +151,17 @@ namespace AdminCore.Services
       return ValidateRemainingHolidaysAndCreate(newEvent);
     }
 
+    public EventDto CreateEvent(EventDateDto dates, EventTypes eventTypes, Employee employee)
+    {
+      var newEvent = BuildNewEvent(employee, eventTypes);
+
+      UpdateEventDates(dates, newEvent);
+
+      var insertedEvent = DatabaseContext.EventRepository.Insert(newEvent);
+
+      return _mapper.Map<EventDto>(insertedEvent);
+    }
+
     public void UpdateEvent(EventDateDto eventDateDto, string message, int employeeId)
     {
       var eventToUpdate = GetEventById(eventDateDto.EventId);
@@ -198,9 +209,10 @@ namespace AdminCore.Services
     private double GetHolidaysByEmployeeAndStatus(EventStatuses eventStatus, int employeeId)
     {
       var annualLeaveId = (int)EventTypes.AnnualLeave;
+      var publicHolidayId = (int)EventTypes.PublicHoliday;
       var eventStatusId = (int)eventStatus;
       var events = DatabaseContext.EventRepository.Get(x => x.EventStatus.EventStatusId == eventStatusId
-                                                            && x.EventType.EventTypeId == annualLeaveId
+                                                            && (x.EventType.EventTypeId == annualLeaveId || x.EventType.EventTypeId == publicHolidayId)
                                                             && x.EmployeeId == employeeId,
                                                             null,
                                                             x => x.EventDates,
@@ -308,6 +320,10 @@ namespace AdminCore.Services
       {
         totalDays += 0.5;
       }
+      else if (IsSameDay(eventDate))
+      {
+        totalDays += 1;
+      }
       else
       {
         totalDays += eventDate.EndDate.Day - eventDate.StartDate.Day;
@@ -396,6 +412,20 @@ namespace AdminCore.Services
         DateCreated = DateTime.Now,
         EmployeeId = employeeId,
         EventStatusId = (int)EventStatuses.AwaitingApproval,
+        EventTypeId = (int)eventTypes,
+        EventDates = new List<EventDate>(),
+        LastModified = _dateService.GetCurrentDateTime()
+      };
+      return newEvent;
+    }
+
+    private Event BuildNewEvent(Employee employee, EventTypes eventTypes)
+    {
+      var newEvent = new Event
+      {
+        DateCreated = DateTime.Now,
+        Employee = employee,
+        EventStatusId = (int)EventStatuses.Approved,
         EventTypeId = (int)eventTypes,
         EventDates = new List<EventDate>(),
         LastModified = _dateService.GetCurrentDateTime()
